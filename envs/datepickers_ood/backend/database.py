@@ -28,13 +28,18 @@ def get_engine_for(db_file: str) -> Engine:
     """
     if not db_file:
         return get_engine()
-    base = Path(_db_path).resolve().parent
-    p = (base / Path(db_file).name).resolve()
-    if p.parent != base:
+    base = os.path.realpath(Path(_db_path).resolve().parent)
+    # Strip any directory components from the requested name, then resolve and
+    # verify the result stays inside `base` (defends against path traversal).
+    candidate = os.path.realpath(os.path.join(base, os.path.basename(db_file)))
+    if not candidate.startswith(base + os.sep):
         # Only DBs sitting directly next to the primary DB are allowed.
         return get_engine()
-    if p == Path(_db_path).resolve():
+    if os.path.dirname(candidate) != base:
         return get_engine()
+    if candidate == os.path.realpath(str(Path(_db_path).resolve())):
+        return get_engine()
+    p = Path(candidate)
     key = str(p)
     eng = _engines.get(key)
     if eng is None:

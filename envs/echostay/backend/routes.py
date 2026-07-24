@@ -2234,14 +2234,20 @@ def download_database(_admin=Depends(require_admin_key)):
 @router.get("/images/proxy")
 def proxy_image(url: str):
     """Proxy external images to avoid CORS/network issues."""
-    from urllib.parse import urlparse
+    from urllib.parse import urlparse, urlunparse
     allowed_domains = {"a0.muscache.com", "images.unsplash.com", "source.unsplash.com", "pravatar.cc"}
     parsed = urlparse(url)
-    if parsed.scheme not in ("http", "https") or parsed.hostname not in allowed_domains:
+    if parsed.scheme not in ("http", "https"):
+        raise HTTPException(status_code=403, detail="Scheme not allowed")
+    host = (parsed.hostname or "").lower()
+    if host not in allowed_domains:
         raise HTTPException(status_code=403, detail="Domain not allowed")
+    # Rebuild the request URL from validated components so only the allow-listed
+    # host is ever contacted (defends against SSRF / host confusion).
+    safe_url = urlunparse(("https", host, parsed.path, parsed.params, parsed.query, ""))
 
     try:
-        resp = req_lib.get(url, timeout=10, stream=True, allow_redirects=False)
+        resp = req_lib.get(safe_url, timeout=10, stream=True, allow_redirects=False)
         resp.raise_for_status()
         content_type = resp.headers.get("content-type", "image/jpeg")
         return Response(content=resp.content, media_type=content_type)

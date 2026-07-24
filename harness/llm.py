@@ -139,6 +139,7 @@ class OpenAIChatClient:
         if not endpoint:
             return False
         from urllib.parse import urlparse
+
         parsed = urlparse(endpoint if "://" in endpoint else "https://" + endpoint)
         host = (parsed.hostname or "").lower()
         return host == "azure.com" or host.endswith(".azure.com")
