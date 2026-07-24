@@ -13,6 +13,7 @@ Like gmail's --user flag but for tasks instead of users.
 from __future__ import annotations
 
 import argparse
+import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -26,6 +27,19 @@ from backend.routes import router, set_active_task
 _frontend_base = Path(__file__).parent.parent / "frontend" / "envs"
 _screenshots_dir = Path(__file__).parent.parent / "screenshots" / "selected"
 _active_env_name: str = ""
+
+
+def _safe_path(base: Path, *parts: str) -> Path | None:
+    """Resolve ``base``/``parts`` and return it only if it stays inside ``base``.
+
+    Prevents path traversal: any ``..`` or absolute component that escapes ``base``
+    yields ``None``.
+    """
+    base_real = os.path.realpath(base)
+    target_real = os.path.realpath(os.path.join(base_real, *(str(p) for p in parts)))
+    if target_real == base_real or target_real.startswith(base_real + os.sep):
+        return Path(target_real)
+    return None
 
 
 @asynccontextmanager
@@ -189,8 +203,8 @@ def serve_task_page(task_id: str, db: str | None = None):
 @app.get("/assets/{env_name}/{rest:path}")
 def serve_env_asset(env_name: str, rest: str):
     """Serve assets for a specific env's frontend."""
-    filepath = _frontend_base / env_name / "dist" / "assets" / rest
-    if filepath.is_file():
+    filepath = _safe_path(_frontend_base, env_name, "dist", "assets", rest)
+    if filepath is not None and filepath.is_file():
         return FileResponse(str(filepath))
     raise HTTPException(status_code=404, detail="Asset not found")
 
@@ -225,8 +239,8 @@ def get_task_by_id(task_id: str):
 @app.get("/screenshots/selected/{filename}")
 def serve_screenshot(filename: str):
     """Serve a selected screenshot."""
-    filepath = _screenshots_dir / filename
-    if filepath.is_file() and filepath.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}:
+    filepath = _safe_path(_screenshots_dir, filename)
+    if filepath is not None and filepath.is_file() and filepath.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}:
         media = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp"}
         return FileResponse(str(filepath), media_type=media.get(filepath.suffix.lower(), "image/png"))
     raise HTTPException(status_code=404, detail="Screenshot not found")

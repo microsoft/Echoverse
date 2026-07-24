@@ -1805,9 +1805,9 @@ function loadTaskBanner() {
       banner.style.display = 'block';
       banner.innerHTML = `
         <div class="tb-head">
-          <span class="tb-id">${task.id}</span>
-          <span class="tb-type tb-type-${task.task_type}">${task.task_type.toUpperCase()}</span>
-          <span class="tb-diff">${task.task_difficulty}</span>
+          <span class="tb-id">${escapeHtmlText(task.id)}</span>
+          <span class="tb-type tb-type-${escapeHtmlText(task.task_type)}">${escapeHtmlText(task.task_type.toUpperCase())}</span>
+          <span class="tb-diff">${escapeHtmlText(task.task_difficulty)}</span>
         </div>
         <div class="tb-summary">${escapeHtml(task.task_summary)}</div>
         ${task.task_type !== 'write' ? `
@@ -1823,7 +1823,7 @@ function loadTaskBanner() {
 }
 
 function escapeHtml(s) {
-  return (s || '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 function updateLiveStatus(submitData) {
@@ -1893,15 +1893,17 @@ function updateResults(results, htmlCards) {
   // Fallback generic render
   grid.innerHTML = results.map(r => {
     let body = '';
-    if (r.brand) body += '<div class="result-meta">' + (r.brand||'') + ' · ' + (r.condition||'') + '</div>';
-    if (r.category) body += '<div class="result-meta">' + r.category + '</div>';
-    if (r.city) body += '<div class="result-meta">' + r.city + ' · ' + (r.beds||'?')+'BR/' + (r.baths||'?') + 'BA · ' + (r.sqft||'') + ' sqft</div>';
-    if (r.property_type) body += '<div class="result-meta">' + r.property_type + '</div>';
-    if (r.from_code) body += '<div class="result-meta">' + r.from_code + ' → ' + r.to_code + ' · ' + (r.depart_date||'') + '</div>';
-    if (r.duration) body += '<div class="result-meta">' + r.duration + ' · ' + (r.stops||'') + '</div>';
-    if (r.rating) body += '<div class="result-rating">★ ' + r.rating + '</div>';
-    const initial = r.image_initial || (r.title ? r.title[0] : '?');
-    return `<div class="result-card"><div class="result-thumb">${initial}</div><div class="result-name">${r.title || ('Item #' + r.id)}</div>${body}<div class="result-price">${r.price ? '$' + r.price.toLocaleString() : ''}</div></div>`;
+    if (r.brand) body += '<div class="result-meta">' + escapeHtmlText(r.brand||'') + ' · ' + escapeHtmlText(r.condition||'') + '</div>';
+    if (r.category) body += '<div class="result-meta">' + escapeHtmlText(r.category) + '</div>';
+    if (r.city) body += '<div class="result-meta">' + escapeHtmlText(r.city) + ' · ' + escapeHtmlText(r.beds||'?')+'BR/' + escapeHtmlText(r.baths||'?') + 'BA · ' + escapeHtmlText(r.sqft||'') + ' sqft</div>';
+    if (r.property_type) body += '<div class="result-meta">' + escapeHtmlText(r.property_type) + '</div>';
+    if (r.from_code) body += '<div class="result-meta">' + escapeHtmlText(r.from_code) + ' → ' + escapeHtmlText(r.to_code) + ' · ' + escapeHtmlText(r.depart_date||'') + '</div>';
+    if (r.duration) body += '<div class="result-meta">' + escapeHtmlText(r.duration) + ' · ' + escapeHtmlText(r.stops||'') + '</div>';
+    if (r.rating) body += '<div class="result-rating">★ ' + escapeHtmlText(r.rating) + '</div>';
+    const initial = escapeHtmlText(r.image_initial || (r.title ? r.title[0] : '?'));
+    const title = escapeHtmlText(r.title || ('Item #' + r.id));
+    const price = escapeHtmlText(r.price ? '$' + r.price.toLocaleString() : '');
+    return `<div class="result-card"><div class="result-thumb">${initial}</div><div class="result-name">${title}</div>${body}<div class="result-price">${price}</div></div>`;
   }).join('');
 }
 
@@ -1916,7 +1918,7 @@ function renderActiveChips() {
       chips.push(k + ': ' + v);
     }
   }
-  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+c+'</span>').join('');
+  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+escapeHtmlText(c)+'</span>').join('');
 }
 
 function pickPlusChip(btn, facet) {
@@ -2044,6 +2046,12 @@ const AC_SUGS = [
   {iata:'SJC', name:'San José', country:'United States', flag:'🇺🇸', type:'City', icon:'🏙'},
   {iata:'SJO', name:'San José', country:'Costa Rica', flag:'🇨🇷', type:'City', icon:'🏙', decoy:'same name'},
 ];
+function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s) {
+  return String(s || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\r/g, '\\r').replace(/\n/g, '\\n');
+}
 function acShow(inp, which, rich) {
   const ul = document.getElementById('ac-' + which);
   if (!ul) return;
@@ -2053,11 +2061,11 @@ function acShow(inp, which, rich) {
   ul.innerHTML = AC_SUGS.slice(0, 5).map(s => {
     const choose = "this.closest('.f-section, .planner').querySelectorAll('input')[" +
       (which==='from'?0:(document.querySelectorAll('#ac-from').length?1:0)) +
-      "].value='" + s.iata + " — ' + '" + s.name.replace(/'/g, "\\'") + "'; this.parentElement.classList.remove('show'); onF()";
+      "].value='" + escapeJsSingleQuoted(s.iata) + " — ' + '" + escapeJsSingleQuoted(s.name) + "'; this.parentElement.classList.remove('show'); onF()";
     if (isRich) {
-      return '<li onclick="' + choose + '"><span class="ac-icon">' + s.icon + '</span><span class="iata">' + s.iata + '</span><span class="ac-name">' + s.name + '</span> <span class="ac-flag">' + s.flag + '</span> <span class="ac-country">' + s.country + '</span><span class="ac-type">' + s.type + '</span>' + (s.decoy ? '<span class="decoy">(' + s.decoy + ')</span>' : '') + '</li>';
+      return '<li onclick="' + escapeHtmlText(choose) + '"><span class="ac-icon">' + escapeHtmlText(s.icon) + '</span><span class="iata">' + escapeHtmlText(s.iata) + '</span><span class="ac-name">' + escapeHtmlText(s.name) + '</span> <span class="ac-flag">' + escapeHtmlText(s.flag) + '</span> <span class="ac-country">' + escapeHtmlText(s.country) + '</span><span class="ac-type">' + escapeHtmlText(s.type) + '</span>' + (s.decoy ? '<span class="decoy">(' + escapeHtmlText(s.decoy) + ')</span>' : '') + '</li>';
     }
-    return '<li onclick="' + choose + '"><span class="iata">' + s.iata + '</span><span class="ac-flag">' + s.flag + '</span> ' + s.name + ', ' + s.country + (s.decoy ? '<span class="decoy">(' + s.decoy + ')</span>' : '') + '</li>';
+    return '<li onclick="' + escapeHtmlText(choose) + '"><span class="iata">' + escapeHtmlText(s.iata) + '</span><span class="ac-flag">' + escapeHtmlText(s.flag) + '</span> ' + escapeHtmlText(s.name) + ', ' + escapeHtmlText(s.country) + (s.decoy ? '<span class="decoy">(' + escapeHtmlText(s.decoy) + ')</span>' : '') + '</li>';
   }).join('');
 }
 document.addEventListener('click', (e) => {

@@ -151,7 +151,20 @@ class ResetRequest(BaseModel):
 # ---------------------------------------------------------------------------
 
 def _hash_password(password: str) -> str:
-    return hashlib.sha256(password.encode()).hexdigest()
+    salt = secrets.token_bytes(16)
+    dk = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 200_000)
+    return f"pbkdf2_sha256$200000${salt.hex()}${dk.hex()}"
+
+
+def _verify_password(password: str, stored: str) -> bool:
+    try:
+        algo, iters, salt_hex, hash_hex = stored.split("$", 3)
+    except (ValueError, AttributeError):
+        return False
+    if algo != "pbkdf2_sha256":
+        return False
+    dk = hashlib.pbkdf2_hmac("sha256", password.encode(), bytes.fromhex(salt_hex), int(iters))
+    return secrets.compare_digest(dk.hex(), hash_hex)
 
 
 def _recalculate_listing_rating(session: Session, listing_id: int):
@@ -375,7 +388,7 @@ def login(body: UserLogin, session: Session = Depends(get_session)):
     user = session.exec(
         select(User).where(User.email == body.email)
     ).first()
-    if not user or user.password_hash != _hash_password(body.password):
+    if not user or not _verify_password(body.password, user.password_hash):
         raise HTTPException(status_code=401, detail="Invalid email or password")
     set_default_user_id(user.id)
     return _user_to_dict(user)
@@ -2224,11 +2237,11 @@ def proxy_image(url: str):
     from urllib.parse import urlparse
     allowed_domains = {"a0.muscache.com", "images.unsplash.com", "source.unsplash.com", "pravatar.cc"}
     parsed = urlparse(url)
-    if parsed.hostname not in allowed_domains:
+    if parsed.scheme not in ("http", "https") or parsed.hostname not in allowed_domains:
         raise HTTPException(status_code=403, detail="Domain not allowed")
 
     try:
-        resp = req_lib.get(url, timeout=10, stream=True)
+        resp = req_lib.get(url, timeout=10, stream=True, allow_redirects=False)
         resp.raise_for_status()
         content_type = resp.headers.get("content-type", "image/jpeg")
         return Response(content=resp.content, media_type=content_type)

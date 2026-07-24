@@ -7,6 +7,7 @@ Supports two modes:
 from __future__ import annotations
 
 import json
+import logging
 from datetime import datetime
 from pathlib import Path
 
@@ -18,6 +19,7 @@ from backend.database import get_session, get_engine
 from backend.models import TaskRecord, DateSubmission
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 _TASKS_JSONL = Path(__file__).parent.parent / "tasks" / "test_tasks.jsonl"
 
@@ -186,8 +188,9 @@ def verify_task(session: Session = Depends(get_session)):
             result = s.connection().execute(text(state_change_sql))
             row = result.fetchone()
             completed = bool(row and row[0] == 1)
-    except Exception as e:
-        return {"task_id": task.task_id, "task_completed": False, "message": f"SQL error: {e}"}
+    except Exception:
+        logger.exception("verification SQL failed for task %s", task.task_id)
+        return {"task_id": task.task_id, "task_completed": False, "message": "Verification error"}
 
     return {"task_id": task.task_id, "task_completed": completed}
 

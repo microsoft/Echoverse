@@ -283,7 +283,11 @@ a{color:inherit;text-decoration:none;cursor:pointer}button{font-family:inherit}
   </div>
 </footer>
 
-<script>
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
 const ENV_ID = 'W24_E07';
 let filterState = {};
 
@@ -336,8 +340,8 @@ function buildCard(r) {
   const msrp = price ? Math.round(price * 1.32 / 5) * 5 + 5 : 0;
   const savePct = (price && msrp) ? Math.round((msrp - price) / msrp * 100) : 0;
   const thumb = r.image_url
-    ? '<img class="result-thumb-img" loading="lazy" src="' + r.image_url + '" alt="' + ((r.image_alt || r.title || '').replace(/"/g,'&quot;')) + '">'
-    : '<div class="result-thumb">' + initial + '</div>';
+    ? '<img class="result-thumb-img" loading="lazy" src="' + escapeHtmlText(r.image_url) + '" alt="' + (escapeHtmlText(r.image_alt || r.title || '')) + '">'
+    : '<div class="result-thumb">' + escapeHtmlText(initial) + '</div>';
   const stars = '★★★★★'.slice(0, Math.round(r.rating || 0)) + '☆☆☆☆☆'.slice(0, 5 - Math.round(r.rating || 0));
   const reviews = 40 + ((r.id || 1) * 17) % 280;
   return '<div class="result-card">' +
@@ -346,10 +350,10 @@ function buildCard(r) {
       '<span class="fav-heart">♡</span>' +
     '</div>' +
     '<div class="result-body">' +
-      '<div class="result-brand">' + (r.color || r.brand || '') + '</div>' +
-      '<div class="result-name">' + (r.title || '') + '</div>' +
-      '<div class="result-meta">' + (r.category || '') + ' · ' + (r.condition || '') + '</div>' +
-      '<div class="result-rating-row"><span class="stars">' + stars + '</span><span class="rev">(' + reviews + ')</span></div>' +
+      '<div class="result-brand">' + escapeHtmlText(r.color || r.brand || '') + '</div>' +
+      '<div class="result-name">' + escapeHtmlText(r.title || '') + '</div>' +
+      '<div class="result-meta">' + escapeHtmlText(r.category || '') + ' · ' + escapeHtmlText(r.condition || '') + '</div>' +
+      '<div class="result-rating-row"><span class="stars">' + escapeHtmlText(stars) + '</span><span class="rev">(' + reviews + ')</span></div>' +
       '<div class="result-price-row">' +
         (price ? '<span class="result-price">$' + price.toLocaleString() + '</span>' : '') +
         (msrp && msrp > price ? '<span class="result-msrp">$' + msrp + '</span>' : '') +
@@ -382,7 +386,7 @@ function renderActiveChips() {
     vals.forEach(val => chips.push({label:val, facet:k, val:val}));
   }
   bar.innerHTML = chips.length
-    ? chips.map(c => '<span class="active-chip">' + c.label + '<span class="x" onclick="removeChip(\''+c.facet+'\',\''+c.val+'\')">×</span></span>').join('') +
+    ? chips.map(c => '<span class="active-chip">' + escapeHtmlText(c.label) + '<span class="x" onclick="removeChip(\''+escapeHtmlText(escapeJsSingleQuoted(c.facet))+'\',\''+escapeHtmlText(escapeJsSingleQuoted(c.val))+'\')">×</span></span>').join('') +
       (chips.length > 1 ? '<a onclick="lsReset(event)" style="font-size:11px;color:#2f5d31;text-decoration:underline;cursor:pointer;margin-left:4px;font-weight:700">Clear all</a>' : '')
     : '';
 }

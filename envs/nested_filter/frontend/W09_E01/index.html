@@ -556,6 +556,7 @@ button { font-family:inherit; }
 </footer>
 <div class="live-status neutral" id="live-status"><span class="ls-msg">💾 Auto-saved</span></div>
 <script>
+function escapeHtmlText(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 const ENV_ID = 'W09_E01';
 
 let filterState = {};
@@ -629,7 +630,7 @@ function w09SetDate(y,m,d){
   if (inp) inp.value = v;
   document.querySelectorAll(".w09-selected-display").forEach(el => el.textContent = "✓ " + v);
   const hint = document.getElementById("w09-foot-hint");
-  if (hint) hint.innerHTML = "Departure: <b>" + v + "</b>";
+  if (hint) hint.innerHTML = "Departure: <b>" + escapeHtmlText(v) + "</b>";
   const tb = document.getElementById("tb-dep-val");
   if (tb) tb.textContent = W09_MONTHS[m].slice(0,3) + " " + d + ", " + y;
   // update .sel highlighting across both month grids
@@ -652,7 +653,7 @@ function w09RenderGrid(y, m, gridId){
     const sel = (cur === cand) ? " sel" : "";
     const isToday = (y===tY && m===tM && d===tD) ? " today" : "";
     const fare = w09Fare(y,m,d);
-    h += `<div class="w09-day${sel}${isToday}" data-d="${d}" data-y="${y}" data-m="${m}"><span>${d}</span><span class="w09-fare">RM${fare}</span></div>`;
+    h += `<div class="w09-day${sel}${isToday}" data-d="${escapeHtmlText(d)}" data-y="${escapeHtmlText(y)}" data-m="${escapeHtmlText(m)}"><span>${escapeHtmlText(d)}</span><span class="w09-fare">RM${escapeHtmlText(fare)}</span></div>`;
   }
   g.innerHTML = h;
   g.querySelectorAll(".w09-day[data-d]").forEach(el => {

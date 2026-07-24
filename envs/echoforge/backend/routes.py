@@ -200,7 +200,20 @@ def set_default_user_id(user_id: int):
 
 
 def hash_password(password: str) -> str:
-    return hashlib.sha256(password.encode()).hexdigest()
+    salt = secrets.token_bytes(16)
+    dk = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 200_000)
+    return f"pbkdf2_sha256$200000${salt.hex()}${dk.hex()}"
+
+
+def verify_password(password: str, stored: str) -> bool:
+    try:
+        algo, iters, salt_hex, hash_hex = stored.split("$", 3)
+    except (ValueError, AttributeError):
+        return False
+    if algo != "pbkdf2_sha256":
+        return False
+    dk = hashlib.pbkdf2_hmac("sha256", password.encode(), bytes.fromhex(salt_hex), int(iters))
+    return secrets.compare_digest(dk.hex(), hash_hex)
 
 
 def slugify(value: str) -> str:
@@ -643,7 +656,7 @@ def login(
     session: Session = Depends(get_session),
 ):
     users = session.exec(select(User).where(User.email == payload.email)).all()
-    if not users or users[0].password_hash != hash_password(payload.password):
+    if not users or not verify_password(payload.password, users[0].password_hash):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     user = users[0]
     session_token = secrets.token_hex(16)

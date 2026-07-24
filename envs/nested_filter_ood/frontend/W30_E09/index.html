@@ -351,13 +351,32 @@ function computeEstimate() {
 
   const tbl = document.getElementById('breakdown-table');
   if (tbl) {
-    let rows = '';
-    rows += '<tr><td>Base ' + (svc ? svc.label : svcLabel) + ' (' + volume.toLocaleString() + ' units × $' + rate.toFixed(5) + ')</td><td>' + money(primaryCost) + '</td></tr>';
-    if (secondaryCost > 0) rows += '<tr><td>Output usage (' + volumeOut.toLocaleString() + ' units)</td><td>' + money(secondaryCost) + '</td></tr>';
-    rows += '<tr><td>Region uplift (' + region + ', ×' + mult.toFixed(2) + ')</td><td>' + money(regionUplift) + '</td></tr>';
-    rows += '<tr><td>Support tier (' + support + ')</td><td>' + money(supportFee) + '</td></tr>';
-    rows += '<tr class="tot"><td><b>Estimated total</b></td><td><b>' + money(total) + '</b></td></tr>';
-    tbl.innerHTML = rows;
+    tbl.replaceChildren();
+    const addRow = (label, value, isTotal) => {
+      const tr = document.createElement('tr');
+      if (isTotal) tr.className = 'tot';
+      const labelCell = document.createElement('td');
+      const valueCell = document.createElement('td');
+      if (isTotal) {
+        const labelBold = document.createElement('b');
+        labelBold.textContent = label;
+        labelCell.appendChild(labelBold);
+        const valueBold = document.createElement('b');
+        valueBold.textContent = value;
+        valueCell.appendChild(valueBold);
+      } else {
+        labelCell.textContent = label;
+        valueCell.textContent = value;
+      }
+      tr.appendChild(labelCell);
+      tr.appendChild(valueCell);
+      tbl.appendChild(tr);
+    };
+    addRow('Base ' + (svc ? svc.label : svcLabel) + ' (' + volume.toLocaleString() + ' units × $' + rate.toFixed(5) + ')', money(primaryCost));
+    if (secondaryCost > 0) addRow('Output usage (' + volumeOut.toLocaleString() + ' units)', money(secondaryCost));
+    addRow('Region uplift (' + region + ', ×' + mult.toFixed(2) + ')', money(regionUplift));
+    addRow('Support tier (' + support + ')', money(supportFee));
+    addRow('Estimated total', money(total), true);
   }
 
   const ansEl = document.getElementById('task-answer-input');

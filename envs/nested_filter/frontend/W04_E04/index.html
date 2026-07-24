@@ -248,7 +248,10 @@ body { font-family:-apple-system,'Segoe UI',Roboto,Arial,sans-serif; background:
   <div class="bb-footer-legal">
     <b>EchoTech</b> · Customer Service · Orders · Stores · Recycling · Site Map · © EchoTech Co., Inc. All rights reserved.
   </div>
-</div><script>
+</div><script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 const ENV_ID = "W04_E04";
 let filterState = {};
 
@@ -302,7 +305,7 @@ function applyFilters() {
 }
 
 function escapeHtml(s) {
-  return (s || '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 function lsReset(ev) {

@@ -29,8 +29,11 @@ def get_engine_for(db_file: str) -> Engine:
     if not db_file:
         return get_engine()
     base = Path(_db_path).resolve().parent
-    p = base / Path(db_file).name
-    if p.resolve() == Path(_db_path).resolve():
+    p = (base / Path(db_file).name).resolve()
+    if p.parent != base:
+        # Only DBs sitting directly next to the primary DB are allowed.
+        return get_engine()
+    if p == Path(_db_path).resolve():
         return get_engine()
     key = str(p)
     eng = _engines.get(key)

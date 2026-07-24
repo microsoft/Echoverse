@@ -340,6 +340,9 @@ button:active { transform:scale(0.97); }
   </div>
 </footer>
 <script>
+function escapeHtmlText(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
 const ENV_ID = 'W22_E07';
 let filterState = {};
 
@@ -434,10 +437,10 @@ function updateResults(results, htmlCards) {
   if (htmlCards) { grid.innerHTML = htmlCards; return; }
   grid.innerHTML = results.map(r => {
     let body = '';
-    if (r.city) body += '<div class="result-meta">' + r.city + ' · ' + (r.beds||'?')+'BR/' + (r.baths||'?') + 'BA · ' + (r.sqft||'') + ' sqft</div>';
-    if (r.property_type) body += '<div class="result-meta">' + r.property_type + '</div>';
+    if (r.city) body += '<div class="result-meta">' + escapeHtmlText(r.city) + ' · ' + escapeHtmlText(r.beds||'?')+'BR/' + escapeHtmlText(r.baths||'?') + 'BA · ' + escapeHtmlText(r.sqft||'') + ' sqft</div>';
+    if (r.property_type) body += '<div class="result-meta">' + escapeHtmlText(r.property_type) + '</div>';
     const init = r.image_initial || (r.title ? r.title[0] : '?');
-    return '<div class="result-card"><div class="result-thumb">' + init + '</div><div class="result-name">' + (r.title || ('Item #'+r.id)) + '</div>' + body + '<div class="result-price">' + (r.price ? '$' + r.price.toLocaleString() : '') + '</div></div>';
+    return '<div class="result-card"><div class="result-thumb">' + escapeHtmlText(init) + '</div><div class="result-name">' + escapeHtmlText(r.title || ('Item #'+r.id)) + '</div>' + body + '<div class="result-price">' + escapeHtmlText(r.price ? '$' + r.price.toLocaleString() : '') + '</div></div>';
   }).join('');
 }
 
@@ -451,7 +454,7 @@ function renderActiveChips() {
     if (Array.isArray(v)) v.forEach(val => chips.push(lab + ': ' + fmtVal(k,val)));
     else chips.push(lab + ': ' + fmtVal(k,v));
   }
-  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+c+'</span>').join('');
+  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+escapeHtmlText(c)+'</span>').join('');
 }
 function fmtVal(k, v) {
   if (k === 'min_price' || k === 'max_price') {

@@ -210,7 +210,10 @@ body { font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; b
     <span>© 2024 EchoTech. All rights reserved. EchoTech, the EchoTech logo, the tag design, MY EchoTech, and EchoTech are trademarks of EchoTech and its affiliated companies.</span>
     <span>Privacy · Terms · Accessibility · Interest-Based Ads · Your Privacy Choices</span>
   </div>
-</footer><script>
+</footer><script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 const ENV_ID = "W04_E01";
 let filterState = {};
 
@@ -264,7 +267,7 @@ function applyFilters() {
 }
 
 function escapeHtml(s) {
-  return (s || '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 function lsReset(ev) {
