@@ -540,6 +540,7 @@ body { background:#ffffff; }
 
 
 <script>
+function escapeHtmlText(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 const ENV_ID = 'W18_E03';
 const VARIANT = 'dropdown';
 const TYPES_PRESENT = ["Single-Family", "Condo", "Townhouse", "Multi-Family", "Studio Apartment"];
@@ -655,25 +656,29 @@ function __renderResults(results, htmlCards) {
   }
   // Always render with the for-sale Zillow card template (ignore backend's rental html_cards)
   grid.innerHTML = results.map(r => {
-    const beds = r.beds || '?', baths = r.baths || '?', sqft = (r.sqft||0).toLocaleString();
-    const price = r.price ? ('$' + r.price.toLocaleString()) : '';
+    const beds = escapeHtmlText(r.beds || '?'), baths = escapeHtmlText(r.baths || '?'), sqft = escapeHtmlText((r.sqft||0).toLocaleString());
+    const price = escapeHtmlText(r.price ? ('$' + r.price.toLocaleString()) : '');
+    const imageUrl = escapeHtmlText(r.image_url || '');
+    const title = escapeHtmlText(r.title || '');
+    const city = escapeHtmlText(r.city || '');
     const isNew = r.is_new, isReduced = r.price_reduced;
     const tag = isNew ? '<span class="lstg-photo-tag lstg-tag-new-photo">NEW - 2 HRS AGO</span>'
               : (isReduced ? '<span class="lstg-photo-tag lstg-tag-cut-photo">PRICE CUT</span>' : '');
     const status = isNew ? 'House for sale' : (isReduced ? 'House for sale' : 'House for sale');
-    const photoCount = ((r.id||1) * 7) % 30 + 12;
+    const photoCount = escapeHtmlText(((r.id||1) * 7) % 30 + 12);
+    const brokerId = escapeHtmlText(10000 + (r.id||0)*137);
     return `<div class="lstg-row">
       <div class="lstg-photo-wrap">
-        <div class="lstg-photo" style="background-image:url('${r.image_url||''}')"></div>
+        <div class="lstg-photo" style="background-image:url('${imageUrl}')"></div>
         ${tag}
         <span class="lstg-photo-count">📷 ${photoCount}</span>
         <button class="lstg-heart" type="button" title="Save" aria-label="Save">♡</button>
       </div>
       <div class="lstg-body">
         <div class="lstg-price">${price}</div>
-        <div class="lstg-stats"><b>${beds}</b> bds <span class="lstg-dot">|</span> <b>${baths}</b> ba <span class="lstg-dot">|</span> <b>${sqft}</b> sqft <span class="lstg-dash">-</span> ${status}</div>
-        <div class="lstg-addr">${r.title||''}, ${r.city||''}</div>
-        <div class="lstg-broker-line">Listing provided by MRED #${10000 + (r.id||0)*137}</div>
+        <div class="lstg-stats"><b>${beds}</b> bds <span class="lstg-dot">|</span> <b>${baths}</b> ba <span class="lstg-dot">|</span> <b>${sqft}</b> sqft <span class="lstg-dash">-</span> ${escapeHtmlText(status)}</div>
+        <div class="lstg-addr">${title}, ${city}</div>
+        <div class="lstg-broker-line">Listing provided by MRED #${brokerId}</div>
       </div>
     </div>`;
   }).join('');
@@ -686,7 +691,7 @@ function __renderChips() {
   for (const [k, v] of Object.entries(filterState)) {
     chips.push(k + ': ' + v);
   }
-  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+c+'</span>').join('');
+  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+escapeHtmlText(c)+'</span>').join('');
 }
 
 function __updateLiveStatus(d) {
@@ -726,9 +731,9 @@ function loadTaskBanner() {
       b.style.display = 'block';
       b.innerHTML = `
         <div class="tb-head">
-          <span class="tb-id">${task.id}</span>
-          <span class="tb-type tb-type-${task.task_type}">${task.task_type.toUpperCase()}</span>
-          <span class="tb-diff">${task.task_difficulty}</span>
+          <span class="tb-id">${escapeHtmlText(task.id)}</span>
+          <span class="tb-type tb-type-${escapeHtmlText(task.task_type)}">${escapeHtmlText(task.task_type.toUpperCase())}</span>
+          <span class="tb-diff">${escapeHtmlText(task.task_difficulty)}</span>
         </div>
         <div class="tb-summary">${__esc(task.task_summary)}</div>
         ${task.task_type !== 'write' ? `

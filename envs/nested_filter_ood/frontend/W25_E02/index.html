@@ -215,6 +215,9 @@
   <div style="opacity:.65;line-height:1.6;max-width:920px;">© 2024 EchoRent, Inc. EchoRent<sup>™</sup> is a registered trademark of EchoRent, Inc. EchoRent is committed to digital accessibility and equal housing opportunity.</div>
 </footer>
 <script>
+function escapeHtmlText(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
 const ENV_ID = 'W25_E02';
 let filterState = {};
 
@@ -294,18 +297,18 @@ function renderResults(results){
   const isRentEnv=true;
   grid.innerHTML=results.map(r=>{
     const isRent=(r.product_type==='rentals')||isRentEnv;
-    const price='$'+(r.price||0).toLocaleString()+(isRent?'/mo':'');
-    const beds=(r.beds!=null?r.beds:'?');
-    const baths=(r.baths!=null?r.baths:'?');
-    const sqft=(r.sqft!=null?r.sqft.toLocaleString():'');
-    const addr=r.title||'';
-    const cityFull=r.city_full||r.city||'';
-    const ptype=r.property_type||'';
+    const price=escapeHtmlText('$'+(r.price||0).toLocaleString()+(isRent?'/mo':''));
+    const beds=escapeHtmlText(r.beds!=null?r.beds:'?');
+    const baths=escapeHtmlText(r.baths!=null?r.baths:'?');
+    const sqft=escapeHtmlText(r.sqft!=null?r.sqft.toLocaleString():'');
+    const addr=escapeHtmlText(r.title||'');
+    const cityFull=escapeHtmlText(r.city_full||r.city||'');
+    const ptype=escapeHtmlText(r.property_type||'');
     const img=r.image_url||'';
     const name=(addr.split(',')[0]||addr).trim();
     return `
           <div class="listing-card">
-            <div class="lc-img">${img?`<img src="${img}" alt="">`:`<div>${name.split(' ').slice(0,2).join(' ')}</div>`}
+            <div class="lc-img">${img?`<img src="${escapeHtmlText(img)}" alt="">`:`<div>${name.split(' ').slice(0,2).join(' ')}</div>`}
               ${r.is_new?'<div class="lc-badge">New • Hot Deal</div>':''}
               <div class="lc-fav">♥</div>
             </div>
@@ -331,7 +334,7 @@ function renderActive(){
   const chips=[];
   for(const [k,v] of Object.entries(filterState)){
     const lbl=labelMap[k]||k;
-    chips.push('<span class="active-chip">'+lbl+': '+valueMap(k,v)+' <span class="ac-x" onclick="clearFacet(\''+k+'\')">×</span></span>');
+    chips.push('<span class="active-chip">'+escapeHtmlText(lbl)+': '+escapeHtmlText(valueMap(k,v))+' <span class="ac-x" onclick="clearFacet(\''+escapeHtmlText(escapeJsSingleQuoted(k))+'\')">×</span></span>');
   }
   bar.innerHTML=chips.join('');
 }

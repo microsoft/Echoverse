@@ -1,4 +1,5 @@
 import argparse
+import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -12,6 +13,19 @@ from backend.routes import router, set_default_user_id
 
 static_dir: Path | None = None
 _source_db: str | None = None
+
+
+def _safe_path(base: Path, *parts: str) -> Path | None:
+    """Resolve ``base``/``parts`` and return it only if it stays inside ``base``.
+
+    Prevents path traversal: any ``..`` or absolute component that escapes ``base``
+    yields ``None``.
+    """
+    base_real = os.path.realpath(base)
+    target_real = os.path.realpath(os.path.join(base_real, *(str(p) for p in parts)))
+    if target_real == base_real or target_real.startswith(base_real + os.sep):
+        return Path(target_real)
+    return None
 
 
 @asynccontextmanager
@@ -47,8 +61,8 @@ def mount_static(app: FastAPI, static_path: Path):
 
         @app.get("/{full_path:path}")
         async def serve_spa(request: Request, full_path: str):
-            file_path = static_dir / full_path
-            if file_path.exists() and file_path.is_file():
+            file_path = _safe_path(static_dir, full_path)
+            if file_path is not None and file_path.is_file():
                 return FileResponse(file_path)
             return FileResponse(static_dir / "index.html")
 

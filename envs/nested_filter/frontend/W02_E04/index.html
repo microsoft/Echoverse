@@ -624,7 +624,10 @@ main { min-width:0; }
 </footer>
 
 
-<script>
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 const ENV_ID = "W02_E04";
 let filterState = {};
 
@@ -715,7 +718,7 @@ function closeRefine() {
   md.setAttribute('aria-hidden','true');
 }
 function escapeHtml(s) {
-  return (s || '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 function loadTaskBanner() {
   const tid = getTaskId();

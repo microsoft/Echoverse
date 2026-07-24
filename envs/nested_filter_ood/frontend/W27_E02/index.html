@@ -76,7 +76,10 @@ body { font-family:Arial,Helvetica,sans-serif; background:#F2F2F2; color:#222; }
 </style>
 </head>
 <body>
-<script>window.RESULTS_SEL = "#pet-grid"; window.ENV_ID = "W27_E02";</script>
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+window.RESULTS_SEL = "#pet-grid"; window.ENV_ID = "W27_E02";</script>
 
 <div style="background:#eaeaea;padding:6px 24px;text-align:right;font-size:12px;color:#555;">
   <a href="#" style="color:#582C83;text-decoration:underline;font-weight:600;">Learn more</a>
@@ -258,7 +261,7 @@ function renderChips() {
     chips.push({label: c.value, facet: 'compat', val: c.value, kind: 'check'});
   });
   if (!chips.length) { box.innerHTML = '<span style="font-size:12px;color:#888;font-style:italic;">No filters applied</span>'; return; }
-  box.innerHTML = chips.map(c => `<span class="pf-chip" data-chip-facet="${c.facet}" data-chip-val="${c.val.replace(/"/g,'&quot;')}" data-chip-kind="${c.kind}">${c.label} <span style="cursor:pointer;font-weight:700;">×</span></span>`).join('');
+  box.innerHTML = chips.map(c => `<span class="pf-chip" data-chip-facet="${escapeHtmlText(c.facet)}" data-chip-val="${escapeHtmlText(c.val)}" data-chip-kind="${escapeHtmlText(c.kind)}">${escapeHtmlText(c.label)} <span style="cursor:pointer;font-weight:700;">×</span></span>`).join('');
   box.querySelectorAll('.pf-chip').forEach(el => {
     el.addEventListener('click', () => {
       const f = el.dataset.chipFacet, v = el.dataset.chipVal, k = el.dataset.chipKind;

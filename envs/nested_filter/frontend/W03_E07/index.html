@@ -274,17 +274,22 @@ function renderCard(it){
   var bubbles = '';
   for (var i=0;i<5;i++) bubbles += '<span class="'+(i<r?'':'dim')+'"></span>';
   var reviewN = (it.rating ? (180 + (it.price||0)*3) : 0);
+  var routeName = escapeHtmlText(it.name || ((it.from_code||'') + ' \u2192 ' + (it.to_code||'')));
+  var location = escapeHtmlText(it.location || '');
+  var stops = escapeHtmlText(it.stops || '');
+  var duration = escapeHtmlText(it.duration || '');
+  var price = escapeHtmlText(it.price || '');
   return '<div class="result-card">'+
-    (it.image_url?'<img class="rc-img" src="'+it.image_url+'" alt="" loading="lazy">':'<div class="rc-img" style="background:#F4F4F5"></div>')+
+    (it.image_url?'<img class="rc-img" src="'+escapeHtmlText(it.image_url)+'" alt="" loading="lazy">':'<div class="rc-img" style="background:#F4F4F5"></div>')+
     '<div class="rc-body">'+
-      '<div class="rc-route"><a>'+(it.name||(it.from_code+' \u2192 '+it.to_code))+'</a></div>'+
-      '<div class="rc-rating"><span class="rc-bubbles">'+bubbles+'</span><span class="rc-reviews">'+r.toFixed(1)+'</span><span>('+reviewN.toLocaleString()+' reviews)</span></div>'+
-      '<div class="rc-meta">📍 '+(it.location||'')+'</div>'+
-      '<div class="rc-extra">'+(it.stops||'')+(it.duration?' · '+it.duration:'')+'</div>'+
+      '<div class="rc-route"><a>'+routeName+'</a></div>'+
+      '<div class="rc-rating"><span class="rc-bubbles">'+bubbles+'</span><span class="rc-reviews">'+escapeHtmlText(r.toFixed(1))+'</span><span>('+escapeHtmlText(reviewN.toLocaleString())+' reviews)</span></div>'+
+      '<div class="rc-meta">📍 '+location+'</div>'+
+      '<div class="rc-extra">'+stops+(it.duration?' · '+duration:'')+'</div>'+
       (r>=4?'<span class="rc-tag">★ Echo Picks</span>':'')+
     '</div>'+
     '<div class="rc-side">'+
-      '<div><div class="label">From</div><div class="rc-price">$'+it.price+'</div><div class="rc-pernight">per night</div></div>'+
+      '<div><div class="label">From</div><div class="rc-price">$'+price+'</div><div class="rc-pernight">per night</div></div>'+
       '<button class="rc-view">View deal</button>'+
     '</div>'+
   '</div>';
@@ -292,6 +297,12 @@ function renderCard(it){
 
 let filterState = {};
 
+function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s) {
+  return String(s || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\r/g, '\\r').replace(/\n/g, '\\n');
+}
 function acShow(inp, which) {
   const ul = document.getElementById('ac-' + which);
   if (!ul) return;
@@ -311,14 +322,14 @@ function acShow(inp, which) {
   ul.classList.add('show');
   ;
   ul.innerHTML = matches.map(s => {
-    const escName = (s.name || '').replace(/'/g, "&#39;").replace(/"/g, '&quot;');
+    const escName = escapeHtmlText(s.name);
     const filledRaw = s.iata;  // store only IATA code (matches ref_state_change format)
-    const filled = filledRaw.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    const filled = escapeJsSingleQuoted(filledRaw);
     const choose = "acPick(this,'" + which + "','" + filled + "')";
-    const country = (s.country || '').replace(/'/g, "&#39;").replace(/"/g, '&quot;');
-    const icon = s.icon || '📍';
-    const tag = s.decoy ? '<span class="ac-tag warn">⚠ '+s.decoy+'</span>' : '<span class="ac-tag">'+(s.type||'place')+'</span>';
-    return '<li onclick="' + choose + '">' +
+    const country = escapeHtmlText(s.country);
+    const icon = escapeHtmlText(s.icon || '📍');
+    const tag = s.decoy ? '<span class="ac-tag warn">⚠ '+escapeHtmlText(s.decoy)+'</span>' : '<span class="ac-tag">'+escapeHtmlText(s.type||'place')+'</span>';
+    return '<li onclick="' + escapeHtmlText(choose) + '">' +
            '<span class="ac-ico">' + icon + '</span>' +
            '<span class="ac-text">' +
              '<span class="ac-name">' + escName + '</span>' +
@@ -415,12 +426,12 @@ function buildPopularGrid(){
   const host = document.getElementById('popular-grid'); if (!host) return;
   host.innerHTML = AC_SUGS.slice(0, 12).map(s => {
     const filled = s.iata;
-    const safe = filled.replace(/'/g, "&#39;").replace(/"/g, '&quot;');
     const ico = s.icon || '📍';
-    return '<div class="pop-tile" onclick="acPickGrid(_popWhich, \''+ filled.replace(/'/g,"\\'") +'\')">' +
-      '<div class="pop-side">'+ico+'</div>' +
-      '<div class="ac-name">'+(s.name||'').replace(/'/g,'&#39;')+'</div>' +
-      '<div class="ac-country">'+(s.country||'').replace(/'/g,'&#39;')+'</div>' +
+    const choose = "acPickGrid(_popWhich, '" + escapeJsSingleQuoted(filled) + "')";
+    return '<div class="pop-tile" onclick="'+ escapeHtmlText(choose) +'">' +
+      '<div class="pop-side">'+escapeHtmlText(ico)+'</div>' +
+      '<div class="ac-name">'+escapeHtmlText(s.name)+'</div>' +
+      '<div class="ac-country">'+escapeHtmlText(s.country)+'</div>' +
       '</div>';
   }).join('');
 }

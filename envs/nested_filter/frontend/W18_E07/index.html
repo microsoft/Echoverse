@@ -479,6 +479,7 @@ body { background:#f5f6f7; color:#2a2a33; font-family:'Open Sans','Helvetica Neu
 
 
 <script>
+function escapeHtmlText(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 const ENV_ID = 'W18_E07';
 const VARIANT = 'largebtn';
 const TYPES_PRESENT = ["Single-Family", "Condo", "Townhouse", "Multi-Family", "Studio Apartment"];
@@ -594,22 +595,25 @@ function __renderResults(results, htmlCards) {
   }
   if (htmlCards) { grid.innerHTML = htmlCards; return; }
     grid.innerHTML = results.map(r => {
-    const beds = r.beds || '?', baths = r.baths || '?', sqft = (r.sqft||0).toLocaleString();
-    const price = r.price ? ('$' + r.price.toLocaleString()) : '';
+    const beds = escapeHtmlText(r.beds || '?'), baths = escapeHtmlText(r.baths || '?'), sqft = escapeHtmlText((r.sqft||0).toLocaleString());
+    const price = escapeHtmlText(r.price ? ('$' + r.price.toLocaleString()) : '');
+    const imageUrl = escapeHtmlText(r.image_url || '');
+    const title = escapeHtmlText(r.title || '');
+    const city = escapeHtmlText(r.city || '');
     const isNew = r.is_new, isReduced = r.price_reduced;
     const tag = isNew ? '<span class="lstg-photo-tag">NEW - 2 HRS AGO</span>'
               : (isReduced ? '<span class="lstg-photo-tag" style="background:#d12030;">PRICE CUT</span>' : '');
     const status = isNew ? 'New' : (isReduced ? 'Price Reduced' : 'Active');
     return `<div class="lstg-row">
       <div class="lstg-photo-wrap">
-        <div class="lstg-photo" style="background-image:url('${r.image_url||''}')"></div>
+        <div class="lstg-photo" style="background-image:url('${imageUrl}')"></div>
         ${tag}
         <button class="lstg-heart" type="button" title="Save">♡</button>
       </div>
       <div class="lstg-body">
         <div class="lstg-price">${price}</div>
-        <div class="lstg-stats"><b>${beds}</b> bds | <b>${baths}</b> ba | <b>${sqft}</b> sqft - ${status}</div>
-        <div class="lstg-addr">${r.title||''}, ${r.city||''}</div>
+        <div class="lstg-stats"><b>${beds}</b> bds | <b>${baths}</b> ba | <b>${sqft}</b> sqft - ${escapeHtmlText(status)}</div>
+        <div class="lstg-addr">${title}, ${city}</div>
         <div class="lstg-city" style="font-size:11px;color:#54667a;text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;">MLS ID #O6${(1000000 + Math.floor(Math.random()*899999))}, Stellar MLS</div>
       </div>
     </div>`;
@@ -623,7 +627,7 @@ function __renderChips() {
   for (const [k, v] of Object.entries(filterState)) {
     chips.push(k + ': ' + v);
   }
-  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+c+'</span>').join('');
+  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+escapeHtmlText(c)+'</span>').join('');
 }
 
 function __updateLiveStatus(d) {
@@ -663,9 +667,9 @@ function loadTaskBanner() {
       b.style.display = 'block';
       b.innerHTML = `
         <div class="tb-head">
-          <span class="tb-id">${task.id}</span>
-          <span class="tb-type tb-type-${task.task_type}">${task.task_type.toUpperCase()}</span>
-          <span class="tb-diff">${task.task_difficulty}</span>
+          <span class="tb-id">${escapeHtmlText(task.id)}</span>
+          <span class="tb-type tb-type-${escapeHtmlText(task.task_type)}">${escapeHtmlText(task.task_type.toUpperCase())}</span>
+          <span class="tb-diff">${escapeHtmlText(task.task_difficulty)}</span>
         </div>
         <div class="tb-summary">${__esc(task.task_summary)}</div>
         ${task.task_type !== 'write' ? `

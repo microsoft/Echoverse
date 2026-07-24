@@ -173,7 +173,11 @@ a{color:inherit;text-decoration:none;cursor:pointer}button{font-family:inherit}
   </div>
   <div class="ws-footer-bottom">An official website of EchoJobs · © 2026 EchoJobs · Privacy · Accessibility</div>
 </footer>
-<script>
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
 const ENV_ID = 'W24_E06';
 let filterState = {};
 
@@ -227,14 +231,14 @@ function updateResults(results, htmlCards) {
     const initial = (r.title || '?').charAt(0);
     const priceLine = (r.price && r.price > 0) ? ('$' + r.price.toLocaleString()) : '';
     const thumb = r.image_url
-      ? '<img class="result-thumb-img" loading="lazy" src="' + r.image_url + '" alt="' + ((r.image_alt || r.title || '').replace(/"/g,'&quot;')) + '">'
-      : '<div class="result-thumb">' + initial + '</div>';
+      ? '<img class="result-thumb-img" loading="lazy" src="' + escapeHtmlText(r.image_url) + '" alt="' + (escapeHtmlText(r.image_alt || r.title || '')) + '">'
+      : '<div class="result-thumb">' + escapeHtmlText(initial) + '</div>';
     return '<div class="result-card">' + thumb +
-      '<div class="result-body"><div class="result-brand">' + (r.brand || '') + '</div>' +
-      '<div class="result-name">' + (r.title || '') + '</div>' +
-      '<div class="result-meta">' + (r.category || '') + ' · ' + (r.condition || '') + '</div>' +
-      '<div class="result-rating-row">★ ' + (r.rating || '—') + '</div>' +
-      '<div class="result-price-row"><span class="result-price">' + priceLine + '</span></div></div></div>';
+      '<div class="result-body"><div class="result-brand">' + escapeHtmlText(r.brand || '') + '</div>' +
+      '<div class="result-name">' + escapeHtmlText(r.title || '') + '</div>' +
+      '<div class="result-meta">' + escapeHtmlText(r.category || '') + ' · ' + escapeHtmlText(r.condition || '') + '</div>' +
+      '<div class="result-rating-row">★ ' + escapeHtmlText(r.rating || '—') + '</div>' +
+      '<div class="result-price-row"><span class="result-price">' + escapeHtmlText(priceLine) + '</span></div></div></div>';
   }).join('');
 }
 
@@ -247,7 +251,7 @@ function renderActiveChips() {
     if (Array.isArray(v)) v.forEach(val => chips.push(val));
     else chips.push(v);
   }
-  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+c+'</span>').join('');
+  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+escapeHtmlText(c)+'</span>').join('');
 }
 
 function clearFacet(a, facet) {

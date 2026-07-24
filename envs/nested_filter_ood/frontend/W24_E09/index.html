@@ -179,7 +179,11 @@ a{color:inherit;text-decoration:none;cursor:pointer}button{font-family:inherit}
   </div>
   <div class="cn-footer-bottom"><span>© 2026 EchoAuto LLC · Helping car shoppers since 1998</span><span>Privacy · Terms · Do Not Sell or Share My Personal Info · Accessibility</span></div>
 </footer>
-<script>
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
 const ENV_ID = 'W24_E09';
 let filterState = {};
 
@@ -234,8 +238,8 @@ function updateResults(results, htmlCards) {
     const initial = (r.title || '?').charAt(0);
     const priceLine = (r.price && r.price > 0) ? ('$' + r.price.toLocaleString()) : '—';
     const thumb = r.image_url
-      ? '<img class="result-thumb-img" loading="lazy" src="' + r.image_url + '" alt="' + ((r.image_alt || r.title || '').replace(/"/g,'&quot;')) + '">'
-      : '<div class="result-thumb">' + initial + '</div>';
+      ? '<img class="result-thumb-img" loading="lazy" src="' + escapeHtmlText(r.image_url) + '" alt="' + (escapeHtmlText(r.image_alt || r.title || '')) + '">'
+      : '<div class="result-thumb">' + escapeHtmlText(initial) + '</div>';
     const cpo = (r.category||'') === 'Certified Pre-Owned';
     const badge = '<div class="result-badge ' + (cpo?'cpo':'') + '">' + (cpo?'Certified':'Great Deal') + '</div>';
     const miles = 28000 + (((r.id||i)*7919)%67000);
@@ -243,10 +247,10 @@ function updateResults(results, htmlCards) {
     const dealer = dealers[(r.id||i) % dealers.length];
     return '<div class="result-card">' + badge + '<div class="result-fave">♡</div>' + thumb +
       '<div class="result-body">' +
-      '<div class="result-price-row"><span class="result-price">' + priceLine + '</span><span class="result-mileage">' + miles.toLocaleString() + ' mi</span></div>' +
-      '<div class="result-name">' + (r.title || '') + '</div>' +
-      '<div class="result-meta">' + (r.color || '') + ' · ' + (r.condition || '') + ' · Automatic · ' + (r.category || '') + '</div>' +
-      '<div class="result-rating-row">★ ' + (r.rating || '—') + ' <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div>' +
+      '<div class="result-price-row"><span class="result-price">' + escapeHtmlText(priceLine) + '</span><span class="result-mileage">' + miles.toLocaleString() + ' mi</span></div>' +
+      '<div class="result-name">' + escapeHtmlText(r.title || '') + '</div>' +
+      '<div class="result-meta">' + escapeHtmlText(r.color || '') + ' · ' + escapeHtmlText(r.condition || '') + ' · Automatic · ' + escapeHtmlText(r.category || '') + '</div>' +
+      '<div class="result-rating-row">★ ' + escapeHtmlText(r.rating || '—') + ' <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div>' +
       '<div class="result-dealer"><span>' + dealer + '</span><span class="dist">' + dist + ' mi away</span></div>' +
       '</div></div>';
   }).join('');
@@ -264,7 +268,7 @@ function renderActiveChips() {
     if (Array.isArray(v)) v.forEach(val => chips.push({label:val}));
     else chips.push({label:v});
   }
-  bar.innerHTML = chips.map(c => '<span class="active-chip">' + c.label + ' <span class="x">×</span></span>').join('');
+  bar.innerHTML = chips.map(c => '<span class="active-chip">' + escapeHtmlText(c.label) + ' <span class="x">×</span></span>').join('');
 }
 
 function clearFacet(a, facet) {

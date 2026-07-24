@@ -173,7 +173,10 @@ body { font-family:Arial,Helvetica,sans-serif; background:#F4F4F4; color:#222; }
 </style>
 </head>
 <body>
-<script>window.RESULTS_SEL = "#pet-grid"; window.ENV_ID = "W27_E07";</script>
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+window.RESULTS_SEL = "#pet-grid"; window.ENV_ID = "W27_E07";</script>
 
 <div class="pf-promo"><a href="#">Learn more</a> about how Echo Nutrition and EchoPets are caring for pets and their owners. <span class="arrow">›</span></div>
 <header class="pf-header">
@@ -326,7 +329,7 @@ function renderChips() {
     chips.push({label: c.value, facet: 'compat', val: c.value, kind: 'check'});
   });
   if (!chips.length) { box.innerHTML = ''; return; }
-  box.innerHTML = chips.map(c => `<span class="pf-chip" data-chip-facet="${c.facet}" data-chip-val="${c.val.replace(/"/g,'&quot;')}" data-chip-kind="${c.kind}">${c.label} <span class="x">×</span></span>`).join('');
+  box.innerHTML = chips.map(c => `<span class="pf-chip" data-chip-facet="${escapeHtmlText(c.facet)}" data-chip-val="${escapeHtmlText(c.val)}" data-chip-kind="${escapeHtmlText(c.kind)}">${escapeHtmlText(c.label)} <span class="x">×</span></span>`).join('');
   box.querySelectorAll('.pf-chip').forEach(el => {
     el.addEventListener('click', () => {
       const f = el.dataset.chipFacet, v = el.dataset.chipVal, k = el.dataset.chipKind;

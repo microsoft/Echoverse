@@ -315,7 +315,10 @@ body { font-family:'Human BBy Web','Open Sans','Segoe UI',Arial,sans-serif; back
     <div><h5>Stores</h5><ul><li>Find a Store</li><li>Outlet Stores</li><li>EchoTech Business</li><li>EchoTech Health</li></ul></div>
   </div>
   <div class="legal">© EchoTech Co., Inc. All rights reserved · Privacy · Terms · Accessibility · Interest-Based Ads</div>
-</footer><script>
+</footer><script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 const ENV_ID = "W04_E06";
 let filterState = {};
 
@@ -369,7 +372,7 @@ function applyFilters() {
 }
 
 function escapeHtml(s) {
-  return (s || '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 function lsReset(ev) {

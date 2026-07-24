@@ -164,6 +164,9 @@
   <div style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:8px;opacity:.85;"><a style="color:#cfd2d6;">About</a><a style="color:#cfd2d6;">Careers</a><a style="color:#cfd2d6;">Press Room</a><a style="color:#cfd2d6;">Help</a><a style="color:#cfd2d6;">Advertise</a><a style="color:#cfd2d6;">Site Map</a><a style="color:#cfd2d6;">Terms</a><a style="color:#cfd2d6;">Privacy</a></div>
   <div style="opacity:.7;">© 2024 EchoHomes, Inc. All rights reserved. EchoHomes® is the trademark of EchoHomes, Inc.</div></footer>
 <script>
+function escapeHtmlText(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
 const ENV_ID = 'W25_E01';
 let filterState = {};
 
@@ -243,17 +246,17 @@ function renderResults(results){
   const isRentEnv=false;
   grid.innerHTML=results.map(r=>{
     const isRent=(r.product_type==='rentals')||isRentEnv;
-    const price='$'+(r.price||0).toLocaleString()+(isRent?'/mo':'');
-    const beds=(r.beds!=null?r.beds:'?');
-    const baths=(r.baths!=null?r.baths:'?');
-    const sqft=(r.sqft!=null?r.sqft.toLocaleString():'');
-    const addr=r.title||'';
-    const cityFull=r.city_full||r.city||'';
-    const ptype=r.property_type||'';
+    const price=escapeHtmlText('$'+(r.price||0).toLocaleString()+(isRent?'/mo':''));
+    const beds=escapeHtmlText(r.beds!=null?r.beds:'?');
+    const baths=escapeHtmlText(r.baths!=null?r.baths:'?');
+    const sqft=escapeHtmlText(r.sqft!=null?r.sqft.toLocaleString():'');
+    const addr=escapeHtmlText(r.title||'');
+    const cityFull=escapeHtmlText(r.city_full||r.city||'');
+    const ptype=escapeHtmlText(r.property_type||'');
     const img=r.image_url||'';
     return `
           <div class="listing-card">
-            <div class="lc-img">${img?`<img src="${img}" alt="">`:`<div>${(addr.split(',')[0]||addr).split(' ').slice(0,2).join(' ')}</div>`}
+            <div class="lc-img">${img?`<img src="${escapeHtmlText(img)}" alt="">`:`<div>${(addr.split(',')[0]||addr).split(' ').slice(0,2).join(' ')}</div>`}
               ${r.is_new?'<div class="lc-badge">NEW - 1 DAY ON ECHO</div>':''}
               <div class="lc-fav">♥</div>
             </div>
@@ -274,7 +277,7 @@ function renderActive(){
   const chips=[];
   for(const [k,v] of Object.entries(filterState)){
     const lbl=labelMap[k]||k;
-    chips.push('<span class="active-chip">'+lbl+': '+valueMap(k,v)+' <span class="ac-x" onclick="clearFacet(\''+k+'\')">×</span></span>');
+    chips.push('<span class="active-chip">'+escapeHtmlText(lbl)+': '+escapeHtmlText(valueMap(k,v))+' <span class="ac-x" onclick="clearFacet(\''+escapeHtmlText(escapeJsSingleQuoted(k))+'\')">×</span></span>');
   }
   bar.innerHTML=chips.join('');
 }

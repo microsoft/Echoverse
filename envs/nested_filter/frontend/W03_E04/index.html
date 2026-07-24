@@ -309,6 +309,12 @@ function renderCard(it){
 
 let filterState = {};
 
+function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s) {
+  return String(s || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\r/g, '\\r').replace(/\n/g, '\\n');
+}
 function acShow(inp, which) {
   const ul = document.getElementById('ac-' + which);
   if (!ul) return;
@@ -327,13 +333,13 @@ function acShow(inp, which) {
   if (matches.length === 0) { ul.classList.remove('show'); ul.innerHTML = ''; return; }
   ul.classList.add('show');
   ul.innerHTML = matches.map(s => {
-    const escName = (s.name || '').replace(/'/g, "&#39;").replace(/"/g, '&quot;');
+    const escName = escapeHtmlText(s.name);
     const filledRaw = s.iata;  // store only IATA code (matches ref_state_change format)
-    const filled = filledRaw.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    const filled = escapeJsSingleQuoted(filledRaw);
     const choose = "acPick(this,'" + which + "','" + filled + "')";
-    const country = (s.country || '').replace(/'/g, "&#39;").replace(/"/g, '&quot;');
-    return '<li onclick="' + choose + '"><span class="iata">' + s.iata + '</span>' +
-           (s.flag ? '<span class="ac-flag">' + s.flag + '</span>' : '') +
+    const country = escapeHtmlText(s.country);
+    return '<li onclick="' + escapeHtmlText(choose) + '"><span class="iata">' + escapeHtmlText(s.iata) + '</span>' +
+           (s.flag ? '<span class="ac-flag">' + escapeHtmlText(s.flag) + '</span>' : '') +
            ' <span class="ac-name">' + escName + '</span>' +
            ' <span class="ac-country">' + country + '</span>' + '</li>';
   }).join('');
@@ -440,13 +446,13 @@ function acShowInto(query, which, ul){
   if (q.length) matches = AC_SUGS.filter(s => norm(s.iata).includes(q) || norm(s.name).includes(q) || norm(s.country).includes(q));
   matches = matches.slice(0, 12);
   ul.innerHTML = matches.map(s => {
-    const escName = (s.name || '').replace(/'/g, "&#39;").replace(/"/g, '&quot;');
+    const escName = escapeHtmlText(s.name);
     const filledRaw = s.iata;  // store only IATA code (matches ref_state_change format)
-    const filled = filledRaw.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    const filled = escapeJsSingleQuoted(filledRaw);
     const choose = "acPick(this,'" + which + "','" + filled + "'); closeSide();";
-    const country = (s.country || '').replace(/'/g, "&#39;").replace(/"/g, '&quot;');
-    return '<li onclick="' + choose + '"><span class="iata">' + s.iata + '</span>' +
-           (s.flag ? '<span class="ac-flag">' + s.flag + '</span>' : '') +
+    const country = escapeHtmlText(s.country);
+    return '<li onclick="' + escapeHtmlText(choose) + '"><span class="iata">' + escapeHtmlText(s.iata) + '</span>' +
+           (s.flag ? '<span class="ac-flag">' + escapeHtmlText(s.flag) + '</span>' : '') +
            ' <span class="ac-name">' + escName + '</span>' +
            ' <span class="ac-country">' + country + '</span>' + '</li>';
   }).join('');

@@ -489,22 +489,33 @@ function clearChip(facet) {
 function renderActiveChips() {
   const bar = document.getElementById('active-chips');
   if (!bar) return;
-  const out = [];
+  bar.replaceChildren();
+  function addChip(label, facet) {
+    const chip = document.createElement('span');
+    chip.className = 'active-chip';
+    chip.appendChild(document.createTextNode(label));
+    if (facet) {
+      chip.appendChild(document.createTextNode(' '));
+      const x = document.createElement('span');
+      x.className = 'x';
+      x.textContent = '×';
+      x.addEventListener('click', () => clearChip(facet));
+      chip.appendChild(x);
+    }
+    bar.appendChild(chip);
+  }
   if (filterState.min_beds !== undefined) {
-    out.push('<span class="active-chip">' + formatBedLabel(filterState.min_beds) +
-      ' beds <span class="x" onclick="clearChip(\'min_beds\')">×</span></span>');
+    addChip(formatBedLabel(filterState.min_beds) + ' beds', 'min_beds');
   }
   if (filterState.min_baths !== undefined) {
-    out.push('<span class="active-chip">' + formatBathLabel(filterState.min_baths) +
-      ' baths <span class="x" onclick="clearChip(\'min_baths\')">×</span></span>');
+    addChip(formatBathLabel(filterState.min_baths) + ' baths', 'min_baths');
   }
   for (const k of ['has_garage','pet_friendly','is_new']) {
     if (filterState[k]) {
       const lbl = {has_garage:'🚗 Garage', pet_friendly:'🐾 Pet OK', is_new:'✨ New listing'}[k];
-      out.push('<span class="active-chip">' + lbl + '</span>');
+      addChip(lbl);
     }
   }
-  bar.innerHTML = out.join('');
 }
 
 function renderResultCard(it) {

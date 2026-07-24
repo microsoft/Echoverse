@@ -169,7 +169,11 @@ a{color:inherit;text-decoration:none;cursor:pointer}button{font-family:inherit}
   </div>
   <div class="sf-footer-bottom">© 2026 EchoForge Foundation · Hosting · Open source software directory</div>
 </footer>
-<script>
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
 const ENV_ID = 'W24_E03';
 let filterState = {};
 
@@ -253,8 +257,8 @@ function updateResults(results, htmlCards) {
   grid.innerHTML = results.map((r,i) => {
     const initial = (r.title || '?').charAt(0).toUpperCase();
     const thumb = r.image_url
-      ? '<img class="result-thumb-img" loading="lazy" src="' + r.image_url + '" alt="' + ((r.image_alt || r.title || '').replace(/"/g,'&quot;')) + '">'
-      : '<div class="result-thumb">' + initial + '</div>';
+      ? '<img class="result-thumb-img" loading="lazy" src="' + escapeHtmlText(r.image_url) + '" alt="' + (escapeHtmlText(r.image_alt || r.title || '')) + '">'
+      : '<div class="result-thumb">' + escapeHtmlText(initial) + '</div>';
     const seed = SEED((r.title || 'x') + (r.id || ''));
     const weekly = 1200 + (seed % 88000);
     const total = 80000 + (seed % 12000000);
@@ -278,28 +282,28 @@ function updateResults(results, htmlCards) {
     return '<article class="result-card">' + thumb +
       '<div class="result-body">' +
         '<div class="rank-row"><span class="rank-badge">' + (i+1) + '</span>' +
-          '<a class="result-name">' + (r.title || '') + '</a>' +
-          '<span class="result-tag">' + tag + '</span>' +
-          '<span class="os-pills">' + osPills + '</span>' +
+          '<a class="result-name">' + escapeHtmlText(r.title || '') + '</a>' +
+          '<span class="result-tag">' + escapeHtmlText(tag) + '</span>' +
+          '<span class="os-pills">' + escapeHtmlText(osPills) + '</span>' +
         '</div>' +
-        '<p class="result-desc">' + desc + '</p>' +
+        '<p class="result-desc">' + escapeHtmlText(desc) + '</p>' +
         '<div class="result-rating-row">' +
-          '<span class="stars">' + stars + '</span>' +
-          '<span><b style="color:#1f2933">' + (r.rating || '—') + '</b> <span class="review-cnt">(' + reviews.toLocaleString() + ' reviews)</span></span>' +
+          '<span class="stars">' + escapeHtmlText(stars) + '</span>' +
+          '<span><b style="color:#1f2933">' + escapeHtmlText(r.rating || '—') + '</b> <span class="review-cnt">(' + escapeHtmlText(reviews.toLocaleString()) + ' reviews)</span></span>' +
           '<span style="color:#cbd2d9">|</span>' +
-          '<span>License: <b style="color:#1f2933">' + (r.color || '—') + '</b></span>' +
+          '<span>License: <b style="color:#1f2933">' + escapeHtmlText(r.color || '—') + '</b></span>' +
           '<span style="color:#cbd2d9">|</span>' +
-          '<span>Status: <b style="color:#1f2933">' + (r.condition || '—') + '</b></span>' +
+          '<span>Status: <b style="color:#1f2933">' + escapeHtmlText(r.condition || '—') + '</b></span>' +
         '</div>' +
         '<div class="result-stats">' +
-          '<span>📥 <b>' + total.toLocaleString() + '</b> total downloads</span>' +
+          '<span>📥 <b>' + escapeHtmlText(total.toLocaleString()) + '</b> total downloads</span>' +
           '<span>📅 Last update: <b>' + updMonths + ' month' + (updMonths>1?'s':'') + ' ago</b></span>' +
           '<span>🌐 ' + osList.length + ' OS supported</span>' +
         '</div>' +
       '</div>' +
       '<div class="result-cta">' +
         '<button class="dl-btn" type="button">⬇ Download</button>' +
-        '<div class="weekly-dl"><b>' + FMTK(weekly) + '</b> weekly downloads</div>' +
+        '<div class="weekly-dl"><b>' + escapeHtmlText(FMTK(weekly)) + '</b> weekly downloads</div>' +
         '<div class="dl-sub">View Project ›</div>' +
       '</div>' +
     '</article>';
@@ -315,7 +319,7 @@ function renderActiveChips() {
     if (Array.isArray(v)) v.forEach(val => chips.push(val));
     else chips.push(v);
   }
-  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+c+'</span>').join('');
+  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+escapeHtmlText(c)+'</span>').join('');
 }
 
 function clearFacet(a, facet) {

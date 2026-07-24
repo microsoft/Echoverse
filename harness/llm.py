@@ -136,9 +136,12 @@ class OpenAIChatClient:
     # -- auth resolution ----------------------------------------------------
     @staticmethod
     def _is_azure_endpoint(endpoint: Optional[str]) -> bool:
-        return bool(endpoint) and (
-            "azure.com" in endpoint or "openai.azure" in endpoint
-        )
+        if not endpoint:
+            return False
+        from urllib.parse import urlparse
+        parsed = urlparse(endpoint if "://" in endpoint else "https://" + endpoint)
+        host = (parsed.hostname or "").lower()
+        return host == "azure.com" or host.endswith(".azure.com")
 
     def _resolve_auth(
         self, auth: str, endpoint: Optional[str], api_key: Optional[str]

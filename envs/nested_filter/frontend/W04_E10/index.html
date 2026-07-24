@@ -256,7 +256,10 @@ body { font-family:'Circular','Nunito','Helvetica Neue','Segoe UI',Arial,sans-se
       <button class="show" onclick="abCloseModal()">Show <span id="result-count-2">18</span> places</button>
     </div>
   </div>
-</div><script>
+</div><script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 const ENV_ID = "W04_E10";
 let filterState = {};
 
@@ -310,7 +313,7 @@ function applyFilters() {
 }
 
 function escapeHtml(s) {
-  return (s || '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 function lsReset(ev) {

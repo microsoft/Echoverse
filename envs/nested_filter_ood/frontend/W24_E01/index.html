@@ -346,7 +346,11 @@ button{font-family:inherit}
         <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag stock">In Stock</span></div>
         <button class="result-cta">Add to Cart</button>
       </div>
-    </div></div><nav class="pagination"><button>‹ Prev</button><button class="active">1</button><button>2</button><button>3</button><button>Next ›</button></nav></section></div><footer class="site-footer"><div class="site-footer-row"><div class="site-footer-col"><h5>About EchoTech</h5><a>Company info</a><a>Careers</a><a>Investor relations</a><a>Sustainability</a></div><div class="site-footer-col"><h5>Customer Service</h5><a>Help Center</a><a>Track Orders</a><a>Returns & Exchanges</a><a>Contact Us</a></div><div class="site-footer-col"><h5>EchoTech Stores</h5><a>Find a store</a><a>Store events</a><a>In-store services</a><a>Recycling</a></div><div class="site-footer-col"><h5>Account</h5><a>Sign in</a><a>Order status</a><a>My EchoTech Memberships</a><a>Credit cards</a></div></div><div class="site-footer-bottom"><span>© 2026 EchoTech. All rights reserved.</span><span class="sf-spacer"></span><span>Privacy · Terms · Cookie Preferences</span><div class="sf-social"><a>f</a><a>𝕏</a><a>◉</a><a>▶</a></div></div></footer><script>
+    </div></div><nav class="pagination"><button>‹ Prev</button><button class="active">1</button><button>2</button><button>3</button><button>Next ›</button></nav></section></div><footer class="site-footer"><div class="site-footer-row"><div class="site-footer-col"><h5>About EchoTech</h5><a>Company info</a><a>Careers</a><a>Investor relations</a><a>Sustainability</a></div><div class="site-footer-col"><h5>Customer Service</h5><a>Help Center</a><a>Track Orders</a><a>Returns & Exchanges</a><a>Contact Us</a></div><div class="site-footer-col"><h5>EchoTech Stores</h5><a>Find a store</a><a>Store events</a><a>In-store services</a><a>Recycling</a></div><div class="site-footer-col"><h5>Account</h5><a>Sign in</a><a>Order status</a><a>My EchoTech Memberships</a><a>Credit cards</a></div></div><div class="site-footer-bottom"><span>© 2026 EchoTech. All rights reserved.</span><span class="sf-spacer"></span><span>Privacy · Terms · Cookie Preferences</span><div class="sf-social"><a>f</a><a>𝕏</a><a>◉</a><a>▶</a></div></div></footer><script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
 const ENV_ID = 'W24_E01';
 let filterState = {};
 
@@ -403,8 +407,8 @@ function updateResults(results, htmlCards) {
     const initial = (r.title || '?').charAt(0);
     const priceLine = (r.price && r.price > 0) ? ('$' + r.price.toLocaleString()) : '';
     const thumb = r.image_url
-      ? '<img class="result-thumb-img" loading="lazy" src="' + r.image_url + '" alt="' + ((r.image_alt || r.title || '').replace(/"/g,'&quot;')) + '">'
-      : '<div class="result-thumb">' + initial + '</div>';
+      ? '<img class="result-thumb-img" loading="lazy" src="' + escapeHtmlText(r.image_url) + '" alt="' + (escapeHtmlText(r.image_alt || r.title || '')) + '">'
+      : '<div class="result-thumb">' + escapeHtmlText(initial) + '</div>';
     const cond = (r.condition || '').toLowerCase();
     let ribbon = '';
     if (cond === 'open-box') ribbon = '<span class="result-ribbon" style="background:#ffe000;color:#1a1a1a">Open-Box</span>';
@@ -412,11 +416,11 @@ function updateResults(results, htmlCards) {
     else if (cond === 'pre-owned') ribbon = '<span class="result-ribbon" style="background:#6b7280;color:#fff">Pre-Owned</span>';
     return '<div class="result-card">' + ribbon + thumb +
       '<div class="result-body">' +
-      '<div class="result-brand">' + (r.brand || '') + '</div>' +
-      '<div class="result-name">' + (r.title || '') + '</div>' +
-      '<div class="result-meta">' + (r.category || '') + ' · ' + (r.condition || '') + '</div>' +
-      '<div class="result-rating-row">★ ' + (r.rating || '—') + '</div>' +
-      '<div class="result-price-row"><span class="result-price">' + priceLine + '</span></div>' +
+      '<div class="result-brand">' + escapeHtmlText(r.brand || '') + '</div>' +
+      '<div class="result-name">' + escapeHtmlText(r.title || '') + '</div>' +
+      '<div class="result-meta">' + escapeHtmlText(r.category || '') + ' · ' + escapeHtmlText(r.condition || '') + '</div>' +
+      '<div class="result-rating-row">★ ' + escapeHtmlText(r.rating || '—') + '</div>' +
+      '<div class="result-price-row"><span class="result-price">' + escapeHtmlText(priceLine) + '</span></div>' +
       '<div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag stock">In Stock</span></div>' +
       '<button class="result-cta">Add to Cart</button>' +
       '</div></div>';
@@ -453,7 +457,7 @@ function renderActiveChips() {
     if (Array.isArray(v)) v.forEach(val => chips.push(val));
     else chips.push(v);
   }
-  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+c+'</span>').join('');
+  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+escapeHtmlText(c)+'</span>').join('');
 }
 
 function clearFacet(a, facet) {

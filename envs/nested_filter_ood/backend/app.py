@@ -20,6 +20,19 @@ WIDGET_DIR = Path(__file__).parent.parent
 DATA_DIR = WIDGET_DIR / "backend" / "data"
 FRONTEND_BASE = WIDGET_DIR / "frontend"
 
+
+def _safe_path(base: Path, *parts: str) -> Path | None:
+    """Resolve ``base``/``parts`` and return it only if it stays inside ``base``.
+
+    Prevents path traversal: any ``..`` or absolute component that escapes ``base``
+    yields ``None``.
+    """
+    base_real = os.path.realpath(base)
+    target_real = os.path.realpath(os.path.join(base_real, *(str(p) for p in parts)))
+    if target_real == base_real or target_real.startswith(base_real + os.sep):
+        return Path(target_real)
+    return None
+
 # ---------------------------------------------------------------------------
 # Load all envs for this widget at startup
 # ---------------------------------------------------------------------------
@@ -913,8 +926,8 @@ def root():
 
 @app.get("/env/{env_id}", response_class=HTMLResponse)
 def env_root(env_id: str):
-    fp = FRONTEND_BASE / env_id / "index.html"
-    if not fp.exists():
+    fp = _safe_path(FRONTEND_BASE, env_id, "index.html")
+    if fp is None or not fp.exists():
         raise HTTPException(404, f"Frontend not found: {env_id}")
     return HTMLResponse(fp.read_text())
 
