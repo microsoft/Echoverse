@@ -1,0 +1,43 @@
+{
+  "env_id": "W23_E10",
+  "widget_id": "W23_more_filters_modal_plus_chip_bar",
+  "widget_name": "More-filters modal + filter-chip confirmation bar",
+  "widget_category": "combo_modal_workflow",
+  "widget_mechanic": "Compose: apply hidden-modal filter AND verify it appears in the active-filter chip bar.",
+  "archetype": "realestate_listings",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W07_more_filters_modal",
+    "W08_filter_chip_confirmation"
+  ],
+  "site_imitates": "Apartments.com Houston TX",
+  "product_type": "Houston Condos for rent",
+  "source_inspiration": [
+    {
+      "task_id": "367d843c640637745e8fafa741cca13b",
+      "benchmark": "OM2W",
+      "site": "apartments.com",
+      "instruction": "Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income of $8000. The condo should have a minimum area of 600 square feet, and the move-in date is the 1st of next month.",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: Selected the $2,400 option in a way that applied a minimum price filter ($2,400+) rather than a maximum rent cap (\u2264$2,400)."
+    }
+  ],
+  "primary_inspiration": {
+    "task_id": "367d843c640637745e8fafa741cca13b",
+    "benchmark": "OM2W",
+    "site": "apartments.com",
+    "site_label": "Apartments.com",
+    "city": "Houston, TX",
+    "instruction": "Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income of $8000. The condo should have a minimum area of 600 square feet, and the move-in date is the 1st of next month.",
+    "first_failure_summary": "[1.4] Wrong values or constraint violation: Selected the $2,400 option in a way that applied a minimum price filter ($2,400+) rather than a maximum rent cap (\u2264$2,400)."
+  },
+  "theme_key": "apartments",
+  "theme_logo": "Apartments.com",
+  "theme_card": "apt-card",
+  "theme_layout": "split-map",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

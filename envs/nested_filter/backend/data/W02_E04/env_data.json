@@ -1,0 +1,55 @@
+{
+  "env_id": "W02_E04",
+  "widget_id": "W02_bucketed_dropdown",
+  "widget_name": "Bucketed-value dropdown",
+  "widget_category": "dropdown_choice",
+  "widget_mechanic": "A single-select dropdown whose options are magnitude buckets (Over 1h / Over 10h / Over 100h; <50 / 50-200 / 200+). Agent must pick the correct bucket \u2014 not the first option, not the default, not a smaller-magnitude bucket.",
+  "archetype": "faceted_catalog",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W02_bucketed_dropdown"
+  ],
+  "site_imitates": "Audible \u2014 Business & Careers bestsellers",
+  "product_type": "Business audiobooks (bestsellers)",
+  "source_inspiration": [
+    {
+      "task_id": "bb5d90e6f2fbc0ae146f7c1998c2b4a1",
+      "benchmark": "OM2W",
+      "site": "audible.com",
+      "instruction": "Pick a bestselling business audiobook in a target length bucket.",
+      "first_failure_summary": "Bucketed length filter \u2014 picked a wrong length tier from the Audible Length dropdown.",
+      "fara_actions": 30,
+      "gpt54_actions": 28
+    }
+  ],
+  "theme_key": "audible",
+  "theme_logo": "Audible",
+  "theme_card": "book-row",
+  "theme_layout": "sidebar-left-select",
+  "ui_pattern": "left_sidebar_native_select",
+  "variant_idx": 0,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "bucket_match",
+    "fields": [
+      "bucket"
+    ]
+  },
+  "primary_inspiration": {
+    "task_id": "bb5d90e6f2fbc0ae146f7c1998c2b4a1",
+    "benchmark": "OM2W",
+    "site": "audible.com",
+    "instruction": "Pick a bestselling business audiobook in a target length bucket.",
+    "first_failure_summary": "Bucketed length filter \u2014 picked a wrong length tier from the Audible Length dropdown.",
+    "fara_actions": 30,
+    "gpt54_actions": 28
+  },
+  "buckets_used": [
+    "Under 1 hour",
+    "1-3 hours",
+    "3-6 hours",
+    "6-10 hours",
+    "10-20 hours",
+    "Over 20 hours"
+  ]
+}

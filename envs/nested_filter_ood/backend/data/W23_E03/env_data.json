@@ -1,0 +1,43 @@
+{
+  "env_id": "W23_E03",
+  "widget_id": "W23_more_filters_modal_plus_chip_bar",
+  "widget_name": "More-filters modal + filter-chip confirmation bar",
+  "widget_category": "combo_modal_workflow",
+  "widget_mechanic": "Compose: apply hidden-modal filter AND verify it appears in the active-filter chip bar.",
+  "archetype": "realestate_listings",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W07_more_filters_modal",
+    "W08_filter_chip_confirmation"
+  ],
+  "site_imitates": "Apartments.com Houston TX",
+  "product_type": "Houston Single-Family Houses for rent (1 bed)",
+  "source_inspiration": [
+    {
+      "task_id": "aafd1fddea1558466ac6133934d35156",
+      "benchmark": "OM2W",
+      "site": "apartments.com",
+      "instruction": "Find a Single-Family House for Rent in Houston, TX with 1 bed.",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent chose to open the first visible listing (\"Preserve at Woodridge\") without verifying it is located in Houston, TX, violating the task's hard city constraint."
+    }
+  ],
+  "primary_inspiration": {
+    "task_id": "aafd1fddea1558466ac6133934d35156",
+    "benchmark": "OM2W",
+    "site": "apartments.com",
+    "site_label": "Apartments.com",
+    "city": "Houston, TX",
+    "instruction": "Find a Single-Family House for Rent in Houston, TX with 1 bed.",
+    "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent chose to open the first visible listing (\"Preserve at Woodridge\") without verifying it is located in Houston, TX, violating the task's hard city constraint."
+  },
+  "theme_key": "apartments",
+  "theme_logo": "Apartments.com",
+  "theme_card": "apt-card",
+  "theme_layout": "split-map",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

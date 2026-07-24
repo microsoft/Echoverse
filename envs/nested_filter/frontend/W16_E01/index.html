@@ -1,0 +1,468 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EchoInvest — Compound Interest Calculator</title><style>
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+
+
+
+
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+#task-banner{display:none;position:fixed;top:0;left:0;right:0;z-index:200;
+  background:#0f172a;color:#e2e8f0;padding:10px 18px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
+  border-bottom:2px solid #fbbf24;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+#task-banner .tb-head{display:flex;gap:10px;align-items:center;margin-bottom:6px}
+#task-banner .tb-id{font-weight:700;color:#facc15}
+#task-banner .tb-type{padding:1px 8px;border-radius:10px;font-weight:700;font-size:10px;letter-spacing:.5px}
+#task-banner .tb-type-write{background:#7c3aed;color:#fff}
+#task-banner .tb-type-read{background:#0891b2;color:#fff}
+#task-banner .tb-type-read_write{background:#db2777;color:#fff}
+#task-banner .tb-diff{color:#94a3b8;font-size:11px;text-transform:uppercase}
+#task-banner .tb-summary{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:13px;line-height:1.45;color:#f1f5f9;margin-bottom:6px}
+#task-banner .tb-meta{color:#94a3b8;font-size:11px;margin-top:4px}
+#task-banner code{background:#1e293b;color:#fbbf24;padding:1px 5px;border-radius:3px}
+#task-banner .tb-answer-row{margin-top:6px;display:flex;gap:8px;align-items:center}
+#task-banner .tb-answer-label{color:#cbd5e1}
+#task-banner .tb-answer-input{flex:1;background:#1e293b;border:1px solid #475569;color:#e2e8f0;padding:6px 10px;border-radius:4px;font-family:inherit}
+body.has-task-banner{padding-top:130px}
+#live-status{position:fixed;bottom:14px;right:14px;z-index:150;padding:8px 14px;border-radius:20px;
+  font-family:system-ui,sans-serif;font-size:12px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.18);
+  background:#e2e8f0;color:#0f172a}
+#live-status.good{background:#16a34a;color:#fff}
+#live-status.pending{background:#f59e0b;color:#1a1a1a}
+#live-status.neutral{background:#64748b;color:#fff}
+
+body{font-family:'Source Sans Pro',Arial,Helvetica,sans-serif;background:#fff;color:#1b1b1b;margin:0}
+body.has-task-banner{padding-top:0 !important}
+
+/* Top gray US gov banner */
+.usa-banner{background:#f0f0f0;color:#1b1b1b;padding:6px 28px;font-size:12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #dfe1e2}
+.usa-banner .flag{display:inline-block;width:18px;height:12px;background:linear-gradient(to bottom,#bf0a30 0 33%,#fff 33% 66%,#bf0a30 66% 100%);position:relative;flex-shrink:0;border:1px solid #ccc}
+.usa-banner .flag::before{content:'';position:absolute;left:0;top:0;width:8px;height:6px;background:#002868}
+.usa-banner a{color:#1a4480;text-decoration:none}
+.usa-banner a:hover{text-decoration:underline}
+
+/* White header with red Investor.gov wordmark + SEC seal + search */
+.ig-header{display:flex;align-items:center;padding:18px 32px;gap:18px;border-bottom:1px solid #f0f0f0;position:relative;background:#fff}
+.ig-header .seal{width:74px;height:74px;border-radius:50%;background:radial-gradient(circle,#1d4099 0%,#0b234a 70%);
+  display:flex;align-items:center;justify-content:center;color:#f4c842;font-size:14px;font-weight:700;letter-spacing:.4px;text-align:center;line-height:1.1;border:2px solid #97a3b6;flex-shrink:0;font-family:Georgia,serif}
+.ig-header .ig-logo{font-family:Georgia,'Times New Roman',serif;color:#cd2026;font-weight:700;font-size:42px;letter-spacing:-1px;line-height:1}
+.ig-header .ig-sub{font-size:10px;color:#1b1b1b;font-weight:700;letter-spacing:1px;margin-top:4px}
+.ig-header .ig-top-right{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.ig-header .ig-quicklinks{font-size:13px;color:#1a4480}
+.ig-header .ig-quicklinks a{color:#1a4480;text-decoration:none;margin:0 6px}
+.ig-header .ig-quicklinks a:hover{text-decoration:underline}
+.ig-header .ig-search{display:flex}
+.ig-header .ig-search input{padding:7px 12px;border:1px solid #757575;border-right:0;font-size:13px;width:230px;font-family:inherit}
+.ig-header .ig-search button{background:#168092;color:#fff;border:0;padding:7px 16px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px}
+
+/* Navy nav bar */
+.ig-nav{background:#112e51;color:#fff;display:flex;font-family:'Source Sans Pro',Arial,sans-serif;font-size:15px;font-weight:600}
+.ig-nav a{color:#fff;padding:18px 22px;text-decoration:none;border-right:1px solid #1f3b62;flex:1;text-align:center;line-height:1.2}
+.ig-nav a:hover{background:#0b234a}
+
+/* Breadcrumb */
+.ig-crumb{padding:10px 32px;font-size:12px;color:#168092;letter-spacing:1.4px;font-weight:700;border-bottom:1px solid #f0f0f0}
+.ig-crumb a{color:#168092;text-decoration:none}
+.ig-crumb a:hover{text-decoration:underline}
+.ig-crumb .crumb-sep{color:#a0a0a0;font-weight:400;margin:0 6px;letter-spacing:0}
+
+/* Main 2-col layout: left sidebar + form */
+.ig-main{display:flex;max-width:1100px;margin:24px auto;gap:32px;padding:0 32px}
+.ig-sidebar{flex:0 0 230px;border-top:1px solid #ccd1d4}
+.ig-sidebar a{display:block;padding:14px 18px;font-size:14px;color:#168092;text-decoration:none;border-bottom:1px solid #dfe1e2;line-height:1.3}
+.ig-sidebar a:hover{background:#e7f6f9}
+.ig-sidebar a.active{background:#168092;color:#fff;font-weight:700}
+.ig-content{flex:1;min-width:0}
+.ig-content h1{margin:0 0 6px;font-size:34px;color:#5c5c5c;font-weight:400;letter-spacing:.3px;font-family:'Source Sans Pro',Arial,sans-serif}
+.ig-content .lede{font-size:15px;color:#1b1b1b;margin:0 0 22px}
+.ig-content .req{font-size:13px;color:#1b1b1b;font-weight:700;letter-spacing:1.4px;margin:24px 0 4px}
+.ig-content .req .star{color:#cd2026}
+
+/* Stepped form: TEAL header bars + NAVY input panels */
+.step{margin:8px 0 0;border-radius:0}
+.step .step-head{background:#168092;color:#fff;padding:12px 22px;font-size:18px;font-weight:600;font-family:'Source Sans Pro',Arial,sans-serif}
+.step .step-body{background:#0b234a;color:#fff;padding:22px;display:flex;align-items:flex-start;gap:24px}
+.step .step-body .field-text{flex:1}
+.step .step-body label.q{display:block;font-weight:700;font-size:16px;margin:0 0 6px;color:#fff}
+.step .step-body label.q .star{color:#cd2026}
+.step .step-body .hint{font-size:13px;color:#cfd6df;line-height:1.45}
+.step .step-body .field-input{flex:0 0 220px;display:flex;align-items:flex-start}
+.step .step-body input[type=number],
+.step .step-body select{width:100%;padding:7px 10px;border:2px solid #1b1b1b;background:#fff;color:#1b1b1b;font-size:18px;font-family:inherit;height:38px;border-radius:0}
+.step .step-body select{appearance:auto;-webkit-appearance:menulist;padding-right:24px;cursor:pointer}
+.step .step-body input:focus,.step .step-body select:focus{outline:3px solid #f4c842;outline-offset:0}
+
+/* Step body variant: stacked (for compound frequency since dropdown is small) */
+.step.compound .step-body{flex-direction:column;align-items:stretch;gap:8px}
+.step.compound .step-body .field-input{flex:none;max-width:220px}
+
+/* Bottom CALCULATE / RESET row */
+.ig-cta{background:#0b234a;padding:18px 22px;display:flex;justify-content:flex-end;gap:10px}
+.ig-cta .btn-calc{background:#cd2026;color:#fff;border:0;padding:10px 22px;font-weight:700;font-size:14px;letter-spacing:1px;cursor:pointer;font-family:inherit}
+.ig-cta .btn-calc:hover{background:#a01a1f}
+.ig-cta .btn-reset{background:#168092;color:#fff;border:0;padding:10px 22px;font-weight:700;font-size:14px;letter-spacing:1px;cursor:pointer;font-family:inherit}
+.ig-cta .btn-reset:hover{background:#0f5c69}
+
+/* Results block */
+.ig-result{margin:30px 0 0;border:1px solid #ccd1d4;padding:22px;background:#f0f6f7}
+.ig-result .label{font-size:12px;color:#5c5c5c;text-transform:uppercase;letter-spacing:1.4px;font-weight:700}
+.ig-result .val{font-size:38px;color:#168092;font-weight:700;font-family:Georgia,serif;margin:8px 0 6px}
+.ig-result .sub{font-size:13px;color:#1b1b1b}
+.ig-result table{width:100%;margin-top:18px;border-collapse:collapse;font-size:14px}
+.ig-result td{border-bottom:1px solid #ccd1d4;padding:10px 0}
+.ig-result td:last-child{text-align:right;font-weight:700;color:#0b234a}
+
+/* Result chart */
+.ig-chart{margin:18px 0 4px;background:#fff;border:1px solid #ccd1d4;padding:12px 14px 6px}
+.ig-chart .chart-title{font-size:13px;color:#5c5c5c;text-transform:uppercase;letter-spacing:1.2px;font-weight:700;margin-bottom:6px}
+.ig-chart svg{display:block;width:100%;height:160px}
+.ig-chart .legend{display:flex;gap:18px;font-size:12px;color:#1b1b1b;margin-top:6px;flex-wrap:wrap}
+.ig-chart .legend span.sw{display:inline-block;width:14px;height:3px;vertical-align:middle;margin-right:5px;border-radius:1px}
+.ig-next{text-align:center;color:#168092;letter-spacing:2px;font-size:20px;font-weight:600;padding:30px 0 14px;border-top:1px solid #168092;margin-top:42px;font-family:'Source Sans Pro',Arial,sans-serif}
+
+/* 3-up callouts (teal/red/teal) like real Investor.gov */
+.ig-callouts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;max-width:1100px;margin:14px auto 30px;padding:0 32px}
+.ig-callout{padding:22px}
+.ig-callout.teal{background:#168092;color:#fff}
+.ig-callout.red{background:#cd2026;color:#fff}
+.ig-callout h3{margin:0 0 8px;font-size:18px;font-weight:600;display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.ig-callout p{margin:0;font-size:13px;line-height:1.45;opacity:.95}
+.ig-callout .icon{width:22px;height:22px;border:2px solid currentColor;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+
+/* Footer */
+.ig-foot{background:#112e51;color:#fff;padding:24px 32px;font-size:13px;text-align:center;margin-top:30px}
+.ig-foot a{color:#7ed6e0;text-decoration:none;margin:0 10px}
+</style>
+<style>
+/* === W16 polish: brand + hero === */
+.brand-svg { display:inline-block; vertical-align:middle; }
+.w16-brand-row { display:inline-flex; align-items:center; gap:10px; }
+.w16-hero { position:relative; max-width:1100px; margin:18px auto 6px; padding:0 32px; }
+.w16-hero-img { width:100%; height:160px; object-fit:cover; display:block; border-radius:8px;
+  box-shadow:0 4px 14px rgba(0,0,0,.12); filter:saturate(1.05) contrast(1.02); }
+.w16-hero-overlay { position:absolute; left:48px; right:48px; bottom:18px; color:#fff;
+  text-shadow:0 1px 6px rgba(0,0,0,.55); font-family:'Source Sans Pro','Inter',Arial,sans-serif; }
+.w16-hero-eyebrow { font-size:11px; letter-spacing:2px; font-weight:700; opacity:.92; }
+.w16-hero-title { font-size:22px; font-weight:700; line-height:1.2; max-width:62%; margin:4px 0 6px; }
+.w16-hero-sub { font-size:13px; opacity:.92; }
+@media (max-width:780px){
+  .w16-hero-overlay{ left:24px; right:24px; }
+  .w16-hero-title{ max-width:none; font-size:18px; }
+  .w16-hero-img{ height:120px; }
+}
+</style></head><body class="has-task-banner"><div id="task-banner"></div><div id="live-status" class="live-status neutral">💾 saved</div>
+
+<!-- Gov top banner -->
+<div class="usa-banner"><span class="flag" aria-hidden="true"></span><span>An official website of the United States government</span><a href="#">Here's how you know <span aria-hidden="true">›</span></a></div>
+
+<!-- Header w/ seal + Investor.gov + search -->
+<header class="ig-header">
+  <div class="w16-brand-row"><svg class="brand-svg" viewBox="0 0 64 64" width="48" height="48" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="14" fill="#1d4099"/><text x="32" y="45" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="800" fill="#fff">E</text></svg><div class="seal" aria-hidden="true">E</div></div>
+  <div>
+    <div class="ig-logo">EchoInvest</div>
+    <div class="ig-sub">EchoInvest</div>
+  </div>
+  <div class="ig-top-right">
+    <div class="ig-quicklinks"><a>About Us</a>|<a>Contact Us</a>|<a>Follow Us</a>|<a>Glossary</a>|<a>Información en Español</a></div>
+    <form class="ig-search" onsubmit="event.preventDefault()"><input type="search" placeholder="Search EchoInvest" aria-label="Search"><button type="submit">Search</button></form>
+  </div>
+</header>
+
+<!-- Navy nav -->
+<nav class="ig-nav">
+  <a>Introduction to Investing</a>
+  <a>Financial Tools &amp; Calculators</a>
+  <a>Protect Your Investments</a>
+  <a>Additional Resources</a>
+</nav>
+<div class="ig-crumb"><a>HOME</a> <span class="crumb-sep">›</span> <a>FINANCIAL TOOLS &amp; CALCULATORS</a> <span class="crumb-sep">›</span> <a>CALCULATORS</a> <span class="crumb-sep">›</span> <a>COMPOUND INTEREST CALCULATOR</a></div>
+<main class="ig-main">
+  <aside class="ig-sidebar">
+    <a class="active">Compound Interest Calculator</a>
+    <a>Calculadora de distribución mínima requerida</a>
+    <a>Calculadora de interés compuesto</a>
+    <a>Savings Goal Calculator</a>
+    <a>Calculadora de objetivo de ahorro</a>
+    <a>Required Minimum Distribution Calculator</a>
+    <a>College Savings Calculator</a>
+  </aside>
+  <section class="ig-content">
+    <h1>Compound Interest Calculator</h1>
+    <p class="lede">Determine how much your money can grow using the power of compound interest.</p>
+    <div class="req">* DENOTES A REQUIRED FIELD</div>
+
+    <form onsubmit="event.preventDefault();applyFilters();">
+      <!-- Step 1: Initial Investment -->
+      <div class="step">
+        <div class="step-head">Step 1: Initial Investment</div>
+        <div class="step-body">
+          <div class="field-text">
+            <label class="q">Initial Investment <span class="star">*</span></label>
+            <div class="hint">Amount of money that you have available to invest initially.</div>
+          </div>
+          <div class="field-input">
+            <input type="number" data-facet="principal" value="10000" min="0" step="100" oninput="applyFilters()">
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Contribute (years lives here in the real site) -->
+      <div class="step">
+        <div class="step-head">Step 2: Contribute</div>
+        <div class="step-body">
+          <div class="field-text">
+            <label class="q">Length of Time in Years <span class="star">*</span></label>
+            <div class="hint">Length of time, in years, that you plan to save.</div>
+          </div>
+          <div class="field-input">
+            <input type="number" data-facet="years" value="10" min="0" max="100" step="1" oninput="applyFilters()">
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Interest Rate -->
+      <div class="step">
+        <div class="step-head">Step 3: Interest Rate</div>
+        <div class="step-body">
+          <div class="field-text">
+            <label class="q">Estimated Interest Rate <span class="star">*</span></label>
+            <div class="hint">Your estimated annual interest rate.</div>
+          </div>
+          <div class="field-input">
+            <input type="number" data-facet="rate" value="5" min="0" max="100" step="0.1" oninput="applyFilters()">
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Compound It (THE WIDGET) -->
+      <div class="step compound">
+        <div class="step-head">Step 4: Compound It</div>
+        <div class="step-body">
+          <div class="field-text">
+            <label class="q">Compound Frequency</label>
+            <div class="hint">Times per year that interest will be compounded.</div>
+          </div>
+          <div class="field-input">
+            <select data-facet="frequency" onchange="applyFilters()" aria-label="Compound Frequency">
+              <option>Annually</option>
+              <option>Semi-Annually</option>
+              <option>Quarterly</option>
+              <option>Monthly</option>
+              <option>Bi-Weekly</option>
+              <option>Daily</option>
+              <option>Continuously</option>
+            </select>
+          </div>
+        </div>
+        <div class="ig-cta">
+          <button type="button" class="btn-calc" onclick="applyFilters()">CALCULATE</button>
+          <button type="reset" class="btn-reset" onclick="setTimeout(applyFilters,0)">START OVER</button>
+        </div>
+      </div>
+    </form>
+
+    <section class="ig-result">
+      <div class="label">After your specified time period, you will have:</div>
+      <div class="val" id="calc-big-value">$0.00</div>
+      <div class="sub" id="calc-sub">—</div>
+      <div class="ig-chart">
+        <div class="chart-title">Account growth over time</div>
+        <svg viewBox="0 0 400 140" preserveAspectRatio="none" aria-label="Growth chart">
+          <defs>
+            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#168092" stop-opacity=".35"/>
+              <stop offset="100%" stop-color="#168092" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path id="calc-chart-area" d="" fill="url(#areaGrad)" stroke="none"/>
+          <path id="calc-chart-path" d="" fill="none" stroke="#168092" stroke-width="2.5"/>
+        </svg>
+        <div class="legend">
+          <span><span class="sw" style="background:#168092"></span>Future value (teal line)</span>
+          <span><span class="sw" style="background:#cd2026"></span>Principal contributions (red)</span>
+        </div>
+      </div>
+      <table>
+        <tr><td>Interest earned</td><td id="calc-interest">$0.00</td></tr>
+        <tr><td>Effective annual yield</td><td id="calc-eay">0.00%</td></tr>
+        <tr><td>Compounding frequency</td><td id="calc-freq-echo">Annually</td></tr>
+      </table>
+    </section>
+  </section>
+</main>
+
+<div class="ig-next">— NEXT STEPS —</div>
+<section class="ig-callouts">
+  <div class="ig-callout teal"><h3>Take our quiz on compound interest <span class="icon">?</span></h3><p>Test your knowledge of compound interest, the Rule of 72, and related investing concepts in our most popular investing quiz!</p></div>
+  <div class="ig-callout red"><h3>Check out the background of investment professionals <span class="icon">🔍</span></h3><p>It's a great first step toward protecting your money and it only takes a few seconds.</p></div>
+  <div class="ig-callout teal"><h3>More tools to help you save <span class="icon">🛠</span></h3><p>HoweyTrade Investment Program · Required Minimum Distribution Calculator · Fund Analyzer · Savings Goal Calculator</p></div>
+</section>
+
+<footer class="ig-foot">
+  <div>EchoInvest · EchoInvest's website for individual investors</div>
+  <div style="margin-top:8px"><a>FOIA</a><a>EchoInvest.gov</a><a>Privacy &amp; Security</a><a>Site Map</a><a>Inspector General</a></div>
+</footer>
+
+<script>
+const ENV_ID = 'W16_E01';
+const FREQ_ORDER = ['Annually','Semi-Annually','Quarterly','Monthly','Bi-Weekly','Daily','Continuously'];
+const FREQ_N = {'Annually':1,'Semi-Annually':2,'Quarterly':4,'Monthly':12,'Bi-Weekly':26,'Daily':365,'Continuously':0};
+let filterState = {};
+
+function _readFacet(el){
+  const f = el.dataset.facet; if(!f) return;
+  if(el.type === 'checkbox'){ if(el.checked){ (filterState[f]=filterState[f]||[]).push(el.value||true); } }
+  else if(el.type === 'radio'){ if(el.checked) filterState[f] = el.value; }
+  else if(el.tagName === 'SELECT'){ if(el.value) filterState[f] = el.value; }
+  else { if(el.value !== '' && el.value !== null) filterState[f] = el.value; }
+}
+
+function applyFilters(){
+  filterState = {};
+  document.querySelectorAll('[data-facet]').forEach(_readFacet);
+  document.querySelectorAll('.chip.active, .pill.active, .radio-chip.active, .freq-chip.active, .step-chip.active').forEach(b => {
+    const f = b.dataset.facet; if(!f) return;
+    filterState[f] = b.dataset.val || b.textContent.trim();
+  });
+  const tid = new URLSearchParams(window.location.search).get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).catch(()=>{});
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : '';
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: tid})
+  }).then(r => r.json()).then(updateLiveStatus).catch(()=>{});
+  try { renderResult(); } catch(e) {}
+}
+window.onF = applyFilters;
+
+function escHtml(s){ return (s||'').toString().replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function loadTaskBanner(){
+  const tid = new URLSearchParams(window.location.search).get('task_id');
+  fetch('/env/' + ENV_ID + '/api/task/' + encodeURIComponent(tid))
+    .then(r => r.ok ? r.json() : null)
+    .then(task => {
+      if(!task) return;
+      const banner = document.getElementById('task-banner'); if(!banner) return;
+      banner.style.display = 'block';
+      const showAns = task.task_type !== 'write';
+      banner.innerHTML =
+        '<div class="tb-head">' +
+          '<span class="tb-id">' + escHtml(task.id) + '</span>' +
+          '<span class="tb-type tb-type-' + escHtml(task.task_type) + '">' + escHtml(task.task_type.toUpperCase()) + '</span>' +
+          '<span class="tb-diff">' + escHtml(task.task_difficulty) + '</span>' +
+        '</div>' +
+        '<div class="tb-summary">' + escHtml(task.task_summary) + '</div>' +
+        (showAns ? '<div class="tb-answer-row"><label class="tb-answer-label">Your answer:</label>' +
+          '<input type="text" id="task-answer-input" class="tb-answer-input" placeholder="e.g. $44,677.44 or \'monthly wins by $1,458\'" oninput="applyFilters()"></div>' : '') +
+        (task.reference_state_change ? '<div class="tb-meta">Expected state: <code>' + escHtml(task.reference_state_change) + '</code></div>' : '') +
+        (task.reference_answer ? '<div class="tb-meta">Expected answer (hint): <code>' + escHtml(task.reference_answer.substring(0,160)) + '</code></div>' : '');
+    }).catch(()=>{});
+}
+
+function updateLiveStatus(d){
+  const bar = document.getElementById('live-status'); if(!bar) return;
+  let msg = '💾 saved · 0 results', cls = 'neutral';
+  if(d && d.task_id){
+    if(d.satisfies){ msg = '✅ Satisfies task ' + d.task_id; cls = 'good'; }
+    else { msg = '⏳ Not yet matching ' + d.task_id + ' — ' + (d.message||''); cls = 'pending'; }
+  }
+  bar.className = 'live-status ' + cls;
+  bar.textContent = msg;
+}
+
+function readFrequency(){
+  const sel = document.querySelector('select[data-facet="frequency"]'); if(sel && sel.value) return sel.value;
+  const rad = document.querySelector('input[type="radio"][data-facet="frequency"]:checked'); if(rad) return rad.value;
+  const chip = document.querySelector('.chip.active[data-facet="frequency"], .pill.active[data-facet="frequency"], .radio-chip.active[data-facet="frequency"], .freq-chip.active[data-facet="frequency"], .step-chip.active[data-facet="frequency"]');
+  if(chip) return chip.dataset.val || chip.textContent.trim();
+  const txt = document.querySelector('input[type="text"][data-facet="frequency"]'); if(txt && txt.value) return txt.value;
+  const hid = document.getElementById('freq-hidden'); if(hid && hid.value) return hid.value;
+  return 'Annually';
+}
+function readNum(facet){
+  const el = document.querySelector('[data-facet="' + facet + '"]');
+  if(!el) return 0; const v = parseFloat(el.value); return isFinite(v) ? v : 0;
+}
+function computeFV(){
+  const principal = readNum('principal'), ratePct = readNum('rate'), years = readNum('years');
+  const freq = readFrequency(); const r = ratePct/100, n = FREQ_N[freq] !== undefined ? FREQ_N[freq] : 1;
+  const fv = (n === 0) ? principal*Math.exp(r*years) : principal*Math.pow(1 + r/n, n*years);
+  return { principal, ratePct, years, freq, n, fv, interest: fv - principal };
+}
+function fmtMoney(v){ if(!isFinite(v)) v=0; return '$' + v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtMoneyInt(v){ if(!isFinite(v)) v=0; return '$' + Math.round(v).toLocaleString('en-US'); }
+
+function renderResult(){
+  const c = computeFV();
+  const v = document.getElementById('calc-big-value'); if(v) v.textContent = fmtMoney(c.fv);
+  const s = document.getElementById('calc-sub'); if(s) s.textContent = 'After ' + c.years + ' year' + (c.years===1?'':'s') + ' of ' + c.freq.toLowerCase() + ' compounding at ' + c.ratePct.toFixed(2) + '% APY';
+  const i = document.getElementById('calc-interest'); if(i) i.textContent = fmtMoney(c.interest);
+  const eayN = (c.principal>0 && c.years>0) ? (Math.pow(c.fv/c.principal, 1/c.years)-1)*100 : 0;
+  const eay = document.getElementById('calc-eay'); if(eay) eay.textContent = eayN.toFixed(2) + '%';
+  const fc = document.getElementById('calc-freq-echo'); if(fc) fc.textContent = c.freq;
+  const path = document.getElementById('calc-chart-path');
+  if(path && c.years>0){
+    const W=400, H=140, pts=40;
+    const ys=[]; for(let i=0;i<=pts;i++){ const y = i/pts*c.years;
+      const v = (c.n===0)? c.principal*Math.exp(c.ratePct/100*y) : c.principal*Math.pow(1 + c.ratePct/100/c.n, c.n*y);
+      ys.push(v); }
+    const minv=Math.min(...ys), maxv=Math.max(...ys), span=Math.max(maxv-minv,1);
+    let d = '';
+    ys.forEach((v,i)=>{ const x = (i/pts)*W; const y = H - ((v-minv)/span)*H; d += (i?'L':'M') + x.toFixed(1) + ',' + y.toFixed(1); });
+    path.setAttribute('d', d);
+    const area = document.getElementById('calc-chart-area');
+    if(area) area.setAttribute('d', d + 'L' + W + ',' + H + 'L0,' + H + 'Z');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadTaskBanner();
+  document.querySelectorAll('.chip-group').forEach(group => {
+    group.addEventListener('click', e => {
+      const b = e.target.closest('.chip, .pill, .radio-chip, .freq-chip, .step-chip');
+      if(!b || !group.contains(b)) return;
+      group.querySelectorAll('.chip, .pill, .radio-chip, .freq-chip, .step-chip').forEach(x => x.classList.remove('active'));
+      b.classList.add('active'); applyFilters();
+    });
+  });
+  applyFilters();
+});
+</script></body></html>

@@ -1,0 +1,43 @@
+{
+  "env_id": "W22_E10",
+  "widget_id": "W22_min_max_slider_plus_plus_chip",
+  "widget_name": "Min/max price slider + \u2265N bedrooms plus-chip composition",
+  "widget_category": "combo_realestate_facets",
+  "widget_mechanic": "Compose: max-price slider AND \u2265N-bedroom plus-chip \u2014 both applied simultaneously.",
+  "archetype": "realestate_listings",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W04_min_max_slider",
+    "W05_plus_chips_at_least"
+  ],
+  "site_imitates": "Realtor.com Tampa",
+  "product_type": "Tampa homes",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_houston__tx_15257",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "Can you help me find a move-in ready mobile home to buy in Houston, TX? I'm looking for something under $500k with 3 bedrooms and 2+ bathrooms. You can check listings for me online.",
+      "first_failure_summary": "[3.5] Incomplete task execution: Typing produced no visible effect (no focused input/caret and no text appears); the page state looks unchanged after the action."
+    }
+  ],
+  "theme_key": "realtor",
+  "theme_logo": "Realtor Pro",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 4,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "primary_inspiration": {
+    "task_id": "realestate_complex_buy_house_houston__tx_15257",
+    "benchmark": "WTB",
+    "site": "buy",
+    "instruction": "Can you help me find a move-in ready mobile home to buy in Houston, TX? I'm looking for something under $500k with 3 bedrooms and 2+ bathrooms. You can check listings for me online.",
+    "first_failure_summary": "[3.5] Incomplete task execution: Typing produced no visible effect (no focused input/caret and no text appears); the page state looks unchanged after the action.",
+    "fara_actions": 25,
+    "gpt54_actions": 37
+  }
+}

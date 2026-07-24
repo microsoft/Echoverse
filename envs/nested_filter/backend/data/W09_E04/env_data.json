@@ -1,0 +1,43 @@
+{
+  "env_id": "W09_E04",
+  "widget_id": "W09_calendar_multi_month_advance",
+  "widget_name": "Calendar \u2014 multi-month forward navigation",
+  "widget_category": "calendar",
+  "widget_mechanic": "Calendar opens on current month; agent must click the next-month arrow N times to reach target month, then click the target date cell. The default 'do nothing' leaves the calendar at the current month, producing dates near today (wrong).",
+  "archetype": "booking_form",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W09_calendar_multi_month_advance"
+  ],
+  "site_imitates": "KLM",
+  "product_type": "flights",
+  "primary_inspiration": {
+    "task_id": "flights_klm_9",
+    "benchmark": "WTB",
+    "site": "klm",
+    "instruction": "Book a flight with KLM from Lagos, Nigeria to Frankfurt, Germany flying out 07/17/2026 and coming back 07/25/2026. If there are no available flights for those dates, please indicate that in your answer.",
+    "first_failure_summary": "[1.4] Calendar \u2014 agent did not advance the single-month picker forward from the default month and never landed on July 17, 2026."
+  },
+  "source_inspiration": [
+    {
+      "task_id": "flights_klm_9",
+      "benchmark": "WTB",
+      "site": "klm",
+      "instruction": "Book a flight with KLM from Lagos, Nigeria to Frankfurt, Germany flying out 07/17/2026 and coming back 07/25/2026. If there are no available flights for those dates, please indicate that in your answer.",
+      "first_failure_summary": "[1.4] Calendar \u2014 agent did not advance the single-month picker forward from the default month and never landed on July 17, 2026."
+    }
+  ],
+  "theme_key": "flights",
+  "theme_logo": "KLM",
+  "theme_card": "flight-card",
+  "theme_layout": "left_sidebar",
+  "variant_idx": 0,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "date_pick",
+    "fields": [
+      "date"
+    ]
+  },
+  "calendar_ui_pattern": "Classic single-month grid (\u2039 \u203a)"
+}

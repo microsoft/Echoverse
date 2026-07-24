@@ -1,0 +1,38 @@
+{
+  "env_id": "W08_E01",
+  "widget_id": "W08_filter_chip_confirmation",
+  "widget_name": "Filter-chip confirmation bar",
+  "widget_category": "active_filter_bar",
+  "widget_mechanic": "After applying \u22652 filters, an active-chip bar shows what is currently applied. Agent must verify each required chip is present (and no extras) before treating the result set as the answer.",
+  "archetype": "faceted_catalog",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W08_filter_chip_confirmation"
+  ],
+  "site_imitates": "SourceForge software directory",
+  "product_type": "open-source agentic-AI tools",
+  "source_inspiration": [
+    {
+      "task_id": "fe33894188d20d7469f37a9fd855e7ff_110325",
+      "benchmark": "OM2W",
+      "site": "sourceforge.net",
+      "instruction": "Show me the most popular open-source software on SourceForge that runs on Linux and macOS, belongs to the category of \u201cAgentic AI\u201d, is licensed under MIT, and has a production/stable development status.",
+      "first_failure_summary": "[6.4] Fine-grained grounding error: The click landed on the non-interactive blue header area rather than on a specific actionable element (e.g., the filter chip/x or \u201cClear Filters\u201d), and no UI change resulted."
+    }
+  ],
+  "theme_key": "sourceforge",
+  "theme_logo": "OpenForge",
+  "theme_card": "game-row",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 0,
+  "n_seed_items": 18,
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "brand",
+      "category",
+      "color",
+      "condition"
+    ]
+  }
+}

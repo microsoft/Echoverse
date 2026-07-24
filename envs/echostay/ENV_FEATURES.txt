@@ -1,0 +1,53 @@
+EchoStay synthetic env — UI feature map (for the browser solver).
+
+Single-page React app served at the base URL. Default user is logged in (no login needed).
+
+TOP NAV (Header):
+- Center search bar: "Where" (location text), "When" (Check in / Check out date pickers),
+  "Who" (guests stepper: adults/children/infants/pets). Submitting navigates to /search.
+- Globe icon = currency selector (choose USD, EUR, GBP, CAD, …; persists preferred currency).
+- Bell icon (header) = Notifications dropdown panel — click it to see/triage notifications and
+  "Mark all as read". There is NO separate /notifications page; use the header bell.
+- Profile menu → Trips, Wishlists, Messages, Account settings, Host dashboard (route /hosting), Help Center.
+
+SEARCH / RESULTS (/search):
+- Listing cards (image, title, "Entire home/apt"/"Private room"/"Hotel room"/"Shared room", price/night, rating).
+- "Filters" button opens FilterModal: room type tabs (Any type / Room / Entire home),
+  price min/max, bedrooms/beds/bathrooms steppers, property type, amenities, instant book, superhost.
+- Sort control: price low→high / high→low, rating, newest.
+- Clicking a card opens the listing detail.
+
+LISTING DETAIL (/listing/:id):
+- Photos, amenities ("Show all amenities" modal), reviews, host info, map.
+- "Save to Wishlist" (heart) opens a modal: pick an existing wishlist OR type a new name + Create;
+  the listing is added to THAT wishlist.
+- Reservation widget (right): Check-in / Checkout date inputs, a guest-count dropdown
+  (data-testid `guest-count-select` — pick the exact number of guests directly; +/- stepper buttons
+  `increase-guests-button`/`decrease-guests-button` also available), and "Reserve" (data-testid
+  `reserve-button`) → creates a booking. ALWAYS set the guest count to the number the task asks for.
+- "Contact Host" button → opens a message modal; type the message and Send (creates a
+  message thread with the host). To message a specific host, open that host's listing and
+  use Contact Host.
+
+TRIPS (/trips): tabs Upcoming / Completed / Cancelled. Each booking shows dates, listing,
+  status, confirmation code. Actions: Cancel, Pay (confirmed), Modify dates, Write a review
+  (completed), Share trip.
+
+WISHLISTS (/wishlists): list of wishlists; open one to see saved listings; rename; remove listings.
+
+SETTINGS (/settings): Preferred currency, Preferred language, Theme (light/dark), notification
+  toggles (email/push), phone, bio. Changes auto-save.
+
+HOST DASHBOARD (/hosting): your listings, incoming bookings (approve/decline), per-listing settings
+  (price, cancellation policy, min nights, instant book), and an Availability calendar to
+  block/unblock dates with a Block reason (presets or a custom free-text reason).
+
+HELP CENTER (/help): help articles + support tickets. Create a ticket (subject, category,
+  description). Existing tickets list shows the ticket ID (#N), subject, category, status.
+
+MESSAGES (/messages): threads with hosts; open a thread and send a message.
+
+Notes for solving:
+- Dates are entered as YYYY-MM-DD in native date pickers; the app's "today" is April 2026,
+  so upcoming trips and bookable dates are in/after April 2026.
+- Prices are in USD by default.

@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Find a pet · EchoPets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500;1,600;1,700&family=DM+Serif+Display&display=swap">
+<style>
+/* hide model-facing debug overlays — copied across all W19 envs */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta,
+.live-status, .live-status.ok, .db-fab,
+.answer-area, .answer-card, .answer-section, .answer-input, .answer-bar,
+.answer-row, .task-row, .task-rail, .task-list, .state-row, .state-label,
+.status-pill, .status-bar, .task-pill, .autosave-pill, .fix-mode-pill,
+.verifier-pill, .debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner, .fara-source-card,
+.fara-source-pill, .fara-banner, .fara-source, .w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad,
+.tb-status, .tb-pill, .tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write, .tb-banner,
+.auto-recompute-pill, .wut-badge, .wut-badge-test, .utst-note,
+.f-section.widget-utst,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area, .submit-answer,
+#state-row, #status-pill, #status-bar, #w20-auto-pill,
+#tb-status, #tb-good, #tb-bad, .results-meta #combo-pill, .results-meta .combo-pill,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+[data-debug="1"] { display: none !important; }
+.combo-pill:empty, .combo-pill.empty:empty { display:none !important; }
+
+:root {
+  --brand-teal:#9ad6cd; --brand-teal-deep:#7ec5bb; --brand-aqua:#c4ebe6; --brand-aqua-soft:#daf1ed;
+  --brand-ink:#0e1116; --brand-ink-soft:#2a2f37; --brand-mute:#5b6470;
+  --brand-orange:#e26a3f; --brand-navy:#243b73;
+  --bg-page:#ffffff; --line:#e3e7ec;
+  --headline:"DM Serif Display", "Playfair Display", Georgia, serif;
+  --script:"Playfair Display", Georgia, serif;
+  --body:"Inter", system-ui, -apple-system, sans-serif;
+  --card-radius:16px;
+}
+* { box-sizing:border-box; } html,body { margin:0; padding:0; }
+body { font-family:var(--body); background:var(--bg-page); color:var(--brand-ink); font-size:14px; line-height:1.5; }
+img { max-width:100%; display:block; } button { font:inherit; cursor:pointer; }
+
+/* ---- Pet cards (rounded, mint accent ribbon like Adopt a Pet featured cards) ---- */
+.petc { background:#fff; border:1px solid var(--line); border-radius:var(--card-radius); overflow:hidden;
+  display:flex; flex-direction:column; transition:transform .14s, box-shadow .14s; }
+.petc:hover { transform:translateY(-3px); box-shadow:0 14px 28px rgba(14,17,22,0.10); }
+.petc-img { aspect-ratio: 4/3; background:var(--brand-aqua-soft); overflow:hidden; position:relative; border-radius:var(--card-radius) var(--card-radius) 0 0; }
+.petc-img img { width:100%; height:100%; object-fit:cover; }
+.petc-fallback { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:54px; background:var(--brand-aqua-soft); }
+.petc-flag { position:absolute; top:10px; left:10px; background:var(--brand-orange); color:#fff; font-size:10px; padding:3px 9px; border-radius:12px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; }
+.petc-body { padding:12px 14px 14px; display:flex; flex-direction:column; gap:5px; }
+.petc-name { display:flex; align-items:center; justify-content:space-between; font-family:var(--headline); font-size:20px; line-height:1.1; color:var(--brand-ink); }
+.petc-name b { font-weight:400; }
+.petc-id { font-size:10px; color:#9aa3af; font-family:var(--body); font-weight:600; }
+.petc-line { font-size:12.5px; color:var(--brand-ink-soft); }
+.petc-line.subtle { color:var(--brand-mute); }
+.petc-tags { display:flex; gap:5px; flex-wrap:wrap; margin:3px 0 1px; }
+.tg { padding:2px 9px; border-radius:12px; font-size:10.5px; font-weight:700; background:#f0f2f5; color:#333; letter-spacing:.2px; }
+.tg-male    { background:#dbeafe; color:#1e3a8a; }
+.tg-female  { background:#fde2ef; color:#831847; }
+.tg-spayed  { background:#d6f0e3; color:#155b3a; }
+.tg-neutered{ background:#e2d8fb; color:#3b186d; }
+.tg-intact  { background:#fef3c7; color:#713f12; }
+.tg-trait   { background:#eef2f7; color:#3a4a63; }
+.petc-foot { font-size:11.5px; color:var(--brand-mute); margin-top:3px; display:flex; align-items:center; gap:6px; }
+.petc-foot .heart { margin-left:auto; color:#bcc4cf; font-size:15px; }
+.w19-empty { padding:34px; text-align:center; color:#777; background:#fff; border:1px dashed #d4d4d4; border-radius:14px; }
+.combo-pill { display:inline-block; padding:6px 14px; border-radius:16px; font-size:11.5px; font-weight:700; margin-left:6px; }
+.combo-pill.empty   { background:#fef2f2; color:#9b1c1c; border:1px solid #fecaca; }
+.combo-pill.partial { background:#fffbe7; color:#7a4a00; border:1px solid #fbe28a; }
+.combo-pill.done    { background:#d6f0e3; color:#155b3a; border:1px solid #a7e1c1; }
+
+/* ---- Top promo bar (DNA test promo, like real adoptapet.com) ---- */
+.ap-promo { background:#ffffff; border-bottom:1px solid #ececec; padding:9px 28px; display:flex; align-items:center; gap:18px; }
+.ap-promo-logo { width:34px; height:34px; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+.ap-promo-logo svg { width:32px; height:32px; }
+.ap-promo-text { flex:1; }
+.ap-promo-text .l1 { font-family:var(--headline); font-size:20px; line-height:1.15; color:var(--brand-ink); }
+.ap-promo-text .l2 { font-size:11.5px; color:var(--brand-ink-soft); margin-top:1px; }
+.ap-promo-shop { color:var(--brand-ink); font-weight:700; font-size:13px; text-decoration:underline; text-underline-offset:3px; }
+.ap-promo-cards { display:flex; gap:6px; }
+.ap-promo-card { width:74px; height:46px; border-radius:6px; background:#fef0d5; border:2px solid #e8a754; padding:4px 5px; font-size:7.5px; color:#5a3a16; font-weight:700; line-height:1.1; overflow:hidden; }
+.ap-promo-card.cat { background:#f0e9da; }
+.ap-promo-card .ico { font-size:14px; line-height:1; }
+.ap-promo-close { color:#666; font-size:18px; padding:0 4px; font-weight:300; }
+
+/* ---- Main brand header (teal/mint band with cursive logo) ---- */
+.ap-header { background:var(--brand-teal); padding:16px 28px; display:flex; align-items:center; gap:34px; }
+.ap-logo { font-family:var(--script); font-style:italic; font-weight:700; font-size:32px; color:var(--brand-ink); letter-spacing:-0.5px; line-height:1; white-space:nowrap; }
+.ap-nav { display:flex; gap:26px; font-size:14px; font-weight:700; color:var(--brand-ink); }
+.ap-nav a { color:var(--brand-ink); text-decoration:none; padding:6px 0; cursor:pointer; }
+.ap-nav a:hover { color:var(--brand-navy); }
+.ap-actions { margin-left:auto; display:flex; gap:10px; align-items:center; }
+.ap-btn-login { background:#fff; color:var(--brand-ink); border:1.5px solid var(--brand-ink); padding:9px 26px; border-radius:24px; font-weight:700; font-size:13.5px; }
+.ap-btn-signup { background:var(--brand-ink); color:#fff; border:1.5px solid var(--brand-ink); padding:9px 26px; border-radius:24px; font-weight:700; font-size:13.5px; }
+
+/* ---- Hero (aqua background, big serif title, search card) ---- */
+.ap-hero { background:var(--brand-aqua); padding:38px 28px 36px; display:grid; grid-template-columns: minmax(360px,1fr) 1fr; gap:32px; align-items:center; }
+.ap-hero-left h1 { font-family:var(--headline); font-weight:400; font-size:56px; line-height:1.02; margin:0 0 14px; color:var(--brand-ink); letter-spacing:-1px; }
+.ap-hero-left p { font-size:14.5px; color:var(--brand-ink-soft); margin:0 0 18px; max-width:380px; }
+.ap-search-card { background:transparent; max-width:380px; }
+.ap-search-field { position:relative; background:#fff; border-radius:32px; padding:8px 18px 8px 22px; margin-bottom:10px; box-shadow:0 1px 3px rgba(0,0,0,0.04); border:1px solid #e3e7ec; }
+.ap-search-field label { display:block; font-size:10px; color:var(--brand-mute); font-weight:600; }
+.ap-search-field .val { font-size:15px; color:var(--brand-ink); font-weight:600; }
+.ap-search-field.dropdown::after { content:"⌄"; position:absolute; right:22px; top:50%; transform:translateY(-60%); color:#6b7280; font-size:18px; }
+.ap-search-btn-row { display:flex; gap:10px; align-items:center; margin-top:6px; }
+.ap-search-go { background:var(--brand-ink); color:#fff; border:none; padding:14px 30px; border-radius:32px; font-weight:700; font-size:14px; display:flex; align-items:center; gap:8px; flex:1; justify-content:center; }
+.ap-search-go::before { content:"🔍"; font-size:13px; }
+.ap-mini-loader { width:50px; height:50px; border-radius:50%; border:2px solid var(--brand-teal); border-top-color:transparent; }
+.ap-smart { font-size:12px; color:var(--brand-ink); margin-top:14px; }
+.ap-smart a { color:var(--brand-ink); font-weight:700; text-decoration:underline; text-underline-offset:2px; margin:0 4px; }
+.ap-smart .beta { display:inline-block; border:1px solid var(--brand-ink); border-radius:10px; font-size:9px; padding:1px 6px; font-weight:800; letter-spacing:1px; margin-left:3px; vertical-align:middle; }
+
+.ap-hero-right { position:relative; height:360px; display:flex; align-items:center; justify-content:center; gap:10px; }
+.ap-hero-card { border-radius:18px; overflow:hidden; box-shadow:0 18px 36px rgba(8,40,55,0.18); position:relative; }
+.ap-hero-card.featured { width:280px; height:340px; background:var(--brand-teal); padding:14px; z-index:2; }
+.ap-hero-card.side { width:160px; height:240px; padding:10px; position:absolute; top:50%; transform:translateY(-50%); }
+.ap-hero-card.side.left { background:#6da7e3; left:0; }
+.ap-hero-card.side.right { background:#f4c84b; right:0; }
+.ap-hero-card .ph { width:100%; height:62%; border-radius:12px; background:#cbd6dd center/cover no-repeat; }
+.ap-hero-card.featured .ph { background-image:url('https://images.pexels.com/photos/406014/pexels-photo-406014.jpeg?auto=compress&cs=tinysrgb&h=320'); }
+.ap-hero-card.side.left .ph { background-image:url('https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg?auto=compress&cs=tinysrgb&h=200'); }
+.ap-hero-card.side.right .ph { background-image:url('https://images.pexels.com/photos/733416/pexels-photo-733416.jpeg?auto=compress&cs=tinysrgb&h=200'); }
+.ap-hero-card .meta { color:var(--brand-ink); margin-top:8px; }
+.ap-hero-card .meta .nm { font-family:var(--headline); font-size:22px; line-height:1.05; text-transform:uppercase; letter-spacing:0.5px; }
+.ap-hero-card .meta .br { font-size:13px; font-weight:700; }
+.ap-hero-card .meta .lc { font-size:12px; margin-top:6px; }
+.ap-hero-card.side .meta .nm { font-size:16px; text-transform:none; }
+.ap-hero-card .heart { position:absolute; right:14px; bottom:12px; color:var(--brand-ink); font-size:18px; }
+
+/* ---- Filter strip (refine your search results) ---- */
+.ap-filter-strip { background:#fff; border-bottom:1px solid var(--line); padding:22px 28px 18px; }
+.ap-filter-head { display:flex; align-items:baseline; gap:14px; margin-bottom:14px; }
+.ap-filter-head h2 { font-family:var(--headline); font-weight:400; font-size:26px; margin:0; color:var(--brand-ink); }
+.ap-filter-head .sub { font-size:12.5px; color:var(--brand-mute); }
+.filter-group { display:inline-block; margin-right:34px; vertical-align:top; margin-bottom:8px; }
+.group-label { font-size:11px; font-weight:800; color:var(--brand-ink); letter-spacing:1.2px; text-transform:uppercase; margin-bottom:8px; }
+.group-current { color:var(--brand-orange); font-weight:800; margin-left:6px; font-size:11px; text-transform:none; letter-spacing:.3px; }
+.chip-row { display:flex; flex-wrap:wrap; gap:7px; }
+.chip-btn { padding:9px 16px; border:1.5px solid #d6dde6; border-radius:24px; background:#fff; font-size:12.5px; font-weight:700; color:var(--brand-ink); transition:.14s; font-family:var(--body); }
+.chip-btn:hover { background:var(--brand-aqua-soft); border-color:var(--brand-teal-deep); }
+.chip-btn.active { background:var(--brand-ink); border-color:var(--brand-ink); color:#fff; }
+
+main { padding:26px 28px 36px; max-width:1280px; }
+.results-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:18px; }
+.results-head h2 { font-family:var(--headline); font-weight:400; font-size:30px; margin:0; color:var(--brand-ink); letter-spacing:-0.3px; }
+.results-head .mf-sort { font-size:13px; color:var(--brand-mute); }
+.results-head .mf-sort b { color:var(--brand-ink); }
+.petc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:20px; }
+
+/* ---- Partners strip ---- */
+.ap-partners { background:#fff; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:18px 28px; display:flex; align-items:center; justify-content:center; gap:34px; }
+.ap-partners .lbl { font-size:13px; color:var(--brand-ink-soft); font-weight:500; }
+.ap-partner { font-weight:800; font-style:italic; letter-spacing:-0.3px; }
+.ap-partner.zoetis { color:#e26a3f; font-size:18px; }
+.ap-partner.pedigree { display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#f1b432; color:#3a1a0a; font-size:9px; font-style:normal; text-align:center; line-height:1; font-weight:900; }
+.ap-partner.petsmart { color:#005bab; font-size:17px; font-style:italic; }
+.ap-partner.petsmart i { color:#e2231a; font-style:italic; }
+
+/* ---- Footer ---- */
+footer.ap-footer { padding:30px 28px 26px; background:#0e1116; color:#bcc4cf; font-size:12.5px; }
+.ap-footer-row { display:flex; gap:36px; flex-wrap:wrap; align-items:flex-start; max-width:1280px; }
+.ap-footer-col h4 { font-family:var(--headline); font-weight:400; font-size:17px; color:#fff; margin:0 0 8px; }
+.ap-footer-col a { display:block; color:#bcc4cf; text-decoration:none; padding:2px 0; font-size:12px; }
+.ap-footer-bottom { margin-top:22px; padding-top:14px; border-top:1px solid #2b303a; font-size:11.5px; color:#8b95a3; max-width:1280px; }
+
+</style></head>
+<body>
+<div class="ap-promo">
+  <div class="ap-promo-logo">
+    <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M6 6 L18 18 M22 22 L34 34" stroke="#243b73" stroke-width="5" stroke-linecap="round"/><path d="M34 6 L22 18 M18 22 L6 34" stroke="#e26a3f" stroke-width="5" stroke-linecap="round"/></svg>
+  </div>
+  <div class="ap-promo-text">
+    <div class="l1"><b style="font-weight:700;">Save 20%</b> on the world's leading pet DNA test</div>
+    <div class="l2">Unlock breed, trait, and health insights with code <b>AAP20</b></div>
+  </div>
+  <a class="ap-promo-shop">Shop Now</a>
+  <span class="ap-promo-close">✕</span>
+  <div class="ap-promo-cards">
+    <div class="ap-promo-card"><div>Echo DNA</div><div class="ico">🐶</div></div>
+    <div class="ap-promo-card cat"><div>Echo DNA</div><div class="ico">🐱</div></div>
+  </div>
+</div>
+
+<header class="ap-header">
+  <div class="ap-logo">EchoPets</div>
+  <nav class="ap-nav">
+    <a class="active">Find a pet</a><a>Find a shelter</a><a>Rehome a pet</a><a>Breed 101</a><a>Pet advice</a><a>Shop</a><a>Help</a>
+  </nav>
+  <div class="ap-actions">
+    <button class="ap-btn-login">Login</button>
+    <button class="ap-btn-signup">Sign Up</button>
+  </div>
+</header>
+<div id="task-banner"></div>
+
+<section class="ap-hero">
+  <div class="ap-hero-left">
+    <h1>Ready to<br>adopt a pet?</h1>
+    <p>Let's get started. Search adoptable pets from shelters, rescues, and individuals near 30303.</p>
+    <div class="ap-search-card">
+      <div class="ap-search-field">
+        <label>Location</label>
+        <div class="val">Atlanta, GA · 30303</div>
+      </div>
+      <div class="ap-search-field dropdown">
+        <label>&nbsp;</label>
+        <div class="val" style="color:#9aa3af; font-weight:500;">Search for</div>
+      </div>
+      <div class="ap-search-btn-row">
+        <div class="ap-mini-loader"></div>
+        <button class="ap-search-go">Search</button>
+      </div>
+      <div class="ap-smart">Feeling adventurous? <a>Try our new AI SmartSearch</a><span class="beta">BETA</span></div>
+    </div>
+  </div>
+  <div class="ap-hero-right">
+    <div class="ap-hero-card side left">
+      <div class="ph"></div>
+      <div class="meta"><div class="nm">Rocky</div><div class="br">Cane Corso</div><div class="lc">Male, 4 Yrs<br>Clayton, NJ</div></div>
+    </div>
+    <div class="ap-hero-card featured">
+      <div class="ph"></div>
+      <div class="meta"><div class="nm">CALM COCOA</div><div class="br">Chihuahua</div><div class="lc">Female, Senior<br>Spring Valley, NY</div></div>
+      <span class="heart">♡</span>
+    </div>
+    <div class="ap-hero-card side right">
+      <div class="ph"></div>
+      <div class="meta"><div class="nm">Lily</div><div class="br" style="font-size:11px;">Jack Russell Terrier</div><div class="lc">2 Yrs 1 Mo<br>Stratford, CT</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="ap-filter-strip">
+  <div class="ap-filter-head">
+    <h2>Refine your search</h2>
+    <span class="sub">Choose Sex and Sterilization to narrow your results.</span>
+  </div>
+
+    <div class="filter-group">
+      <div class="group-label">Sex <span class="group-current" id="sex-current-label">Any</span></div>
+      <div class="chip-row">
+        <button class="chip-btn active" data-sex-opt="Any" onclick="setSex('Any')">Any</button>
+        <button class="chip-btn" data-sex-opt="Male" onclick="setSex('Male')">♂ Male</button>
+        <button class="chip-btn" data-sex-opt="Female" onclick="setSex('Female')">♀ Female</button>
+      </div>
+    </div>
+    <div class="filter-group">
+      <div class="group-label">Sterilization <span class="group-current" id="ster-current-label">Any</span></div>
+      <div class="chip-row">
+        <button class="chip-btn active" data-ster-opt="Any" onclick="setSter('Any')">Any</button>
+        <button class="chip-btn" data-ster-opt="Spayed" onclick="setSter('Spayed')">Spayed</button>
+        <button class="chip-btn" data-ster-opt="Neutered" onclick="setSter('Neutered')">Neutered</button>
+        <button class="chip-btn" data-ster-opt="Intact" onclick="setSter('Intact')">Intact</button>
+      </div>
+    </div>
+
+  <span id="combo-pill" class="combo-pill empty" data-empty-label="Tip: set Sex and Sterilization to narrow results"></span>
+</section>
+
+<main>
+  <div class="results-head">
+    <h2 id="results-title">Adoptable pets near you</h2>
+    <div class="mf-sort">Sort: <b>Best match</b> ▾ · <span id="w19-count">—</span></div>
+  </div>
+  <div id="w19-results" class="petc-grid"></div>
+</main>
+
+<div class="ap-partners">
+  <span class="lbl">Our partners</span>
+  <span class="ap-partner zoetis">Echo Vet</span>
+  <span class="ap-partner pedigree">Echo Chow</span>
+  <span class="ap-partner petsmart">Echo Charities</span>
+</div>
+
+<footer class="ap-footer">
+  <div class="ap-footer-row">
+    <div class="ap-footer-col">
+      <h4>EchoPets</h4>
+      <a>About us</a><a>Contact</a><a>Press</a><a>Careers</a>
+    </div>
+    <div class="ap-footer-col">
+      <h4>For adopters</h4>
+      <a>Find a pet</a><a>Find a shelter</a><a>Breed 101</a><a>Pet advice</a>
+    </div>
+    <div class="ap-footer-col">
+      <h4>For shelters</h4>
+      <a>Shelter login</a><a>Tools &amp; resources</a><a>Rehome a pet</a>
+    </div>
+    <div class="ap-footer-col">
+      <h4>Shop &amp; partners</h4>
+      <a>Shop</a><a>Echo Vet</a><a>Echo Chow</a><a>Echo Charities</a>
+    </div>
+  </div>
+  <div class="ap-footer-bottom">© EchoPets · Powered by Echo Charities · Privacy · Terms · Do Not Sell My Information</div>
+</footer>
+
+<div class="live-status neutral" id="live-status">💾 ready</div>
+<script>
+const ENV_ID = "W19_E02";
+const W19_PETS = [{"id": 1, "name": "Toby", "breed": "Husky", "category": "Dog", "age": 4, "age_label": "Adult", "sex": "Female", "sterilization": "Spayed", "coat": "medium", "care_type": "Rescue", "city": "Atlanta", "distance": 39.6, "tags": ["House-trained", "Friendly"], "rating": 3.9, "image_url": "https://images.pexels.com/photos/11881801/pexels-photo-11881801.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 2, "name": "Cooper", "breed": "Beagle", "category": "Dog", "age": 2, "age_label": "Young", "sex": "Male", "sterilization": "Neutered", "coat": "medium", "care_type": "Private owner", "city": "Decatur", "distance": 12.7, "tags": ["Energetic", "Loves walks"], "rating": 4.2, "image_url": "https://images.pexels.com/photos/32635834/pexels-photo-32635834.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 3, "name": "Daisy", "breed": "Border Collie", "category": "Dog", "age": 2, "age_label": "Young", "sex": "Male", "sterilization": "Intact", "coat": "medium", "care_type": "Foster home", "city": "Smyrna", "distance": 28.1, "tags": ["Good with cats"], "rating": 4.4, "image_url": "https://images.pexels.com/photos/20635787/pexels-photo-20635787.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 4, "name": "Buddy", "breed": "Husky", "category": "Dog", "age": 3, "age_label": "Young", "sex": "Female", "sterilization": "Spayed", "coat": "long", "care_type": "Private owner", "city": "Atlanta", "distance": 28.6, "tags": ["Good with kids"], "rating": 4.9, "image_url": "https://images.pexels.com/photos/20241838/pexels-photo-20241838.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 5, "name": "Charlie", "breed": "Dachshund", "category": "Dog", "age": 5, "age_label": "Adult", "sex": "Female", "sterilization": "Spayed", "coat": "short", "care_type": "Rescue", "city": "Roswell", "distance": 33.6, "tags": ["Good with kids"], "rating": 4.7, "image_url": "https://images.pexels.com/photos/8266284/pexels-photo-8266284.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 6, "name": "Daisy", "breed": "Poodle Mix", "category": "Dog", "age": 3, "age_label": "Young", "sex": "Male", "sterilization": "Neutered", "coat": "medium", "care_type": "Private owner", "city": "Marietta", "distance": 38.0, "tags": ["Loves walks", "Good with kids"], "rating": 3.6, "image_url": "https://images.pexels.com/photos/34058942/pexels-photo-34058942.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 7, "name": "Daisy", "breed": "Bulldog", "category": "Dog", "age": 1, "age_label": "Puppy", "sex": "Female", "sterilization": "Intact", "coat": "short", "care_type": "Rescue", "city": "Decatur", "distance": 32.7, "tags": ["Good with cats"], "rating": 4.3, "image_url": "https://images.pexels.com/photos/37499463/pexels-photo-37499463.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 8, "name": "Rocky", "breed": "Poodle Mix", "category": "Dog", "age": 2, "age_label": "Young", "sex": "Male", "sterilization": "Intact", "coat": "medium", "care_type": "Rescue", "city": "Smyrna", "distance": 41.7, "tags": ["Good with kids", "Good with cats"], "rating": 4.0, "image_url": "https://images.pexels.com/photos/18215265/pexels-photo-18215265.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 9, "name": "Charlie", "breed": "Bulldog", "category": "Dog", "age": 1, "age_label": "Puppy", "sex": "Male", "sterilization": "Intact", "coat": "short", "care_type": "Private owner", "city": "Decatur", "distance": 2.1, "tags": ["Good with dogs", "Good with kids"], "rating": 4.7, "image_url": "https://images.pexels.com/photos/32130866/pexels-photo-32130866.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 10, "name": "Sadie", "breed": "Husky", "category": "Dog", "age": 2, "age_label": "Young", "sex": "Male", "sterilization": "Spayed", "coat": "medium", "care_type": "Private owner", "city": "Decatur", "distance": 42.4, "tags": ["Loves walks", "Good with kids"], "rating": 3.9, "image_url": "https://images.pexels.com/photos/37936461/pexels-photo-37936461.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 11, "name": "Bella", "breed": "Cane Corso", "category": "Dog", "age": 4, "age_label": "Adult", "sex": "Female", "sterilization": "Intact", "coat": "short", "care_type": "Private owner", "city": "Atlanta", "distance": 29.6, "tags": ["House-trained", "Friendly"], "rating": 4.4, "image_url": "https://images.pexels.com/photos/11408628/pexels-photo-11408628.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 12, "name": "Riley", "breed": "Dachshund", "category": "Dog", "age": 6, "age_label": "Adult", "sex": "Female", "sterilization": "Neutered", "coat": "long", "care_type": "Private owner", "city": "Decatur", "distance": 17.7, "tags": ["Loves walks", "Good with kids"], "rating": 4.6, "image_url": "https://images.pexels.com/photos/35511893/pexels-photo-35511893.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 13, "name": "Zoe", "breed": "Poodle Mix", "category": "Dog", "age": 1, "age_label": "Puppy", "sex": "Female", "sterilization": "Spayed", "coat": "medium", "care_type": "Shelter", "city": "Decatur", "distance": 44.0, "tags": ["Good with cats", "Good with kids"], "rating": 4.7, "image_url": "https://images.pexels.com/photos/30586500/pexels-photo-30586500.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 14, "name": "Bailey", "breed": "Border Collie", "category": "Dog", "age": 1, "age_label": "Puppy", "sex": "Female", "sterilization": "Spayed", "coat": "short", "care_type": "Shelter", "city": "Sandy Springs", "distance": 3.6, "tags": ["Energetic", "Loves walks", "Good with kids"], "rating": 4.7, "image_url": "https://images.pexels.com/photos/35285293/pexels-photo-35285293.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 15, "name": "Bailey", "breed": "Golden Retriever", "category": "Dog", "age": 4, "age_label": "Adult", "sex": "Female", "sterilization": "Spayed", "coat": "long", "care_type": "Private owner", "city": "Smyrna", "distance": 27.1, "tags": ["Loves walks", "Good with kids"], "rating": 3.8, "image_url": "https://images.pexels.com/photos/3523317/pexels-photo-3523317.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 16, "name": "Bella", "breed": "Australian Shepherd", "category": "Dog", "age": 1, "age_label": "Puppy", "sex": "Female", "sterilization": "Intact", "coat": "short", "care_type": "Rescue", "city": "Atlanta", "distance": 42.7, "tags": ["House-trained", "Friendly"], "rating": 4.3, "image_url": "https://images.pexels.com/photos/37899047/pexels-photo-37899047.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 17, "name": "Zoe", "breed": "Shih Tzu", "category": "Dog", "age": 1, "age_label": "Puppy", "sex": "Male", "sterilization": "Neutered", "coat": "long", "care_type": "Shelter", "city": "Sandy Springs", "distance": 36.2, "tags": ["Good with dogs", "Good with kids"], "rating": 4.6, "image_url": "https://images.pexels.com/photos/37374572/pexels-photo-37374572.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 18, "name": "Max", "breed": "Border Collie", "category": "Dog", "age": 1, "age_label": "Puppy", "sex": "Male", "sterilization": "Spayed", "coat": "short", "care_type": "Private owner", "city": "Smyrna", "distance": 30.1, "tags": ["Good with kids"], "rating": 3.7, "image_url": "https://images.pexels.com/photos/32635881/pexels-photo-32635881.jpeg?auto=compress&cs=tinysrgb&h=130"}];
+
+let filterState = { sex: 'Any', sterilization: 'Any' };
+
+function _q(s, r) { return (r||document).querySelector(s); }
+function _qa(s, r) { return Array.from((r||document).querySelectorAll(s)); }
+function _esc(s) { return (s==null?'':String(s)).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function _taskId() { return new URLSearchParams(window.location.search).get('task_id'); }
+
+function _visible(p) {
+  const sx = filterState.sex, st = filterState.sterilization;
+  if (sx && sx !== 'Any' && p.sex !== sx) return false;
+  if (st && st !== 'Any' && p.sterilization !== st) return false;
+  return true;
+}
+
+function _renderCards() {
+  const grid = document.getElementById('w19-results');
+  if (!grid) return;
+  const show = W19_PETS.filter(_visible);
+  const cnt = document.getElementById('w19-count');
+  if (cnt) cnt.textContent = show.length + ' pet' + (show.length === 1 ? '' : 's') + ' shown';
+  if (!show.length) {
+    grid.innerHTML = '<div class="w19-empty">No adoptable pets match your filters. Try adjusting them to see more pets.</div>';
+    return;
+  }
+  grid.innerHTML = show.map(p => `
+    <article class="petc">
+      <div class="petc-img">
+        <img src="${_esc(p.image_url)}" alt="${_esc(p.name)}" loading="lazy"
+          onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'petc-fallback',textContent:'${p.category==='Cat' ? '🐱' : '🐶'}'}))">
+        ${p.age <= 2 ? '<span class="petc-flag">NEW</span>' : ''}
+      </div>
+      <div class="petc-body">
+        <div class="petc-name"><b>${_esc(p.name)}</b><span class="petc-id">#${p.id}</span></div>
+        <div class="petc-line">${_esc(p.age_label)} · ${p.age} yr · <b>${_esc(p.sex)}</b> · ${_esc(p.sterilization)}</div>
+        <div class="petc-line subtle">${_esc(p.breed)} · ${_esc(p.coat)}-coat · ${_esc(p.care_type)}</div>
+        <div class="petc-tags">
+          <span class="tg tg-${p.sex.toLowerCase()}">${p.sex==='Male'?'♂':'♀'} ${_esc(p.sex)}</span>
+          <span class="tg tg-${p.sterilization.toLowerCase()}">${_esc(p.sterilization)}</span>
+          ${(p.tags||[]).slice(0,2).map(t => `<span class="tg tg-trait">${_esc(t)}</span>`).join('')}
+        </div>
+        <div class="petc-foot">${_esc(p.city)} · ${(p.distance||0).toFixed(1)} mi · ★ ${p.rating}</div>
+      </div>
+    </article>`).join('');
+}
+
+function _getAnswer() { const a = document.getElementById('task-answer-input'); return a ? a.value : ''; }
+
+function _submit() {
+  const tid = _taskId();
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ filter_state: filterState, answer: _getAnswer(), task_id: tid })
+  }).then(r => r.json()).then(_updateLive).catch(()=>{});
+}
+
+function _updateLive(d) {
+  /* live indicator hidden in production UI */
+  return d;
+}
+
+function setSex(v)            { filterState.sex = v;            onPick(); }
+function setSter(v)           { filterState.sterilization = v;  onPick(); }
+function onPick() { _renderCards(); _syncUI(); _submit(); }
+function onAnswerInput() { _submit(); }
+
+function _syncUI() {
+  _qa('[data-sex-opt]').forEach(b => b.classList.toggle('active', b.dataset.sexOpt === filterState.sex));
+  _qa('[data-ster-opt]').forEach(b => b.classList.toggle('active', b.dataset.sterOpt === filterState.sterilization));
+  const sxLabel = _q('#sex-current-label');    if (sxLabel)  sxLabel.textContent  = filterState.sex;
+  const stLabel = _q('#ster-current-label');   if (stLabel)  stLabel.textContent  = filterState.sterilization;
+  const sumPill = _q('#combo-pill');
+  if (sumPill) {
+    if (filterState.sex === 'Any' && filterState.sterilization === 'Any') {
+      sumPill.textContent = '';
+      sumPill.className = 'combo-pill empty';
+    } else {
+      const parts = [];
+      if (filterState.sex !== 'Any') parts.push(filterState.sex);
+      if (filterState.sterilization !== 'Any') parts.push(filterState.sterilization);
+      sumPill.textContent = parts.join(' · ');
+      sumPill.className = 'combo-pill done';
+    }
+  }
+}
+
+function _loadBanner() {
+  const tid = _taskId();
+  fetch('/env/' + ENV_ID + '/api/task/' + encodeURIComponent(tid))
+    .then(r => r.ok ? r.json() : null)
+    .then(task => {
+      if (!task) return;
+      const b = document.getElementById('task-banner');
+      if (!b) return;
+      b.style.display = 'flex';
+      const needsAns = task.task_type !== 'write';
+      b.innerHTML = `
+        <div class="tb-strip">
+          <span class="tb-pill tb-pill-${task.task_type}">${task.task_type.toUpperCase()}</span>
+          <span class="tb-pill tb-pill-diff">${task.task_difficulty}</span>
+          <span class="tb-id">${_esc(task.id)}</span>
+        </div>
+        <div class="tb-text">${_esc(task.task_summary)}</div>
+        ${needsAns ? `<div class="tb-answer"><label for="task-answer-input">Your answer</label>
+          <input type="text" id="task-answer-input" placeholder="Type the answer here…" oninput="onAnswerInput()"></div>` : ''}
+      `;
+    }).catch(()=>{});
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  _loadBanner();
+  _syncUI();
+  _renderCards();
+  _submit();
+});
+
+</script>
+</body></html>

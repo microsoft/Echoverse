@@ -1,0 +1,104 @@
+[
+  {
+    "id": 1,
+    "calc_type": "Azure VM pricing",
+    "vendor": "azure",
+    "brand": "AzureCalc \u2014 VM sizing",
+    "default_inputs": {
+      "region": "(Choose region)",
+      "override": "(none)",
+      "volume": 0,
+      "service": "B-series Bs (Burstable \u2014 B2s)",
+      "unit": "VM-hour",
+      "support_tier": "basic"
+    },
+    "regions": [
+      "(Choose region)",
+      "East US",
+      "East US 2",
+      "Central US",
+      "West US 2",
+      "West US 3",
+      "Brazil South",
+      "Canada Central",
+      "West Europe",
+      "North Europe",
+      "UK South",
+      "Germany West Central",
+      "Japan East",
+      "Southeast Asia",
+      "Australia East",
+      "Korea Central"
+    ],
+    "services": [
+      {
+        "label": "B-series Bs (Burstable \u2014 B2s)",
+        "rate": 0.042,
+        "unit": "VM-hour"
+      },
+      {
+        "label": "D-series v5 (General Purpose \u2014 D2s_v5)",
+        "rate": 0.096,
+        "unit": "VM-hour"
+      },
+      {
+        "label": "D-series v5 (General Purpose \u2014 D4s_v5)",
+        "rate": 0.192,
+        "unit": "VM-hour"
+      },
+      {
+        "label": "F-series v2 (Compute Optimized \u2014 F4s_v2)",
+        "rate": 0.169,
+        "unit": "VM-hour"
+      },
+      {
+        "label": "E-series v5 (Memory Optimized \u2014 E4s_v5)",
+        "rate": 0.252,
+        "unit": "VM-hour"
+      },
+      {
+        "label": "M-series (Memory Optimized \u2014 M64s)",
+        "rate": 6.669,
+        "unit": "VM-hour"
+      },
+      {
+        "label": "NC-series (GPU \u2014 NC6s_v3)",
+        "rate": 3.06,
+        "unit": "VM-hour"
+      }
+    ],
+    "region_mult": {
+      "(Choose region)": 1.0,
+      "East US": 1.0,
+      "East US 2": 1.0,
+      "Central US": 1.02,
+      "West US 2": 1.03,
+      "West US 3": 1.03,
+      "Brazil South": 1.22,
+      "Canada Central": 1.04,
+      "West Europe": 1.08,
+      "North Europe": 1.07,
+      "UK South": 1.1,
+      "Germany West Central": 1.12,
+      "Japan East": 1.15,
+      "Southeast Asia": 1.14,
+      "Australia East": 1.16,
+      "Korea Central": 1.13
+    },
+    "override_presets": [
+      "730 VM-hours (1 month always-on)",
+      "168 VM-hours (1 week always-on)",
+      "200 VM-hours (work-hours only)",
+      "360 VM-hours (half-month)",
+      "1460 VM-hours (2 VMs always-on)",
+      "8760 VM-hours (1 year always-on)",
+      "100 instance-hours"
+    ],
+    "support_fees": {
+      "none": 0,
+      "basic": 29,
+      "developer": 89,
+      "standard": 299
+    }
+  }
+]

@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EchoStay — Hotels near Grand Canyon in Las Vegas, Nevada</title>
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+
+
+
+
+
+:root { --brand: #00aa6c; --brand-dark: #004f32; --accent: #000a12; --ink:#000a12; --line:#e0e0e0; }
+
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1a1a1a;background:#fafafa;min-height:100vh;padding-bottom:80px}
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #e0e0e0;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:1000;box-shadow:0 -2px 12px rgba(0,0,0,.08)}
+.live-status{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#555;padding:8px 12px;background:#f4f4f4;border-radius:6px;flex:1;min-width:200px}
+.live-status.working{background:#e7f1ff;color:#0a3b7e}
+.live-status.pass{background:#d4f4d8;color:#175c2c;border:1px solid #5cc274}
+.live-status.fail{background:#fde6e6;color:#7a1f1f;border:1px solid #e07b7b}
+.bar-actions{display:flex;gap:8px;align-items:center}
+.answer-input{padding:8px 12px;border:1px solid #cbd5e0;border-radius:6px;font-size:13px;min-width:240px}
+.btn-apply{padding:9px 18px;background:#222;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer}
+.btn-apply:hover{filter:brightness(1.1)}
+.task-banner{position:fixed;top:0;left:0;right:0;background:#fff8d2;border-bottom:1px solid #e3d18c;padding:8px 16px;font-size:13px;z-index:2000;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.task-banner .tb-id{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#7a661c;margin-bottom:2px}
+.task-banner .tb-text{color:#4a3a00;font-weight:500}
+.ac-list{position:absolute;z-index:1100;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 12px 30px rgba(0,0,0,.14);min-width:320px;max-width:480px;max-height:340px;overflow-y:auto;margin-top:4px;padding:6px 0;display:none}
+.ac-item{padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;border-bottom:1px solid #f3f4f6}
+.ac-item:hover{background:#f6f8fc}
+.ac-item:last-child{border-bottom:none}
+.ac-pin{font-size:14px;color:#888;flex:0 0 16px}
+.ac-text{flex:1;display:flex;flex-direction:column;gap:1px;min-width:0}
+.ac-name{font-size:14px;color:#1a1a1a;font-weight:500;line-height:1.2}
+.ac-city{font-size:12px;color:#7a7a7a;line-height:1.2}
+.ac-code{font-weight:700;font-size:12px;color:#666;letter-spacing:.5px;flex:0 0 auto;padding:2px 8px;border-radius:4px;background:#f0f3f7}
+.ac-no{padding:14px 16px;color:#b34a4a;font-size:13px;font-style:italic}
+/* Tripadvisor-style inline dual-month calendar (always visible) */
+.cal-pop{display:block;position:relative;z-index:1;background:#fff;border:1px solid #e0e0e0;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.08);padding:22px 28px 24px;margin:18px auto 0;max-width:760px}
+.cal-pop.open{display:block}
+.cal-dual{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+.cal-head{display:grid;grid-template-columns:42px 1fr 1fr 42px;align-items:center;margin-bottom:14px;column-gap:8px}
+.cal-head .cal-month{font-weight:800;font-size:16px;color:#000a12;text-align:center;letter-spacing:-.2px;font-family:'Trip Sans VF','Trip Sans',Arial,Helvetica,sans-serif}
+.cal-nav{background:#fff;border:1px solid #d0d2d6;width:38px;height:38px;cursor:pointer;font-size:18px;color:#000a12;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;line-height:1;transition:all .12s;padding:0}
+.cal-nav:hover{border-color:#000a12;background:#f2f3f5;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.cal-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:0;margin-bottom:6px}
+.cal-dow span{text-align:center;font-size:12px;font-weight:700;color:#5f6770;padding:6px 0;text-transform:uppercase;letter-spacing:.3px}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-day{height:40px;min-height:40px;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer;border-radius:50%;font-size:14px;color:#000a12;background:transparent;transition:all .12s;font-weight:600;user-select:none}
+.cal-day.blank{cursor:default;visibility:hidden}
+.cal-day:not(.blank):hover{background:#e6f4ee;color:var(--brand-dark)}
+.cal-day.today{box-shadow:inset 0 0 0 1px #b8bcc2;font-weight:800}
+.cal-day.selected,.cal-day.range-end{background:var(--brand-dark,#004f32);color:#fff;font-weight:800;box-shadow:none}
+.cal-day.selected:hover,.cal-day.range-end:hover{background:var(--brand-dark,#004f32);color:#fff}
+.cal-day.in-range{background:#e6f4ee;color:#000a12;border-radius:0;font-weight:700}
+
+/* DEPART/RETURN status pills above the calendar */
+.cal-stage{display:flex;gap:10px;justify-content:center;margin:0 0 16px}
+.cal-stage .cs-pill{display:flex;flex-direction:column;align-items:flex-start;padding:10px 18px;border:1px solid #d0d2d6;border-radius:24px;background:#fff;min-width:170px;cursor:default;transition:border-color .12s, box-shadow .12s}
+.cal-stage .cs-pill.active{border-color:var(--brand-dark);box-shadow:0 0 0 2px rgba(0,79,50,.12)}
+.cal-stage .cs-pill .cs-lbl{font-size:10px;font-weight:800;letter-spacing:.6px;color:#5f6770;text-transform:uppercase;line-height:1}
+.cal-stage .cs-pill .cs-val{font-size:14px;font-weight:700;color:#000a12;margin-top:4px;line-height:1.1}
+.cal-stage .cs-pill.active .cs-val{color:var(--brand-dark)}
+.cal-stage .cs-pill.empty .cs-val{color:#9aa0a6;font-weight:600}
+.cal-hint{text-align:center;font-size:12px;color:#5f6770;margin-top:14px}
+.cal-hint b{color:var(--brand-dark);font-weight:800}
+.result-grid{display:flex;flex-direction:column;gap:10px;padding:16px}
+.flight-row{background:#fff;border:1px solid #e6eaef;border-radius:8px;padding:14px 16px;display:grid;grid-template-columns:140px 1fr 200px 140px;gap:14px;align-items:center;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.flight-row .fr-air{font-weight:700;font-size:14px;color:#222}
+.flight-row .fr-air .fr-sub{font-weight:400;font-size:11px;color:#888;display:block;margin-top:2px}
+.flight-row .fr-route{display:flex;align-items:center;gap:10px;font-size:13px}
+.flight-row .fr-end{text-align:center}
+.flight-row .fr-time{font-weight:700;font-size:16px;color:#222}
+.flight-row .fr-code{font-size:11px;color:#888;letter-spacing:.5px}
+.flight-row .fr-mid{flex:1;text-align:center;color:#888;font-size:11px}
+.flight-row .fr-mid .fr-line{height:1px;background:#cbd5e0;margin:4px 0;position:relative}
+.flight-row .fr-mid .fr-line::after{content:'✈';position:absolute;right:-2px;top:-8px;color:#888;font-size:11px}
+.flight-row .fr-meta{font-size:12px;color:#666}
+.flight-row .fr-meta .fr-when{color:#222;font-weight:600}
+.flight-row .fr-price{text-align:right}
+.flight-row .fr-price .fr-amt{font-weight:800;font-size:20px;color:var(--brand,#0066cc)}
+.flight-row .fr-price .fr-per{font-size:11px;color:#888}
+.flight-row .fr-price button{margin-top:6px;padding:6px 14px;background:var(--brand,#0066cc);color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer;font-size:12px}
+.hotel-row{background:#fff;border:1px solid #e6eaef;border-radius:8px;padding:0;display:grid;grid-template-columns:200px 1fr 160px;gap:0;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.hotel-row .hr-img{height:140px;background-size:cover;background-position:center;background-color:#dde}
+.hotel-row .hr-body{padding:12px 16px}
+.hotel-row .hr-name{font-weight:700;font-size:15px;color:#222;margin-bottom:4px}
+.hotel-row .hr-loc{font-size:12px;color:#777;margin-bottom:6px}
+.hotel-row .hr-rev{font-size:12px;color:#0a8754;font-weight:600;margin-bottom:6px}
+.hotel-row .hr-meta{font-size:12px;color:#555;line-height:1.5}
+.hotel-row .hr-price{padding:14px 12px;text-align:right;background:#fafbfc;border-left:1px solid #eef}
+.hotel-row .hr-price .hr-amt{font-weight:800;font-size:20px;color:#222}
+.hotel-row .hr-price .hr-per{font-size:11px;color:#888}
+.hotel-row .hr-price button{margin-top:8px;padding:6px 12px;background:var(--brand,#0066cc);color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer;font-size:12px}
+.section-head{padding:12px 16px;font-size:14px;color:#666;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eef}
+.section-head h2{margin:0;font-size:16px;color:#222}
+
+
+body { background:#fff; font-family:'Trip Sans VF','Trip Sans',Arial,Helvetica,sans-serif }
+.ta-top { background:#fff; border-bottom:1px solid #e8e8e8; padding:14px 32px; display:flex; align-items:center; gap:30px }
+.ta-logo { font-weight:900; font-size:26px; color:var(--ink); display:flex; align-items:center; gap:8px; letter-spacing:-.3px }
+.ta-logo .owl-svg { width:46px; height:30px; flex:0 0 auto }
+.ta-nav { display:flex; gap:26px; flex:1; justify-content:flex-end; align-items:center }
+.ta-nav a { color:#000a12; text-decoration:none; font-size:14px; font-weight:700; cursor:pointer }
+.ta-nav a:hover { color:var(--brand-dark) }
+.ta-nav .plan-ai { background:linear-gradient(90deg,#34e0a1 0%,#9bdcc6 100%); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:800; display:flex; align-items:center; gap:6px }
+.ta-nav .plan-ai::before { content:'✦'; color:#34e0a1; -webkit-text-fill-color:#34e0a1 }
+.ta-right { display:flex; gap:14px; align-items:center }
+.ta-right .lang { display:flex; align-items:center; gap:4px; font-size:13px; color:#000a12; font-weight:600 }
+.ta-right .signin { background:var(--brand-dark); color:#fff; padding:9px 18px; border-radius:24px; font-weight:700; font-size:14px; cursor:pointer; text-decoration:none }
+
+/* Subnav row (city pill + tabs) */
+.ta-subnav { background:#fff; border-bottom:1px solid #e8e8e8; padding:0 32px; display:flex; align-items:flex-end; gap:6px; height:54px }
+.ta-city-pill { display:flex; align-items:center; gap:8px; background:#f2f3f5; padding:8px 14px; border-radius:20px; font-weight:700; font-size:14px; color:#000a12; margin-bottom:8px; margin-right:16px }
+.ta-city-pill::before { content:''; width:18px; height:18px; background:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%23000a12%22><path d=%22M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z%22/></svg>') no-repeat center/contain; flex:0 0 auto }
+.ta-tab2 { padding:14px 12px; font-size:14px; font-weight:700; color:#000a12; cursor:pointer; border-bottom:3px solid transparent; line-height:1 }
+.ta-tab2.active { border-bottom-color:var(--brand-dark) }
+.ta-tab2:hover { color:var(--brand-dark) }
+
+/* Breadcrumb row */
+.ta-crumb-row { padding:14px 32px 0; display:flex; justify-content:space-between; align-items:center; max-width:1280px; margin:0 auto; font-size:13px; color:#000a12 }
+.ta-crumb { display:flex; gap:6px; align-items:center }
+.ta-crumb a { color:#000a12; text-decoration:underline; text-underline-offset:2px }
+.ta-crumb .sep { color:#888; font-size:11px }
+.ta-crumb-side { font-weight:700; color:#000a12 }
+
+/* Page title */
+.ta-title { padding:14px 32px 6px; max-width:1280px; margin:0 auto; font-size:42px; font-weight:900; color:#000a12; line-height:1.1; letter-spacing:-1px }
+
+/* Search row: destination + dates + guests + search */
+.ta-srow { padding:18px 32px 14px; max-width:1280px; margin:0 auto; display:grid; grid-template-columns:1.4fr 1fr 1fr auto; gap:10px; align-items:center }
+.ta-pill { background:#fff; border:1px solid #d0d2d6; border-radius:30px; padding:12px 18px; display:flex; align-items:center; gap:10px; cursor:pointer; transition:border-color .15s, box-shadow .15s; min-height:54px; position:relative }
+.ta-pill:hover { border-color:#000a12; box-shadow:0 2px 6px rgba(0,0,0,.08) }
+.ta-pill .pill-ic { font-size:16px; color:#000a12; flex:0 0 auto }
+.ta-pill input { border:none; outline:none; background:transparent; font-size:14px; font-weight:600; color:#000a12; flex:1; min-width:0 }
+.ta-pill .pill-lbl { font-size:11px; color:#5f6770; font-weight:700; text-transform:uppercase; letter-spacing:.4px; line-height:1 }
+.ta-pill .pill-val { font-size:14px; color:#000a12; font-weight:700; margin-top:3px; line-height:1.1 }
+.ta-pill .pill-col { display:flex; flex-direction:column; min-width:0 }
+.ta-search-go { background:var(--brand); color:#000a12; border:none; padding:0 22px; height:54px; border-radius:30px; font-weight:800; font-size:15px; cursor:pointer; display:flex; align-items:center; gap:6px }
+.ta-search-go:hover { background:#00935c; color:#fff }
+
+/* Filter pills */
+.ta-filters { padding:6px 32px 14px; max-width:1280px; margin:0 auto; display:flex; gap:8px; flex-wrap:wrap; align-items:center }
+.ta-filter-pill { background:#fff; border:1px solid #d0d2d6; padding:8px 14px; border-radius:20px; font-size:13px; font-weight:700; color:#000a12; cursor:pointer; display:flex; align-items:center; gap:6px }
+.ta-filter-pill:hover { border-color:#000a12 }
+.ta-filter-pill.dot::before { content:'●●●●●'; color:var(--brand-dark); font-size:9px; letter-spacing:1px }
+.ta-filter-pill .caret { font-size:9px; color:#5f6770 }
+
+.ta-results { max-width:1280px; margin:14px auto 0; padding:0 32px }
+/* keep these to harmonize with the new inline calendar styles */
+.cal-day.selected, .cal-day.range-end { background:var(--brand-dark); color:#fff }
+.cal-day.in-range { background:#e6f4ee; color:#000a12; border-radius:0 }
+
+/* Card styling tightened to TripAdvisor look */
+.hotel-row { background:#fff; border:1px solid #e0e0e0; border-radius:12px; grid-template-columns:240px 1fr 200px; box-shadow:none }
+.hotel-row .hr-img { height:200px }
+.hotel-row .hr-body { padding:18px 20px }
+.hotel-row .hr-name { font-size:18px; color:#000a12; font-weight:700; margin-bottom:6px }
+.hotel-row .hr-loc { color:#5f6770 }
+.hotel-row .hr-rev { color:var(--brand-dark) }
+.hotel-row .hr-price { padding:18px 20px; text-align:right; background:#fff; border-left:1px solid #f0f0f0; display:flex; flex-direction:column; justify-content:center; align-items:flex-end }
+.hotel-row .hr-price .hr-amt { color:#000a12; font-size:22px }
+.hotel-row .hr-price button { background:var(--brand); color:#000a12; border-radius:24px; padding:10px 22px; font-size:14px; margin-top:10px }
+.hotel-row .hr-price button:hover { background:#00935c; color:#fff }
+.section-head h2 { font-weight:900; color:#000a12 }
+
+.brand-footer { margin-top:40px; padding:30px 32px; background:#f7f7f8; color:#5f6770; font-size:13px; text-align:center; border-top:1px solid #e8e8e8 }
+.brand-footer .ft-links { display:flex; gap:24px; justify-content:center; margin-bottom:10px; font-weight:700; color:#000a12 }
+.brand-footer .ft-links span { cursor:pointer }
+.brand-footer .ft-links span:hover { color:var(--brand-dark) }
+
+
+/* W26 polish — destination image strip + auto-submit */
+.dest-strip-wrap { max-width:1100px; margin:24px auto 0; padding:0 32px; }
+.dest-strip-head { font-size:13px; font-weight:700; color:#444; margin-bottom:10px; text-transform:uppercase; letter-spacing:.6px; }
+.dest-strip { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; }
+.dest-tile { position:relative; height:120px; border-radius:10px; overflow:hidden; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.08); transition:transform .15s, box-shadow .15s; background:#dde; }
+.dest-tile:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.18); }
+.dest-tile img { width:100%; height:100%; object-fit:cover; display:block; }
+.dest-tile .dest-label { position:absolute; left:0; right:0; bottom:0; padding:8px 10px; background:linear-gradient(to top, rgba(0,0,0,.78), rgba(0,0,0,0)); color:#fff; }
+.dest-tile .dest-name { font-size:13px; font-weight:700; line-height:1.1; }
+.dest-tile .dest-code { font-size:10px; opacity:.85; letter-spacing:.5px; margin-top:2px; }
+.dest-tile.selected { outline:3px solid var(--brand, #007F3D); }
+
+/* Auto-submit affordance: replace search button area with a status pill */
+.aa-search-replaced, .ta-sb-btn-replaced, .kl-search-replaced, .lt-search-replaced,
+.wz-search-replaced, .fa-search-replaced, .dr-search-replaced {
+  display:none !important;
+}
+.live-status.working { background:#e7f1ff; color:#0a3b7e; }
+.live-status.pass { background:#d4f4d8; color:#175c2c; border:1px solid #5cc274; }
+.live-status.fail { background:#fde6e6; color:#7a1f1f; border:1px solid #e07b7b; }
+.answer-input { padding:8px 12px; border:1px solid #cbd5e0; border-radius:6px; font-size:13px; min-width:240px }
+
+/* W26_POLISH_BOTTOM_BAR_HIDE v1 */
+
+/* W26 polish: hide leftover empty bottom-bar (its children were already display:none, but the empty container itself was visible as a 50px white bar with shadow). */
+.bottom-bar, .bar-actions, #live-status, #answer-input, #submit-btn { display:none !important; }
+.task-banner, #task-banner { display:none !important; visibility:hidden !important; }
+body { padding-bottom: 0 !important; }
+
+
+/* W26 variant: modal flyout autocomplete */
+.ac-modal-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,42,.55); z-index:5000; align-items:flex-start; justify-content:center; padding-top:8vh; }
+.ac-modal-overlay.open { display:flex; }
+.ac-modal-card { background:#fff; width:560px; max-width:92vw; border-radius:14px; box-shadow:0 24px 60px rgba(0,0,0,.32); padding:18px 0 12px; max-height:78vh; display:flex; flex-direction:column; }
+.ac-modal-head { display:flex; align-items:center; gap:10px; padding:0 18px 14px; border-bottom:1px solid #eef1f5; }
+.ac-modal-head .ac-modal-title { font-weight:700; font-size:15px; color:#222; flex:1; }
+.ac-modal-head .ac-modal-close { width:32px; height:32px; border-radius:50%; border:none; background:#f1f5f9; cursor:pointer; font-size:16px; color:#475569; }
+.ac-modal-head .ac-modal-input { flex:1; padding:10px 14px; border:1px solid #cbd5e0; border-radius:8px; font-size:14px; outline:none; }
+.ac-modal-head .ac-modal-input:focus { border-color:var(--brand,#00aa6c); box-shadow:0 0 0 3px rgba(0,170,108,.15); }
+.ac-modal-list { position:static; box-shadow:none; border:none; max-height:none; flex:1; min-width:0; max-width:none; overflow-y:auto; display:block; padding:6px 0; }
+
+/* W26 variant: single-month popup calendar */
+.cal-pop.single-style { min-width:300px; padding:14px 16px; }
+.cal-pop.single-style .cal-dual { grid-template-columns:1fr; gap:0; }
+
+</style>
+</head>
+<body>
+<div id="task-banner" class="task-banner" style="display:none"></div>
+
+<header class="ta-top">
+  <div class="ta-logo">
+    <svg class="owl-svg" viewBox="0 0 90 60" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="15" y="4" width="60" height="52" rx="12" fill="var(--brand)"/>
+      <text x="45" y="43" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="800" fill="#fff">E</text>
+    </svg>
+    EchoStay
+  </div>
+  <nav class="ta-nav">
+    <a class="plan-ai">Plan with AI</a>
+    <a>Rewards</a><a>Discover</a><a>Review</a><a>More</a>
+  </nav>
+  <div class="ta-right">
+    <span class="lang">🌐 USD</span>
+    <a class="signin">Sign in</a>
+  </div>
+</header>
+
+<nav class="ta-subnav">
+  <div class="ta-city-pill">Las Vegas</div>
+  <div class="ta-tab2 active">Hotels</div>
+  <div class="ta-tab2">Things to Do</div>
+  <div class="ta-tab2">Restaurants</div>
+  <div class="ta-tab2">Cruises</div>
+  <div class="ta-tab2">Forums</div>
+</nav>
+
+<div class="ta-crumb-row">
+  <div class="ta-crumb">
+    <a>United States</a><span class="sep">›</span>
+    <a>Nevada (NV)</a><span class="sep">›</span>
+    <a>Las Vegas</a><span class="sep">›</span>
+    <span>Las Vegas Hotels</span>
+  </div>
+  <div class="ta-crumb-side">THE 10 BEST Hotels in Las Vegas 2026</div>
+</div>
+
+<h1 class="ta-title">Las Vegas Hotels and Places to Stay</h1>
+
+<section class="ta-srow" style="position:relative">
+  <div class="ta-pill" onclick="openAcModal('dest')" style="position:relative">
+    <span class="pill-ic">🔍</span>
+    <div class="pill-col">
+      <span class="pill-lbl">Destination</span>
+      <input class="ac-inp" type="text" placeholder="Where to?" oninput="focusAc('dest', event)" readonly />
+    </div>
+  </div>
+  <div class="ta-pill" onclick="togglePop('cal-pop', this)" data-facet-input="depart">
+    <span class="pill-ic">📅</span>
+    <div class="pill-col">
+      <span class="pill-lbl">Check-in</span>
+      <span class="pill-val" id="ck-in-lbl">Add date</span>
+    </div>
+  </div>
+  <div class="ta-pill" onclick="togglePop('cal-pop', this)" data-facet-input="return">
+    <span class="pill-ic">📅</span>
+    <div class="pill-col">
+      <span class="pill-lbl">Check-out</span>
+      <span class="pill-val" id="ck-out-lbl">Add date</span>
+    </div>
+  </div>
+  <button class="ta-search-go">🔍 Search</button>
+</section>
+
+<section id="cal-pop" class="cal-pop open" aria-label="Select check-in and check-out dates">
+  <div class="cal-stage">
+    <div class="cs-pill empty" id="cs-pill-in"><span class="cs-lbl">Check-in</span><span class="cs-val" id="cs-val-in">Select date</span></div>
+    <div class="cs-pill empty" id="cs-pill-out"><span class="cs-lbl">Check-out</span><span class="cs-val" id="cs-val-out">Select date</span></div>
+  </div>
+  <div class="cal-head">
+    <button type="button" class="cal-nav" onclick="calAdv(-1,'calL','calR')" aria-label="Previous month">‹</button>
+    <div class="cal-month" id="calL-label">May 2026</div>
+    <div class="cal-month" id="calR-label">June 2026</div>
+    <button type="button" class="cal-nav" onclick="calAdv(1,'calL','calR')" aria-label="Next month">›</button>
+  </div>
+  <div class="cal-dual">
+    <div class="cal-side">
+      <div data-cal-grid="calL" data-cal-label="calL-label" data-base-month="4" data-base-year="2026" id="calL"></div>
+    </div>
+    <div class="cal-side">
+      <div data-cal-grid="calR" data-cal-label="calR-label" data-base-month="5" data-base-year="2026" id="calR"></div>
+    </div>
+  </div>
+  <div class="cal-hint">Tip: click a date to set <b>check-in</b>, then click another date to set <b>check-out</b>.</div>
+</section>
+
+<div class="ta-filters">
+  <button class="ta-filter-pill">Pool <span class="caret">▾</span></button>
+  <button class="ta-filter-pill">Pets Allowed</button>
+  <button class="ta-filter-pill dot"> &amp; up</button>
+  <button class="ta-filter-pill">5 Star</button>
+  <button class="ta-filter-pill">Luxury</button>
+  <button class="ta-filter-pill">Free Parking</button>
+  <button class="ta-filter-pill">All filters <span class="caret">▾</span></button>
+</div>
+
+<!-- W26 polish destination strip -->
+<div class="dest-strip-wrap"><div class="dest-strip-head">Popular nearby stays</div><div class="dest-strip"><div class="dest-tile" data-code="LAS" data-name="Las Vegas, NV" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/2725675/pexels-photo-2725675.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Las Vegas, NV"/><div class="dest-label"><div class="dest-name">Las Vegas, NV</div><div class="dest-code">LAS</div></div></div><div class="dest-tile" data-code="GCN" data-name="Tusayan, AZ" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/15621208/pexels-photo-15621208.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Tusayan, AZ"/><div class="dest-label"><div class="dest-name">Tusayan, AZ</div><div class="dest-code">GCN</div></div></div><div class="dest-tile" data-code="WIL" data-name="Peach Springs, AZ" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/3926482/pexels-photo-3926482.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Peach Springs, AZ"/><div class="dest-label"><div class="dest-name">Peach Springs, AZ</div><div class="dest-code">WIL</div></div></div><div class="dest-tile" data-code="GCN" data-name="Williams, AZ" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/6466281/pexels-photo-6466281.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Williams, AZ"/><div class="dest-label"><div class="dest-name">Williams, AZ</div><div class="dest-code">GCN</div></div></div><div class="dest-tile" data-code="LAS" data-name="Flagstaff, AZ" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/35203561/pexels-photo-35203561.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Flagstaff, AZ"/><div class="dest-label"><div class="dest-name">Flagstaff, AZ</div><div class="dest-code">LAS</div></div></div><div class="dest-tile" data-code="LAS" data-name="Sedona, AZ" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/7942132/pexels-photo-7942132.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Sedona, AZ"/><div class="dest-label"><div class="dest-name">Sedona, AZ</div><div class="dest-code">LAS</div></div></div></div></div>
+<div class="ta-results">
+  <div class="section-head">
+    <h2>Hotels near Grand Canyon, Las Vegas</h2>
+    <div id="result-count">16 properties</div>
+  </div>
+  <div id="result-grid" class="result-grid"><div class="hotel-row">
+  <div class="hr-img" style="background-image:url('https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?h=200')"></div>
+  <div class="hr-body">
+    <div class="hr-name">Grand Canyon Hotel Las Vegas</div>
+    <div class="hr-loc">📍 Las Vegas, NV (Strip)</div>
+    <div class="hr-rev">★ 4.5 · 2,041 reviews</div>
+    <div class="hr-meta">Free Wi-Fi · Pool · Casino · 0.4 mi from Grand Canyon Las Vegas observation deck</div>
+  </div>
+  <div class="hr-price">
+    <div class="hr-amt">$189</div>
+    <div class="hr-per">per night</div>
+    <button>Reserve</button>
+  </div>
+</div>
+<div class="hotel-row">
+  <div class="hr-img" style="background-image:url('https://images.pexels.com/photos/11063185/pexels-photo-11063185.jpeg?auto=compress&cs=tinysrgb&h=130')"></div>
+  <div class="hr-body">
+    <div class="hr-name">Canyon Suites Las Vegas</div>
+    <div class="hr-loc">📍 Las Vegas, NV (Strip)</div>
+    <div class="hr-rev">★ 4.7 · 998 reviews</div>
+    <div class="hr-meta">4-star · Spa · Restaurant · 0.6 mi from Grand Canyon Las Vegas observation deck</div>
+  </div>
+  <div class="hr-price">
+    <div class="hr-amt">$259</div>
+    <div class="hr-per">per night</div>
+    <button>Reserve</button>
+  </div>
+</div>
+<div class="hotel-row">
+  <div class="hr-img" style="background-image:url('https://images.pexels.com/photos/7507131/pexels-photo-7507131.jpeg?auto=compress&cs=tinysrgb&h=130')"></div>
+  <div class="hr-body">
+    <div class="hr-name">Vegas Grand Hotel & Casino</div>
+    <div class="hr-loc">📍 Las Vegas, NV (Downtown)</div>
+    <div class="hr-rev">★ 4.3 · 5,331 reviews</div>
+    <div class="hr-meta">Casino · 24-hr concierge · Free shuttle to Grand Canyon Las Vegas</div>
+  </div>
+  <div class="hr-price">
+    <div class="hr-amt">$145</div>
+    <div class="hr-per">per night</div>
+    <button>Reserve</button>
+  </div>
+</div>
+<div class="hotel-row">
+  <div class="hr-img" style="background-image:url('https://images.pexels.com/photos/18328707/pexels-photo-18328707.jpeg?auto=compress&cs=tinysrgb&h=130')"></div>
+  <div class="hr-body">
+    <div class="hr-name">Las Vegas Plaza Hotel</div>
+    <div class="hr-loc">📍 Las Vegas, NV (Strip)</div>
+    <div class="hr-rev">★ 4.4 · 2,892 reviews</div>
+    <div class="hr-meta">4-star · Pool · Spa · 1.1 mi from Grand Canyon Las Vegas</div>
+  </div>
+  <div class="hr-price">
+    <div class="hr-amt">$199</div>
+    <div class="hr-per">per night</div>
+    <button>Reserve</button>
+  </div>
+</div>
+<div class="hotel-row">
+  <div class="hr-img" style="background-image:url('https://images.pexels.com/photos/33803739/pexels-photo-33803739.jpeg?auto=compress&cs=tinysrgb&h=130')"></div>
+  <div class="hr-body">
+    <div class="hr-name">Strip Tower Las Vegas</div>
+    <div class="hr-loc">📍 Las Vegas, NV (Strip)</div>
+    <div class="hr-rev">★ 4.2 · 7,210 reviews</div>
+    <div class="hr-meta">Casino · Multiple restaurants · 0.9 mi from Grand Canyon Las Vegas</div>
+  </div>
+  <div class="hr-price">
+    <div class="hr-amt">$179</div>
+    <div class="hr-per">per night</div>
+    <button>Reserve</button>
+  </div>
+</div>
+<div class="hotel-row">
+  <div class="hr-img" style="background-image:url('https://images.pexels.com/photos/189295/pexels-photo-189295.jpeg?auto=compress&cs=tinysrgb&h=130')"></div>
+  <div class="hr-body">
+    <div class="hr-name">Desert View Inn Las Vegas</div>
+    <div class="hr-loc">📍 Las Vegas, NV (Off-Strip)</div>
+    <div class="hr-rev">★ 4.0 · 1,150 reviews</div>
+    <div class="hr-meta">Free parking · Pool · 1.4 mi from Grand Canyon Las Vegas</div>
+  </div>
+  <div class="hr-price">
+    <div class="hr-amt">$115</div>
+    <div class="hr-per">per night</div>
+    <button>Reserve</button>
+  </div>
+</div>
+<div class="hotel-row">
+  <div class="hr-img" style="background-image:url('https://images.pexels.com/photos/24461266/pexels-photo-24461266.jpeg?auto=compress&cs=tinysrgb&h=130')"></div>
+  <div class="hr-body">
+    <div class="hr-name">Nevada Skyline Resort</div>
+    <div class="hr-loc">📍 Las Vegas, NV (Strip)</div>
+    <div class="hr-rev">★ 4.6 · 3,005 reviews</div>
+    <div class="hr-meta">5-star · Spa · 0.3 mi from Grand Canyon Las Vegas observation deck</div>
+  </div>
+  <div class="hr-price">
+    <div class="hr-amt">$329</div>
+    <div class="hr-per">per night</div>
+    <button>Reserve</button>
+  </div>
+</div>
+<div class="hotel-row">
+  <div class="hr-img" style="background-image:url('https://images.pexels.com/photos/30263902/pexels-photo-30263902.jpeg?auto=compress&cs=tinysrgb&h=130')"></div>
+  <div class="hr-body">
+    <div class="hr-name">Grand Canyon Las Vegas Boutique</div>
+    <div class="hr-loc">📍 Las Vegas, NV (Strip)</div>
+    <div class="hr-rev">★ 4.5 · 580 reviews</div>
+    <div class="hr-meta">Boutique · Pool · 0.5 mi from Grand Canyon Las Vegas</div>
+  </div>
+  <div class="hr-price">
+    <div class="hr-amt">$225</div>
+    <div class="hr-per">per night</div>
+    <button>Reserve</button>
+  </div>
+</div>
+<div class="hotel-row">
+  <div class="hr-img" style="background-image:url('https://images.pexels.com/photos/34940612/pexels-photo-34940612.jpeg?auto=compress&cs=tinysrgb&h=130')"></div>
+  <div class="hr-body">
+    <div class="hr-name">Mojave Garden Hotel</div>
+    <div class="hr-loc">📍 Las Vegas, NV (Off-Strip)</div>
+    <div class="hr-rev">★ 4.1 · 1,805 reviews</div>
+    <div class="hr-meta">Free Wi-Fi · Pool · 2.0 mi from Grand Canyon Las Vegas</div>
+  </div>
+  <div class="hr-price">
+    <div class="hr-amt">$135</div>
+    <div class="hr-per">per night</div>
+    <button>Reserve</button>
+  </div>
+</div>
+<div class="hotel-row">
+  <div class="hr-img" style="background-image:url('https://images.pexels.com/photos/14036246/pexels-photo-14036246.jpeg?auto=compress&cs=tinysrgb&h=130')"></div>
+  <div class="hr-body">
+    <div class="hr-name">Vegas Casino Resort</div>
+    <div class="hr-loc">📍 Las Vegas, NV (Strip)</div>
+    <div class="hr-rev">★ 4.3 · 6,420 reviews</div>
+    <div class="hr-meta">Casino · Restaurants · 0.8 mi from Grand Canyon Las Vegas</div>
+  </div>
+  <div class="hr-price">
+    <div class="hr-amt">$169</div>
+    <div class="hr-per">per night</div>
+    <button>Reserve</button>
+  </div>
+</div>
+<div class="hotel-row">
+  <div class="hr-img" style="background-image:url('https://images.pexels.com/photos/237371/pexels-photo-237371.jpeg?auto=compress&cs=tinysrgb&h=130')"></div>
+  <div class="hr-body">
+    <div class="hr-name">Grand Canyon National Park Lodge</div>
+    <div class="hr-loc">📍 Tusayan, AZ (Grand Canyon NP)</div>
+    <div class="hr-rev">★ 4.7 · 3,920 reviews</div>
+    <div class="hr-meta">4-star · Inside national park · 0.2 mi from South Rim</div>
+  </div>
+  <div class="hr-price">
+    <div class="hr-amt">$349</div>
+    <div class="hr-per">per night</div>
+    <button>Reserve</button>
+  </div>
+</div>
+<div class="hotel-row">
+  <div class="hr-img" style="background-image:url('https://images.pexels.com/photos/14036243/pexels-photo-14036243.jpeg?auto=compress&cs=tinysrgb&h=130')"></div>
+  <div class="hr-body">
+    <div class="hr-name">South Rim Inn</div>
+    <div class="hr-loc">📍 Tusayan, AZ (Grand Canyon NP)</div>
+    <div class="hr-rev">★ 4.5 · 1,210 reviews</div>
+    <div class="hr-meta">Cabins · Free shuttle to rim · 0.5 mi from Grand Canyon South Rim</div>
+  </div>
+  <div class="hr-price">
+    <div class="hr-amt">$275</div>
+    <div class="hr-per">per night</div>
+    <button>Reserve</button>
+  </div>
+</div>
+<div class="hotel-row">
+  <div class="hr-img" style="background-image:url('https://images.pexels.com/photos/33803745/pexels-photo-33803745.jpeg?auto=compress&cs=tinysrgb&h=130')"></div>
+  <div class="hr-body">
+    <div class="hr-name">Grand Canyon West Resort</div>
+    <div class="hr-loc">📍 Peach Springs, AZ</div>
+    <div class="hr-rev">★ 4.2 · 540 reviews</div>
+    <div class="hr-meta">Native-owned · Skywalk · 1.8 mi from Grand Canyon West Rim</div>
+  </div>
+  <div class="hr-price">
+    <div class="hr-amt">$199</div>
+    <div class="hr-per">per night</div>
+    <button>Reserve</button>
+  </div>
+</div>
+<div class="hotel-row">
+  <div class="hr-img" style="background-image:url('https://images.pexels.com/photos/34361571/pexels-photo-34361571.jpeg?auto=compress&cs=tinysrgb&h=130')"></div>
+  <div class="hr-body">
+    <div class="hr-name">Sedona Red Rock Inn</div>
+    <div class="hr-loc">📍 Sedona, AZ</div>
+    <div class="hr-rev">★ 4.6 · 2,005 reviews</div>
+    <div class="hr-meta">Spa · Red rock views · 90 mi from Grand Canyon</div>
+  </div>
+  <div class="hr-price">
+    <div class="hr-amt">$259</div>
+    <div class="hr-per">per night</div>
+    <button>Reserve</button>
+  </div>
+</div>
+<div class="hotel-row">
+  <div class="hr-img" style="background-image:url('https://images.pexels.com/photos/14036252/pexels-photo-14036252.jpeg?auto=compress&cs=tinysrgb&h=130')"></div>
+  <div class="hr-body">
+    <div class="hr-name">Flagstaff Mountain Lodge</div>
+    <div class="hr-loc">📍 Flagstaff, AZ</div>
+    <div class="hr-rev">★ 4.4 · 1,420 reviews</div>
+    <div class="hr-meta">Pine forest · 80 mi from Grand Canyon South Rim</div>
+  </div>
+  <div class="hr-price">
+    <div class="hr-amt">$159</div>
+    <div class="hr-per">per night</div>
+    <button>Reserve</button>
+  </div>
+</div>
+<div class="hotel-row">
+  <div class="hr-img" style="background-image:url('https://images.pexels.com/photos/2725675/pexels-photo-2725675.jpeg?auto=compress&cs=tinysrgb&h=130')"></div>
+  <div class="hr-body">
+    <div class="hr-name">Grand Canyon Las Vegas Convention Center Hotel</div>
+    <div class="hr-loc">📍 Las Vegas, NV (Strip)</div>
+    <div class="hr-rev">★ 4.2 · 4,512 reviews</div>
+    <div class="hr-meta">Convention space · 0.4 mi from Grand Canyon Las Vegas exhibit</div>
+  </div>
+  <div class="hr-price">
+    <div class="hr-amt">$205</div>
+    <div class="hr-per">per night</div>
+    <button>Reserve</button>
+  </div>
+</div></div>
+</div>
+
+<script>
+function togglePop(id, anchor){
+  const pops = document.querySelectorAll('.cal-pop, .ac-list-wrap');
+  pops.forEach(p => { if (p.id !== id) p.classList.remove('open'); });
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+function focusAc(kind, ev){
+  const inp = ev.target;
+  acShow(inp, kind);
+}
+</script>
+
+
+
+<div class="bottom-bar">
+  <div id="live-status" class="live-status">no filters set</div>
+  <div class="bar-actions">
+    <input id="answer-input" oninput="onAnswerChange()" class="answer-input" placeholder="(answer for read tasks)" />
+    
+  </div>
+</div>
+
+<script>
+window.AC_SUGS = [{"code": "LAS", "name": "Grand Canyon Las Vegas hotels district", "city": "Las Vegas, NV", "country": ""}, {"code": "AZ", "name": "Grand Canyon National Park", "city": "Tusayan, AZ", "country": ""}, {"code": "GCN", "name": "Grand Canyon Airport", "city": "Tusayan, AZ", "country": ""}, {"code": "GCW", "name": "Grand Canyon West Rim", "city": "Peach Springs, AZ", "country": ""}, {"code": "WIL", "name": "Grand Canyon Caverns and Hotel", "city": "Peach Springs, AZ", "country": ""}, {"code": "STR", "name": "Las Vegas Strip Hotels", "city": "Las Vegas, NV", "country": ""}, {"code": "DTV", "name": "Downtown Las Vegas Hotels", "city": "Las Vegas, NV", "country": ""}, {"code": "PHX", "name": "Phoenix Hotels", "city": "Phoenix, AZ", "country": ""}, {"code": "RNO", "name": "Reno Hotels", "city": "Reno, NV", "country": ""}, {"code": "SED", "name": "Sedona Hotels", "city": "Sedona, AZ", "country": ""}, {"code": "FLG", "name": "Flagstaff Hotels", "city": "Flagstaff, AZ", "country": ""}, {"code": "WIL2", "name": "Williams Hotels (Gateway to Grand Canyon)", "city": "Williams, AZ", "country": ""}];
+window.SEED_ITEMS = [{"id": 1, "hotel_name": "Grand Canyon Hotel Las Vegas", "location": "Las Vegas, NV (Strip)", "review": "\u2605 4.5 \u00b7 2,041 reviews", "meta": "Free Wi-Fi \u00b7 Pool \u00b7 Casino \u00b7 0.4 mi from Grand Canyon Las Vegas observation deck", "from_code": "", "to_code": "LAS", "to_name": "Las Vegas Strip", "depart_date": "Jul 21, 2026", "return_date": "Jul 27, 2026", "price": 189, "image_url": "https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?h=200"}, {"id": 2, "hotel_name": "Canyon Suites Las Vegas", "location": "Las Vegas, NV (Strip)", "review": "\u2605 4.7 \u00b7 998 reviews", "meta": "4-star \u00b7 Spa \u00b7 Restaurant \u00b7 0.6 mi from Grand Canyon Las Vegas observation deck", "from_code": "", "to_code": "LAS", "to_name": "Las Vegas", "depart_date": "Jul 21, 2026", "return_date": "Jul 27, 2026", "price": 259}, {"id": 3, "hotel_name": "Vegas Grand Hotel & Casino", "location": "Las Vegas, NV (Downtown)", "review": "\u2605 4.3 \u00b7 5,331 reviews", "meta": "Casino \u00b7 24-hr concierge \u00b7 Free shuttle to Grand Canyon Las Vegas", "from_code": "", "to_code": "LAS", "to_name": "Las Vegas", "depart_date": "Jul 21, 2026", "return_date": "Jul 27, 2026", "price": 145}, {"id": 4, "hotel_name": "Las Vegas Plaza Hotel", "location": "Las Vegas, NV (Strip)", "review": "\u2605 4.4 \u00b7 2,892 reviews", "meta": "4-star \u00b7 Pool \u00b7 Spa \u00b7 1.1 mi from Grand Canyon Las Vegas", "from_code": "", "to_code": "LAS", "to_name": "Las Vegas", "depart_date": "Jul 21, 2026", "return_date": "Jul 27, 2026", "price": 199}, {"id": 5, "hotel_name": "Strip Tower Las Vegas", "location": "Las Vegas, NV (Strip)", "review": "\u2605 4.2 \u00b7 7,210 reviews", "meta": "Casino \u00b7 Multiple restaurants \u00b7 0.9 mi from Grand Canyon Las Vegas", "from_code": "", "to_code": "LAS", "to_name": "Las Vegas", "depart_date": "Aug 12, 2026", "return_date": "Aug 18, 2026", "price": 179}, {"id": 6, "hotel_name": "Desert View Inn Las Vegas", "location": "Las Vegas, NV (Off-Strip)", "review": "\u2605 4.0 \u00b7 1,150 reviews", "meta": "Free parking \u00b7 Pool \u00b7 1.4 mi from Grand Canyon Las Vegas", "from_code": "", "to_code": "LAS", "to_name": "Las Vegas", "depart_date": "Sep 5, 2026", "return_date": "Sep 11, 2026", "price": 115}, {"id": 7, "hotel_name": "Nevada Skyline Resort", "location": "Las Vegas, NV (Strip)", "review": "\u2605 4.6 \u00b7 3,005 reviews", "meta": "5-star \u00b7 Spa \u00b7 0.3 mi from Grand Canyon Las Vegas observation deck", "from_code": "", "to_code": "LAS", "to_name": "Las Vegas", "depart_date": "Oct 7, 2026", "return_date": "Oct 14, 2026", "price": 329}, {"id": 8, "hotel_name": "Grand Canyon Las Vegas Boutique", "location": "Las Vegas, NV (Strip)", "review": "\u2605 4.5 \u00b7 580 reviews", "meta": "Boutique \u00b7 Pool \u00b7 0.5 mi from Grand Canyon Las Vegas", "from_code": "", "to_code": "LAS", "to_name": "Las Vegas", "depart_date": "Nov 18, 2026", "return_date": "Nov 23, 2026", "price": 225}, {"id": 9, "hotel_name": "Mojave Garden Hotel", "location": "Las Vegas, NV (Off-Strip)", "review": "\u2605 4.1 \u00b7 1,805 reviews", "meta": "Free Wi-Fi \u00b7 Pool \u00b7 2.0 mi from Grand Canyon Las Vegas", "from_code": "", "to_code": "LAS", "to_name": "Las Vegas", "depart_date": "Dec 12, 2026", "return_date": "Dec 19, 2026", "price": 135}, {"id": 10, "hotel_name": "Vegas Casino Resort", "location": "Las Vegas, NV (Strip)", "review": "\u2605 4.3 \u00b7 6,420 reviews", "meta": "Casino \u00b7 Restaurants \u00b7 0.8 mi from Grand Canyon Las Vegas", "from_code": "", "to_code": "LAS", "to_name": "Las Vegas", "depart_date": "Jan 9, 2027", "return_date": "Jan 14, 2027", "price": 169}, {"id": 11, "hotel_name": "Grand Canyon National Park Lodge", "location": "Tusayan, AZ (Grand Canyon NP)", "review": "\u2605 4.7 \u00b7 3,920 reviews", "meta": "4-star \u00b7 Inside national park \u00b7 0.2 mi from South Rim", "from_code": "", "to_code": "AZ", "to_name": "Tusayan AZ", "depart_date": "Jul 21, 2026", "return_date": "Jul 27, 2026", "price": 349}, {"id": 12, "hotel_name": "South Rim Inn", "location": "Tusayan, AZ (Grand Canyon NP)", "review": "\u2605 4.5 \u00b7 1,210 reviews", "meta": "Cabins \u00b7 Free shuttle to rim \u00b7 0.5 mi from Grand Canyon South Rim", "from_code": "", "to_code": "AZ", "to_name": "Tusayan AZ", "depart_date": "Jul 21, 2026", "return_date": "Jul 27, 2026", "price": 275}, {"id": 13, "hotel_name": "Grand Canyon West Resort", "location": "Peach Springs, AZ", "review": "\u2605 4.2 \u00b7 540 reviews", "meta": "Native-owned \u00b7 Skywalk \u00b7 1.8 mi from Grand Canyon West Rim", "from_code": "", "to_code": "GCW", "to_name": "Peach Springs AZ", "depart_date": "Jul 21, 2026", "return_date": "Jul 27, 2026", "price": 199}, {"id": 14, "hotel_name": "Sedona Red Rock Inn", "location": "Sedona, AZ", "review": "\u2605 4.6 \u00b7 2,005 reviews", "meta": "Spa \u00b7 Red rock views \u00b7 90 mi from Grand Canyon", "from_code": "", "to_code": "SED", "to_name": "Sedona", "depart_date": "Jul 21, 2026", "return_date": "Jul 27, 2026", "price": 259}, {"id": 15, "hotel_name": "Flagstaff Mountain Lodge", "location": "Flagstaff, AZ", "review": "\u2605 4.4 \u00b7 1,420 reviews", "meta": "Pine forest \u00b7 80 mi from Grand Canyon South Rim", "from_code": "", "to_code": "FLG", "to_name": "Flagstaff", "depart_date": "Jul 21, 2026", "return_date": "Jul 27, 2026", "price": 159}, {"id": 16, "hotel_name": "Grand Canyon Las Vegas Convention Center Hotel", "location": "Las Vegas, NV (Strip)", "review": "\u2605 4.2 \u00b7 4,512 reviews", "meta": "Convention space \u00b7 0.4 mi from Grand Canyon Las Vegas exhibit", "from_code": "", "to_code": "LAS", "to_name": "Las Vegas", "depart_date": "Feb 14, 2027", "return_date": "Feb 19, 2027", "price": 205}];
+
+const MONTHS_SHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const MONTHS_LONG  = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+const W26_STATE = {};       // {dest, origin, date, return_date}
+const CAL_STATE = {};       // gridId -> offset from base month
+
+function _calMonthYear(gridId){
+  const grid = document.getElementById(gridId);
+  if (!grid) return [0, 2026];
+  const baseM = parseInt(grid.dataset.baseMonth || "4", 10);   // 0=Jan
+  const baseY = parseInt(grid.dataset.baseYear  || "2026", 10);
+  const offset = CAL_STATE[gridId] || 0;
+  let m = baseM + offset;
+  let y = baseY + Math.floor(m / 12);
+  m = ((m % 12) + 12) % 12;
+  return [m, y];
+}
+
+function _renderCal(gridId, labelId){
+  const g = document.getElementById(gridId);
+  if (!g) return;
+  const [m, y] = _calMonthYear(gridId);
+  const first = new Date(y, m, 1);
+  const last  = new Date(y, m+1, 0);
+  const startDow = first.getDay();
+  const days = last.getDate();
+  const today = new Date();
+  const tD = today.getDate(), tM = today.getMonth(), tY = today.getFullYear();
+  let html = '<div class="cal-dow">' +
+    ["Su","Mo","Tu","We","Th","Fr","Sa"].map(d => `<span>${d}</span>`).join('') +
+    '</div><div class="cal-days">';
+  for (let i=0; i<startDow; i++) html += '<div class="cal-day blank"></div>';
+  for (let d=1; d<=days; d++){
+    const isToday = (d===tD && m===tM && y===tY) ? ' today' : '';
+    html += `<div class="cal-day${isToday}" data-day="${d}" data-month="${m}" data-year="${y}">${d}</div>`;
+  }
+  html += '</div>';
+  g.innerHTML = html;
+  const lab = document.getElementById(labelId);
+  if (lab) lab.textContent = MONTHS_LONG[m] + " " + y;
+  _reapplyCalSelection();
+}
+
+// Re-apply selected/range markers after re-render (e.g. after month navigation)
+function _reapplyCalSelection(){
+  if (!W26_STATE.date && !W26_STATE.return_date) return;
+  const parseDate = (s) => {
+    if (!s) return null;
+    const m = s.match(/^([A-Za-z]+)\s+(\d+),\s+(\d+)$/);
+    if (!m) return null;
+    const mi = MONTHS_SHORT.indexOf(m[1].slice(0,3));
+    return mi<0 ? null : {m:mi, d:parseInt(m[2],10), y:parseInt(m[3],10)};
+  };
+  const a = parseDate(W26_STATE.date);
+  const b = parseDate(W26_STATE.return_date);
+  document.querySelectorAll('.cal-day:not(.blank)').forEach(cell => {
+    const cd = parseInt(cell.dataset.day,10);
+    const cm = parseInt(cell.dataset.month,10);
+    const cy = parseInt(cell.dataset.year,10);
+    cell.classList.remove('selected','range-end','in-range');
+    if (a && cd===a.d && cm===a.m && cy===a.y) cell.classList.add('selected');
+    if (b && cd===b.d && cm===b.m && cy===b.y) cell.classList.add('selected','range-end');
+    if (a && b){
+      const cur = new Date(cy,cm,cd).getTime();
+      const ta = new Date(a.y,a.m,a.d).getTime();
+      const tb = new Date(b.y,b.m,b.d).getTime();
+      if (cur>Math.min(ta,tb) && cur<Math.max(ta,tb)) cell.classList.add('in-range');
+    }
+  });
+}
+
+function _renderAllCals(){
+  document.querySelectorAll('[data-cal-grid]').forEach(node => {
+    const gid = node.dataset.calGrid;
+    const lid = node.dataset.calLabel || (gid + '-label');
+    _renderCal(gid, lid);
+  });
+}
+
+function calAdv(delta, gridIdL, gridIdR){
+  // dual-month: advance BOTH calendars in lock-step
+  CAL_STATE[gridIdL] = (CAL_STATE[gridIdL]||0) + delta;
+  if (gridIdR) CAL_STATE[gridIdR] = (CAL_STATE[gridIdR]||0) + delta;
+  _renderAllCals();
+}
+
+// --- Autocomplete ---
+function acShow(inp, kind){
+  const q = (inp.value || "").trim().toLowerCase();
+  let list = document.getElementById('ac-list-' + kind);
+  if (!list) return;
+  if (!q){ list.style.display = 'none'; list.innerHTML = ''; return; }
+  const hits = (window.AC_SUGS || []).filter(s => {
+    return s.code.toLowerCase().startsWith(q) ||
+           s.name.toLowerCase().includes(q) ||
+           s.city.toLowerCase().includes(q);
+  }).slice(0, 8);
+  if (!hits.length){
+    list.style.display = 'block';
+    list.innerHTML = '<div class="ac-no">Oh my, we couldn\u2019t find anything for &ldquo;' + inp.value + '&rdquo;</div>';
+    return;
+  }
+  list.style.display = 'block';
+  list.innerHTML = hits.map(h => `
+    <div class="ac-item" data-code="${h.code}" data-name="${h.name}" data-kind="${kind}">
+      <span class="ac-pin">📍</span>
+      <span class="ac-text">
+        <span class="ac-name">${h.name}</span>
+        <span class="ac-city">${h.city}${h.country ? ', ' + h.country : ''}</span>
+      </span>
+      <span class="ac-code">${h.code}</span>
+    </div>`).join('');
+  list.querySelectorAll('.ac-item').forEach(it => {
+    it.addEventListener('click', () => {
+      inp.value = it.dataset.name + ' (' + it.dataset.code + ')';
+      if (kind === 'dest' || kind === 'to') W26_STATE.dest = it.dataset.code;
+      else if (kind === 'origin' || kind === 'from') W26_STATE.origin = it.dataset.code;
+      list.style.display = 'none';
+      list.innerHTML = '';
+      _syncStatus();
+      applyFilters(); /* W26 polish auto-submit */
+    });
+  });
+}
+
+function _onDayClick(ev){
+  const t = ev.target.closest('.cal-day');
+  if (!t || t.classList.contains('blank')) return;
+  const m = parseInt(t.dataset.month, 10);
+  const y = parseInt(t.dataset.year, 10);
+  const d = parseInt(t.dataset.day, 10);
+  const txt = `${MONTHS_SHORT[m]} ${d}, ${y}`;
+  // double-click pattern: 1st click = depart, 2nd click = return (if depart already set)
+  if (!W26_STATE.date){
+    W26_STATE.date = txt;
+    document.querySelectorAll('.cal-day.selected').forEach(d => d.classList.remove('selected'));
+    t.classList.add('selected');
+  } else if (!W26_STATE.return_date){
+    W26_STATE.return_date = txt;
+    t.classList.add('selected', 'range-end');
+  } else {
+    // reset and start over
+    W26_STATE.date = txt;
+    W26_STATE.return_date = null;
+    document.querySelectorAll('.cal-day.selected, .cal-day.range-end').forEach(d => d.classList.remove('selected', 'range-end'));
+    t.classList.add('selected');
+  }
+  // write to visible inputs if any
+  const depInp = document.querySelector('[data-facet-input="depart"]');
+  if (depInp) depInp.value = W26_STATE.date || '';
+  const retInp = document.querySelector('[data-facet-input="return"]');
+  if (retInp) retInp.value = W26_STATE.return_date || '';
+  // Update TripAdvisor pill labels if present
+  const inLbl = document.getElementById('ck-in-lbl');
+  if (inLbl) inLbl.textContent = W26_STATE.date || 'Add date';
+  const outLbl = document.getElementById('ck-out-lbl');
+  if (outLbl) outLbl.textContent = W26_STATE.return_date || 'Add date';
+  // Update inline calendar stage pills (CHECK-IN / CHECK-OUT)
+  const csIn = document.getElementById('cs-val-in');
+  if (csIn) csIn.textContent = W26_STATE.date || 'Select date';
+  const csOut = document.getElementById('cs-val-out');
+  if (csOut) csOut.textContent = W26_STATE.return_date || 'Select date';
+  const pillIn = document.getElementById('cs-pill-in');
+  const pillOut = document.getElementById('cs-pill-out');
+  if (pillIn){ pillIn.classList.toggle('empty', !W26_STATE.date); pillIn.classList.toggle('active', !!W26_STATE.date && !W26_STATE.return_date); }
+  if (pillOut){ pillOut.classList.toggle('empty', !W26_STATE.return_date); pillOut.classList.toggle('active', !!W26_STATE.date && !!W26_STATE.return_date); }
+  _reapplyCalSelection();
+  _syncStatus();
+  applyFilters(); /* W26 polish day-click submit */
+}
+
+function _syncStatus(){
+  const el = document.getElementById('live-status');
+  if (!el) return;
+  const parts = [];
+  if (W26_STATE.origin) parts.push('origin: ' + W26_STATE.origin);
+  if (W26_STATE.dest) parts.push('dest: ' + W26_STATE.dest);
+  if (W26_STATE.date) parts.push('date: ' + W26_STATE.date);
+  if (W26_STATE.return_date) parts.push('return: ' + W26_STATE.return_date);
+  el.textContent = parts.length ? parts.join(' · ') : 'no filters set';
+  el.className = 'live-status' + (parts.length ? ' working' : '');
+}
+
+// --- task banner + submit ---
+const URL_PARAMS = new URLSearchParams(location.search);
+const CURRENT_TASK_ID = URL_PARAMS.get('task_id');
+window.__ENV_ID = "W26_E02"; const ENV_ID = window.__ENV_ID;
+
+async function loadTaskBanner(){
+  const banner = document.getElementById('task-banner');
+  if (!banner || !CURRENT_TASK_ID) return;
+  try {
+    const r = await fetch(`/env/${ENV_ID}/api/task/${CURRENT_TASK_ID}`);
+    if (!r.ok) return;
+    const t = await r.json();
+    banner.innerHTML = `<div class="tb-id">${t.id} · ${t.task_type}</div><div class="tb-text">${t.task_summary || ''}</div>`;
+    banner.style.display = 'block';
+  } catch(e){}
+}
+
+async function applyFilters(){
+  const answer = (document.getElementById('answer-input') || {}).value || '';
+  const filter_state = Object.assign({}, W26_STATE);
+  try {
+    const r1 = await fetch(`/env/${ENV_ID}/api/filter`, {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({filter_state})
+    });
+    const d1 = await r1.json();
+    const grid = document.getElementById('result-grid');
+    if (grid && d1.html_cards && !document.querySelector('.hotel-row')) grid.innerHTML = d1.html_cards;
+    const cnt = document.getElementById('result-count');
+    if (cnt) cnt.textContent = d1.count + ' results';
+  } catch(e){}
+  try {
+    const r2 = await fetch(`/env/${ENV_ID}/api/submit`, {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({filter_state, answer, task_id: CURRENT_TASK_ID || ''})
+    });
+    const d2 = await r2.json();
+    const ls = document.getElementById('live-status');
+    if (ls){
+      ls.textContent = d2.message || '';
+      ls.className = 'live-status ' + (d2.satisfies ? 'pass' : 'fail');
+    }
+  } catch(e){}
+}
+
+
+// W26 polish — destination tile click sets dest + submits
+function pickDest(node){
+  const code = node.dataset.code, name = node.dataset.name;
+  W26_STATE.dest = code;
+  // also reflect in the visible destination input if present
+  const destInp = document.querySelector('[oninput*="\'dest\'"], [oninput*="\'to\'"]');
+  if (destInp) destInp.value = name + ' (' + code + ')';
+  document.querySelectorAll('.dest-tile.selected').forEach(t => t.classList.remove('selected'));
+  node.classList.add('selected');
+  _syncStatus();
+  applyFilters();
+}
+// Debounced answer-input -> submit
+let _ansTimer = null;
+function onAnswerChange(){
+  clearTimeout(_ansTimer);
+  _ansTimer = setTimeout(() => { applyFilters(); }, 350);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  _renderAllCals();
+  document.addEventListener('click', _onDayClick);
+  // hide ac lists on outside click
+  document.body.addEventListener('click', (ev) => {
+    if (!ev.target.closest('.ac-inp') && !ev.target.closest('.ac-list')){
+      document.querySelectorAll('.ac-list').forEach(b => { b.style.display = 'none'; });
+    }
+  });
+  loadTaskBanner();
+  _syncStatus();
+  // initial render
+  const grid = document.getElementById('result-grid');
+  if (grid && grid.dataset.initial){
+    try { grid.innerHTML = JSON.parse(grid.dataset.initial).cards || ''; } catch(e){}
+  }
+});
+
+
+
+function openAcModal(kind){
+  var ov = document.getElementById('ac-modal-overlay');
+  if (!ov) return;
+  ov.querySelectorAll('.ac-modal-section').forEach(function(s){ s.style.display = (s.dataset.section===kind ? 'block':'none'); });
+  ov.classList.add('open');
+  var inp = ov.querySelector('.ac-modal-section[data-section="'+kind+'"] .ac-modal-input');
+  if (inp){ inp.focus(); }
+}
+function closeAcModal(){ var ov = document.getElementById('ac-modal-overlay'); if (ov) ov.classList.remove('open'); }
+
+// W26 polish: dispatch togglePop("ac-modal") / togglePop("ac-sidebar") / togglePop("cal-modal")
+(function(){
+  if (window._w26TogglePopPatched) return;
+  window._w26TogglePopPatched = true;
+  var _origToggle = window.togglePop;
+  window.togglePop = function(id, anchor){
+    if (id === 'ac-modal-origin'){ openAcModal('origin'); return; }
+    if (id === 'ac-modal-dest'){ openAcModal('dest'); return; }
+    if (id === 'ac-sidebar-origin'){ openAcSidebar('origin'); return; }
+    if (id === 'ac-sidebar-dest'){ openAcSidebar('dest'); return; }
+    if (id === 'cal-modal'){ openCalModal(); return; }
+    if (typeof _origToggle === 'function') return _origToggle(id, anchor);
+  };
+})();
+
+
+// W26 polish: when any .ac-item or .recent-card is clicked inside a modal/sidebar, close it after a tick
+(function(){
+  if (window._w26AcPickCloserPatched) return;
+  window._w26AcPickCloserPatched = true;
+  document.addEventListener('click', function(ev){
+    var t = ev.target.closest('.ac-item, .recent-card');
+    if (!t) return;
+    setTimeout(function(){
+      var mov = document.getElementById('ac-modal-overlay');
+      if (mov && mov.classList.contains('open')) mov.classList.remove('open');
+      var sov = document.getElementById('ac-sidebar-overlay');
+      var spn = document.getElementById('ac-sidebar-panel');
+      if (sov && sov.classList.contains('open')) sov.classList.remove('open');
+      if (spn && spn.classList.contains('open')) spn.classList.remove('open');
+    }, 50);
+  });
+})();
+</script>
+
+<div id="ac-modal-overlay" class="ac-modal-overlay" onclick="if(event.target===this)closeAcModal()">
+  <div class="ac-modal-card">
+  <div class="ac-modal-section" data-section="dest">
+    <div class="ac-modal-head"><span class="ac-modal-title">Choose destination</span>
+      <input class="ac-modal-input ac-inp" placeholder="Type a city or airport" oninput="focusAc('dest', event)" />
+      <button type="button" class="ac-modal-close" onclick="closeAcModal()">×</button>
+    </div>
+    <div id="ac-list-dest" class="ac-list ac-modal-list"></div>
+  </div></div>
+</div>
+<footer class="brand-footer">
+  <div class="ft-links"><span>About EchoStay</span><span>Press</span><span>Resources & Policies</span><span>Careers</span><span>Trust & Safety</span><span>Contact us</span><span>Accessibility</span></div>
+  <div>© 2026 EchoStay LLC All rights reserved. · Terms of Use · Privacy and Cookies Statement · Cookie consent · Site Map</div>
+</footer>
+</body>
+</html>

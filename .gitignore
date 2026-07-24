@@ -1,0 +1,63 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# macOS
+*DS_Store
+
+# Distribution / packaging
+.Python
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+sdist/
+wheels/
+*.egg-info/
+*.egg
+
+# Node / Vite build artifacts
+node_modules/
+.vite/
+
+# Unit test / coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+.cache
+.pytest_cache/
+
+# Linters / type checkers
+.ruff_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Logs
+*.log
+
+# Environments
+.env
+.venv
+harness/.venv
+env/
+venv/
+ENV/
+
+# SQLite runtime journal files (never ship)
+*.db-wal
+*.db-shm
+*.db-journal
+
+# Secrets — never commit
+secrets/
+*_sas_uri.txt
+
+# Local Copilot session log (not part of the release)
+COPILOT_SESSIONS.md

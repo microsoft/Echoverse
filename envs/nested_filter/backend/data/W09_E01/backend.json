@@ -1,0 +1,93 @@
+{
+  "env_id": "W09_E01",
+  "widget_id": "W09_calendar_multi_month_advance",
+  "archetype": "booking_form",
+  "filter_spec": {
+    "type": "date_pick",
+    "fields": [
+      "date"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T0801",
+      "task_index_in_env": 1,
+      "instruction_text": "Book AirAsia flights for me \u2014 the date is September 18, 2026.",
+      "expected_filter_state": {
+        "date": "September 18, 2026"
+      }
+    },
+    {
+      "task_id": "T0802",
+      "task_index_in_env": 2,
+      "instruction_text": "Could you book AirAsia flights for June 13? I want the dates to be exactly right.",
+      "expected_filter_state": {
+        "date": "June 13"
+      }
+    },
+    {
+      "task_id": "T0803",
+      "task_index_in_env": 3,
+      "instruction_text": "Set up AirAsia flights for check-in January 25, 2027.",
+      "expected_filter_state": {
+        "date": "check-in January 25, 2027"
+      }
+    },
+    {
+      "task_id": "T0804",
+      "task_index_in_env": 4,
+      "instruction_text": "I'd like to reserve AirAsia flights for July 17, 2026. Please get the calendar dates correct.",
+      "expected_filter_state": {
+        "date": "July 17, 2026"
+      }
+    },
+    {
+      "task_id": "T0805",
+      "task_index_in_env": 5,
+      "instruction_text": "Could you book AirAsia flights for January 21, 2027? I want the dates to be exactly right.",
+      "expected_filter_state": {
+        "date": "January 21, 2027"
+      }
+    },
+    {
+      "task_id": "T0806",
+      "task_index_in_env": 6,
+      "instruction_text": "Book AirAsia flights for me \u2014 the date is August 7 to August 14, 2026.",
+      "expected_filter_state": {
+        "date": "August 7 to August 14, 2026"
+      }
+    },
+    {
+      "task_id": "T0807",
+      "task_index_in_env": 7,
+      "instruction_text": "I'd like to reserve AirAsia flights for March 15, 2027. Please get the calendar dates correct.",
+      "expected_filter_state": {
+        "date": "March 15, 2027"
+      }
+    },
+    {
+      "task_id": "T0808",
+      "task_index_in_env": 8,
+      "instruction_text": "I'd like to reserve AirAsia flights for November 30, 2026. Please get the calendar dates correct.",
+      "expected_filter_state": {
+        "date": "November 30, 2026"
+      }
+    },
+    {
+      "task_id": "T0809",
+      "task_index_in_env": 9,
+      "instruction_text": "I'd like to reserve AirAsia flights for December 31, 2026. Please get the calendar dates correct.",
+      "expected_filter_state": {
+        "date": "December 31, 2026"
+      }
+    },
+    {
+      "task_id": "T0810",
+      "task_index_in_env": 10,
+      "instruction_text": "Set up AirAsia flights for check-in January 25 to January 28, 2027.",
+      "expected_filter_state": {
+        "date": "check-in January 25 to January 28, 2027"
+      }
+    }
+  ]
+}

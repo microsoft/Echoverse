@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>EchoTech — TVs & Home Theater</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+
+
+
+
+
+:root {
+  --primary: #0046be;
+  --primary-dark: #003097;
+  --accent: #fff200;
+  --bg: #f4f5f7;
+  --panel: #ffffff;
+  --border: #e0e3e7;
+  --text: #1d252c;
+  --muted: #5f6b76;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.4;
+}
+.site-header {
+  background: var(--primary); color: white; padding: 12px 24px;
+  display: flex; align-items: center; gap: 16px; box-shadow: 0 1px 0 rgba(0,0,0,0.1);
+}
+.site-brand { font-size: 22px; font-weight: 800; letter-spacing: -.5px; }
+.site-tagline { opacity: .85; font-size: 13px; }
+.task-banner {
+  background: var(--panel); border-left: 4px solid var(--primary);
+  padding: 12px 16px; margin: 12px 24px; border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+.task-banner-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 700; }
+.task-banner-text { font-size: 14px; margin-top: 4px; color: var(--text); }
+.live-status { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.live-status.ok { color: #1f8a3a; font-weight: 700; }
+.facet-group { border-bottom: 1px solid var(--border); padding: 12px 0; }
+.facet-title { font-weight: 700; font-size: 12px; text-transform: uppercase; color: var(--text); margin-bottom: 8px; letter-spacing: .5px; }
+.facet-options { display: flex; flex-direction: column; gap: 6px; }
+.facet-opt { display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; padding: 4px 6px; border-radius: 3px; }
+.facet-opt:hover { background: rgba(0,0,0,0.04); }
+.facet-opt.decoy .facet-val { font-weight: 600; }
+.facet-opt input { accent-color: var(--primary); }
+.facet-pill { font-size: 10px; background: var(--accent); color: var(--text); padding: 2px 5px; border-radius: 8px; font-weight: 700; }
+.answer-area {
+  background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+  padding: 12px; margin: 12px 24px;
+}
+.answer-area label { display: block; font-weight: 700; font-size: 12px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; letter-spacing: .5px; }
+.answer-input { width: 100%; min-height: 60px; padding: 8px; border: 1px solid var(--border); border-radius: 4px; font-family: inherit; font-size: 14px; resize: vertical; }
+.btn-submit {
+  background: var(--primary); color: white; border: 0; padding: 10px 20px;
+  border-radius: 4px; font-weight: 700; cursor: pointer; margin-top: 8px;
+}
+.btn-submit:hover { background: var(--primary-dark); }
+.result-count { font-size: 14px; color: var(--muted); padding: 8px 24px; }
+.result-grid { padding: 0 24px 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.result-grid > div { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 10px; }
+.facet-attribution { font-size: 10px; color: var(--muted); padding: 8px 24px; }
+
+        .page-wrap { display: flex; flex-direction: column; }
+        .facet-panel { display: flex; flex-wrap: wrap; gap: 12px; padding: 12px 24px; background: var(--panel); border-bottom: 1px solid var(--border); align-items: flex-start; }
+        .facet-header { display: none; }
+        .facet-group { border-bottom: 0; padding: 0; min-width: 180px; background: white; padding: 8px 12px; border: 1px solid var(--border); border-radius: 18px; }
+        .facet-title { margin-bottom: 6px; }
+        .facet-options { max-height: 160px; overflow-y: auto; }
+        
+/* ========== injected by W01 polish v4 — render card images for every theme ========== */
+.result-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)) !important; gap: 16px; padding: 0 24px 24px; }
+.result-grid.tiles { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important; }
+.result-grid.events { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important; }
+.result-grid.pets { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important; }
+/* Row layouts (article-row, job-row, listing-row, apt-card, flight-row, gh-row, game-row) get a single column. */
+.result-grid:has(.article-row), .result-grid:has(.job-row), .result-grid:has(.lstg-row), .result-grid:has(.apt-card), .result-grid:has(.flight-row), .result-grid:has(.gh-row), .result-grid:has(.game-row) { grid-template-columns: 1fr !important; }
+/* Tame the generic .result-grid > div placeholder style from W01 base CSS, but only when our themed cards aren't present. */
+.result-grid > div:not(.pet-card):not(.result-card):not(.article-row):not(.job-row):not(.event-tile):not(.tile-card):not(.lstg-row):not(.apt-card):not(.stays-card):not(.hotel-card):not(.flight-row):not(.gh-row):not(.game-tile) { background: var(--panel, #fff); border: 1px solid #e5e7eb; border-radius:6px; padding:10px; }
+/* But our themed cards control their own background/border/padding. */
+.result-grid > .pet-card, .result-grid > .result-card, .result-grid > .article-row, .result-grid > .job-row, .result-grid > .event-tile, .result-grid > .tile-card, .result-grid > .lstg-row, .result-grid > .apt-card, .result-grid > .stays-card, .result-grid > .hotel-card, .result-grid > .flight-row, .result-grid > .gh-row, .result-grid > .game-tile { background: initial; border: initial; padding: initial; }
+
+/* pet-card (Adopt-a-Pet, Petfinder) */
+.pet-card { position: relative; background:#fff; border:1px solid #e5e7eb; border-radius:10px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.pet-photo { height: 160px; background:#f5e7d6 linear-gradient(135deg,#ffd4a5,#ffa45e); background-size:cover !important; background-position:center !important; display:flex; align-items:center; justify-content:center; font-size:54px; }
+.pet-heart { position:absolute; top:10px; right:10px; width:30px; height:30px; border-radius:50%; background:rgba(255,255,255,0.92); display:flex; align-items:center; justify-content:center; font-size:15px; color:#bbb; box-shadow:0 2px 4px rgba(0,0,0,0.15); }
+.pet-body { padding:12px 14px 14px; }
+.pet-name { font-size:18px; font-weight:800; color:#d96a1f; letter-spacing:-0.2px; }
+.pet-meta { font-size:12px; color:#444; margin-top:3px; font-weight:500; }
+.pet-loc { font-size:12px; color:#666; margin-top:5px; }
+.pet-dist { font-size:11px; color:#888; margin-top:2px; }
+.pet-tags { margin-top:8px; display:flex; gap:4px; flex-wrap:wrap; }
+.pet-tag { font-size:10px; padding:2px 8px; background:#fff1de; color:#a14e07; border:1px solid #ffd9a8; border-radius:11px; font-weight:600; }
+
+/* result-card (ecommerce default — EchoTech/EchoShop) */
+.result-card { position:relative; background:#fff; border:1px solid #e5e7eb; border-radius:8px; overflow:hidden; box-shadow:0 1px 2px rgba(0,0,0,0.04); display:flex; flex-direction:column; }
+.result-thumb { height:160px; background:#f8f9fb; background-size:cover !important; background-position:center !important; display:flex; align-items:center; justify-content:center; font-size:42px; }
+.result-body { padding:10px 12px 12px; display:flex; flex-direction:column; gap:3px; }
+.result-brand { font-size:11px; color:#0654ba; font-weight:700; text-transform:uppercase; letter-spacing:.3px; }
+.result-name { font-size:13px; font-weight:600; color:#222; line-height:1.3; }
+.result-meta { font-size:11px; color:#666; }
+.result-rating-row { font-size:12px; color:#555; display:flex; gap:4px; align-items:center; }
+.result-stars { color:#f1a90b; }
+.result-reviews { color:#888; }
+.result-price-row { display:flex; gap:6px; align-items:baseline; margin-top:2px; }
+.result-was { font-size:11px; color:#999; text-decoration:line-through; }
+.result-price { font-size:16px; font-weight:800; color:#bb0a1e; }
+.result-save { font-size:10px; color:#0a6e2c; font-weight:700; }
+.result-tags { display:flex; flex-wrap:wrap; gap:3px; margin-top:3px; }
+.result-tag { font-size:9px; padding:2px 5px; background:#eef3ff; color:#1456b0; border-radius:3px; font-weight:600; }
+.result-tag.stock { background:#e7f7ed; color:#0a6e2c; }
+.result-tag.ship  { background:#fff4d6; color:#8a5c00; }
+.result-cta { margin-top:6px; padding:6px 10px; background:#ffd814; border:1px solid #fcd200; border-radius:18px; font-weight:700; font-size:11px; cursor:pointer; }
+
+/* article-row (EchoForge / news) — force light card for legibility on dark themes */
+.article-row { display:grid; grid-template-columns:1fr 160px; gap:14px; padding:14px 16px; background:#ffffff !important; color:#212529 !important; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:10px; }
+.article-thumb { width:160px; height:110px; background:#eef0f5; background-size:cover !important; background-position:center !important; border-radius:6px; }
+.article-thumb-fb { width:160px; height:110px; background:#eef0f5; display:flex; align-items:center; justify-content:center; font-size:36px; border-radius:6px; }
+.article-tagrow { font-size:11px; color:#6a737d; margin-bottom:3px; }
+.article-topic { color:#0366d6; font-weight:600; }
+.article-cat { color:#586069; }
+.article-title { font-size:16px; font-weight:700; color:#212529 !important; display:block; margin-bottom:5px; }
+.article-summary { font-size:12px; color:#586069 !important; line-height:1.45; }
+.article-meta { font-size:11px; color:#888 !important; margin-top:6px; display:flex; gap:4px; flex-wrap:wrap; }
+.article-actions { display:flex; gap:14px; margin-top:6px; font-size:11px; color:#0366d6; }
+.article-action { cursor:pointer; }
+
+/* job-row (Indeed / OhioMeansJobs) */
+.job-row { display:grid; grid-template-columns:48px 1fr auto; gap:12px; padding:12px 14px; background:#fff; border:1px solid #e5e7eb; border-radius:8px; align-items:flex-start; }
+.job-logo { width:48px; height:48px; background-color:#dfe6f0; background-size:cover !important; background-position:center !important; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:22px; color:#1456b0; font-weight:800; }
+.job-title-row { display:flex; gap:8px; align-items:center; }
+.job-title { font-size:14px; font-weight:700; color:#0a5dc2; cursor:pointer; }
+.job-match { font-size:10px; padding:1px 6px; background:#e7f7ed; color:#0a6e2c; border-radius:8px; font-weight:700; }
+.job-co { font-size:12px; color:#444; margin-top:2px; }
+.job-rating { color:#f1a90b; }
+.job-verified { color:#0a6e2c; font-weight:700; }
+.job-meta { font-size:11px; color:#666; margin-top:2px; }
+.job-salary { font-size:12px; color:#0a6e2c; font-weight:700; margin-top:3px; }
+.job-foot { font-size:10px; color:#888; margin-top:4px; display:flex; gap:10px; flex-wrap:wrap; }
+.job-actions { display:flex; flex-direction:column; gap:4px; align-items:flex-end; }
+.job-save { width:30px; height:30px; border-radius:50%; background:#f3f4f6; border:0; cursor:pointer; }
+.job-apply { padding:6px 10px; background:#0a5dc2; color:#fff; border:0; border-radius:4px; font-weight:700; cursor:pointer; font-size:11px; }
+
+/* event-tile (Eventbrite) */
+.event-tile { position:relative; background:#fff; border:1px solid #e5e7eb; border-radius:8px; overflow:hidden; }
+.event-photo { height:130px; background:#eee linear-gradient(135deg,#ff8a65,#ec407a); background-size:cover !important; background-position:center !important; }
+.event-date { position:absolute; top:10px; left:10px; background:#fff; border-radius:5px; padding:4px 6px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,0.15); min-width:38px; }
+.event-month { font-size:9px; color:#ec407a; font-weight:800; letter-spacing:.5px; }
+.event-day { font-size:18px; font-weight:800; color:#212529; line-height:1; }
+.event-dow { font-size:9px; color:#666; }
+.event-price-tag { position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.7); color:#fff; padding:2px 7px; border-radius:10px; font-size:10px; font-weight:700; }
+.event-price-tag.free { background:#0a6e2c; }
+.event-heart { position:absolute; top:140px; right:10px; width:28px; height:28px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; font-size:13px; color:#bbb; box-shadow:0 2px 4px rgba(0,0,0,0.18); }
+.event-body { padding:11px 13px 12px; }
+.event-name { font-size:14px; font-weight:700; color:#212529; line-height:1.3; }
+.event-meta { font-size:11px; color:#0a5dc2; margin-top:3px; font-weight:600; }
+.event-venue { font-size:11px; color:#555; margin-top:2px; }
+.event-attending { font-size:10px; color:#888; margin-top:4px; }
+
+/* tile-card (Etsy / Uniqlo / Cars.com) */
+.tile-card { position:relative; background:#fff; border:1px solid #eee; border-radius:8px; overflow:hidden; }
+.tile-photo { height:170px; background:#f0f0f0 linear-gradient(135deg,#dde,#aab); background-size:cover !important; background-position:center !important; display:flex; align-items:center; justify-content:center; font-size:44px; }
+.tile-heart { position:absolute; top:8px; right:8px; width:28px; height:28px; border-radius:50%; background:rgba(255,255,255,0.92); display:flex; align-items:center; justify-content:center; font-size:13px; color:#bbb; box-shadow:0 2px 4px rgba(0,0,0,0.15); }
+.tile-brand { display:block; padding:6px 10px 0; font-size:10px; color:#888; font-weight:700; text-transform:uppercase; letter-spacing:.3px; }
+.tile-name { padding:2px 10px 0; font-size:13px; margin-top:4px; font-weight:500; color:#222; line-height:1.35; }
+.tile-price-row { padding:4px 10px 0; display:flex; gap:6px; align-items:baseline; }
+.tile-price { font-size:15px; font-weight:800; color:#212529; }
+.tile-was { font-size:11px; color:#999; text-decoration:line-through; }
+.tile-meta { padding:2px 10px 0; font-size:11px; color:#666; }
+.tile-swatches { padding:5px 10px 0; display:flex; gap:4px; }
+.tile-swatch { width:14px; height:14px; border-radius:50%; border:1px solid #ddd; }
+.tile-ship { padding:4px 10px 10px; font-size:10px; color:#0a6e2c; font-weight:700; }
+
+
+
+.bb-header { background: #fff; border-bottom: 1px solid #e0e3e7; padding: 0; display:block; box-shadow:none; }
+.bb-utility { background:#0a2a8c; color:#fff; padding:5px 24px; font-size:12px; display:flex; gap:22px; align-items:center; }
+.bb-util-link { color:#fff; text-decoration:none; opacity:.95; font-weight:400; }
+.bb-util-link:hover { text-decoration:underline; }
+.bb-main { background:#0046be; color:#fff; padding:10px 24px; display:flex; align-items:center; gap:18px; }
+.bb-logo { display:inline-flex; align-items:center; color:#fff; text-decoration:none; line-height:.92; font-weight:900; font-size:20px; padding:4px 6px 6px; position:relative; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; letter-spacing:-.5px; }
+.bb-logo-text { display:inline-block; text-align:center; }
+.bb-logo::after { content:"E"; position:absolute; right:-2px; bottom:-2px; width:18px; height:9px; background:#fff200; border-radius:1px; transform:skewX(-8deg); display:flex; align-items:center; justify-content:center; color:#0046be; font-size:8px; font-weight:900; line-height:1; }
+.bb-menu { background:transparent; border:0; color:#fff; font-weight:700; font-size:16px; cursor:pointer; padding:8px 14px; display:inline-flex; align-items:center; gap:8px; margin-left:8px; }
+.bb-menu .bb-menu-icon { display:inline-flex; flex-direction:column; gap:3px; }
+.bb-menu .bb-menu-icon span { display:block; width:18px; height:2px; background:#fff; border-radius:1px; }
+.bb-search { flex:1; display:flex; position:relative; max-width:none; background:#fff; border-radius:24px; overflow:hidden; box-shadow:0 1px 0 rgba(0,0,0,0.04); }
+.bb-search input { flex:1; padding:11px 18px; border:0; border-radius:24px 0 0 24px; font-size:15px; color:#1d252c; outline:none; background:transparent; }
+.bb-search input::placeholder { color:#5a6470; }
+.bb-search-btn { width:48px; background:#fff; border:0; border-radius:0 24px 24px 0; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#1d252c; }
+.bb-search-btn:hover { color:#0046be; }
+.bb-search-btn svg { width:20px; height:20px; }
+.bb-cart { color:#fff; text-decoration:none; font-size:22px; margin-left:8px; display:none; }
+.bb-subnav { background:#0046be; color:#fff; padding:10px 24px; display:flex; gap:22px; border-top:1px solid rgba(255,255,255,0.12); font-size:13px; align-items:center; }
+.bb-subnav .nav-link { color:#fff; text-decoration:none; font-weight:500; }
+.bb-subnav .nav-link:hover { text-decoration:underline; }
+.bb-subnav .bb-sub-spacer { flex:1; }
+.bb-subnav .nav-link-strong { font-weight:700; }
+.bb-subnav .bb-sub-divider { width:1px; height:14px; background:rgba(255,255,255,0.35); display:inline-block; }
+
+/* Polished common chrome */
+.breadcrumb { font-size:12px; color:var(--muted); padding:12px 24px 4px; }
+.page-h1 { font-size:22px; font-weight:800; margin:6px 24px 14px; color:var(--text); letter-spacing:-.3px; }
+.catalog-toolbar { display:flex; align-items:center; justify-content:space-between; padding:8px 24px 14px; gap:14px; flex-wrap:wrap; border-bottom:1px solid var(--border); margin-bottom:14px; }
+.catalog-count { font-size:14px; color:var(--text); font-weight:600; }
+.catalog-sort { display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted); }
+.catalog-sort select { padding:6px 10px; border:1px solid var(--border); border-radius:4px; background:#fff; font-size:13px; color:var(--text); }
+.catalog-view { display:flex; gap:2px; margin-left:6px; }
+.catalog-view .view-btn { width:30px; height:30px; border:1px solid var(--border); background:#fff; cursor:pointer; font-size:13px; color:var(--muted); }
+.catalog-view .view-btn.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+.site-footer { background:#f8fafc; border-top:1px solid var(--border); padding:28px 28px; font-size:12px; color:var(--muted); margin-top:32px; display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap; }
+.site-footer .ft-col { flex:1; min-width:140px; }
+.site-footer h5 { font-size:12px; text-transform:uppercase; color:var(--text); letter-spacing:.5px; margin:0 0 8px; }
+.site-footer a { color:var(--muted); text-decoration:none; display:block; padding:2px 0; }
+.site-footer a:hover { color:var(--primary); }
+
+
+/* E02 — top-bar facet chrome (EchoLink / EchoTech modern) */
+.page-wrap { grid-template-columns: 1fr !important; }
+.results-panel { padding: 0 24px 24px; }
+.tb-facets { display: flex; gap: 10px; padding: 14px 24px 6px; flex-wrap: wrap; background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 30; }
+.tb-facet { position: relative; }
+.tb-facet > summary {
+  list-style: none; cursor: pointer; padding: 8px 14px;
+  border: 1px solid #bbb; border-radius: 22px; font-size: 13px; font-weight: 600;
+  background: #fff; color: var(--text); display: inline-flex; align-items: center; gap: 6px;
+  user-select: none;
+}
+.tb-facet > summary::-webkit-details-marker { display: none; }
+.tb-facet > summary::after { content: "▾"; font-size: 11px; color: #666; }
+.tb-facet[open] > summary { border-color: var(--primary); color: var(--primary); background: #f0f4ff; }
+.tb-facet[open] > summary::after { content: "▴"; color: var(--primary); }
+.tb-facet > .tb-dropdown {
+  position: absolute; top: calc(100% + 6px); left: 0; min-width: 220px;
+  background: #fff; border: 1px solid var(--border); border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12); padding: 12px 14px; z-index: 40;
+}
+.tb-dropdown .facet-options { gap: 8px; }
+.tb-summary-count { background: var(--primary); color: #fff; border-radius: 10px; padding: 1px 7px; font-size: 11px; }
+
+</style>
+</head>
+<body>
+<header class="site-header bb-header">
+  <div class="bb-utility">
+    <a href="#" class="bb-util-link">EchoPatio</a>
+    <a href="#" class="bb-util-link">EchoTech Outlet</a>
+    <a href="#" class="bb-util-link">EchoTech Business</a>
+  </div>
+  <div class="bb-main">
+    <a href="#" class="bb-logo" aria-label="EchoTech"><span class="bb-logo-text">EchoTech</span></a>
+    <button class="bb-menu" aria-label="Menu"><span class="bb-menu-icon"><span></span><span></span><span></span></span> Menu</button>
+    <div class="bb-search">
+      <input type="text" placeholder="Search EchoTech" aria-label="Search EchoTech">
+      <button class="bb-search-btn" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="20" y1="20" x2="16.5" y2="16.5"></line></svg>
+      </button>
+    </div>
+    <a href="#" class="bb-cart" aria-label="Cart">🛒</a>
+  </div>
+  <nav class="bb-subnav">
+    <a href="#" class="nav-link">Gift Ideas</a>
+    <a href="#" class="nav-link">Top Deals</a>
+    <a href="#" class="nav-link">Deal of the Day</a>
+    <a href="#" class="nav-link">My EchoTech Memberships</a>
+    <a href="#" class="nav-link">Credit Cards</a>
+    <a href="#" class="nav-link">Gift Cards</a>
+    <span class="bb-sub-spacer"></span>
+    <a href="#" class="nav-link nav-link-strong">Recently Viewed</a>
+    <a href="#" class="nav-link nav-link-strong">Order Status</a>
+    <a href="#" class="nav-link nav-link-strong">Saved Items</a>
+  </nav>
+</header>
+
+
+
+<nav class="breadcrumb">EchoTech › Tv & Home Theater › TVs › All Flat-Screen TVs</nav>
+<h1 class="page-h1">All Flat-Screen TVs</h1>
+<div class="page-wrap">
+<div class="tb-facets">
+<details class="tb-facet" data-facet-col="brand" open><summary>TV brand</summary><div class="tb-dropdown"><div class="facet-options"><label class="facet-opt"><input type="checkbox" data-facet="brand" value="Samsung" id="chk_brand_711699359"/> <span class="facet-val">EchoCore</span></label><label class="facet-opt"><input type="checkbox" data-facet="brand" value="Sony" id="chk_brand_472315704"/> <span class="facet-val">EchoVision</span></label><label class="facet-opt"><input type="checkbox" data-facet="brand" value="LG" id="chk_brand_532185169"/> <span class="facet-val">EchoDisplay</span></label><label class="facet-opt"><input type="checkbox" data-facet="brand" value="TCL" id="chk_brand_851551887"/> <span class="facet-val">EchoPanel</span></label><label class="facet-opt"><input type="checkbox" data-facet="brand" value="Hisense" id="chk_brand_89614185"/> <span class="facet-val">EchoSense</span></label><label class="facet-opt"><input type="checkbox" data-facet="brand" value="Vizio" id="chk_brand_933495781"/> <span class="facet-val">EchoCast</span></label></div></div></details>
+<details class="tb-facet" data-facet-col="condition" open><summary>Condition</summary><div class="tb-dropdown"><div class="facet-options"><label class="facet-opt" class="decoy"><input type="checkbox" data-facet="condition" value="New" id="chk_condition_713175806"/> <span class="facet-val">New</span></label><label class="facet-opt" class="decoy"><input type="checkbox" data-facet="condition" value="Open-Box" id="chk_condition_165242797"/> <span class="facet-val">Open-Box</span></label><label class="facet-opt" class="decoy"><input type="checkbox" data-facet="condition" value="Refurbished" id="chk_condition_49369481"/> <span class="facet-val">Refurbished</span></label><label class="facet-opt" class="decoy"><input type="checkbox" data-facet="condition" value="Pre-Owned" id="chk_condition_922150044"/> <span class="facet-val">Pre-Owned</span></label></div></div></details>
+<details class="tb-facet" data-facet-col="color"><summary>Screen size</summary><div class="tb-dropdown"><div class="facet-options"><label class="facet-opt"><input type="checkbox" data-facet="color" value="55&quot;" id="chk_color_165816600"/> <span class="facet-val">55"</span></label><label class="facet-opt"><input type="checkbox" data-facet="color" value="65&quot;" id="chk_color_33441583"/> <span class="facet-val">65"</span></label><label class="facet-opt"><input type="checkbox" data-facet="color" value="75&quot;" id="chk_color_662359716"/> <span class="facet-val">75"</span></label><label class="facet-opt"><input type="checkbox" data-facet="color" value="85&quot;" id="chk_color_595267525"/> <span class="facet-val">85"</span></label></div></div></details>
+<details class="tb-facet" data-facet-col="category"><summary>Resolution</summary><div class="tb-dropdown"><div class="facet-options"><label class="facet-opt"><input type="checkbox" data-facet="category" value="4K UHD" id="chk_category_430706870"/> <span class="facet-val">4K UHD</span></label><label class="facet-opt"><input type="checkbox" data-facet="category" value="8K UHD" id="chk_category_246832405"/> <span class="facet-val">8K UHD</span></label><label class="facet-opt"><input type="checkbox" data-facet="category" value="QLED 8K" id="chk_category_264195211"/> <span class="facet-val">QLED 8K</span></label><label class="facet-opt"><input type="checkbox" data-facet="category" value="Neo QLED 8K" id="chk_category_712842367"/> <span class="facet-val">Neo QLED 8K</span></label></div></div></details>
+</div>
+<main class="results-panel">
+  <div class="catalog-toolbar">
+    <div class="catalog-count" id="result-count">Loading…</div>
+    <div class="catalog-sort">
+      <label>Sort by:</label>
+      <select aria-label="Sort">
+        <option>Best Match</option><option>Top Rated</option><option>Best Selling</option><option>Price - Low to High</option><option>Price - High to Low</option>
+      </select>
+    </div>
+  </div>
+  <div class="result-grid" id="result-grid"></div>
+</main>
+</div>
+
+
+
+
+
+<script>
+const ENV_ID = "W01_E02";
+const SITE_BRAND = "EchoTech";
+function getTaskId() {
+  const u = new URL(window.location.href);
+  return u.searchParams.get('task_id') || '';
+}
+function collectFilterState() {
+  const fs = {};
+  document.querySelectorAll('input[data-facet]:checked').forEach(c => {
+    const col = c.dataset.facet, v = c.value;
+    fs[col] = fs[col] || [];
+    fs[col].push(v);
+  });
+  return fs;
+}
+async function loadTaskBanner() { /* no-op: task banner removed */ }
+async function applyFilters() {
+  const fs = collectFilterState();
+  try {
+    const r = await fetch(`/env/${ENV_ID}/api/filter`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({filter_state: fs})
+    });
+    const j = await r.json();
+    document.getElementById('result-count').textContent = `${j.count} listing${j.count===1?'':'s'} match your filters`;
+    document.getElementById('result-grid').innerHTML = j.html_cards || j.results.map(it => `<div><b>${it.title}</b><br><span style='color:#666;font-size:12px'>${(it.brand||'')} · ${(it.category||'')} · ${(it.color||'')} · ${(it.condition||'')}</span><br>★ ${it.rating} · $${it.price||0}</div>`).join('');
+  } catch(e) {
+    document.getElementById('result-count').textContent = 'Error loading results: ' + e.message;
+  }
+  await autoSubmit();
+}
+async function autoSubmit() {
+  const tid = getTaskId();
+  const fs = collectFilterState();
+  const ans = (document.getElementById('answer-input') || {}).value || '';
+  try {
+    const r = await fetch(`/env/${ENV_ID}/api/submit`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({filter_state: fs, answer: ans, task_id: tid})
+    });
+    const j = await r.json();
+    const ls = document.getElementById('live-status');
+    if (ls) ls.textContent = (j.satisfies ? '✅ Task satisfied!' : '⏳ ') + ' ' + (j.message||'');
+    if (ls) ls.className = 'live-status' + (j.satisfies ? ' ok' : '');
+  } catch(e) {}
+}
+document.addEventListener('DOMContentLoaded', () => {
+  loadTaskBanner();
+  applyFilters();
+  document.querySelectorAll('input[data-facet]').forEach(c => c.addEventListener('change', applyFilters));
+  /* answer-input listener removed */
+});
+
+</script>
+<footer class="site-footer">
+  <div class="ft-col"><h5>About</h5><a href="#">Company</a><a href="#">Careers</a><a href="#">Press</a></div>
+  <div class="ft-col"><h5>Support</h5><a href="#">Help center</a><a href="#">Contact</a><a href="#">FAQ</a></div>
+  <div class="ft-col"><h5>Legal</h5><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Cookies</a></div>
+  <div class="ft-col"><h5>Connect</h5><a href="#">EchoPost</a><a href="#">EchoSocial</a><a href="#">EchoLens</a></div>
+</footer>
+</body>
+</html>

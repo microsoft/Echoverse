@@ -1,0 +1,69 @@
+{
+  "env_id": "W02_E03",
+  "widget_id": "W02_bucketed_dropdown",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "bucket_match",
+    "fields": [
+      "bucket"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T0301",
+      "task_index_in_env": 1,
+      "instruction_text": "I'm researching Senate hearings. Set the Duration filter on the C-SPAN video archive to the '1-2 hours' bucket so I see the standard committee-length hearings, not the short clips or the marathon mult",
+      "expected_filter_state": {
+        "bucket": "1-2 hours"
+      }
+    },
+    {
+      "task_id": "T0302",
+      "task_index_in_env": 2,
+      "instruction_text": "Switch the archive's Duration dropdown to the longest bucket \u2014 the 'Over 2 hours' tier for full-length floor debates and marathon confirmation hearings.",
+      "expected_filter_state": {
+        "bucket": "Over 2 hours"
+      }
+    },
+    {
+      "task_id": "T0303",
+      "task_index_in_env": 3,
+      "instruction_text": "Help me find quick clips for a TV news package. Pick the shortest Duration bucket \u2014 'Under 15 min' \u2014 not the next-tier 15-60 min one.",
+      "expected_filter_state": {
+        "bucket": "Under 15 min"
+      }
+    },
+    {
+      "task_id": "T0304",
+      "task_index_in_env": 4,
+      "instruction_text": "Filter the C-SPAN video archive to the '15-60 min' Duration bucket \u2014 typical markup and briefing length.",
+      "expected_filter_state": {
+        "bucket": "15-60 min"
+      }
+    },
+    {
+      "task_id": "T0308",
+      "task_index_in_env": 8,
+      "instruction_text": "Apply the 'Over 2 hours' Duration bucket. Then tell me how many videos remain in that filtered view.",
+      "expected_filter_state": {
+        "bucket": "Over 2 hours"
+      }
+    },
+    {
+      "task_id": "T0309",
+      "task_index_in_env": 9,
+      "instruction_text": "Set the Duration dropdown to the '1-2 hours' bucket, then within that filtered view tell me which video has the shortest duration and its exact length.",
+      "expected_filter_state": {
+        "bucket": "1-2 hours"
+      }
+    },
+    {
+      "task_id": "T0310",
+      "task_index_in_env": 10,
+      "instruction_text": "Filter to the 'Under 15 min' Duration bucket. Then within that filtered set, which video has the longest duration and what is that duration?",
+      "expected_filter_state": {
+        "bucket": "Under 15 min"
+      }
+    }
+  ]
+}

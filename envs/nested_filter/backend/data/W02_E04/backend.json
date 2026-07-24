@@ -1,0 +1,69 @@
+{
+  "env_id": "W02_E04",
+  "widget_id": "W02_bucketed_dropdown",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "bucket_match",
+    "fields": [
+      "bucket"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T0401",
+      "task_index_in_env": 1,
+      "instruction_text": "I'm browsing Audible's Business & Careers bestsellers. Set the Length filter to the '10-20 hours' bucket \u2014 I want a meaty audiobook for a road trip, not a short summary and not the marathon biographie",
+      "expected_filter_state": {
+        "bucket": "10-20 hours"
+      }
+    },
+    {
+      "task_id": "T0402",
+      "task_index_in_env": 2,
+      "instruction_text": "Switch the Audible Length dropdown to the longest bucket \u2014 the 'Over 20 hours' tier for full biographies.",
+      "expected_filter_state": {
+        "bucket": "Over 20 hours"
+      }
+    },
+    {
+      "task_id": "T0403",
+      "task_index_in_env": 3,
+      "instruction_text": "Filter the catalog to the '1-3 hours' Length bucket \u2014 short-form business reads, not the under-an-hour summaries and not the 3-6 hour standard length.",
+      "expected_filter_state": {
+        "bucket": "1-3 hours"
+      }
+    },
+    {
+      "task_id": "T0404",
+      "task_index_in_env": 4,
+      "instruction_text": "Apply the '3-6 hours' Length bucket on the Audible Length filter \u2014 the typical commute-week duration.",
+      "expected_filter_state": {
+        "bucket": "3-6 hours"
+      }
+    },
+    {
+      "task_id": "T0408",
+      "task_index_in_env": 8,
+      "instruction_text": "Filter the catalog to the 'Over 20 hours' Length bucket, then tell me how many audiobooks remain.",
+      "expected_filter_state": {
+        "bucket": "Over 20 hours"
+      }
+    },
+    {
+      "task_id": "T0409",
+      "task_index_in_env": 9,
+      "instruction_text": "Apply the '10-20 hours' Length filter and then within that view tell me which audiobook has the highest star rating along with its exact length.",
+      "expected_filter_state": {
+        "bucket": "10-20 hours"
+      }
+    },
+    {
+      "task_id": "T0410",
+      "task_index_in_env": 10,
+      "instruction_text": "Switch the Audible Length dropdown to 'Under 1 hour' (the short-summary bucket). Then tell me which title in that bucket has the most ratings.",
+      "expected_filter_state": {
+        "bucket": "Under 1 hour"
+      }
+    }
+  ]
+}

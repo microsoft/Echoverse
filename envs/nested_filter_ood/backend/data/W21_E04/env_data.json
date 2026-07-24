@@ -1,0 +1,57 @@
+{
+  "env_id": "W21_E04",
+  "widget_id": "W21_calendar_advance_plus_return_validation",
+  "widget_name": "Calendar multi-month advance + return-after-depart validation",
+  "widget_category": "combo_calendar",
+  "widget_mechanic": "Compose: calendar must advance to depart-target month AND return must be set \u2265 depart in correct order.",
+  "archetype": "booking_form",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W09_calendar_multi_month_advance",
+    "W11_return_after_depart_validation"
+  ],
+  "site_imitates": "KLM round-trip booking on klm.com",
+  "product_type": "KLM round-trip",
+  "source_inspiration": [
+    {
+      "task_id": "flights_klm_9",
+      "benchmark": "WTB",
+      "site": "klm",
+      "instruction": "Book a flight with KLM from Lagos, Nigeria to Frankfurt, Germany flying out 07/17/2026 \u2192 coming back 07/25/2026. If there are no available flights for those dates, please show evidence and indicate this in your answer. Any other blocker is considered a failure.",
+      "first_failure_summary": "[6.4] Fine-grained grounding error: The typing/click point was grounded on the header/alert area rather than the intended 'From' text input field in the booking form."
+    }
+  ],
+  "theme_key": "hotels",
+  "theme_logo": "BookEasy",
+  "theme_card": "hotel-card",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 3,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "primary_inspiration": "flights_klm_9",
+  "brand_colors": {
+    "header_bg": "#00a1de",
+    "header_fg": "#fff",
+    "primary": "#00a1de",
+    "primary_hover": "#0080b0",
+    "accent": "#003a52",
+    "background": "#ffffff",
+    "accent_fg": "#003a52",
+    "accent_bg": "#e6f7fc"
+  },
+  "ui_pattern": "text_popovers",
+  "ui_pattern_description": "Two text date fields with independent pop-over calendars (depart on left, return on right)",
+  "fara_grounded_dates": {
+    "depart": "2026-07-17",
+    "return": "2026-07-25"
+  },
+  "fara_grounded_route": {
+    "from_city": "Lagos",
+    "from_code": "LOS",
+    "to_city": "Frankfurt",
+    "to_code": "FRA"
+  }
+}

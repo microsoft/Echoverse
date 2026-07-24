@@ -1,0 +1,95 @@
+{
+  "env_id": "W08_E06",
+  "widget_id": "W08_filter_chip_confirmation",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "brand",
+      "condition",
+      "color"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "W08_E06_T001",
+      "task_index_in_env": 1,
+      "instruction_text": "Find **condos for rent** in Houston that are **Pets allowed** \u2014 apply the Home Type (Condo) and Amenity (Pets allowed) chips. Both should appear in the applied-pill row above the map.",
+      "expected_filter_state": {
+        "constraint": "category=[Condo], color=[Pets allowed]"
+      }
+    },
+    {
+      "task_id": "W08_E06_T002",
+      "task_index_in_env": 2,
+      "instruction_text": "Mirror the Apartments.com request: a **Condo** in Houston for **monthly rent \u2264 $2,000**, pets-allowed. Apply Condo + Pets-allowed chips + the rent band $0\u2013$2,000. Verify all three pills sit in the applied row before reading off matches.",
+      "expected_filter_state": {
+        "constraint": "category=[Condo], color=[Pets allowed], max_price=2000"
+      }
+    },
+    {
+      "task_id": "W08_E06_T003",
+      "task_index_in_env": 3,
+      "instruction_text": "Apply **Condo** (home type) + **Pets allowed** (amenity) + **Available now** (listing status) + $0\u2013$2,000 rent. Then \u00d7 off the Available-now chip so listing status is unconstrained.",
+      "expected_filter_state": {
+        "constraint": "category=[Condo], color=[Pets allowed], max_price=2000"
+      }
+    },
+    {
+      "task_id": "W08_E06_T004",
+      "task_index_in_env": 4,
+      "instruction_text": "Cross-compare two home types: apply **Condo** AND **Townhouse** under Home Type, plus **Pets allowed** amenity. Then \u00d7 off the Townhouse chip so the applied row shows Condo + Pets-allowed only.",
+      "expected_filter_state": {
+        "constraint": "category=[Condo], color=[Pets allowed]"
+      }
+    },
+    {
+      "task_id": "W08_E06_T005",
+      "task_index_in_env": 5,
+      "instruction_text": "No filters \u2014 how many listings total on ApartmentFind right now?",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E06_T006",
+      "task_index_in_env": 6,
+      "instruction_text": "Without filtering, which listing has the highest rating, and what's its rating?",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E06_T007",
+      "task_index_in_env": 7,
+      "instruction_text": "No filters \u2014 count listings priced under $2,000/month versus $2,000-and-up.",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E06_T008",
+      "task_index_in_env": 8,
+      "instruction_text": "Apply the **Condo** (home type) chip AND the **Pets allowed** (amenity) chip. After both pills sit in the applied row, tell me how many pet-friendly condos are listed.",
+      "expected_filter_state": {
+        "constraint": "category=[Condo], color=[Pets allowed]"
+      }
+    },
+    {
+      "task_id": "W08_E06_T009",
+      "task_index_in_env": 9,
+      "instruction_text": "Multi-step replay: apply **Condo** + **Pets allowed** + $0\u2013$2,000 rent + **Greystar** property manager. Then \u00d7 off the Greystar chip so manager is unconstrained. Tell me how many pet-friendly condos under $2,000 remain.",
+      "expected_filter_state": {
+        "constraint": "category=[Condo], color=[Pets allowed], max_price=2000"
+      }
+    },
+    {
+      "task_id": "W08_E06_T010",
+      "task_index_in_env": 10,
+      "instruction_text": "Apply **Condo** + **Pets allowed** + the $0\u2013$2,000 rent band. Once all three pills are docked, name the cheapest pet-friendly condo under $2K (title + rent).",
+      "expected_filter_state": {
+        "constraint": "category=[Condo], color=[Pets allowed], max_price=2000"
+      }
+    }
+  ]
+}

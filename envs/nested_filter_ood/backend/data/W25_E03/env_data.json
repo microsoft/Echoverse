@@ -1,0 +1,37 @@
+{
+  "env_id": "W25_E03",
+  "widget_id": "W25_plus_chip_plus_property_type",
+  "widget_name": "Plus-chip bedrooms + property-type exclusive filter",
+  "widget_category": "combo_realestate_filters",
+  "widget_mechanic": "Compose: \u2265N-bedroom plus-chip AND single-family-only property-type filter.",
+  "archetype": "realestate_listings",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W05_plus_chips_at_least",
+    "W18_property_type_exclusive_filter"
+  ],
+  "site_imitates": "Zillow \u2014 Omaha, NE",
+  "product_type": "homes",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_omaha__ne_11006",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "I'm looking to buy a house in Omaha, NE with 4 or more bedrooms, a large lot, and near top-rated schools. Can you find a listing that meets these criteria?",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent concluded the listing\u2019s lot size (7,405.2 sq ft) \u201csatisfies the large-lot requirement,\u201d even though this is not convincingly a large lot and is inconsistent with the agent\u2019s earlier stated minimum lot filter of 1/4 acre (10,890 sq ft)."
+    }
+  ],
+  "theme_key": "zillow",
+  "theme_logo": "Zillow",
+  "theme_card": "row",
+  "theme_layout": "sticky-pills-top",
+  "variant_idx": 2,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "bed_ui": "chips",
+  "ptype_ui": "dropdown",
+  "city": "Omaha, NE"
+}

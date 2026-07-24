@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "calc_type": "college savings \u2014 3-year-old, parents leaning toward a private 4-year college",
+    "scenario": "3-year-old, parents leaning toward a private 4-year college",
+    "child_age_default": 3,
+    "start_age_default": 18,
+    "default_inputs": {
+      "tuition": 35000,
+      "room_board": 14000,
+      "years": 15,
+      "income": 90000,
+      "inflation": 5,
+      "current_savings": 0,
+      "monthly_contributions": 150,
+      "rate_of_return": 7
+    },
+    "site": "Office of Financial Readiness (finred.usalearning.gov) College Savings Calculator"
+  }
+]

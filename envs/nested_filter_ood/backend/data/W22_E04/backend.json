@@ -1,0 +1,101 @@
+{
+  "env_id": "W22_E04",
+  "widget_id": "W22_min_max_slider_plus_plus_chip",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2131",
+      "task_index_in_env": 1,
+      "instruction_text": "Help me search Realtor.com Little Rock AR for Little Rock homes priced under $500,000 that have 4+ beds.",
+      "expected_filter_state": {
+        "max_price": 500000,
+        "min_beds": 4
+      }
+    },
+    {
+      "task_id": "T2132",
+      "task_index_in_env": 2,
+      "instruction_text": "Show me Little Rock homes on Realtor.com Little Rock AR \u2014 budget $450,000 max, 3+ bedrooms.",
+      "expected_filter_state": {
+        "max_price": 450000,
+        "min_beds": 3
+      }
+    },
+    {
+      "task_id": "T2133",
+      "task_index_in_env": 3,
+      "instruction_text": "On Realtor.com Little Rock AR, find Little Rock homes under $350,000 with at least 2 bedrooms.",
+      "expected_filter_state": {
+        "max_price": 350000,
+        "min_beds": 2
+      }
+    },
+    {
+      "task_id": "T2134",
+      "task_index_in_env": 4,
+      "instruction_text": "I'm looking on Realtor.com Little Rock AR for Little Rock homes that fit under $750,000 and have 4 or more bedrooms.",
+      "expected_filter_state": {
+        "max_price": 750000,
+        "min_beds": 4
+      }
+    },
+    {
+      "task_id": "T2135",
+      "task_index_in_env": 5,
+      "instruction_text": "On Realtor.com Little Rock AR, find Little Rock homes under $300,000 with at least 1 bedrooms.",
+      "expected_filter_state": {
+        "max_price": 300000,
+        "min_beds": 1
+      }
+    },
+    {
+      "task_id": "T2136",
+      "task_index_in_env": 6,
+      "instruction_text": "Help me search Realtor.com Little Rock AR for Little Rock homes priced under $650,000 that have 3+ beds.",
+      "expected_filter_state": {
+        "max_price": 650000,
+        "min_beds": 3
+      }
+    },
+    {
+      "task_id": "T2137",
+      "task_index_in_env": 7,
+      "instruction_text": "On Realtor.com Little Rock AR, find Little Rock homes under $550,000 with at least 4 bedrooms.",
+      "expected_filter_state": {
+        "max_price": 550000,
+        "min_beds": 4
+      }
+    },
+    {
+      "task_id": "T2138",
+      "task_index_in_env": 8,
+      "instruction_text": "Show me Little Rock homes on Realtor.com Little Rock AR \u2014 budget $400,000 max, 2+ bedrooms.",
+      "expected_filter_state": {
+        "max_price": 400000,
+        "min_beds": 2
+      }
+    },
+    {
+      "task_id": "T2139",
+      "task_index_in_env": 9,
+      "instruction_text": "Show me Little Rock homes on Realtor.com Little Rock AR \u2014 budget $850,000 max, 5+ bedrooms.",
+      "expected_filter_state": {
+        "max_price": 850000,
+        "min_beds": 5
+      }
+    },
+    {
+      "task_id": "T2140",
+      "task_index_in_env": 10,
+      "instruction_text": "Show me Little Rock homes on Realtor.com Little Rock AR \u2014 budget $250,000 max, 2+ bedrooms.",
+      "expected_filter_state": {
+        "max_price": 250000,
+        "min_beds": 2
+      }
+    }
+  ]
+}

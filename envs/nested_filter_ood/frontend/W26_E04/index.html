@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EchoAir — EchoAir flight Warsaw → New York (JFK)</title>
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+
+
+
+
+
+:root { --brand: #102C58; --accent: #E51E31; }
+
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1a1a1a;background:#fafafa;min-height:100vh;padding-bottom:80px}
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #e0e0e0;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:1000;box-shadow:0 -2px 12px rgba(0,0,0,.08)}
+.live-status{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#555;padding:8px 12px;background:#f4f4f4;border-radius:6px;flex:1;min-width:200px}
+.live-status.working{background:#e7f1ff;color:#0a3b7e}
+.live-status.pass{background:#d4f4d8;color:#175c2c;border:1px solid #5cc274}
+.live-status.fail{background:#fde6e6;color:#7a1f1f;border:1px solid #e07b7b}
+.bar-actions{display:flex;gap:8px;align-items:center}
+.answer-input{padding:8px 12px;border:1px solid #cbd5e0;border-radius:6px;font-size:13px;min-width:240px}
+.btn-apply{padding:9px 18px;background:#222;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer}
+.btn-apply:hover{filter:brightness(1.1)}
+.task-banner{position:fixed;top:0;left:0;right:0;background:#fff8d2;border-bottom:1px solid #e3d18c;padding:8px 16px;font-size:13px;z-index:2000;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.task-banner .tb-id{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#7a661c;margin-bottom:2px}
+.task-banner .tb-text{color:#4a3a00;font-weight:500}
+.ac-list{position:absolute;z-index:1100;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 12px 30px rgba(0,0,0,.14);min-width:320px;max-width:480px;max-height:340px;overflow-y:auto;margin-top:4px;padding:6px 0;display:none}
+.ac-item{padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;border-bottom:1px solid #f3f4f6}
+.ac-item:hover{background:#f6f8fc}
+.ac-item:last-child{border-bottom:none}
+.ac-pin{font-size:14px;color:#888;flex:0 0 16px}
+.ac-text{flex:1;display:flex;flex-direction:column;gap:1px;min-width:0}
+.ac-name{font-size:14px;color:#1a1a1a;font-weight:500;line-height:1.2}
+.ac-city{font-size:12px;color:#7a7a7a;line-height:1.2}
+.ac-code{font-weight:700;font-size:12px;color:#666;letter-spacing:.5px;flex:0 0 auto;padding:2px 8px;border-radius:4px;background:#f0f3f7}
+.ac-no{padding:14px 16px;color:#b34a4a;font-size:13px;font-style:italic}
+.cal-pop{display:none;position:absolute;z-index:1100;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 14px 38px rgba(0,0,0,.18);padding:14px 16px;margin-top:6px;min-width:580px}
+.cal-pop.open{display:block}
+.cal-dual{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding:0 4px}
+.cal-head .cal-month{font-weight:700;font-size:14px;color:#222;flex:1;text-align:center}
+.cal-nav{background:transparent;border:none;width:28px;height:28px;cursor:pointer;font-size:18px;color:#444;border-radius:6px}
+.cal-nav:hover{background:#f0f3f7}
+.cal-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;margin-bottom:4px}
+.cal-dow span{text-align:center;font-size:11px;font-weight:600;color:#888;padding:4px 0}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:1px}
+.cal-day{padding:8px 0;text-align:center;cursor:pointer;border-radius:6px;font-size:13px;color:#222;background:transparent;transition:all .15s}
+.cal-day.blank{cursor:default;visibility:hidden}
+.cal-day:not(.blank):hover{background:#e6f0fd}
+.cal-day.selected{background:var(--brand, #0066cc);color:#fff;font-weight:700}
+.cal-day.range-end{background:var(--brand, #0066cc);color:#fff}
+.result-grid{display:flex;flex-direction:column;gap:10px;padding:16px}
+.flight-row{background:#fff;border:1px solid #e6eaef;border-radius:8px;padding:14px 16px;display:grid;grid-template-columns:140px 1fr 200px 140px;gap:14px;align-items:center;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.flight-row .fr-air{font-weight:700;font-size:14px;color:#222}
+.flight-row .fr-air .fr-sub{font-weight:400;font-size:11px;color:#888;display:block;margin-top:2px}
+.flight-row .fr-route{display:flex;align-items:center;gap:10px;font-size:13px}
+.flight-row .fr-end{text-align:center}
+.flight-row .fr-time{font-weight:700;font-size:16px;color:#222}
+.flight-row .fr-code{font-size:11px;color:#888;letter-spacing:.5px}
+.flight-row .fr-mid{flex:1;text-align:center;color:#888;font-size:11px}
+.flight-row .fr-mid .fr-line{height:1px;background:#cbd5e0;margin:4px 0;position:relative}
+.flight-row .fr-mid .fr-line::after{content:'✈';position:absolute;right:-2px;top:-8px;color:#888;font-size:11px}
+.flight-row .fr-meta{font-size:12px;color:#666}
+.flight-row .fr-meta .fr-when{color:#222;font-weight:600}
+.flight-row .fr-price{text-align:right}
+.flight-row .fr-price .fr-amt{font-weight:800;font-size:20px;color:var(--brand,#0066cc)}
+.flight-row .fr-price .fr-per{font-size:11px;color:#888}
+.flight-row .fr-price button{margin-top:6px;padding:6px 14px;background:var(--brand,#0066cc);color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer;font-size:12px}
+.hotel-row{background:#fff;border:1px solid #e6eaef;border-radius:8px;padding:0;display:grid;grid-template-columns:200px 1fr 160px;gap:0;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.hotel-row .hr-img{height:140px;background-size:cover;background-position:center;background-color:#dde}
+.hotel-row .hr-body{padding:12px 16px}
+.hotel-row .hr-name{font-weight:700;font-size:15px;color:#222;margin-bottom:4px}
+.hotel-row .hr-loc{font-size:12px;color:#777;margin-bottom:6px}
+.hotel-row .hr-rev{font-size:12px;color:#0a8754;font-weight:600;margin-bottom:6px}
+.hotel-row .hr-meta{font-size:12px;color:#555;line-height:1.5}
+.hotel-row .hr-price{padding:14px 12px;text-align:right;background:#fafbfc;border-left:1px solid #eef}
+.hotel-row .hr-price .hr-amt{font-weight:800;font-size:20px;color:#222}
+.hotel-row .hr-price .hr-per{font-size:11px;color:#888}
+.hotel-row .hr-price button{margin-top:8px;padding:6px 12px;background:var(--brand,#0066cc);color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer;font-size:12px}
+.section-head{padding:12px 16px;font-size:14px;color:#666;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eef}
+.section-head h2{margin:0;font-size:16px;color:#222}
+
+
+body { background:#fff }
+.lt-top { background:#fff; border-bottom:1px solid #e8e8e8; padding:14px 32px; display:flex; align-items:center; gap:30px }
+.lt-logo { display:flex; align-items:center; gap:10px }
+.lt-logo svg.lt-crane { width:34px; height:34px; display:block }
+.lt-logo .word { font-weight:900; font-size:26px; color:#102C58; letter-spacing:.5px; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif }
+.lt-nav { display:flex; gap:26px; flex:1 }
+.lt-nav a { color:#102C58; text-decoration:none; font-size:14px; font-weight:600 }
+.lt-nav a.active { border-bottom:3px solid #E51E31; padding-bottom:6px }
+.lt-right { display:flex; align-items:center; gap:14px; font-size:13px; color:#3b4a63 }
+.lt-right .pill { padding:5px 10px; border-radius:20px; background:#f1f4f9; font-weight:600; color:#102C58 }
+.lt-hero { background:linear-gradient(115deg,#0a1f44 0%,#102C58 45%,#1a3a72 100%); padding:46px 32px 110px; color:#fff; position:relative; overflow:hidden }
+.lt-hero::before { content:''; position:absolute; right:-80px; top:-40px; width:520px; height:520px; background:radial-gradient(circle at center,rgba(229,30,49,.18),transparent 60%); pointer-events:none }
+.lt-hero::after { content:''; position:absolute; left:0; right:0; bottom:0; height:80px; background:linear-gradient(transparent,rgba(255,255,255,.08)); pointer-events:none }
+.lt-hero .hero-eyebrow { font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#ffd0d6; font-weight:700; margin-bottom:8px }
+.lt-hero h1 { font-size:36px; font-weight:700; margin:0; line-height:1.1; max-width:760px }
+.lt-hero .tag { color:#c5d4ec; font-size:15px; margin-top:10px; max-width:680px }
+.lt-card { max-width:1080px; margin:-80px auto 0; background:#fff; border-radius:10px; box-shadow:0 14px 40px rgba(0,0,0,.22); padding:24px 28px; position:relative; z-index:5 }
+.lt-tabs { display:flex; gap:4px; margin-bottom:18px; border-bottom:1px solid #e6eaef }
+.lt-tab { padding:11px 18px; border-radius:6px 6px 0 0; font-weight:700; font-size:13px; color:#7a8497; cursor:pointer; background:transparent; margin-bottom:-1px }
+.lt-tab.active { background:#fff; color:#102C58; border:1px solid #e6eaef; border-bottom:3px solid #E51E31 }
+.lt-tripopts { display:flex; gap:18px; margin-bottom:14px; align-items:center; font-size:13px; color:#3b4a63 }
+.lt-tripopts label { display:inline-flex; align-items:center; gap:6px; cursor:pointer }
+.lt-tripopts input[type="checkbox"] { accent-color:#E51E31 }
+.lt-form { display:grid; grid-template-columns:1.3fr 0.3fr 1.3fr 1fr 1fr 1fr; gap:8px; align-items:end }
+.lt-field { display:flex; flex-direction:column; gap:4px; position:relative }
+.lt-field label { font-size:11px; font-weight:700; color:#102C58; text-transform:uppercase; letter-spacing:.4px }
+.lt-field input { padding:13px 12px; border:1px solid #c8d4dd; border-radius:4px; font-size:14px; outline:none; background:#fff }
+.lt-field input:focus { border-color:#E51E31; box-shadow:0 0 0 2px rgba(229,30,49,.15) }
+.lt-swap { display:flex; align-items:center; justify-content:center; height:44px }
+.lt-swap button { background:#fff; border:1px solid #c8d4dd; border-radius:50%; width:36px; height:36px; cursor:pointer; color:#102C58; font-size:15px }
+.lt-search { background:#E51E31; color:#fff; padding:13px 18px; border:none; border-radius:4px; font-size:14px; font-weight:800; cursor:pointer; height:44px }
+.lt-search:hover { background:#c11629 }
+.lt-promo { margin-top:14px; padding:12px 16px; background:#f6fbf6; border-left:4px solid #00B23F; color:#175c2c; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px }
+.lt-results { max-width:1080px; margin:24px auto 0; padding:0 32px }
+.cal-day.selected, .cal-day.range-end { background:#E51E31; color:#fff }
+/* LOT footer */
+.lt-footer { margin-top:40px; background:#0a1f44; color:#aac1e3; padding:30px 32px 22px; font-size:13px }
+.lt-footer-inner { max-width:1080px; margin:0 auto; display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:30px }
+.lt-footer h4 { color:#fff; font-size:13px; margin:0 0 10px; text-transform:uppercase; letter-spacing:.6px }
+.lt-footer ul { margin:0; padding:0; list-style:none }
+.lt-footer ul li { margin-bottom:6px }
+.lt-footer ul li a { color:#aac1e3; text-decoration:none }
+.lt-footer-bottom { max-width:1080px; margin:18px auto 0; padding-top:14px; border-top:1px solid #1e3461; display:flex; justify-content:space-between; color:#7a93bd; font-size:12px }
+
+
+/* W26 polish — destination image strip + auto-submit */
+.dest-strip-wrap { max-width:1100px; margin:24px auto 0; padding:0 32px; }
+.dest-strip-head { font-size:13px; font-weight:700; color:#444; margin-bottom:10px; text-transform:uppercase; letter-spacing:.6px; }
+.dest-strip { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; }
+.dest-tile { position:relative; height:120px; border-radius:10px; overflow:hidden; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.08); transition:transform .15s, box-shadow .15s; background:#dde; }
+.dest-tile:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.18); }
+.dest-tile img { width:100%; height:100%; object-fit:cover; display:block; }
+.dest-tile .dest-label { position:absolute; left:0; right:0; bottom:0; padding:8px 10px; background:linear-gradient(to top, rgba(0,0,0,.78), rgba(0,0,0,0)); color:#fff; }
+.dest-tile .dest-name { font-size:13px; font-weight:700; line-height:1.1; }
+.dest-tile .dest-code { font-size:10px; opacity:.85; letter-spacing:.5px; margin-top:2px; }
+.dest-tile.selected { outline:3px solid var(--brand, #007F3D); }
+
+/* Auto-submit affordance: replace search button area with a status pill */
+.aa-search-replaced, .ta-sb-btn-replaced, .kl-search-replaced, .lt-search-replaced,
+.wz-search-replaced, .fa-search-replaced, .dr-search-replaced {
+  display:none !important;
+}
+.live-status.working { background:#e7f1ff; color:#0a3b7e; }
+.live-status.pass { background:#d4f4d8; color:#175c2c; border:1px solid #5cc274; }
+.live-status.fail { background:#fde6e6; color:#7a1f1f; border:1px solid #e07b7b; }
+.answer-input { padding:8px 12px; border:1px solid #cbd5e0; border-radius:6px; font-size:13px; min-width:240px }
+
+/* W26_POLISH_BOTTOM_BAR_HIDE v1 */
+
+/* W26 polish: hide leftover empty bottom-bar (its children were already display:none, but the empty container itself was visible as a 50px white bar with shadow). */
+.bottom-bar, .bar-actions, #live-status, #answer-input, #submit-btn { display:none !important; }
+.task-banner, #task-banner { display:none !important; visibility:hidden !important; }
+body { padding-bottom: 0 !important; }
+
+
+/* W26 variant: modal centered calendar overlay (kept hidden — replaced by inline calendar below) */
+.cal-modal-overlay { display:none !important; }
+
+/* W26_E04 LOT-style inline two-month calendar (pixel-imitates lot.com date picker) */
+.lt-cal-inline {
+  max-width:1080px;
+  margin:18px auto 0;
+  background:#fff;
+  border:1px solid #e2e8f0;
+  border-radius:12px;
+  box-shadow:0 6px 22px rgba(10,31,68,.10);
+  overflow:hidden;
+}
+.lt-cal-titles {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  border-bottom:1px solid #eef1f6;
+}
+.lt-cal-title-panel {
+  padding:18px 24px 14px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+}
+.lt-cal-title-panel + .lt-cal-title-panel { border-left:1px solid #eef1f6; background:#fafbfd; }
+.lt-cal-title-panel.is-active { background:#fff; }
+.lt-cal-title-text { display:flex; flex-direction:column; gap:2px; }
+.lt-cal-title-text .lt-cal-title-eyebrow { font-size:11px; font-weight:700; color:#7a8497; text-transform:uppercase; letter-spacing:.6px; }
+.lt-cal-title-text .lt-cal-title-line { font-size:17px; font-weight:700; color:#102C58; line-height:1.25; }
+.lt-cal-date-pill {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:9px 14px;
+  border:1px solid #cdd6e3;
+  border-radius:6px;
+  background:#fff;
+  color:#3b4a63;
+  font-size:13px;
+  font-weight:600;
+  min-width:160px;
+  cursor:default;
+  white-space:nowrap;
+}
+.lt-cal-date-pill .lt-cal-date-ico {
+  color:#102C58;
+  font-size:14px;
+  line-height:1;
+}
+.lt-cal-date-pill.has-value { color:#102C58; border-color:#102C58; }
+.lt-cal-grids {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  padding:6px 0 0;
+}
+.lt-cal-grids .lt-cal-side { padding:6px 22px 18px; position:relative; }
+.lt-cal-grids .lt-cal-side + .lt-cal-side { border-left:1px solid #eef1f6; }
+.lt-cal-monthbar {
+  display:flex; align-items:center; justify-content:center;
+  position:relative;
+  padding:14px 0 10px;
+}
+.lt-cal-monthbar .lt-cal-month {
+  font-weight:700;
+  font-size:14px;
+  letter-spacing:1.4px;
+  color:#102C58;
+  text-transform:uppercase;
+}
+.lt-cal-nav {
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:36px; height:36px;
+  display:inline-flex; align-items:center; justify-content:center;
+  background:#102C58;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  font-size:18px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 1px 2px rgba(10,31,68,.18);
+  transition:background .15s, transform .1s;
+}
+.lt-cal-nav:hover { background:#1a3a72; }
+.lt-cal-nav:active { transform:translateY(-50%) scale(.96); }
+.lt-cal-nav.lt-cal-nav-prev { left:0; }
+.lt-cal-nav.lt-cal-nav-next { right:0; }
+.lt-cal-side .cal-dow {
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:6px;
+  margin:4px 0 6px;
+}
+.lt-cal-side .cal-dow span {
+  text-align:center;
+  font-size:11px;
+  font-weight:700;
+  color:#7a8497;
+  letter-spacing:.7px;
+  text-transform:uppercase;
+  padding:6px 0;
+}
+.lt-cal-side .cal-days {
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:6px;
+}
+.lt-cal-side .cal-day {
+  min-height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #d8dee9;
+  border-radius:4px;
+  background:#fff;
+  color:#102C58;
+  font-size:14px;
+  font-weight:500;
+  cursor:pointer;
+  transition:background .12s, border-color .12s, color .12s, box-shadow .12s;
+  padding:0;
+  user-select:none;
+}
+.lt-cal-side .cal-day:not(.blank):hover {
+  background:#eaf0fa;
+  border-color:#102C58;
+}
+.lt-cal-side .cal-day.blank {
+  visibility:hidden;
+  cursor:default;
+  border:none;
+  background:transparent;
+}
+.lt-cal-side .cal-day.today {
+  box-shadow:inset 0 0 0 1px #102C58;
+  font-weight:700;
+}
+.lt-cal-side .cal-day.selected,
+.lt-cal-side .cal-day.range-end {
+  background:#102C58 !important;
+  border-color:#102C58 !important;
+  color:#fff !important;
+  font-weight:700;
+  box-shadow:0 2px 6px rgba(16,44,88,.32);
+}
+.lt-cal-footer {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 24px 18px;
+  border-top:1px solid #eef1f6;
+  background:#fafbfd;
+}
+.lt-cal-footer .lt-cal-hint {
+  font-size:12px;
+  color:#6b7894;
+}
+.lt-cal-footer .lt-cal-confirm {
+  background:#102C58;
+  color:#fff;
+  border:none;
+  padding:10px 22px;
+  border-radius:6px;
+  font-weight:700;
+  font-size:13px;
+  cursor:pointer;
+  letter-spacing:.3px;
+}
+.lt-cal-footer .lt-cal-confirm:hover { background:#1a3a72; }
+.lt-cal-footer .lt-cal-confirm:disabled {
+  background:#c5cee0;
+  color:#fff;
+  cursor:not-allowed;
+}
+
+</style>
+</head>
+<body>
+<div id="task-banner" class="task-banner" style="display:none"></div>
+
+<header class="lt-top">
+  <div class="lt-logo">
+    <svg class="lt-crane" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- LOT-style flying crane silhouette -->
+      <rect x="4" y="4" width="56" height="56" rx="14" fill="var(--brand)"/>
+      <text x="32" y="45" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="800" fill="#fff">E</text>
+    </svg>
+    <span class="word">EchoAir</span>
+  </div>
+  <nav class="lt-nav">
+    <a href="#" class="active">Book</a>
+    <a href="#">Check-in</a>
+    <a href="#">Manage booking</a>
+    <a href="#">Plan a Trip</a>
+    <a href="#">Travel Info &amp; Support</a>
+  </nav>
+  <div class="lt-right">
+    <span>🌐 EN / PLN</span>
+    <span class="pill">Miles &amp; More</span>
+    <a style="color:#E51E31;font-weight:700;text-decoration:none">Sign in</a>
+  </div>
+</header>
+
+<section class="lt-hero">
+  <div class="hero-eyebrow">EchoAir · EchoAir</div>
+  <h1>Where will your next journey take you?</h1>
+  <div class="tag">Direct flights from Warsaw to over 110 destinations worldwide. Book now and earn Miles &amp; More with every trip.</div>
+</section>
+
+<div class="lt-card">
+  <div class="lt-tabs">
+    <div class="lt-tab active">✈ Round-trip flight</div>
+    <div class="lt-tab">One-way flight</div>
+    <div class="lt-tab">Multi-city</div>
+    <div class="lt-tab">Use vouchers</div>
+  </div>
+  <div class="lt-tripopts">
+    <label><input type="checkbox" /> Direct flights only</label>
+    <label><input type="checkbox" /> Flexible dates (±3 days)</label>
+    <label><input type="checkbox" /> Use Miles to pay</label>
+  </div>
+  <div class="lt-form">
+    <div class="lt-field">
+      <label>From</label>
+      <input type="text" value="Warsaw (WAW)" oninput="focusAc('origin', event)" class="ac-inp" />
+      <div id="ac-list-origin" class="ac-list" style="top:100%;left:0"></div>
+    </div>
+    <div class="lt-swap"><button>⇄</button></div>
+    <div class="lt-field">
+      <label>To</label>
+      <input type="text" placeholder="Type city or airport" oninput="focusAc('dest', event)" class="ac-inp" />
+      <div id="ac-list-dest" class="ac-list" style="top:100%;left:0"></div>
+    </div>
+    <div class="lt-field">
+      <label>Departure</label>
+      <input type="text" placeholder="Select" readonly onclick="openCalModal()" data-facet-input="depart" />
+    </div>
+    <div class="lt-field">
+      <label>Return</label>
+      <input type="text" placeholder="Select" readonly onclick="openCalModal()" data-facet-input="return" />
+    </div>
+    <div class="lt-field">
+      <label>Cabin / Passengers</label>
+      <input type="text" value="Economy · 1 adult" readonly />
+    </div>
+    
+  </div>
+  <div class="lt-promo">✓ 24 hours to cancel without fees! &nbsp;|&nbsp; Free seat selection on all routes.</div>
+  
+
+</div>
+
+<!-- W26_E04 LOT-style always-visible two-month calendar -->
+<div class="lt-cal-inline" id="lt-cal-inline">
+  <div class="lt-cal-titles">
+    <div class="lt-cal-title-panel is-active" id="lt-cal-title-depart">
+      <div class="lt-cal-title-text">
+        <span class="lt-cal-title-eyebrow">Round-trip</span>
+        <span class="lt-cal-title-line">Choose the departure date</span>
+      </div>
+      <span class="lt-cal-date-pill" id="lt-cal-pill-depart">
+        <span class="lt-cal-date-ico">📅</span>
+        <span id="lt-cal-pill-depart-text">Choose date</span>
+      </span>
+    </div>
+    <div class="lt-cal-title-panel" id="lt-cal-title-return">
+      <div class="lt-cal-title-text">
+        <span class="lt-cal-title-eyebrow">Round-trip</span>
+        <span class="lt-cal-title-line">Choose the return date</span>
+      </div>
+      <span class="lt-cal-date-pill" id="lt-cal-pill-return">
+        <span class="lt-cal-date-ico">📅</span>
+        <span id="lt-cal-pill-return-text">Choose date</span>
+      </span>
+    </div>
+  </div>
+  <div class="lt-cal-grids">
+    <div class="lt-cal-side">
+      <div class="lt-cal-monthbar">
+        <button type="button" class="lt-cal-nav lt-cal-nav-prev" aria-label="Previous month" onclick="calAdv(-1,'calL','calR')">‹</button>
+        <div class="lt-cal-month" id="calL-label">JANUARY 2026</div>
+      </div>
+      <div data-cal-grid="calL" data-cal-label="calL-label" data-base-month="0" data-base-year="2026" id="calL"></div>
+    </div>
+    <div class="lt-cal-side">
+      <div class="lt-cal-monthbar">
+        <div class="lt-cal-month" id="calR-label">FEBRUARY 2026</div>
+        <button type="button" class="lt-cal-nav lt-cal-nav-next" aria-label="Next month" onclick="calAdv(1,'calL','calR')">›</button>
+      </div>
+      <div data-cal-grid="calR" data-cal-label="calR-label" data-base-month="1" data-base-year="2026" id="calR"></div>
+    </div>
+  </div>
+  <div class="lt-cal-footer">
+    <span class="lt-cal-hint">Use the ‹ › arrows to advance the month grid.</span>
+    <button type="button" class="lt-cal-confirm" id="lt-cal-confirm" disabled>Confirm</button>
+  </div>
+</div>
+
+
+<!-- W26 polish destination strip -->
+<div class="dest-strip-wrap"><div class="dest-strip-head">Where to next</div><div class="dest-strip"><div class="dest-tile" data-code="JFK" data-name="New York (JFK)" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/36338202/pexels-photo-36338202.jpeg?auto=compress&cs=tinysrgb&h=130" alt="New York (JFK)"/><div class="dest-label"><div class="dest-name">New York (JFK)</div><div class="dest-code">JFK</div></div></div><div class="dest-tile" data-code="EWR" data-name="New York (EWR)" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/28645258/pexels-photo-28645258.jpeg?auto=compress&cs=tinysrgb&h=130" alt="New York (EWR)"/><div class="dest-label"><div class="dest-name">New York (EWR)</div><div class="dest-code">EWR</div></div></div><div class="dest-tile" data-code="LGA" data-name="New York (LGA)" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/6544058/pexels-photo-6544058.jpeg?auto=compress&cs=tinysrgb&h=130" alt="New York (LGA)"/><div class="dest-label"><div class="dest-name">New York (LGA)</div><div class="dest-code">LGA</div></div></div><div class="dest-tile" data-code="NYC" data-name="New York City" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/17174768/pexels-photo-17174768.jpeg?auto=compress&cs=tinysrgb&h=130" alt="New York City"/><div class="dest-label"><div class="dest-name">New York City</div><div class="dest-code">NYC</div></div></div><div class="dest-tile" data-code="WAW" data-name="Warsaw" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/8143671/pexels-photo-8143671.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Warsaw"/><div class="dest-label"><div class="dest-name">Warsaw</div><div class="dest-code">WAW</div></div></div><div class="dest-tile" data-code="ORD" data-name="Chicago" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/6726195/pexels-photo-6726195.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Chicago"/><div class="dest-label"><div class="dest-name">Chicago</div><div class="dest-code">ORD</div></div></div></div></div>
+<div class="lt-results">
+  <div class="section-head">
+    <h2>EchoAir flight results</h2>
+    <div id="result-count">16 results</div>
+  </div>
+  <div id="result-grid" class="result-grid"><div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">LO 27 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">15:35</div><div class="fr-code">WAW · Warsaw</div></div>
+    <div class="fr-mid"><div class="fr-when">10h 35m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">01:35</div><div class="fr-code">JFK · New York</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jan 21, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$468</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">LO 25 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">17:00</div><div class="fr-code">WAW · Warsaw</div></div>
+    <div class="fr-mid"><div class="fr-when">10h 30m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">03:00</div><div class="fr-code">JFK · New York</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jan 21, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$519</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">LO 29 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">15:35</div><div class="fr-code">WAW · Warsaw</div></div>
+    <div class="fr-mid"><div class="fr-when">10h 35m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">01:35</div><div class="fr-code">JFK · New York</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Feb 14, 2027</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$489</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">LO 31 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">15:35</div><div class="fr-code">WAW · Warsaw</div></div>
+    <div class="fr-mid"><div class="fr-when">10h 35m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">01:35</div><div class="fr-code">JFK · New York</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Mar 5, 2027</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$499</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">LO 33 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">15:35</div><div class="fr-code">WAW · Warsaw</div></div>
+    <div class="fr-mid"><div class="fr-when">10h 35m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">01:35</div><div class="fr-code">JFK · New York</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Apr 12, 2027</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$549</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">LO 35 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">15:35</div><div class="fr-code">WAW · Warsaw</div></div>
+    <div class="fr-mid"><div class="fr-when">10h 35m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">01:35</div><div class="fr-code">JFK · New York</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Aug 20, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$679</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">LO 37 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">15:35</div><div class="fr-code">WAW · Warsaw</div></div>
+    <div class="fr-mid"><div class="fr-when">10h 35m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">01:35</div><div class="fr-code">JFK · New York</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Oct 4, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$529</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">LO 41 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">13:20</div><div class="fr-code">WAW · Warsaw</div></div>
+    <div class="fr-mid"><div class="fr-when">10h 40m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">23:20</div><div class="fr-code">EWR · Newark</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jan 21, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$579</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">LO 43 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">16:50</div><div class="fr-code">WAW · Warsaw</div></div>
+    <div class="fr-mid"><div class="fr-when">11h 10m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">03:50</div><div class="fr-code">ORD · Chicago</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jan 21, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$620</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">LO 45 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">15:55</div><div class="fr-code">WAW · Warsaw</div></div>
+    <div class="fr-mid"><div class="fr-when">12h 30m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">03:55</div><div class="fr-code">LAX · Los Angeles</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jan 21, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$810</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">United<span class="fr-sub">UA 1029 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">10:25</div><div class="fr-code">WAW · Warsaw</div></div>
+    <div class="fr-mid"><div class="fr-when">10h 50m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">20:25</div><div class="fr-code">JFK · New York</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jan 21, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$725</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">LO 47 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">15:35</div><div class="fr-code">WAW · Warsaw</div></div>
+    <div class="fr-mid"><div class="fr-when">10h 35m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">01:35</div><div class="fr-code">JFK · New York</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jun 5, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$799</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">LO 49 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">15:35</div><div class="fr-code">WAW · Warsaw</div></div>
+    <div class="fr-mid"><div class="fr-when">10h 35m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">01:35</div><div class="fr-code">JFK · New York</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jul 24, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$849</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">LO 51 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">13:20</div><div class="fr-code">WAW · Warsaw</div></div>
+    <div class="fr-mid"><div class="fr-when">10h 40m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">23:20</div><div class="fr-code">EWR · Newark</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jun 5, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$689</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">Polish Charter<span class="fr-sub">PCA 821 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">08:15</div><div class="fr-code">WAW · Warsaw</div></div>
+    <div class="fr-mid"><div class="fr-when">13h 20m</div><div class="fr-line"></div><div>1 stop</div></div>
+    <div class="fr-end"><div class="fr-time">21:15</div><div class="fr-code">LGA · LaGuardia</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jan 21, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$555</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">LO 53 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">15:35</div><div class="fr-code">WAW · Warsaw</div></div>
+    <div class="fr-mid"><div class="fr-when">10h 35m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">01:35</div><div class="fr-code">JFK · New York</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">May 22, 2027</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$569</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div></div>
+</div>
+
+<script>
+function togglePop(id, anchor){
+  const pops = document.querySelectorAll('.cal-pop, .ac-list-wrap');
+  pops.forEach(p => { if (p.id !== id) p.classList.remove('open'); });
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+function focusAc(kind, ev){
+  const inp = ev.target;
+  acShow(inp, kind);
+}
+</script>
+
+
+
+<div class="bottom-bar">
+  <div id="live-status" class="live-status">no filters set</div>
+  <div class="bar-actions">
+    <input id="answer-input" oninput="onAnswerChange()" class="answer-input" placeholder="(answer for read tasks)" />
+    
+  </div>
+</div>
+
+<script>
+window.AC_SUGS = [{"code": "JFK", "name": "John F Kennedy Intl", "city": "New York", "country": "USA"}, {"code": "NYC", "name": "New York \u2014 All Airports", "city": "New York", "country": "USA"}, {"code": "EWR", "name": "Newark Liberty", "city": "Newark / New York", "country": "USA"}, {"code": "LGA", "name": "LaGuardia", "city": "New York", "country": "USA"}, {"code": "WAW", "name": "Warsaw Chopin", "city": "Warsaw", "country": "Poland"}, {"code": "WMI", "name": "Warsaw Modlin", "city": "Warsaw", "country": "Poland"}, {"code": "KRK", "name": "Krak\u00f3w John Paul II", "city": "Krak\u00f3w", "country": "Poland"}, {"code": "GDN", "name": "Gda\u0144sk Lech Wa\u0142\u0119sa", "city": "Gda\u0144sk", "country": "Poland"}, {"code": "ORD", "name": "Chicago O'Hare", "city": "Chicago", "country": "USA"}, {"code": "LAX", "name": "Los Angeles Intl", "city": "Los Angeles", "country": "USA"}, {"code": "MIA", "name": "Miami Intl", "city": "Miami", "country": "USA"}, {"code": "BOS", "name": "Boston Logan", "city": "Boston", "country": "USA"}, {"code": "PHL", "name": "Philadelphia Intl", "city": "Philadelphia", "country": "USA"}, {"code": "IAD", "name": "Washington Dulles", "city": "Washington", "country": "USA"}, {"code": "YYZ", "name": "Toronto Pearson", "city": "Toronto", "country": "Canada"}, {"code": "LHR", "name": "London Heathrow", "city": "London", "country": "UK"}];
+window.SEED_ITEMS = [{"id": 1, "airline": "LOT", "flight_no": "LO 27", "from_code": "WAW", "from_name": "Warsaw", "to_code": "JFK", "to_name": "New York", "depart_date": "Jan 21, 2026", "return_date": "Feb 21, 2026", "departure_time": "15:35", "duration": "10h 35m", "stops": "nonstop", "price": 468}, {"id": 2, "airline": "LOT", "flight_no": "LO 25", "from_code": "WAW", "from_name": "Warsaw", "to_code": "JFK", "to_name": "New York", "depart_date": "Jan 21, 2026", "return_date": "Feb 21, 2026", "departure_time": "17:00", "duration": "10h 30m", "stops": "nonstop", "price": 519}, {"id": 3, "airline": "LOT", "flight_no": "LO 29", "from_code": "WAW", "from_name": "Warsaw", "to_code": "JFK", "to_name": "New York", "depart_date": "Feb 14, 2027", "return_date": "Feb 28, 2027", "departure_time": "15:35", "duration": "10h 35m", "stops": "nonstop", "price": 489}, {"id": 4, "airline": "LOT", "flight_no": "LO 31", "from_code": "WAW", "from_name": "Warsaw", "to_code": "JFK", "to_name": "New York", "depart_date": "Mar 5, 2027", "return_date": "Mar 19, 2027", "departure_time": "15:35", "duration": "10h 35m", "stops": "nonstop", "price": 499}, {"id": 5, "airline": "LOT", "flight_no": "LO 33", "from_code": "WAW", "from_name": "Warsaw", "to_code": "JFK", "to_name": "New York", "depart_date": "Apr 12, 2027", "return_date": "Apr 26, 2027", "departure_time": "15:35", "duration": "10h 35m", "stops": "nonstop", "price": 549}, {"id": 6, "airline": "LOT", "flight_no": "LO 35", "from_code": "WAW", "from_name": "Warsaw", "to_code": "JFK", "to_name": "New York", "depart_date": "Aug 20, 2026", "return_date": "Aug 28, 2026", "departure_time": "15:35", "duration": "10h 35m", "stops": "nonstop", "price": 679}, {"id": 7, "airline": "LOT", "flight_no": "LO 37", "from_code": "WAW", "from_name": "Warsaw", "to_code": "JFK", "to_name": "New York", "depart_date": "Oct 4, 2026", "return_date": "Oct 18, 2026", "departure_time": "15:35", "duration": "10h 35m", "stops": "nonstop", "price": 529}, {"id": 8, "airline": "LOT", "flight_no": "LO 41", "from_code": "WAW", "from_name": "Warsaw", "to_code": "EWR", "to_name": "Newark", "depart_date": "Jan 21, 2026", "return_date": "Feb 21, 2026", "departure_time": "13:20", "duration": "10h 40m", "stops": "nonstop", "price": 579}, {"id": 9, "airline": "LOT", "flight_no": "LO 43", "from_code": "WAW", "from_name": "Warsaw", "to_code": "ORD", "to_name": "Chicago", "depart_date": "Jan 21, 2026", "return_date": "Feb 21, 2026", "departure_time": "16:50", "duration": "11h 10m", "stops": "nonstop", "price": 620}, {"id": 10, "airline": "LOT", "flight_no": "LO 45", "from_code": "WAW", "from_name": "Warsaw", "to_code": "LAX", "to_name": "Los Angeles", "depart_date": "Jan 21, 2026", "return_date": "Feb 21, 2026", "departure_time": "15:55", "duration": "12h 30m", "stops": "nonstop", "price": 810}, {"id": 11, "airline": "United", "flight_no": "UA 1029", "from_code": "WAW", "from_name": "Warsaw", "to_code": "JFK", "to_name": "New York", "depart_date": "Jan 21, 2026", "return_date": "Feb 21, 2026", "departure_time": "10:25", "duration": "10h 50m", "stops": "nonstop", "price": 725}, {"id": 12, "airline": "LOT", "flight_no": "LO 47", "from_code": "WAW", "from_name": "Warsaw", "to_code": "JFK", "to_name": "New York", "depart_date": "Jun 5, 2026", "return_date": "Jun 19, 2026", "departure_time": "15:35", "duration": "10h 35m", "stops": "nonstop", "price": 799}, {"id": 13, "airline": "LOT", "flight_no": "LO 49", "from_code": "WAW", "from_name": "Warsaw", "to_code": "JFK", "to_name": "New York", "depart_date": "Jul 24, 2026", "return_date": "Aug 7, 2026", "departure_time": "15:35", "duration": "10h 35m", "stops": "nonstop", "price": 849}, {"id": 14, "airline": "LOT", "flight_no": "LO 51", "from_code": "WAW", "from_name": "Warsaw", "to_code": "EWR", "to_name": "Newark", "depart_date": "Jun 5, 2026", "return_date": "Jun 19, 2026", "departure_time": "13:20", "duration": "10h 40m", "stops": "nonstop", "price": 689}, {"id": 15, "airline": "Polish Charter", "flight_no": "PCA 821", "from_code": "WAW", "from_name": "Warsaw", "to_code": "LGA", "to_name": "LaGuardia", "depart_date": "Jan 21, 2026", "return_date": "Feb 21, 2026", "departure_time": "08:15", "duration": "13h 20m", "stops": "1 stop", "price": 555}, {"id": 16, "airline": "LOT", "flight_no": "LO 53", "from_code": "WAW", "from_name": "Warsaw", "to_code": "JFK", "to_name": "New York", "depart_date": "May 22, 2027", "return_date": "Jun 5, 2027", "departure_time": "15:35", "duration": "10h 35m", "stops": "nonstop", "price": 569}];
+
+const MONTHS_SHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const MONTHS_LONG  = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+const W26_STATE = {};       // {dest, origin, date, return_date}
+const CAL_STATE = {};       // gridId -> offset from base month
+
+function _calMonthYear(gridId){
+  const grid = document.getElementById(gridId);
+  if (!grid) return [0, 2026];
+  const baseM = parseInt(grid.dataset.baseMonth || "4", 10);   // 0=Jan
+  const baseY = parseInt(grid.dataset.baseYear  || "2026", 10);
+  const offset = CAL_STATE[gridId] || 0;
+  let m = baseM + offset;
+  let y = baseY + Math.floor(m / 12);
+  m = ((m % 12) + 12) % 12;
+  return [m, y];
+}
+
+function _renderCal(gridId, labelId){
+  const g = document.getElementById(gridId);
+  if (!g) return;
+  const [m, y] = _calMonthYear(gridId);
+  const first = new Date(y, m, 1);
+  const last  = new Date(y, m+1, 0);
+  const startDow = first.getDay();
+  const days = last.getDate();
+  const today = new Date();
+  const tD = today.getDate(), tM = today.getMonth(), tY = today.getFullYear();
+  const selDep = _parseDateStr(W26_STATE.date);
+  const selRet = _parseDateStr(W26_STATE.return_date);
+  let html = '<div class="cal-dow">' +
+    ["SU","MO","TU","WE","TH","FR","SA"].map(d => `<span>${d}</span>`).join('') +
+    '</div><div class="cal-days">';
+  for (let i=0; i<startDow; i++) html += '<div class="cal-day blank"></div>';
+  for (let d=1; d<=days; d++) {
+    const cls = ['cal-day'];
+    if (d === tD && m === tM && y === tY) cls.push('today');
+    if (selDep && selDep.d===d && selDep.m===m && selDep.y===y) cls.push('selected');
+    if (selRet && selRet.d===d && selRet.m===m && selRet.y===y) cls.push('selected','range-end');
+    html += `<div class="${cls.join(' ')}" data-day="${d}" data-month="${m}" data-year="${y}">${d}</div>`;
+  }
+  html += '</div>';
+  g.innerHTML = html;
+  const lab = document.getElementById(labelId);
+  if (lab) lab.textContent = (MONTHS_LONG[m] + " " + y).toUpperCase();
+}
+
+function _parseDateStr(s){
+  if (!s) return null;
+  const m = String(s).match(/^([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})$/);
+  if (!m) return null;
+  const mi = MONTHS_SHORT.indexOf(m[1].slice(0,3));
+  if (mi < 0) return null;
+  return { m: mi, d: parseInt(m[2],10), y: parseInt(m[3],10) };
+}
+
+
+function _renderAllCals(){
+  document.querySelectorAll('[data-cal-grid]').forEach(node => {
+    const gid = node.dataset.calGrid;
+    const lid = node.dataset.calLabel || (gid + '-label');
+    _renderCal(gid, lid);
+  });
+}
+
+function calAdv(delta, gridIdL, gridIdR){
+  // dual-month: advance BOTH calendars in lock-step
+  CAL_STATE[gridIdL] = (CAL_STATE[gridIdL]||0) + delta;
+  if (gridIdR) CAL_STATE[gridIdR] = (CAL_STATE[gridIdR]||0) + delta;
+  _renderAllCals();
+}
+
+// --- Autocomplete ---
+function acShow(inp, kind){
+  const q = (inp.value || "").trim().toLowerCase();
+  let list = document.getElementById('ac-list-' + kind);
+  if (!list) return;
+  if (!q){ list.style.display = 'none'; list.innerHTML = ''; return; }
+  const hits = (window.AC_SUGS || []).filter(s => {
+    return s.code.toLowerCase().startsWith(q) ||
+           s.name.toLowerCase().includes(q) ||
+           s.city.toLowerCase().includes(q);
+  }).slice(0, 8);
+  if (!hits.length){
+    list.style.display = 'block';
+    list.innerHTML = '<div class="ac-no">Oh my, we couldn\u2019t find anything for &ldquo;' + inp.value + '&rdquo;</div>';
+    return;
+  }
+  list.style.display = 'block';
+  list.innerHTML = hits.map(h => `
+    <div class="ac-item" data-code="${h.code}" data-name="${h.name}" data-kind="${kind}">
+      <span class="ac-pin">📍</span>
+      <span class="ac-text">
+        <span class="ac-name">${h.name}</span>
+        <span class="ac-city">${h.city}${h.country ? ', ' + h.country : ''}</span>
+      </span>
+      <span class="ac-code">${h.code}</span>
+    </div>`).join('');
+  list.querySelectorAll('.ac-item').forEach(it => {
+    it.addEventListener('click', () => {
+      inp.value = it.dataset.name + ' (' + it.dataset.code + ')';
+      if (kind === 'dest' || kind === 'to') W26_STATE.dest = it.dataset.code;
+      else if (kind === 'origin' || kind === 'from') W26_STATE.origin = it.dataset.code;
+      list.style.display = 'none';
+      list.innerHTML = '';
+      _syncStatus();
+      applyFilters(); /* W26 polish auto-submit */
+    });
+  });
+}
+
+function _onDayClick(ev){
+  const t = ev.target.closest('.cal-day');
+  if (!t || t.classList.contains('blank')) return;
+  const m = parseInt(t.dataset.month, 10);
+  const y = parseInt(t.dataset.year, 10);
+  const d = parseInt(t.dataset.day, 10);
+  const txt = `${MONTHS_SHORT[m]} ${d}, ${y}`;
+  // double-click pattern: 1st click = depart, 2nd click = return (if depart already set)
+  if (!W26_STATE.date){
+    W26_STATE.date = txt;
+  } else if (!W26_STATE.return_date){
+    // ensure return >= depart
+    const dep = _parseDateStr(W26_STATE.date);
+    const cand = { m, d, y };
+    const a = new Date(dep.y, dep.m, dep.d).getTime();
+    const b = new Date(y, m, d).getTime();
+    if (b < a){
+      // user clicked earlier than depart — reset depart to this new date
+      W26_STATE.date = txt;
+      W26_STATE.return_date = null;
+    } else {
+      W26_STATE.return_date = txt;
+    }
+  } else {
+    // reset and start over
+    W26_STATE.date = txt;
+    W26_STATE.return_date = null;
+  }
+  _renderAllCals();
+  _updateCalPills();
+  // write to visible inputs if any
+  const depInp = document.querySelector('[data-facet-input="depart"]');
+  if (depInp) depInp.value = W26_STATE.date || '';
+  const retInp = document.querySelector('[data-facet-input="return"]');
+  if (retInp) retInp.value = W26_STATE.return_date || '';
+  _syncStatus();
+  applyFilters(); /* W26 polish day-click submit */
+}
+
+function _updateCalPills(){
+  const depPill = document.getElementById('lt-cal-pill-depart');
+  const depTxt  = document.getElementById('lt-cal-pill-depart-text');
+  const retPill = document.getElementById('lt-cal-pill-return');
+  const retTxt  = document.getElementById('lt-cal-pill-return-text');
+  const depTitle = document.getElementById('lt-cal-title-depart');
+  const retTitle = document.getElementById('lt-cal-title-return');
+  const confirmBtn = document.getElementById('lt-cal-confirm');
+  if (depTxt) depTxt.textContent = W26_STATE.date || 'Choose date';
+  if (retTxt) retTxt.textContent = W26_STATE.return_date || 'Choose date';
+  if (depPill) depPill.classList.toggle('has-value', !!W26_STATE.date);
+  if (retPill) retPill.classList.toggle('has-value', !!W26_STATE.return_date);
+  if (depTitle && retTitle){
+    depTitle.classList.toggle('is-active', !W26_STATE.date);
+    retTitle.classList.toggle('is-active', !!W26_STATE.date && !W26_STATE.return_date);
+  }
+  if (confirmBtn) confirmBtn.disabled = !(W26_STATE.date && W26_STATE.return_date);
+}
+
+
+function _syncStatus(){
+  const el = document.getElementById('live-status');
+  if (!el) return;
+  const parts = [];
+  if (W26_STATE.origin) parts.push('origin: ' + W26_STATE.origin);
+  if (W26_STATE.dest) parts.push('dest: ' + W26_STATE.dest);
+  if (W26_STATE.date) parts.push('date: ' + W26_STATE.date);
+  if (W26_STATE.return_date) parts.push('return: ' + W26_STATE.return_date);
+  el.textContent = parts.length ? parts.join(' · ') : 'no filters set';
+  el.className = 'live-status' + (parts.length ? ' working' : '');
+}
+
+// --- task banner + submit ---
+const URL_PARAMS = new URLSearchParams(location.search);
+const CURRENT_TASK_ID = URL_PARAMS.get('task_id');
+window.__ENV_ID = "W26_E04"; const ENV_ID = window.__ENV_ID;
+
+async function loadTaskBanner(){
+  const banner = document.getElementById('task-banner');
+  if (!banner || !CURRENT_TASK_ID) return;
+  try {
+    const r = await fetch(`/env/${ENV_ID}/api/task/${CURRENT_TASK_ID}`);
+    if (!r.ok) return;
+    const t = await r.json();
+    banner.innerHTML = `<div class="tb-id">${t.id} · ${t.task_type}</div><div class="tb-text">${t.task_summary || ''}</div>`;
+    banner.style.display = 'block';
+  } catch(e){}
+}
+
+async function applyFilters(){
+  const answer = (document.getElementById('answer-input') || {}).value || '';
+  const filter_state = Object.assign({}, W26_STATE);
+  try {
+    const r1 = await fetch(`/env/${ENV_ID}/api/filter`, {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({filter_state})
+    });
+    const d1 = await r1.json();
+    const grid = document.getElementById('result-grid');
+    if (grid && d1.html_cards) grid.innerHTML = d1.html_cards;
+    const cnt = document.getElementById('result-count');
+    if (cnt) cnt.textContent = d1.count + ' results';
+  } catch(e){}
+  try {
+    const r2 = await fetch(`/env/${ENV_ID}/api/submit`, {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({filter_state, answer, task_id: CURRENT_TASK_ID || ''})
+    });
+    const d2 = await r2.json();
+    const ls = document.getElementById('live-status');
+    if (ls){
+      ls.textContent = d2.message || '';
+      ls.className = 'live-status ' + (d2.satisfies ? 'pass' : 'fail');
+    }
+  } catch(e){}
+}
+
+
+// W26 polish — destination tile click sets dest + submits
+function pickDest(node){
+  const code = node.dataset.code, name = node.dataset.name;
+  W26_STATE.dest = code;
+  // also reflect in the visible destination input if present
+  const destInp = document.querySelector('[oninput*="\'dest\'"], [oninput*="\'to\'"]');
+  if (destInp) destInp.value = name + ' (' + code + ')';
+  document.querySelectorAll('.dest-tile.selected').forEach(t => t.classList.remove('selected'));
+  node.classList.add('selected');
+  _syncStatus();
+  applyFilters();
+}
+// Debounced answer-input -> submit
+let _ansTimer = null;
+function onAnswerChange(){
+  clearTimeout(_ansTimer);
+  _ansTimer = setTimeout(() => { applyFilters(); }, 350);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  _renderAllCals();
+  _updateCalPills();
+  document.addEventListener('click', _onDayClick);
+  // hide ac lists on outside click
+  document.body.addEventListener('click', (ev) => {
+    if (!ev.target.closest('.ac-inp') && !ev.target.closest('.ac-list')){
+      document.querySelectorAll('.ac-list').forEach(b => { b.style.display = 'none'; });
+    }
+  });
+  loadTaskBanner();
+  _syncStatus();
+  // initial render
+  const grid = document.getElementById('result-grid');
+  if (grid && grid.dataset.initial){
+    try { grid.innerHTML = JSON.parse(grid.dataset.initial).cards || ''; } catch(e){}
+  }
+});
+
+
+
+function openCalModal(){
+  var el = document.getElementById('lt-cal-inline');
+  if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function closeCalModal(){ /* no-op: calendar is always visible inline */ }
+
+// W26 polish: dispatch togglePop("ac-modal") / togglePop("ac-sidebar") / togglePop("cal-modal")
+(function(){
+  if (window._w26TogglePopPatched) return;
+  window._w26TogglePopPatched = true;
+  var _origToggle = window.togglePop;
+  window.togglePop = function(id, anchor){
+    if (id === 'ac-modal-origin'){ openAcModal('origin'); return; }
+    if (id === 'ac-modal-dest'){ openAcModal('dest'); return; }
+    if (id === 'ac-sidebar-origin'){ openAcSidebar('origin'); return; }
+    if (id === 'ac-sidebar-dest'){ openAcSidebar('dest'); return; }
+    if (id === 'cal-modal'){ openCalModal(); return; }
+    if (typeof _origToggle === 'function') return _origToggle(id, anchor);
+  };
+})();
+
+</script>
+
+<div id="cal-modal-overlay" class="cal-modal-overlay" style="display:none" aria-hidden="true"></div>
+
+<footer class="lt-footer">
+  <div class="lt-footer-inner">
+    <div>
+      <h4>EchoAir</h4>
+      <p style="margin:0;line-height:1.5">Poland's flag carrier since 1929. Member of Star Alliance. Connecting Warsaw to the world with direct flights to North America, Asia and across Europe.</p>
+    </div>
+    <div>
+      <h4>Travel</h4>
+      <ul><li><a href="#">Book a flight</a></li><li><a href="#">Check-in</a></li><li><a href="#">Flight status</a></li><li><a href="#">Baggage</a></li></ul>
+    </div>
+    <div>
+      <h4>Miles &amp; More</h4>
+      <ul><li><a href="#">Earn miles</a></li><li><a href="#">Spend miles</a></li><li><a href="#">Status benefits</a></li><li><a href="#">Partners</a></li></ul>
+    </div>
+    <div>
+      <h4>About EchoAir</h4>
+      <ul><li><a href="#">Our fleet</a></li><li><a href="#">Press centre</a></li><li><a href="#">Careers</a></li><li><a href="#">Contact</a></li></ul>
+    </div>
+  </div>
+  <div class="lt-footer-bottom">
+    <span>© EchoAir S.A.</span>
+    <span>Privacy · Cookies · Terms of carriage</span>
+  </div>
+</footer>
+</body>
+</html>

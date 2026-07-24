@@ -1,0 +1,623 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoHomes — Bolingbrook, IL Townhomes for Sale</title>
+<style>
+:root {
+  --primary: #0d6efd;
+  --primary-dark: #0b5ed7;
+  --accent: #e9f2ff;
+  --text: #2a2a33;
+  --muted: #6e6e76;
+  --line: #e4e4e7;
+  --line-strong: #d0d0d6;
+  --bg: #ffffff;
+  --page-bg: #ffffff;
+  --font: 'Open Sans','Segoe UI',Arial,sans-serif;
+  --cta-text: #fff;
+  --radius: 4px;
+  --radius-pill: 24px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 14px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 38px rgba(0,0,0,0.18);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--page-bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+input, select { font-family: inherit; }
+
+/* ---- Hide every hint-leakage / debug surface ---- */
+.task-banner, #task-banner,
+.live-status, #live-status,
+.db-fab,
+.utst-note, .wut-badge, .wut-badge-test,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad,
+.tb-answer-row, .tb-banner,
+.answer-area, .answer-card, .answer-bar, .answer-row,
+.fara-source, .fara-source-card, .fara-banner, .inspiration-banner,
+.task-pill, .autosave-pill, .auto-recompute-pill, .status-pill,
+.debug-pill, .debug-bar, .debug-info, .debug-state,
+[data-task-banner], [data-live-status], [data-debug-pill], [data-fara-source] {
+  display: none !important;
+  visibility: hidden !important;
+}
+[data-debug="1"] { display: none !important; }
+
+.page { display:flex; flex-direction:column; min-height: 100vh; background: var(--page-bg); }
+
+.site-header { background: #fff; padding: 10px 28px; display:grid; grid-template-columns: 1fr auto 1fr; align-items:center; gap: 16px; border-bottom:1px solid var(--line); position:relative; z-index: 10; min-height: 60px; }
+.site-header .site-nav { display:flex; gap: 24px; align-items:center; justify-self: start; }
+.site-header .site-nav a { color: var(--text); font-size: 14px; font-weight: 600; cursor:pointer; }
+.site-header .site-nav a:hover { color: var(--primary); }
+.site-header .logo-wrap { display:flex; align-items:center; gap:6px; justify-self: center; font-weight: 800; font-size: 24px; color: var(--text); letter-spacing:-0.5px; line-height:1; }
+.site-header .logo-wrap .z-mark { display:inline-flex; align-items:center; justify-content:center; width:30px; height:30px; background: var(--primary); border-radius:6px; color:#fff; font-weight: 900; font-size: 20px; }
+.site-header .logo-wrap .z-mark::before { content:none; display:none; }
+.site-header .logo-wrap .z-text { color: var(--primary); font-weight: 800; }
+.site-header .logo-wrap .z-text sup { color: var(--text); font-size: 10px; vertical-align: super; font-weight: 600; }
+.site-header .acct { justify-self: end; display:flex; gap: 22px; align-items:center; font-size: 14px; }
+.site-header .acct .acct-link { color: var(--text); font-weight: 600; cursor:pointer; }
+.site-header .acct .acct-link:hover { color: var(--primary); }
+.site-header .acct .sign-in { background: var(--primary); color: var(--cta-text); border:none; padding: 8px 22px; border-radius: var(--radius-pill); font-weight: 700; font-size: 14px; cursor:pointer; }
+.site-header .acct .sign-in:hover { background: var(--primary-dark); }
+
+.filter-bar { padding: 10px 28px; background: #fff; border-bottom: 1px solid var(--line); display:flex; align-items:center; gap: 8px; flex-wrap: wrap; position:relative; z-index: 5; }
+.filter-bar .fb-search { flex: 0 0 280px; display:flex; align-items:center; gap:8px; padding: 8px 12px; border: 1.5px solid var(--line-strong); border-radius: var(--radius); background:#fff; font-size: 14px; color: var(--text); }
+.filter-bar .fb-search .mi { color: var(--muted); font-size: 15px; }
+.filter-bar .fb-search input { border:none; outline:none; flex:1; font-size: 14px; background:transparent; }
+.filter-bar .fb-search .x-clear { color: var(--muted); cursor:pointer; }
+.filter-bar .fb-pill { padding: 7px 14px; border:1.5px solid var(--line-strong); border-radius: var(--radius); background:#fff; font-size: 13.5px; font-weight: 600; cursor:pointer; color: var(--text); white-space: nowrap; display:inline-flex; align-items:center; gap:6px; }
+.filter-bar .fb-pill:hover { border-color: var(--primary); }
+.filter-bar .fb-pill.active { border-color: var(--primary); color: var(--primary); }
+.filter-bar .fb-pill.fb-more { border-color: var(--line-strong); }
+.filter-bar .fb-pill .fb-icon { font-size: 14px; line-height: 1; }
+.filter-bar .fb-spacer { flex: 1; }
+.filter-bar .save-search { padding: 8px 18px; background: var(--primary); border:1px solid var(--primary); color: #fff; border-radius: var(--radius); font-size: 14px; font-weight: 700; cursor:pointer; }
+.filter-bar .save-search:hover { background: var(--primary-dark); }
+
+/* Left icon rail (Zillow's vertical icon sidebar) */
+.app-shell { display:flex; flex:1; min-height: 0; }
+.icon-rail { width: 72px; flex-shrink:0; border-right: 1px solid var(--line); background: #fff; padding: 14px 0; display:flex; flex-direction:column; align-items:center; gap: 4px; }
+.icon-rail .ir-item { display:flex; flex-direction:column; align-items:center; gap:4px; padding: 10px 6px; width:64px; border-radius: 6px; cursor:pointer; color: var(--text); }
+.icon-rail .ir-item:hover { background: var(--accent); }
+.icon-rail .ir-item.active { color: var(--primary); }
+.icon-rail .ir-item .ir-ico { font-size: 18px; line-height:1; }
+.icon-rail .ir-item .ir-lbl { font-size: 11px; font-weight: 600; }
+.shell-main { flex: 1; display:flex; min-width: 0; }
+
+/* Split-map layout: map left, listings right */
+.map-pane { flex: 0 0 44%; position: relative; background:
+  radial-gradient(circle at 30% 40%, #d6e8d3 0%, #cfe0c8 30%, transparent 70%),
+  radial-gradient(circle at 70% 60%, #c8ddf0 0%, #b9d2eb 30%, transparent 60%),
+  linear-gradient(135deg, #e8f1de 0%, #d6e6c9 40%, #cfe0e9 100%);
+  min-height: 700px; border-right: 1px solid var(--line); overflow: hidden; }
+.map-pane::before { content:""; position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-size: 60px 60px; pointer-events:none; }
+.map-pane .map-road { position:absolute; background: #fff; opacity: 0.85; box-shadow: 0 0 0 1px #e0d6c2; }
+.map-pane .map-road.r1 { left: -5%; top: 22%; width: 110%; height: 14px; transform: rotate(-3deg); }
+.map-pane .map-road.r2 { left: 10%; top: -5%; width: 14px; height: 110%; transform: rotate(8deg); }
+.map-pane .map-road.r3 { left: -5%; top: 65%; width: 110%; height: 10px; transform: rotate(2deg); }
+.map-pane .map-road.r4 { left: 60%; top: -5%; width: 10px; height: 110%; transform: rotate(-5deg); }
+.map-pane .map-water { position:absolute; left: -10%; bottom: -5%; width: 60%; height: 40%; background: #b9d2eb; opacity: 0.55; border-radius: 50%/30%; transform: rotate(-12deg); }
+.map-pane .map-label { position:absolute; font-size: 12px; font-weight: 700; color:#3f4a5b; text-shadow: 0 0 4px #fff, 0 0 4px #fff; letter-spacing: 0.04em; text-transform: uppercase; pointer-events:none; }
+.map-pane .map-label.l1 { left: 22%; top: 18%; }
+.map-pane .map-label.l2 { left: 52%; top: 50%; color:#2a3a5a; }
+.map-pane .map-label.l3 { left: 18%; top: 75%; }
+.map-pane .map-pin { position:absolute; background: #d62b2b; color:#fff; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 11px; box-shadow: 0 1px 4px rgba(0,0,0,0.3); white-space: nowrap; cursor:pointer; border: 1.5px solid #fff; }
+.map-pane .map-pin::after { content:""; position:absolute; left: 50%; bottom: -4px; transform: translateX(-50%); width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid #d62b2b; }
+.map-pane .map-pin:hover { background: var(--primary); z-index: 5; }
+.map-pane .map-pin:hover::after { border-top-color: var(--primary); }
+.map-pane .map-overlay { position:absolute; left: 14px; top: 14px; display:flex; gap: 8px; }
+.map-pane .map-overlay .mp-btn { background:#fff; border:1px solid var(--line-strong); border-radius: var(--radius); padding: 6px 12px; font-size: 13px; font-weight: 600; cursor:pointer; box-shadow: var(--shadow-sm); display:inline-flex; align-items:center; gap:6px; }
+.map-pane .map-zoom { position:absolute; right: 14px; bottom: 36px; display:flex; flex-direction:column; background:#fff; border:1px solid var(--line-strong); border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow: hidden; }
+.map-pane .map-zoom button { background:#fff; border:none; width: 32px; height: 32px; font-size: 16px; font-weight: 700; cursor:pointer; color: var(--text); }
+.map-pane .map-zoom button + button { border-top: 1px solid var(--line); }
+.map-pane .map-attr { position:absolute; left: 4px; bottom: 4px; font-size: 10px; color: #444; background: rgba(255,255,255,0.7); padding: 2px 4px; }
+
+/* Modal body — shared facet UI */
+.mc-body { padding: 18px 22px; overflow-y: auto; }
+.mc-body h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 18px 0 8px; font-weight: 700; }
+.mc-body h4:first-child { margin-top: 4px; }
+.lay-list label.cb { display:flex; align-items:center; gap:10px; padding: 8px 0; font-size: 14px; cursor:pointer; border-bottom:1px solid #f3f3f3; }
+.lay-list label.cb:hover { color: var(--primary); }
+.lay-list label.cb input { width:16px; height:16px; accent-color: var(--primary); }
+.lay-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 6px 28px; }
+.lay-grid label.cb { display:flex; align-items:center; gap:10px; padding: 8px 0; font-size:14px; cursor:pointer; border-bottom:1px dashed #efefef; }
+.lay-grid label.cb input { accent-color: var(--primary); }
+.lay-pills { display:flex; flex-wrap:wrap; gap: 8px; }
+.lay-pills label.pill { display:inline-flex; align-items:center; gap:8px; padding: 8px 14px; border:1.5px solid var(--line); border-radius: 999px; cursor:pointer; font-size: 13.5px; font-weight: 600; background:#fff; position: relative; }
+.lay-pills label.pill input { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; margin: 0; }
+.lay-pills label.pill:hover { border-color: var(--primary); color: var(--primary); }
+.lay-pills label.pill.has-check input:checked + .pill-mark { background: var(--primary); border-color: var(--primary); color: #fff; }
+.lay-pills label.pill .pill-mark { width:14px; height:14px; border-radius:50%; border:1.5px solid var(--line); display:inline-flex; align-items:center; justify-content:center; font-size:10px; color:#fff; }
+.mc-foot { display:flex; justify-content: space-between; align-items: center; padding: 12px 22px; border-top: 1px solid var(--line); background:#fff; }
+.mc-foot .ghost { background:transparent; border:none; color: var(--text); font-weight:700; font-size:13.5px; padding: 8px 6px; text-decoration: underline; cursor:pointer; }
+.mc-foot .primary { background: var(--primary); color: var(--cta-text); border:none; padding: 10px 22px; border-radius: var(--radius); font-weight:700; font-size:14px; cursor:pointer; }
+.mc-foot .primary:hover { background: var(--primary-dark); }
+
+.modal-overlay { display:none; position: fixed; inset:0; background: rgba(0,0,0,0.55); z-index: 999; align-items: flex-start; justify-content: center; padding: 5vh 0; }
+.modal-overlay.open { display: flex; }
+.modal-card { background: #fff; border-radius: var(--radius); width: 640px; max-width: 92vw; max-height: 90vh; box-shadow: var(--shadow-lg); display:flex; flex-direction:column; overflow: hidden; }
+.mc-head { display:flex; justify-content: space-between; align-items: center; padding: 16px 22px; border-bottom: 1px solid var(--line); }
+.mc-head h3 { margin:0; font-size: 18px; font-weight: 700; }
+.mc-close { background:transparent; border:none; font-size: 24px; color: var(--muted); cursor:pointer; line-height: 1; }
+
+.results-wrap { flex: 1; padding: 14px 22px 24px; overflow-y: auto; background:#fff; min-width: 0; }
+.results-head { display:flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+.results-head .rh-title { font-size: 22px; font-weight: 800; color: var(--text); }
+.results-sub { display:flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; font-size: 13px; color: var(--muted); }
+.rh-count { font-size: 14px; font-weight: 700; color: var(--text); }
+.rh-sort { font-size: 13px; color: var(--primary); font-weight: 700; cursor: pointer; }
+.rh-sort select { padding: 4px 6px; border-radius: var(--radius); border:none; font-size: 13px; background: transparent; color: var(--primary); font-weight: 700; cursor:pointer; }
+.listing-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+@media (max-width: 1080px) { .listing-grid { grid-template-columns: 1fr; } }
+.lcard { background:#fff; border:1px solid var(--line); border-radius: 8px; overflow:hidden; box-shadow: var(--shadow-sm); cursor:pointer; }
+.lcard:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); transition: all 0.15s; }
+.lc-photo { position: relative; background-color:#eaeaea; background-size: cover; background-position: center; height: 200px; }
+.lc-caption { position: absolute; left: 10px; top: 10px; background: rgba(255,255,255,0.95); color: #1a1a1a; font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+.lc-tag { position: absolute; left: 10px; top: 10px; padding: 4px 9px; font-size: 11px; font-weight: 700; border-radius: 3px; letter-spacing: 0.04em; }
+.lc-tag + .lc-caption { top: 40px; }
+.lc-heart { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.95); border: none; cursor: pointer; font-size: 16px; color: #1a1a1a; box-shadow: 0 1px 4px rgba(0,0,0,0.15); display:flex; align-items:center; justify-content:center; }
+.lc-heart:hover { color: #d62b2b; }
+.lc-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display:flex; gap: 4px; }
+.lc-dots span { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.6); }
+.lc-dots span.on { background: #fff; }
+.lc-body { padding: 12px 14px 14px; position: relative; }
+.lc-price { font-weight: 800; font-size: 22px; color: var(--text); letter-spacing: -0.5px; }
+.lc-more { position: absolute; right: 14px; top: 14px; color: var(--primary); font-size: 18px; font-weight: 800; line-height: 1; cursor: pointer; }
+.lc-stats { font-size: 14px; color: var(--text); margin-top: 4px; }
+.lc-stats .lc-status { color: var(--text); }
+.lc-stats .lc-status.lc-active { color: #0a7b3a; font-weight: 600; }
+.lc-stats .lc-status.lc-new { color: #0a7b3a; font-weight: 700; }
+.lc-addr { font-size: 14px; color: var(--text); margin-top: 4px; }
+.lc-city { font-size: 11px; color: var(--muted); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+
+.site-footer { background: #f8f8f8; border-top: 1px solid var(--line); padding: 30px 28px 18px; margin-top: 36px; }
+.site-footer .ft-cols { display:grid; grid-template-columns: repeat(4,1fr); gap: 22px; max-width: 1280px; margin: 0 auto 18px; }
+.site-footer .ft-cols div h5 { font-size: 13px; font-weight: 800; margin: 0 0 10px; color: var(--text); }
+.site-footer .ft-cols div a { display:block; font-size: 12.5px; color: var(--muted); margin-bottom: 4px; }
+.site-footer .ft-cols div a:hover { color: var(--primary); }
+.site-footer .ft-bot { display:flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; font-size: 12px; color: var(--muted); padding-top: 14px; border-top: 1px solid var(--line); }
+</style>
+</head>
+<body data-brand-name="EchoHomes">
+<div class="page">
+<header class="site-header">
+  <nav class="site-nav">
+      <a>Buy</a>
+      <a>Rent</a>
+      <a>Sell</a>
+      <a>Get a mortgage</a>
+      <a>Find an agent</a>
+  </nav>
+  <span class="logo-wrap"><span class="z-mark">E</span><span class="z-text">EchoHomes<sup>®</sup></span></span>
+  <div class="acct">
+    <span class="acct-link">Manage rentals</span>
+    <span class="acct-link">Advertise</span>
+    <span class="acct-link">Get help</span>
+    <button class="sign-in">Sign in</button>
+  </div>
+</header>
+<div class="filter-bar">
+  <div class="fb-search"><span class="mi">⌕</span><span>Bolingbrook IL</span><span class="x-clear">×</span></div>
+  <button class="fb-pill active">For sale <span class="fb-icon">▾</span></button>
+  <button class="fb-pill active">Up to $400K <span class="fb-icon">▾</span></button>
+  <button class="fb-pill">Beds &amp; baths <span class="fb-icon">▾</span></button>
+  <button class="fb-pill">Property type <span class="fb-icon">▾</span></button>
+  <button class="fb-pill fb-more" onclick="W07toggle()" id="w07-trigger"><span class="fb-icon">⫶</span> More filters <span class="fb-icon">▾</span></button>
+  <div class="fb-spacer"></div>
+  <button class="save-search">Save search</button>
+</div>
+<div class="app-shell">
+<aside class="icon-rail">
+  <div class="ir-item active"><span class="ir-ico">⌕</span><span class="ir-lbl">Search</span></div>
+  <div class="ir-item"><span class="ir-ico">◔</span><span class="ir-lbl">Updates</span></div>
+  <div class="ir-item"><span class="ir-ico">♡</span><span class="ir-lbl">Favorites</span></div>
+  <div class="ir-item"><span class="ir-ico">$</span><span class="ir-lbl">Home Loans</span></div>
+  <div class="ir-item"><span class="ir-ico">✉</span><span class="ir-lbl">Inbox</span></div>
+</aside>
+<div class="shell-main">
+<div class="map-pane" aria-label="Map of Bolingbrook IL">
+  <span class="map-road r1"></span>
+  <span class="map-road r2"></span>
+  <span class="map-road r3"></span>
+  <span class="map-road r4"></span>
+  <span class="map-water"></span>
+  <span class="map-label l1">Naperville</span>
+  <span class="map-label l2">Bolingbrook</span>
+  <span class="map-label l3">Romeoville</span>
+  <div class="map-overlay">
+    <button class="mp-btn">Schools <span style="color:var(--muted);">▾</span></button>
+    <button class="mp-btn" style="border-color: var(--primary); color: var(--primary);">Remove Boundary ×</button>
+  </div>
+  <div class="map-pin" style="left:32%; top:38%;">$235K</div>
+  <div class="map-pin" style="left:44%; top:32%;">$270K</div>
+  <div class="map-pin" style="left:46%; top:42%;">$215K</div>
+  <div class="map-pin" style="left:30%; top:54%;">$370K</div>
+  <div class="map-pin" style="left:38%; top:48%;">$257K</div>
+  <div class="map-pin" style="left:42%; top:52%;">$220K</div>
+  <div class="map-pin" style="left:36%; top:60%;">$298K</div>
+  <div class="map-pin" style="left:48%; top:58%;">$389K</div>
+  <div class="map-pin" style="left:28%; top:68%;">$310K</div>
+  <div class="map-zoom"><button>+</button><button>−</button></div>
+  <span class="map-attr">Map data ©2026 Echo Maps</span>
+</div>
+<section class="results-wrap">
+  <div class="results-head">
+    <div class="rh-title">Bolingbrook IL Townhomes</div>
+  </div>
+  <div class="results-sub">
+    <span class="rh-count" id="result-count" data-label="results">20 results</span>
+    <span class="rh-sort">Sort: <select><option>Homes for You</option><option>Price (Low to High)</option><option>Price (High to Low)</option><option>Newest</option></select> ▾</span>
+  </div>
+  <div class="listing-grid" id="listing-grid"><div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/164558/pexels-photo-164558.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    <span class="lc-tag" style="background:#0a7b3a;color:#fff;">NEW</span>
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$653,000</div>
+    <div class="lc-stats">5 bd · 1.5 ba · 1,383 sqft</div>
+    <div class="lc-addr">3864 Spruce Pl</div>
+    <div class="lc-city">Joliet, Single-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/210617/pexels-photo-210617.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    <span class="lc-tag" style="background:#fff1d6;color:#8a5300;">PRICE ↓</span>
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$1,048,000</div>
+    <div class="lc-stats">3 bd · 3.5 ba · 3,597 sqft</div>
+    <div class="lc-addr">3190 Oak Rd</div>
+    <div class="lc-city">Joliet, Loft</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/2102587/pexels-photo-2102587.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    <span class="lc-tag" style="background:#fff1d6;color:#8a5300;">PRICE ↓</span>
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$294,000</div>
+    <div class="lc-stats">5 bd · 4 ba · 1,869 sqft</div>
+    <div class="lc-addr">2079 Elm Pl</div>
+    <div class="lc-city">Plainfield, Condo</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    <span class="lc-tag" style="background:#fff1d6;color:#8a5300;">PRICE ↓</span>
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$521,000</div>
+    <div class="lc-stats">1 bd · 4 ba · 3,819 sqft</div>
+    <div class="lc-addr">2525 Pine Blvd</div>
+    <div class="lc-city">Bolingbrook, Co-op</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$437,000</div>
+    <div class="lc-stats">2 bd · 2 ba · 3,326 sqft</div>
+    <div class="lc-addr">8266 Walnut Ln</div>
+    <div class="lc-city">Plainfield, Townhouse</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    <span class="lc-tag" style="background:#e6f0ff;color:#0050c8;">COMING SOON</span>
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$388,000</div>
+    <div class="lc-stats">4 bd · 2 ba · 1,959 sqft</div>
+    <div class="lc-addr">5307 Spruce Ln</div>
+    <div class="lc-city">Plainfield, Single-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/2079249/pexels-photo-2079249.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    <span class="lc-tag" style="background:#fff1d6;color:#8a5300;">PRICE ↓</span>
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$667,000</div>
+    <div class="lc-stats">3 bd · 3.5 ba · 2,098 sqft</div>
+    <div class="lc-addr">4093 Spruce Dr</div>
+    <div class="lc-city">Joliet, Single-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$301,000</div>
+    <div class="lc-stats">2 bd · 1 ba · 4,144 sqft</div>
+    <div class="lc-addr">7216 Elm Ln</div>
+    <div class="lc-city">Plainfield, Condo</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    <span class="lc-tag" style="background:#fff1d6;color:#8a5300;">PRICE ↓</span>
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$973,000</div>
+    <div class="lc-stats">4 bd · 2 ba · 707 sqft</div>
+    <div class="lc-addr">765 Elm Blvd</div>
+    <div class="lc-city">Naperville, Loft</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/106349/pexels-photo-106349.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    <span class="lc-tag" style="background:#fff1d6;color:#8a5300;">PRICE ↓</span>
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$576,000</div>
+    <div class="lc-stats">3 bd · 3 ba · 2,927 sqft</div>
+    <div class="lc-addr">298 Oak Ave</div>
+    <div class="lc-city">Romeoville, Multi-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/259593/pexels-photo-259593.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    <span class="lc-tag" style="background:#e6f0ff;color:#0050c8;">COMING SOON</span>
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$1,142,000</div>
+    <div class="lc-stats">3 bd · 3.5 ba · 1,019 sqft</div>
+    <div class="lc-addr">1248 Oak Dr</div>
+    <div class="lc-city">Romeoville, Co-op</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1438832/pexels-photo-1438832.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    <span class="lc-tag" style="background:#0a7b3a;color:#fff;">NEW</span>
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$1,021,000</div>
+    <div class="lc-stats">4 bd · 2.5 ba · 780 sqft</div>
+    <div class="lc-addr">1920 Pine Dr</div>
+    <div class="lc-city">Joliet, Multi-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/164558/pexels-photo-164558.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    <span class="lc-tag" style="background:#fbe7e8;color:#a51823;">OPEN SAT</span>
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$378,000</div>
+    <div class="lc-stats">5 bd · 2 ba · 1,928 sqft</div>
+    <div class="lc-addr">3554 Oak Way</div>
+    <div class="lc-city">Bolingbrook, Single-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/210617/pexels-photo-210617.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    <span class="lc-tag" style="background:#fff1d6;color:#8a5300;">PRICE ↓</span>
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$413,000</div>
+    <div class="lc-stats">3 bd · 2 ba · 3,308 sqft</div>
+    <div class="lc-addr">6821 Oak Way</div>
+    <div class="lc-city">Romeoville, Single-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/2102587/pexels-photo-2102587.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    <span class="lc-tag" style="background:#0a7b3a;color:#fff;">NEW</span>
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$304,000</div>
+    <div class="lc-stats">1 bd · 2.5 ba · 3,701 sqft</div>
+    <div class="lc-addr">5254 Birch Way</div>
+    <div class="lc-city">Romeoville, Multi-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    <span class="lc-tag" style="background:#fbe7e8;color:#a51823;">OPEN SAT</span>
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$252,000</div>
+    <div class="lc-stats">1 bd · 4 ba · 983 sqft</div>
+    <div class="lc-addr">5296 Pine Dr</div>
+    <div class="lc-city">Bolingbrook, Condo</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    <span class="lc-tag" style="background:#0a7b3a;color:#fff;">NEW</span>
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$1,036,000</div>
+    <div class="lc-stats">1 bd · 2 ba · 3,641 sqft</div>
+    <div class="lc-addr">4357 Spruce Blvd</div>
+    <div class="lc-city">Bolingbrook, Single-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$881,000</div>
+    <div class="lc-stats">3 bd · 3 ba · 2,571 sqft</div>
+    <div class="lc-addr">7154 Maple Pl</div>
+    <div class="lc-city">Bolingbrook, Multi-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/2079249/pexels-photo-2079249.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    <span class="lc-tag" style="background:#0a7b3a;color:#fff;">NEW</span>
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$708,000</div>
+    <div class="lc-stats">2 bd · 2.5 ba · 2,593 sqft</div>
+    <div class="lc-addr">3705 Maple St</div>
+    <div class="lc-city">Joliet, Single-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    <span class="lc-tag" style="background:#fbe7e8;color:#a51823;">OPEN SAT</span>
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$597,000</div>
+    <div class="lc-stats">3 bd · 2 ba · 1,319 sqft</div>
+    <div class="lc-addr">3466 Walnut Pl</div>
+    <div class="lc-city">Joliet, Single-Family</div>
+  </div>
+</div></div>
+</section>
+</div><!-- /.shell-main -->
+</div><!-- /.app-shell -->
+<div class="modal-overlay" id="w07-modal" onclick="if(event.target===this)W07close()">
+  <div class="modal-card">
+    <div class="mc-head"><h3>More filters</h3><button class="mc-close" onclick="W07close()" aria-label="Close">×</button></div>
+    <div class="mc-body">
+      <h4>Listing status</h4>
+  <div class="lay-list">
+  <label class="cb"><input type="checkbox" data-facet="modal_new_to_market" onchange="W07sync()"> <span>New to market (last 7 days)</span></label>
+  <label class="cb"><input type="checkbox" data-facet="modal_coming_soon" onchange="W07sync()"> <span>Coming soon</span></label>
+  <label class="cb"><input type="checkbox" data-facet="modal_open_house_weekend" onchange="W07sync()"> <span>Open house this weekend</span></label>
+  <label class="cb"><input type="checkbox" data-facet="modal_price_reduced" onchange="W07sync()"> <span>Price reduced (last 14 days)</span></label>
+  </div>
+  <h4>Amenities &amp; features</h4>
+  <div class="lay-list">
+  <label class="cb"><input type="checkbox" data-facet="modal_3d_tour_available" onchange="W07sync()"> <span>3D tour available</span></label>
+  <label class="cb"><input type="checkbox" data-facet="modal_pet_friendly_hoa" onchange="W07sync()"> <span>Pet-friendly HOA</span></label>
+  <label class="cb"><input type="checkbox" data-facet="modal_in_unit_washer_dryer" onchange="W07sync()"> <span>In-unit washer/dryer</span></label>
+  </div>
+  <h4>Property details</h4>
+  <div class="lay-list">
+  <label class="cb"><input type="checkbox" data-facet="modal_has_garage" onchange="W07sync()"> <span>Has garage</span></label>
+  <label class="cb"><input type="checkbox" data-facet="modal_no_hoa" onchange="W07sync()"> <span>No HOA fees</span></label>
+  <label class="cb"><input type="checkbox" data-facet="modal_central_ac" onchange="W07sync()"> <span>Central A/C</span></label>
+  <label class="cb"><input type="checkbox" data-facet="modal_finished_basement" onchange="W07sync()"> <span>Finished basement</span></label>
+  </div>
+    </div>
+    <div class="mc-foot">
+      <button class="ghost" onclick="W07clearAll()">Clear all</button>
+      <button class="primary" onclick="W07close()" title="Filters apply automatically — this just closes the panel">Show results</button>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="ft-cols">
+    <div><h5>EchoHomes</h5><a>About</a><a>Zestimates</a><a>Research</a><a>Careers</a><a>Press</a><a>Investors</a></div>
+    <div><h5>Buy a home</h5><a>Homes for sale</a><a>Mortgage rates</a><a>Affordability calc</a><a>Home values</a><a>Open houses</a></div>
+    <div><h5>Sell a home</h5><a>List your home for sale</a><a>Free home valuation</a><a>Seller&rsquo;s guide</a><a>Pricing tools</a></div>
+    <div><h5>Help</h5><a>Contact us</a><a>Help Center</a><a>Listing Manager</a><a>Privacy Portal</a><a>Terms of Use</a></div>
+  </div>
+  <div class="ft-bot">
+    <span>© 2006&ndash;2026 EchoHomes, Inc. All rights reserved. <span style="margin-left:8px;">⌂ Equal Housing Opportunity</span></span>
+    <span>Do Not Sell or Share My Personal Information &middot; Accessibility</span>
+  </div>
+</footer>
+</div>
+<script>
+const ENV_ID = "W07_E01";
+const FACET_LABELS = {"modal_new_to_market": "New to market (last 7 days)", "modal_coming_soon": "Coming soon", "modal_open_house_weekend": "Open house this weekend", "modal_price_reduced": "Price reduced (last 14 days)", "modal_3d_tour_available": "3D tour available", "modal_pet_friendly_hoa": "Pet-friendly HOA", "modal_in_unit_washer_dryer": "In-unit washer/dryer", "modal_has_garage": "Has garage", "modal_no_hoa": "No HOA fees", "modal_central_ac": "Central A/C", "modal_finished_basement": "Finished basement"};
+const TRIGGER_STYLE = "classic_center";
+let filterState = {};
+
+function W07toggle() {
+  const m = document.getElementById('w07-modal');
+  if (!m) return;
+  m.classList.toggle('open');
+}
+function W07close() {
+  const m = document.getElementById('w07-modal');
+  if (m) m.classList.remove('open');
+}
+function W07apply() { W07close(); }
+function W07clearAll() {
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    if (el.type === 'checkbox') el.checked = false;
+  });
+  document.querySelectorAll('.lay-pills label.pill.active').forEach(el => el.classList.remove('active'));
+  W07sync();
+}
+
+function W07sync() {
+  const newState = {};
+  document.querySelectorAll('input[type="checkbox"][data-facet]').forEach(el => {
+    if (el.checked) newState[el.dataset.facet] = 'on';
+  });
+  filterState = newState;
+
+  const live = document.getElementById('w07-live-list');
+  if (live) {
+    const keys = Object.keys(newState);
+    live.innerHTML = keys.length ? keys.map(k => '<li>✓ ' + (FACET_LABELS[k] || k) + '</li>').join('')
+                                 : '<li style="color:#888;">No filters selected yet</li>';
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ filter_state: filterState })
+  }).then(r => r.json()).then(data => {
+    if (data.html_cards) document.getElementById('listing-grid').innerHTML = data.html_cards;
+    const rc = document.getElementById('result-count');
+    if (rc) {
+      const n = (data.results || []).length;
+      const label = rc.dataset.label || 'results';
+      rc.textContent = n + ' ' + label;
+    }
+    const brandName = document.body.dataset.brandName || '';
+    if (brandName) {
+      document.querySelectorAll('.lstg-dom').forEach(el => {
+        el.textContent = el.textContent.replace(/on Realtor\b/i, 'on ' + brandName);
+      });
+    }
+  }).catch(() => {});
+
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ filter_state: filterState, answer: '', task_id: taskId })
+  }).catch(() => {});
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  W07sync();
+  var __m = document.getElementById('w07-modal');
+  if (__m) __m.classList.add('open');
+});
+</script>
+</body></html>

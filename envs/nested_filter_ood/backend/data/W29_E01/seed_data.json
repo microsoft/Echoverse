@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "calc_type": "compound interest projection (gov calc, override defaults + frequency)",
+    "brand": "Investor.gov",
+    "default_inputs": {
+      "principal": 10000,
+      "rate": 5.0,
+      "years": 10,
+      "frequency": "Annually"
+    },
+    "frequencies": [
+      "Annually",
+      "Semi-Annually",
+      "Quarterly",
+      "Monthly",
+      "Bi-Weekly",
+      "Daily",
+      "Continuously"
+    ]
+  }
+]

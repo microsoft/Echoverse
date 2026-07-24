@@ -1,0 +1,57 @@
+{
+  "env_id": "W21_E08",
+  "widget_id": "W21_calendar_advance_plus_return_validation",
+  "widget_name": "Calendar multi-month advance + return-after-depart validation",
+  "widget_category": "combo_calendar",
+  "widget_mechanic": "Compose: calendar must advance to depart-target month AND return must be set \u2265 depart in correct order.",
+  "archetype": "booking_form",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W09_calendar_multi_month_advance",
+    "W11_return_after_depart_validation"
+  ],
+  "site_imitates": "Marriott stay booking on marriott.com",
+  "product_type": "Marriott stay",
+  "source_inspiration": [
+    {
+      "task_id": "hotels_head_marriott_490",
+      "benchmark": "WTB",
+      "site": "marriott",
+      "instruction": "Book a room at Courtyard by Marriott Anchorage Airport in Anchorage, Alaska at marriott.com checking in on October 7 and leaving October 13.. If the hotel doesn't take reservations for that date or there are no available rooms for that time, please indicate that in your answer",
+      "first_failure_summary": "[4.2] Critical Point violation: The agent began entering guest personal details (First Name) that were never provided by the user, claiming authorization that did not exist in the conversation."
+    }
+  ],
+  "theme_key": "premium-hotel",
+  "theme_logo": "GoldStay",
+  "theme_card": "hotel-card",
+  "theme_layout": "topbar",
+  "variant_idx": 2,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "primary_inspiration": "hotels_head_marriott_490",
+  "brand_colors": {
+    "header_bg": "#1c1f22",
+    "header_fg": "#fff",
+    "primary": "#0a0a0a",
+    "primary_hover": "#262626",
+    "accent": "#ff6e00",
+    "background": "#f5f5f3",
+    "accent_fg": "#0a0a0a",
+    "accent_bg": "#ffe6d1"
+  },
+  "ui_pattern": "three_step",
+  "ui_pattern_description": "Stepped check-in / review / check-out trip-builder (each step opens the calendar)",
+  "fara_grounded_dates": {
+    "depart": "2026-10-07",
+    "return": "2026-10-13"
+  },
+  "fara_grounded_route": {
+    "from_city": "Anchorage",
+    "from_code": "ANC",
+    "to_city": "Courtyard by Marriott Anchorage Airport",
+    "to_code": "ANC"
+  }
+}

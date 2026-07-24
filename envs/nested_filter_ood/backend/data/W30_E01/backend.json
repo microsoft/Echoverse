@@ -1,0 +1,101 @@
+{
+  "env_id": "W30_E01",
+  "widget_id": "W30_region_plus_override_defaults",
+  "archetype": "calculator_form",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T300101",
+      "task_index_in_env": 1,
+      "instruction_text": "I'm scoping a Azure workload for a customer in East US \u2014 set up a quote for Azure OpenAI \u2014 GPT-4o, override the default usage to 5M input + 5M output tokens for the month, and pin the Standard tier since this is a regulated tenant.",
+      "expected_filter_state": {
+        "region": "East US",
+        "override": "5M input + 5M output tokens"
+      }
+    },
+    {
+      "task_id": "T300102",
+      "task_index_in_env": 2,
+      "instruction_text": "Could you put together a Virtual Machines (D-series) quote? Always-on 1-month workload \u2014 use 730 VM-hours (1 month always-on) \u2014 and bill it out of East US 2, the Developer tier is fine, we don't need anything fancier.",
+      "expected_filter_state": {
+        "region": "East US 2",
+        "override": "730 VM-hours (1 month always-on)"
+      }
+    },
+    {
+      "task_id": "T300103",
+      "task_index_in_env": 3,
+      "instruction_text": "Need to estimate Azure Blob Storage sitting in Central US at about 500 GB storage. We're on the Basic tier anyway.",
+      "expected_filter_state": {
+        "region": "Central US",
+        "override": "500 GB storage"
+      }
+    },
+    {
+      "task_id": "T300104",
+      "task_index_in_env": 4,
+      "instruction_text": "Configure the calculator for Azure SQL Database in West US 2 \u2014 usage around 100 DTU-hours per month and we're already on the Professional Direct tier for the FedRAMP tenant.",
+      "expected_filter_state": {
+        "region": "West US 2",
+        "override": "100 DTU-hours"
+      }
+    },
+    {
+      "task_id": "T300105",
+      "task_index_in_env": 5,
+      "instruction_text": "What's the projected monthly bill for Azure Functions in West US 3 doing 5M function executions, with the Basic tier attached?",
+      "expected_filter_state": {
+        "region": "West US 3",
+        "override": "5M function executions"
+      }
+    },
+    {
+      "task_id": "T300106",
+      "task_index_in_env": 6,
+      "instruction_text": "Quick check \u2014 if I put 10 TB storage through Bandwidth (egress) in US Gov Virginia, on the None tier, what does the monthly estimate come to?",
+      "expected_filter_state": {
+        "region": "US Gov Virginia",
+        "override": "10 TB storage"
+      }
+    },
+    {
+      "task_id": "T300107",
+      "task_index_in_env": 7,
+      "instruction_text": "Hmm, what would Azure OpenAI \u2014 GPT-4o cost me in Brazil South for a 5M input + 5M output tokens monthly commitment if I add the Standard tier on top? Just want the number.",
+      "expected_filter_state": {
+        "region": "Brazil South",
+        "override": "5M input + 5M output tokens"
+      }
+    },
+    {
+      "task_id": "T300108",
+      "task_index_in_env": 8,
+      "instruction_text": "Pricing exercise for a finance review: configure the calculator for Azure SQL Database in Canada Central, override usage to 100 DTU-hours, leave support at the Basic tier, then tell me the all-in monthly total \u2014 they want it for the budget doc.",
+      "expected_filter_state": {
+        "region": "Canada Central",
+        "override": "100 DTU-hours"
+      }
+    },
+    {
+      "task_id": "T300109",
+      "task_index_in_env": 9,
+      "instruction_text": "OK so I need to estimate Virtual Machines (D-series) running in West Europe for one month \u2014 use 730 VM-hours (1 month always-on) \u2014 and we're on the Developer tier; set it up in the calculator and give me the monthly figure.",
+      "expected_filter_state": {
+        "region": "West Europe",
+        "override": "730 VM-hours (1 month always-on)"
+      }
+    },
+    {
+      "task_id": "T300110",
+      "task_index_in_env": 10,
+      "instruction_text": "Hey, can you set up an estimate for 10 TB storage out of North Europe on Bandwidth (egress) and tell me the monthly cost? We're on the Basic tier, but if it's over $1000/month we'll probably want to revisit.",
+      "expected_filter_state": {
+        "region": "North Europe",
+        "override": "10 TB storage"
+      }
+    }
+  ]
+}

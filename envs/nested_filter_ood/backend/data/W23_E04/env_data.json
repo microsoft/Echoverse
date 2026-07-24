@@ -1,0 +1,43 @@
+{
+  "env_id": "W23_E04",
+  "widget_id": "W23_more_filters_modal_plus_chip_bar",
+  "widget_name": "More-filters modal + filter-chip confirmation bar",
+  "widget_category": "combo_modal_workflow",
+  "widget_mechanic": "Compose: apply hidden-modal filter AND verify it appears in the active-filter chip bar.",
+  "archetype": "realestate_listings",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W07_more_filters_modal",
+    "W08_filter_chip_confirmation"
+  ],
+  "site_imitates": "Zillow Omaha NE",
+  "product_type": "Omaha homes",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_omaha__ne_11006",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "I'm looking to buy a house in Omaha, NE with 4 or more bedrooms, a large lot, and near top-rated schools. Can you find a listing that meets these criteria?",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent concluded the listing's lot size (7,405.2 sq ft) \"satisfies the large-lot requirement,\" even though this is not convincingly a large lot and is inconsistent with the agent's earlier stated minimum lot filter of 1/4 acre (10,890 sq ft)."
+    }
+  ],
+  "primary_inspiration": {
+    "task_id": "realestate_complex_buy_house_omaha__ne_11006",
+    "benchmark": "WTB",
+    "site": "buy",
+    "site_label": "Zillow",
+    "city": "Omaha, NE",
+    "instruction": "I'm looking to buy a house in Omaha, NE with 4 or more bedrooms, a large lot, and near top-rated schools. Can you find a listing that meets these criteria?",
+    "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent concluded the listing's lot size (7,405.2 sq ft) \"satisfies the large-lot requirement,\" even though this is not convincingly a large lot and is inconsistent with the agent's earlier stated minimum lot filter of 1/4 acre (10,890 sq ft)."
+  },
+  "theme_key": "zillow",
+  "theme_logo": "Zillow",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

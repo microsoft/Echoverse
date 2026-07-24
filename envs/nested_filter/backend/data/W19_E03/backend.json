@@ -1,0 +1,101 @@
+{
+  "env_id": "W19_E03",
+  "widget_id": "W19_compose_sex_and_sterilization",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "axis_compose",
+    "fields": [
+      "sex",
+      "sterilization"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T1901",
+      "task_index_in_env": 1,
+      "instruction_text": "Hey — I'm browsing Adopt a Pet (adoptapet.com) for cats in Brooklyn, NY (zip 11201). Can you narrow it to spayed female cats so I can show off the newest additions that are already fixed?",
+      "expected_filter_state": {
+        "sex": "Female",
+        "sterilization": "Spayed"
+      }
+    },
+    {
+      "task_id": "T1902",
+      "task_index_in_env": 2,
+      "instruction_text": "Reset my last search please — on adoptapet.com I want only spayed female cats. Both selectors set, not 'Any'. Just spayed females within the Brooklyn area.",
+      "expected_filter_state": {
+        "sex": "Female",
+        "sterilization": "Spayed"
+      }
+    },
+    {
+      "task_id": "T1903",
+      "task_index_in_env": 3,
+      "instruction_text": "On Adopt a Pet (adoptapet.com), narrow it down to neutered male cats only — both Sex and Sterilization criteria need to come off 'Any'. I don't want any females mixed in and definitely no intact males.",
+      "expected_filter_state": {
+        "sex": "Male",
+        "sterilization": "Neutered"
+      }
+    },
+    {
+      "task_id": "T1904",
+      "task_index_in_env": 4,
+      "instruction_text": "I'm volunteering this weekend at a fix-and-foster clinic in Brooklyn, NY, so on adoptapet.com can you filter the adoptable cats down to males that are still intact (un-neutered)? Both filters need to be set explicitly — don't leave Sex or Sterilization on 'Any'.",
+      "expected_filter_state": {
+        "sex": "Male",
+        "sterilization": "Intact"
+      }
+    },
+    {
+      "task_id": "T1905",
+      "task_index_in_env": 5,
+      "instruction_text": "OK two-step: first on Adopt a Pet (adoptapet.com) set the criteria so we only see spayed female cats (Sex=Female, Sterilization=Spayed — both explicitly applied, don't leave them on Any). Then tell me how many of the ones still showing are tagged 'Good with kids' and list their names.",
+      "expected_filter_state": {
+        "sex": "Female",
+        "sterilization": "Spayed"
+      }
+    },
+    {
+      "task_id": "T1906",
+      "task_index_in_env": 6,
+      "instruction_text": "Quick reality check — switch the filters over to neutered male cats on adoptapet.com (both criteria set, not Any), and tell me how many of those are listed as 'Good with kids'. Names plus which one has the highest rating, please. Keep the filter set after.",
+      "expected_filter_state": {
+        "sex": "Male",
+        "sterilization": "Neutered"
+      }
+    },
+    {
+      "task_id": "T1907",
+      "task_index_in_env": 7,
+      "instruction_text": "Apply spayed-female criteria (both selectors must come off Any) on Adopt a Pet (adoptapet.com), then tell me — out of the ones still showing — who's the youngest and how old are they? I'd love to give a young cat a long life with us.",
+      "expected_filter_state": {
+        "sex": "Female",
+        "sterilization": "Spayed"
+      }
+    },
+    {
+      "task_id": "T1908",
+      "task_index_in_env": 8,
+      "instruction_text": "Real quick — before I touch any filter on Adopt a Pet (adoptapet.com), how many adoptable cats are on the page right now in total? Don't change any selectors, just look.",
+      "expected_filter_state": {
+        "constraint": "(read-only task)"
+      }
+    },
+    {
+      "task_id": "T1909",
+      "task_index_in_env": 9,
+      "instruction_text": "Btw before I touch anything on adoptapet.com — could you scan the catalog and tell me roughly how many cats here are still intact (not spayed and not neutered), and how that splits by sex? Don't change the filters, just look.",
+      "expected_filter_state": {
+        "constraint": "(read-only task)"
+      }
+    },
+    {
+      "task_id": "T1910",
+      "task_index_in_env": 10,
+      "instruction_text": "Without applying any filter yet on Adopt a Pet (adoptapet.com) — eyeball the whole catalog and tell me which group is bigger right now: spayed females or neutered males? Give me both counts and the difference.",
+      "expected_filter_state": {
+        "constraint": "(read-only task)"
+      }
+    }
+  ]
+}

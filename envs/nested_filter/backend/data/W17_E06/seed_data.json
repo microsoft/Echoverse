@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "calc_type": "college savings \u2014 8-year-old, parents eyeing a private liberal-arts college",
+    "scenario": "8-year-old, parents eyeing a private liberal-arts college",
+    "child_age_default": 8,
+    "start_age_default": 18,
+    "default_inputs": {
+      "tuition": 35000,
+      "room_board": 15000,
+      "years": 10,
+      "income": 110000,
+      "inflation": 5,
+      "current_savings": 10000,
+      "monthly_contributions": 250,
+      "rate_of_return": 7
+    },
+    "site": "Office of Financial Readiness (finred.usalearning.gov) College Savings Calculator"
+  }
+]

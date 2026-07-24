@@ -1,0 +1,43 @@
+{
+  "env_id": "W09_E08",
+  "widget_id": "W09_calendar_multi_month_advance",
+  "widget_name": "Calendar \u2014 multi-month forward navigation",
+  "widget_category": "calendar",
+  "widget_mechanic": "Calendar opens on current month; agent must click the next-month arrow N times to reach target month, then click the target date cell. The default 'do nothing' leaves the calendar at the current month, producing dates near today (wrong).",
+  "archetype": "booking_form",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W09_calendar_multi_month_advance"
+  ],
+  "site_imitates": "Jetstar",
+  "product_type": "flights",
+  "primary_inspiration": {
+    "task_id": "flights_jetstar_10",
+    "benchmark": "WTB",
+    "site": "jetstar",
+    "instruction": "Does Jetstar offer any bundle deals or packages for flights from Adelaide to Sunshine Coast June 8 - June 18 round trip? If there are no available flights for those dates, please indicate that in your answer.",
+    "first_failure_summary": "[1.4] Calendar \u2014 agent could not advance the date picker forward to June 2026 to set the Jun 8 \u2192 Jun 18 round-trip window for ADL \u2192 MCY."
+  },
+  "source_inspiration": [
+    {
+      "task_id": "flights_jetstar_10",
+      "benchmark": "WTB",
+      "site": "jetstar",
+      "instruction": "Does Jetstar offer any bundle deals or packages for flights from Adelaide to Sunshine Coast June 8 - June 18 round trip? If there are no available flights for those dates, please indicate that in your answer.",
+      "first_failure_summary": "[1.4] Calendar \u2014 agent could not advance the date picker forward to June 2026 to set the Jun 8 \u2192 Jun 18 round-trip window for ADL \u2192 MCY."
+    }
+  ],
+  "theme_key": "flights",
+  "theme_logo": "Jetstar",
+  "theme_card": "flight-card",
+  "theme_layout": "left_sidebar",
+  "variant_idx": 0,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "date_pick",
+    "fields": [
+      "date"
+    ]
+  },
+  "calendar_ui_pattern": "Classic single-month grid (\u2039 \u203a)"
+}

@@ -1,0 +1,57 @@
+{
+  "env_id": "W21_E09",
+  "widget_id": "W21_calendar_advance_plus_return_validation",
+  "widget_name": "Calendar multi-month advance + return-after-depart validation",
+  "widget_category": "combo_calendar",
+  "widget_mechanic": "Compose: calendar must advance to depart-target month AND return must be set \u2265 depart in correct order.",
+  "archetype": "booking_form",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W09_calendar_multi_month_advance",
+    "W11_return_after_depart_validation"
+  ],
+  "site_imitates": "Tripadvisor stay booking on tripadvisor.com",
+  "product_type": "Tripadvisor stay",
+  "source_inspiration": [
+    {
+      "task_id": "hotels_head_tripadvisor_347",
+      "benchmark": "WTB",
+      "site": "tripadvisor",
+      "instruction": "How many hotels are available near the Grand Canyon in Las Vegas, Nevada through tripadvisor.com July 21 checking out July 27? If the hotel doesn't take reservations for that date or there are no available rooms for that time, please indicate that in your answer",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent selected \u201cGrand Canyon National Park, Arizona, United States\u201d as the destination, abandoning the required Las Vegas, Nevada location scope instead of applying a Las Vegas-based \u2018near Grand Canyon\u2019 proximity interpretation or stating the limitation."
+    }
+  ],
+  "theme_key": "hotels",
+  "theme_logo": "BookEasy",
+  "theme_card": "hotel-card",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 3,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "primary_inspiration": "hotels_head_tripadvisor_347",
+  "brand_colors": {
+    "header_bg": "#00aa6c",
+    "header_fg": "#fff",
+    "primary": "#00aa6c",
+    "primary_hover": "#00794a",
+    "accent": "#0a4f44",
+    "background": "#fafbfc",
+    "accent_fg": "#0a4f44",
+    "accent_bg": "#dff2e9"
+  },
+  "ui_pattern": "horizontal_strip",
+  "ui_pattern_description": "Horizontal scrolling day strip with check-in / check-out pills",
+  "fara_grounded_dates": {
+    "depart": "2026-07-21",
+    "return": "2026-07-27"
+  },
+  "fara_grounded_route": {
+    "from_city": "Las Vegas, NV",
+    "from_code": "LAS",
+    "to_city": "Hotels near Grand Canyon, Las Vegas",
+    "to_code": "LAS"
+  }
+}

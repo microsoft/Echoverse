@@ -1,0 +1,35 @@
+{
+  "env_id": "W24_E02",
+  "widget_id": "W24_multi_checkbox_plus_exact_match",
+  "widget_name": "Multi-checkbox facet + exact-match toggle composition",
+  "widget_category": "combo_facet_strict",
+  "widget_mechanic": "Compose: multi-select facet AND enable exact-match (strict) toggle.",
+  "archetype": "faceted_catalog",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W01_multi_checkbox_facet",
+    "W06_exact_match_toggle"
+  ],
+  "site_imitates": "Uniqlo.com (fast-fashion catalog)",
+  "product_type": "Men's outerwear (Blazers in Black, Size M)",
+  "brand_name": "FoldsJP",
+  "source_inspiration": [
+    {
+      "task_id": "b7a9a6b5d451164c09bbd27b670bc2ae",
+      "benchmark": "OM2W",
+      "site": "uniqlo.com",
+      "instruction": "Show me the list of Men's Blazers, Black, Size M on Uniqlo.",
+      "first_failure_summary": "Agent picked the WOMEN'S Blazers section and/or Size S because Uniqlo's gender + size facets weren't strictly enforced. Strict-match keeps M from broadening to S/L."
+    }
+  ],
+  "theme_key": "uniqlo",
+  "theme_logo": "FoldsJP",
+  "theme_card": "ecommerce",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

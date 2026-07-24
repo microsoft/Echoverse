@@ -1,0 +1,25 @@
+[project]
+name = "datepicker-env"
+version = "1.0.0"
+description = "25 datepicker environments with 100 tasks for AI agent evaluation"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.104.0",
+    "sqlmodel>=0.0.16",
+    "uvicorn>=0.24.0",
+    "httpx>=0.25.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "ruff>=0.1.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

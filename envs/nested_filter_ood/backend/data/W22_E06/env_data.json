@@ -1,0 +1,43 @@
+{
+  "env_id": "W22_E06",
+  "widget_id": "W22_min_max_slider_plus_plus_chip",
+  "widget_name": "Min/max price slider + \u2265N bedrooms plus-chip composition",
+  "widget_category": "combo_realestate_facets",
+  "widget_mechanic": "Compose: max-price slider AND \u2265N-bedroom plus-chip \u2014 both applied simultaneously.",
+  "archetype": "realestate_listings",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W04_min_max_slider",
+    "W05_plus_chips_at_least"
+  ],
+  "site_imitates": "Zillow Boise",
+  "product_type": "Boise homes",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_tacoma__wa_12334",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "I'm looking for homes for sale in Tacoma, WA that have 3 bedrooms, 2 or more bathrooms, and are under $500k. Can you show me some options?",
+      "first_failure_summary": "[2.1] Output contradiction: The agent stated it would enable \u201cUse exact match\u201d because results were broader than requested, but at that time the UI evidence indicates the bedroom setting was still \u201c3+\u201d and exact match was not yet enabled (allowing non-3-bedroom listings)."
+    }
+  ],
+  "theme_key": "zillow",
+  "theme_logo": "Zilo Homes",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "primary_inspiration": {
+    "task_id": "realestate_complex_buy_house_tacoma__wa_12334",
+    "benchmark": "WTB",
+    "site": "buy",
+    "instruction": "I'm looking for homes for sale in Tacoma, WA that have 3 bedrooms, 2 or more bathrooms, and are under $500k. Can you show me some options?",
+    "first_failure_summary": "[2.1] Output contradiction: The agent stated it would enable \u201cUse exact match\u201d because results were broader than requested, but at that time the UI evidence indicates the bedroom setting was still \u201c3+\u201d and exact match was not yet enabled (allowing non-3-bedroom listings).",
+    "fara_actions": 11,
+    "gpt54_actions": 13
+  }
+}

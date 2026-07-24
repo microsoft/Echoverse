@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>EchoPets — Find shelters &amp; rescues</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Domine:wght@400;700&family=Open+Sans:wght@400;600;700&family=Playfair+Display:wght@400;700;900&family=Lato:wght@400;700&family=Merriweather:wght@400;700;900&family=Inter:wght@400;600;700;900&family=Roboto:wght@400;500;700;900&family=Roboto+Slab:wght@400;700;900&family=Source+Serif+Pro:wght@400;700;900&family=Rubik:wght@400;500;700;900&family=Poppins:wght@400;600;700;900&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6 */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+.env-footer, #task-banner { display: none !important; }
+body { padding-bottom: 0 !important; }
+
+.env-footer { position: fixed; left:0; right:0; bottom:0; background: rgba(255,255,255,0.97);
+  border-top: 1px solid #ddd; padding: 8px 16px; z-index: 100;
+  display:flex; gap:14px; align-items:center; font-size:12px; box-shadow:0 -2px 12px rgba(0,0,0,0.06);}
+.env-footer .answer-row { display:flex; align-items:center; gap:8px; flex:1 1 360px; }
+.env-footer .answer-row textarea { font: inherit; padding:4px 6px; border:1px solid #ccc; border-radius:4px; resize:vertical; width:100%; }
+.env-footer .submit-row { display:flex; align-items:center; gap:8px; }
+.env-footer .state-row { display:flex; align-items:center; gap:6px; color:#555; flex-shrink:0; }
+.env-footer code { background:#f4f4f4; padding:2px 6px; border-radius:3px; font-size:11px;
+  max-width: 380px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.btn-primary { padding:6px 16px; border:none; border-radius:4px; cursor:pointer; background:#1f59b7; color:#fff; font-weight:600; }
+.sub-status { font-size:11px; padding:2px 6px; border-radius:3px; }
+.sub-status.ok { background:#d6f5dc; color:#0f5c1a; }
+.sub-status.no { background:#fde2e2; color:#8a1a1a; }
+.empty-state { padding: 32px; text-align:center; color:#666; font-style:italic; }
+.task-banner { position:fixed; top:0; left:0; right:0; background:#fff8c5; border-bottom:1px solid #d1c478;
+  padding:6px 16px; font-size:12px; color:#3a3500; z-index:99; pointer-events:none; max-height:60px; overflow:hidden;}
+body { padding-bottom: 140px !important; padding-top: 0 !important; }
+
+:root{
+  --md-orange:#E8631F; --md-orange-dk:#bb4d10; --md-teal:#00A0B0; --md-teal-dk:#017d8a;
+  --md-yellow:#FFC857; --md-ink:#1f2933; --md-paper:#fff8f1;
+  --md-sans:'Rubik','Inter',Helvetica,sans-serif; --md-disp:'Poppins','Inter',sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--md-sans);background:var(--md-paper);color:var(--md-ink);-webkit-font-smoothing:antialiased}
+
+.mdf-app{max-width:520px;margin:0 auto;background:#fff;min-height:100vh;box-shadow:0 0 28px rgba(0,0,0,.08);display:flex;flex-direction:column;position:relative}
+
+.mdf-statusbar{background:#fff;color:var(--md-ink);font-size:12px;font-weight:600;padding:8px 18px;display:flex;justify-content:space-between;border-bottom:1px solid #f0e6da}
+.mdf-statusbar .signal{font-weight:400;color:#5b6577}
+
+.mdf-top{padding:14px 18px 10px;display:flex;align-items:center;gap:10px;background:linear-gradient(180deg,#fff,#fff8f1);border-bottom:1px solid #f0e6da}
+.mdf-logo{display:flex;align-items:center;gap:8px;font-family:var(--md-disp);font-weight:900;font-size:22px;color:var(--md-orange);text-decoration:none;letter-spacing:-.5px}
+.mdf-logo .paw{width:34px;height:34px;border-radius:50%;background:var(--md-orange);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:18px}
+.mdf-logo .name{display:flex;flex-direction:column;line-height:1}
+.mdf-logo .name b{font-size:18px}
+.mdf-logo .name span{font-family:var(--md-sans);font-size:9px;color:var(--md-teal);font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-top:2px}
+.mdf-actions{margin-left:auto;display:flex;gap:6px}
+.mdf-iconbtn{width:36px;height:36px;border-radius:50%;border:1px solid #f0d8c2;background:#fff;color:var(--md-ink);font-size:18px;display:inline-flex;align-items:center;justify-content:center}
+
+.mdf-zipbar{padding:10px 18px;display:flex;gap:8px;align-items:center;background:#fff8f1;border-bottom:1px solid #f0e6da;font-size:12px;color:#5b6577}
+.mdf-zipbar b{color:var(--md-orange);font-weight:800}
+.mdf-zipbar .pin{color:var(--md-teal);margin-right:4px;font-size:14px}
+
+.mdf-tabs{display:flex;background:#fff;border-bottom:2px solid #f0e6da;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.mdf-tabs a{flex:1;text-align:center;padding:11px 4px;color:#9aa1ab;text-decoration:none;border-bottom:3px solid transparent}
+.mdf-tabs a.on{color:var(--md-orange);border-bottom-color:var(--md-orange)}
+
+.mdf-section{padding:14px 18px;background:#fff}
+.mdf-section h3{font-family:var(--md-disp);font-size:15px;font-weight:800;color:var(--md-ink);margin:0 0 8px;display:flex;align-items:center;gap:6px}
+.mdf-section h3 .lozenge{background:var(--md-teal);color:#fff;font-size:9px;padding:2px 6px;border-radius:10px;letter-spacing:.08em;font-weight:800;text-transform:uppercase}
+.mdf-section .help{font-size:11px;color:#5b6577;margin:-4px 0 10px}
+
+.mdf-pillrow{display:flex;flex-wrap:wrap;gap:8px}
+.mdf-pillrow button{font:700 13px var(--md-sans);padding:10px 14px;border-radius:20px;border:none;background:#f7eee3;color:var(--md-ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.mdf-pillrow button.on{background:var(--md-orange);color:#fff;box-shadow:0 4px 10px rgba(232,99,31,.3)}
+.mdf-pillrow button .pawi{font-size:14px}
+
+.mdf-toggleblock{margin-top:6px;background:#f6fbfc;border:1px solid #cfeef2;border-radius:12px;padding:12px}
+.mdf-toggleblock h3{color:var(--md-teal-dk)}
+.mdf-toggleblock h3 .lozenge{background:var(--md-orange)}
+.mdf-togglerow{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.mdf-toggle{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#fff;border:1px solid #cfeef2;border-radius:10px;cursor:pointer}
+.mdf-toggle .lbl{font-size:13px;font-weight:600;color:var(--md-ink)}
+.mdf-toggle .switch{position:relative;width:42px;height:24px;background:#dde5e8;border-radius:14px;flex-shrink:0;transition:background .15s}
+.mdf-toggle .switch::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .15s}
+.mdf-toggle.on .switch{background:var(--md-teal)}
+.mdf-toggle.on .switch::after{left:21px}
+.mdf-toggle .ico{color:var(--md-teal);font-size:18px;margin-right:8px}
+
+.mdf-resetrow{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-top:1px solid #f0e6da;font-size:12px;color:#5b6577;background:#fff8f1}
+.mdf-resetrow button{background:none;border:none;color:var(--md-orange);font-weight:800;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;font-size:12px}
+
+.mdf-results-head{padding:12px 18px 6px;display:flex;justify-content:space-between;align-items:baseline;background:#fff;border-top:1px solid #f0e6da}
+.mdf-results-head h2{font-family:var(--md-disp);font-size:18px;font-weight:800;color:var(--md-ink);margin:0}
+.mdf-results-head .count{color:var(--md-orange)}
+.mdf-results-head .sort{font-size:11px;color:var(--md-teal);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+
+.mdf-results{padding:0 14px 90px;display:flex;flex-direction:column;gap:14px;background:#fff}
+.mdf-card{display:flex;gap:12px;background:#fff;border:1px solid #f0e6da;border-radius:16px;padding:10px;align-items:stretch;box-shadow:0 2px 8px rgba(31,41,51,.04)}
+.mdf-card .img{width:96px;height:96px;border-radius:14px;background:#f7eee3;overflow:hidden;flex-shrink:0;position:relative}
+.mdf-card .img img{width:100%;height:100%;object-fit:cover;display:block}
+.mdf-card .img .heart{position:absolute;top:6px;right:6px;background:rgba(255,255,255,.92);width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:var(--md-orange);font-size:13px}
+.mdf-card .info{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0}
+.mdf-card .info .nm{font-family:var(--md-disp);font-size:17px;font-weight:800;color:var(--md-ink);margin:0;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.mdf-card .info .nm .miles{font-family:var(--md-sans);font-size:11px;font-weight:600;color:var(--md-teal)}
+.mdf-card .info .meta{font-size:12px;color:#3a4150}
+.mdf-card .info .shelter{font-size:11px;color:#5b6577;margin-top:2px;display:flex;align-items:center;gap:4px}
+.mdf-card .info .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.mdf-card .info .tag{background:#fff8e6;color:#a07106;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:.03em}
+.mdf-card .info .tag.kid{background:#e5f4f6;color:var(--md-teal-dk)}
+
+.mdf-bottomnav{position:fixed;left:50%;transform:translateX(-50%);bottom:140px;background:#fff;border:1px solid #f0e6da;border-radius:30px;padding:8px 14px;display:flex;gap:14px;box-shadow:0 6px 22px rgba(31,41,51,.12);font-size:11px;font-weight:700;color:#5b6577;text-transform:uppercase;letter-spacing:.05em;max-width:480px;width:calc(100% - 32px);justify-content:space-around;z-index:60}
+.mdf-bottomnav a{color:inherit;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:2px}
+.mdf-bottomnav a .ico{font-size:18px;color:var(--md-ink)}
+.mdf-bottomnav a.on .ico, .mdf-bottomnav a.on{color:var(--md-orange)}
+
+/* drawer-mobile variant: slide-up filter sheet feel */
+.mdf-drawer{position:relative;background:#fff;border-top-left-radius:22px;border-top-right-radius:22px;margin-top:8px;padding-top:6px;box-shadow:0 -10px 28px rgba(31,41,51,.07);border-top:1px solid #f0e6da}
+.mdf-drawer::before{content:'';display:block;width:48px;height:5px;background:#e3d6c4;border-radius:3px;margin:8px auto 4px}
+.mdf-drawer-head{display:flex;align-items:center;justify-content:space-between;padding:6px 18px 4px}
+.mdf-drawer-head .ttl{font-family:var(--md-disp);font-weight:900;font-size:16px;color:var(--md-ink);display:flex;align-items:center;gap:8px}
+.mdf-drawer-head .ttl .dot{width:8px;height:8px;border-radius:50%;background:var(--md-orange);display:inline-block}
+.mdf-drawer-head .applied{font-size:11px;color:var(--md-teal);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.mdf-drawer .mdf-section + .mdf-section{border-top:1px dashed #f0e6da;padding-top:14px}
+</style>
+</head>
+<body>
+<div class="mdf-app">
+
+  <div class="mdf-statusbar">
+    <span>9:41</span>
+    <span class="signal">·●●·● Wi-Fi  100%</span>
+  </div>
+
+  <div class="mdf-top">
+    <a class="mdf-logo" href="#">
+      <span class="paw">E</span>
+      <span class="name"><b>EchoPets</b></span>
+    </a>
+    <div class="mdf-actions">
+      <button class="mdf-iconbtn" title="Saved">♡</button>
+      <button class="mdf-iconbtn" title="Account">👤</button>
+    </div>
+  </div>
+
+  <div class="mdf-zipbar">
+    <span class="pin">📍</span>
+    Showing pets near <b>Union City, CA 94587</b> · 30 mi radius · <span style="margin-left:auto;color:var(--md-teal);font-weight:700">Change</span>
+  </div>
+
+  <nav class="mdf-tabs">
+    <a class="on">Adopt</a><a>Shelters</a><a>Lost+Found</a><a>Apply</a>
+  </nav>
+
+  <div class="mdf-drawer">
+    <div class="mdf-drawer-head">
+      <span class="ttl"><span class="dot"></span>Filters</span>
+      <span class="applied">Auto-applied</span>
+    </div>
+
+    <section class="mdf-section">
+      <h3>Pick a species <span class="lozenge">Step 1</span></h3>
+      <div class="help">Choose one or tap a few — this filters which animals we show.</div>
+      <div id="species-pills" class="mdf-pillrow"></div>
+    </section>
+
+    <section class="mdf-section mdf-toggleblock">
+      <h3>Lifestyle compatibility <span class="lozenge">Step 2</span></h3>
+      <div class="help">Toggle the traits your home needs. We require every traited tag to be present on the pet.</div>
+      <div id="compat-toggles" class="mdf-togglerow"></div>
+    </section>
+
+    <div class="mdf-resetrow">
+      <span>Filter changes auto-save to your search.</span>
+      <button onclick="window.clearW15Filters()">Reset</button>
+    </div>
+  </div>
+
+  <div class="mdf-results-head">
+    <h2>Adoptable pets <span class="count" id="result-headcount">—</span></h2>
+    <span class="sort">Newest first ▾</span>
+  </div>
+
+  <div id="result-grid" class="mdf-results"></div>
+
+  <nav class="mdf-bottomnav">
+    <a class="on"><span class="ico">🐶</span>Adopt</a>
+    <a><span class="ico">♡</span>Saved</a>
+    <a><span class="ico">📚</span>Resources</a>
+    <a><span class="ico">⚙️</span>More</a>
+  </nav>
+</div>
+
+<script>
+window.W15_RENDER_CARD = function(p){
+  const tagHTML = p.compat.map(t => {
+    const cls = t.toLowerCase().includes('kid') || t.toLowerCase().includes('children') ? 'tag kid' : 'tag';
+    return `<span class="${cls}">${t}</span>`;
+  }).join('');
+  return `<article class="mdf-card">
+    <div class="img">
+      ${p.image_url ? `<img src="${p.image_url}" alt="${p.image_alt||p.species}" loading="lazy">` : `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:42px">${p.image||'🐾'}</div>`}
+      <span class="heart">♡</span>
+    </div>
+    <div class="info">
+      <h3 class="nm">${p.title} <span class="miles">${p.distance_label||''}</span></h3>
+      <div class="meta">${p.species} · ${p.breed} · ${p.age_label}</div>
+      <div class="shelter">🏠 ${p.shelter}</div>
+      <div class="tags">${tagHTML}</div>
+    </div>
+  </article>`;
+};
+window.W15_AFTER_RENDER = function(items){
+  const e=document.getElementById('result-headcount'); if(e) e.textContent=items.length+' matches';
+};
+window.W15_SYNC_UI = function(){
+  const speciesIcons = {Dog:'🐶',Cat:'🐱',Rabbit:'🐰',Bird:'🐦'};
+  const sp=document.getElementById('species-pills');
+  if(sp && !sp.dataset.init){
+    sp.innerHTML = ['Dog','Cat','Rabbit','Bird'].map(s=>`<button data-s="${s}" onclick="window.toggleSpecies('${s}')"><span class="pawi">${speciesIcons[s]}</span>${s}s</button>`).join('');
+    sp.dataset.init='1';
+  }
+  if(sp) sp.querySelectorAll('button').forEach(b=>b.classList.toggle('on', window.filterState.species.includes(b.dataset.s)));
+  const compatIcons={'Good with kids':'👶','Good with cats':'🐱','Good with dogs':'🐶','Good with no children':'🏡'};
+  const cc=document.getElementById('compat-toggles');
+  if(cc && !cc.dataset.init){
+    cc.innerHTML = ['Good with kids','Good with cats','Good with dogs','Good with no children'].map(c=>{
+      const ic=compatIcons[c]||'·';
+      return `<div class="mdf-toggle" data-c="${c}" onclick="window.toggleCompat('${c}'); this.classList.toggle('on')">
+        <div class="lbl"><span class="ico">${ic}</span>${c}</div>
+        <div class="switch"></div>
+      </div>`;
+    }).join('');
+    cc.dataset.init='1';
+  }
+  if(cc) cc.querySelectorAll('.mdf-toggle').forEach(d=>d.classList.toggle('on', window.filterState.compat.includes(d.dataset.c)));
+};
+</script>
+
+<div class="env-footer">
+  <div class="answer-row">
+    <label>Your answer (read tasks):</label>
+    <textarea id="answer-input" rows="2" placeholder="Type any answer for read tasks here…"></textarea>
+  </div>
+  <div class="submit-row">
+    <button id="submit-btn" class="btn-primary">Submit</button>
+    <span id="sub-status" class="sub-status"></span>
+  </div>
+  <div class="state-row">
+    <span class="state-label">Live filter state:</span>
+    <code id="live-state">{}</code>
+    <span class="state-label">·  matches:</span>
+    <code id="result-count">0</code>
+  </div>
+</div>
+<div id="task-banner" class="task-banner" style="display:none"></div>
+
+
+<script>
+const ENV_ID = "W15_E08";
+const SEED = [{"id": 1, "title": "Bonnie", "species": "Dog", "breed": "Chihuahua & Terrier Mix", "sex": "Female", "age": 2, "age_label": "Young", "coat_length": "Short", "sterilization": "Spayed", "rating": 4.5, "days_on_petfinder": 42, "image": "\ud83d\udc36", "compat": ["Good with kids", "Good with cats"], "shelter": "Berkeley Humane", "distance_label": "12 miles away", "category": "Dog", "brand": "Chihuahua & Terrier Mix", "color": "Short", "condition": "spayed", "city": "Berkeley Humane", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc36", "image_url": "https://images.pexels.com/photos/37499463/pexels-photo-37499463.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable dog"}, {"id": 2, "title": "Nebula", "species": "Dog", "breed": "Bulldog & Pit Bull Terrier", "sex": "Female", "age": 1, "age_label": "Puppy", "coat_length": "Short", "sterilization": "Spayed", "rating": 4.7, "days_on_petfinder": 33, "image": "\ud83d\udc36", "compat": ["Good with kids", "Good with cats", "Good with dogs"], "shelter": "East Bay SPCA", "distance_label": "7 miles away", "category": "Dog", "brand": "Bulldog & Pit Bull Terrier", "color": "Short", "condition": "spayed", "city": "East Bay SPCA", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc36", "image_url": "https://images.pexels.com/photos/35285293/pexels-photo-35285293.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable dog"}, {"id": 3, "title": "Lil King", "species": "Dog", "breed": "Dachshund", "sex": "Male", "age": 4, "age_label": "Adult", "coat_length": "Short", "sterilization": "Neutered", "rating": 4.2, "days_on_petfinder": 58, "image": "\ud83d\udc15", "compat": ["Good with no children"], "shelter": "Oakland Animal Services", "distance_label": "18 miles away", "category": "Dog", "brand": "Dachshund", "color": "Short", "condition": "neutered", "city": "Oakland Animal Services", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/12195420/pexels-photo-12195420.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable dog"}, {"id": 4, "title": "Sigmond", "species": "Dog", "breed": "German Shepherd & Australian Cattle Dog", "sex": "Male", "age": 7, "age_label": "Senior", "coat_length": "Medium", "sterilization": "Neutered", "rating": 4.6, "days_on_petfinder": 91, "image": "\ud83d\udc15", "compat": ["Good with kids", "Good with cats"], "shelter": "Hayward Animal Shelter", "distance_label": "4 miles away", "category": "Dog", "brand": "German Shepherd & Australian Cattle Dog", "color": "Medium", "condition": "neutered", "city": "Hayward Animal Shelter", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/12195423/pexels-photo-12195423.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable dog"}, {"id": 5, "title": "Bailey", "species": "Dog", "breed": "Labrador Retriever", "sex": "Female", "age": 3, "age_label": "Adult", "coat_length": "Short", "sterilization": "Spayed", "rating": 4.8, "days_on_petfinder": 17, "image": "\ud83d\udc15", "compat": ["Good with kids", "Good with dogs", "Good with cats"], "shelter": "Tony La Russa's ARF", "distance_label": "22 miles away", "category": "Dog", "brand": "Labrador Retriever", "color": "Short", "condition": "spayed", "city": "Tony La Russa's ARF", "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/7469274/pexels-photo-7469274.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable dog"}, {"id": 6, "title": "Cooper", "species": "Dog", "breed": "Golden Retriever", "sex": "Male", "age": 4, "age_label": "Adult", "coat_length": "Long", "sterilization": "Neutered", "rating": 4.5, "days_on_petfinder": 46, "image": "\ud83d\udc15", "compat": ["Good with kids", "Good with cats", "Good with dogs"], "shelter": "Hopalong Animal Rescue", "distance_label": "31 miles away", "category": "Dog", "brand": "Golden Retriever", "color": "Long", "condition": "neutered", "city": "Hopalong Animal Rescue", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/30556344/pexels-photo-30556344.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable dog"}, {"id": 7, "title": "Rocky", "species": "Dog", "breed": "Border Collie", "sex": "Male", "age": 5, "age_label": "Adult", "coat_length": "Medium", "sterilization": "Neutered", "rating": 4.4, "days_on_petfinder": 71, "image": "\ud83d\udc15", "compat": ["Good with dogs"], "shelter": "Friends of Alameda Animal Shelter", "distance_label": "9 miles away", "category": "Dog", "brand": "Border Collie", "color": "Medium", "condition": "neutered", "city": "Friends of Alameda Animal Shelter", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/37375349/pexels-photo-37375349.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable dog"}, {"id": 8, "title": "Charlie", "species": "Dog", "breed": "Beagle", "sex": "Male", "age": 2, "age_label": "Young", "coat_length": "Short", "sterilization": "Neutered", "rating": 4.3, "days_on_petfinder": 52, "image": "\ud83d\udc15", "compat": ["Good with kids", "Good with cats"], "shelter": "Milo Foundation", "distance_label": "15 miles away", "category": "Dog", "brand": "Beagle", "color": "Short", "condition": "neutered", "city": "Milo Foundation", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/34058942/pexels-photo-34058942.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable dog"}, {"id": 9, "title": "Duke", "species": "Dog", "breed": "Husky", "sex": "Male", "age": 4, "age_label": "Adult", "coat_length": "Long", "sterilization": "Intact", "rating": 4.4, "days_on_petfinder": 24, "image": "\ud83d\udc15", "compat": ["Good with dogs", "Good with no children"], "shelter": "Family Dog Rescue", "distance_label": "25 miles away", "category": "Dog", "brand": "Husky", "color": "Long", "condition": "intact", "city": "Family Dog Rescue", "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/30586500/pexels-photo-30586500.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable dog"}, {"id": 10, "title": "Luna", "species": "Dog", "breed": "Poodle", "sex": "Female", "age": 3, "age_label": "Adult", "coat_length": "Long", "sterilization": "Spayed", "rating": 4.7, "days_on_petfinder": 63, "image": "\ud83d\udc29", "compat": ["Good with kids", "Good with cats", "Good with dogs"], "shelter": "Wonder Dog Rescue", "distance_label": "19 miles away", "category": "Dog", "brand": "Poodle", "color": "Long", "condition": "spayed", "city": "Wonder Dog Rescue", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc29", "image_url": "https://images.pexels.com/photos/35511902/pexels-photo-35511902.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable dog"}, {"id": 11, "title": "Mittens", "species": "Cat", "breed": "Domestic Shorthair", "sex": "Female", "age": 4, "age_label": "Adult", "coat_length": "Short", "sterilization": "Spayed", "rating": 4.3, "days_on_petfinder": 18, "image": "\ud83d\udc08", "compat": ["Good with cats", "Good with kids"], "shelter": "Cat Town Oakland", "distance_label": "6 miles away", "category": "Cat", "brand": "Domestic Shorthair", "color": "Short", "condition": "spayed", "city": "Cat Town Oakland", "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc08", "image_url": "https://images.pexels.com/photos/1404823/pexels-photo-1404823.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable cat"}, {"id": 12, "title": "Whiskers", "species": "Cat", "breed": "Maine Coon", "sex": "Female", "age": 5, "age_label": "Adult", "coat_length": "Long", "sterilization": "Spayed", "rating": 4.7, "days_on_petfinder": 34, "image": "\ud83d\udc08", "compat": ["Good with kids", "Good with dogs", "Good with cats"], "shelter": "Berkeley Humane", "distance_label": "12 miles away", "category": "Cat", "brand": "Maine Coon", "color": "Long", "condition": "spayed", "city": "Berkeley Humane", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc08", "image_url": "https://images.pexels.com/photos/37948871/pexels-photo-37948871.png?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable cat"}, {"id": 13, "title": "Pumpkin", "species": "Cat", "breed": "Siamese", "sex": "Female", "age": 3, "age_label": "Adult", "coat_length": "Short", "sterilization": "Spayed", "rating": 4.0, "days_on_petfinder": 12, "image": "\ud83d\udc08", "compat": ["Good with cats"], "shelter": "East Bay SPCA", "distance_label": "7 miles away", "category": "Cat", "brand": "Siamese", "color": "Short", "condition": "spayed", "city": "East Bay SPCA", "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc08", "image_url": "https://images.pexels.com/photos/35979733/pexels-photo-35979733.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable cat"}, {"id": 14, "title": "Shadow", "species": "Cat", "breed": "Ragdoll", "sex": "Male", "age": 6, "age_label": "Senior", "coat_length": "Long", "sterilization": "Intact", "rating": 3.8, "days_on_petfinder": 88, "image": "\ud83d\udc08\u200d\u2b1b", "compat": ["Good with no children", "Good with cats"], "shelter": "Forgotten Felines", "distance_label": "41 miles away", "category": "Cat", "brand": "Ragdoll", "color": "Long", "condition": "intact", "city": "Forgotten Felines", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc08\u200d\u2b1b", "image_url": "https://images.pexels.com/photos/2698519/pexels-photo-2698519.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable cat"}, {"id": 15, "title": "Tigger", "species": "Cat", "breed": "Calico", "sex": "Male", "age": 2, "age_label": "Young", "coat_length": "Short", "sterilization": "Neutered", "rating": 4.4, "days_on_petfinder": 41, "image": "\ud83d\udc08", "compat": ["Good with dogs", "Good with cats"], "shelter": "Cat Town Oakland", "distance_label": "6 miles away", "category": "Cat", "brand": "Calico", "color": "Short", "condition": "neutered", "city": "Cat Town Oakland", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc08", "image_url": "https://images.pexels.com/photos/15044590/pexels-photo-15044590.png?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable cat"}, {"id": 16, "title": "Pearl", "species": "Cat", "breed": "British Shorthair", "sex": "Female", "age": 4, "age_label": "Adult", "coat_length": "Short", "sterilization": "Spayed", "rating": 4.6, "days_on_petfinder": 29, "image": "\ud83d\udc08", "compat": ["Good with kids", "Good with cats"], "shelter": "Berkeley Humane", "distance_label": "12 miles away", "category": "Cat", "brand": "British Shorthair", "color": "Short", "condition": "spayed", "city": "Berkeley Humane", "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc08", "image_url": "https://images.pexels.com/photos/32057399/pexels-photo-32057399.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable cat"}, {"id": 17, "title": "Boots", "species": "Cat", "breed": "Tuxedo Domestic Shorthair", "sex": "Male", "age": 3, "age_label": "Adult", "coat_length": "Short", "sterilization": "Neutered", "rating": 4.1, "days_on_petfinder": 55, "image": "\ud83d\udc08", "compat": ["Good with dogs"], "shelter": "Tri Valley Animal Rescue", "distance_label": "28 miles away", "category": "Cat", "brand": "Tuxedo Domestic Shorthair", "color": "Short", "condition": "neutered", "city": "Tri Valley Animal Rescue", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc08", "image_url": "https://images.pexels.com/photos/982423/pexels-photo-982423.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable cat"}, {"id": 18, "title": "Smokey", "species": "Cat", "breed": "Russian Blue", "sex": "Male", "age": 5, "age_label": "Adult", "coat_length": "Short", "sterilization": "Neutered", "rating": 4.2, "days_on_petfinder": 76, "image": "\ud83d\udc08", "compat": ["Good with cats", "Good with kids"], "shelter": "Cat Town Oakland", "distance_label": "6 miles away", "category": "Cat", "brand": "Russian Blue", "color": "Short", "condition": "neutered", "city": "Cat Town Oakland", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc08", "image_url": "https://images.pexels.com/photos/37220239/pexels-photo-37220239.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable cat"}, {"id": 19, "title": "Hoppy", "species": "Rabbit", "breed": "Holland Lop", "sex": "Male", "age": 2, "age_label": "Young", "coat_length": "Short", "sterilization": "Neutered", "rating": 4.4, "days_on_petfinder": 68, "image": "\ud83d\udc07", "compat": ["Good with kids", "Good with cats"], "shelter": "House Rabbit Society Richmond", "distance_label": "33 miles away", "category": "Rabbit", "brand": "Holland Lop", "color": "Short", "condition": "neutered", "city": "House Rabbit Society Richmond", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc07", "image_url": "https://images.pexels.com/photos/34793812/pexels-photo-34793812.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable pet (cat photo proxy)"}, {"id": 20, "title": "Pepper", "species": "Rabbit", "breed": "Flemish Giant", "sex": "Male", "age": 5, "age_label": "Adult", "coat_length": "Short", "sterilization": "Neutered", "rating": 4.7, "days_on_petfinder": 81, "image": "\ud83d\udc07", "compat": ["Good with kids", "Good with cats", "Good with dogs"], "shelter": "House Rabbit Society Richmond", "distance_label": "33 miles away", "category": "Rabbit", "brand": "Flemish Giant", "color": "Short", "condition": "neutered", "city": "House Rabbit Society Richmond", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc07", "image_url": "https://images.pexels.com/photos/11241514/pexels-photo-11241514.png?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable pet (cat photo proxy)"}, {"id": 21, "title": "Clover", "species": "Rabbit", "breed": "Lionhead", "sex": "Female", "age": 4, "age_label": "Adult", "coat_length": "Long", "sterilization": "Spayed", "rating": 4.1, "days_on_petfinder": 47, "image": "\ud83d\udc30", "compat": ["Good with no children"], "shelter": "SaveABunny", "distance_label": "47 miles away", "category": "Rabbit", "brand": "Lionhead", "color": "Long", "condition": "spayed", "city": "SaveABunny", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc30", "image_url": "https://images.pexels.com/photos/34887499/pexels-photo-34887499.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable pet (cat photo proxy)"}, {"id": 22, "title": "Sunny", "species": "Bird", "breed": "Cockatiel", "sex": "Male", "age": 3, "age_label": "Adult", "coat_length": "NA", "sterilization": "Intact", "rating": 4.5, "days_on_petfinder": 62, "image": "\ud83d\udc26", "compat": ["Good with kids", "Good with cats"], "shelter": "Mickaboo Bird Rescue", "distance_label": "14 miles away", "category": "Bird", "brand": "Cockatiel", "color": "NA", "condition": "intact", "city": "Mickaboo Bird Rescue", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc26", "image_url": "https://images.pexels.com/photos/20241838/pexels-photo-20241838.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable pet (dog photo proxy)"}, {"id": 23, "title": "Mango", "species": "Bird", "breed": "Conure", "sex": "Male", "age": 4, "age_label": "Adult", "coat_length": "NA", "sterilization": "Intact", "rating": 4.3, "days_on_petfinder": 74, "image": "\ud83e\udd9c", "compat": ["Good with no children"], "shelter": "Mickaboo Bird Rescue", "distance_label": "14 miles away", "category": "Bird", "brand": "Conure", "color": "NA", "condition": "intact", "city": "Mickaboo Bird Rescue", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83e\udd9c", "image_url": "https://images.pexels.com/photos/11408628/pexels-photo-11408628.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable pet (dog photo proxy)"}, {"id": 24, "title": "Sky", "species": "Bird", "breed": "Lovebird", "sex": "Female", "age": 3, "age_label": "Adult", "coat_length": "NA", "sterilization": "Intact", "rating": 4.6, "days_on_petfinder": 36, "image": "\ud83d\udc26", "compat": ["Good with kids", "Good with dogs"], "shelter": "Mickaboo Bird Rescue", "distance_label": "14 miles away", "category": "Bird", "brand": "Lovebird", "color": "NA", "condition": "intact", "city": "Mickaboo Bird Rescue", "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc26", "image_url": "https://images.pexels.com/photos/32635881/pexels-photo-32635881.jpeg?auto=compress&cs=tinysrgb&h=130", "image_alt": "Adoptable pet (dog photo proxy)"}];
+const COMPAT_OPTIONS = ['Good with kids', 'Good with cats', 'Good with dogs', 'Good with no children'];
+const SPECIES_OPTIONS = ['Dog', 'Cat', 'Rabbit', 'Bird'];
+const TASK_ID = new URLSearchParams(location.search).get('task_id') || null;
+
+window.filterState = {species: [], compat: []};
+
+function _norm(s) { return String(s).toLowerCase(); }
+
+function _w15CleanFS(fs) {
+  // PATCH W15: strip empty arrays/strings so canonical state never contains
+  // `compat=[]` noise that pollutes the verifier's view of the submission.
+  if (!fs || typeof fs !== 'object') return fs;
+  const out = {};
+  for (const k in fs) {
+    const v = fs[k];
+    if (v === null || v === undefined) continue;
+    if (Array.isArray(v)) { if (v.length) out[k] = v; }
+    else if (typeof v === 'string') { if (v) out[k] = v; }
+    else { out[k] = v; }
+  }
+  return out;
+}
+
+function filteredItems() {
+  const fs = window.filterState;
+  return SEED.filter(p => {
+    if (fs.species.length && !fs.species.map(_norm).includes(_norm(p.species))) return false;
+    for (const c of fs.compat) {
+      if (!p.compat.map(_norm).includes(_norm(c))) return false;
+    }
+    return true;
+  });
+}
+
+function updateLive() {
+  const items = filteredItems();
+  const el = document.getElementById('live-state');
+  if (el) el.textContent = JSON.stringify(_w15CleanFS(window.filterState));
+  const cnt = document.getElementById('result-count');
+  if (cnt) cnt.textContent = items.length;
+  if (typeof window.W15_AFTER_RENDER === 'function') window.W15_AFTER_RENDER(items);
+}
+
+function escapeHTML(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+}
+
+function renderResults() {
+  const wrap = document.getElementById('result-grid');
+  if (!wrap) return;
+  const items = filteredItems();
+  if (!items.length) {
+    wrap.innerHTML = '<div class="empty-state">😿 No pets match those filters — try removing one.</div>';
+    return;
+  }
+  const render = window.W15_RENDER_CARD || (p => `<div class="pet-card">${escapeHTML(p.title)} (${escapeHTML(p.species)})</div>`);
+  wrap.innerHTML = items.map(render).join('');
+}
+
+window.toggleSpecies = function(val) {
+  const i = window.filterState.species.indexOf(val);
+  if (i >= 0) window.filterState.species.splice(i, 1);
+  else window.filterState.species.push(val);
+  if (typeof window.W15_SYNC_UI === 'function') window.W15_SYNC_UI();
+  renderResults(); updateLive();
+  try { submitForm(); } catch(e){}
+};
+
+window.toggleCompat = function(val) {
+  const i = window.filterState.compat.indexOf(val);
+  if (i >= 0) window.filterState.compat.splice(i, 1);
+  else window.filterState.compat.push(val);
+  if (typeof window.W15_SYNC_UI === 'function') window.W15_SYNC_UI();
+  renderResults(); updateLive();
+  try { submitForm(); } catch(e){}
+};
+
+window.setSpeciesSingle = function(val) {
+  window.filterState.species = val ? [val] : [];
+  if (typeof window.W15_SYNC_UI === 'function') window.W15_SYNC_UI();
+  renderResults(); updateLive();
+  try { submitForm(); } catch(e){}
+};
+
+window.setCompatSingle = function(val) {
+  window.filterState.compat = val ? [val] : [];
+  if (typeof window.W15_SYNC_UI === 'function') window.W15_SYNC_UI();
+  renderResults(); updateLive();
+  try { submitForm(); } catch(e){}
+};
+
+window.clearW15Filters = function() {
+  window.filterState = {species: [], compat: []};
+  if (typeof window.W15_SYNC_UI === 'function') window.W15_SYNC_UI();
+  renderResults(); updateLive();
+
+  try { submitForm(); } catch(e){}
+};
+
+async function submitForm() {
+  const ans = document.getElementById('answer-input');
+  const answer = ans ? ans.value : '';
+  const r = await fetch('/env/' + ENV_ID + '/api/submit', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: _w15CleanFS(window.filterState), answer: answer, task_id: TASK_ID})
+  });
+  const data = await r.json();
+  const el = document.getElementById('sub-status');
+  if (el) {
+    el.textContent = data.message || (data.satisfies ? '✅ pass' : '⏳');
+    el.className = 'sub-status ' + (data.satisfies ? 'ok' : 'no');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof window.W15_SYNC_UI === 'function') window.W15_SYNC_UI();
+  renderResults(); updateLive();
+  const btn = document.getElementById('submit-btn');
+  if (btn) btn.addEventListener('click', submitForm);
+  if (TASK_ID) {
+    fetch('/env/' + ENV_ID + '/api/task/' + TASK_ID).then(r => r.ok ? r.json() : null).then(t => {
+      if (!t) return;
+      const tb = document.getElementById('task-banner');
+      if (tb) {
+        tb.style.display = 'block';
+        tb.innerHTML = '<b>Task ' + escapeHTML(TASK_ID) + ' (' + escapeHTML(t.task_type||'?') + '):</b> ' + escapeHTML(t.task_summary||'');
+      }
+    });
+  }
+});
+</script>
+
+</body></html>

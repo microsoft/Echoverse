@@ -1,0 +1,39 @@
+{
+  "env_id": "W13_E05",
+  "widget_id": "W13_numeric_input_precise_target",
+  "widget_name": "Numeric input \u2014 precise click target",
+  "widget_category": "text_input",
+  "widget_mechanic": "Numeric input field (price max, lot-size min) lives near visually-similar UI (sidebar icon, header label, sibling input). Agent must click and type into the EXACT input field, not the adjacent UI element.",
+  "archetype": "realestate_listings",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W13_numeric_input_precise_target"
+  ],
+  "site_imitates": "Zillow Tacoma WA",
+  "product_type": "listings",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_tacoma__wa_12334",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "I'm looking for homes for sale in Tacoma, WA that have 3 bedrooms, 2 or more bathrooms, and are under $500k. Can you show me some options?",
+      "first_failure_summary": "[2.1] Output contradiction: The agent stated it would enable \u201cUse exact match\u201d because results were broader than requested, but at that time the UI evidence indicates the bedroom setting was still \u201c3+\u201d and exact match was not yet enabled (allowing non-3-bedroom listings)."
+    }
+  ],
+  "theme_key": "zillow",
+  "theme_logo": "Zillow",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 4,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "range_multi",
+    "fields": [
+      "max_price",
+      "min_sqft",
+      "min_lot",
+      "max_rent"
+    ]
+  },
+  "theme_color": "#006aff"
+}

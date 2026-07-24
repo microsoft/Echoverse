@@ -1,0 +1,99 @@
+{
+  "env_id": "W14_E01",
+  "widget_id": "W14_this_month_preset",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "preset",
+    "fields": [
+      "date_preset"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T0101",
+      "task_index_in_env": 1,
+      "instruction_text": "Help me find a list of school activity events in New York for this month. Just tap the 'This Month' chip in the date row so the page narrows to events happening this month \u2014 don't type any custom dates.",
+      "expected_filter_state": {
+        "date_preset": "This Month"
+      }
+    },
+    {
+      "task_id": "T0102",
+      "task_index_in_env": 2,
+      "instruction_text": "I'm planning a Saturday outing with the kids in NYC. Can you switch the school-activity event list to this weekend? Just tap the 'This Weekend' chip in the date row \u2014 leave everything else alone.",
+      "expected_filter_state": {
+        "date_preset": "This Weekend"
+      }
+    },
+    {
+      "task_id": "T0103",
+      "task_index_in_env": 3,
+      "instruction_text": "Looking back \u2014 I want to see school activity events that were listed in the past 30 days on this Eventbrite NYC page. Tap the 'past 30 days' chip in the date row. Don't leave it on All Time, that pulls in events from way before that.",
+      "expected_filter_state": {
+        "date_preset": "Past 30 Days"
+      }
+    },
+    {
+      "task_id": "T0104",
+      "task_index_in_env": 4,
+      "instruction_text": "I'm planning ahead for next month \u2014 already booked through this month. On the Eventbrite school-activity events page for NYC, tap the 'Next Month' chip in the date row so the list only shows what's coming up in roughly 30 days.",
+      "expected_filter_state": {
+        "date_preset": "Next Month"
+      }
+    },
+    {
+      "task_id": "T0105",
+      "task_index_in_env": 5,
+      "instruction_text": "Before I touch any filter, how many school activity events are currently showing in the default New York view (date filter at 'All Time')?",
+      "expected_filter_state": {
+        "constraint": "(read-only)"
+      },
+      "reference_answer": "18 events total"
+    },
+    {
+      "task_id": "T0106",
+      "task_index_in_env": 6,
+      "instruction_text": "Without changing the date filter \u2014 on the default Eventbrite view, which school activity event has the highest rating? Give me the title and the star number.",
+      "expected_filter_state": {
+        "constraint": "(read-only)"
+      },
+      "reference_answer": "'Yoga in the Park (Family Friendly)' at 4.9 stars"
+    },
+    {
+      "task_id": "T0107",
+      "task_index_in_env": 7,
+      "instruction_text": "On the default Eventbrite school-events view, which is more numerous \u2014 events tagged 'Education' or events tagged 'Family'? Give me the counts and the difference.",
+      "expected_filter_state": {
+        "constraint": "(read-only)"
+      },
+      "reference_answer": "'Education' wins; counts: Education=12, Family=3; difference 9"
+    },
+    {
+      "task_id": "T0108",
+      "task_index_in_env": 8,
+      "instruction_text": "Help me find school activity events in NYC happening this month \u2014 tap the 'This Month' chip in the date row. Then tell me how many qualify.",
+      "expected_filter_state": {
+        "date_preset": "This Month"
+      },
+      "reference_answer": "6 school-activity events in NYC happening this month"
+    },
+    {
+      "task_id": "T0109",
+      "task_index_in_env": 9,
+      "instruction_text": "Same Eventbrite page \u2014 I want NYC school-activity events happening this week. Tap the 'this week' chip in the date row. Then tell me the cheapest paid one (skip the free ones for the cheapest calc) \u2014 title + price.",
+      "expected_filter_state": {
+        "date_preset": "This Week"
+      },
+      "reference_answer": "cheapest paid in 'This Week' is 'Spring Grand Wine Tasting (Adult)' at $20"
+    },
+    {
+      "task_id": "T0110",
+      "task_index_in_env": 10,
+      "instruction_text": "Last one \u2014 narrow down NYC school-activity events on Eventbrite to the past 7 days. Tap the 'past 7 days' chip in the date row. Then give me the average rating of the events remaining.",
+      "expected_filter_state": {
+        "date_preset": "Past 7 Days"
+      },
+      "reference_answer": "avg rating 4.62 across 4 items in 'Past 7 Days'"
+    }
+  ]
+}

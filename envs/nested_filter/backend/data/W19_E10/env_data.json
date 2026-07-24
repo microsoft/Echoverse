@@ -1,0 +1,44 @@
+{
+  "env_id": "W19_E10",
+  "widget_id": "W19_compose_sex_and_sterilization",
+  "widget_name": "Compose sex + sterilization small multi-toggle",
+  "widget_category": "categorical_filter",
+  "widget_mechanic": "Two single-pick selector groups (Sex: Male/Female; Sterilization: Spayed/Neutered/Intact). Agent must set BOTH groups off 'Any' for a complete search; this is exactly the composition Fara skips when applying pet-adoption filters.",
+  "archetype": "faceted_catalog",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W19_compose_sex_and_sterilization"
+  ],
+  "site_imitates": "Best Friends Animal Society",
+  "product_type": "rescue dogs",
+  "source_inspiration": [
+    {
+      "task_id": "0b2623e9fa5cea997f76490bcbc5220f",
+      "benchmark": "OM2W",
+      "site": "petfinder.com",
+      "instruction": "Find a list of shorthaired dogs available for adoption within 100 miles of zip code 94587 that are good with kids and cats, and have been on the site recently.",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent applied a subset of the criteria but left the Gender filter on 'Any' instead of composing the requested combined criteria."
+    }
+  ],
+  "theme_key": "bestfriends",
+  "theme_logo": "Best Friends",
+  "theme_card": "pet-card",
+  "theme_layout": "bestfriends-card-grid",
+  "variant_idx": 4,
+  "n_seed_items": 18,
+  "filter_spec": {
+    "type": "axis_compose",
+    "fields": [
+      "sex",
+      "sterilization"
+    ]
+  },
+  "primary_inspiration": {
+    "task_id": "0b2623e9fa5cea997f76490bcbc5220f",
+    "sub": "om2w_fara15",
+    "benchmark": "OM2W",
+    "site": "petfinder.com",
+    "instruction": "Find a list of shorthaired dogs available for adoption within 100 miles of zip code 94587 that are good with kids and cats, and have been on the site recently.",
+    "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent applied a subset of the criteria but left the Gender filter on 'Any' instead of composing the requested combined criteria."
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "env_id": "W16_E07",
+  "widget_id": "W16_compounding_frequency_dropdown",
+  "widget_name": "Compounding-frequency dropdown",
+  "widget_category": "calculator_dropdown",
+  "widget_mechanic": "Compound-interest / loan calculator has a frequency dropdown (Annually, Monthly, Quarterly, Daily). Default is Annually. Agent must change to match user's requested compounding period.",
+  "archetype": "calculator_form",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W16_compounding_frequency_dropdown"
+  ],
+  "site_imitates": "Vanguard retirement calculator",
+  "product_type": "retirement growth projections",
+  "source_inspiration": [],
+  "theme_key": "fintech",
+  "theme_logo": "MoneyEdge",
+  "theme_card": "calc-result",
+  "theme_layout": "form-only",
+  "variant_idx": 1,
+  "n_seed_items": 1,
+  "filter_spec": {
+    "type": "calc_compute",
+    "fields": [
+      "principal",
+      "rate",
+      "years",
+      "frequency"
+    ]
+  }
+}

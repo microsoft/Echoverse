@@ -1,0 +1,57 @@
+{
+  "env_id": "W21_E02",
+  "widget_id": "W21_calendar_advance_plus_return_validation",
+  "widget_name": "Calendar multi-month advance + return-after-depart validation",
+  "widget_category": "combo_calendar",
+  "widget_mechanic": "Compose: calendar must advance to depart-target month AND return must be set \u2265 depart in correct order.",
+  "archetype": "booking_form",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W09_calendar_multi_month_advance",
+    "W11_return_after_depart_validation"
+  ],
+  "site_imitates": "Wizz Air round-trip booking on wizzair.com",
+  "product_type": "Wizz Air round-trip",
+  "source_inspiration": [
+    {
+      "task_id": "flights_wizzair_96",
+      "benchmark": "WTB",
+      "site": "wizzair",
+      "instruction": "Book a flight with Wizz Air from Larnaca, Cyprus to Athens, Greece outbound on June 13 returning July 1. If there are no available flights for those dates, please show evidence and indicate this in your answer. Any other blocker is considered a failure.",
+      "first_failure_summary": "[3.5] Incomplete task execution: The agent never attempted to set the required travel dates (June 13 outbound, July 1 return); it stayed on the initial search widget with dates left at the default/incorrect values."
+    }
+  ],
+  "theme_key": "hotels",
+  "theme_logo": "BookEasy",
+  "theme_card": "hotel-card",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 1,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "primary_inspiration": "flights_wizzair_96",
+  "brand_colors": {
+    "header_bg": "#0e1f53",
+    "header_fg": "#fff",
+    "primary": "#c6007e",
+    "primary_hover": "#9b0061",
+    "accent": "#c6007e",
+    "background": "#f5f7fc",
+    "accent_fg": "#1a1f33",
+    "accent_bg": "#fde2f1"
+  },
+  "ui_pattern": "single_anchor",
+  "ui_pattern_description": "Single-anchor date input that opens one calendar (depart picked first, return on the same calendar)",
+  "fara_grounded_dates": {
+    "depart": "2026-06-13",
+    "return": "2026-07-01"
+  },
+  "fara_grounded_route": {
+    "from_city": "Larnaca",
+    "from_code": "LCA",
+    "to_city": "Athens",
+    "to_code": "ATH"
+  }
+}

@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "calc_type": "IBM Cloud pricing",
+    "vendor": "ibm",
+    "brand": "IBM Cloud Cost Estimator",
+    "default_inputs": {
+      "region": "(Choose region)",
+      "override": "(none)",
+      "volume": 0,
+      "service": "Virtual Server (Balanced \u2014 bx2-2x8)",
+      "unit": "instance-hour",
+      "support_tier": "basic"
+    },
+    "regions": [
+      "(Choose region)",
+      "us-south (Dallas)",
+      "us-east (Washington DC)",
+      "ca-tor (Toronto)",
+      "br-sao (S\u00e3o Paulo)",
+      "eu-gb (London)",
+      "eu-de (Frankfurt)",
+      "eu-es (Madrid)",
+      "jp-tok (Tokyo)",
+      "jp-osa (Osaka)",
+      "au-syd (Sydney)"
+    ],
+    "services": [
+      {
+        "label": "Virtual Server (Balanced \u2014 bx2-2x8)",
+        "rate": 0.116,
+        "unit": "instance-hour"
+      },
+      {
+        "label": "Virtual Server (Compute \u2014 cx2-2x4)",
+        "rate": 0.099,
+        "unit": "instance-hour"
+      },
+      {
+        "label": "Cloud Object Storage (Smart Tier)",
+        "rate": 0.022,
+        "unit": "GB-month"
+      },
+      {
+        "label": "Cloud Object Storage (Vault)",
+        "rate": 0.011,
+        "unit": "GB-month"
+      },
+      {
+        "label": "Cloud Object Storage (Cold Vault)",
+        "rate": 0.007,
+        "unit": "GB-month"
+      },
+      {
+        "label": "Watsonx.ai \u2014 Granite-13B",
+        "rate": 0.0006,
+        "unit": "1K tokens"
+      },
+      {
+        "label": "Watsonx.ai \u2014 Llama-3-70B",
+        "rate": 0.0018,
+        "unit": "1K tokens"
+      },
+      {
+        "label": "Db2 on Cloud (Standard)",
+        "rate": 0.946,
+        "unit": "instance-hour"
+      }
+    ],
+    "region_mult": {
+      "(Choose region)": 1.0,
+      "us-south (Dallas)": 1.0,
+      "us-east (Washington DC)": 1.0,
+      "ca-tor (Toronto)": 1.05,
+      "br-sao (S\u00e3o Paulo)": 1.22,
+      "eu-gb (London)": 1.1,
+      "eu-de (Frankfurt)": 1.1,
+      "eu-es (Madrid)": 1.1,
+      "jp-tok (Tokyo)": 1.18,
+      "jp-osa (Osaka)": 1.18,
+      "au-syd (Sydney)": 1.18
+    },
+    "override_presets": [
+      "730 instance-hours (1 month always-on)",
+      "1 TB Cloud Object Storage",
+      "5M input + 5M output watsonx tokens",
+      "500 GB Cold Vault storage",
+      "100 GB COS Smart Tier",
+      "8760 instance-hours (1 year always-on)",
+      "1460 VM-hours (2 VMs always-on)",
+      "1 TB storage",
+      "500 GB storage",
+      "10M input + 2M output tokens",
+      "5M input + 5M output tokens"
+    ],
+    "support_fees": {
+      "basic": 0,
+      "advanced": 200,
+      "premium": 10000
+    }
+  }
+]

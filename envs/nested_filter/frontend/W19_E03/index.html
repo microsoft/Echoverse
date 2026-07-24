@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Adoptable Cats in Brooklyn, NY 11201 — EchoPets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@1,500;1,600;1,700&display=swap">
+<style>
+/* hide model-facing debug overlays — copied across all W19 envs */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta,
+.live-status, .live-status.ok, .db-fab,
+.answer-area, .answer-card, .answer-section, .answer-input, .answer-bar,
+.answer-row, .task-row, .task-rail, .task-list, .state-row, .state-label,
+.status-pill, .status-bar, .task-pill, .autosave-pill, .fix-mode-pill,
+.verifier-pill, .debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner, .fara-source-card,
+.fara-source-pill, .fara-banner, .fara-source, .w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad,
+.tb-status, .tb-pill, .tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write, .tb-banner,
+.auto-recompute-pill, .wut-badge, .wut-badge-test, .utst-note,
+.f-section.widget-utst,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area, .submit-answer,
+#state-row, #status-pill, #status-bar, #w20-auto-pill,
+#tb-status, #tb-good, #tb-bad, .results-meta #combo-pill, .results-meta .combo-pill,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+[data-debug="1"] { display: none !important; }
+.combo-pill:empty, .combo-pill.empty:empty { display:none !important; }
+
+:root {
+  --ap-teal:#7ed0bf;          /* header band */
+  --ap-teal-deep:#3dbeac;     /* accents, focus */
+  --ap-mint:#c8edd8;          /* hero / page bg */
+  --ap-mint-soft:#e6f6ee;     /* sidebar bg */
+  --ap-ink:#0f1216;
+  --ap-ink-soft:#3a3f47;
+  --ap-muted:#6a7079;
+  --ap-line:#dfe4e0;
+  --ap-card-blue:#4aa3e0;
+  --ap-card-teal:#3dbeac;
+  --ap-card-yellow:#e8c84e;
+  --ap-card-coral:#f08a72;
+  --ap-card-lilac:#b08be3;
+  --headline:"Lora", "Times New Roman", Georgia, serif;
+  --body:"Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+* { box-sizing:border-box; } html,body { margin:0; padding:0; }
+body { font-family:var(--body); background:#fff; color:var(--ap-ink); font-size:14px; line-height:1.5; }
+img { max-width:100%; display:block; } button { font:inherit; cursor:pointer; }
+a { color:inherit; }
+
+/* ===== Top promo strip (DNA test) ===== */
+.ap-promo { background:#fff; border-bottom:1px solid #ececec; padding:10px 28px; display:flex; align-items:center; gap:18px; font-family:var(--body); }
+.ap-promo .ap-promo-logo { width:34px; height:34px; flex:0 0 34px; position:relative; }
+.ap-promo .ap-promo-logo svg { width:100%; height:100%; }
+.ap-promo .ap-promo-msg { font-family:var(--headline); font-style:italic; font-weight:600; font-size:18px; color:#0f1216; }
+.ap-promo .ap-promo-msg small { display:block; font-family:var(--body); font-style:normal; font-weight:400; font-size:12px; color:#3a3f47; margin-top:2px; }
+.ap-promo .ap-promo-spacer { flex:1; }
+.ap-promo .ap-promo-shop { font-weight:600; text-decoration:underline; font-size:13px; color:#0f1216; }
+.ap-promo .ap-promo-close { margin:0 12px; color:#888; font-size:18px; line-height:1; }
+.ap-promo .ap-promo-cards { display:flex; gap:6px; }
+.ap-promo .ap-promo-card { width:78px; height:46px; border-radius:6px; border-top:3px solid #e8a13c; background-size:cover; background-position:center; }
+
+/* ===== Brand header ===== */
+.ap-head { background:var(--ap-teal); padding:14px 28px; display:flex; align-items:center; gap:30px; }
+.ap-logo { font-family:var(--headline); font-style:italic; font-weight:700; font-size:30px; color:#0f1216; letter-spacing:-0.5px; line-height:1; padding-right:14px; }
+.ap-nav { display:flex; gap:26px; font-size:14px; font-weight:500; color:#0f1216; }
+.ap-nav a { text-decoration:none; padding:6px 0; }
+.ap-nav a:hover { text-decoration:underline; }
+.ap-head-right { margin-left:auto; display:flex; gap:10px; align-items:center; }
+.ap-login { background:#fff; border:1.5px solid #0f1216; color:#0f1216; padding:9px 22px; border-radius:999px; font-weight:600; font-size:13px; }
+.ap-signup { background:#0f1216; border:1.5px solid #0f1216; color:#fff; padding:9px 22px; border-radius:999px; font-weight:600; font-size:13px; }
+
+/* ===== Sub-hero banner ===== */
+.ap-hero { background:var(--ap-mint); padding:28px 28px 22px; }
+.ap-hero-inner { max-width:1240px; margin:0 auto; }
+.ap-crumbs { font-size:12px; color:#3a3f47; margin-bottom:10px; }
+.ap-crumbs a { text-decoration:none; }
+.ap-crumbs a:hover { text-decoration:underline; }
+.ap-h1 { font-family:var(--headline); font-style:italic; font-weight:700; font-size:40px; line-height:1.05; color:#0f1216; margin:0 0 6px; letter-spacing:-0.5px; }
+.ap-sub { font-size:14px; color:#3a3f47; margin:0 0 14px; max-width:680px; }
+.ap-search-row { display:flex; gap:10px; flex-wrap:wrap; background:#fff; border-radius:999px; padding:6px; box-shadow:0 1px 0 rgba(0,0,0,0.04); max-width:780px; }
+.ap-search-row .ap-pill-inp { flex:1; min-width:160px; border:none; outline:none; padding:10px 18px; font-size:14px; background:transparent; }
+.ap-search-row .ap-pill-inp.bdr { border-left:1px solid #dde2dd; }
+.ap-search-row .ap-search-btn { background:#0f1216; color:#fff; border:none; border-radius:999px; padding:10px 22px; font-weight:600; font-size:13px; }
+.ap-search-row .ap-search-btn::before { content:"⌕  "; }
+
+/* ===== Layout ===== */
+.ap-wrap { display:grid; grid-template-columns:288px 1fr; gap:26px; max-width:1240px; margin:0 auto; padding:22px 28px 30px; background:#fff; }
+.ap-side { background:#fff; border:1px solid var(--ap-line); border-radius:14px; padding:18px; height:max-content; position:sticky; top:14px; }
+.ap-side h3 { font-family:var(--headline); font-style:italic; font-weight:700; margin:0 0 6px; font-size:20px; color:#0f1216; }
+.ap-side-sub { font-size:12px; color:var(--ap-muted); margin-bottom:14px; }
+.ap-loc { background:var(--ap-mint-soft); border:1px solid #c5e3d2; border-radius:10px; padding:10px 12px; margin-bottom:14px; font-size:13px; display:flex; gap:10px; align-items:flex-start; }
+.ap-loc .ap-loc-ic { width:18px; height:18px; flex:0 0 18px; color:var(--ap-teal-deep); margin-top:1px; }
+.ap-loc b { display:block; color:#0f1216; font-size:13px; }
+.ap-loc span { color:#3a3f47; font-size:12px; }
+
+.filter-group { padding:14px 0; border-top:1px solid #ececec; }
+.filter-group:first-of-type { border-top:none; padding-top:6px; }
+.group-label { display:flex; justify-content:space-between; align-items:baseline; font-size:13px; font-weight:700; color:#0f1216; margin-bottom:10px; }
+.group-current { color:var(--ap-teal-deep); font-weight:600; font-size:11px; }
+.chip-row { display:flex; flex-wrap:wrap; gap:6px; }
+.chip-btn { padding:8px 14px; border:1.5px solid #d6dad6; border-radius:999px; background:#fff; font-size:13px; font-weight:500; color:#0f1216; transition:.12s; }
+.chip-btn:hover { border-color:var(--ap-teal-deep); background:var(--ap-mint-soft); }
+.chip-btn.active { background:#0f1216; color:#fff; border-color:#0f1216; }
+
+/* ===== Results ===== */
+.ap-results-head { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:18px; gap:14px; flex-wrap:wrap; }
+.ap-results-head h2 { font-family:var(--headline); font-style:italic; font-weight:700; font-size:26px; margin:0; color:#0f1216; }
+.ap-results-head .right { font-size:13px; color:var(--ap-muted); }
+.ap-results-head .right b { color:#0f1216; }
+.ap-results-head .ap-sort { display:inline-flex; align-items:center; gap:6px; border:1px solid #d6dad6; border-radius:999px; padding:6px 12px; font-size:12px; background:#fff; }
+
+.petc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:18px; }
+.petc { position:relative; background:#fff; border:none; border-radius:14px; overflow:hidden; display:flex; flex-direction:column; padding:10px 10px 14px; transition:transform .14s, box-shadow .14s; }
+.petc:nth-child(6n+1) { background:#cdebde; }
+.petc:nth-child(6n+2) { background:#bee5ee; }
+.petc:nth-child(6n+3) { background:#fde8a6; }
+.petc:nth-child(6n+4) { background:#f7c9bb; }
+.petc:nth-child(6n+5) { background:#dcd0f5; }
+.petc:nth-child(6n+6) { background:#c8ecd8; }
+.petc:hover { transform:translateY(-3px); box-shadow:0 12px 24px rgba(15,18,22,0.10); }
+.petc-img { aspect-ratio:1/1; background:rgba(0,0,0,0.05); overflow:hidden; border-radius:18px; position:relative; }
+.petc-img img { width:100%; height:100%; object-fit:cover; }
+.petc-fallback { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:62px; background:rgba(255,255,255,0.5); }
+.petc-flag { position:absolute; top:10px; left:10px; background:#0f1216; color:#fff; font-size:10px; padding:3px 9px; border-radius:999px; font-weight:700; letter-spacing:0.4px; text-transform:uppercase; }
+.petc-fav { position:absolute; top:10px; right:10px; width:32px; height:32px; background:rgba(255,255,255,0.85); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; color:#0f1216; }
+.petc-body { padding:12px 6px 2px; display:flex; flex-direction:column; gap:3px; color:#0f1216; }
+.petc-name { font-family:var(--headline); font-style:italic; font-weight:700; font-size:22px; text-transform:uppercase; letter-spacing:-0.3px; line-height:1.05; display:flex; justify-content:space-between; align-items:baseline; }
+.petc-name .petc-id { font-family:var(--body); font-style:normal; text-transform:none; font-size:10px; color:#3a3f47; font-weight:500; opacity:0.7; }
+.petc-breed { font-weight:700; font-size:14px; margin-top:2px; }
+.petc-line { font-size:13px; color:#15191f; }
+.petc-line.subtle { color:#3a3f47; font-size:12px; }
+.petc-tags { display:flex; gap:5px; flex-wrap:wrap; margin:6px 0 2px; }
+.tg { padding:2px 9px; border-radius:999px; font-size:10px; font-weight:600; background:rgba(255,255,255,0.65); color:#0f1216; }
+.tg-male    { background:#dceffd; color:#0d3f6e; }
+.tg-female  { background:#fadcec; color:#702048; }
+.tg-spayed  { background:#d9f5e4; color:#13452a; }
+.tg-neutered{ background:#ded4f4; color:#3a1f6e; }
+.tg-intact  { background:#fff0b8; color:#5e3a05; }
+.tg-trait   { background:rgba(255,255,255,0.7); color:#3a3f47; }
+.petc-foot { font-size:11px; color:#3a3f47; margin-top:4px; }
+
+.w19-empty { padding:46px 30px; text-align:center; color:#6a7079; background:#f4f7f4; border:1px dashed #c8d1c8; border-radius:14px; }
+.w19-empty b { display:block; color:#0f1216; font-family:var(--headline); font-style:italic; font-size:18px; margin-bottom:4px; }
+
+.combo-pill { display:inline-block; padding:5px 12px; border-radius:999px; font-size:11px; font-weight:600; margin-top:6px; }
+.combo-pill.empty   { background:#fff3f3; color:#9b1c1c; border:1px solid #f5c4c4; }
+.combo-pill.partial { background:#fff7d6; color:#7a4a00; border:1px solid #f1d97b; }
+.combo-pill.done    { background:#d9f5e4; color:#13452a; border:1px solid #a8e0bd; }
+
+/* ===== Partners + Footer ===== */
+.ap-partners { background:#fff; padding:22px 28px; border-top:1px solid #ececec; text-align:center; font-size:12px; color:var(--ap-muted); }
+.ap-partners .ap-partners-row { display:flex; justify-content:center; align-items:center; gap:28px; margin-top:8px; font-family:var(--headline); font-style:italic; font-weight:600; color:#0f1216; font-size:16px; }
+
+footer { background:#0f1216; color:#cfd4dc; font-size:12px; padding:28px; }
+footer .ap-foot-wrap { max-width:1240px; margin:0 auto; display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:24px; }
+footer h4 { color:#fff; font-size:13px; margin:0 0 10px; }
+footer ul { list-style:none; margin:0; padding:0; line-height:1.9; }
+footer .ap-foot-logo { font-family:var(--headline); font-style:italic; font-weight:700; font-size:24px; color:#7ed0bf; margin-bottom:8px; }
+footer .ap-foot-tag { font-size:12px; max-width:280px; line-height:1.55; color:#a8b0bc; }
+footer .ap-foot-bottom { max-width:1240px; margin:18px auto 0; padding-top:14px; border-top:1px solid #2a2f36; font-size:11px; color:#7d848e; display:flex; justify-content:space-between; }
+</style></head>
+<body>
+<div class="ap-promo">
+  <div class="ap-promo-logo">
+    <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M8 6 C 22 14, 18 26, 32 34" stroke="#e8703a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M32 6 C 18 14, 22 26, 8 34" stroke="#2a3b8f" stroke-width="5" fill="none" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="ap-promo-msg">Save 20% on the world's leading pet DNA test<small>Unlock breed, trait, and health insights with code <b>AAP20</b></small></div>
+  <div class="ap-promo-spacer"></div>
+  <a class="ap-promo-shop">Shop Now</a>
+  <span class="ap-promo-close">✕</span>
+  <div class="ap-promo-cards">
+    <div class="ap-promo-card" style="background-image:url('https://images.pexels.com/photos/2253275/pexels-photo-2253275.jpeg?auto=compress&cs=tinysrgb&h=120')"></div>
+    <div class="ap-promo-card" style="background-image:url('https://images.pexels.com/photos/45170/kittens-cat-cat-puppy-rush-45170.jpeg?auto=compress&cs=tinysrgb&h=120')"></div>
+  </div>
+</div>
+
+<header class="ap-head">
+  <div class="ap-logo">EchoPets</div>
+  <nav class="ap-nav"><a>Find a pet</a><a>Find a shelter</a><a>Rehome a pet</a><a>Breed 101</a><a>Pet advice</a><a>Shop</a><a>Help</a></nav>
+  <div class="ap-head-right">
+    <button class="ap-login">Login</button>
+    <button class="ap-signup">Sign Up</button>
+  </div>
+</header>
+
+<div id="task-banner"></div>
+
+<section class="ap-hero">
+  <div class="ap-hero-inner">
+    <div class="ap-crumbs"><a>Home</a> › <a>Find a pet</a> › <a>Cats</a> › Brooklyn, NY 11201</div>
+    <h1 class="ap-h1">Adoptable cats near Brooklyn, NY 11201</h1>
+    <p class="ap-sub">Browse cats from local shelters, rescues, and private owners. Use the filters to narrow it down to the perfect match.</p>
+    <div class="ap-search-row">
+      <input class="ap-pill-inp" placeholder="Location" value="Brooklyn, NY 11201" readonly>
+      <input class="ap-pill-inp bdr" placeholder="Search for" value="Cats">
+      <button class="ap-search-btn">Search</button>
+    </div>
+  </div>
+</section>
+
+<div class="ap-wrap">
+  <aside class="ap-side">
+    <h3>Filters</h3>
+    <div class="ap-side-sub">Narrow your search</div>
+    <div class="ap-loc">
+      <svg class="ap-loc-ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+      <div><b>Brooklyn, NY · 11201</b><span>Within 50 miles</span></div>
+    </div>
+
+    <div class="filter-group">
+      <div class="group-label">Sex <span class="group-current" id="sex-current-label">Any</span></div>
+      <div class="chip-row">
+        <button class="chip-btn active" data-sex-opt="Any" onclick="setSex('Any')">Any</button>
+        <button class="chip-btn" data-sex-opt="Male" onclick="setSex('Male')">♂ Male</button>
+        <button class="chip-btn" data-sex-opt="Female" onclick="setSex('Female')">♀ Female</button>
+      </div>
+    </div>
+    <div class="filter-group">
+      <div class="group-label">Sterilization <span class="group-current" id="ster-current-label">Any</span></div>
+      <div class="chip-row">
+        <button class="chip-btn active" data-ster-opt="Any" onclick="setSter('Any')">Any</button>
+        <button class="chip-btn" data-ster-opt="Spayed" onclick="setSter('Spayed')">Spayed</button>
+        <button class="chip-btn" data-ster-opt="Neutered" onclick="setSter('Neutered')">Neutered</button>
+        <button class="chip-btn" data-ster-opt="Intact" onclick="setSter('Intact')">Intact</button>
+      </div>
+    </div>
+
+    <div><span id="combo-pill" class="combo-pill empty" data-empty-label="Set both filters to narrow"></span></div>
+  </aside>
+
+  <section class="ap-results">
+    <div class="ap-results-head">
+      <h2 id="results-title">Available cats</h2>
+      <div class="right"><b><span id="w19-count">—</span></b> &nbsp;·&nbsp; <span class="ap-sort">Sort: <b>Newest</b> ▾</span></div>
+    </div>
+    <div id="w19-results" class="petc-grid"></div>
+  </section>
+</div>
+
+<div class="ap-partners">
+  Our partners
+  <div class="ap-partners-row"><span style="color:#e8703a;">Echo Vet</span><span style="background:#f5b400;color:#0f1216;padding:4px 10px;border-radius:999px;font-size:13px;">Echo Chow</span><span style="color:#e63946;">Echo Charities</span></div>
+</div>
+
+<footer>
+  <div class="ap-foot-wrap">
+    <div>
+      <div class="ap-foot-logo">EchoPets</div>
+      <div class="ap-foot-tag">EchoPets is North America's largest non-profit pet adoption website, helping homeless pets from shelters and rescues find loving homes.</div>
+    </div>
+    <div><h4>Adopt</h4><ul><li>Dogs &amp; puppies</li><li>Cats &amp; kittens</li><li>Other pets</li><li>Animal shelters</li></ul></div>
+    <div><h4>Resources</h4><ul><li>Pet adoption</li><li>Breed 101</li><li>Pet advice</li><li>Rehome a pet</li></ul></div>
+    <div><h4>Company</h4><ul><li>About</li><li>Partners</li><li>Press</li><li>Contact us</li></ul></div>
+  </div>
+  <div class="ap-foot-bottom"><span>© EchoPets · A 501(c)(3) non-profit</span><span>Privacy · Terms · Cookie settings</span></div>
+</footer>
+<div class="live-status neutral" id="live-status">💾 ready</div>
+<script>
+const ENV_ID = "W19_E03";
+const W19_PETS = [{"id": 1, "name": "Pumpkin", "breed": "Tuxedo", "category": "Cat", "age": 8, "age_label": "Senior", "sex": "Female", "sterilization": "Spayed", "coat": "medium", "care_type": "Rescue", "city": "Jersey City", "distance": 14.2, "tags": ["Good with dogs", "Good with kids"], "rating": 3.7, "image_url": "https://images.pexels.com/photos/35685839/pexels-photo-35685839.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 2, "name": "Salem", "breed": "Russian Blue", "category": "Cat", "age": 6, "age_label": "Adult", "sex": "Female", "sterilization": "Intact", "coat": "long", "care_type": "Foster home", "city": "Long Island City", "distance": 30.9, "tags": ["Quiet", "Lap cat"], "rating": 3.7, "image_url": "https://images.pexels.com/photos/34852195/pexels-photo-34852195.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 3, "name": "Pebbles", "breed": "Domestic Short Hair", "category": "Cat", "age": 3, "age_label": "Young", "sex": "Male", "sterilization": "Spayed", "coat": "long", "care_type": "Private owner", "city": "Long Island City", "distance": 19.9, "tags": ["Good with kids", "Good with other cats"], "rating": 4.2, "image_url": "https://images.pexels.com/photos/35100706/pexels-photo-35100706.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 4, "name": "Boots", "breed": "Tuxedo", "category": "Cat", "age": 3, "age_label": "Young", "sex": "Female", "sterilization": "Intact", "coat": "short", "care_type": "Rescue", "city": "Queens", "distance": 29.7, "tags": ["Good with kids", "Good with other cats"], "rating": 4.4, "image_url": "https://images.pexels.com/photos/15044590/pexels-photo-15044590.png?auto=compress&cs=tinysrgb&h=130"}, {"id": 5, "name": "Salem", "breed": "Maine Coon", "category": "Cat", "age": 5, "age_label": "Adult", "sex": "Female", "sterilization": "Spayed", "coat": "short", "care_type": "Private owner", "city": "Long Island City", "distance": 19.3, "tags": ["Litter-trained", "Friendly", "Good with kids"], "rating": 3.9, "image_url": "https://images.pexels.com/photos/35087309/pexels-photo-35087309.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 6, "name": "Biscuit", "breed": "Domestic Short Hair", "category": "Cat", "age": 2, "age_label": "Young", "sex": "Male", "sterilization": "Neutered", "coat": "long", "care_type": "Shelter", "city": "Bronx", "distance": 14.4, "tags": ["Litter-trained", "Friendly"], "rating": 3.8, "image_url": "https://images.pexels.com/photos/32146874/pexels-photo-32146874.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 7, "name": "Smokey", "breed": "Maine Coon", "category": "Cat", "age": 1, "age_label": "Puppy", "sex": "Female", "sterilization": "Intact", "coat": "long", "care_type": "Rescue", "city": "Jersey City", "distance": 1.8, "tags": ["Quiet", "Lap cat"], "rating": 4.0, "image_url": "https://images.pexels.com/photos/37950225/pexels-photo-37950225.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 8, "name": "Cleo", "breed": "Tuxedo", "category": "Cat", "age": 6, "age_label": "Adult", "sex": "Male", "sterilization": "Spayed", "coat": "short", "care_type": "Private owner", "city": "Brooklyn", "distance": 43.7, "tags": ["Good with kids", "Good with other cats"], "rating": 3.9, "image_url": "https://images.pexels.com/photos/13491708/pexels-photo-13491708.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 9, "name": "Salem", "breed": "Maine Coon", "category": "Cat", "age": 6, "age_label": "Adult", "sex": "Female", "sterilization": "Spayed", "coat": "short", "care_type": "Rescue", "city": "Bronx", "distance": 35.9, "tags": ["Litter-trained", "Friendly"], "rating": 3.8, "image_url": "https://images.pexels.com/photos/20047111/pexels-photo-20047111.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 10, "name": "Mittens", "breed": "Persian", "category": "Cat", "age": 7, "age_label": "Adult", "sex": "Male", "sterilization": "Intact", "coat": "short", "care_type": "Foster home", "city": "Brooklyn", "distance": 36.1, "tags": ["Indoor only", "Good with kids"], "rating": 3.9, "image_url": "https://images.pexels.com/photos/34321081/pexels-photo-34321081.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 11, "name": "Tiger", "breed": "Siamese", "category": "Cat", "age": 1, "age_label": "Puppy", "sex": "Female", "sterilization": "Spayed", "coat": "short", "care_type": "Private owner", "city": "Bronx", "distance": 30.9, "tags": ["Litter-trained", "Friendly", "Good with kids"], "rating": 4.5, "image_url": "https://images.pexels.com/photos/32057399/pexels-photo-32057399.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 12, "name": "Whiskers", "breed": "Tuxedo", "category": "Cat", "age": 6, "age_label": "Adult", "sex": "Male", "sterilization": "Neutered", "coat": "long", "care_type": "Rescue", "city": "Queens", "distance": 4.1, "tags": ["Good with kids"], "rating": 4.3, "image_url": "https://images.pexels.com/photos/11920066/pexels-photo-11920066.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 13, "name": "Whiskers", "breed": "Tabby Mix", "category": "Cat", "age": 2, "age_label": "Young", "sex": "Female", "sterilization": "Spayed", "coat": "short", "care_type": "Shelter", "city": "Bronx", "distance": 36.3, "tags": ["Good with kids"], "rating": 3.9, "image_url": "https://images.pexels.com/photos/32070875/pexels-photo-32070875.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 14, "name": "Nala", "breed": "Domestic Long Hair", "category": "Cat", "age": 1, "age_label": "Puppy", "sex": "Male", "sterilization": "Neutered", "coat": "short", "care_type": "Shelter", "city": "Long Island City", "distance": 42.2, "tags": ["Litter-trained", "Friendly"], "rating": 3.6, "image_url": "https://images.pexels.com/photos/2280849/pexels-photo-2280849.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 15, "name": "Salem", "breed": "Domestic Short Hair", "category": "Cat", "age": 8, "age_label": "Senior", "sex": "Female", "sterilization": "Neutered", "coat": "long", "care_type": "Private owner", "city": "Long Island City", "distance": 3.2, "tags": ["Indoor only", "Good with kids"], "rating": 4.4, "image_url": "https://images.pexels.com/photos/35240589/pexels-photo-35240589.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 16, "name": "Whiskers", "breed": "Domestic Short Hair", "category": "Cat", "age": 3, "age_label": "Young", "sex": "Male", "sterilization": "Intact", "coat": "short", "care_type": "Rescue", "city": "Brooklyn", "distance": 28.7, "tags": ["Quiet", "Lap cat"], "rating": 4.5, "image_url": "https://images.pexels.com/photos/31531469/pexels-photo-31531469.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 17, "name": "Felix", "breed": "Persian", "category": "Cat", "age": 3, "age_label": "Young", "sex": "Male", "sterilization": "Intact", "coat": "medium", "care_type": "Shelter", "city": "Brooklyn", "distance": 47.2, "tags": ["Litter-trained", "Friendly"], "rating": 3.8, "image_url": "https://images.pexels.com/photos/19201153/pexels-photo-19201153.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 18, "name": "Boots", "breed": "Tuxedo", "category": "Cat", "age": 7, "age_label": "Adult", "sex": "Female", "sterilization": "Spayed", "coat": "long", "care_type": "Rescue", "city": "Long Island City", "distance": 11.8, "tags": ["Good with kids", "Good with other cats"], "rating": 3.8, "image_url": "https://images.pexels.com/photos/982423/pexels-photo-982423.jpeg?auto=compress&cs=tinysrgb&h=130"}];
+
+let filterState = { sex: 'Any', sterilization: 'Any' };
+
+function _q(s, r) { return (r||document).querySelector(s); }
+function _qa(s, r) { return Array.from((r||document).querySelectorAll(s)); }
+function _esc(s) { return (s==null?'':String(s)).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function _taskId() { return new URLSearchParams(window.location.search).get('task_id'); }
+
+function _visible(p) {
+  const sx = filterState.sex, st = filterState.sterilization;
+  if (sx && sx !== 'Any' && p.sex !== sx) return false;
+  if (st && st !== 'Any' && p.sterilization !== st) return false;
+  return true;
+}
+
+function _renderCards() {
+  const grid = document.getElementById('w19-results');
+  if (!grid) return;
+  const show = W19_PETS.filter(_visible);
+  const cnt = document.getElementById('w19-count');
+  if (cnt) cnt.textContent = show.length + ' pet' + (show.length === 1 ? '' : 's') + ' shown';
+  if (!show.length) {
+    grid.innerHTML = '<div class="w19-empty"><b>No adoptable cats match these filters</b>Try adjusting the Sex or Sterilization selection.</div>';
+    return;
+  }
+  grid.innerHTML = show.map(p => `
+    <article class="petc">
+      <div class="petc-img">
+        <img src="${_esc(p.image_url)}" alt="${_esc(p.name)}" loading="lazy"
+          onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'petc-fallback',textContent:'${p.category==='Cat' ? '🐱' : '🐶'}'}))">
+        ${p.age <= 2 ? '<span class="petc-flag">New</span>' : ''}
+        <span class="petc-fav" title="Save to favorites">♡</span>
+      </div>
+      <div class="petc-body">
+        <div class="petc-name">${_esc(p.name)}<span class="petc-id">#${p.id}</span></div>
+        <div class="petc-breed">${_esc(p.breed)}</div>
+        <div class="petc-line"><b>${_esc(p.sex)}</b> · ${_esc(p.sterilization)} · ${_esc(p.age_label)}, ${p.age} yr</div>
+        <div class="petc-line subtle">${_esc(p.city)} · ${(p.distance||0).toFixed(1)} mi · ${_esc(p.care_type)}</div>
+        <div class="petc-tags">
+          <span class="tg tg-${p.sex.toLowerCase()}">${p.sex==='Male'?'♂':'♀'} ${_esc(p.sex)}</span>
+          <span class="tg tg-${p.sterilization.toLowerCase()}">${_esc(p.sterilization)}</span>
+          ${(p.tags||[]).slice(0,1).map(t => `<span class="tg tg-trait">${_esc(t)}</span>`).join('')}
+        </div>
+      </div>
+    </article>`).join('');
+}
+
+function _getAnswer() { const a = document.getElementById('task-answer-input'); return a ? a.value : ''; }
+
+function _submit() {
+  const tid = _taskId();
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ filter_state: filterState, answer: _getAnswer(), task_id: tid })
+  }).then(r => r.json()).then(_updateLive).catch(()=>{});
+}
+
+function _updateLive(d) {
+  /* live indicator hidden in production UI */
+  return d;
+}
+
+function setSex(v)            { filterState.sex = v;            onPick(); }
+function setSter(v)           { filterState.sterilization = v;  onPick(); }
+function onPick() { _renderCards(); _syncUI(); _submit(); }
+function onAnswerInput() { _submit(); }
+
+function _syncUI() {
+  _qa('[data-sex-opt]').forEach(b => b.classList.toggle('active', b.dataset.sexOpt === filterState.sex));
+  _qa('[data-ster-opt]').forEach(b => b.classList.toggle('active', b.dataset.sterOpt === filterState.sterilization));
+  const sxLabel = _q('#sex-current-label');    if (sxLabel)  sxLabel.textContent  = filterState.sex;
+  const stLabel = _q('#ster-current-label');   if (stLabel)  stLabel.textContent  = filterState.sterilization;
+  const sumPill = _q('#combo-pill');
+  if (sumPill) {
+    if (filterState.sex === 'Any' && filterState.sterilization === 'Any') {
+      sumPill.textContent = '';
+      sumPill.className = 'combo-pill empty';
+    } else {
+      const parts = [];
+      if (filterState.sex !== 'Any') parts.push(filterState.sex);
+      if (filterState.sterilization !== 'Any') parts.push(filterState.sterilization);
+      sumPill.textContent = parts.join(' · ');
+      sumPill.className = 'combo-pill done';
+    }
+  }
+}
+
+function _loadBanner() {
+  const tid = _taskId();
+  fetch('/env/' + ENV_ID + '/api/task/' + encodeURIComponent(tid))
+    .then(r => r.ok ? r.json() : null)
+    .then(task => {
+      if (!task) return;
+      const b = document.getElementById('task-banner');
+      if (!b) return;
+      b.style.display = 'flex';
+      const needsAns = task.task_type !== 'write';
+      b.innerHTML = `
+        <div class="tb-strip">
+          <span class="tb-pill tb-pill-${task.task_type}">${task.task_type.toUpperCase()}</span>
+          <span class="tb-pill tb-pill-diff">${task.task_difficulty}</span>
+          <span class="tb-id">${_esc(task.id)}</span>
+        </div>
+        <div class="tb-text">${_esc(task.task_summary)}</div>
+        ${needsAns ? `<div class="tb-answer"><label for="task-answer-input">Your answer</label>
+          <input type="text" id="task-answer-input" placeholder="Type the answer here…" oninput="onAnswerInput()"></div>` : ''}
+      `;
+    }).catch(()=>{});
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  _loadBanner();
+  _syncUI();
+  _renderCards();
+  _submit();
+});
+
+</script>
+</body></html>

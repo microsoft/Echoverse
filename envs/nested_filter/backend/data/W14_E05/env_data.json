@@ -1,0 +1,44 @@
+{
+  "env_id": "W14_E05",
+  "widget_id": "W14_this_month_preset",
+  "widget_name": "This-month preset toggle (date scope)",
+  "widget_category": "preset_toggle",
+  "widget_mechanic": "Date filter offers presets (Today, This Week, This Month, All Time). Default is 'All Time'. Agent must click the requested preset, not leave at default, not enter dates manually.",
+  "archetype": "faceted_catalog",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W14_this_month_preset"
+  ],
+  "site_imitates": "Eventbrite upcoming events in Los Angeles",
+  "product_type": "upcoming events in Los Angeles, CA",
+  "source_inspiration": [
+    {
+      "task_id": "c698ff3fc0f6cbce39947c597ab5749b_121425",
+      "benchmark": "OM2W",
+      "sub": "om2w_fara15",
+      "site": "eventbrite.com",
+      "instruction": "Help me find a list of school activity events in New York for this month.",
+      "first_failure_summary": "[3.5] Incomplete task execution: The click was on the correct autocomplete suggestion (\u201cNew York, NY, USA\u201d), but the post-action state shows no clear selection/update beyond the existing value, so the action didn\u2019t produce an observable effect/progress. The agent never opened the Date filter and never clicked the 'This Month' preset that the user explicitly asked for."
+    }
+  ],
+  "theme_key": "events",
+  "theme_logo": "eventbrite",
+  "theme_card": "event-tile",
+  "theme_layout": "event-card-grid",
+  "variant_idx": 4,
+  "n_seed_items": 18,
+  "filter_spec": {
+    "type": "preset",
+    "fields": [
+      "date_preset"
+    ]
+  },
+  "primary_inspiration": {
+    "task_id": "c698ff3fc0f6cbce39947c597ab5749b_121425",
+    "benchmark": "OM2W",
+    "sub": "om2w_fara15",
+    "site": "eventbrite.com",
+    "instruction": "Help me find a list of school activity events in New York for this month.",
+    "first_failure_summary": "[3.5] Incomplete task execution: The click was on the correct autocomplete suggestion (\u201cNew York, NY, USA\u201d), but the post-action state shows no clear selection/update beyond the existing value, so the action didn\u2019t produce an observable effect/progress. The agent never opened the Date filter and never clicked the 'This Month' preset that the user explicitly asked for."
+  }
+}

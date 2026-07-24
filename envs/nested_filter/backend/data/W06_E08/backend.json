@@ -1,0 +1,109 @@
+{
+  "env_id": "W06_E08",
+  "widget_id": "W06_exact_match_toggle",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "gte_or_eq",
+    "fields": [
+      "min_beds",
+      "min_baths",
+      "exact_match"
+    ],
+    "item_fields": [
+      "beds",
+      "baths"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T0571",
+      "task_index_in_env": 1,
+      "instruction_text": "On HotPads rentals, I'm specifically looking for rental units with exactly 3 bedrooms.",
+      "expected_filter_state": {
+        "exact_beds": 3,
+        "extra": ""
+      }
+    },
+    {
+      "task_id": "T0572",
+      "task_index_in_env": 2,
+      "instruction_text": "Help me find rental units on HotPads rentals \u2014 exactly 2 bedrooms, not more, not fewer.",
+      "expected_filter_state": {
+        "exact_beds": 2,
+        "extra": ""
+      }
+    },
+    {
+      "task_id": "T0573",
+      "task_index_in_env": 3,
+      "instruction_text": "Help me find rental units on HotPads rentals \u2014 exactly 4 bedrooms, not more, not fewer and exactly 2 bathrooms.",
+      "expected_filter_state": {
+        "exact_beds": 4,
+        "extra": " and exactly 2 bathrooms"
+      }
+    },
+    {
+      "task_id": "T0574",
+      "task_index_in_env": 4,
+      "instruction_text": "On HotPads rentals, what rental units are listed with 1 bedrooms exactly?",
+      "expected_filter_state": {
+        "exact_beds": 1,
+        "extra": ""
+      }
+    },
+    {
+      "task_id": "T0575",
+      "task_index_in_env": 5,
+      "instruction_text": "On HotPads rentals, what rental units are listed with 3 bedrooms exactly (at-least, not exact)?",
+      "expected_filter_state": {
+        "exact_beds": 3,
+        "extra": " (at-least, not exact)"
+      }
+    },
+    {
+      "task_id": "T0576",
+      "task_index_in_env": 6,
+      "instruction_text": "Help me find rental units on HotPads rentals \u2014 exactly 2 bedrooms, not more, not fewer with 2+ bathrooms.",
+      "expected_filter_state": {
+        "exact_beds": 2,
+        "extra": " with 2+ bathrooms"
+      }
+    },
+    {
+      "task_id": "T0577",
+      "task_index_in_env": 7,
+      "instruction_text": "Help me find rental units on HotPads rentals \u2014 exactly 3 bedrooms, not more, not fewer and 2+ bathrooms.",
+      "expected_filter_state": {
+        "exact_beds": 3,
+        "extra": " and 2+ bathrooms"
+      }
+    },
+    {
+      "task_id": "T0578",
+      "task_index_in_env": 8,
+      "instruction_text": "On HotPads rentals, what rental units are listed with 4 bedrooms exactly?",
+      "expected_filter_state": {
+        "exact_beds": 4,
+        "extra": ""
+      }
+    },
+    {
+      "task_id": "T0579",
+      "task_index_in_env": 9,
+      "instruction_text": "On HotPads rentals, what rental units are listed with 5 bedrooms exactly?",
+      "expected_filter_state": {
+        "exact_beds": 5,
+        "extra": ""
+      }
+    },
+    {
+      "task_id": "T0580",
+      "task_index_in_env": 10,
+      "instruction_text": "Help me find rental units on HotPads rentals \u2014 exactly 2 bedrooms, not more, not fewer (strict match).",
+      "expected_filter_state": {
+        "exact_beds": 2,
+        "extra": " (strict match)"
+      }
+    }
+  ]
+}

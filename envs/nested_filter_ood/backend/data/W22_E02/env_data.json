@@ -1,0 +1,43 @@
+{
+  "env_id": "W22_E02",
+  "widget_id": "W22_min_max_slider_plus_plus_chip",
+  "widget_name": "Min/max price slider + \u2265N bedrooms plus-chip composition",
+  "widget_category": "combo_realestate_facets",
+  "widget_mechanic": "Compose: max-price slider AND \u2265N-bedroom plus-chip \u2014 both applied simultaneously.",
+  "archetype": "realestate_listings",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W04_min_max_slider",
+    "W05_plus_chips_at_least"
+  ],
+  "site_imitates": "Realtor.com Aiken SC",
+  "product_type": "Aiken homes",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_aiken__sc_20679",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "I'm interested in buying a home on Equinox Loop in Aiken, SC with 4+ bedrooms, 2.5+ bathrooms, a large lot, and central AC. Can you find a listing that meets these criteria?",
+      "first_failure_summary": "[3.5] Incomplete task execution: The click was on the correct listing link text, but the post-action screenshot shows no navigation or UI change, so the action did not advance the task."
+    }
+  ],
+  "theme_key": "realtor",
+  "theme_logo": "Realtor Pro",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 1,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "primary_inspiration": {
+    "task_id": "realestate_complex_buy_house_aiken__sc_20679",
+    "benchmark": "WTB",
+    "site": "buy",
+    "instruction": "I'm interested in buying a home on Equinox Loop in Aiken, SC with 4+ bedrooms, 2.5+ bathrooms, a large lot, and central AC. Can you find a listing that meets these criteria?",
+    "first_failure_summary": "[3.5] Incomplete task execution: The click was on the correct listing link text, but the post-action screenshot shows no navigation or UI change, so the action did not advance the task.",
+    "fara_actions": 17,
+    "gpt54_actions": 27
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "env_id": "W07_E01",
+  "widget_id": "W07_more_filters_modal",
+  "widget_name": "Hidden filter inside More-filters modal",
+  "widget_category": "modal_workflow",
+  "widget_mechanic": "Required filter (new-to-market tag, remote-job toggle, advanced salary band) lives inside a collapsible 'More filters' modal. Agent must click 'More filters', possibly scroll inside the modal, apply the toggle, then click 'Apply' or 'Show results' before the filter takes effect.",
+  "archetype": "realestate_listings",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W07_more_filters_modal"
+  ],
+  "site_imitates": "Zillow Bolingbrook IL townhomes",
+  "product_type": "Bolingbrook townhomes",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_townhouse_bolingbrook__il_3053",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "Can you help me find townhomes for sale in Bolingbrook, Illinois with 3 or more bedrooms, at least 2 bathrooms, priced under $400k, and that are new to the market?",
+      "first_failure_summary": "[3.5] Incomplete task execution: A scroll was attempted in the filters modal, but the post-action screenshot shows no visible scroll/movement or state change, so the action did not advance anything."
+    }
+  ],
+  "theme_key": "zillow",
+  "theme_logo": "Zillow",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "trigger_style": "classic_button",
+  "modal_layout": "checkbox_list_sectioned",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "modal_facets": [
+    "modal_new_to_market",
+    "modal_coming_soon",
+    "modal_open_house_weekend",
+    "modal_price_reduced",
+    "modal_3d_tour_available",
+    "modal_pet_friendly_hoa",
+    "modal_in_unit_washer_dryer",
+    "modal_has_garage",
+    "modal_no_hoa",
+    "modal_central_ac",
+    "modal_finished_basement"
+  ],
+  "filter_spec": {
+    "type": "flag_match",
+    "fields": [
+      "modal_*"
+    ]
+  }
+}

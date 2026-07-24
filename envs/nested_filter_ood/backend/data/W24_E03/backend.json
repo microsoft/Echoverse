@@ -1,0 +1,91 @@
+{
+  "env_id": "W24_E03",
+  "widget_id": "W24_multi_checkbox_plus_exact_match",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2321",
+      "task_index_in_env": 1,
+      "instruction_text": "On SourceForge software, find Linux+macOS exactly-stable releases with exactly 4 facet selections (multi-checkbox) and strict-match enabled.",
+      "expected_filter_state": {
+        "constraint": "with exactly 4 facet selections (multi-checkbox) and strict-match enabled"
+      }
+    },
+    {
+      "task_id": "T2322",
+      "task_index_in_env": 2,
+      "instruction_text": "Show me Linux+macOS exactly-stable releases on SourceForge software in exact color black, size M (strict match enabled).",
+      "expected_filter_state": {
+        "constraint": "in exact color black, size M (strict match enabled)"
+      }
+    },
+    {
+      "task_id": "T2323",
+      "task_index_in_env": 3,
+      "instruction_text": "Show me Linux+macOS exactly-stable releases on SourceForge software with multi-OS support (Linux + macOS) AND exactly stable release.",
+      "expected_filter_state": {
+        "constraint": "with multi-OS support (Linux + macOS) AND exactly stable release"
+      }
+    },
+    {
+      "task_id": "T2324",
+      "task_index_in_env": 4,
+      "instruction_text": "On SourceForge software, find Linux+macOS exactly-stable releases young AND spayed AND male AND exactly one age band.",
+      "expected_filter_state": {
+        "constraint": "young AND spayed AND male AND exactly one age band"
+      }
+    },
+    {
+      "task_id": "T2325",
+      "task_index_in_env": 5,
+      "instruction_text": "Show me Linux+macOS exactly-stable releases on SourceForge software with exactly adult (not adolescent) AND female.",
+      "expected_filter_state": {
+        "constraint": "with exactly adult (not adolescent) AND female"
+      }
+    },
+    {
+      "task_id": "T2326",
+      "task_index_in_env": 6,
+      "instruction_text": "Help me browse SourceForge software for Linux+macOS exactly-stable releases in exactly full-time (not contract) AND remote-allowed.",
+      "expected_filter_state": {
+        "constraint": "in exactly full-time (not contract) AND remote-allowed"
+      }
+    },
+    {
+      "task_id": "T2327",
+      "task_index_in_env": 7,
+      "instruction_text": "Show me Linux+macOS exactly-stable releases on SourceForge software in exactly Black Stainless Steel (not Stainless Steel) finish.",
+      "expected_filter_state": {
+        "constraint": "in exactly Black Stainless Steel (not Stainless Steel) finish"
+      }
+    },
+    {
+      "task_id": "T2328",
+      "task_index_in_env": 8,
+      "instruction_text": "Show me Linux+macOS exactly-stable releases on SourceForge software used Fender (exactly Stratocaster, not Telecaster) electric guitars.",
+      "expected_filter_state": {
+        "constraint": "used Fender (exactly Stratocaster, not Telecaster) electric guitars"
+      }
+    },
+    {
+      "task_id": "T2329",
+      "task_index_in_env": 9,
+      "instruction_text": "Show me Linux+macOS exactly-stable releases on SourceForge software with exactly five-star rating AND sci-fi genre.",
+      "expected_filter_state": {
+        "constraint": "with exactly five-star rating AND sci-fi genre"
+      }
+    },
+    {
+      "task_id": "T2330",
+      "task_index_in_env": 10,
+      "instruction_text": "Show me Linux+macOS exactly-stable releases on SourceForge software with exactly Italian cuisine AND party-size of exactly 4.",
+      "expected_filter_state": {
+        "constraint": "with exactly Italian cuisine AND party-size of exactly 4"
+      }
+    }
+  ]
+}

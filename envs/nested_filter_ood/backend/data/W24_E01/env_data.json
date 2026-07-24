@@ -1,0 +1,35 @@
+{
+  "env_id": "W24_E01",
+  "widget_id": "W24_multi_checkbox_plus_exact_match",
+  "widget_name": "Multi-checkbox facet + exact-match toggle composition",
+  "widget_category": "combo_facet_strict",
+  "widget_mechanic": "Compose: multi-select facet AND enable exact-match (strict) toggle.",
+  "archetype": "faceted_catalog",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W01_multi_checkbox_facet",
+    "W06_exact_match_toggle"
+  ],
+  "site_imitates": "BestBuy.com (electronics big-box)",
+  "product_type": "8K Samsung TVs (Open-Box vs Refurbished)",
+  "brand_name": "BluPlaza",
+  "source_inspiration": [
+    {
+      "task_id": "271b36efd4346721b5542488ff997042",
+      "benchmark": "OM2W",
+      "site": "bestbuy.com",
+      "instruction": "Browse 8K Samsung TVs that are open box.",
+      "first_failure_summary": "Agent applied 'Refurbished' instead of 'Open-Box' \u2014 conflating two distinct condition values. The strict-match toggle disambiguates."
+    }
+  ],
+  "theme_key": "bestbuy",
+  "theme_logo": "BluPlaza",
+  "theme_card": "ecommerce",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

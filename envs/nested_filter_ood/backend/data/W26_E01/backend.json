@@ -1,0 +1,98 @@
+{
+  "env_id": "W26_E01",
+  "widget_id": "W26_autocomplete_plus_calendar_advance",
+  "archetype": "booking_form",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2501",
+      "task_index_in_env": 1,
+      "instruction_text": "Can you find me a direct AirAsia flight from Singapore to Langkawi from July 2 to July 5, 2026 in economy for 1 person? Pick the Langkawi airport (LGK) in the To autocomplete and advance the calendar to set depart Jul 2, 2026 and return Jul 5, 2026.",
+      "expected_filter_state": {
+        "dest": "LGK",
+        "date": "Jul 2",
+        "return_date": "Jul 5"
+      }
+    },
+    {
+      "task_id": "T2502",
+      "task_index_in_env": 2,
+      "instruction_text": "Same Singapore \u2192 Langkawi route but for a longer trip \u2014 depart Jul 17, 2026 and return Jul 24, 2026 (one week). Make sure the autocomplete resolves to LGK (Langkawi), NOT LGW (London Gatwick), and the calendar shows the right dates.",
+      "expected_filter_state": {
+        "dest": "LGK",
+        "date": "Jul 17",
+        "return_date": "Jul 24"
+      }
+    },
+    {
+      "task_id": "T2503",
+      "task_index_in_env": 3,
+      "instruction_text": "Book my Singapore \u2192 Langkawi escape for Jan 21, 2027 returning Jan 28, 2027. The calendar opens on May 2026 so you'll need to advance several months. Destination must resolve to LGK in the autocomplete.",
+      "expected_filter_state": {
+        "dest": "LGK",
+        "date": "Jan 21",
+        "return_date": "Jan 28"
+      }
+    },
+    {
+      "task_id": "T2504",
+      "task_index_in_env": 4,
+      "instruction_text": "One-way Singapore \u2192 Langkawi for Oct 15, 2026. Set the destination autocomplete to LGK (Langkawi) and pick Oct 15, 2026 in the calendar \u2014 no return needed.",
+      "expected_filter_state": {
+        "dest": "LGK",
+        "date": "Oct 15"
+      }
+    },
+    {
+      "task_id": "T2505",
+      "task_index_in_env": 5,
+      "instruction_text": "How much does the cheapest direct AirAsia flight from Singapore to Langkawi on Nov 1, 2026 cost? Give the price in the form $X (e.g. $129).",
+      "expected_filter_state": {}
+    },
+    {
+      "task_id": "T2506",
+      "task_index_in_env": 6,
+      "instruction_text": "Looking at the SIN \u2192 LGK results, how many NONSTOP options are there on Jul 2, 2026? Answer with just the integer count followed by the word 'nonstop' (e.g. '2 nonstop').",
+      "expected_filter_state": {}
+    },
+    {
+      "task_id": "T2507",
+      "task_index_in_env": 7,
+      "instruction_text": "What is the flight duration for the AK 6231 Singapore \u2192 Langkawi service? Answer with the time string in the form '1h 40m' (in quotes).",
+      "expected_filter_state": {}
+    },
+    {
+      "task_id": "T2508",
+      "task_index_in_env": 8,
+      "instruction_text": "Configure the search: destination LGK (Langkawi) and depart Jul 2, 2026, return Jul 5, 2026. Then in the answer box report how many AirAsia flight options to LGK exist on Jul 2, 2026 (e.g. '2 options').",
+      "expected_filter_state": {
+        "dest": "LGK",
+        "date": "Jul 2",
+        "return_date": "Jul 5"
+      }
+    },
+    {
+      "task_id": "T2509",
+      "task_index_in_env": 9,
+      "instruction_text": "Lock in the Singapore \u2192 Langkawi search for Aug 5, 2026 departing, Aug 12, 2026 returning. Also report the cheapest fare you see for that Aug 5 nonstop in the answer box, in $X form.",
+      "expected_filter_state": {
+        "dest": "LGK",
+        "date": "Aug 5",
+        "return_date": "Aug 12"
+      }
+    },
+    {
+      "task_id": "T2510",
+      "task_index_in_env": 10,
+      "instruction_text": "Final one \u2014 set the destination to LGK (Langkawi) and select Feb 18, 2027 \u2192 Feb 25, 2027 in the calendar (you'll have to advance several months). Then report the AirAsia flight number for the nonstop option in quotes (e.g. \"AK 6240\").",
+      "expected_filter_state": {
+        "dest": "LGK",
+        "date": "Feb 18",
+        "return_date": "Feb 25"
+      }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "env_id": "W30_E08",
+  "widget_id": "W30_region_plus_override_defaults",
+  "widget_name": "Cloud region selector + override default numeric inputs",
+  "widget_category": "combo_cloud_calculator",
+  "widget_mechanic": "Compose: change the region selector from its default AND override usage-volume default numeric inputs.",
+  "archetype": "calculator_form",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W20_cloud_region_default",
+    "W17_override_default_numeric"
+  ],
+  "site_imitates": "AWS RDS pricing calculator (Console-style)",
+  "product_type": "AWS RDS pricing",
+  "primary_inspiration": {
+    "task_id": "f158345f8489e0d1d91e28768c39bca1",
+    "benchmark": "OM2W",
+    "site": "azure.microsoft.com",
+    "screenshot_sub": "om2w_fara15",
+    "instruction": "Estimate the total cost (with basic support) of using 5 million input tokens and 5 million output tokens each for GPT-4o and GPT-4o Mini, both deployed in the US/EU Data Zones under Standard (On-Demand) in the East US region.",
+    "first_failure_summary": "[6.4] Fine-grained grounding error: The click landed on empty whitespace above the 'Search products' box instead of on an actionable UI element (e.g., the search input)."
+  },
+  "source_inspiration": [
+    {
+      "task_id": "f158345f8489e0d1d91e28768c39bca1",
+      "benchmark": "OM2W",
+      "site": "azure.microsoft.com",
+      "screenshot_sub": "om2w_fara15",
+      "instruction": "Estimate the total cost (with basic support) of using 5 million input tokens and 5 million output tokens each for GPT-4o and GPT-4o Mini, both deployed in the US/EU Data Zones under Standard (On-Demand) in the East US region.",
+      "first_failure_summary": "[6.4] Fine-grained grounding error: The click landed on empty whitespace above the 'Search products' box instead of on an actionable UI element (e.g., the search input)."
+    }
+  ],
+  "theme_key": "cloud",
+  "theme_logo": "\ud83d\udfe7 AWS RDS Calculator",
+  "theme_card": "calc-result",
+  "theme_layout": "aws_rds_console",
+  "variant_idx": 0,
+  "n_seed_items": 1,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "variant_descr": "AWS RDS console: dark left nav + horizontal engine tabs + region override + DB-hour override",
+  "vendor": "aws"
+}

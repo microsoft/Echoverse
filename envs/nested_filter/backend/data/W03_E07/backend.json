@@ -1,0 +1,74 @@
+{
+  "env_id": "W03_E07",
+  "widget_id": "W03_autocomplete_disambig",
+  "archetype": "booking_form",
+  "filter_spec": {
+    "type": "text_match",
+    "fields": [
+      "from",
+      "to"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "W03_E07_T001",
+      "task_type": "write",
+      "reference_state_change": "filter_state: to=GCN-AZ",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E07_T002",
+      "task_type": "write",
+      "reference_state_change": "filter_state: to=GCN-AZ",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E07_T003",
+      "task_type": "write",
+      "reference_state_change": "filter_state: to=ZIO-UT",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E07_T004",
+      "task_type": "write",
+      "reference_state_change": "filter_state: to=SED-AZ",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E07_T005",
+      "task_type": "read",
+      "reference_state_change": "filter_state: to=GCN-AZ",
+      "reference_answer": "Phantom Ranch $ 499 Grand Canyon NP AZ"
+    },
+    {
+      "id": "W03_E07_T006",
+      "task_type": "read_write",
+      "reference_state_change": "filter_state: to=GCN-AZ",
+      "reference_answer": "6 properties inside Grand Canyon NP AZ"
+    },
+    {
+      "id": "W03_E07_T007",
+      "task_type": "write",
+      "reference_state_change": "filter_state: to=BCE-UT",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E07_T008",
+      "task_type": "write",
+      "reference_state_change": "filter_state: to=LVS-NM",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E07_T009",
+      "task_type": "read",
+      "reference_state_change": "filter_state: to=GCN-AZ",
+      "reference_answer": "El Tovar $ 329 Grand Canyon NP AZ"
+    },
+    {
+      "id": "W03_E07_T010",
+      "task_type": "read_write",
+      "reference_state_change": "filter_state: to=SED-AZ",
+      "reference_answer": "L'Auberge de Sedona $ 619 Sedona AZ"
+    }
+  ]
+}

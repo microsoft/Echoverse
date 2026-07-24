@@ -1,0 +1,38 @@
+{
+  "env_id": "W08_E07",
+  "widget_id": "W08_filter_chip_confirmation",
+  "widget_name": "Filter-chip confirmation bar",
+  "widget_category": "active_filter_bar",
+  "widget_mechanic": "After applying \u22652 filters, an active-chip bar shows what is currently applied. Agent must verify each required chip is present (and no extras) before treating the result set as the answer.",
+  "archetype": "faceted_catalog",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W08_filter_chip_confirmation"
+  ],
+  "site_imitates": "Steam reviews filter rail",
+  "product_type": "indie game reviews on Steam",
+  "source_inspiration": [
+    {
+      "task_id": "c801d1c951f59297f526bab84fa86c6e",
+      "benchmark": "OM2W",
+      "site": "store.steampowered.com",
+      "instruction": "Browse the latest negative reviews from players with over 100 hours of playtime for the game that won the 2023 VR Game of the Year Award.",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent selected the Playtime filter \u201cOver 1 hour\u201d while the task required reviews from players with over 100 hours (or the closest available high-playtime bucket)."
+    }
+  ],
+  "theme_key": "steam",
+  "theme_logo": "Vapor",
+  "theme_card": "game-tile",
+  "theme_layout": "sidebar-right",
+  "variant_idx": 1,
+  "n_seed_items": 18,
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "brand",
+      "category",
+      "color",
+      "condition"
+    ]
+  }
+}

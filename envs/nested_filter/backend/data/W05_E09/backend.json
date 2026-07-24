@@ -1,0 +1,108 @@
+{
+  "env_id": "W05_E09",
+  "widget_id": "W05_plus_chips_at_least",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "gte",
+    "fields": [
+      "min_beds",
+      "min_baths"
+    ],
+    "item_fields": [
+      "beds",
+      "baths"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T0481",
+      "task_index_in_env": 1,
+      "instruction_text": "Help me browse rental apartments on RentCafe rentals \u2014 I need 4 or more bedrooms.",
+      "expected_filter_state": {
+        "min_beds": 4,
+        "extra": ""
+      }
+    },
+    {
+      "task_id": "T0482",
+      "task_index_in_env": 2,
+      "instruction_text": "I'm searching RentCafe rentals for rental apartments that have at least 4 bedrooms and 2+ bathrooms.",
+      "expected_filter_state": {
+        "min_beds": 4,
+        "extra": " and 2+ bathrooms"
+      }
+    },
+    {
+      "task_id": "T0483",
+      "task_index_in_env": 3,
+      "instruction_text": "I'm searching RentCafe rentals for rental apartments that have at least 3 bedrooms and 2+ bathrooms.",
+      "expected_filter_state": {
+        "min_beds": 3,
+        "extra": " and 2+ bathrooms"
+      }
+    },
+    {
+      "task_id": "T0484",
+      "task_index_in_env": 4,
+      "instruction_text": "Show me rental apartments on RentCafe rentals with 2+ beds.",
+      "expected_filter_state": {
+        "min_beds": 2,
+        "extra": ""
+      }
+    },
+    {
+      "task_id": "T0485",
+      "task_index_in_env": 5,
+      "instruction_text": "Help me browse rental apartments on RentCafe rentals \u2014 I need 3 or more bedrooms.",
+      "expected_filter_state": {
+        "min_beds": 3,
+        "extra": ""
+      }
+    },
+    {
+      "task_id": "T0486",
+      "task_index_in_env": 6,
+      "instruction_text": "On RentCafe rentals, can you help me find rental apartments with 1+ bedrooms (no bedroom max)?",
+      "expected_filter_state": {
+        "min_beds": 1,
+        "extra": " (no bedroom max)"
+      }
+    },
+    {
+      "task_id": "T0487",
+      "task_index_in_env": 7,
+      "instruction_text": "Show me rental apartments on RentCafe rentals with 4+ beds and 2+ bathrooms and 2+ parking spots.",
+      "expected_filter_state": {
+        "min_beds": 4,
+        "extra": " and 2+ bathrooms and 2+ parking spots"
+      }
+    },
+    {
+      "task_id": "T0488",
+      "task_index_in_env": 8,
+      "instruction_text": "I'm searching RentCafe rentals for rental apartments that have at least 5 bedrooms.",
+      "expected_filter_state": {
+        "min_beds": 5,
+        "extra": ""
+      }
+    },
+    {
+      "task_id": "T0489",
+      "task_index_in_env": 9,
+      "instruction_text": "On RentCafe rentals, can you help me find rental apartments with 3+ bedrooms (verify the active-filter chip)?",
+      "expected_filter_state": {
+        "min_beds": 3,
+        "extra": " (verify the active-filter chip)"
+      }
+    },
+    {
+      "task_id": "T0490",
+      "task_index_in_env": 10,
+      "instruction_text": "I'm searching RentCafe rentals for rental apartments that have at least 3 bedrooms.",
+      "expected_filter_state": {
+        "min_beds": 3,
+        "extra": ""
+      }
+    }
+  ]
+}

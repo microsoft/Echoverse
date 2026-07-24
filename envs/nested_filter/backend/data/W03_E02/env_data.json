@@ -1,0 +1,46 @@
+{
+  "env_id": "W03_E02",
+  "widget_id": "W03_autocomplete_disambig",
+  "widget_name": "Autocomplete with disambiguation",
+  "widget_category": "autocomplete",
+  "widget_mechanic": "Type-to-search field returns \u22652 similarly-labelled options where one is a decoy (LGK vs LGW, Las Vegas vs Grand Canyon AZ). Agent must wait for the suggestion list, identify the correct entry (often by IATA code / state / disambiguator), and click that exact option \u2014 not the first suggestion.",
+  "archetype": "booking_form",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W03_autocomplete_disambig"
+  ],
+  "site_imitates": "Wizz Air (wizzair.com)",
+  "product_type": "flights",
+  "source_inspiration": [
+    {
+      "task_id": "flights_wizzair_96",
+      "benchmark": "WTB",
+      "site": "wizzair",
+      "instruction": "Book a flight with Wizz Air from Larnaca, Cyprus to Athens, Greece outbound on June 13 returning July 1. If there are no available flights for those dates, please show evidence and indicate this in your answer. Any other blocker is considered a failure.",
+      "first_failure_summary": "[3.5] Incomplete task execution: The agent never attempted to set the required travel dates (June 13 outbound, July 1 return); it stayed on the initial search widget with dates left at the default/incorrect values."
+    }
+  ],
+  "theme_key": "hotels",
+  "theme_logo": "Wizz Air",
+  "theme_card": "hotel-card",
+  "theme_layout": "airline_booking_card_with_autocomplete",
+  "variant_idx": 1,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "text_match",
+    "fields": [
+      "from",
+      "to"
+    ]
+  },
+  "primary_inspiration": {
+    "task_id": "flights_wizzair_96",
+    "benchmark": "WTB",
+    "site": "wizzair",
+    "instruction": "Book a flight with Wizz Air from Larnaca, Cyprus to Athens, Greece outbound on June 13 returning July 1. If there are no available flights for those dates, please show evidence and indicate this in your answer. Any other blocker is considered a failure.",
+    "first_failure_summary": "[3.5] Incomplete task execution: The agent never attempted to set the required travel dates (June 13 outbound, July 1 return); it stayed on the initial search widget with dates left at the default/incorrect values."
+  },
+  "theme_brand": "Wizz Air",
+  "inspiration_task_id": "flights_wizzair_96",
+  "inspiration_failure": "Fara confused Larnaca codes and Athens vs Thessaloniki, then failed the date picker."
+}

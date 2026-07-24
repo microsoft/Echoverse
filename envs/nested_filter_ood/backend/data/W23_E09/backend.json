@@ -1,0 +1,91 @@
+{
+  "env_id": "W23_E09",
+  "widget_id": "W23_more_filters_modal_plus_chip_bar",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "W23_E09_T001",
+      "task_index_in_env": 1,
+      "instruction_text": "On Realtor.com Jackson TN, I'm looking to buy a move-in ready home with 3 bedrooms and central AC in Jackson, TN, priced between $300k and $600k. Can you help me find one that meets these criteria. Specifically (task 1/10): Hi! I'm searching on Realtor.com Jackson TN: I want homes matching 3 bedrooms, central A/C, $300k\u2013$600k, move-in ready. Please open the Filters modal from the chip-bar above, check ONLY these: 3+ Bedrooms, Central A/C, hit View results, and",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_central_ac=on"
+      }
+    },
+    {
+      "task_id": "W23_E09_T002",
+      "task_index_in_env": 2,
+      "instruction_text": "On Realtor.com Jackson TN, I'm looking to buy a move-in ready home with 3 bedrooms and central AC in Jackson, TN, priced between $300k and $600k. Can you help me find one that meets these criteria. Specifically (task 2/10): Quick \u2014 on Realtor.com Jackson TN, open the Filters modal and tick all three: 3+ Bedrooms, Central A/C, Move-in Ready, apply. Then on the active-filter chip bar above the results, dismiss the \u201cMove-in Ready\u201d chip \u2014 I changed my mind about t",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_central_ac=on"
+      }
+    },
+    {
+      "task_id": "W23_E09_T003",
+      "task_index_in_env": 3,
+      "instruction_text": "On Realtor.com Jackson TN, I'm looking to buy a move-in ready home with 3 bedrooms and central AC in Jackson, TN, priced between $300k and $600k. Can you help me find one that meets these criteria. Specifically (task 3/10): ok partner just weighed in \u2014 on Realtor.com Jackson TN pls open the Filters modal and check ALL of these: 3+ Bedrooms, Central A/C, Move-in Ready, Pet-friendly. apply. then from the active-filter chip bar above the results pop off the \u201cMove",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_central_ac=on"
+      }
+    },
+    {
+      "task_id": "W23_E09_T004",
+      "task_index_in_env": 4,
+      "instruction_text": "On Realtor.com Jackson TN, I'm looking to buy a move-in ready home with 3 bedrooms and central AC in Jackson, TN, priced between $300k and $600k. Can you help me find one that meets these criteria. Specifically (task 4/10): hey can u set up a search on Realtor.com Jackson TN like this: in the Filters modal apply 3+ Bedrooms, Pet-friendly, Has Garage. then remove the \u201cPet-friendly\u201d chip and the \u201cHas Garage\u201d chip from the active-filter chip bar above the results",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on"
+      }
+    },
+    {
+      "task_id": "W23_E09_T005",
+      "task_index_in_env": 5,
+      "instruction_text": "On Realtor.com Jackson TN, I'm looking to buy a move-in ready home with 3 bedrooms and central AC in Jackson, TN, priced between $300k and $600k. Can you help me find one that meets these criteria. Specifically (task 5/10): Quick one \u2014 how many homes are showing on this Realtor.com Jackson TN page right now, before any filtering?",
+      "expected_filter_state": {
+        "constraint": "20 homes"
+      }
+    },
+    {
+      "task_id": "W23_E09_T006",
+      "task_index_in_env": 6,
+      "instruction_text": "On Realtor.com Jackson TN, I'm looking to buy a move-in ready home with 3 bedrooms and central AC in Jackson, TN, priced between $300k and $600k. Can you help me find one that meets these criteria. Specifically (task 6/10): On Realtor.com Jackson TN, what is the address of the cheapest home listed? Just give me the street address.",
+      "expected_filter_state": {
+        "constraint": "9628 Carriage House Dr"
+      }
+    },
+    {
+      "task_id": "W23_E09_T007",
+      "task_index_in_env": 7,
+      "instruction_text": "On Realtor.com Jackson TN, I'm looking to buy a move-in ready home with 3 bedrooms and central AC in Jackson, TN, priced between $300k and $600k. Can you help me find one that meets these criteria. Specifically (task 7/10): On Realtor.com Jackson TN, how many listings show a Pet-Friendly badge in their card right now (no filters applied)? And how many show a Price Reduced badge?",
+      "expected_filter_state": {
+        "constraint": "9 pet-friendly and 5 price reduced"
+      }
+    },
+    {
+      "task_id": "W23_E09_T008",
+      "task_index_in_env": 8,
+      "instruction_text": "On Realtor.com Jackson TN, I'm looking to buy a move-in ready home with 3 bedrooms and central AC in Jackson, TN, priced between $300k and $600k. Can you help me find one that meets these criteria. Specifically (task 8/10): On Realtor.com Jackson TN, open the Filters modal and apply both \u201c3+ Bedrooms\u201d and \u201cCentral A/C\u201d, then verify both chips show up in the active-filter chip bar above the results. After that, tell me how many results remain.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_central_ac=on"
+      }
+    },
+    {
+      "task_id": "W23_E09_T009",
+      "task_index_in_env": 9,
+      "instruction_text": "On Realtor.com Jackson TN, I'm looking to buy a move-in ready home with 3 bedrooms and central AC in Jackson, TN, priced between $300k and $600k. Can you help me find one that meets these criteria. Specifically (task 9/10): On Realtor.com Jackson TN, in the Filters modal turn on these three: 3+ Bedrooms, Central A/C, Move-in Ready. Apply, verify all three chips appear in the active-filter chip bar, then read back to me the price of the most expensive listing c",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_central_ac=on, modal_move_in_ready=on"
+      }
+    },
+    {
+      "task_id": "W23_E09_T010",
+      "task_index_in_env": 10,
+      "instruction_text": "On Realtor.com Jackson TN, I'm looking to buy a move-in ready home with 3 bedrooms and central AC in Jackson, TN, priced between $300k and $600k. Can you help me find one that meets these criteria. Specifically (task 10/10): On Realtor.com Jackson TN, open the Filters modal and tick 3+ Bedrooms, Central A/C, Move-in Ready, apply, then on the active-filter chip bar above the results dismiss the \u201cMove-in Ready\u201d chip. Once you're down to just 3+ Bedrooms, Central ",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_central_ac=on"
+      }
+    }
+  ]
+}

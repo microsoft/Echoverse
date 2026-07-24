@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "calc_type": "college savings \u2014 14-year-old, regional state school short-horizon plan",
+    "scenario": "14-year-old, regional state school short-horizon plan",
+    "child_age_default": 14,
+    "start_age_default": 18,
+    "default_inputs": {
+      "tuition": 20000,
+      "room_board": 11500,
+      "years": 4,
+      "income": 85000,
+      "inflation": 5,
+      "current_savings": 20000,
+      "monthly_contributions": 250,
+      "rate_of_return": 7
+    },
+    "site": "Office of Financial Readiness (finred.usalearning.gov) College Savings Calculator"
+  }
+]

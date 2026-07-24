@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>College Savings Calculator | EchoInvest</title>
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+[data-debug="1"] { display: none !important; }
+
+:root{
+  --brand-primary:#004F88;
+  --brand-primary-dark:#003960;
+  --brand-accent:#F47B3E;
+  --brand-heading:#003960;
+  --brand-text:#1c2733;
+  --brand-border:#c2cbd3;
+  --brand-divider:#e1e7ec;
+  --brand-msg-bg:#fef3eb;
+  --brand-default-bg:#f1f7fc;
+  --brand-btn-radius:3px;
+  --brand-input-radius:3px;
+}
+body{font-family:'Roboto','Helvetica Neue',Arial,sans-serif;background:#f3f5f8;color:#1c2733}
+.br-tape{background:#003960;color:#fff;font-size:11.5px;padding:5px 18px;display:flex;justify-content:space-between;align-items:center}
+.br-tape a{color:#fff;margin-left:14px;text-decoration:none;opacity:.9;font-size:11px}
+.br-tape .live{display:inline-block;width:7px;height:7px;background:#F47B3E;border-radius:50%;margin-right:6px;vertical-align:middle}
+.br-header{background:#fff;border-bottom:3px solid #003960;padding:14px 24px;display:flex;align-items:center;gap:24px}
+.br-logo{font-family:'Roboto Slab',Georgia,serif;font-size:26px;color:#003960;font-weight:900;letter-spacing:-.02em}
+.br-logo .dot{display:inline-block;width:8px;height:8px;background:#F47B3E;border-radius:50%;margin:0 1px 5px 1px;vertical-align:middle}
+.br-search{flex:1;display:flex;border:1px solid #c2cbd3;border-radius:3px;overflow:hidden;max-width:380px}
+.br-search input{flex:1;padding:8px 10px;border:0;font-size:13px;font-family:inherit;outline:none}
+.br-search button{background:#003960;color:#fff;border:0;padding:8px 16px;font-weight:700;font-size:13px;cursor:pointer}
+.br-header .cta{background:#F47B3E;color:#fff;padding:9px 18px;border-radius:3px;font-weight:700;font-size:13px;text-decoration:none}
+.br-subnav{background:#003960;color:#fff;padding:0 24px;display:flex;gap:0;font-size:13.5px}
+.br-subnav a{display:inline-block;padding:11px 16px;color:#fff;text-decoration:none;border-right:1px solid rgba(255,255,255,.1)}
+.br-subnav a:hover{background:#002a47}
+.br-subnav a.active{background:#fff;color:#003960;font-weight:700}
+.br-crumb{max-width:1180px;margin:0 auto;padding:14px 24px;font-size:12px;color:#5a6b80}
+.br-crumb a{color:#004F88;text-decoration:none}
+.br-page{max-width:1180px;margin:0 auto 36px;padding:0 24px;display:grid;grid-template-columns:230px 1fr 280px;gap:24px;align-items:flex-start}
+.br-side-left{background:#fff;border:1px solid #c2cbd3;border-radius:3px;padding:0;overflow:hidden}
+.br-side-left .head{background:#f3f5f8;border-bottom:1px solid #c2cbd3;padding:10px 14px;font-weight:700;color:#003960;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+.br-side-left a{display:block;padding:9px 14px;font-size:13px;color:#1c2733;text-decoration:none;border-bottom:1px solid #eef0f3}
+.br-side-left a.active{background:#fef3eb;color:#003960;font-weight:700;border-left:3px solid #F47B3E;padding-left:11px}
+.br-side-left a:hover{background:#f8f9fb}
+.br-article{background:#fff;border:1px solid #c2cbd3;border-radius:3px;padding:0;min-height:600px}
+.br-article h1{margin:0 0 8px;font-family:'Roboto Slab',Georgia,serif;font-size:32px;color:#003960;font-weight:700;line-height:1.2}
+.br-article-head{padding:24px 28px 18px;border-bottom:1px solid #e1e7ec}
+.br-article-head .tag{display:inline-block;background:#F47B3E;color:#fff;padding:3px 10px;font-size:11px;font-weight:700;border-radius:2px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:10px}
+.br-article-head p{font-size:14.5px;color:#3a4856;margin:8px 0 0;line-height:1.55;max-width:680px}
+.br-article-head .meta{margin-top:14px;font-size:12px;color:#5a6b80}
+.br-article-head .meta strong{color:#1c2733}
+.br-content{padding:22px 28px 28px}
+.br-side-right{display:flex;flex-direction:column;gap:16px}
+.br-side-right .ad{background:#fff;border:1px solid #c2cbd3;border-radius:3px;padding:16px;font-size:13px}
+.br-side-right .ad .ad-label{font-size:10px;color:#5a6b80;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.br-side-right .ad h3{margin:0 0 8px;font-size:15px;color:#003960;font-family:'Roboto Slab',Georgia,serif}
+.br-side-right .ad .cta{display:inline-block;margin-top:10px;background:#F47B3E;color:#fff;padding:7px 14px;border-radius:3px;font-weight:700;font-size:12px;text-decoration:none}
+.br-tools{background:#fff;border:1px solid #c2cbd3;border-radius:3px;padding:16px}
+.br-tools h4{margin:0 0 10px;font-size:13px;color:#003960;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.br-tools a{display:block;font-size:13px;color:#004F88;padding:5px 0;text-decoration:none;border-bottom:1px dotted #e1e7ec}
+.br-tools a:last-child{border-bottom:none}
+.br-foot{background:#003960;color:#a8b4c0;padding:28px 24px 18px;font-size:12.5px;margin-top:32px}
+.br-foot .row{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.br-foot h5{color:#fff;font-size:12px;margin:0 0 8px;text-transform:uppercase;letter-spacing:.05em}
+.br-foot a{display:block;color:#a8b4c0;text-decoration:none;padding:2px 0;font-size:12px}
+.br-foot .bottom{max-width:1180px;margin:18px auto 0;border-top:1px solid #1c4a6e;padding-top:14px;font-size:11px;color:#7a8a99;text-align:center}
+.task-banner{display:none;background:#fef3eb;border-left:4px solid #F47B3E;padding:14px 18px;margin:0 0 16px;color:#5a3a1f;font-size:13.5px;line-height:1.45;border-radius:3px}
+.task-pill{display:inline-block;background:#F47B3E;color:#fff;padding:2px 10px;border-radius:2px;font-size:11px;font-weight:700;letter-spacing:.06em;margin-bottom:6px;text-transform:uppercase}
+.task-answer-label{display:block;margin:8px 0 4px;font-weight:700;font-size:12px;color:#5a3a1f;text-transform:uppercase;letter-spacing:.04em}
+.task-answer-input{width:100%;padding:8px 10px;border:1px solid #F47B3E;border-radius:3px;font-size:14px;background:#fff;font-family:inherit}
+#status-badge{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;background:#eef0f3;font-size:11px;color:#444}
+
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;-webkit-font-smoothing:antialiased}
+.calc-row{display:grid;grid-template-columns:240px 130px 1fr;gap:14px;align-items:center;padding:8px 4px;border-bottom:1px dotted var(--brand-divider,#eef0f3)}
+.calc-row:last-child{border-bottom:none}
+.calc-row .row-label{text-align:right;font-size:13.5px;color:var(--brand-text,#222);line-height:1.3}
+.calc-row .row-label .req{color:var(--brand-required,#c33);margin-left:2px}
+.calc-row .row-label .help{display:inline-block;width:16px;height:16px;border-radius:50%;background:var(--brand-primary);color:#fff;text-align:center;line-height:16px;font-size:10px;font-weight:700;margin-right:6px;cursor:help;vertical-align:middle}
+.calc-row .row-input{position:relative}
+.calc-row .row-input input[type=text],
+.calc-row .row-input input[type=number]{width:100%;padding:6px 10px;border:1px solid var(--brand-border,#b8bdc4);border-radius:var(--brand-input-radius,3px);font-size:14px;font-family:inherit;background:#fff;text-align:left}
+.calc-row .row-input.is-default input{border:1px dashed var(--brand-primary);background:var(--brand-default-bg,#fafbff)}
+.calc-row .row-slider{display:flex;flex-direction:column;gap:2px;padding:0 4px}
+.calc-row .row-slider input[type=range]{width:100%;accent-color:var(--brand-primary)}
+.calc-row .row-slider .ticks{display:flex;justify-content:space-between;font-size:10.5px;color:#5a6b80;padding:0 2px}
+.calc-row .row-input .unit{position:absolute;top:50%;transform:translateY(-50%);color:#5a6b80;font-size:13px;pointer-events:none}
+.calc-row .row-input .unit-left{left:8px}
+.calc-row .row-input .unit-right{right:8px}
+.calc-section{border-top:1px solid var(--brand-divider,#e3e6ea);padding:14px 0}
+.calc-section-head{display:flex;align-items:center;justify-content:space-between;padding:0 4px;cursor:pointer;font-weight:700;color:var(--brand-heading);font-size:15.5px}
+.calc-section-head .total{font-weight:600;color:var(--brand-heading)}
+.calc-section-head .chev{display:inline-block;margin-left:10px;color:#5a6b80;transform:rotate(180deg);transition:transform .15s}
+details[open] > summary .chev{transform:rotate(0deg)}
+details > summary{list-style:none}
+details > summary::-webkit-details-marker{display:none}
+.calc-actions{display:flex;gap:12px;justify-content:flex-end;margin:8px 0 18px;padding:6px 0}
+.calc-actions .calc-btn{min-width:160px;text-align:center;background:var(--brand-primary);color:#fff;border:none;padding:10px 22px;font-size:14px;font-weight:700;cursor:pointer;border-radius:var(--brand-btn-radius,3px);font-family:inherit;letter-spacing:.02em}
+.calc-actions .calc-btn:hover{background:var(--brand-primary-dark, var(--brand-primary));opacity:.93}
+.calc-actions .calc-btn.secondary{background:#fff;color:var(--brand-primary);border:1px solid var(--brand-primary)}
+.calc-message{margin:6px 0 16px;padding:14px 18px;background:var(--brand-msg-bg,#f5f8fb);border-left:4px solid var(--brand-accent);border-radius:3px}
+.calc-message .headline{font-size:17px;color:var(--brand-heading);font-weight:700}
+.calc-message .sub{font-size:14px;color:#333;margin-top:4px}
+.calc-message .sub b{color:var(--brand-primary)}
+.calc-disclaimer{font-size:12px;color:#5a6b80;text-align:left;margin-top:18px;padding-top:14px;border-top:1px solid var(--brand-divider,#e3e6ea)}
+@media (max-width:780px){.calc-row{grid-template-columns:1fr;gap:6px}.calc-row .row-label{text-align:left}}
+
+</style>
+</head>
+<body>
+
+<div class="br-tape">
+  <span><span class="live"></span>Today's mortgage rate: 6.84% &middot; CD rate: 5.05% APY &middot; Auto loan: 7.21%</span>
+  <span><a href="#">Sign in</a><a href="#">Create account</a><a href="#">For advisors</a></span>
+</div>
+
+<header class="br-header">
+  <div class="br-logo">EchoInvest</div>
+  <div class="br-search"><input type="text" placeholder="Search calculators, rates, articles..."><button>Search</button></div>
+  <a class="cta" href="#">See today's rates</a>
+</header>
+
+<nav class="br-subnav" aria-label="Section">
+  <a href="#">Mortgages</a>
+  <a href="#">Banking</a>
+  <a href="#">Credit Cards</a>
+  <a class="active" href="#">Loans</a>
+  <a href="#">Investing</a>
+  <a href="#">Personal Finance</a>
+  <a href="#">Insurance</a>
+</nav>
+
+<div class="br-crumb"><a href="#">Loans</a> &rsaquo; <a href="#">Student Loans</a> &rsaquo; <a href="#">Calculators</a> &rsaquo; College Savings Calculator</div>
+
+<main class="br-page">
+  <aside class="br-side-left">
+    <div class="head">Student Loans</div>
+    <a href="#">Compare student loans</a>
+    <a href="#">Refinance calculator</a>
+    <a href="#">Repayment calculator</a>
+    <a class="active" href="#">College savings calculator</a>
+    <a href="#">529 plan finder</a>
+    <a href="#">Student loan payoff</a>
+    <a href="#">Financial aid guide</a>
+  </aside>
+
+  <article class="br-article">
+    <div class="br-article-head">
+      <div class="tag">Loans / Student Loans</div>
+      <h1>How much do you need to save for college?</h1>
+      <p>EchoInvest's college savings calculator estimates the monthly contribution required to fund your child's education. Override the default tuition and room & board with your school-specific figures.</p>
+      <div class="meta">Reviewed by <strong>EchoInvest's editorial team</strong> &middot; Updated weekly</div>
+    </div>
+    <div class="br-content">
+      <section id="task-banner" class="task-banner" aria-live="polite">
+        <div id="task-banner-body"></div>
+        <span id="status-badge">Idle</span>
+      </section>
+
+      <form onsubmit="event.preventDefault()">
+        <div class="calc-actions"><button type="button" class="calc-btn secondary" onclick="event.preventDefault();return false">Print results</button><button type="button" class="calc-btn" onclick="event.preventDefault();return false">Calculate</button></div>
+        <div class="calc-message">
+          <div class="headline" id="calc-headline">Your savings goal</div>
+          <div class="sub">To meet your goal, you should save <b id="calc-monthly-need">$0.00</b> per month.</div>
+        </div>
+        <details open class="calc-section">
+              <summary class="calc-section-head">
+                <span>College savings plan</span>
+                <span class="total">Total expenses <b id="total-expenses">$0</b><span class="chev">&#9650;</span></span>
+              </summary>
+
+              <div class="calc-row">
+                <div class="row-label"><span class="help" title="The annual percentage growth applied to tuition and room & board.">?</span>Education cost inflation:<span class="req">*</span></div>
+                <div class="row-input is-default" data-facet-cell="inflation">
+                  <input type="number" data-facet="inflation" value="5" step="any" style="padding-right:22px" />
+                  <span class="unit unit-right">%</span>
+                </div>
+                <div class="row-slider"><input type="range" data-facet="inflation" min="0" max="12" step="0.1" value="5" /><div class="ticks"><span>0%</span><span>4%</span><span>8%</span><span>12%</span></div></div>
+              </div>
+              <div class="calc-row">
+                <div class="row-label"><span class="help" title="Money already saved toward college today.">?</span>Current savings:<span class="req">*</span></div>
+                <div class="row-input is-default" data-facet-cell="current_savings">
+                  <span class="unit unit-left">$</span><input type="number" data-facet="current_savings" value="0" step="any" style="padding-left:22px;" />
+                </div>
+                <div class="row-slider"><input type="range" data-facet="current_savings" min="0" max="1000000" step="500" value="0" /><div class="ticks"><span>$0</span><span>$10k</span><span>$100k</span><span>$1m</span></div></div>
+              </div>
+              <div class="calc-row">
+                <div class="row-label"><span class="help" title="Amount you plan to contribute each month going forward.">?</span>Monthly contributions:<span class="req">*</span></div>
+                <div class="row-input is-default" data-facet-cell="monthly_contributions">
+                  <span class="unit unit-left">$</span><input type="number" data-facet="monthly_contributions" value="100" step="any" style="padding-left:22px;" />
+                </div>
+                <div class="row-slider"><input type="range" data-facet="monthly_contributions" min="0" max="100000" step="25" value="100" /><div class="ticks"><span>$0</span><span>$1k</span><span>$10k</span><span>$100k</span></div></div>
+              </div>
+              <div class="calc-row">
+                <div class="row-label"><span class="help" title="Average annual investment return.">?</span>Rate of return:<span class="req">*</span></div>
+                <div class="row-input is-default" data-facet-cell="rate_of_return">
+                  <input type="number" data-facet="rate_of_return" value="7" step="any" style="padding-right:22px" />
+                  <span class="unit unit-right">%</span>
+                </div>
+                <div class="row-slider"><input type="range" data-facet="rate_of_return" min="0" max="12" step="0.1" value="7" /><div class="ticks"><span>0%</span><span>4%</span><span>8%</span><span>12%</span></div></div>
+              </div>
+              <div class="calc-row">
+                <div class="row-label"><span class="help" title="Pre-tax household income.">?</span>Annual household income:<span class="req">*</span></div>
+                <div class="row-input is-default" data-facet-cell="income">
+                  <span class="unit unit-left">$</span><input type="number" data-facet="income" value="80000" step="any" style="padding-left:22px;" />
+                </div>
+                <div class="row-slider"><input type="range" data-facet="income" min="0" max="500000" step="500" value="80000" /><div class="ticks"><span>$0</span><span>$50k</span><span>$200k</span><span>$500k</span></div></div>
+              </div>
+            </details>
+
+            <details open class="calc-section">
+              <summary class="calc-section-head">
+                <span>College expenses</span>
+                <span class="total"><b id="child-total">$0</b><span class="chev">&#9650;</span></span>
+              </summary>
+
+              <div class="calc-row">
+                <div class="row-label"><span class="help" title="The child's current age.">?</span>Age of child:<span class="req">*</span></div>
+                <div class="row-input is-default" data-facet-cell="age_of_child">
+                  <input type="number" data-facet="age_of_child" value="0" step="any" />
+                </div>
+                <div class="row-slider"><input type="range" data-facet="age_of_child" min="0" max="25" step="1" value="0" /><div class="ticks"><span>0</span><span>8</span><span>17</span><span>25</span></div></div>
+              </div>
+              <div class="calc-row">
+                <div class="row-label"><span class="help" title="Age the child is expected to enter college.">?</span>Age to start education:<span class="req">*</span></div>
+                <div class="row-input is-default" data-facet-cell="age_to_start">
+                  <input type="number" data-facet="age_to_start" value="18" step="any" />
+                </div>
+                <div class="row-slider"><input type="range" data-facet="age_to_start" min="0" max="25" step="1" value="18" /><div class="ticks"><span>0</span><span>8</span><span>17</span><span>25</span></div></div>
+              </div>
+              <input type="hidden" data-facet="years" value="18" />
+              <div class="calc-row">
+                <div class="row-label"><span class="help" title="The current-day annual tuition for the target school.">?</span>Annual tuition:<span class="req">*</span></div>
+                <div class="row-input is-default" data-facet-cell="tuition">
+                  <span class="unit unit-left">$</span><input type="number" data-facet="tuition" value="25000" step="any" style="padding-left:22px;" />
+                </div>
+                <div class="row-slider"><input type="range" data-facet="tuition" min="0" max="100000" step="100" value="25000" /><div class="ticks"><span>$0</span><span>$25k</span><span>$50k</span><span>$100k</span></div></div>
+              </div>
+              <div class="calc-row">
+                <div class="row-label"><span class="help" title="Current-day on-campus room and board costs.">?</span>Room &amp; board:<span class="req">*</span></div>
+                <div class="row-input is-default" data-facet-cell="room_board">
+                  <span class="unit unit-left">$</span><input type="number" data-facet="room_board" value="13000" step="any" style="padding-left:22px;" />
+                </div>
+                <div class="row-slider"><input type="range" data-facet="room_board" min="0" max="50000" step="100" value="13000" /><div class="ticks"><span>$0</span><span>$10k</span><span>$25k</span><span>$50k</span></div></div>
+              </div>
+            </details>
+        <p class="calc-disclaimer">EchoInvest, LLC's calculators are intended for educational purposes only. Estimates depend entirely on the assumptions you provide.</p>
+      </form>
+    </div>
+  </article>
+
+  <aside class="br-side-right">
+    <div class="ad">
+      <div class="ad-label">Sponsored</div>
+      <h3>Top-rated 529 plans for 2024</h3>
+      <p style="margin:0;color:#3a4856">Tax-advantaged growth, low fees, no minimum to start.</p>
+      <a class="cta" href="#">See offers</a>
+    </div>
+    <div class="br-tools">
+      <h4>Popular calculators</h4>
+      <a href="#">Mortgage calculator</a>
+      <a href="#">Retirement calculator</a>
+      <a href="#">Loan calculator</a>
+      <a href="#">Auto loan calculator</a>
+      <a href="#">Savings calculator</a>
+    </div>
+  </aside>
+</main>
+
+<footer class="br-foot">
+  <div class="row">
+    <div><h5>Mortgages</h5><a href="#">Today's rates</a><a href="#">30-year fixed</a><a href="#">15-year fixed</a></div>
+    <div><h5>Loans</h5><a href="#">Personal loans</a><a href="#">Student loans</a><a href="#">Auto loans</a></div>
+    <div><h5>Banking</h5><a href="#">Checking</a><a href="#">Savings</a><a href="#">CDs</a></div>
+    <div><h5>About</h5><a href="#">Press</a><a href="#">Editorial standards</a><a href="#">Careers</a></div>
+    <div><h5>Help</h5><a href="#">Contact</a><a href="#">Privacy</a><a href="#">Terms</a></div>
+  </div>
+  <div class="bottom">(c) 2024 EchoInvest, LLC. All rights reserved. EchoInvest is part of a network of NMLS-licensed loan officers.</div>
+</footer>
+
+<script>
+const ENV_ID = "W17_E02";
+const QS = new URLSearchParams(window.location.search);
+const TASK_ID = QS.get('task_id') || '';
+const FACET_KEYS = ['tuition','room_board','years','income','inflation','current_savings','monthly_contributions','rate_of_return'];
+const DEFAULTS = {"age_of_child": 0, "age_to_start": 18, "current_savings": 0, "income": 80000, "inflation": 5, "monthly_contributions": 100, "rate_of_return": 7, "room_board": 13000, "tuition": 25000, "years": 18};
+
+function fmtUSD(n){ if(!isFinite(n)) return '$0'; return '$'+Math.round(n).toLocaleString('en-US'); }
+function fmtUSD2(n){ if(!isFinite(n)) return '$0.00'; return '$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+function markDefault(facet, val){
+  const def = DEFAULTS[facet];
+  document.querySelectorAll('[data-facet-cell="'+facet+'"]').forEach(cell=>{
+    const isDef = String(val) === String(def);
+    cell.classList.toggle('is-default', isDef);
+  });
+}
+
+function recomputeYearsFromAges(){
+  const ac = document.querySelector('input[type="number"][data-facet="age_of_child"]');
+  const as_ = document.querySelector('input[type="number"][data-facet="age_to_start"]');
+  if(!ac || !as_) return;
+  const v = Math.max(0, (parseFloat(as_.value)||0) - (parseFloat(ac.value)||0));
+  document.querySelectorAll('[data-facet="years"]').forEach(el=>{ el.value = v; });
+  markDefault('years', v);
+}
+
+function collectFilterState(){
+  const out = {};
+  FACET_KEYS.forEach(k=>{
+    let el = document.querySelector('input[type="number"][data-facet="'+k+'"]')
+          || document.querySelector('input[type="hidden"][data-facet="'+k+'"]')
+          || document.querySelector('[data-facet="'+k+'"]');
+    if(el) out[k] = String(el.value);
+    if(out[k]===undefined || out[k]==='' || out[k]===null){ out[k] = String(DEFAULTS[k]); }
+  });
+  return out;
+}
+
+function computeFromState(fs){
+  const tuition = parseFloat(fs.tuition)||0;
+  const rb = parseFloat(fs.room_board)||0;
+  const years = parseFloat(fs.years)||0;
+  const infl = parseFloat(fs.inflation)||0;
+  const income = parseFloat(fs.income)||0;
+  const cs = parseFloat(fs.current_savings)||0;
+  const mc = parseFloat(fs.monthly_contributions)||0;
+  const ror = parseFloat(fs.rate_of_return)||0;
+  const factor = Math.pow(1+infl/100, years);
+  const annualThen = (tuition + rb) * factor;
+  const total4y = annualThen * 4;
+  const rMonthly = ror/100/12;
+  const nMonths = years*12;
+  let fvCurr = cs * Math.pow(1+ror/100, years);
+  let fvMonthly = 0;
+  if(rMonthly > 0 && nMonths > 0){
+    fvMonthly = mc * ((Math.pow(1+rMonthly, nMonths)-1)/rMonthly);
+  } else {
+    fvMonthly = mc * nMonths;
+  }
+  const shortfall = Math.max(0, total4y - fvCurr - fvMonthly);
+  let neededExtra = 0;
+  if(rMonthly > 0 && nMonths > 0){
+    neededExtra = shortfall * rMonthly / (Math.pow(1+rMonthly, nMonths) - 1);
+  } else if(nMonths > 0){
+    neededExtra = shortfall / nMonths;
+  }
+  const monthlyNeed = mc + neededExtra;
+  return {tuition, rb, years, infl, income, cs, mc, ror, factor, annualThen, total4y, monthlyNeed, neededExtra, shortfall};
+}
+
+function renderProjection(c){
+  const t = document.getElementById('total-expenses'); if(t) t.textContent = fmtUSD(c.total4y);
+  const ch = document.getElementById('child-total');   if(ch) ch.textContent = fmtUSD(c.total4y);
+  const mn = document.getElementById('calc-monthly-need'); if(mn) mn.textContent = fmtUSD2(c.monthlyNeed);
+  const hl = document.getElementById('calc-headline');
+  if(hl) hl.textContent = c.shortfall > 0 ? 'You may need to make a few changes.' : "You're on track!";
+}
+
+async function submitNow(){
+  const fs = collectFilterState();
+  const c = computeFromState(fs);
+  renderProjection(c);
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : '';
+  const body = {filter_state: fs, answer: answer, task_id: TASK_ID};
+  try{
+    const r = await fetch(`/env/${ENV_ID}/api/submit`, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+    const j = await r.json();
+    const sb = document.getElementById('status-badge');
+    if(sb && j && j.satisfies!==undefined){
+      sb.textContent = j.satisfies ? 'Submission saved ✓' : 'Submitted';
+      sb.dataset.ok = j.satisfies ? '1':'0';
+    }
+  }catch(e){}
+}
+
+async function loadTaskBanner(){
+  if(!TASK_ID) return;
+  try{
+    const r = await fetch(`/env/${ENV_ID}/api/task/${TASK_ID}`);
+    if(!r.ok) return;
+    const t = await r.json();
+    const banner = document.getElementById('task-banner');
+    if(!banner) return;
+    banner.style.display = 'block';
+    const wrap = document.getElementById('task-banner-body');
+    let html = '<div class="task-pill">TASK · '+(t.task_type||'').toUpperCase()+' · '+(t.task_difficulty||'')+'</div>';
+    html += '<p style="margin:6px 0 4px;line-height:1.5">'+(t.task_summary||t.task_proposal||'')+'</p>';
+    if(t.task_type==='read' || t.task_type==='read_write'){
+      html += '<label class="task-answer-label">Your answer</label>';
+      html += '<input id="task-answer-input" class="task-answer-input" type="text" placeholder="Type your answer here…" />';
+    }
+    wrap.innerHTML = html;
+    const ai = document.getElementById('task-answer-input');
+    if(ai){ ai.addEventListener('input', ()=>{ submitNow(); }); }
+  }catch(e){}
+}
+
+function wireFacets(){
+  document.querySelectorAll('[data-facet]').forEach(el=>{
+    el.addEventListener('input', ()=>{
+      const k = el.getAttribute('data-facet');
+      if(el.type === 'range'){
+        document.querySelectorAll('input[type="number"][data-facet="'+k+'"]').forEach(x=>{ x.value = el.value; });
+      }
+      if(k === 'age_of_child' || k === 'age_to_start'){ recomputeYearsFromAges(); }
+      markDefault(k, el.value);
+      submitNow();
+    });
+    el.addEventListener('change', submitNow);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  Object.entries(DEFAULTS).forEach(([k,v])=>{
+    document.querySelectorAll('[data-facet="'+k+'"]').forEach(el=>{ el.value = v; });
+    markDefault(k, v);
+  });
+  recomputeYearsFromAges();
+  wireFacets();
+  renderProjection(computeFromState(collectFilterState()));
+  loadTaskBanner();
+  submitNow();
+});
+</script>
+</body></html>

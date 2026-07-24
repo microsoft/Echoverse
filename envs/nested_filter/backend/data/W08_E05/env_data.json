@@ -1,0 +1,38 @@
+{
+  "env_id": "W08_E05",
+  "widget_id": "W08_filter_chip_confirmation",
+  "widget_name": "Filter-chip confirmation bar",
+  "widget_category": "active_filter_bar",
+  "widget_mechanic": "After applying \u22652 filters, an active-chip bar shows what is currently applied. Agent must verify each required chip is present (and no extras) before treating the result set as the answer.",
+  "archetype": "faceted_catalog",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W08_filter_chip_confirmation"
+  ],
+  "site_imitates": "Uniqlo apparel search",
+  "product_type": "men's outerwear and blazers",
+  "source_inspiration": [
+    {
+      "task_id": "b7a9a6b5d451164c09bbd27b670bc2ae",
+      "benchmark": "OM2W",
+      "site": "uniqlo.com",
+      "instruction": "Show me the list of Men's Blazers, Black, Size M on Uniqlo.",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: Agent toggled Gender/Color/Size dropdowns but the active-filter chips above the grid did not reflect the requested Gender=Men + Color=Black + Size=M combination \u2014 agent never verified the chip rail."
+    }
+  ],
+  "theme_key": "jobs",
+  "theme_logo": "WorkSeeker",
+  "theme_card": "job-row",
+  "theme_layout": "listing-rows",
+  "variant_idx": 4,
+  "n_seed_items": 18,
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "brand",
+      "category",
+      "color",
+      "condition"
+    ]
+  }
+}

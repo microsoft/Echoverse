@@ -1,0 +1,101 @@
+{
+  "env_id": "W21_E02",
+  "widget_id": "W21_calendar_advance_plus_return_validation",
+  "archetype": "booking_form",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2011",
+      "task_index_in_env": 1,
+      "instruction_text": "I need to book Wizz Air round-trip: leaving August 7, 2026 and coming back August 14, 2026.",
+      "expected_filter_state": {
+        "depart": "August 7, 2026",
+        "ret": "August 14, 2026"
+      }
+    },
+    {
+      "task_id": "T2012",
+      "task_index_in_env": 2,
+      "instruction_text": "I need to book Wizz Air round-trip: leaving June 13 and coming back July 1.",
+      "expected_filter_state": {
+        "depart": "June 13",
+        "ret": "July 1"
+      }
+    },
+    {
+      "task_id": "T2013",
+      "task_index_in_env": 3,
+      "instruction_text": "I need to book Wizz Air round-trip: leaving January 25, 2027 and coming back January 28, 2027.",
+      "expected_filter_state": {
+        "depart": "January 25, 2027",
+        "ret": "January 28, 2027"
+      }
+    },
+    {
+      "task_id": "T2014",
+      "task_index_in_env": 4,
+      "instruction_text": "I need to book Wizz Air round-trip: leaving January 21, 2027 and coming back February 21, 2027.",
+      "expected_filter_state": {
+        "depart": "January 21, 2027",
+        "ret": "February 21, 2027"
+      }
+    },
+    {
+      "task_id": "T2015",
+      "task_index_in_env": 5,
+      "instruction_text": "Reserve Wizz Air round-trip with departure on July 17, 2026 and return on July 30, 2026.",
+      "expected_filter_state": {
+        "depart": "July 17, 2026",
+        "ret": "July 30, 2026"
+      }
+    },
+    {
+      "task_id": "T2016",
+      "task_index_in_env": 6,
+      "instruction_text": "Book Wizz Air round-trip for me \u2014 depart June 10, return June 1 (flag if invalid).",
+      "expected_filter_state": {
+        "depart": "June 10",
+        "ret": "June 1 (flag if invalid)"
+      }
+    },
+    {
+      "task_id": "T2017",
+      "task_index_in_env": 7,
+      "instruction_text": "Book Wizz Air round-trip for me \u2014 depart August 7, 2026, return August 7, 2026.",
+      "expected_filter_state": {
+        "depart": "August 7, 2026",
+        "ret": "August 7, 2026"
+      }
+    },
+    {
+      "task_id": "T2018",
+      "task_index_in_env": 8,
+      "instruction_text": "Book Wizz Air round-trip for me \u2014 depart December 28, 2026, return January 3, 2027.",
+      "expected_filter_state": {
+        "depart": "December 28, 2026",
+        "ret": "January 3, 2027"
+      }
+    },
+    {
+      "task_id": "T2019",
+      "task_index_in_env": 9,
+      "instruction_text": "Set up Wizz Air round-trip \u2014 out on November 1, back on November 8.",
+      "expected_filter_state": {
+        "depart": "November 1",
+        "ret": "November 8"
+      }
+    },
+    {
+      "task_id": "T2020",
+      "task_index_in_env": 10,
+      "instruction_text": "Book Wizz Air round-trip for me \u2014 depart June 13, return July 11.",
+      "expected_filter_state": {
+        "depart": "June 13",
+        "ret": "July 11"
+      }
+    }
+  ]
+}

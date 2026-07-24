@@ -1,0 +1,96 @@
+{
+  "env_id": "W16_E01",
+  "widget_id": "W16_compounding_frequency_dropdown",
+  "archetype": "calculator_form",
+  "filter_spec": {
+    "type": "calc_compute",
+    "fields": [
+      "principal",
+      "rate",
+      "years",
+      "frequency"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T1501",
+      "task_index_in_env": 1,
+      "instruction_text": "On Investor.gov compound calculator, run the numbers on compound interest projections: $10K principal, 5% rate, compounded quarterly, 10 years.",
+      "expected_filter_state": {
+        "freq": "quarterly"
+      }
+    },
+    {
+      "task_id": "T1502",
+      "task_index_in_env": 2,
+      "instruction_text": "On Investor.gov compound calculator, run the numbers on compound interest projections: $10K principal, 5% rate, compounded monthly, 10 years.",
+      "expected_filter_state": {
+        "freq": "monthly"
+      }
+    },
+    {
+      "task_id": "T1503",
+      "task_index_in_env": 3,
+      "instruction_text": "Use Investor.gov compound calculator to compute compound interest projections starting with $10,000 at 5% compounded daily over 10 years.",
+      "expected_filter_state": {
+        "freq": "daily"
+      }
+    },
+    {
+      "task_id": "T1504",
+      "task_index_in_env": 4,
+      "instruction_text": "Help me compute compound interest projections on Investor.gov compound calculator with these inputs: $10,000 principal, 5% rate, semi-annually compounding, 10-year horizon.",
+      "expected_filter_state": {
+        "freq": "semi-annually"
+      }
+    },
+    {
+      "task_id": "T1505",
+      "task_index_in_env": 5,
+      "instruction_text": "Help me compute compound interest projections on Investor.gov compound calculator with these inputs: $10,000 principal, 5% rate, bi-weekly (loan amortisation) compounding, 10-year horizon.",
+      "expected_filter_state": {
+        "freq": "bi-weekly (loan amortisation)"
+      }
+    },
+    {
+      "task_id": "T1506",
+      "task_index_in_env": 6,
+      "instruction_text": "On Investor.gov compound calculator, run the numbers on compound interest projections: $10K principal, 5% rate, compounded quarterly, 10 years.",
+      "expected_filter_state": {
+        "freq": "quarterly"
+      }
+    },
+    {
+      "task_id": "T1507",
+      "task_index_in_env": 7,
+      "instruction_text": "Help me compute compound interest projections on Investor.gov compound calculator with these inputs: $10,000 principal, 5% rate, monthly compounding, 10-year horizon.",
+      "expected_filter_state": {
+        "freq": "monthly"
+      }
+    },
+    {
+      "task_id": "T1508",
+      "task_index_in_env": 8,
+      "instruction_text": "Use Investor.gov compound calculator to compute compound interest projections starting with $10,000 at 5% compounded quarterly (Period field) over 10 years.",
+      "expected_filter_state": {
+        "freq": "quarterly (Period field)"
+      }
+    },
+    {
+      "task_id": "T1509",
+      "task_index_in_env": 9,
+      "instruction_text": "On Investor.gov compound calculator, run the numbers on compound interest projections: $10K principal, 5% rate, compounded continuously, 10 years.",
+      "expected_filter_state": {
+        "freq": "continuously"
+      }
+    },
+    {
+      "task_id": "T1510",
+      "task_index_in_env": 10,
+      "instruction_text": "Help me compute compound interest projections on Investor.gov compound calculator with these inputs: $10,000 principal, 5% rate, quarterly (verify result differs from annual) compounding, 10-year horizon.",
+      "expected_filter_state": {
+        "freq": "quarterly (verify result differs from annual)"
+      }
+    }
+  ]
+}

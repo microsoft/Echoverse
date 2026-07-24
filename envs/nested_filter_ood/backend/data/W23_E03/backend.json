@@ -1,0 +1,91 @@
+{
+  "env_id": "W23_E03",
+  "widget_id": "W23_more_filters_modal_plus_chip_bar",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "W23_E03_T001",
+      "task_index_in_env": 1,
+      "instruction_text": "On Apartments.com Houston TX, Find a Single-Family House for Rent in Houston, TX with 1 bed. Specifically (task 1/10): Hi! I'm searching on Apartments.com Houston TX: I want single-family houses for rent (1 bed) matching Single-Family House for Rent, 1 bedroom. Please open the All Filters modal from the chip-bar above, check ONLY these: Single-Family House,",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_single_family=on"
+      }
+    },
+    {
+      "task_id": "W23_E03_T002",
+      "task_index_in_env": 2,
+      "instruction_text": "On Apartments.com Houston TX, Find a Single-Family House for Rent in Houston, TX with 1 bed. Specifically (task 2/10): Quick \u2014 on Apartments.com Houston TX, open the All Filters modal and tick all three: Single-Family House, Pet-friendly, apply. Then on the active-filter chip bar above the results, dismiss the \u201cPet-friendly\u201d chip \u2014 I changed my mind about t",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_single_family=on"
+      }
+    },
+    {
+      "task_id": "W23_E03_T003",
+      "task_index_in_env": 3,
+      "instruction_text": "On Apartments.com Houston TX, Find a Single-Family House for Rent in Houston, TX with 1 bed. Specifically (task 3/10): ok partner just weighed in \u2014 on Apartments.com Houston TX pls open the All Filters modal and check ALL of these: Single-Family House, Pet-friendly, In-unit Washer/Dryer, Air Conditioning. apply. then from the active-filter chip bar above th",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_single_family=on, modal_pet-friendly=on"
+      }
+    },
+    {
+      "task_id": "W23_E03_T004",
+      "task_index_in_env": 4,
+      "instruction_text": "On Apartments.com Houston TX, Find a Single-Family House for Rent in Houston, TX with 1 bed. Specifically (task 4/10): hey can u set up a search on Apartments.com Houston TX like this: in the All Filters modal apply Single-Family House, Pet-friendly, In-unit Washer/Dryer. then remove the \u201cPet-friendly\u201d chip and the \u201cIn-unit Washer/Dryer\u201d chip from the activ",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_single_family=on"
+      }
+    },
+    {
+      "task_id": "W23_E03_T005",
+      "task_index_in_env": 5,
+      "instruction_text": "On Apartments.com Houston TX, Find a Single-Family House for Rent in Houston, TX with 1 bed. Specifically (task 5/10): Quick one \u2014 how many single-family houses for rent (1 bed) are showing on this Apartments.com Houston TX page right now, before any filtering?",
+      "expected_filter_state": {
+        "constraint": "20 single-family houses for rent (1 bed)"
+      }
+    },
+    {
+      "task_id": "W23_E03_T006",
+      "task_index_in_env": 6,
+      "instruction_text": "On Apartments.com Houston TX, Find a Single-Family House for Rent in Houston, TX with 1 bed. Specifically (task 6/10): On Apartments.com Houston TX, what is the address of the cheapest single-family houses for rent (1 bed) listed? Just give me the street address.",
+      "expected_filter_state": {
+        "constraint": "2542 Saxton Mist Dr"
+      }
+    },
+    {
+      "task_id": "W23_E03_T007",
+      "task_index_in_env": 7,
+      "instruction_text": "On Apartments.com Houston TX, Find a Single-Family House for Rent in Houston, TX with 1 bed. Specifically (task 7/10): On Apartments.com Houston TX, how many listings show a Pet-Friendly badge in their card right now (no filters applied)? And how many show a Price Reduced badge?",
+      "expected_filter_state": {
+        "constraint": "14 pet-friendly and 10 price reduced"
+      }
+    },
+    {
+      "task_id": "W23_E03_T008",
+      "task_index_in_env": 8,
+      "instruction_text": "On Apartments.com Houston TX, Find a Single-Family House for Rent in Houston, TX with 1 bed. Specifically (task 8/10): On Apartments.com Houston TX, open the All Filters modal and apply both \u201cSingle-Family House\u201d and \u201cPet-friendly\u201d, then verify both chips show up in the active-filter chip bar above the results. After that, tell me how many results remain.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_single_family=on, modal_pet-friendly=on"
+      }
+    },
+    {
+      "task_id": "W23_E03_T009",
+      "task_index_in_env": 9,
+      "instruction_text": "On Apartments.com Houston TX, Find a Single-Family House for Rent in Houston, TX with 1 bed. Specifically (task 9/10): On Apartments.com Houston TX, in the All Filters modal turn on these three: Single-Family House, Pet-friendly, In-unit Washer/Dryer. Apply, verify all three chips appear in the active-filter chip bar, then read back to me the price of the m",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_single_family=on, modal_pet-friendly=on, modal_in-unit_washer_dryer=on"
+      }
+    },
+    {
+      "task_id": "W23_E03_T010",
+      "task_index_in_env": 10,
+      "instruction_text": "On Apartments.com Houston TX, Find a Single-Family House for Rent in Houston, TX with 1 bed. Specifically (task 10/10): On Apartments.com Houston TX, open the All Filters modal and tick Single-Family House, Pet-friendly, In-unit Washer/Dryer, apply, then on the active-filter chip bar above the results dismiss the \u201cIn-unit Washer/Dryer\u201d chip. Once you're down",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_single_family=on, modal_pet-friendly=on"
+      }
+    }
+  ]
+}

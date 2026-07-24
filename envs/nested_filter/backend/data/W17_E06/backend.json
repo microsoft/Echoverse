@@ -1,0 +1,97 @@
+{
+  "env_id": "W17_E06",
+  "widget_id": "W17_override_default_numeric",
+  "archetype": "calculator_form",
+  "filter_spec": {
+    "type": "calc_compute",
+    "fields": [
+      "tuition",
+      "room_board",
+      "years",
+      "income",
+      "inflation"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T1651",
+      "task_index_in_env": 1,
+      "instruction_text": "Use SoFi college calculator to run college savings at custom inflation rate with annual tuition of $45,000.",
+      "expected_filter_state": {
+        "constraint": "with annual tuition of $45,000"
+      }
+    },
+    {
+      "task_id": "T1652",
+      "task_index_in_env": 2,
+      "instruction_text": "Use SoFi college calculator to run college savings at custom inflation rate with tuition $45,000 and room-and-board $18,000.",
+      "expected_filter_state": {
+        "constraint": "with tuition $45,000 and room-and-board $18,000"
+      }
+    },
+    {
+      "task_id": "T1653",
+      "task_index_in_env": 3,
+      "instruction_text": "Help me compute college savings at custom inflation rate on SoFi college calculator with an annual income of $120,000.",
+      "expected_filter_state": {
+        "constraint": "with an annual income of $120,000"
+      }
+    },
+    {
+      "task_id": "T1654",
+      "task_index_in_env": 4,
+      "instruction_text": "On SoFi college calculator, compute college savings at custom inflation rate for a 2-year-old child (16 years until college).",
+      "expected_filter_state": {
+        "constraint": "for a 2-year-old child (16 years until college)"
+      }
+    },
+    {
+      "task_id": "T1655",
+      "task_index_in_env": 5,
+      "instruction_text": "Use SoFi college calculator to run college savings at custom inflation rate with property tax rate of 2.5%.",
+      "expected_filter_state": {
+        "constraint": "with property tax rate of 2.5%"
+      }
+    },
+    {
+      "task_id": "T1656",
+      "task_index_in_env": 6,
+      "instruction_text": "On SoFi college calculator, compute college savings at custom inflation rate with 4.5% expected inflation.",
+      "expected_filter_state": {
+        "constraint": "with 4.5% expected inflation"
+      }
+    },
+    {
+      "task_id": "T1657",
+      "task_index_in_env": 7,
+      "instruction_text": "On SoFi college calculator, compute college savings at custom inflation rate with a $5,000 bonus and 10% 401(k).",
+      "expected_filter_state": {
+        "constraint": "with a $5,000 bonus and 10% 401(k)"
+      }
+    },
+    {
+      "task_id": "T1658",
+      "task_index_in_env": 8,
+      "instruction_text": "Use SoFi college calculator to run college savings at custom inflation rate with custom tuition of $45,000.",
+      "expected_filter_state": {
+        "constraint": "with custom tuition of $45,000"
+      }
+    },
+    {
+      "task_id": "T1659",
+      "task_index_in_env": 9,
+      "instruction_text": "Help me compute college savings at custom inflation rate on SoFi college calculator starting with $15,000 in current savings.",
+      "expected_filter_state": {
+        "constraint": "starting with $15,000 in current savings"
+      }
+    },
+    {
+      "task_id": "T1660",
+      "task_index_in_env": 10,
+      "instruction_text": "Use SoFi college calculator to run college savings at custom inflation rate for an annual salary of $100,000.",
+      "expected_filter_state": {
+        "constraint": "for an annual salary of $100,000"
+      }
+    }
+  ]
+}

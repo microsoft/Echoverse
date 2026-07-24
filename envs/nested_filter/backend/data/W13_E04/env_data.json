@@ -1,0 +1,39 @@
+{
+  "env_id": "W13_E04",
+  "widget_id": "W13_numeric_input_precise_target",
+  "widget_name": "Numeric input \u2014 precise click target",
+  "widget_category": "text_input",
+  "widget_mechanic": "Numeric input field (price max, lot-size min) lives near visually-similar UI (sidebar icon, header label, sibling input). Agent must click and type into the EXACT input field, not the adjacent UI element.",
+  "archetype": "realestate_listings",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W13_numeric_input_precise_target"
+  ],
+  "site_imitates": "Apartments.com Houston TX",
+  "product_type": "listings",
+  "source_inspiration": [
+    {
+      "task_id": "367d843c640637745e8fafa741cca13b",
+      "benchmark": "OM2W",
+      "site": "apartments.com",
+      "instruction": "Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income of $8000. The condo should have a minimum area of 600 square feet, and the move-in date is the 1st of next month.",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: Selected the $2,400 option in a way that applied a minimum price filter ($2,400+) rather than a maximum rent cap (\u2264$2,400)."
+    }
+  ],
+  "theme_key": "apartments",
+  "theme_logo": "Apartments.com",
+  "theme_card": "apt-card",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 3,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "range_multi",
+    "fields": [
+      "max_price",
+      "min_sqft",
+      "min_lot",
+      "max_rent"
+    ]
+  },
+  "theme_color": "#1e7b3e"
+}

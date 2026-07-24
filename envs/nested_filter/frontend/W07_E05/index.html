@@ -1,0 +1,533 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoRent — Houston, TX Condos for Rent</title>
+<style>
+:root {
+  --primary: #1f8a5c;
+  --primary-dark: #176a47;
+  --accent: #e7f4ed;
+  --cta-dark: #2b2b2b;
+  --cta-dark-hover: #111;
+  --text: #1d1d1d;
+  --muted: #6a6a6a;
+  --line: #e4e4e4;
+  --bg: #ffffff;
+  --page-bg: #ffffff;
+  --font: 'Lato','Helvetica Neue',Arial,sans-serif;
+  --serif: 'Lora','Times New Roman',Georgia,serif;
+  --cta-text: #fff;
+  --radius: 4px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 14px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 38px rgba(0,0,0,0.18);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--page-bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+input, select { font-family: inherit; }
+
+/* ---- Hide every hint-leakage / debug surface ---- */
+.task-banner, #task-banner,
+.live-status, #live-status,
+.db-fab,
+.utst-note, .wut-badge, .wut-badge-test,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad,
+.tb-answer-row, .tb-banner,
+.answer-area, .answer-card, .answer-bar, .answer-row,
+.fara-source, .fara-source-card, .fara-banner, .inspiration-banner,
+.task-pill, .autosave-pill, .auto-recompute-pill, .status-pill,
+.debug-pill, .debug-bar, .debug-info, .debug-state,
+[data-task-banner], [data-live-status], [data-debug-pill], [data-fara-source] {
+  display: none !important;
+  visibility: hidden !important;
+}
+[data-debug="1"] { display: none !important; }
+
+.page { display:flex; flex-direction:column; min-height: 100vh; background: var(--page-bg); }
+
+.site-header { background: #fff; padding: 10px 28px; display:flex; align-items:center; gap: 28px; border-bottom:1px solid var(--line); position:relative; z-index: 10; min-height: 56px; }
+.site-header .left-nav { display:flex; align-items:center; gap: 22px; flex: 1; }
+.site-header .left-nav .hamburger { display:inline-flex; align-items:center; gap:10px; color: var(--text); font-size: 13.5px; font-weight: 600; cursor:pointer; }
+.site-header .left-nav .hamburger .bars { display:inline-flex; flex-direction:column; gap:3px; }
+.site-header .left-nav .hamburger .bars span { display:block; width:18px; height:2px; background: #222; border-radius:1px; }
+.site-header .left-nav .lang { display:inline-flex; align-items:center; gap:6px; color: var(--text); font-size: 13.5px; font-weight: 600; cursor:pointer; }
+.site-header .logo-wrap { display:flex; align-items:center; gap:8px; flex-shrink:0; font-family: var(--serif); font-weight: 800; font-size: 24px; color: #1a1a1a; letter-spacing:-0.3px; line-height:1; position:absolute; left:50%; transform:translateX(-50%); }
+.site-header .logo-wrap .ap-mark { width:30px; height:30px; flex-shrink:0; }
+.site-header .logo-wrap .tm { font-size: 9px; font-weight: 700; vertical-align: top; margin-left:1px; color:#333; }
+.site-header .acct { margin-left:auto; display:flex; gap: 18px; align-items:center; font-size: 13.5px; flex: 1; justify-content:flex-end; }
+.site-header .acct .acct-link { color: var(--text); font-weight: 600; cursor:pointer; padding: 6px 4px; }
+.site-header .acct .acct-link:hover { color: var(--primary); }
+.site-header .acct .sep { color: #bbb; }
+.site-header .acct .add-prop { background: #2b2b2b; color:#fff; border:none; padding: 12px 18px; font-weight: 700; font-size: 13.5px; cursor:pointer; border-radius: 0; align-self: stretch; margin: -10px -28px -10px 0; padding-right:28px; padding-left:22px; }
+.site-header .acct .add-prop:hover { background: #111; }
+.filter-bar { padding: 10px 28px; background: #fff; border-bottom: 1px solid var(--line); display:flex; align-items:center; gap: 10px; flex-wrap: wrap; position:relative; z-index: 5; }
+.filter-bar .fb-search { flex: 0 0 280px; display:flex; align-items:center; gap:8px; padding: 8px 14px; border: 1.5px solid var(--primary); border-radius: 999px; background:#fff; font-size: 13.5px; color: var(--text); font-weight:600; }
+.filter-bar .fb-search .mi { color: var(--primary); font-weight:700; }
+.filter-bar .fb-search .fb-x { margin-left:6px; color:#666; font-size:12px; }
+.filter-bar .fb-pill { padding: 8px 14px; border:1px solid #cfcfcf; border-radius: var(--radius); background:#fff; font-size: 13px; font-weight: 600; cursor:pointer; color: var(--text); white-space: nowrap; }
+.filter-bar .fb-pill:hover { border-color: var(--primary); color: var(--primary); }
+.filter-bar .fb-pill.active { background: var(--accent); border-color: var(--primary); color: var(--primary-dark); }
+.filter-bar .fb-more { background: var(--accent); border-color: var(--primary); color: var(--primary-dark); font-weight:700; }
+.filter-bar .fb-spacer { flex: 1; }
+.filter-bar .save-search { padding: 8px 14px; border:1px solid var(--primary); color: var(--primary-dark); background:#fff; border-radius: var(--radius); font-size: 13px; font-weight: 700; cursor:pointer; }
+.filter-bar .save-search:hover { background: var(--accent); }
+
+/* Modal body — shared facet UI */
+.mc-body { padding: 18px 22px; overflow-y: auto; }
+.mc-body h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 18px 0 8px; font-weight: 700; }
+.mc-body h4:first-child { margin-top: 4px; }
+.lay-list label.cb { display:flex; align-items:center; gap:10px; padding: 8px 0; font-size: 14px; cursor:pointer; border-bottom:1px solid #f3f3f3; }
+.lay-list label.cb:hover { color: var(--primary); }
+.lay-list label.cb input { width:16px; height:16px; accent-color: var(--primary); }
+.lay-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 6px 28px; }
+.lay-grid label.cb { display:flex; align-items:center; gap:10px; padding: 8px 0; font-size:14px; cursor:pointer; border-bottom:1px dashed #efefef; }
+.lay-grid label.cb input { accent-color: var(--primary); }
+.lay-pills { display:flex; flex-wrap:wrap; gap: 8px; }
+.lay-pills label.pill { display:inline-flex; align-items:center; gap:8px; padding: 8px 14px; border:1.5px solid var(--line); border-radius: 999px; cursor:pointer; font-size: 13.5px; font-weight: 600; background:#fff; position: relative; }
+.lay-pills label.pill input { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; margin: 0; }
+.lay-pills label.pill:hover { border-color: var(--primary); color: var(--primary); }
+.lay-pills label.pill.has-check input:checked + .pill-mark { background: var(--primary); border-color: var(--primary); color: #fff; }
+.lay-pills label.pill .pill-mark { width:14px; height:14px; border-radius:50%; border:1.5px solid var(--line); display:inline-flex; align-items:center; justify-content:center; font-size:10px; color:#fff; }
+.mc-foot { display:flex; justify-content: space-between; align-items: center; padding: 12px 22px; border-top: 1px solid var(--line); background:#fff; }
+.mc-foot .ghost { background:transparent; border:none; color: var(--text); font-weight:700; font-size:13.5px; padding: 8px 6px; text-decoration: underline; cursor:pointer; }
+.mc-foot .primary { background: var(--primary); color: var(--cta-text); border:none; padding: 10px 22px; border-radius: var(--radius); font-weight:700; font-size:14px; cursor:pointer; }
+.mc-foot .primary:hover { background: var(--primary-dark); }
+
+.modal-overlay { display:none; position: fixed; inset:0; background: rgba(0,0,0,0.40); z-index: 999; align-items:flex-end; justify-content:center; }
+.modal-overlay.open { display:flex; }
+.modal-card { background:#fff; width: 100%; max-width: 720px; height: 78vh; border-radius: 16px 16px 0 0; box-shadow: 0 -10px 32px rgba(0,0,0,0.22); display:flex; flex-direction:column; overflow: hidden; }
+.mc-head { display:flex; justify-content:space-between; align-items:center; padding: 14px 22px 8px; border-bottom: 1px solid var(--line); }
+.mc-head .mc-grabber { position: absolute; left: 50%; top: 6px; transform: translateX(-50%); width: 42px; height: 4px; background:#d8d8d8; border-radius: 4px; }
+.mc-head h3 { margin:0; font-size: 17px; font-weight: 700; }
+.mc-close { background:transparent; border:none; font-size: 22px; color: var(--muted); cursor:pointer; }
+.modal-card { position: relative; }
+
+.results-wrap { padding: 18px 28px; max-width: 1280px; margin: 0 auto; width: 100%; }
+.results-head { display:flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.rh-count { font-size: 18px; font-weight: 800; color: var(--text); }
+.rh-sort select { padding: 6px 10px; border-radius: var(--radius); border:1px solid var(--line); font-size: 13px; background:#fff; color: var(--text); }
+.listing-grid { display:grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+@media (max-width: 1080px) { .listing-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 820px)  { .listing-grid { grid-template-columns: repeat(2, 1fr); } }
+.lcard { background:#fff; border:1px solid var(--line); border-radius: 8px; overflow:hidden; box-shadow: var(--shadow-sm); }
+.lcard:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); transition: all 0.15s; }
+.lc-photo { position: relative; background-color:#eaeaea; background-size: cover; background-position: center; height: 160px; }
+.lc-tag { position: absolute; top: 10px; left: 10px; padding: 4px 9px; font-size: 11px; font-weight: 700; border-radius: 3px; letter-spacing: 0.04em; background: var(--primary); color:#fff; }
+.lc-heart { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.92); border: none; cursor: pointer; font-size: 15px; color: #444; }
+.lc-body { padding: 12px 14px 16px; }
+.lc-price { font-weight: 800; font-size: 18px; color: var(--text); }
+.lc-stats { font-size: 13px; color: var(--text); margin-top: 3px; }
+.lc-addr { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.lc-city { font-size: 11.5px; color: var(--primary-dark); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
+
+.site-footer { background: #f8f8f8; border-top: 1px solid var(--line); padding: 30px 28px 18px; margin-top: 36px; }
+.site-footer .ft-cols { display:grid; grid-template-columns: repeat(4,1fr); gap: 22px; max-width: 1280px; margin: 0 auto 18px; }
+.site-footer .ft-cols div h5 { font-size: 13px; font-weight: 800; margin: 0 0 10px; color: var(--text); }
+.site-footer .ft-cols div a { display:block; font-size: 12.5px; color: var(--muted); margin-bottom: 4px; }
+.site-footer .ft-cols div a:hover { color: var(--primary); }
+.site-footer .ft-bot { display:flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; font-size: 12px; color: var(--muted); padding-top: 14px; border-top: 1px solid var(--line); }
+</style>
+</head>
+<body data-brand-name="EchoRent">
+<div class="page">
+<header class="site-header">
+  <div class="left-nav">
+    <span class="hamburger"><span class="bars"><span></span><span></span><span></span></span>Menu</span>
+    <span class="lang">🌐 English</span>
+  </div>
+  <span class="logo-wrap">
+    <svg class="ap-mark" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="4" y="4" width="56" height="56" rx="14" fill="var(--primary)"/>
+      <text x="32" y="45" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="800" fill="#fff">E</text>
+    </svg>
+    <span>EchoRent<span class="tm">™</span></span>
+  </span>
+  <div class="acct">
+    <span class="acct-link">Manage Rentals</span>
+    <span class="acct-link">Sign Up <span class="sep">/</span> Sign In</span>
+    <button class="add-prop">Add a Property</button>
+  </div>
+</header>
+<div class="filter-bar">
+  <div class="fb-search"><span class="mi">⌕</span><span>Houston, TX</span><span class="fb-x">✕</span></div>
+  <button class="fb-pill active">Price ▾</button>
+  <button class="fb-pill">Beds/Bath ▾</button>
+  <button class="fb-pill">Home Type ▾</button>
+  <button class="fb-pill">Specialty Housing ▾</button>
+  <button class="fb-pill fb-more" onclick="W07toggle()" id="w07-trigger">≡ All Filters</button>
+  <div class="fb-spacer"></div>
+  <button class="save-search">♡ Save Search</button>
+  <button class="save-search">Sort ↑↓</button>
+</div>
+<div class="modal-overlay" id="w07-modal" onclick="if(event.target===this)W07close()">
+  <div class="modal-card">
+    <div class="mc-head"><span class="mc-grabber"></span><h3>Filter rentals</h3><button class="mc-close" onclick="W07close()">×</button></div>
+    <div class="mc-body">
+      <h4>Budget &amp; move-in</h4>
+  <div class="lay-list">
+  <label class="cb"><input type="checkbox" data-facet="modal_max_rent_30pct_income" onchange="W07sync()"> <span>Max rent ≤ 30% income</span></label>
+  <label class="cb"><input type="checkbox" data-facet="modal_move_in_first_of_month" onchange="W07sync()"> <span>Move-in 1st of next month</span></label>
+  <label class="cb"><input type="checkbox" data-facet="modal_min_area_600sqft" onchange="W07sync()"> <span>Min area 600 sqft</span></label>
+  </div>
+  <h4>Building amenities</h4>
+  <div class="lay-list">
+  <label class="cb"><input type="checkbox" data-facet="modal_concierge" onchange="W07sync()"> <span>Concierge service</span></label>
+  <label class="cb"><input type="checkbox" data-facet="modal_rooftop_pool" onchange="W07sync()"> <span>Rooftop pool</span></label>
+  <label class="cb"><input type="checkbox" data-facet="modal_pet_friendly" onchange="W07sync()"> <span>Cats &amp; dogs OK</span></label>
+  </div>
+  <h4>Unit features</h4>
+  <div class="lay-list">
+  <label class="cb"><input type="checkbox" data-facet="modal_in_unit_laundry" onchange="W07sync()"> <span>In-unit laundry</span></label>
+  <label class="cb"><input type="checkbox" data-facet="modal_garage_parking" onchange="W07sync()"> <span>Garage parking</span></label>
+  <label class="cb"><input type="checkbox" data-facet="modal_floor_to_ceiling_windows" onchange="W07sync()"> <span>Floor-to-ceiling windows</span></label>
+  <label class="cb"><input type="checkbox" data-facet="modal_smart_lock_entry" onchange="W07sync()"> <span>Smart-lock entry</span></label>
+  </div>
+    </div>
+    <div class="mc-foot">
+      <button class="ghost" onclick="W07clearAll()">Clear all</button>
+      <button class="primary" onclick="W07close()">See rentals</button>
+    </div>
+  </div>
+</div>
+<section class="results-wrap">
+  <div class="results-head">
+    <div class="rh-count" id="result-count" data-label="rentals">20 rentals</div>
+    <div class="rh-sort">Sort: <select><option>Recommended</option><option>Price (low to high)</option><option>Price (high to low)</option><option>Newest</option></select> ▾</div>
+  </div>
+  <div class="listing-grid" id="listing-grid"><div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/164558/pexels-photo-164558.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$6,151</div>
+    <div class="lc-stats">2 bd · 2.5 ba · 686 sqft</div>
+    <div class="lc-addr">4422 Walnut Blvd</div>
+    <div class="lc-city">Galleria, Townhouse</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/210617/pexels-photo-210617.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$4,228</div>
+    <div class="lc-stats">3 bd · 2 ba · 1,877 sqft</div>
+    <div class="lc-addr">213 Walnut St</div>
+    <div class="lc-city">Memorial, Loft</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/2102587/pexels-photo-2102587.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$2,116</div>
+    <div class="lc-stats">4 bd · 2.5 ba · 1,643 sqft</div>
+    <div class="lc-addr">6547 Elm Way</div>
+    <div class="lc-city">Houston, Loft</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$4,050</div>
+    <div class="lc-stats">2 bd · 3.5 ba · 2,407 sqft</div>
+    <div class="lc-addr">358 Oak Blvd</div>
+    <div class="lc-city">Midtown, Multi-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$3,777</div>
+    <div class="lc-stats">5 bd · 3.5 ba · 1,325 sqft</div>
+    <div class="lc-addr">1247 Spruce Ave</div>
+    <div class="lc-city">Midtown, Condo</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$1,481</div>
+    <div class="lc-stats">4 bd · 3 ba · 880 sqft</div>
+    <div class="lc-addr">1689 Spruce St</div>
+    <div class="lc-city">Bellaire, Condo</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/2079249/pexels-photo-2079249.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$5,407</div>
+    <div class="lc-stats">2 bd · 4 ba · 1,599 sqft</div>
+    <div class="lc-addr">4220 Birch Pl</div>
+    <div class="lc-city">Midtown, Loft</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$2,930</div>
+    <div class="lc-stats">2 bd · 2.5 ba · 834 sqft</div>
+    <div class="lc-addr">8989 Spruce Way</div>
+    <div class="lc-city">Galleria, Co-op</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$5,147</div>
+    <div class="lc-stats">5 bd · 2 ba · 4,036 sqft</div>
+    <div class="lc-addr">889 Maple Ave</div>
+    <div class="lc-city">Bellaire, Townhouse</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/106349/pexels-photo-106349.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$1,598</div>
+    <div class="lc-stats">4 bd · 1.5 ba · 1,399 sqft</div>
+    <div class="lc-addr">6069 Walnut Blvd</div>
+    <div class="lc-city">Bellaire, Condo</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/259593/pexels-photo-259593.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$4,735</div>
+    <div class="lc-stats">4 bd · 1.5 ba · 1,851 sqft</div>
+    <div class="lc-addr">639 Cedar Ln</div>
+    <div class="lc-city">Bellaire, Multi-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1438832/pexels-photo-1438832.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$6,457</div>
+    <div class="lc-stats">2 bd · 3 ba · 806 sqft</div>
+    <div class="lc-addr">7990 Birch Ave</div>
+    <div class="lc-city">Midtown, Co-op</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/164558/pexels-photo-164558.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$4,751</div>
+    <div class="lc-stats">4 bd · 3 ba · 830 sqft</div>
+    <div class="lc-addr">2449 Cedar St</div>
+    <div class="lc-city">Bellaire, Condo</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/210617/pexels-photo-210617.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$1,743</div>
+    <div class="lc-stats">3 bd · 2 ba · 3,221 sqft</div>
+    <div class="lc-addr">8838 Oak Dr</div>
+    <div class="lc-city">Midtown, Co-op</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/2102587/pexels-photo-2102587.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$2,016</div>
+    <div class="lc-stats">3 bd · 2 ba · 3,762 sqft</div>
+    <div class="lc-addr">7704 Cedar Blvd</div>
+    <div class="lc-city">Houston, Co-op</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$4,305</div>
+    <div class="lc-stats">3 bd · 1.5 ba · 3,810 sqft</div>
+    <div class="lc-addr">1312 Walnut St</div>
+    <div class="lc-city">Bellaire, Co-op</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$3,977</div>
+    <div class="lc-stats">2 bd · 2 ba · 1,682 sqft</div>
+    <div class="lc-addr">5528 Elm Dr</div>
+    <div class="lc-city">Houston, Condo</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$5,804</div>
+    <div class="lc-stats">3 bd · 2 ba · 1,015 sqft</div>
+    <div class="lc-addr">4187 Oak St</div>
+    <div class="lc-city">Galleria, Co-op</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/2079249/pexels-photo-2079249.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$2,753</div>
+    <div class="lc-stats">4 bd · 2 ba · 2,718 sqft</div>
+    <div class="lc-addr">2643 Cedar Rd</div>
+    <div class="lc-city">Memorial, Co-op</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$5,186</div>
+    <div class="lc-stats">3 bd · 1.5 ba · 4,140 sqft</div>
+    <div class="lc-addr">7022 Elm Rd</div>
+    <div class="lc-city">Midtown, Townhouse</div>
+  </div>
+</div></div>
+</section>
+<footer class="site-footer">
+  <div class="ft-cols">
+    <div><h5>EchoRent</h5><a>About Us</a><a>Site Map</a><a>Press Releases</a><a>Investor Relations</a><a>Careers</a></div>
+    <div><h5>For Renters</h5><a>Apartments for Rent</a><a>Houses for Rent</a><a>Condos for Rent</a><a>Cheap Apartments</a><a>Renter Tools</a></div>
+    <div><h5>Resources</h5><a>Apartment Guide</a><a>Moving Truck Rental</a><a>Renters Insurance</a><a>Apartment Living Tips</a><a>Roommate Finder</a></div>
+    <div><h5>Help &amp; Legal</h5><a>Contact Us</a><a>Privacy Policy</a><a>Terms &amp; Conditions</a><a>Accessibility</a><a>Do Not Sell Info</a></div>
+  </div>
+  <div class="ft-bot">
+    <span>© 2026 EchoRent. EchoRent is a registered trademark.</span>
+    <span>🏠 Equal Housing Opportunity</span>
+  </div>
+</footer>
+</div>
+<script>
+const ENV_ID = "W07_E05";
+const FACET_LABELS = {"modal_max_rent_30pct_income": "Max rent \u2264 30% income", "modal_move_in_first_of_month": "Move-in 1st of next month", "modal_min_area_600sqft": "Min area 600 sqft", "modal_concierge": "Concierge service", "modal_rooftop_pool": "Rooftop pool", "modal_pet_friendly": "Cats & dogs OK", "modal_in_unit_laundry": "In-unit laundry", "modal_garage_parking": "Garage parking", "modal_floor_to_ceiling_windows": "Floor-to-ceiling windows", "modal_smart_lock_entry": "Smart-lock entry"};
+const TRIGGER_STYLE = "bottom_sheet";
+let filterState = {};
+
+function W07toggle() {
+  const m = document.getElementById('w07-modal');
+  if (!m) return;
+  m.classList.toggle('open');
+}
+function W07close() {
+  const m = document.getElementById('w07-modal');
+  if (m) m.classList.remove('open');
+}
+function W07apply() { W07close(); }
+function W07clearAll() {
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    if (el.type === 'checkbox') el.checked = false;
+  });
+  document.querySelectorAll('.lay-pills label.pill.active').forEach(el => el.classList.remove('active'));
+  W07sync();
+}
+
+function W07sync() {
+  const newState = {};
+  document.querySelectorAll('input[type="checkbox"][data-facet]').forEach(el => {
+    if (el.checked) newState[el.dataset.facet] = 'on';
+  });
+  filterState = newState;
+
+  const live = document.getElementById('w07-live-list');
+  if (live) {
+    const keys = Object.keys(newState);
+    live.innerHTML = keys.length ? keys.map(k => '<li>✓ ' + (FACET_LABELS[k] || k) + '</li>').join('')
+                                 : '<li style="color:#888;">No filters selected yet</li>';
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ filter_state: filterState })
+  }).then(r => r.json()).then(data => {
+    if (data.html_cards) document.getElementById('listing-grid').innerHTML = data.html_cards;
+    const rc = document.getElementById('result-count');
+    if (rc) {
+      const n = (data.results || []).length;
+      const label = rc.dataset.label || 'results';
+      rc.textContent = n + ' ' + label;
+    }
+    const brandName = document.body.dataset.brandName || '';
+    if (brandName) {
+      document.querySelectorAll('.lstg-dom').forEach(el => {
+        el.textContent = el.textContent.replace(/on Realtor\b/i, 'on ' + brandName);
+      });
+    }
+  }).catch(() => {});
+
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ filter_state: filterState, answer: '', task_id: taskId })
+  }).catch(() => {});
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  W07sync();
+  var __m = document.getElementById('w07-modal');
+  if (__m) __m.classList.add('open');
+});
+</script>
+</body></html>

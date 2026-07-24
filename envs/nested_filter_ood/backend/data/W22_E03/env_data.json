@@ -1,0 +1,43 @@
+{
+  "env_id": "W22_E03",
+  "widget_id": "W22_min_max_slider_plus_plus_chip",
+  "widget_name": "Min/max price slider + \u2265N bedrooms plus-chip composition",
+  "widget_category": "combo_realestate_facets",
+  "widget_mechanic": "Compose: max-price slider AND \u2265N-bedroom plus-chip \u2014 both applied simultaneously.",
+  "archetype": "realestate_listings",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W04_min_max_slider",
+    "W05_plus_chips_at_least"
+  ],
+  "site_imitates": "Realtor.com Montesano WA",
+  "product_type": "Montesano homes",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_montesano__wa_7329",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "Can you help me find houses for sale in Montesano, WA with 3 or more bedrooms, at least 2 bathrooms, on over 0.5 acres, and that are new to the market?",
+      "first_failure_summary": "[3.5] Incomplete task execution: A scroll was attempted from a valid area within the filters modal, but the post-action screenshot shows no observable scrolling or UI change (no progress/effect)."
+    }
+  ],
+  "theme_key": "realtor",
+  "theme_logo": "Realtor Pro",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 2,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "primary_inspiration": {
+    "task_id": "realestate_complex_buy_house_montesano__wa_7329",
+    "benchmark": "WTB",
+    "site": "buy",
+    "instruction": "Can you help me find houses for sale in Montesano, WA with 3 or more bedrooms, at least 2 bathrooms, on over 0.5 acres, and that are new to the market?",
+    "first_failure_summary": "[3.5] Incomplete task execution: A scroll was attempted from a valid area within the filters modal, but the post-action screenshot shows no observable scrolling or UI change (no progress/effect).",
+    "fara_actions": 58,
+    "gpt54_actions": 34
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "env_id": "W24_E09",
+  "widget_id": "W24_multi_checkbox_plus_exact_match",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2381",
+      "task_index_in_env": 1,
+      "instruction_text": "On Goodreads books, find exactly-five-star sci-fi novels with exactly 4 facet selections (multi-checkbox) and strict-match enabled.",
+      "expected_filter_state": {
+        "constraint": "with exactly 4 facet selections (multi-checkbox) and strict-match enabled"
+      }
+    },
+    {
+      "task_id": "T2382",
+      "task_index_in_env": 2,
+      "instruction_text": "Show me exactly-five-star sci-fi novels on Goodreads books in exact color black, size M (strict match enabled).",
+      "expected_filter_state": {
+        "constraint": "in exact color black, size M (strict match enabled)"
+      }
+    },
+    {
+      "task_id": "T2383",
+      "task_index_in_env": 3,
+      "instruction_text": "Help me browse Goodreads books for exactly-five-star sci-fi novels with multi-OS support (Linux + macOS) AND exactly stable release.",
+      "expected_filter_state": {
+        "constraint": "with multi-OS support (Linux + macOS) AND exactly stable release"
+      }
+    },
+    {
+      "task_id": "T2384",
+      "task_index_in_env": 4,
+      "instruction_text": "Help me browse Goodreads books for exactly-five-star sci-fi novels young AND spayed AND male AND exactly one age band.",
+      "expected_filter_state": {
+        "constraint": "young AND spayed AND male AND exactly one age band"
+      }
+    },
+    {
+      "task_id": "T2385",
+      "task_index_in_env": 5,
+      "instruction_text": "Show me exactly-five-star sci-fi novels on Goodreads books with exactly adult (not adolescent) AND female.",
+      "expected_filter_state": {
+        "constraint": "with exactly adult (not adolescent) AND female"
+      }
+    },
+    {
+      "task_id": "T2386",
+      "task_index_in_env": 6,
+      "instruction_text": "Show me exactly-five-star sci-fi novels on Goodreads books in exactly full-time (not contract) AND remote-allowed.",
+      "expected_filter_state": {
+        "constraint": "in exactly full-time (not contract) AND remote-allowed"
+      }
+    },
+    {
+      "task_id": "T2387",
+      "task_index_in_env": 7,
+      "instruction_text": "Show me exactly-five-star sci-fi novels on Goodreads books in exactly Black Stainless Steel (not Stainless Steel) finish.",
+      "expected_filter_state": {
+        "constraint": "in exactly Black Stainless Steel (not Stainless Steel) finish"
+      }
+    },
+    {
+      "task_id": "T2388",
+      "task_index_in_env": 8,
+      "instruction_text": "On Goodreads books, find exactly-five-star sci-fi novels used Fender (exactly Stratocaster, not Telecaster) electric guitars.",
+      "expected_filter_state": {
+        "constraint": "used Fender (exactly Stratocaster, not Telecaster) electric guitars"
+      }
+    },
+    {
+      "task_id": "T2389",
+      "task_index_in_env": 9,
+      "instruction_text": "Help me browse Goodreads books for exactly-five-star sci-fi novels with exactly five-star rating AND sci-fi genre.",
+      "expected_filter_state": {
+        "constraint": "with exactly five-star rating AND sci-fi genre"
+      }
+    },
+    {
+      "task_id": "T2390",
+      "task_index_in_env": 10,
+      "instruction_text": "On Goodreads books, find exactly-five-star sci-fi novels with exactly Italian cuisine AND party-size of exactly 4.",
+      "expected_filter_state": {
+        "constraint": "with exactly Italian cuisine AND party-size of exactly 4"
+      }
+    }
+  ]
+}

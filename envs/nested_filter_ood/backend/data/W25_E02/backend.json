@@ -1,0 +1,101 @@
+{
+  "env_id": "W25_E02",
+  "widget_id": "W25_plus_chip_plus_property_type",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2411",
+      "task_index_in_env": 1,
+      "instruction_text": "On Apartments.com Houston, find homes that are single-family with 4+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "single-family",
+        "min_beds": 4
+      }
+    },
+    {
+      "task_id": "T2412",
+      "task_index_in_env": 2,
+      "instruction_text": "Show me single-family homes on Apartments.com Houston with 1+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "single-family",
+        "min_beds": 1
+      }
+    },
+    {
+      "task_id": "T2413",
+      "task_index_in_env": 3,
+      "instruction_text": "On Apartments.com Houston, find homes that are condos with 2+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "condos",
+        "min_beds": 2
+      }
+    },
+    {
+      "task_id": "T2414",
+      "task_index_in_env": 4,
+      "instruction_text": "On Apartments.com Houston, find homes that are townhouses with 3+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "townhouses",
+        "min_beds": 3
+      }
+    },
+    {
+      "task_id": "T2415",
+      "task_index_in_env": 5,
+      "instruction_text": "On Apartments.com Houston, find homes that are single-family with 4+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "single-family",
+        "min_beds": 4
+      }
+    },
+    {
+      "task_id": "T2416",
+      "task_index_in_env": 6,
+      "instruction_text": "Help me search Apartments.com Houston for condos homes with 3+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "condos",
+        "min_beds": 3
+      }
+    },
+    {
+      "task_id": "T2417",
+      "task_index_in_env": 7,
+      "instruction_text": "On Apartments.com Houston, find homes that are single-family with 3+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "single-family",
+        "min_beds": 3
+      }
+    },
+    {
+      "task_id": "T2418",
+      "task_index_in_env": 8,
+      "instruction_text": "Show me townhouses homes on Apartments.com Houston with 2+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "townhouses",
+        "min_beds": 2
+      }
+    },
+    {
+      "task_id": "T2419",
+      "task_index_in_env": 9,
+      "instruction_text": "On Apartments.com Houston, find homes that are multi-family with any number of bedrooms.",
+      "expected_filter_state": {
+        "ptype": "multi-family",
+        "min_beds": 0
+      }
+    },
+    {
+      "task_id": "T2420",
+      "task_index_in_env": 10,
+      "instruction_text": "Show me single-family homes on Apartments.com Houston with 5+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "single-family",
+        "min_beds": 5
+      }
+    }
+  ]
+}

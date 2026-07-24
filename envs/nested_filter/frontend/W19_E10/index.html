@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoPets — EchoPets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700;800&family=DM+Serif+Display&family=Source+Sans+3:wght@400;600;700&family=Source+Serif+Pro:wght@600;700&family=Roboto+Slab:wght@700&display=swap">
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+/* PATCH_HIDE_W19_HINTS */
+.results-meta #combo-pill,
+.results-meta .combo-pill,
+.live-status, #live-status
+  { display: none !important; visibility: hidden !important; }
+
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+
+
+
+
+
+:root {
+  --primary: #ee5a2c;
+  --primary-dark: #c64216;
+  --bf-red: #d72a1a;
+  --bg-hero: #fbf2e6;
+  --bg-page: #fffaf3;
+  --bg-soft: #f6ede0;
+  --accent: #1f1a17;
+  --btn-dark: #1f1a17;
+  --ink: #1f1a17;
+  --ink-2: #5a4f44;
+  --line: #e8d8c2;
+  --headline: "DM Serif Display", Georgia, serif;
+  --body: "Inter", "Segoe UI", sans-serif;
+}
+body { font-family: var(--body); background: var(--bg-page); color:#0f1115; font-size:14px; line-height:1.5; }
+
+* { box-sizing:border-box; }
+html, body { margin:0; padding:0; }
+img { max-width:100%; display:block; }
+button { font:inherit; cursor:pointer; }
+input, select, textarea { font:inherit; color:inherit; }
+
+.live-status { position:fixed; right:14px; bottom:14px; padding:8px 14px; border-radius:18px;
+  font-size:12px; font-weight:600; z-index:50; box-shadow:0 4px 14px rgba(0,0,0,0.18);
+  background:#fff; color:#333; max-width:60vw; }
+.live-status.good   { background:#1f9d55; color:#fff; }
+.live-status.pending{ background:#fff3d6; color:#7a4a00; }
+.live-status.neutral{ background:#eef1f5; color:#444; }
+
+#task-banner { display:none; margin:12px 24px 0; padding:12px 16px; border-radius:10px;
+  background:#fffbea; border:1px solid #f3deaa; flex-direction:column; gap:8px; }
+.tb-strip { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.tb-pill { padding:2px 8px; border-radius:10px; font-size:10px; font-weight:700; letter-spacing:0.4px; text-transform:uppercase; }
+.tb-pill-write     { background:#2563eb; color:#fff; }
+.tb-pill-read      { background:#16a34a; color:#fff; }
+.tb-pill-read_write{ background:#9333ea; color:#fff; }
+.tb-pill-diff { background:#fde68a; color:#774700; }
+.tb-id { font-family:'JetBrains Mono',Menlo,monospace; font-size:11px; color:#666; }
+.tb-text { font-size:14px; color:#222; line-height:1.5; }
+.tb-answer { display:flex; align-items:center; gap:10px; }
+.tb-answer label { font-size:12px; color:#444; font-weight:600; }
+.tb-answer input { flex:1; padding:7px 10px; border:1px solid #d6c690; border-radius:6px; background:#fff; }
+
+.petc { background:#fff; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden;
+  display:flex; flex-direction:column; box-shadow:0 1px 3px rgba(0,0,0,0.04); transition:transform .12s, box-shadow .12s; }
+.petc:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.08); }
+.petc-img { aspect-ratio: 4/3; background:#f0f2f4; overflow:hidden; position:relative; }
+.petc-img img { width:100%; height:100%; object-fit:cover; }
+.petc-fallback { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:54px; background:#f6f7f9; }
+.petc-flag { position:absolute; top:8px; left:8px; background:#16a34a; color:#fff; font-size:10px; padding:2px 7px; border-radius:10px; font-weight:700; letter-spacing:0.4px; }
+.petc-body { padding:10px 12px; display:flex; flex-direction:column; gap:4px; }
+.petc-name { font-size:15px; display:flex; align-items:center; justify-content:space-between; }
+.petc-id { font-size:10px; color:#999; }
+.petc-line { font-size:12px; color:#444; }
+.petc-line.subtle { color:#777; }
+.petc-tags { display:flex; gap:4px; flex-wrap:wrap; margin:2px 0 1px; }
+.tg { padding:1px 7px; border-radius:10px; font-size:10px; font-weight:600; background:#f0f2f4; color:#333; }
+.tg-male    { background:#dbeafe; color:#1e3a8a; }
+.tg-female  { background:#fde2ef; color:#831847; }
+.tg-spayed  { background:#dcfce7; color:#14532d; }
+.tg-neutered{ background:#ddd6fe; color:#3b186d; }
+.tg-intact  { background:#fef9c3; color:#713f12; }
+.tg-trait   { background:#eef2f7; color:#3a4a63; }
+.petc-foot { font-size:11px; color:#666; margin-top:2px; }
+.w19-empty { padding:30px; text-align:center; color:#888; background:#fff; border:1px dashed #d4d4d4; border-radius:12px; }
+
+.combo-pill { display:inline-block; padding:5px 12px; border-radius:14px; font-size:11px; font-weight:600; }
+.combo-pill.empty   { background:#fef2f2; color:#9b1c1c; border:1px solid #fecaca; }
+.combo-pill.partial { background:#fffbe7; color:#7a4a00; border:1px solid #fbe28a; }
+.combo-pill.done    { background:#dcfce7; color:#14532d; border:1px solid #a7f3c5; }
+
+
+    .bf-top { background:#1f1a17; color:#fff; padding:8px 28px; text-align:center; font-size:12px; letter-spacing:0.5px; }
+    .bf-top span { color:var(--primary); font-weight:700; }
+    .bf-header { background:#fff; padding:16px 28px; display:flex; align-items:center; gap:30px; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:10; }
+    .bf-logo { font-family: var(--headline); font-size:26px; font-weight:700; color:#1f1a17; display:flex; align-items:center; gap:10px; letter-spacing:-0.5px; }
+    .bf-logo::before { content:"E"; width:34px; height:30px; background:var(--primary); color:#fff; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; font-family:Arial,Helvetica,sans-serif; font-size:22px; font-weight:800; line-height:1; }
+    .bf-nav { display:flex; gap:24px; font-size:13.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; }
+    .bf-nav a { color:#1f1a17; text-decoration:none; cursor:pointer; padding:6px 0; border-bottom:2px solid transparent; }
+    .bf-nav a:hover { border-color: var(--primary); color: var(--primary); }
+    .bf-nav a.active { border-color: var(--primary); color: var(--primary); }
+    .bf-auth { margin-left:auto; display:flex; gap:12px; align-items:center; }
+    .bf-search-ico { width:36px; height:36px; border:1.5px solid var(--line); border-radius:50%; display:grid; place-items:center; color:#1f1a17; font-size:14px; background:#fff; }
+    .bf-donate { background: var(--primary); color:#fff; padding:11px 22px; border-radius:26px; border:none; font-weight:800; font-size:13px; text-transform:uppercase; letter-spacing:0.6px; box-shadow:0 2px 6px rgba(238,90,44,0.25); }
+    .bf-donate:hover { background: var(--primary-dark); }
+    .bf-hero { background: var(--bg-hero); padding:46px 28px 36px; display:grid; grid-template-columns: 1.2fr 1fr; gap:40px; align-items:center; position:relative; }
+    .bf-hero::after { content:""; position:absolute; bottom:0; left:0; right:0; height:6px; background:linear-gradient(90deg, var(--primary) 0%, #f6a04e 100%); }
+    .bf-hero h1 { font-family: var(--headline); font-size:50px; margin:0 0 14px; color:#1f1a17; line-height:1.05; letter-spacing:-1px; }
+    .bf-hero h1 em { font-style:normal; color: var(--primary); }
+    .bf-hero p { font-size:15px; color:#3a3530; margin:0 0 22px; max-width:480px; line-height:1.55; }
+    .bf-search { background:#fff; padding:22px 26px; border-radius:14px; box-shadow:0 8px 24px rgba(0,0,0,0.08); display:flex; flex-direction:column; gap:14px; max-width:420px; border-top:4px solid var(--primary); }
+    .bf-search h3 { font-family: var(--headline); font-size:20px; margin:0; color:#1f1a17; }
+    .bf-row { display:flex; gap:10px; align-items:center; }
+    .bf-row label { font-size:11px; font-weight:800; color:#5a4f44; text-transform:uppercase; letter-spacing:0.6px; min-width:72px; }
+    .bf-row .field { background:#fbf2e6; border:1px solid var(--line); padding:9px 12px; border-radius:6px; flex:1; font-size:13px; color:#1f1a17; }
+    .bf-search-btn { background: var(--primary); color:#fff; padding:12px 22px; border:none; border-radius:24px; font-weight:800; font-size:13px; text-transform:uppercase; letter-spacing:0.5px; }
+    .bf-hero-img { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .bf-hero-img figure { margin:0; position:relative; }
+    .bf-hero-img img { border-radius:14px; aspect-ratio: 1/1.1; object-fit:cover; box-shadow:0 6px 18px rgba(0,0,0,0.12); }
+    .bf-hero-img figcaption { position:absolute; left:10px; bottom:10px; background:rgba(255,255,255,0.95); color:#1f1a17; font-size:11px; font-weight:700; padding:3px 9px; border-radius:10px; }
+
+    .bf-crumb { background:#fff; padding:12px 28px; border-bottom:1px solid var(--line); font-size:12px; color:#5a4f44; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .bf-crumb a { color:#5a4f44; text-decoration:none; }
+    .bf-crumb b { color: var(--primary); }
+    .bf-crumb .sep { opacity:0.5; }
+
+    main { padding:28px 28px 40px; max-width:1340px; margin:0 auto; }
+    .crit-card { background:#fff; border:1px solid var(--line); border-radius:14px; padding:0; margin:0 0 24px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.03); }
+    .crit-head { display:flex; align-items:center; justify-content:space-between; padding:14px 22px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,#fff8ef 0%,#fff 100%); }
+    .crit-head h3 { margin:0; font-family: var(--headline); font-size:18px; color:#1f1a17; display:flex; align-items:center; gap:8px; }
+    .crit-head h3::before { content:""; width:18px; height:18px; background: var(--primary);
+      -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M3 6h18M6 12h12M10 18h4'/></svg>") center/contain no-repeat;
+              mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'><path d='M3 5h18v2H3zM6 11h12v2H6zM10 17h4v2h-4z'/></svg>") center/contain no-repeat; }
+    .crit-reset { font-size:12px; font-weight:700; color: var(--primary); text-decoration:none; cursor:pointer; text-transform:uppercase; letter-spacing:0.5px; background:none; border:none; padding:0; }
+    .crit-body { padding:20px 22px; display:grid; grid-template-columns: 1fr 1fr; gap:30px; }
+    .filter-group { }
+    .group-label { font-size:11px; color:#5a4f44; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.7px; font-weight:800; }
+    .group-current { color: var(--primary); font-weight:700; margin-left:8px; font-size:11px; padding:2px 8px; background:#fff1e8; border-radius:10px; }
+    .chip-row { display:flex; flex-wrap:wrap; gap:8px; }
+    .chip-btn { padding:8px 16px; border:1.5px solid var(--line); border-radius:22px; background:#fff; font-size:13px; font-weight:600; color:#1f1a17; transition:.12s; }
+    .chip-btn:hover { border-color: var(--primary); color:var(--primary); }
+    .chip-btn.active { background: var(--primary); border-color: var(--primary); color:#fff; box-shadow:0 2px 6px rgba(238,90,44,0.3); }
+    .results-head { display:flex; justify-content:space-between; align-items:flex-end; padding:0 4px 18px; }
+    .results-head h2 { font-family: var(--headline); font-size:28px; margin:0 0 4px; color:#1f1a17; letter-spacing:-0.5px; }
+    .results-head .results-sub { font-size:12px; color:#5a4f44; }
+    .results-head .results-meta { font-size:12px; color:#5a4f44; }
+    .petc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:20px; }
+    .petc { border-radius:14px; border:1px solid var(--line); }
+
+    .bf-footer { background:#1f1a17; color:#fff; padding:36px 28px 20px; margin-top:40px; }
+    .bf-footer-grid { max-width:1280px; margin:0 auto; display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:30px; }
+    .bf-footer h4 { font-family: var(--headline); font-size:18px; margin:0 0 12px; color:#fff; }
+    .bf-footer .bf-brand { font-family: var(--headline); font-size:24px; font-weight:700; margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+    .bf-footer .bf-brand::before { content:"E"; width:24px; height:24px; background:var(--primary); color:#fff; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; font-family:Arial,Helvetica,sans-serif; font-size:17px; font-weight:800; line-height:1; }
+    .bf-footer p { font-size:13px; color:#cfc3b6; line-height:1.6; margin:0 0 14px; }
+    .bf-footer ul { list-style:none; padding:0; margin:0; }
+    .bf-footer ul li { font-size:13px; color:#cfc3b6; padding:4px 0; cursor:pointer; }
+    .bf-footer ul li:hover { color:var(--primary); }
+    .bf-footer .bf-cta { display:inline-block; background:var(--primary); color:#fff; padding:10px 20px; border-radius:22px; font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; }
+    .bf-foot-bar { max-width:1280px; margin:24px auto 0; padding-top:18px; border-top:1px solid #3a312a; font-size:11px; color:#8a7d70; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+    
+</style>
+</head>
+<body>
+  <div class="bf-top">EVERY PET MATTERS® · <span>NO ANIMAL SHOULD DIE BECAUSE THEY DON'T HAVE A HOME</span></div>
+  <header class="bf-header">
+    <div class="bf-logo">EchoPets</div>
+    <nav class="bf-nav"><a class="active">Adopt</a><a>Foster</a><a>Volunteer</a><a>Resources</a><a>About Us</a></nav>
+    <div class="bf-auth">
+      <div class="bf-search-ico" title="Search">🔍</div>
+      <button class="bf-donate">Donate</button>
+    </div>
+  </header>
+  <section class="bf-hero">
+    <div>
+      <h1>Every pet matters.<br><em>One adoption at a time.</em></h1>
+      <p>EchoPets partners with rescue groups and shelters across the country to help every pet find a loving forever home. Browse adoptable dogs near you.</p>
+      <div class="bf-search">
+        <h3>Find a rescue pet near you</h3>
+        <div class="bf-row"><label>Zip code</label><div class="field">📍 84101 (Salt Lake City, UT)</div></div>
+        <div class="bf-row"><label>Distance</label><div class="field">Within 50 miles ▾</div></div>
+        <div class="bf-row"><label>Pet type</label><div class="field">Dogs ▾</div></div>
+      </div>
+    </div>
+    <div class="bf-hero-img">
+      <figure><img src="https://images.pexels.com/photos/20635787/pexels-photo-20635787.jpeg?auto=compress&cs=tinysrgb&h=240" alt="featured pet"><figcaption>♥ Adoptable</figcaption></figure>
+      <figure><img src="https://images.pexels.com/photos/37499463/pexels-photo-37499463.jpeg?auto=compress&cs=tinysrgb&h=240" alt="featured pet"><figcaption>♥ Adoptable</figcaption></figure>
+    </div>
+  </section>
+  <div class="bf-crumb"><a>Home</a><span class="sep">/</span><a>Adopt</a><span class="sep">/</span><b>Dogs near Salt Lake City, UT</b></div>
+  <div id="task-banner"></div>
+  <main>
+    <div class="crit-card">
+      <div class="crit-head">
+        <h3>Refine your search</h3>
+        <button class="crit-reset" onclick="setSex('Any'); setSter('Any');">Reset filters</button>
+      </div>
+      <div class="crit-body">
+        <div class="filter-group">  <div class="group-label">Sex <span class="group-current" id="sex-current-label">Any</span></div>  <div class="chip-row"><button class="chip-btn active" data-sex-opt="Any" onclick="setSex('Any')">Any</button><button class="chip-btn" data-sex-opt="Male" onclick="setSex('Male')">♂ Male</button><button class="chip-btn" data-sex-opt="Female" onclick="setSex('Female')">♀ Female</button></div></div>
+        <div class="filter-group">  <div class="group-label">Sterilization <span class="group-current" id="ster-current-label">Any</span></div>  <div class="chip-row"><button class="chip-btn active" data-ster-opt="Any" onclick="setSter('Any')">Any</button><button class="chip-btn" data-ster-opt="Spayed" onclick="setSter('Spayed')">Spayed</button><button class="chip-btn" data-ster-opt="Neutered" onclick="setSter('Neutered')">Neutered</button><button class="chip-btn" data-ster-opt="Intact" onclick="setSter('Intact')">Intact</button></div></div>
+      </div>
+    </div>
+
+    <section class="results-area">
+      <div class="results-head">
+        <div>
+          <h2 id="results-title">Adoptable pets near you</h2>
+          <div class="results-sub">Showing rescue dogs within 50 miles of 84101 · Salt Lake City, UT</div>
+        </div>
+        <div class="results-meta">
+          <span id="combo-pill" class="combo-pill empty" aria-hidden="true"></span>
+          <span id="w19-count" style="color:#5a4f44; font-size:12px; margin-left:10px;">—</span>
+        </div>
+      </div>
+      <div id="w19-results" class="petc-grid"></div>
+    </section>
+
+  </main>
+
+  <footer class="bf-footer">
+    <div class="bf-footer-grid">
+      <div>
+        <div class="bf-brand">EchoPets</div>
+        <p>EchoPets is a leading national animal welfare organization dedicated to ending the killing of dogs and cats in America's shelters by 2025.</p>
+        <a class="bf-cta">Donate now</a>
+      </div>
+      <div>
+        <h4>Adopt</h4>
+        <ul><li>Adopt a dog</li><li>Adopt a cat</li><li>Other animals</li><li>Adoption centers</li><li>Foster a pet</li></ul>
+      </div>
+      <div>
+        <h4>Get involved</h4>
+        <ul><li>Volunteer</li><li>Fundraise</li><li>Events</li><li>Spread the word</li><li>Advocacy</li></ul>
+      </div>
+      <div>
+        <h4>About</h4>
+        <ul><li>Our mission</li><li>Lifesaving programs</li><li>Sanctuary</li><li>News &amp; stories</li><li>Contact us</li></ul>
+      </div>
+    </div>
+    <div class="bf-foot-bar">
+      <span>© EchoPets · Every Pet Matters®</span>
+      <span>Privacy · Terms · Accessibility</span>
+    </div>
+  </footer>
+
+<div class="live-status neutral" id="live-status">💾 ready</div>
+<script>
+const ENV_ID = "W19_E10";
+const W19_PETS = [{"id": 1, "name": "Toby", "breed": "Pit Bull Mix", "category": "Dog", "age": 8, "age_label": "Senior", "sex": "Female", "sterilization": "Intact", "coat": "short", "care_type": "Private owner", "city": "Park City", "distance": 6.9, "tags": ["House-trained", "Friendly"], "rating": 3.9, "image_url": "https://images.pexels.com/photos/37891164/pexels-photo-37891164.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 2, "name": "Bailey", "breed": "Boxer", "category": "Dog", "age": 8, "age_label": "Senior", "sex": "Male", "sterilization": "Spayed", "coat": "medium", "care_type": "Private owner", "city": "Ogden", "distance": 41.8, "tags": ["Energetic", "Loves walks"], "rating": 3.8, "image_url": "https://images.pexels.com/photos/11881801/pexels-photo-11881801.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 3, "name": "Sadie", "breed": "Husky", "category": "Dog", "age": 8, "age_label": "Senior", "sex": "Female", "sterilization": "Intact", "coat": "medium", "care_type": "Shelter", "city": "Salt Lake City", "distance": 11.4, "tags": ["Energetic", "Loves walks"], "rating": 4.1, "image_url": "https://images.pexels.com/photos/32635834/pexels-photo-32635834.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 4, "name": "Luna", "breed": "Beagle", "category": "Dog", "age": 8, "age_label": "Senior", "sex": "Female", "sterilization": "Neutered", "coat": "short", "care_type": "Shelter", "city": "Salt Lake City", "distance": 43.7, "tags": ["Good with dogs", "Good with kids"], "rating": 4.3, "image_url": "https://images.pexels.com/photos/20635787/pexels-photo-20635787.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 5, "name": "Buddy", "breed": "Husky", "category": "Dog", "age": 8, "age_label": "Senior", "sex": "Female", "sterilization": "Intact", "coat": "long", "care_type": "Rescue", "city": "Sandy", "distance": 29.1, "tags": ["Good with cats"], "rating": 3.7, "image_url": "https://images.pexels.com/photos/20241838/pexels-photo-20241838.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 6, "name": "Murphy", "breed": "Labrador Retriever", "category": "Dog", "age": 8, "age_label": "Senior", "sex": "Female", "sterilization": "Spayed", "coat": "long", "care_type": "Shelter", "city": "West Valley City", "distance": 36.4, "tags": ["Good with cats", "Good with kids"], "rating": 3.7, "image_url": "https://images.pexels.com/photos/8266284/pexels-photo-8266284.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 7, "name": "Rocky", "breed": "Dachshund", "category": "Dog", "age": 8, "age_label": "Senior", "sex": "Male", "sterilization": "Intact", "coat": "short", "care_type": "Foster home", "city": "West Valley City", "distance": 10.9, "tags": ["Energetic", "Loves walks"], "rating": 4.4, "image_url": "https://images.pexels.com/photos/34058942/pexels-photo-34058942.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 8, "name": "Rocky", "breed": "Cane Corso", "category": "Dog", "age": 4, "age_label": "Adult", "sex": "Female", "sterilization": "Spayed", "coat": "medium", "care_type": "Shelter", "city": "West Valley City", "distance": 16.6, "tags": ["House-trained", "Friendly", "Good with kids"], "rating": 4.3, "image_url": "https://images.pexels.com/photos/37499463/pexels-photo-37499463.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 9, "name": "Cooper", "breed": "Bernese Mountain Doodle", "category": "Dog", "age": 1, "age_label": "Puppy", "sex": "Female", "sterilization": "Spayed", "coat": "medium", "care_type": "Foster home", "city": "Provo", "distance": 28.6, "tags": ["Good with dogs", "Good with kids"], "rating": 4.2, "image_url": "https://images.pexels.com/photos/18215265/pexels-photo-18215265.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 10, "name": "Zoe", "breed": "Pit Bull Mix", "category": "Dog", "age": 3, "age_label": "Young", "sex": "Male", "sterilization": "Neutered", "coat": "medium", "care_type": "Private owner", "city": "Sandy", "distance": 7.3, "tags": ["Good with dogs", "Good with kids"], "rating": 4.7, "image_url": "https://images.pexels.com/photos/32130866/pexels-photo-32130866.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 11, "name": "Penny", "breed": "Husky", "category": "Dog", "age": 8, "age_label": "Senior", "sex": "Male", "sterilization": "Neutered", "coat": "short", "care_type": "Rescue", "city": "Sandy", "distance": 16.2, "tags": ["Good with cats"], "rating": 4.1, "image_url": "https://images.pexels.com/photos/37936461/pexels-photo-37936461.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 12, "name": "Molly", "breed": "Bulldog", "category": "Dog", "age": 6, "age_label": "Adult", "sex": "Female", "sterilization": "Spayed", "coat": "long", "care_type": "Shelter", "city": "Sandy", "distance": 15.1, "tags": ["Good with kids", "House-trained"], "rating": 4.0, "image_url": "https://images.pexels.com/photos/11408628/pexels-photo-11408628.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 13, "name": "Toby", "breed": "Shih Tzu", "category": "Dog", "age": 1, "age_label": "Puppy", "sex": "Male", "sterilization": "Intact", "coat": "long", "care_type": "Shelter", "city": "Provo", "distance": 21.1, "tags": ["Good with cats"], "rating": 4.4, "image_url": "https://images.pexels.com/photos/35511893/pexels-photo-35511893.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 14, "name": "Buddy", "breed": "Bernese Mountain Doodle", "category": "Dog", "age": 6, "age_label": "Adult", "sex": "Male", "sterilization": "Neutered", "coat": "short", "care_type": "Private owner", "city": "Salt Lake City", "distance": 23.8, "tags": ["House-trained", "Friendly"], "rating": 4.2, "image_url": "https://images.pexels.com/photos/30586500/pexels-photo-30586500.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 15, "name": "Buddy", "breed": "Shih Tzu", "category": "Dog", "age": 3, "age_label": "Young", "sex": "Female", "sterilization": "Spayed", "coat": "long", "care_type": "Shelter", "city": "West Valley City", "distance": 19.7, "tags": ["Good with kids", "Good with cats"], "rating": 4.0, "image_url": "https://images.pexels.com/photos/35285293/pexels-photo-35285293.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 16, "name": "Sadie", "breed": "Poodle Mix", "category": "Dog", "age": 1, "age_label": "Puppy", "sex": "Male", "sterilization": "Intact", "coat": "short", "care_type": "Rescue", "city": "Sandy", "distance": 1.4, "tags": ["Good with dogs", "Good with kids"], "rating": 3.7, "image_url": "https://images.pexels.com/photos/3523317/pexels-photo-3523317.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 17, "name": "Daisy", "breed": "Labrador Retriever", "category": "Dog", "age": 1, "age_label": "Puppy", "sex": "Female", "sterilization": "Spayed", "coat": "long", "care_type": "Private owner", "city": "Sandy", "distance": 11.3, "tags": ["House-trained", "Friendly"], "rating": 3.9, "image_url": "https://images.pexels.com/photos/37899047/pexels-photo-37899047.jpeg?auto=compress&cs=tinysrgb&h=130"}, {"id": 18, "name": "Sadie", "breed": "Boxer", "category": "Dog", "age": 1, "age_label": "Puppy", "sex": "Male", "sterilization": "Spayed", "coat": "medium", "care_type": "Private owner", "city": "West Valley City", "distance": 35.4, "tags": ["Energetic", "Loves walks"], "rating": 4.8, "image_url": "https://images.pexels.com/photos/37374572/pexels-photo-37374572.jpeg?auto=compress&cs=tinysrgb&h=130"}];
+
+let filterState = { sex: 'Any', sterilization: 'Any' };
+
+function _q(s, r) { return (r||document).querySelector(s); }
+function _qa(s, r) { return Array.from((r||document).querySelectorAll(s)); }
+function _esc(s) { return (s==null?'':String(s)).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function _taskId() { return new URLSearchParams(window.location.search).get('task_id'); }
+
+function _visible(p) {
+  const sx = filterState.sex, st = filterState.sterilization;
+  if (sx && sx !== 'Any' && p.sex !== sx) return false;
+  if (st && st !== 'Any' && p.sterilization !== st) return false;
+  return true;
+}
+
+function _renderCards() {
+  const grid = document.getElementById('w19-results');
+  if (!grid) return;
+  const show = W19_PETS.filter(_visible);
+  const cnt = document.getElementById('w19-count');
+  if (cnt) cnt.textContent = show.length + ' pet' + (show.length === 1 ? '' : 's') + ' shown';
+  if (!show.length) {
+    grid.innerHTML = '<div class="w19-empty">No adoptable pets match your filters. Try adjusting them to see more pets.</div>';
+    return;
+  }
+  grid.innerHTML = show.map(p => `
+    <article class="petc">
+      <div class="petc-img">
+        <img src="${_esc(p.image_url)}" alt="${_esc(p.name)}" loading="lazy"
+          onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'petc-fallback',textContent:'${p.category==='Cat' ? '🐱' : '🐶'}'}))">
+        ${p.age <= 2 ? '<span class="petc-flag">NEW</span>' : ''}
+      </div>
+      <div class="petc-body">
+        <div class="petc-name"><b>${_esc(p.name)}</b><span class="petc-id">#${p.id}</span></div>
+        <div class="petc-line">${_esc(p.age_label)} · ${p.age} yr · <b>${_esc(p.sex)}</b> · ${_esc(p.sterilization)}</div>
+        <div class="petc-line subtle">${_esc(p.breed)} · ${_esc(p.coat)}-coat · ${_esc(p.care_type)}</div>
+        <div class="petc-tags">
+          <span class="tg tg-${p.sex.toLowerCase()}">${p.sex==='Male'?'♂':'♀'} ${_esc(p.sex)}</span>
+          <span class="tg tg-${p.sterilization.toLowerCase()}">${_esc(p.sterilization)}</span>
+          ${(p.tags||[]).slice(0,2).map(t => `<span class="tg tg-trait">${_esc(t)}</span>`).join('')}
+        </div>
+        <div class="petc-foot">${_esc(p.city)} · ${(p.distance||0).toFixed(1)} mi · ★ ${p.rating}</div>
+      </div>
+    </article>`).join('');
+}
+
+function _getAnswer() { const a = document.getElementById('task-answer-input'); return a ? a.value : ''; }
+
+function _submit() {
+  const tid = _taskId();
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ filter_state: filterState, answer: _getAnswer(), task_id: tid })
+  }).then(r => r.json()).then(_updateLive).catch(()=>{});
+}
+
+function _updateLive(d) {
+  /* live indicator hidden in production UI */
+  return d;
+}
+
+function setSex(v)            { filterState.sex = v;            onPick(); }
+function setSter(v)           { filterState.sterilization = v;  onPick(); }
+function onPick() { _renderCards(); _syncUI(); _submit(); }
+function onAnswerInput() { _submit(); }
+
+function _syncUI() {
+  _qa('[data-sex-opt]').forEach(b => b.classList.toggle('active', b.dataset.sexOpt === filterState.sex));
+  _qa('[data-ster-opt]').forEach(b => b.classList.toggle('active', b.dataset.sterOpt === filterState.sterilization));
+  const sxLabel = _q('#sex-current-label');    if (sxLabel)  sxLabel.textContent  = filterState.sex;
+  const stLabel = _q('#ster-current-label');   if (stLabel)  stLabel.textContent  = filterState.sterilization;
+  const sumPill = _q('#combo-pill');
+  if (sumPill) {
+    if (filterState.sex === 'Any' && filterState.sterilization === 'Any') {
+      sumPill.textContent = '';
+      sumPill.className = 'combo-pill empty';
+    } else {
+      const parts = [];
+      if (filterState.sex !== 'Any') parts.push(filterState.sex);
+      if (filterState.sterilization !== 'Any') parts.push(filterState.sterilization);
+      sumPill.textContent = parts.join(' · ');
+      sumPill.className = 'combo-pill done';
+    }
+  }
+}
+
+function _loadBanner() {
+  const tid = _taskId();
+  fetch('/env/' + ENV_ID + '/api/task/' + encodeURIComponent(tid))
+    .then(r => r.ok ? r.json() : null)
+    .then(task => {
+      if (!task) return;
+      const b = document.getElementById('task-banner');
+      if (!b) return;
+      b.style.display = 'flex';
+      const needsAns = task.task_type !== 'write';
+      b.innerHTML = `
+        <div class="tb-strip">
+          <span class="tb-pill tb-pill-${task.task_type}">${task.task_type.toUpperCase()}</span>
+          <span class="tb-pill tb-pill-diff">${task.task_difficulty}</span>
+          <span class="tb-id">${_esc(task.id)}</span>
+        </div>
+        <div class="tb-text">${_esc(task.task_summary)}</div>
+        ${needsAns ? `<div class="tb-answer"><label for="task-answer-input">Your answer</label>
+          <input type="text" id="task-answer-input" placeholder="Type the answer here…" oninput="onAnswerInput()"></div>` : ''}
+      `;
+    }).catch(()=>{});
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  _loadBanner();
+  _syncUI();
+  _renderCards();
+  _submit();
+});
+
+</script>
+</body>
+</html>
+

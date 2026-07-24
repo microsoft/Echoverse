@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoEvents — Find Local Events</title>
+<style>
+
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-body,'Open Sans',Arial,sans-serif);background:var(--page-bg,#fff);color:var(--ink,#1a1a1a);font-size:14px;line-height:1.5}
+a{color:var(--brand-primary);text-decoration:none;cursor:pointer}
+button{font-family:inherit;cursor:pointer}
+.strip{padding:10px 28px;background:#f5f6f7;border-bottom:1px solid #e3e5e7;font-size:12px;color:#555;display:flex;gap:8px;align-items:center}
+.strip a{color:#555}
+.strip b{color:#222}
+.strip .sep{color:#aaa}
+.page{display:grid;grid-template-columns:260px 1fr;gap:28px;padding:18px 28px;min-height:80vh;max-width:1400px;margin:0 auto}
+.aside h3{font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:#999;margin:0 0 12px;border-bottom:1px solid #eee;padding-bottom:6px}
+.aside h4{font-size:13px;margin:14px 0 6px;color:#333;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.fsec{border-bottom:1px solid #ececec;padding:6px 0 14px}
+.fsec .opts label{display:flex;align-items:center;gap:8px;font-size:13px;padding:3px 0;cursor:pointer}
+.fsec input[type=checkbox],.fsec input[type=radio]{accent-color:var(--brand-primary)}
+.facet-clear{font-size:11px;color:var(--brand-primary);cursor:pointer;text-decoration:underline}
+.results{display:flex;flex-direction:column;gap:14px;min-width:0}
+.results-head{display:flex;align-items:center;gap:12px;padding:6px 0}
+.results-head h1{font-size:22px;margin:0;color:var(--ink)}
+.rc-count{color:#666;font-size:13px}
+.sort-dd{margin-left:auto;padding:6px 12px;border:1px solid #ddd;border-radius:4px;background:#fff;font-size:13px}
+.empty-msg{padding:32px;text-align:center;color:#999;border:1px dashed #d0d0d0;border-radius:8px}
+.footer{margin-top:48px;padding:20px 28px;border-top:1px solid #eee;color:#888;font-size:12px;background:#fafafa;text-align:center}
+
+/* Chip default visuals (per-placement overrides below) */
+.fc{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:14px;font-size:12px;font-weight:600;background:#eef2f7;color:#1f3a5f;border:1px solid #d4dceb;line-height:1}
+.fc .x{cursor:pointer;opacity:.6;font-size:15px;line-height:1;padding:0 2px;border-radius:50%;font-weight:bold}
+.fc .x:hover{opacity:1;background:rgba(0,0,0,.1)}
+.fc:empty{display:none}
+.chiprail{display:flex;flex-wrap:wrap;gap:8px}
+.chiprail:empty:before{content:"No filters applied";color:#bbb;font-size:11px;font-style:italic}
+.rail-label{font-size:12px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.clear-all{font-size:12px;color:var(--brand-primary);cursor:pointer;text-decoration:underline;margin-left:auto;white-space:nowrap}
+
+/* Placement: sticky_after_nav */
+.chip-sticky{position:sticky;top:0;z-index:30;background:#fff;padding:10px 28px;border-bottom:1px solid #e3e5e7;display:flex;gap:12px;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,.05);flex-wrap:wrap;min-height:50px}
+.chip-sticky .fc{background:var(--brand-primary);color:#fff;border-color:var(--brand-primary-dark);border-radius:4px}
+.chip-sticky .fc .x{color:#fff}
+.chip-sticky .fc .x:hover{background:rgba(255,255,255,.25)}
+
+/* Placement: top_bar (bright bar above breadcrumb) */
+.chip-topbar{background:var(--brand-accent,#fff200);padding:10px 28px;display:flex;gap:12px;align-items:center;border-top:1px solid rgba(0,0,0,.08);border-bottom:1px solid rgba(0,0,0,.1);flex-wrap:wrap}
+.chip-topbar .fc{background:#fff;color:#222;border:2px solid rgba(0,0,0,.15);border-radius:18px;padding:5px 12px;font-weight:700}
+.chip-topbar .fc .x{color:#444}
+
+/* Placement: breadcrumb_style */
+.chip-crumbs{padding:10px 28px;background:#fff;border-bottom:1px solid #eee;display:flex;gap:10px;align-items:center;font-size:13px;flex-wrap:wrap}
+.chip-crumbs .fc{background:transparent;color:var(--brand-primary);border:none;padding:2px 0;font-weight:600}
+.chip-crumbs .fc:after{content:"›";color:#999;margin-left:10px;font-weight:400}
+.chip-crumbs .fc:last-child:after{display:none}
+.chip-crumbs .fc .x{margin-left:4px;color:var(--brand-primary);background:rgba(0,0,0,.05);width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
+
+/* Placement: in_page_anchor */
+.chip-anchor-fab{display:none;position:fixed;bottom:24px;right:24px;z-index:40;background:var(--brand-primary);color:#fff;padding:10px 16px;border-radius:24px;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(0,0,0,.2);font-size:13px;font-weight:700;text-decoration:none}
+.chip-anchor-fab:hover{background:var(--brand-primary-dark)}
+.chip-anchor-zone{padding:14px 28px;background:linear-gradient(90deg,rgba(0,0,0,.02),rgba(0,0,0,.04));border-top:3px solid var(--brand-primary);border-bottom:1px solid #eee;display:flex;gap:12px;align-items:center;flex-wrap:wrap;scroll-margin-top:80px}
+.chip-anchor-zone .fc{background:#fff;border:1.5px solid var(--brand-primary);color:var(--brand-primary);padding:5px 12px;border-radius:4px;font-weight:600}
+.chip-anchor-zone .fc .x{color:var(--brand-primary)}
+
+/* Placement: inline_above_results */
+.chip-inline{padding:10px 14px;background:rgba(0,0,0,.02);border:1px dashed #d4d4d4;border-radius:8px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.chip-inline .fc{background:var(--brand-primary);color:#fff;border-color:var(--brand-primary-dark);border-radius:14px;padding:4px 10px}
+.chip-inline .fc .x{color:#fff}
+
+
+:root{--brand-primary:#d1410c;--brand-primary-dark:#a8330a;--brand-accent:#d1410c;--page-bg:#fff;--ink:#1e0a3c;--ink-soft:#39364f;--muted:#6f7287;--line:#eeedf2;--blue:#3659e3;--font-body:'Neue Plak','Helvetica Neue',Helvetica,Arial,sans-serif}
+body{color:var(--ink);font-family:var(--font-body)}
+
+/* ===== Top bar ===== */
+.ev-top{background:#fff;border-bottom:1px solid var(--line);position:relative;z-index:5}
+.ev-top-inner{display:flex;align-items:center;padding:14px 32px;gap:22px;max-width:1440px;margin:0 auto}
+.ev-logo{display:flex;align-items:center;gap:8px;font-size:22px;font-weight:800;color:var(--brand-primary);letter-spacing:-.3px;flex-shrink:0}
+.ev-logo svg{width:26px;height:26px;flex-shrink:0}
+.ev-logo .logo-text{font-family:'Neue Plak','Helvetica Neue',Arial,sans-serif;font-size:22px;font-weight:800}
+.ev-search{flex:1;display:flex;align-items:center;border:1px solid #c2c2cc;border-radius:30px;padding:3px;max-width:640px;background:#fff;transition:box-shadow .15s}
+.ev-search:focus-within{box-shadow:0 0 0 2px rgba(209,65,12,.15);border-color:var(--brand-primary)}
+.ev-field{display:flex;align-items:center;flex:1;padding:0 14px;gap:10px;color:var(--ink-soft)}
+.ev-field.loc{border-left:1px solid #d8d8df;flex:.85}
+.ev-field svg{width:18px;height:18px;color:var(--ink-soft);flex-shrink:0}
+.ev-q,.ev-loc{border:none;padding:10px 0;font-size:15px;color:var(--ink);outline:none;background:transparent;width:100%;font-family:inherit}
+.ev-q::placeholder,.ev-loc::placeholder{color:#8a8896}
+.ev-go{background:var(--brand-primary);color:#fff;border:none;width:40px;height:40px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .15s}
+.ev-go:hover{background:var(--brand-primary-dark)}
+.ev-go svg{width:18px;height:18px}
+.ev-nav{display:flex;gap:22px;font-size:14px;font-weight:600;align-items:center;flex-shrink:0}
+.ev-nav a{color:var(--ink);white-space:nowrap}
+.ev-nav a:hover{color:var(--brand-primary)}
+.ev-nav .signin{color:var(--ink);font-weight:600}
+
+/* ===== Hero ===== */
+.ev-hero{max-width:1440px;margin:18px auto 0;padding:0 32px}
+.ev-hero-inner{position:relative;height:200px;border-radius:14px;overflow:hidden;background:linear-gradient(115deg,#241e3a 0%,#2a1d52 35%,#3d1e6b 60%,#5a1f6e 100%);display:flex;align-items:center;padding:36px 48px;color:#fff;isolation:isolate}
+.ev-hero-inner:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 78% 30%,rgba(255,180,90,.55),transparent 55%),radial-gradient(ellipse at 88% 80%,rgba(255,90,160,.35),transparent 60%);z-index:-1}
+.ev-hero-eyebrow{display:inline-block;background:#ffd0e0;color:#1e0a3c;font-weight:800;font-size:12px;padding:5px 10px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px}
+.ev-hero-title{font-size:38px;line-height:1.05;font-weight:900;letter-spacing:-.5px;max-width:560px;color:#1e0a3c}
+.ev-hero-title span{background:linear-gradient(90deg,#ffd0e0 0%,#c7b3ff 100%);padding:2px 10px;display:inline-block;margin-bottom:4px}
+.ev-hero-cta{display:inline-block;margin-top:18px;background:#fff;color:#1e0a3c;padding:11px 22px;border-radius:24px;font-weight:700;font-size:14px}
+
+/* ===== Category circles row ===== */
+.ev-cats{max-width:1440px;margin:24px auto 8px;padding:6px 32px;display:flex;justify-content:space-between;gap:8px;overflow-x:auto}
+.ev-cat{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;flex:1;min-width:90px}
+.ev-cat .ev-cat-ic{width:64px;height:64px;border-radius:50%;border:1px solid #d8d8df;display:flex;align-items:center;justify-content:center;color:var(--ink);background:#fff;transition:border-color .15s,box-shadow .15s}
+.ev-cat:hover .ev-cat-ic{border-color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.ev-cat svg{width:28px;height:28px}
+.ev-cat-lbl{font-size:13px;font-weight:600;color:var(--ink);text-align:center;line-height:1.2}
+
+/* ===== Browse bar ===== */
+.ev-browse{max-width:1440px;margin:14px auto 0;padding:14px 32px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.ev-browse-label{font-size:18px;font-weight:700;color:var(--ink)}
+.ev-loc-chip{display:inline-flex;align-items:center;gap:6px;font-size:18px;font-weight:700;color:var(--blue);cursor:pointer}
+.ev-loc-chip svg{width:16px;height:16px}
+.ev-tabs{display:flex;gap:24px;margin-left:24px;align-items:center}
+.ev-tab{font-size:14px;font-weight:600;color:var(--muted);padding:6px 0;cursor:pointer;border-bottom:2px solid transparent;line-height:1.4}
+.ev-tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.ev-tab:hover{color:var(--ink)}
+
+/* ===== Results / cards ===== */
+.page{max-width:1440px;padding:18px 32px}
+.results-head h1{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.3px}
+.aside h3{color:var(--ink);font-size:13px;font-weight:800}
+.aside h4{font-size:14px;color:var(--ink);font-weight:700}
+.fsec .opts label{font-size:14px;color:var(--ink-soft)}
+.result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+.eb-card{background:#fff;border-radius:8px;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.eb-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(30,10,60,.10)}
+.eb-img{height:160px;background:#f0eef2 no-repeat center/cover;position:relative}
+.eb-img:after{content:"♥";position:absolute;top:10px;right:10px;width:32px;height:32px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--ink-soft);font-size:18px}
+.eb-body{padding:14px 4px}
+.eb-when{font-size:13px;color:var(--brand-primary);font-weight:700;margin-bottom:4px}
+.eb-title{font-size:16px;color:var(--ink);font-weight:700;margin-bottom:6px;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.eb-org{font-size:13px;color:var(--muted);margin-bottom:10px}
+.eb-foot{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--ink-soft);font-weight:600}
+.eb-topic{font-size:12px;color:var(--muted);font-weight:500}
+.eb-price{color:var(--ink);font-weight:700}
+
+/* ===== Footer ===== */
+.ev-footer{margin-top:64px;background:#1e0a3c;color:#dcd9e8;padding:48px 32px 28px}
+.ev-footer-inner{max-width:1440px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:36px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.08)}
+.ev-footer h5{color:#fff;font-size:14px;font-weight:800;margin:0 0 14px;text-transform:uppercase;letter-spacing:.4px}
+.ev-footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.ev-footer li{font-size:13px;color:#b9b5cc}
+.ev-footer-brand{font-size:22px;font-weight:800;color:var(--brand-primary);margin-bottom:8px}
+.ev-footer-tag{font-size:13px;color:#b9b5cc;line-height:1.5}
+.ev-footer-bottom{max-width:1440px;margin:0 auto;padding-top:18px;font-size:12px;color:#8e8aa6;display:flex;justify-content:space-between}
+
+/* hide the legacy plain footer */
+.footer{display:none}
+
+/* chip-crumbs visual tightening */
+.chip-crumbs{padding:12px 32px;background:#fff;border-bottom:1px solid var(--line)}
+.chip-crumbs .rail-label{color:var(--ink-soft)}
+.chip-crumbs .fc{color:var(--blue);font-weight:700}
+.chip-crumbs .fc:after{color:#c5c2d3}
+.chip-crumbs .fc .x{background:rgba(54,89,227,.1);color:var(--blue)}
+
+</style>
+</head>
+<body>
+
+<header class="ev-top">
+  <div class="ev-top-inner">
+    <a class="ev-logo" aria-label="EchoEvents home">
+      <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="7"/><text x="16" y="23" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="800" fill="#fff">E</text></svg>
+      <span class="logo-text">EchoEvents</span>
+    </a>
+    <div class="ev-search">
+      <div class="ev-field">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="ev-q" placeholder="Search events" value="school activity">
+      </div>
+      <div class="ev-field loc">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.3 7 13 7 13s7-7.7 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/></svg>
+        <input class="ev-loc" placeholder="Your Location" value="New York">
+      </div>
+      <button class="ev-go" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+    </div>
+    <nav class="ev-nav">
+      <a>Find Events</a>
+      <a>Create Events</a>
+      <a>Help Center</a>
+      <a class="signin">Sign In</a>
+    </nav>
+  </div>
+</header>
+
+<section class="ev-hero">
+  <div class="ev-hero-inner">
+    <div>
+      <span class="ev-hero-eyebrow">Get Into It</span>
+      <h2 class="ev-hero-title"><span>FROM POP BALLADS</span><br><span>TO EMO ENCORES</span></h2>
+      <a class="ev-hero-cta">Get Into Live Music</a>
+    </div>
+  </div>
+</section>
+
+<nav class="ev-cats" aria-label="Browse categories">
+  <a class="ev-cat"><span class="ev-cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 14V3l8 3v3"/><circle cx="9" cy="16" r="3"/><circle cx="18" cy="13" r="3"/></svg></span><span class="ev-cat-lbl">Music</span></a>
+  <a class="ev-cat"><span class="ev-cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><path d="M4 12c4 0 8 0 16 0M12 4c2 2.5 3 5 3 8s-1 5.5-3 8M12 4c-2 2.5-3 5-3 8s1 5.5 3 8"/></svg></span><span class="ev-cat-lbl">Nightlife</span></a>
+  <a class="ev-cat"><span class="ev-cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="10" r="4"/><circle cx="16" cy="10" r="4"/><path d="M5 14c1 2 3 3 4 3M19 14c-1 2-3 3-4 3"/></svg></span><span class="ev-cat-lbl">Performing &amp; Visual Arts</span></a>
+  <a class="ev-cat"><span class="ev-cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 9h16M8 3v4M16 3v4"/><circle cx="12" cy="14" r="1.6"/></svg></span><span class="ev-cat-lbl">Holidays</span></a>
+  <a class="ev-cat"><span class="ev-cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="14" height="11" rx="2"/><path d="M14 15l5 3v-9l-5 3"/><path d="M8 9l1.5 1.5M8 12l1.5-1.5" stroke-width="1.4"/></svg></span><span class="ev-cat-lbl">Dating</span></a>
+  <a class="ev-cat"><span class="ev-cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="18" height="10" rx="5"/><circle cx="8" cy="11" r="1"/><circle cx="16" cy="11" r="1"/><path d="M8 11v-1M8 11v1"/></svg></span><span class="ev-cat-lbl">Hobbies</span></a>
+  <a class="ev-cat"><span class="ev-cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="13" rx="1"/><path d="M3 9h18M7 13h6"/></svg></span><span class="ev-cat-lbl">Business</span></a>
+  <a class="ev-cat"><span class="ev-cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 8h10v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M9 8V5a2 2 0 0 1 4 0v3"/><path d="M15 11h3a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2"/></svg></span><span class="ev-cat-lbl">Food &amp; Drink</span></a>
+</nav>
+
+<div class="ev-browse">
+  <span class="ev-browse-label">Browsing events in</span>
+  <span class="ev-loc-chip">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
+    New York
+  </span>
+  <div class="ev-tabs">
+    <span class="ev-tab active">All</span>
+    <span class="ev-tab">For you</span>
+    <span class="ev-tab">Today</span>
+    <span class="ev-tab">This weekend</span>
+  </div>
+</div>
+
+<div class="chip-crumbs">
+  <span class="rail-label">You're filtering by:</span>
+  <div class="chiprail" id="active-chips"></div>
+  <a class="clear-all" onclick="lsReset()">Clear all</a>
+</div>
+<main class="page"><aside class="aside"><h3>Refine results</h3><div class="fsec" data-facet-group="brand"><h4>Organizer<a class="facet-clear" onclick="clearFacet(this,'brand')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="brand" value="Big Apple Workshops" onchange="onF()"> <span class="opt-lbl">Big Apple Workshops</span></label><label><input type="checkbox" data-facet="brand" value="Brooklyn Arts Council" onchange="onF()"> <span class="opt-lbl">Brooklyn Arts Council</span></label><label><input type="checkbox" data-facet="brand" value="Family NYC" onchange="onF()"> <span class="opt-lbl">Family NYC</span></label><label><input type="checkbox" data-facet="brand" value="Le Du Wines" onchange="onF()"> <span class="opt-lbl">Le Du Wines</span></label><label><input type="checkbox" data-facet="brand" value="NY Medical School" onchange="onF()"> <span class="opt-lbl">NY Medical School</span></label><label><input type="checkbox" data-facet="brand" value="NYC DOE" onchange="onF()"> <span class="opt-lbl">NYC DOE</span></label><label><input type="checkbox" data-facet="brand" value="ParentSquared" onchange="onF()"> <span class="opt-lbl">ParentSquared</span></label></div></div><div class="fsec" data-facet-group="category"><h4>Topic<a class="facet-clear" onclick="clearFacet(this,'category')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="category" value="Arts" onchange="onF()"> <span class="opt-lbl">Arts</span></label><label><input type="checkbox" data-facet="category" value="Educational" onchange="onF()"> <span class="opt-lbl">Educational</span></label><label><input type="checkbox" data-facet="category" value="Family" onchange="onF()"> <span class="opt-lbl">Family</span></label><label><input type="checkbox" data-facet="category" value="Food & Drink" onchange="onF()"> <span class="opt-lbl">Food & Drink</span></label><label><input type="checkbox" data-facet="category" value="Music" onchange="onF()"> <span class="opt-lbl">Music</span></label><label><input type="checkbox" data-facet="category" value="STEM" onchange="onF()"> <span class="opt-lbl">STEM</span></label><label><input type="checkbox" data-facet="category" value="Sports" onchange="onF()"> <span class="opt-lbl">Sports</span></label></div></div><div class="fsec" data-facet-group="color"><h4>Cost<a class="facet-clear" onclick="clearFacet(this,'color')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="color" value="Free" onchange="onF()"> <span class="opt-lbl">Free</span></label><label><input type="checkbox" data-facet="color" value="Paid" onchange="onF()"> <span class="opt-lbl">Paid</span></label></div></div><div class="fsec" data-facet-group="condition"><h4>When<a class="facet-clear" onclick="clearFacet(this,'condition')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="condition" value="Mon Aug 10" onchange="onF()"> <span class="opt-lbl">Mon Aug 10</span></label><label><input type="checkbox" data-facet="condition" value="Next week" onchange="onF()"> <span class="opt-lbl">Next week</span></label><label><input type="checkbox" data-facet="condition" value="Sat May 16" onchange="onF()"> <span class="opt-lbl">Sat May 16</span></label><label><input type="checkbox" data-facet="condition" value="This month" onchange="onF()"> <span class="opt-lbl">This month</span></label><label><input type="checkbox" data-facet="condition" value="This weekend" onchange="onF()"> <span class="opt-lbl">This weekend</span></label><label><input type="checkbox" data-facet="condition" value="Today" onchange="onF()"> <span class="opt-lbl">Today</span></label><label><input type="checkbox" data-facet="condition" value="Tomorrow" onchange="onF()"> <span class="opt-lbl">Tomorrow</span></label></div></div><div class="fsec" data-facet-group="price"><h4>Price<a class="facet-clear" onclick="clearPrice()">clear</a></h4><div class="opts"><label><input type="radio" name="ptier" data-tier="0-0" onchange="setPriceTier(this)"> Free only</label><label><input type="radio" name="ptier" data-tier="1-25" onchange="setPriceTier(this)"> $1–$25</label><label><input type="radio" name="ptier" data-tier="26-75" onchange="setPriceTier(this)"> $26–$75</label><label><input type="radio" name="ptier" data-tier="76-500" onchange="setPriceTier(this)"> $76+</label></div></div><div class="fsec" data-facet-group="rating"><h4>Rating<a class="facet-clear" onclick="clearFacet(this,'rating_min')">clear</a></h4><div class="opts"><label><input type="radio" name="rating_min" data-facet="rating_min" value="4" onchange="onF()"> 4★ &amp; up</label><label><input type="radio" name="rating_min" data-facet="rating_min" value="3" onchange="onF()"> 3★ &amp; up</label></div></div></aside>
+<section class="results">
+  
+  
+  <div class="results-head">
+    <h1>Events in New York</h1>
+    <span class="rc-count" id="result-count">18 events</span>
+    <select class="sort-dd"><option>Sort: Recommended</option><option>Highest Rated</option><option>Price: Low to High</option><option>Newest</option></select>
+  </div>
+  <div class="result-grid" id="result-grid"></div>
+</section></main>
+<footer class="ev-footer">
+  <div class="ev-footer-inner">
+    <div>
+      <div class="ev-footer-brand">EchoEvents</div>
+      <p class="ev-footer-tag">Discover and book local school activities, family days, workshops, and live events near you.</p>
+    </div>
+    <div>
+      <h5>Use EchoEvents</h5>
+      <ul><li>Create Events</li><li>Pricing</li><li>Event Marketing Platform</li><li>Mobile Ticket App</li><li>Refund Policy</li></ul>
+    </div>
+    <div>
+      <h5>Plan Events</h5>
+      <ul><li>Sell Tickets Online</li><li>Event Planning</li><li>Sell Concert Tickets Online</li><li>Event Payment System</li><li>Solutions for Professional Services</li></ul>
+    </div>
+    <div>
+      <h5>Find Events</h5>
+      <ul><li>New York Events</li><li>This Weekend in NYC</li><li>Family-Friendly Picks</li><li>Free Things to Do</li><li>Event Calendar</li></ul>
+    </div>
+  </div>
+  <div class="ev-footer-bottom">
+    <span>© 2025 EchoEvents, Inc. — Event discovery built for you.</span>
+    <span>About · Blog · Help · Careers · Press · Investors · Security · Developers · Status</span>
+  </div>
+</footer>
+<footer class="footer">© 2025 EchoEvents — Event Discovery. All rights reserved.</footer>
+
+<script>
+const ENV_ID = 'W08_E09';
+let filterState = {};
+
+function buildStateFromDom() {
+  const s = {};
+  document.querySelectorAll('input[type=checkbox][data-facet]').forEach(el => {
+    if (el.checked) {
+      const f = el.dataset.facet;
+      (s[f] = s[f] || []).push(el.value);
+    }
+  });
+  document.querySelectorAll('input[type=radio][data-facet]:checked').forEach(el => {
+    s[el.dataset.facet] = el.value;
+  });
+  const tierEl = document.querySelector('input[name="ptier"]:checked');
+  if (tierEl) {
+    const [mn, mx] = (tierEl.dataset.tier || '').split('-').map(Number);
+    if (!isNaN(mn)) s.min_price = mn;
+    if (!isNaN(mx)) s.max_price = mx;
+  }
+  return s;
+}
+
+let _submitChain = Promise.resolve();
+function applyFilters() {
+  filterState = buildStateFromDom();
+  // Render chips synchronously so the agent gets instant visual
+  // confirmation of every pick — the widget mechanic is that the
+  // agent must verify each required chip is present in the bar.
+  renderActiveChips();
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    updateResults(data.results || []);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length + ' events';
+  }).catch(() => {});
+  // Autosave on every change — chained sequentially via _submitChain
+  // so submits from rapid successive picks arrive at the backend in
+  // click-order. Without this, FastAPI's threadpool can process them
+  // out of order and the CURRENT row may reflect a stale state.
+  const snapshot = JSON.parse(JSON.stringify(filterState));
+  _submitChain = _submitChain.then(() => fetch(
+    '/env/' + ENV_ID + '/api/submit',
+    {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({filter_state: snapshot, task_id: taskId})
+    }
+  ).catch(() => {}));
+}
+
+function onF() { applyFilters(); }
+
+function setPriceTier(el) { onF(); }
+function clearPrice() {
+  document.querySelectorAll('input[name="ptier"]').forEach(e => e.checked = false);
+  onF();
+}
+
+function escapeHtml(s) {
+  return (s == null ? '' : String(s)).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+}
+
+const FACET_LABELS = {"brand": "Organizer", "category": "Topic", "color": "Price", "condition": "When"};
+
+function chipLabel(facet, value) {
+  if (facet === 'min_price') return 'min ≥ $' + value;
+  if (facet === 'max_price') return 'max ≤ $' + value;
+  if (facet === 'price_range') return 'Price: ' + value;
+  if (facet === 'rating_min') return '★ ≥ ' + value;
+  const lbl = FACET_LABELS[facet] || facet;
+  return lbl + ': ' + value;
+}
+
+function renderActiveChips() {
+  const bars = document.querySelectorAll('.chiprail, #active-chips');
+  if (!bars.length) return;
+  const items = [];
+  const hasMin = 'min_price' in filterState, hasMax = 'max_price' in filterState;
+  if (hasMin || hasMax) {
+    const lo = hasMin ? '$' + filterState.min_price : 'any';
+    const hi = hasMax ? '$' + filterState.max_price : 'any';
+    items.push({facet:'price_range', value: lo + '–' + hi});
+  }
+  for (const [k, v] of Object.entries(filterState)) {
+    if (k === 'min_price' || k === 'max_price') continue;
+    if (Array.isArray(v)) {
+      v.forEach(val => items.push({facet:k, value: val}));
+    } else {
+      items.push({facet:k, value: v});
+    }
+  }
+  const html = items.map(it => {
+    const lbl = escapeHtml(chipLabel(it.facet, it.value));
+    const argF = escapeHtml(JSON.stringify(it.facet));
+    const argV = escapeHtml(JSON.stringify(it.value));
+    return '<span class="fc" data-facet="' + escapeHtml(it.facet) + '" data-value="' + escapeHtml(String(it.value)) + '">'
+      + '<span class="lbl">' + lbl + '</span>'
+      + '<span class="x" role="button" tabindex="0" title="Remove" onclick="removeActiveChip(' + argF + ',' + argV + ')">×</span>'
+      + '</span>';
+  }).join('');
+  bars.forEach(bar => { bar.innerHTML = html; });
+  // Show/hide an optional "anchor" link to chip rail if present
+  const anchorBtn = document.getElementById('chip-anchor-btn');
+  if (anchorBtn) {
+    anchorBtn.style.display = items.length ? 'inline-flex' : 'none';
+    const cnt = anchorBtn.querySelector('.anchor-count');
+    if (cnt) cnt.textContent = items.length;
+  }
+}
+
+function removeActiveChip(facet, value) {
+  const valStr = (value == null) ? '' : String(value);
+  if (facet === 'price_range') {
+    document.querySelectorAll('input[name="ptier"]').forEach(e => e.checked = false);
+    onF();
+    return;
+  }
+  document.querySelectorAll('input[type=checkbox][data-facet="' + facet + '"]').forEach(i => {
+    if (i.value === valStr) i.checked = false;
+  });
+  document.querySelectorAll('input[type=radio][data-facet="' + facet + '"]').forEach(i => {
+    if (i.value === valStr) i.checked = false;
+  });
+  onF();
+}
+
+function lsReset() {
+  document.querySelectorAll('input[data-facet], input[name="ptier"]').forEach(el => {
+    if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+  });
+  onF();
+}
+
+function clearFacet(a, facet) {
+  document.querySelectorAll('input[data-facet="' + facet + '"]').forEach(i => {
+    if (i.type === 'checkbox' || i.type === 'radio') i.checked = false;
+  });
+  onF();
+}
+
+function updateResults(results) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div class="empty-msg">No results match your filters.</div>';
+    return;
+  }
+  grid.innerHTML = results.map(r => renderCard(r)).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  applyFilters();
+});
+</script>
+
+<script>
+function renderCard(r) {
+  const img = escapeHtml(r.image_url || '');
+  const title = escapeHtml(r.title || '?');
+  const org = escapeHtml(r.brand || '');
+  const when = escapeHtml(r.condition || '');
+  const price = escapeHtml(r.color || '');
+  const topic = escapeHtml(r.category || '');
+  const cost = r.price > 0 ? '$' + r.price : 'Free';
+  return `<div class="eb-card">
+    <div class="eb-img" style="background-image:url('${img}')"></div>
+    <div class="eb-body">
+      <div class="eb-when">${when}</div>
+      <div class="eb-title">${title}</div>
+      <div class="eb-org">By ${org}</div>
+      <div class="eb-foot"><span class="eb-topic">${topic}</span><span class="eb-price">${cost} · ${price}</span></div>
+    </div>
+  </div>`;
+}
+</script>
+
+<style>
+.seo-block{background:#fafafa;border-top:1px solid #e5e5e5;padding:32px 28px;color:#555;font-size:12px;line-height:1.6}
+.seo-inner{max-width:1400px;margin:0 auto}
+.seo-blurb{font-size:13px;color:#666;max-width:920px;margin:0 auto 24px;text-align:center;line-height:1.65}
+.seo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
+.seo-col h6{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#222;margin:0 0 10px;font-weight:700}
+.seo-col ul{list-style:none;margin:0;padding:0}
+.seo-col li{padding:3px 0}
+.seo-col li a{color:#666;font-size:12px;text-decoration:none}
+.seo-col li a:hover{color:#333;text-decoration:underline}
+</style>
+<section class="seo-block"><div class="seo-inner"><div class="seo-blurb">EchoEvents is where the world's most-loved events come to life. From neighborhood farmers' markets to international conferences, browse millions of free and paid events, save your favorites, and share the ones you love with friends.</div><div class="seo-grid"><div class="seo-col"><h6>Browse by Topic</h6><ul><li><a>Music Events</a></li><li><a>Food & Drink</a></li><li><a>Performing Arts</a></li><li><a>Family-Friendly</a></li><li><a>Educational</a></li><li><a>Business & Career</a></li><li><a>Health & Wellness</a></li><li><a>Hobbies & Crafts</a></li><li><a>Charity & Causes</a></li><li><a>Religion & Faith</a></li></ul></div><div class="seo-col"><h6>Featured Cities</h6><ul><li><a>New York Events</a></li><li><a>Los Angeles Events</a></li><li><a>Chicago Events</a></li><li><a>San Francisco Events</a></li><li><a>Boston Events</a></li><li><a>Seattle Events</a></li><li><a>Austin Events</a></li><li><a>Miami Events</a></li><li><a>Denver Events</a></li><li><a>Washington DC Events</a></li></ul></div><div class="seo-col"><h6>When</h6><ul><li><a>Today</a></li><li><a>Tomorrow</a></li><li><a>This Weekend</a></li><li><a>Next Week</a></li><li><a>This Month</a></li><li><a>Next Month</a></li><li><a>Free Events</a></li><li><a>Online Events</a></li><li><a>School Holidays</a></li><li><a>Long Weekends</a></li></ul></div><div class="seo-col"><h6>Organizer Tools</h6><ul><li><a>Create an Event</a></li><li><a>Pricing & Fees</a></li><li><a>Event Marketing 101</a></li><li><a>Ticketing Best Practices</a></li><li><a>On-Site Check-In App</a></li><li><a>Refund Policies</a></li><li><a>Tax Reporting</a></li><li><a>Sponsored Listings</a></li><li><a>EchoMail Integration</a></li><li><a>Help Center</a></li></ul></div></div></div></section></body></html>

@@ -1,0 +1,43 @@
+{
+  "env_id": "W22_E04",
+  "widget_id": "W22_min_max_slider_plus_plus_chip",
+  "widget_name": "Min/max price slider + \u2265N bedrooms plus-chip composition",
+  "widget_category": "combo_realestate_facets",
+  "widget_mechanic": "Compose: max-price slider AND \u2265N-bedroom plus-chip \u2014 both applied simultaneously.",
+  "archetype": "realestate_listings",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W04_min_max_slider",
+    "W05_plus_chips_at_least"
+  ],
+  "site_imitates": "Realtor.com Little Rock AR",
+  "product_type": "Little Rock homes",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_little_rock__ar_17955",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "I'm looking to buy a move-in ready small house in Little Rock, Arkansas. Ideally, it should be under $500k, have 3 bedrooms, and include a 2-car garage. Can you show me options?",
+      "first_failure_summary": "[6.4] Fine-grained grounding error: The marked coordinates fall on the left sidebar (near the Search icon) instead of inside the target text input (e.g., the Price Range Max field) where typing should occur."
+    }
+  ],
+  "theme_key": "realtor",
+  "theme_logo": "Realtor Pro",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 3,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "primary_inspiration": {
+    "task_id": "realestate_complex_buy_house_little_rock__ar_17955",
+    "benchmark": "WTB",
+    "site": "buy",
+    "instruction": "I'm looking to buy a move-in ready small house in Little Rock, Arkansas. Ideally, it should be under $500k, have 3 bedrooms, and include a 2-car garage. Can you show me options?",
+    "first_failure_summary": "[6.4] Fine-grained grounding error: The marked coordinates fall on the left sidebar (near the Search icon) instead of inside the target text input (e.g., the Price Range Max field) where typing should occur.",
+    "fara_actions": 42,
+    "gpt54_actions": 48
+  }
+}

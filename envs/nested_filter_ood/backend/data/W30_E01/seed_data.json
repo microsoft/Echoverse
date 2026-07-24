@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1,
+    "calc_type": "Azure cloud-service pricing",
+    "vendor": "azure",
+    "brand": "AzureCalc",
+    "default_inputs": {
+      "region": "(Choose region)",
+      "override": "(none)",
+      "volume": 0,
+      "service": "Azure OpenAI \u2014 GPT-4o",
+      "unit": "1K tokens",
+      "support_tier": "standard"
+    },
+    "regions": [
+      "(Choose region)",
+      "East US",
+      "East US 2",
+      "Central US",
+      "West US 2",
+      "West US 3",
+      "US Gov Virginia",
+      "Brazil South",
+      "Canada Central",
+      "West Europe",
+      "North Europe",
+      "UK South",
+      "France Central",
+      "Japan East",
+      "Southeast Asia",
+      "Australia East",
+      "Korea Central"
+    ],
+    "services": [
+      {
+        "label": "Azure OpenAI \u2014 GPT-4o",
+        "rate": 0.005,
+        "unit": "1K tokens"
+      },
+      {
+        "label": "Azure OpenAI \u2014 GPT-4o Mini",
+        "rate": 0.00015,
+        "unit": "1K tokens"
+      },
+      {
+        "label": "Virtual Machines (D-series)",
+        "rate": 0.085,
+        "unit": "VM-hour"
+      },
+      {
+        "label": "Azure Blob Storage",
+        "rate": 0.022,
+        "unit": "GB-month"
+      },
+      {
+        "label": "Azure SQL Database",
+        "rate": 0.149,
+        "unit": "DTU-hour"
+      },
+      {
+        "label": "Azure Functions",
+        "rate": 2e-07,
+        "unit": "execution"
+      },
+      {
+        "label": "Bandwidth (egress)",
+        "rate": 0.087,
+        "unit": "GB"
+      }
+    ],
+    "region_mult": {
+      "(Choose region)": 1.0,
+      "East US": 1.0,
+      "East US 2": 1.0,
+      "Central US": 1.02,
+      "West US 2": 1.03,
+      "West US 3": 1.03,
+      "US Gov Virginia": 1.2,
+      "Brazil South": 1.22,
+      "Canada Central": 1.04,
+      "West Europe": 1.08,
+      "North Europe": 1.07,
+      "UK South": 1.1,
+      "France Central": 1.09,
+      "Japan East": 1.15,
+      "Southeast Asia": 1.14,
+      "Australia East": 1.16,
+      "Korea Central": 1.13
+    },
+    "override_presets": [
+      "5M input + 5M output tokens",
+      "10M input + 2M output tokens",
+      "20M tokens (PTU equivalent)",
+      "730 VM-hours (1 month always-on)",
+      "1 TB Blob storage",
+      "10 TB egress bandwidth",
+      "100 DTU-hours",
+      "5M function executions",
+      "500 GB storage",
+      "10 TB storage"
+    ],
+    "support_fees": {
+      "none": 0,
+      "basic": 29,
+      "developer": 89,
+      "standard": 299,
+      "pro": 1000
+    }
+  }
+]

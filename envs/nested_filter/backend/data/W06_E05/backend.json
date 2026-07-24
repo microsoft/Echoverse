@@ -1,0 +1,109 @@
+{
+  "env_id": "W06_E05",
+  "widget_id": "W06_exact_match_toggle",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "gte_or_eq",
+    "fields": [
+      "min_beds",
+      "min_baths",
+      "exact_match"
+    ],
+    "item_fields": [
+      "beds",
+      "baths"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T0541",
+      "task_index_in_env": 1,
+      "instruction_text": "Help me find homes in Austin, TX on Redfin Austin TX \u2014 exactly 3 bedrooms, not more, not fewer.",
+      "expected_filter_state": {
+        "exact_beds": 3,
+        "extra": ""
+      }
+    },
+    {
+      "task_id": "T0542",
+      "task_index_in_env": 2,
+      "instruction_text": "Show me homes in Austin, TX on Redfin Austin TX that have precisely 2 bedrooms.",
+      "expected_filter_state": {
+        "exact_beds": 2,
+        "extra": ""
+      }
+    },
+    {
+      "task_id": "T0543",
+      "task_index_in_env": 3,
+      "instruction_text": "Show me homes in Austin, TX on Redfin Austin TX that have precisely 4 bedrooms and exactly 2 bathrooms.",
+      "expected_filter_state": {
+        "exact_beds": 4,
+        "extra": " and exactly 2 bathrooms"
+      }
+    },
+    {
+      "task_id": "T0544",
+      "task_index_in_env": 4,
+      "instruction_text": "Show me homes in Austin, TX on Redfin Austin TX that have precisely 1 bedrooms.",
+      "expected_filter_state": {
+        "exact_beds": 1,
+        "extra": ""
+      }
+    },
+    {
+      "task_id": "T0545",
+      "task_index_in_env": 5,
+      "instruction_text": "On Redfin Austin TX, what homes in Austin, TX are listed with 3 bedrooms exactly (at-least, not exact)?",
+      "expected_filter_state": {
+        "exact_beds": 3,
+        "extra": " (at-least, not exact)"
+      }
+    },
+    {
+      "task_id": "T0546",
+      "task_index_in_env": 6,
+      "instruction_text": "Show me homes in Austin, TX on Redfin Austin TX that have precisely 2 bedrooms with 2+ bathrooms.",
+      "expected_filter_state": {
+        "exact_beds": 2,
+        "extra": " with 2+ bathrooms"
+      }
+    },
+    {
+      "task_id": "T0547",
+      "task_index_in_env": 7,
+      "instruction_text": "On Redfin Austin TX, what homes in Austin, TX are listed with 3 bedrooms exactly and 2+ bathrooms?",
+      "expected_filter_state": {
+        "exact_beds": 3,
+        "extra": " and 2+ bathrooms"
+      }
+    },
+    {
+      "task_id": "T0548",
+      "task_index_in_env": 8,
+      "instruction_text": "Help me find homes in Austin, TX on Redfin Austin TX \u2014 exactly 4 bedrooms, not more, not fewer.",
+      "expected_filter_state": {
+        "exact_beds": 4,
+        "extra": ""
+      }
+    },
+    {
+      "task_id": "T0549",
+      "task_index_in_env": 9,
+      "instruction_text": "Help me find homes in Austin, TX on Redfin Austin TX \u2014 exactly 5 bedrooms, not more, not fewer.",
+      "expected_filter_state": {
+        "exact_beds": 5,
+        "extra": ""
+      }
+    },
+    {
+      "task_id": "T0550",
+      "task_index_in_env": 10,
+      "instruction_text": "Show me homes in Austin, TX on Redfin Austin TX that have precisely 2 bedrooms (strict match).",
+      "expected_filter_state": {
+        "exact_beds": 2,
+        "extra": " (strict match)"
+      }
+    }
+  ]
+}

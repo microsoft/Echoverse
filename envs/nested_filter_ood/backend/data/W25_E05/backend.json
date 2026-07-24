@@ -1,0 +1,101 @@
+{
+  "env_id": "W25_E05",
+  "widget_id": "W25_plus_chip_plus_property_type",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2441",
+      "task_index_in_env": 1,
+      "instruction_text": "On Redfin Austin, find homes that are single-family with 4+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "single-family",
+        "min_beds": 4
+      }
+    },
+    {
+      "task_id": "T2442",
+      "task_index_in_env": 2,
+      "instruction_text": "On Redfin Austin, find homes that are single-family with 1+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "single-family",
+        "min_beds": 1
+      }
+    },
+    {
+      "task_id": "T2443",
+      "task_index_in_env": 3,
+      "instruction_text": "Show me condos homes on Redfin Austin with 2+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "condos",
+        "min_beds": 2
+      }
+    },
+    {
+      "task_id": "T2444",
+      "task_index_in_env": 4,
+      "instruction_text": "Help me search Redfin Austin for townhouses homes with 3+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "townhouses",
+        "min_beds": 3
+      }
+    },
+    {
+      "task_id": "T2445",
+      "task_index_in_env": 5,
+      "instruction_text": "On Redfin Austin, find homes that are single-family with 4+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "single-family",
+        "min_beds": 4
+      }
+    },
+    {
+      "task_id": "T2446",
+      "task_index_in_env": 6,
+      "instruction_text": "On Redfin Austin, find homes that are condos with 3+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "condos",
+        "min_beds": 3
+      }
+    },
+    {
+      "task_id": "T2447",
+      "task_index_in_env": 7,
+      "instruction_text": "On Redfin Austin, find homes that are single-family with 3+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "single-family",
+        "min_beds": 3
+      }
+    },
+    {
+      "task_id": "T2448",
+      "task_index_in_env": 8,
+      "instruction_text": "On Redfin Austin, find homes that are townhouses with 2+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "townhouses",
+        "min_beds": 2
+      }
+    },
+    {
+      "task_id": "T2449",
+      "task_index_in_env": 9,
+      "instruction_text": "On Redfin Austin, find homes that are multi-family with any number of bedrooms.",
+      "expected_filter_state": {
+        "ptype": "multi-family",
+        "min_beds": 0
+      }
+    },
+    {
+      "task_id": "T2450",
+      "task_index_in_env": 10,
+      "instruction_text": "Show me single-family homes on Redfin Austin with 5+ bedrooms.",
+      "expected_filter_state": {
+        "ptype": "single-family",
+        "min_beds": 5
+      }
+    }
+  ]
+}

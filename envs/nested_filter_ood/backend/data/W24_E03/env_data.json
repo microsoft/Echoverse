@@ -1,0 +1,35 @@
+{
+  "env_id": "W24_E03",
+  "widget_id": "W24_multi_checkbox_plus_exact_match",
+  "widget_name": "Multi-checkbox facet + exact-match toggle composition",
+  "widget_category": "combo_facet_strict",
+  "widget_mechanic": "Compose: multi-select facet AND enable exact-match (strict) toggle.",
+  "archetype": "faceted_catalog",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W01_multi_checkbox_facet",
+    "W06_exact_match_toggle"
+  ],
+  "site_imitates": "SourceForge.net (open-source directory)",
+  "product_type": "Open-source software (cross-platform: Linux AND macOS)",
+  "brand_name": "OpenForge",
+  "source_inspiration": [
+    {
+      "task_id": "fe33894188d20d7469f37a9fd855e7ff",
+      "benchmark": "OM2W",
+      "site": "sourceforge.net",
+      "instruction": "Show me the most popular open-source software on SourceForge that runs on Linux and macOS.",
+      "first_failure_summary": "Agent selected only one OS facet (Linux) and inferred Mac compatibility, or selected both as an OR rather than an AND. Strict-match enforces literal AND-intersection on the OS multi-checkbox."
+    }
+  ],
+  "theme_key": "sourceforge",
+  "theme_logo": "OpenForge",
+  "theme_card": "ecommerce",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}
