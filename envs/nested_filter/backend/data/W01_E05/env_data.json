@@ -1,0 +1,45 @@
+{
+  "env_id": "W01_E05",
+  "widget_id": "W01_multi_checkbox_facet",
+  "widget_name": "Multi-checkbox attribute facet",
+  "widget_category": "facet_selection",
+  "widget_mechanic": "User must select K-of-N checkboxes inside one facet group, where the facet contains similar-looking decoys (e.g. Open-Box vs Refurbished, Linux vs Linux Lite). Agent must pick the exact subset and exclude lookalikes.",
+  "archetype": "faceted_catalog",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W01_multi_checkbox_facet"
+  ],
+  "site_imitates": "Petfinder Cats \u00b7 Newegg-style right sidebar",
+  "product_type": "adoptable cats (Seattle area)",
+  "source_inspiration": [
+    {
+      "task_id": "b1ce968a361e1088ce8d2ade6c2c9af0",
+      "benchmark": "OM2W",
+      "site": "petfinder.com",
+      "instruction": "Find young cats in Seattle and show off the newest additions.",
+      "first_failure_summary": "[3.5] Incomplete task execution: In the Age facet, the agent ticked the \u201cBaby\u201d checkbox instead of (or in addition to) the required \u201cYoung\u201d age, and never confirmed the corrected selection."
+    }
+  ],
+  "theme_key": "petfinder",
+  "theme_logo": "Petfinder",
+  "theme_card": "pet-card",
+  "theme_layout": "newegg_right_sidebar",
+  "variant_idx": 0,
+  "n_seed_items": 18,
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "condition",
+      "category",
+      "color",
+      "brand"
+    ]
+  },
+  "primary_inspiration": {
+    "task_id": "b1ce968a361e1088ce8d2ade6c2c9af0",
+    "benchmark": "OM2W",
+    "site": "petfinder.com",
+    "instruction": "Find young cats in Seattle and show off the newest additions.",
+    "first_failure_summary": "[3.5] Incomplete task execution: In the Age facet, the agent ticked the \u201cBaby\u201d checkbox instead of (or in addition to) the required \u201cYoung\u201d age, and never confirmed the corrected selection."
+  }
+}

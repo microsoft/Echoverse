@@ -1,0 +1,342 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Open Source on Linux + macOS — EchoForge</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{font-family:'Source Sans Pro',-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f4f5f7;color:#1f2933;font-size:13px;line-height:1.5}
+a{color:inherit;text-decoration:none;cursor:pointer}button{font-family:inherit}
+.live-status,.task-banner,.fara-source,.fara-banner,[data-debug="1"]{display:none!important}
+
+/* EchoForge dev top */
+.sf-top{background:#1f2933;color:#fff;font-size:11px;padding:6px 24px;display:flex;gap:16px}
+.sf-top a:hover{color:#ee712d}
+.sf-top .spacer{flex:1}
+.sf-header{background:#fff;padding:14px 24px;display:flex;align-items:center;gap:24px;border-bottom:3px solid #ee712d}
+.sf-logo{font-family:'Roboto Slab',Georgia,serif;font-weight:700;font-size:22px;color:#1f2933;display:flex;align-items:center;gap:8px}
+.sf-logo .of-brand{background:#ee712d;color:#fff;padding:4px 8px;border-radius:3px;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+.sf-nav{display:flex;gap:18px;font-size:13px;font-weight:600}
+.sf-nav a{padding:6px 4px;border-bottom:2px solid transparent}
+.sf-nav a.act{color:#ee712d;border-bottom-color:#ee712d}
+.sf-search{margin-left:auto;display:flex;align-items:center;border:1px solid #cbd2d9;border-radius:4px;padding:4px 12px;background:#f4f5f7;min-width:260px}
+.sf-search input{border:none;outline:none;background:transparent;flex:1;font-size:12px}
+.sf-search button{background:#ee712d;color:#fff;border:none;padding:5px 12px;border-radius:3px;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:.05em}
+
+.crumb{padding:10px 24px;font-size:11px;color:#7b8794;background:#fff;border-bottom:1px solid #e4e7eb}
+.crumb a:hover{color:#ee712d;text-decoration:underline}.crumb .sep{margin:0 5px;color:#cbd2d9}.crumb b{color:#1f2933;font-weight:600}
+
+.main-grid{display:grid;grid-template-columns:260px 1fr;gap:20px;padding:18px 24px 36px;max-width:1320px;margin:0 auto}
+
+/* accordion sidebar */
+.filter-aside{background:#fff;border:1px solid #e4e7eb;border-radius:4px;padding:0;height:fit-content}
+.fa-title{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:#1f2933;color:#fff;border-bottom:2px solid #ee712d}
+.fa-title h3{margin:0;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.fa-title a{font-size:11px;color:#ee712d;font-weight:600;cursor:pointer}
+.sf-acc{border-bottom:1px solid #e4e7eb}
+.sf-acc:last-of-type{border-bottom:none}
+.sf-acc summary{display:flex;align-items:center;gap:8px;padding:11px 16px;cursor:pointer;list-style:none;user-select:none;font-weight:600;font-size:12px;color:#1f2933;background:#fafbfc}
+.sf-acc summary::-webkit-details-marker{display:none}
+.sf-acc summary:hover{background:#f4f5f7}
+.sf-acc-icon{font-size:14px;width:18px;text-align:center}
+.sf-acc-title{text-transform:uppercase;letter-spacing:.04em;flex:1}
+.sf-acc-clear{font-size:10px;color:#ee712d;text-transform:lowercase;font-weight:500;text-decoration:underline}
+.sf-acc-chevron{font-size:11px;color:#7b8794;transition:transform .15s}
+.sf-acc[open] .sf-acc-chevron{transform:rotate(180deg)}
+.sf-acc-body{padding:6px 16px 12px;background:#fff}
+.sf-row{display:flex;align-items:center;gap:8px;padding:5px 0;cursor:pointer;font-size:12px;color:#1f2933}
+.sf-row input[type=checkbox]{accent-color:#ee712d;width:14px;height:14px;margin:0;flex-shrink:0}
+.sf-row:hover .sf-rowlbl{color:#ee712d}
+.sf-rowlbl{flex:1}
+
+/* results area */
+.results-area{}
+.toolbar{background:#fff;border:1px solid #e4e7eb;border-radius:4px;padding:12px 16px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.toolbar h1{margin:0;font-size:20px;font-weight:700;color:#1f2933}
+.toolbar .tb-sub{color:#7b8794;font-size:11px;width:100%;margin-top:4px}
+.toolbar-row2{width:100%;display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:6px;padding-top:10px;border-top:1px solid #e4e7eb}
+.sort-dd{padding:5px 10px;border:1px solid #cbd2d9;border-radius:3px;font-size:11px;background:#fff;color:#1f2933}
+.view-toggle{display:inline-flex;border:1px solid #cbd2d9;border-radius:3px;overflow:hidden}
+.view-toggle button{padding:5px 10px;background:#fff;border:none;cursor:pointer;font-size:11px;color:#1f2933}
+.view-toggle button.active{background:#1f2933;color:#fff}
+/* inline strict pill */
+.strict-pill{display:inline-flex;align-items:center;gap:8px;padding:5px 10px;background:#fff5ee;border:1px solid #ee712d;border-radius:14px;cursor:pointer;font-size:11px;font-weight:600;color:#1f2933;margin-left:auto}
+.strict-pill input[type=checkbox]{appearance:none;position:relative;width:28px;height:16px;background:#cbd2d9;border-radius:8px;cursor:pointer;outline:none;transition:background .15s}
+.strict-pill input[type=checkbox]:before{content:"";position:absolute;left:2px;top:2px;width:12px;height:12px;background:#fff;border-radius:50%;transition:left .15s}
+.strict-pill input[type=checkbox]:checked{background:#ee712d}
+.strict-pill input[type=checkbox]:checked:before{left:14px}
+.strict-indicator{padding:2px 7px;background:#e4e7eb;color:#7b8794;border-radius:9px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.strict-indicator.on{background:#ee712d;color:#fff}
+
+.active-chips{display:flex;gap:6px;flex-wrap:wrap}
+.active-chip{background:#fff;color:#ee712d;border:1px solid #ee712d;padding:3px 9px;border-radius:11px;font-size:10px;font-weight:600}
+
+.result-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.result-card{display:grid;grid-template-columns:88px 1fr 168px;gap:16px;background:#fff;border:1px solid #e4e7eb;border-radius:4px;padding:14px 16px;align-items:flex-start}
+.result-card:hover{border-color:#ee712d;box-shadow:0 2px 8px rgba(238,113,45,.10)}
+.result-thumb-img,.result-thumb{width:88px;height:88px;object-fit:cover;background:#f4f5f7;border-radius:6px;display:block;border:1px solid #e4e7eb}
+.result-thumb{display:flex;align-items:center;justify-content:center;font-size:34px;color:#fff;font-weight:800;background:linear-gradient(135deg,#ee712d,#c84a0a)}
+.result-body{display:flex;flex-direction:column;gap:6px;min-width:0}
+.rank-row{display:flex;align-items:center;gap:8px}
+.rank-badge{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 6px;background:#1f2933;color:#fff;font-size:11px;font-weight:800;border-radius:3px}
+.result-name{font-size:17px;font-weight:700;color:#0a66c2;line-height:1.2;margin:0}
+.result-name:hover{text-decoration:underline;color:#ee712d}
+.result-tag{display:inline-block;font-size:10px;font-weight:700;color:#7b8794;text-transform:uppercase;letter-spacing:.04em;padding:1px 6px;border:1px solid #cbd2d9;border-radius:3px;background:#fafbfc;margin-left:4px}
+.result-desc{font-size:12.5px;color:#3e4c59;line-height:1.45;margin:2px 0 4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.result-rating-row{display:flex;align-items:center;gap:8px;font-size:11px;color:#7b8794;flex-wrap:wrap}
+.stars{color:#f0a020;letter-spacing:1px;font-size:13px;line-height:1}
+.review-cnt{color:#7b8794;font-size:11px}
+.os-pills{display:inline-flex;gap:4px;margin-left:auto}
+.os-pill{display:inline-flex;align-items:center;gap:3px;background:#eef3f9;color:#1f2933;border:1px solid #cbd2d9;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:600}
+.os-pill.match{background:#fff5ee;border-color:#ee712d;color:#c84a0a}
+.result-stats{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11px;color:#52606d;margin-top:4px}
+.result-stats b{color:#1f2933;font-weight:700}
+.result-cta{display:flex;flex-direction:column;gap:6px;align-items:stretch;justify-self:end;width:100%;max-width:168px}
+.dl-btn{display:flex;align-items:center;justify-content:center;gap:6px;background:#5cab35;color:#fff;border:none;padding:9px 12px;font-size:13px;font-weight:700;border-radius:3px;cursor:pointer;letter-spacing:.02em}
+.dl-btn:hover{background:#4a911f}
+.dl-sub{font-size:10px;color:#7b8794;text-align:center}
+.weekly-dl{font-size:11px;color:#52606d;text-align:center;padding:4px 0;border:1px dashed #cbd2d9;border-radius:3px;background:#fafbfc}
+.weekly-dl b{color:#ee712d;font-weight:800}
+.no-results{padding:48px;text-align:center;color:#7b8794;background:#fff;border:1px solid #e4e7eb;border-radius:4px}
+.pagination{display:flex;gap:6px;justify-content:center;margin-top:22px}
+.pagination button{padding:6px 12px;background:#fff;border:1px solid #cbd2d9;border-radius:3px;cursor:pointer;font-size:11px;color:#1f2933}
+.pagination button.active{background:#1f2933;color:#fff;border-color:#1f2933}
+
+/* EchoForge feature strip */
+.sf-feature-strip{background:linear-gradient(180deg,#fff5ee 0%,#fff 100%);border:1px solid #ee712d;border-radius:4px;padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:18px}
+.sf-feature-strip .sf-fs-icon{font-size:28px}
+.sf-feature-strip h2{margin:0 0 2px;font-size:14px;font-weight:800;color:#1f2933;letter-spacing:.02em}
+.sf-feature-strip p{margin:0;font-size:11.5px;color:#52606d;line-height:1.45}
+.sf-feature-strip .sf-fs-badge{margin-left:auto;background:#ee712d;color:#fff;font-size:10px;font-weight:800;padding:4px 10px;border-radius:11px;letter-spacing:.05em;text-transform:uppercase}
+
+/* sidebar promo */
+.sf-side-promo{background:#1f2933;color:#fff;padding:12px;border-radius:0 0 4px 4px;font-size:11px;line-height:1.45}
+/* footer */
+.sf-footer{background:#1f2933;color:#9aa5b1;font-size:11px;margin-top:36px;padding:30px 24px 18px}
+.sf-footer-row{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1320px;margin:0 auto}
+.sf-footer-col h5{margin:0 0 10px;color:#ee712d;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.sf-footer-col a{display:block;padding:3px 0;color:#9aa5b1}
+.sf-footer-col a:hover{color:#fff}
+.sf-footer-bottom{max-width:1320px;margin:20px auto 0;padding-top:14px;border-top:1px solid #3e4c59;font-size:10px;color:#7b8794}
+</style></head><body>
+<div class="sf-top"><a>About</a><a>Site Documentation</a><a>Support Request</a><span class="spacer"></span><a>Log In</a><a>Register</a></div>
+<header class="sf-header">
+  <div class="sf-logo"><span class="of-brand">EchoForge</span></div>
+  <nav class="sf-nav"><a class="act">Open Source Software</a><a>Business Software</a><a>Blog</a><a>For Vendors</a></nav>
+  <div class="sf-search"><input placeholder="Search software..."><button>Search</button></div>
+</header>
+<div class="crumb"><a>Home</a><span class="sep">›</span><a>Browse</a><span class="sep">›</span><a>Open Source</a><span class="sep">›</span><b>Cross-Platform · Linux + macOS</b></div>
+
+<div class="main-grid">
+  <aside class="filter-aside">
+    <div class="fa-title"><h3>Filter projects</h3><a onclick="lsReset(event)">Reset</a></div>
+    <details class="f-section sf-acc" open><summary><span class="sf-acc-icon">💻</span><span class="sf-acc-title">Operating System</span><a class="sf-acc-clear" onclick="event.preventDefault();event.stopPropagation();clearFacet(this,'brand')">clear</a><span class="sf-acc-chevron">▾</span></summary><div class="sf-acc-body"><label class="sf-row"><input type="checkbox" data-facet="brand" value="Linux" onchange="onF()"><span class="sf-rowlbl">Linux</span></label><label class="sf-row"><input type="checkbox" data-facet="brand" value="macOS" onchange="onF()"><span class="sf-rowlbl">macOS</span></label><label class="sf-row"><input type="checkbox" data-facet="brand" value="Windows" onchange="onF()"><span class="sf-rowlbl">Windows</span></label><label class="sf-row"><input type="checkbox" data-facet="brand" value="BSD" onchange="onF()"><span class="sf-rowlbl">BSD</span></label><label class="sf-row"><input type="checkbox" data-facet="brand" value="Android" onchange="onF()"><span class="sf-rowlbl">Android</span></label><label class="sf-row"><input type="checkbox" data-facet="brand" value="iOS" onchange="onF()"><span class="sf-rowlbl">iOS</span></label></div></details><details class="f-section sf-acc" open><summary><span class="sf-acc-icon">📁</span><span class="sf-acc-title">Category</span><a class="sf-acc-clear" onclick="event.preventDefault();event.stopPropagation();clearFacet(this,'category')">clear</a><span class="sf-acc-chevron">▾</span></summary><div class="sf-acc-body"><label class="sf-row"><input type="checkbox" data-facet="category" value="Software Development" onchange="onF()"><span class="sf-rowlbl">Software Development</span></label><label class="sf-row"><input type="checkbox" data-facet="category" value="Internet" onchange="onF()"><span class="sf-rowlbl">Internet</span></label><label class="sf-row"><input type="checkbox" data-facet="category" value="Games" onchange="onF()"><span class="sf-rowlbl">Games</span></label><label class="sf-row"><input type="checkbox" data-facet="category" value="System" onchange="onF()"><span class="sf-rowlbl">System</span></label><label class="sf-row"><input type="checkbox" data-facet="category" value="Business" onchange="onF()"><span class="sf-rowlbl">Business</span></label><label class="sf-row"><input type="checkbox" data-facet="category" value="Multimedia" onchange="onF()"><span class="sf-rowlbl">Multimedia</span></label></div></details><details class="f-section sf-acc" open><summary><span class="sf-acc-icon">⚙</span><span class="sf-acc-title">Development Status</span><a class="sf-acc-clear" onclick="event.preventDefault();event.stopPropagation();clearFacet(this,'condition')">clear</a><span class="sf-acc-chevron">▾</span></summary><div class="sf-acc-body"><label class="sf-row"><input type="checkbox" data-facet="condition" value="Production/Stable" onchange="onF()"><span class="sf-rowlbl">Production/Stable</span></label><label class="sf-row"><input type="checkbox" data-facet="condition" value="Beta" onchange="onF()"><span class="sf-rowlbl">Beta</span></label><label class="sf-row"><input type="checkbox" data-facet="condition" value="Alpha" onchange="onF()"><span class="sf-rowlbl">Alpha</span></label><label class="sf-row"><input type="checkbox" data-facet="condition" value="Mature" onchange="onF()"><span class="sf-rowlbl">Mature</span></label><label class="sf-row"><input type="checkbox" data-facet="condition" value="Inactive" onchange="onF()"><span class="sf-rowlbl">Inactive</span></label></div></details><details class="f-section sf-acc" open><summary><span class="sf-acc-icon">⚖</span><span class="sf-acc-title">License</span><a class="sf-acc-clear" onclick="event.preventDefault();event.stopPropagation();clearFacet(this,'color')">clear</a><span class="sf-acc-chevron">▾</span></summary><div class="sf-acc-body"><label class="sf-row"><input type="checkbox" data-facet="color" value="GPL" onchange="onF()"><span class="sf-rowlbl">GPL</span></label><label class="sf-row"><input type="checkbox" data-facet="color" value="MIT" onchange="onF()"><span class="sf-rowlbl">MIT</span></label><label class="sf-row"><input type="checkbox" data-facet="color" value="Apache" onchange="onF()"><span class="sf-rowlbl">Apache</span></label><label class="sf-row"><input type="checkbox" data-facet="color" value="BSD-License" onchange="onF()"><span class="sf-rowlbl">BSD-License</span></label><label class="sf-row"><input type="checkbox" data-facet="color" value="Public Domain" onchange="onF()"><span class="sf-rowlbl">Public Domain</span></label></div></details>
+    <div class="sf-side-promo"><b>About this directory</b>EchoForge indexes over 500,000 open-source projects. Cross-platform releases are validated against the upstream maintainers' build matrix.</div>
+  </aside>
+  <section class="results-area">
+    <div class="sf-feature-strip">
+      <span class="sf-fs-icon">🐧</span>
+      <div>
+        <h2>Cross-Platform Open Source · Linux + macOS</h2>
+        <p>Mature, production-grade projects that run natively on Linux AND macOS. Toggle <b>Strict OS match</b> to require both checked OSes (intersection, not union).</p>
+      </div>
+      <span class="sf-fs-badge">Curated</span>
+    </div>
+    <div class="toolbar">
+      <h1>Open Source · Cross-Platform Software</h1>
+      <span class="tb-sub">Showing top-ranked projects compatible with both Linux and macOS.</span>
+      <div class="toolbar-row2">
+        <select class="sort-dd"><option>Sort: Most popular</option><option>Recently updated</option><option>Highest rated</option><option>Most downloads</option></select>
+        <div class="view-toggle"><button class="active">≡ List</button><button>▦ Grid</button></div>
+        <div class="active-chips" id="active-chips" style="flex:1"></div>
+        <label class="strict-pill" title="Toggle strict-match filter">
+          <span class="strict-indicator">Exact match: off</span>
+          <span>Strict OS match</span>
+          <input type="checkbox" data-facet="exact_match" value="1" onchange="onF()">
+        </label>
+      </div>
+    </div>
+    <span id="result-count" style="display:none">20 results</span>
+    <div class="result-grid" id="result-grid"><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/340152/pexels-photo-340152.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="qBittorrent"><div class="result-body"><div class="result-brand">Linux</div><div class="result-name">qBittorrent</div><div class="result-meta">Internet · Production/Stable</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/6424591/pexels-photo-6424591.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="VLC media player"><div class="result-body"><div class="result-brand">Linux</div><div class="result-name">VLC media player</div><div class="result-meta">Multimedia · Mature</div><div class="result-rating-row">★ 4.8</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/159299/graphic-design-studio-tracfone-programming-html-159299.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="FileZilla"><div class="result-body"><div class="result-brand">Linux</div><div class="result-name">FileZilla</div><div class="result-meta">Internet · Production/Stable</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/6424583/pexels-photo-6424583.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Audacity"><div class="result-body"><div class="result-brand">Linux</div><div class="result-name">Audacity</div><div class="result-meta">Multimedia · Production/Stable</div><div class="result-rating-row">★ 4.7</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/340152/pexels-photo-340152.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="LibreOffice"><div class="result-body"><div class="result-brand">Linux</div><div class="result-name">LibreOffice</div><div class="result-meta">Business · Mature</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/14553707/pexels-photo-14553707.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Inkscape"><div class="result-body"><div class="result-brand">Linux</div><div class="result-name">Inkscape</div><div class="result-meta">Multimedia · Production/Stable</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/34212896/pexels-photo-34212896.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="XAMPP"><div class="result-body"><div class="result-brand">Linux</div><div class="result-name">XAMPP</div><div class="result-meta">Internet · Production/Stable</div><div class="result-rating-row">★ 4.4</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/4976712/pexels-photo-4976712.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Eclipse IDE"><div class="result-body"><div class="result-brand">Linux</div><div class="result-name">Eclipse IDE</div><div class="result-meta">Software Development · Mature</div><div class="result-rating-row">★ 4.3</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/270632/pexels-photo-270632.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Pidgin Mac Build"><div class="result-body"><div class="result-brand">macOS</div><div class="result-name">Pidgin Mac Build</div><div class="result-meta">Internet · Production/Stable</div><div class="result-rating-row">★ 4.2</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/34212916/pexels-photo-34212916.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Wireshark"><div class="result-body"><div class="result-brand">macOS</div><div class="result-name">Wireshark</div><div class="result-meta">System · Production/Stable</div><div class="result-rating-row">★ 4.7</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/4955393/pexels-photo-4955393.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="OBS Studio"><div class="result-body"><div class="result-brand">macOS</div><div class="result-name">OBS Studio</div><div class="result-meta">Multimedia · Production/Stable</div><div class="result-rating-row">★ 4.8</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/1972464/pexels-photo-1972464.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="ScummVM"><div class="result-body"><div class="result-brand">macOS</div><div class="result-name">ScummVM</div><div class="result-meta">Games · Mature</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="OpenOffice"><div class="result-body"><div class="result-brand">Windows</div><div class="result-name">OpenOffice</div><div class="result-meta">Business · Mature</div><div class="result-rating-row">★ 4.1</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/36706459/pexels-photo-36706459.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Notepad++"><div class="result-body"><div class="result-brand">Windows</div><div class="result-name">Notepad++</div><div class="result-meta">Software Development · Production/Stable</div><div class="result-rating-row">★ 4.7</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/92905/pexels-photo-92905.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="7-Zip"><div class="result-body"><div class="result-brand">Windows</div><div class="result-name">7-Zip</div><div class="result-meta">System · Production/Stable</div><div class="result-rating-row">★ 4.8</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/270373/pexels-photo-270373.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Krita"><div class="result-body"><div class="result-brand">BSD-License</div><div class="result-name">Krita</div><div class="result-meta">Multimedia · Production/Stable</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/159299/graphic-design-studio-tracfone-programming-html-159299.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="GIMP"><div class="result-body"><div class="result-brand">Android</div><div class="result-name">GIMP</div><div class="result-meta">Multimedia · Beta</div><div class="result-rating-row">★ 4.0</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/159299/graphic-design-studio-tracfone-programming-html-159299.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="OpenWrt"><div class="result-body"><div class="result-brand">BSD</div><div class="result-name">OpenWrt</div><div class="result-meta">System · Production/Stable</div><div class="result-rating-row">★ 4.4</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/34212896/pexels-photo-34212896.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="FreeCAD"><div class="result-body"><div class="result-brand">Linux</div><div class="result-name">FreeCAD</div><div class="result-meta">Software Development · Production/Stable</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/16323580/pexels-photo-16323580.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Blender"><div class="result-body"><div class="result-brand">macOS</div><div class="result-name">Blender</div><div class="result-meta">Multimedia · Production/Stable</div><div class="result-rating-row">★ 4.9</div><div class="result-price-row"><span class="result-price"></span></div></div></div></div>
+    <nav class="pagination"><button>‹ Prev</button><button class="active">1</button><button>2</button><button>3</button><button>4</button><button>Next ›</button></nav>
+  </section>
+</div>
+
+<footer class="sf-footer">
+  <div class="sf-footer-row">
+    <div class="sf-footer-col"><h5>Resources</h5><a>Blog</a><a>Articles</a><a>Deals</a><a>Newsletter</a></div>
+    <div class="sf-footer-col"><h5>About</h5><a>About EchoForge</a><a>Team</a><a>Advertise</a><a>Privacy Policy</a></div>
+    <div class="sf-footer-col"><h5>Contact</h5><a>Contact us</a><a>Help</a><a>Submit a project</a><a>Vendors</a></div>
+    <div class="sf-footer-col"><h5>Follow</h5><a>Twitter</a><a>Mastodon</a><a>GitHub</a><a>RSS feed</a></div>
+  </div>
+  <div class="sf-footer-bottom">© 2026 EchoForge Foundation · Hosting · Open source software directory</div>
+</footer>
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
+const ENV_ID = 'W24_E03';
+let filterState = {};
+
+function onF() { applyFilters(); }
+
+function applyFilters() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) {
+        if (!newState[f]) newState[f] = [];
+        newState[f].push(el.value || el.dataset.val || '1');
+      }
+    }
+  });
+  filterState = newState;
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    updateResults(data.results || [], data.html_cards);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length + ' results';
+    renderActiveChips();
+    syncStrictBadge();
+  }).catch(()=>{});
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: '', task_id: taskId})
+  }).catch(()=>{});
+}
+
+function lsReset(ev) {
+  if (ev) { ev.stopPropagation(); ev.preventDefault(); }
+  document.querySelectorAll('[data-facet]').forEach(el => { if (el.type === 'checkbox') el.checked = false; });
+  applyFilters();
+}
+
+function updateResults(results, htmlCards) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div class="no-results">No projects match your filters. Try removing a checkbox or disabling Strict OS match.</div>';
+    return;
+  }
+  const selOS = (filterState.brand || []);
+  const strict = !!(filterState.exact_match && filterState.exact_match.length);
+  const knownOS = ['Linux','macOS','Windows','BSD','Android','iOS'];
+  // EchoForge-flavored synthetic metadata for visual richness
+  const SEED = (s) => { let h=0; for(let i=0;i<s.length;i++){h=((h<<5)-h+s.charCodeAt(i))|0;} return Math.abs(h); };
+  const FMTK = n => n>=1000 ? (n/1000).toFixed(1).replace(/\.0$/,'')+'K' : ''+n;
+  const TAGS = {
+    'Internet':'Networking','Multimedia':'Audio/Video','Software Development':'Dev Tools',
+    'Games':'Games','System':'System Admin','Business':'Office','Education':'Education'
+  };
+  const DESCS = {
+    'qBittorrent':'A free and reliable P2P BitTorrent client with a polished Qt interface, integrated search engine, and RSS support.',
+    'VLC media player':'The cross-platform multimedia player that plays virtually every video and audio format without codecs.',
+    'FileZilla':'Fast and reliable FTP, FTPS and SFTP client with site manager, transfer queue, and resume support.',
+    'Audacity':'Multi-track audio editor and recorder for waveform analysis, effects, and podcast production.',
+    'LibreOffice':'A powerful, free office suite — Writer, Calc, Impress, Draw, Math and Base — fully compatible with Microsoft Office.',
+    'Inkscape':'Professional, free SVG-native vector graphics editor for illustrators, designers and web professionals.',
+    'XAMPP':'Easy-to-install Apache distribution with MariaDB, PHP and Perl for cross-platform local web development.',
+    'Eclipse IDE':'Industrial-strength, plug-in-rich IDE platform supporting Java, C/C++, PHP and dozens of other languages.',
+    'Pidgin Mac Build':'Multi-protocol chat client for AIM, ICQ, IRC, XMPP and more — now packaged natively for macOS.',
+    'Wireshark':'The world\u2019s foremost network protocol analyzer — deep inspection of hundreds of protocols, live capture, offline analysis.',
+    'OBS Studio':'Free and open source software for live streaming and screen recording, GPU-accelerated with scene composition.',
+    'ScummVM':'A program that allows you to run classic graphical point-and-click adventure games and RPGs.',
+    'OpenOffice':'Open-source office productivity suite — word processor, spreadsheet, presentations, graphics, databases.',
+    'Notepad++':'Free source code editor and Notepad replacement that supports several languages with syntax highlighting.',
+    '7-Zip':'High-compression file archiver with strong AES-256 encryption and self-extracting capability for 7z format.',
+    'Krita':'A professional FREE and open source painting program made by artists who want affordable artistic tools.',
+    'GIMP':'GNU Image Manipulation Program for photo retouching, image composition and image authoring.',
+    'OpenWrt':'Embedded operating system based on the Linux kernel, primarily targeting wireless networking devices.',
+    'FreeCAD':'A general purpose parametric 3D CAD modeler with a modular architecture and finite-element analysis.',
+    'Blender':'Free and open source 3D creation suite supporting modeling, rigging, animation, simulation, rendering and motion tracking.'
+  };
+  grid.innerHTML = results.map((r,i) => {
+    const initial = (r.title || '?').charAt(0).toUpperCase();
+    const thumb = r.image_url
+      ? '<img class="result-thumb-img" loading="lazy" src="' + escapeHtmlText(r.image_url) + '" alt="' + (escapeHtmlText(r.image_alt || r.title || '')) + '">'
+      : '<div class="result-thumb">' + escapeHtmlText(initial) + '</div>';
+    const seed = SEED((r.title || 'x') + (r.id || ''));
+    const weekly = 1200 + (seed % 88000);
+    const total = 80000 + (seed % 12000000);
+    const reviews = 20 + (seed % 4500);
+    const updMonths = (seed % 9) + 1;
+    const tag = TAGS[r.category] || r.category || 'Open Source';
+    const desc = DESCS[r.title] || ('Mature open-source project in the ' + (r.category || 'general').toLowerCase() + ' category, available under ' + (r.color || 'open') + ' license. Actively maintained and packaged for multiple platforms.');
+    // Build the OS pills: show the project's own OS plus its sibling OSes (synthetic, for SF feel)
+    const projOS = r.brand && knownOS.indexOf(r.brand) >= 0 ? r.brand : 'Linux';
+    let osList = [projOS];
+    // add 1-2 more OSes deterministically
+    const extras = knownOS.filter(o => o !== projOS);
+    osList.push(extras[seed % extras.length]);
+    if (seed % 3 === 0) osList.push(extras[(seed+1) % extras.length]);
+    osList = [...new Set(osList)];
+    const osPills = osList.map(o => {
+      const isMatch = selOS.indexOf(o) >= 0;
+      return '<span class="os-pill' + (isMatch ? ' match' : '') + '">' + o + '</span>';
+    }).join('');
+    const stars = '★★★★★'.slice(0, Math.round(r.rating || 0)) + '☆☆☆☆☆'.slice(0, 5 - Math.round(r.rating || 0));
+    return '<article class="result-card">' + thumb +
+      '<div class="result-body">' +
+        '<div class="rank-row"><span class="rank-badge">' + (i+1) + '</span>' +
+          '<a class="result-name">' + escapeHtmlText(r.title || '') + '</a>' +
+          '<span class="result-tag">' + escapeHtmlText(tag) + '</span>' +
+          '<span class="os-pills">' + escapeHtmlText(osPills) + '</span>' +
+        '</div>' +
+        '<p class="result-desc">' + escapeHtmlText(desc) + '</p>' +
+        '<div class="result-rating-row">' +
+          '<span class="stars">' + escapeHtmlText(stars) + '</span>' +
+          '<span><b style="color:#1f2933">' + escapeHtmlText(r.rating || '—') + '</b> <span class="review-cnt">(' + escapeHtmlText(reviews.toLocaleString()) + ' reviews)</span></span>' +
+          '<span style="color:#cbd2d9">|</span>' +
+          '<span>License: <b style="color:#1f2933">' + escapeHtmlText(r.color || '—') + '</b></span>' +
+          '<span style="color:#cbd2d9">|</span>' +
+          '<span>Status: <b style="color:#1f2933">' + escapeHtmlText(r.condition || '—') + '</b></span>' +
+        '</div>' +
+        '<div class="result-stats">' +
+          '<span>📥 <b>' + escapeHtmlText(total.toLocaleString()) + '</b> total downloads</span>' +
+          '<span>📅 Last update: <b>' + updMonths + ' month' + (updMonths>1?'s':'') + ' ago</b></span>' +
+          '<span>🌐 ' + osList.length + ' OS supported</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="result-cta">' +
+        '<button class="dl-btn" type="button">⬇ Download</button>' +
+        '<div class="weekly-dl"><b>' + escapeHtmlText(FMTK(weekly)) + '</b> weekly downloads</div>' +
+        '<div class="dl-sub">View Project ›</div>' +
+      '</div>' +
+    '</article>';
+  }).join('');
+}
+
+function renderActiveChips() {
+  const bar = document.getElementById('active-chips');
+  if (!bar) return;
+  const chips = [];
+  for (const [k, v] of Object.entries(filterState)) {
+    if (k === 'exact_match') continue;
+    if (Array.isArray(v)) v.forEach(val => chips.push(val));
+    else chips.push(v);
+  }
+  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+escapeHtmlText(c)+'</span>').join('');
+}
+
+function clearFacet(a, facet) {
+  document.querySelectorAll('input[type=checkbox][data-facet="' + facet + '"]').forEach(i => i.checked = false);
+  onF();
+}
+
+function syncStrictBadge() {
+  const on = !!(filterState.exact_match && filterState.exact_match.length);
+  document.querySelectorAll('.strict-indicator').forEach(el => {
+    el.classList.toggle('on', on);
+    el.textContent = on ? 'Exact match: ON' : 'Exact match: off';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  applyFilters();
+});
+</script>
+</body></html>

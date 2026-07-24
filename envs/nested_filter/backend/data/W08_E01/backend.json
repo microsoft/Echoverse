@@ -1,0 +1,95 @@
+{
+  "env_id": "W08_E01",
+  "widget_id": "W08_filter_chip_confirmation",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "brand",
+      "condition",
+      "color"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "W08_E01_T001",
+      "task_index_in_env": 1,
+      "instruction_text": "On OpenForge, pull up open-source software in the **Agentic** category that's **MIT**-licensed and currently **Stable**. Make sure all three chips show in the active-filter bar before you read off any titles.",
+      "expected_filter_state": {
+        "constraint": "category=[Agentic], color=[MIT], condition=[Stable]"
+      }
+    },
+    {
+      "task_id": "W08_E01_T002",
+      "task_index_in_env": 2,
+      "instruction_text": "Apply the **apache** publisher chip + the **Stable** development-status chip + the **Apache-2.0** license chip. Then on second thought, remove the Stable chip via its \u00d7 \u2014 final state should still show apache + Apache-2.0.",
+      "expected_filter_state": {
+        "constraint": "brand=[apache], color=[Apache-2.0]"
+      }
+    },
+    {
+      "task_id": "W08_E01_T003",
+      "task_index_in_env": 3,
+      "instruction_text": "Mirror the Fara request \u2014 start by toggling on **microsoft** (publisher), **Stable** (dev status), and the $80\u2013$199 price band so I'm only seeing mid-tier Microsoft-published stable projects. Then kill the price chip via its \u00d7 so price is open again. End state: just microsoft + Stable active.",
+      "expected_filter_state": {
+        "constraint": "brand=[microsoft], condition=[Stable]"
+      }
+    },
+    {
+      "task_id": "W08_E01_T004",
+      "task_index_in_env": 4,
+      "instruction_text": "Cross-compare two publishers: apply **apache** AND **huggingface** under publisher, plus the $200\u2013$500 price tier. Then \u00d7 off the apache chip so I'm only looking at huggingface in the $200\u2013$500 range.",
+      "expected_filter_state": {
+        "constraint": "brand=[huggingface], min_price=200, max_price=500"
+      }
+    },
+    {
+      "task_id": "W08_E01_T005",
+      "task_index_in_env": 5,
+      "instruction_text": "No filters \u2014 how many open-source projects are listed on OpenForge in total?",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E01_T006",
+      "task_index_in_env": 6,
+      "instruction_text": "Without applying any filter, which project has the highest customer rating, and what's that rating?",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E01_T007",
+      "task_index_in_env": 7,
+      "instruction_text": "Without changing any filter, tell me how many projects are under $100 versus $100-and-up.",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E01_T008",
+      "task_index_in_env": 8,
+      "instruction_text": "Apply the **MIT** license chip AND the **Stable** dev-status chip. After both chips are pinned in the active-filter bar, tell me how many projects match.",
+      "expected_filter_state": {
+        "constraint": "color=[MIT], condition=[Stable]"
+      }
+    },
+    {
+      "task_id": "W08_E01_T009",
+      "task_index_in_env": 9,
+      "instruction_text": "Multi-step: first apply **apache** (publisher) + **Stable** (dev status) + the $100\u2013$500 price band. Then remove the price chip via its \u00d7 so price is open again. Finally tell me how many projects remain.",
+      "expected_filter_state": {
+        "constraint": "brand=[apache], condition=[Stable]"
+      }
+    },
+    {
+      "task_id": "W08_E01_T010",
+      "task_index_in_env": 10,
+      "instruction_text": "Toggle on the 4\u2605-and-up rating chip plus the **microsoft** publisher chip. Once both chips sit in the active-filter bar, name the single highest-rated project in that filtered set (title + rating).",
+      "expected_filter_state": {
+        "constraint": "brand=[microsoft], rating_min=4"
+      }
+    }
+  ]
+}

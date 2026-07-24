@@ -1,0 +1,57 @@
+{
+  "env_id": "W15_E08",
+  "widget_id": "W15_compat_vs_species_toggle",
+  "widget_title": "Species vs Compatibility Toggle",
+  "archetype": "faceted_catalog",
+  "site_imitates": "Petfinder mobile",
+  "ui_variant": "drawer-mobile",
+  "primary_inspiration": {
+    "task_id": "petfinder-mobile",
+    "site": "Petfinder app \u00b7 ZIP 94587 (mobile)",
+    "note": "Slide-up filter drawer pattern from the Petfinder mobile app. Species checkboxes and Good-With pills sit one under the other inside the drawer \u2014 Fara often added 'Good with kids' to the wrong list."
+  },
+  "filter_axes": [
+    {
+      "name": "species",
+      "type": "multi",
+      "values": [
+        "Dog",
+        "Cat",
+        "Rabbit",
+        "Bird"
+      ],
+      "description": "Animal species \u2014 controls WHICH KIND of animal appears."
+    },
+    {
+      "name": "compat",
+      "type": "multi",
+      "values": [
+        "Good with kids",
+        "Good with cats",
+        "Good with dogs",
+        "Good with no children"
+      ],
+      "description": "Compatibility tags \u2014 describe who the animal lives well with. Separate axis from species; do not confuse 'Good with cats' (compat tag) with 'Cat' (species)."
+    }
+  ],
+  "schema": {
+    "id": "int",
+    "title": "string",
+    "species": "string",
+    "breed": "string",
+    "sex": "string",
+    "age": "int",
+    "age_label": "string",
+    "coat_length": "string",
+    "sterilization": "string",
+    "rating": "float",
+    "days_on_petfinder": "int",
+    "shelter": "string",
+    "distance_label": "string",
+    "compat": "list[string]"
+  },
+  "extras": {
+    "compat_options_help": "Each pet may carry zero or more compatibility tags. Compatibility filters require ALL selected tags to be present on the pet.",
+    "species_options_help": "Species filters are OR within axis (Dog OR Cat) but AND across axes (Dog AND Good with kids)."
+  }
+}

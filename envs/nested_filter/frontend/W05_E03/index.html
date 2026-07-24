@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoHomes — Homes for sale in Montesano, WA</title>
+<style>
+
+:root{
+  --rdc-red:#d92228;
+  --rdc-red-dark:#a8181e;
+  --rdc-red-soft:#fde8e9;
+  --rdc-ink:#1c1c1c;
+  --rdc-muted:#6c6c6c;
+  --rdc-line:#e3e3e3;
+  --rdc-bg:#ffffff;
+  --rdc-soft:#f6f6f6;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Open Sans','Helvetica Neue',Arial,sans-serif;color:var(--rdc-ink);background:var(--rdc-bg);line-height:1.45;font-size:14px;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.hide-debug{display:none!important;visibility:hidden!important}
+
+/* === RESULT CARDS (shared) === */
+.results-pane{padding:18px 24px;max-width:1280px;margin:0 auto}
+.results-head{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.results-head h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-0.3px;color:var(--rdc-ink)}
+.results-head .res-cnt{color:var(--rdc-muted);font-size:13px;font-weight:600}
+.results-head .sort-dd{margin-left:auto;border:1px solid var(--rdc-line);border-radius:4px;padding:7px 12px;background:#fff;font-size:12px;font-weight:600;color:var(--rdc-ink)}
+.active-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;min-height:24px}
+.active-chips:empty:before{content:"No filters applied — choose a bedroom or bathroom chip to refine";color:var(--rdc-muted);font-size:11px;font-style:italic}
+.active-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:var(--rdc-red-soft);color:var(--rdc-red-dark);font-size:11px;border-radius:11px;font-weight:700;border:1px solid #f5c5c8}
+.active-chip .x{cursor:pointer;opacity:.6;font-size:13px;line-height:1}
+.active-chip .x:hover{opacity:1}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.result-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--rdc-line);border-radius:6px;overflow:hidden;transition:box-shadow .15s,transform .15s;cursor:pointer}
+.result-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.10);transform:translateY(-1px)}
+.rc-photo{background:linear-gradient(135deg,#f6f6f6,#e8e8e8);min-height:200px;background-size:cover;background-position:center;position:relative}
+.rc-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 60%,rgba(0,0,0,.04));pointer-events:none}
+.rc-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px}
+.rc-price-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.rc-price{font-size:22px;font-weight:800;color:var(--rdc-ink);letter-spacing:-.3px}
+.rc-ptype{font-size:10px;padding:3px 9px;background:var(--rdc-soft);color:var(--rdc-muted);border-radius:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;border:1px solid var(--rdc-line)}
+.rc-stats{font-size:13px;font-weight:600;color:var(--rdc-ink)}
+.rc-stats b{font-weight:800}
+.rc-addr{font-size:13px;font-weight:400;color:var(--rdc-muted)}
+.rc-city{font-size:12px;color:var(--rdc-muted)}
+.rc-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.lstg-tag{font-size:10px;padding:3px 8px;border-radius:3px;font-weight:800;text-transform:uppercase;letter-spacing:.3px}
+.tag-new{background:#067a3a;color:#fff}
+.tag-reduced{background:#fde8e9;color:var(--rdc-red-dark)}
+.tag-pet{background:#eaf3ee;color:#1f5a36}
+.tag-gar{background:#eef2ff;color:#293c8a}
+
+/* === LIVE STATUS PILL === */
+.live-status{position:fixed;top:14px;right:14px;z-index:50;background:#fff;border:1px solid var(--rdc-line);border-radius:22px;padding:6px 14px;font-size:11px;font-weight:700;color:var(--rdc-red-dark);box-shadow:0 2px 8px rgba(0,0,0,.08);display:flex;align-items:center;gap:6px}
+.live-status .ls-dot{width:8px;height:8px;border-radius:50%;background:var(--rdc-red);box-shadow:0 0 0 3px var(--rdc-red-soft)}
+
+/* === FOOTER === */
+.site-foot{margin-top:40px;padding:28px 28px 22px;border-top:1px solid var(--rdc-line);color:#cfcfcf;font-size:12px;background:#202020}
+.site-foot a{color:#cfcfcf;margin-right:18px}
+.site-foot a:hover{color:#fff;text-decoration:underline}
+.site-foot .foot-top{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin-bottom:14px}
+.site-foot .foot-brand{font-weight:800;color:#fff;font-size:14px;letter-spacing:-.2px}
+.site-foot .foot-brand .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--rdc-red);margin:0 4px 0 1px}
+.site-foot .spacer{flex:1}
+.site-foot .foot-bottom{color:#8b8b8b;font-size:11px;border-top:1px solid #333;padding-top:14px}
+
+@media(max-width:880px){
+  .result-grid{grid-template-columns:1fr}
+  .rc-photo{min-height:180px}
+}
+
+
+.layout{display:block}
+.toolbar{display:flex;gap:10px;padding:14px 24px;border-bottom:1px solid var(--rdc-line);background:#fff;flex-wrap:wrap;align-items:center;max-width:1280px;margin:0 auto;width:100%}
+.toolbar .search-wrap{flex:1;min-width:240px;max-width:520px;position:relative}
+.toolbar .search-wrap:before{content:"";position:absolute;left:14px;top:50%;width:14px;height:14px;transform:translateY(-50%);background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236c6c6c' stroke-width='2.5'><circle cx='11' cy='11' r='7'/><path d='M21 21l-4.3-4.3'/></svg>") no-repeat center/contain}
+.toolbar input.search-pill{width:100%;padding:11px 14px 11px 38px;border:1.5px solid var(--rdc-ink);border-radius:6px;font-size:14px;font-weight:600;background:#fff;color:var(--rdc-ink)}
+.toolbar input.search-pill:focus{outline:none;border-color:var(--rdc-red)}
+.open-filters{padding:10px 20px;background:var(--rdc-red);color:#fff;border-radius:6px;font-weight:800;font-size:13px;letter-spacing:.2px;display:inline-flex;align-items:center;gap:6px}
+.open-filters:hover{background:var(--rdc-red-dark)}
+.open-filters:before{content:"";display:inline-block;width:14px;height:14px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5'><path d='M3 6h18M6 12h12M10 18h4'/></svg>") no-repeat center/contain}
+.chip-summary{margin-left:auto;font-size:12px;color:var(--rdc-muted);font-weight:600}
+.chip-summary b{color:var(--rdc-red-dark);font-weight:800}
+
+.subnav{display:flex;gap:6px;padding:10px 24px;border-bottom:1px solid var(--rdc-line);background:#fafafa;font-size:12px;font-weight:700;color:var(--rdc-ink);max-width:1280px;margin:0 auto;width:100%;flex-wrap:wrap}
+.subnav .pill{padding:6px 12px;border:1px solid var(--rdc-line);border-radius:18px;background:#fff;cursor:pointer}
+.subnav .pill:hover{border-color:var(--rdc-ink)}
+.subnav .pill.active{background:var(--rdc-ink);color:#fff;border-color:var(--rdc-ink)}
+
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:40;align-items:center;justify-content:center}
+.modal-backdrop.open{display:flex}
+.modal-card{background:#fff;border-radius:8px;width:92vw;max-width:540px;padding:24px 28px;max-height:90vh;overflow:auto;box-shadow:0 18px 48px rgba(0,0,0,.25)}
+.modal-card h2{margin:0 0 4px;font-size:22px;font-weight:800;color:var(--rdc-ink);letter-spacing:-.3px}
+.modal-card .sub{color:var(--rdc-muted);font-size:13px;margin-bottom:20px}
+.modal-card h4{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--rdc-ink);margin:0 0 8px;font-weight:800}
+.seg-row{display:flex;border:1px solid var(--rdc-line);border-radius:6px;overflow:hidden;margin-bottom:18px}
+.seg-btn{flex:1;padding:12px 6px;background:#fff;color:var(--rdc-ink);font-size:13px;font-weight:700;border-right:1px solid var(--rdc-line);transition:background .12s,color .12s;font-family:inherit}
+.seg-btn:last-child{border-right:none}
+.seg-btn:hover{background:var(--rdc-soft)}
+.seg-btn.active{background:var(--rdc-red);color:#fff}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:6px;border-top:1px solid var(--rdc-line);padding-top:16px}
+.modal-close{padding:10px 22px;background:var(--rdc-red);color:#fff;border-radius:6px;font-weight:800;font-size:13px}
+.modal-close:hover{background:var(--rdc-red-dark)}
+.modal-note{font-size:11px;color:var(--rdc-muted);font-style:italic;margin-top:-12px;margin-bottom:14px}
+
+/* === Realtor.com header === */
+.site-header{background:#fff;border-bottom:1px solid var(--rdc-line);padding:14px 24px;display:flex;align-items:center;gap:24px;box-shadow:0 1px 0 rgba(0,0,0,.02)}
+.brand-logo{display:inline-flex;align-items:baseline;font-weight:800;font-size:24px;letter-spacing:-.6px;color:var(--rdc-ink);font-family:'Open Sans',Arial,sans-serif}
+.brand-logo .br-red{color:var(--rdc-red)}
+.brand-logo .br-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--rdc-red);margin:0 3px 1px}
+.brand-logo .br-r{font-size:30px;line-height:.8;font-weight:900;color:var(--rdc-red);margin-right:2px}
+.brand-logo sup{font-size:9px;color:var(--rdc-muted);margin-left:2px}
+.top-nav{display:flex;gap:22px;font-size:13px;font-weight:700;color:var(--rdc-ink)}
+.top-nav a{padding:6px 0;border-bottom:2px solid transparent}
+.top-nav a:hover{border-bottom-color:var(--rdc-red);color:var(--rdc-red)}
+.top-actions{display:flex;gap:10px;align-items:center}
+.top-actions .ta-link{font-size:12px;font-weight:700;color:var(--rdc-ink);padding:6px 4px}
+.top-actions .ta-link:hover{color:var(--rdc-red)}
+.top-actions .ta-btn{padding:7px 14px;border:1.5px solid var(--rdc-ink);border-radius:4px;font-size:12px;font-weight:800;color:var(--rdc-ink);background:#fff}
+.top-actions .ta-btn:hover{background:var(--rdc-ink);color:#fff}
+
+</style>
+</head>
+<body>
+<script>window.__RENT_MODE__ = false;</script>
+<div class="live-status hide-debug"><span class="ls-dot"></span><span>Filters auto-save on every chip click</span></div>
+<header class="site-header">
+  <div class="brand-logo">EchoHomes<sup>®</sup></div>
+  <nav class="top-nav">
+    <a>Buy</a><a>Rent</a><a>Sell</a><a>Pre-approval</a><a>Just sold</a><a>Home value</a>
+  </nav>
+  <span style="flex:1"></span>
+  <div class="top-actions">
+    <a class="ta-link">Manage rentals</a>
+    <a class="ta-link">Advertise</a>
+    <a class="ta-link">Help</a>
+    <button class="ta-btn">Sign up or Log in</button>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="search-wrap"><input class="search-pill" placeholder="Address, School, City, ZIP or Neighborhood" value="Montesano, WA"></div>
+  <button class="open-filters" onclick="openModal()">All filters</button>
+  <span class="chip-summary">Active: <b id="chip-summary-text">none</b></span>
+</div>
+<div class="subnav">
+  <span class="pill active">For sale</span>
+  <span class="pill">Price</span>
+  <span class="pill">Beds &amp; Baths</span>
+  <span class="pill">Home type</span>
+  <span class="pill">More</span>
+  <span class="pill">Save search</span>
+</div>
+<div class="modal-backdrop" id="filters-modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-card">
+    <h2>Filters</h2>
+    <div class="sub">Pick the smallest number of bedrooms / bathrooms you'll accept.</div>
+    <h4>Bedrooms (at least)</h4>
+    <div class="seg-row" id="chip-row-beds"><button class="seg-btn" data-facet="min_beds" data-val="0" onclick="pickChip(this,'min_beds',0)">Studio</button><button class="seg-btn" data-facet="min_beds" data-val="1" onclick="pickChip(this,'min_beds',1)">1+</button><button class="seg-btn" data-facet="min_beds" data-val="2" onclick="pickChip(this,'min_beds',2)">2+</button><button class="seg-btn" data-facet="min_beds" data-val="3" onclick="pickChip(this,'min_beds',3)">3+</button><button class="seg-btn" data-facet="min_beds" data-val="4" onclick="pickChip(this,'min_beds',4)">4+</button><button class="seg-btn" data-facet="min_beds" data-val="5" onclick="pickChip(this,'min_beds',5)">5+</button></div>
+    <div class="modal-note">Selecting "3+" includes homes with 3, 4, 5 or more bedrooms.</div>
+    <h4>Bathrooms (at least)</h4>
+    <div class="seg-row" id="chip-row-baths"><button class="seg-btn" data-facet="min_baths" data-val="0" onclick="pickChip(this,'min_baths',0)">Any</button><button class="seg-btn" data-facet="min_baths" data-val="1" onclick="pickChip(this,'min_baths',1)">1+</button><button class="seg-btn" data-facet="min_baths" data-val="2" onclick="pickChip(this,'min_baths',2)">2+</button><button class="seg-btn" data-facet="min_baths" data-val="3" onclick="pickChip(this,'min_baths',3)">3+</button><button class="seg-btn" data-facet="min_baths" data-val="4" onclick="pickChip(this,'min_baths',4)">4+</button></div>
+    <div class="modal-actions">
+      <button class="modal-close" onclick="closeModal()">Done</button>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+
+<section class="results-pane">
+  <div class="results-head">
+    <h1>Homes for sale in Montesano, WA</h1>
+    <span class="res-cnt" id="result-count">20 results</span>
+    <select class="sort-dd"><option>Sort: Recommended</option><option>Price: Low to High</option><option>Price: High to Low</option><option>Newest</option></select>
+  </div>
+  <div class="active-chips" id="active-chips"></div>
+  <div class="result-grid" id="result-grid">
+<article class="result-card" data-beds="3" data-baths="3">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/9308434/pexels-photo-9308434.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$475,000</span><span class="rc-ptype">Multi-Family</span></div>
+    <div class="rc-stats">3 bd · 3 ba · 3,808 sqft · 1.12 ac lot</div>
+    <div class="rc-addr">9858 Sycamore Pl</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="3.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/30580640/pexels-photo-30580640.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$725,000</span><span class="rc-ptype">Studio Apartment</span></div>
+    <div class="rc-stats">3 bd · 3.5 ba · 3,733 sqft · 1.49 ac lot</div>
+    <div class="rc-addr">3425 Sycamore Pl</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="2" data-baths="2.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/7031581/pexels-photo-7031581.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$475,000</span><span class="rc-ptype">Townhouse</span></div>
+    <div class="rc-stats">2 bd · 2.5 ba · 3,558 sqft · 0.4 ac lot</div>
+    <div class="rc-addr">2143 Pine Ln</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="2">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$625,000</span><span class="rc-ptype">Single-Family</span></div>
+    <div class="rc-stats">3 bd · 2 ba · 1,151 sqft · 2.27 ac lot</div>
+    <div class="rc-addr">4978 Oak St</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"><span class="lstg-tag tag-reduced">↓ PRICE CUT</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="2" data-baths="1.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/7031406/pexels-photo-7031406.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$395,000</span><span class="rc-ptype">Studio Apartment</span></div>
+    <div class="rc-stats">2 bd · 1.5 ba · 3,160 sqft · 1.89 ac lot</div>
+    <div class="rc-addr">7942 Cedar Ct</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"><span class="lstg-tag tag-pet">🐾 Pet OK</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="2" data-baths="1.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/15951714/pexels-photo-15951714.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$395,000</span><span class="rc-ptype">Multi-Family</span></div>
+    <div class="rc-stats">2 bd · 1.5 ba · 3,751 sqft · 1.17 ac lot</div>
+    <div class="rc-addr">3708 Maple Ave</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="1">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/19190343/pexels-photo-19190343.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$325,000</span><span class="rc-ptype">Multi-Family</span></div>
+    <div class="rc-stats">3 bd · 1 ba · 3,279 sqft · 2.49 ac lot</div>
+    <div class="rc-addr">1331 Maple Ave</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"></div>
+  </div>
+</article>
+<article class="result-card" data-beds="5" data-baths="2">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/6342356/pexels-photo-6342356.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$275,000</span><span class="rc-ptype">Single-Family</span></div>
+    <div class="rc-stats">5 bd · 2 ba · 2,264 sqft · 1.12 ac lot</div>
+    <div class="rc-addr">2892 Cherry St</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"><span class="lstg-tag tag-reduced">↓ PRICE CUT</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="4" data-baths="2">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/35410014/pexels-photo-35410014.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$625,000</span><span class="rc-ptype">Condo</span></div>
+    <div class="rc-stats">4 bd · 2 ba · 2,267 sqft · 1.35 ac lot</div>
+    <div class="rc-addr">7168 Oak St</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="2">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/1330753/pexels-photo-1330753.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$325,000</span><span class="rc-ptype">Townhouse</span></div>
+    <div class="rc-stats">3 bd · 2 ba · 3,838 sqft · 1.04 ac lot</div>
+    <div class="rc-addr">3019 Birch Way</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"></div>
+  </div>
+</article>
+<article class="result-card" data-beds="1" data-baths="3">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/13729358/pexels-photo-13729358.png?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$540,000</span><span class="rc-ptype">Multi-Family</span></div>
+    <div class="rc-stats">1 bd · 3 ba · 1,804 sqft · 1.94 ac lot</div>
+    <div class="rc-addr">1205 Oak St</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"><span class="lstg-tag tag-pet">🐾 Pet OK</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="1" data-baths="1.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/16804979/pexels-photo-16804979.png?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$825,000</span><span class="rc-ptype">Single-Family</span></div>
+    <div class="rc-stats">1 bd · 1.5 ba · 3,795 sqft · 2.26 ac lot</div>
+    <div class="rc-addr">2716 Cedar Ct</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"><span class="lstg-tag tag-pet">🐾 Pet OK</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="1.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/19408975/pexels-photo-19408975.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$395,000</span><span class="rc-ptype">Studio Apartment</span></div>
+    <div class="rc-stats">3 bd · 1.5 ba · 2,370 sqft · 0.47 ac lot</div>
+    <div class="rc-addr">1792 Pine Ln</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"></div>
+  </div>
+</article>
+<article class="result-card" data-beds="1" data-baths="3.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/32115995/pexels-photo-32115995.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$725,000</span><span class="rc-ptype">Studio Apartment</span></div>
+    <div class="rc-stats">1 bd · 3.5 ba · 2,955 sqft · 1.9 ac lot</div>
+    <div class="rc-addr">5974 Sycamore Pl</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"><span class="lstg-tag tag-reduced">↓ PRICE CUT</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="4" data-baths="1.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/7031407/pexels-photo-7031407.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$180,000</span><span class="rc-ptype">Townhouse</span></div>
+    <div class="rc-stats">4 bd · 1.5 ba · 3,897 sqft · 2.36 ac lot</div>
+    <div class="rc-addr">9649 Pine Ln</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"><span class="lstg-tag tag-new">NEW</span><span class="lstg-tag tag-reduced">↓ PRICE CUT</span><span class="lstg-tag tag-pet">🐾 Pet OK</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="3.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/7031411/pexels-photo-7031411.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$395,000</span><span class="rc-ptype">Condo</span></div>
+    <div class="rc-stats">3 bd · 3.5 ba · 1,266 sqft · 2.05 ac lot</div>
+    <div class="rc-addr">5198 Aspen Cir</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"></div>
+  </div>
+</article>
+<article class="result-card" data-beds="2" data-baths="3.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/1603325/pexels-photo-1603325.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$825,000</span><span class="rc-ptype">Multi-Family</span></div>
+    <div class="rc-stats">2 bd · 3.5 ba · 1,457 sqft · 1.45 ac lot</div>
+    <div class="rc-addr">5906 Cedar Ct</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="2.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/7031405/pexels-photo-7031405.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$825,000</span><span class="rc-ptype">Townhouse</span></div>
+    <div class="rc-stats">3 bd · 2.5 ba · 3,340 sqft · 2.23 ac lot</div>
+    <div class="rc-addr">8625 Walnut Rd</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"><span class="lstg-tag tag-reduced">↓ PRICE CUT</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="5" data-baths="2">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/9170385/pexels-photo-9170385.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$325,000</span><span class="rc-ptype">Townhouse</span></div>
+    <div class="rc-stats">5 bd · 2 ba · 1,184 sqft · 0.81 ac lot</div>
+    <div class="rc-addr">5170 Maple Ave</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"><span class="lstg-tag tag-pet">🐾 Pet OK</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="2" data-baths="1.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/9039850/pexels-photo-9039850.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$325,000</span><span class="rc-ptype">Condo</span></div>
+    <div class="rc-stats">2 bd · 1.5 ba · 2,642 sqft · 0.46 ac lot</div>
+    <div class="rc-addr">7302 Walnut Rd</div>
+    <div class="rc-city">Montesano, WA</div>
+    <div class="rc-tags"><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+  </div>
+</section>
+</div>
+<footer class="site-foot">
+  <div class="foot-top">
+    <span class="foot-brand">EchoHomes<sup>®</sup></span>
+    <a>About</a><a>News</a><a>Careers</a><a>Advertise</a><a>Agents</a><a>Help</a><a>Mobile apps</a>
+    <span class="spacer"></span>
+    <span>Follow us · EchoSocial · EchoPix · EchoPost</span>
+  </div>
+  <div class="foot-bottom">© 2026 EchoHomes, Inc. All rights reserved. EchoHomes® is the official site of the Echo Realty Association and is operated by Echo, Inc., a subsidiary of Echo Corp. — Homes for sale in Montesano, WA.</div>
+</footer>
+<script>
+
+const ENV_ID = "W05_E03";
+let filterState = {};
+
+function readChipState() {
+  const st = {};
+  document.querySelectorAll('[data-facet][data-val]').forEach(el => {
+    if (!el.classList.contains('active')) return;
+    const f = el.dataset.facet;
+    const v = parseInt(el.dataset.val, 10);
+    if (!Number.isNaN(v)) st[f] = v;
+  });
+  document.querySelectorAll('input[type="checkbox"][data-facet]').forEach(el => {
+    if (el.checked) st[el.dataset.facet] = el.value || true;
+  });
+  return st;
+}
+
+function onF() {
+  filterState = readChipState();
+  // Update Zillow-style dropdown labels
+  const lblBeds = document.getElementById('lbl-beds');
+  if (lblBeds) lblBeds.textContent = formatBedLabel(filterState.min_beds);
+  const lblBaths = document.getElementById('lbl-baths');
+  if (lblBaths) lblBaths.textContent = formatBathLabel(filterState.min_baths);
+  // Update dd-btn has-value class (Zillow style)
+  document.querySelectorAll('.dd').forEach(dd => {
+    const id = dd.id;
+    const btn = dd.querySelector('.dd-btn');
+    if (!btn) return;
+    if (id === 'dd-beds') btn.classList.toggle('has-value', filterState.min_beds !== undefined);
+    if (id === 'dd-baths') btn.classList.toggle('has-value', filterState.min_baths !== undefined);
+  });
+  // Trulia E03 summary text
+  const sumT = document.getElementById('chip-summary-text');
+  if (sumT) {
+    const parts = [];
+    if (filterState.min_beds !== undefined) parts.push(formatBedLabel(filterState.min_beds) + ' beds');
+    if (filterState.min_baths !== undefined) parts.push(formatBathLabel(filterState.min_baths) + ' baths');
+    sumT.textContent = parts.length ? parts.join(' · ') : 'none';
+  }
+  renderActiveChips();
+  applyFilters();
+}
+
+function formatBedLabel(v) {
+  if (v === undefined || v === null) return 'Any';
+  if (v === 0) return 'Studio';
+  return v + '+';
+}
+function formatBathLabel(v) {
+  if (v === undefined || v === null || v === 0) return 'Any';
+  return v + '+';
+}
+
+function pickChip(btn, facet, val) {
+  const row = document.getElementById('chip-row-' + (facet === 'min_beds' ? 'beds' : 'baths'));
+  if (row) row.querySelectorAll('[data-facet="' + facet + '"]').forEach(b => b.classList.remove('active'));
+  else btn.parentElement.querySelectorAll('[data-facet="' + facet + '"]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  onF();
+}
+
+function clearChip(facet) {
+  document.querySelectorAll('[data-facet="' + facet + '"]').forEach(b => b.classList.remove('active'));
+  onF();
+}
+
+function renderActiveChips() {
+  const bar = document.getElementById('active-chips');
+  if (!bar) return;
+  bar.replaceChildren();
+  function addChip(label, facet) {
+    const chip = document.createElement('span');
+    chip.className = 'active-chip';
+    chip.appendChild(document.createTextNode(label));
+    if (facet) {
+      chip.appendChild(document.createTextNode(' '));
+      const x = document.createElement('span');
+      x.className = 'x';
+      x.textContent = '×';
+      x.addEventListener('click', () => clearChip(facet));
+      chip.appendChild(x);
+    }
+    bar.appendChild(chip);
+  }
+  if (filterState.min_beds !== undefined) {
+    addChip(formatBedLabel(filterState.min_beds) + ' beds', 'min_beds');
+  }
+  if (filterState.min_baths !== undefined) {
+    addChip(formatBathLabel(filterState.min_baths) + ' baths', 'min_baths');
+  }
+  for (const k of ['has_garage','pet_friendly','is_new']) {
+    if (filterState[k]) {
+      const lbl = {has_garage:'🚗 Garage', pet_friendly:'🐾 Pet OK', is_new:'✨ New listing'}[k];
+      addChip(lbl);
+    }
+  }
+}
+
+function renderResultCard(it) {
+  const beds = it.beds, baths = it.baths;
+  const bedStr = beds === 0 ? 'Studio' : (beds + ' bd');
+  const priceStr = (typeof it.price === 'number')
+    ? (it.price >= 1000 ? '$' + it.price.toLocaleString() : '$' + it.price)
+    : ('$' + it.price);
+  const priceSuffix = (window.__RENT_MODE__) ? '/mo' : '';
+  const sqftStr = it.sqft ? Number(it.sqft).toLocaleString() + ' sqft' : '';
+  const lotStr = (it.lot_acres && !window.__RENT_MODE__) ? (' · ' + it.lot_acres + ' ac lot') : '';
+  const tags = [];
+  if (it.is_new) tags.push('<span class="lstg-tag tag-new">NEW</span>');
+  if (it.price_reduced) tags.push('<span class="lstg-tag tag-reduced">↓ PRICE CUT</span>');
+  if (it.pet_friendly) tags.push('<span class="lstg-tag tag-pet">🐾 Pet OK</span>');
+  if (it.has_garage) tags.push('<span class="lstg-tag tag-gar">🚗 Garage</span>');
+  return `<article class="result-card" data-beds="${beds}" data-baths="${baths}">
+  <div class="rc-photo" style="background-image:url('${it.image_url||''}')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">${priceStr}${priceSuffix}</span><span class="rc-ptype">${escapeHtml(it.property_type||'')}</span></div>
+    <div class="rc-stats">${bedStr} · ${baths} ba · ${sqftStr}${lotStr}</div>
+    <div class="rc-addr">${escapeHtml(it.title||'')}</div>
+    <div class="rc-city">${escapeHtml(it.city||'')}</div>
+    <div class="rc-tags">${tags.join('')}</div>
+  </div>
+</article>`;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function applyFilters() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    const grid = document.getElementById('result-grid');
+    const results = data.results || [];
+    if (grid) {
+      if (results.length === 0) {
+        grid.innerHTML = '<div style="padding:40px 24px;text-align:center;color:#888;background:#fafafa;border:1px dashed #ddd;border-radius:8px">No homes match those filters. Try loosening the chips above.</div>';
+      } else {
+        grid.innerHTML = results.map(renderResultCard).join('');
+      }
+    }
+    const cnt = document.getElementById('result-count');
+    if (cnt) cnt.textContent = results.length + ' results';
+  }).catch(()=>{});
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : '';
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).catch(()=>{});
+}
+
+function toggleDD(id) {
+  document.querySelectorAll('.dd').forEach(d => { if (d.id !== id) d.classList.remove('open'); });
+  document.getElementById(id).classList.toggle('open');
+}
+
+function openModal() { document.getElementById('filters-modal').classList.add('open'); }
+function closeModal() { document.getElementById('filters-modal').classList.remove('open'); }
+
+function loadTaskBanner() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const tid = urlParams.get('task_id');
+  if (!tid) return;
+  fetch('/env/' + ENV_ID + '/api/task/' + encodeURIComponent(tid))
+    .then(r => r.ok ? r.json() : null)
+    .then(task => {
+      if (!task || task.task_type === 'write') return;
+      // For read / read_write tasks, mount a hidden answer input that POSTs on input.
+      let host = document.querySelector('.results-pane');
+      if (!host) host = document.body;
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.id = 'task-answer-input';
+      inp.placeholder = 'Type your finding here';
+      inp.style.cssText = 'display:block;width:100%;max-width:520px;margin:0 0 14px;padding:10px 14px;border:1px solid #ccc;border-radius:6px;font-size:13px;font-family:inherit';
+      inp.addEventListener('input', () => applyFilters());
+      host.insertBefore(inp, host.firstChild);
+    }).catch(()=>{});
+}
+
+// Close dropdowns on outside click
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.dd')) {
+    document.querySelectorAll('.dd.open').forEach(d => d.classList.remove('open'));
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadTaskBanner();
+  applyFilters(); // initial render
+});
+
+</script>
+</body>
+</html>

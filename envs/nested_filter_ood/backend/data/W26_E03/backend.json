@@ -1,0 +1,98 @@
+{
+  "env_id": "W26_E03",
+  "widget_id": "W26_autocomplete_plus_calendar_advance",
+  "archetype": "booking_form",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2501",
+      "task_index_in_env": 1,
+      "instruction_text": "Book a flight with KLM from Lagos, Nigeria to Frankfurt, Germany flying out 07/17/2026 and coming back 07/25/2026. Make sure the destination autocomplete resolves to Frankfurt am Main (FRA) \u2014 not Frankfurt-Hahn (HHN) \u2014 and the calendar advances to July 2026 to set both depart and return dates.",
+      "expected_filter_state": {
+        "dest": "FRA",
+        "date": "Jul 17",
+        "return_date": "Jul 25"
+      }
+    },
+    {
+      "task_id": "T2502",
+      "task_index_in_env": 2,
+      "instruction_text": "Same Lagos \u2192 Frankfurt KLM booking but for a one-week trip: Aug 14, 2026 \u2192 Aug 21, 2026. Watch the dropdown \u2014 Frankfurt am Main (FRA) is what you want, not Flor\u00f8 (FRO) or Hahn (HHN).",
+      "expected_filter_state": {
+        "dest": "FRA",
+        "date": "Aug 14",
+        "return_date": "Aug 21"
+      }
+    },
+    {
+      "task_id": "T2503",
+      "task_index_in_env": 3,
+      "instruction_text": "Book a KLM flight Lagos \u2192 Frankfurt for Feb 26, 2027 returning Mar 5, 2027 \u2014 the calendar opens on May 2026 so you'll need to advance about 9 months. Confirm destination resolves to FRA.",
+      "expected_filter_state": {
+        "dest": "FRA",
+        "date": "Feb 26",
+        "return_date": "Mar 5"
+      }
+    },
+    {
+      "task_id": "T2504",
+      "task_index_in_env": 4,
+      "instruction_text": "One-way KLM flight Lagos \u2192 Frankfurt (FRA) on Oct 22, 2026. No return needed \u2014 just set destination FRA and pick Oct 22, 2026.",
+      "expected_filter_state": {
+        "dest": "FRA",
+        "date": "Oct 22"
+      }
+    },
+    {
+      "task_id": "T2505",
+      "task_index_in_env": 5,
+      "instruction_text": "What's the cheapest KLM fare shown for Lagos \u2192 Frankfurt on Sep 9, 2026? Reply in $X form (e.g. $985).",
+      "expected_filter_state": {}
+    },
+    {
+      "task_id": "T2506",
+      "task_index_in_env": 6,
+      "instruction_text": "On the LOS \u2192 FRA results for Jul 17, 2026, how many KLM options are there (i.e. operated by KLM, not Lufthansa or Ryanair)? Reply with the integer (e.g. '2 KLM flights').",
+      "expected_filter_state": {}
+    },
+    {
+      "task_id": "T2507",
+      "task_index_in_env": 7,
+      "instruction_text": "What's the flight duration for KL 591 Lagos \u2192 Frankfurt? Answer in the format '7h 50m' in quotes.",
+      "expected_filter_state": {}
+    },
+    {
+      "task_id": "T2508",
+      "task_index_in_env": 8,
+      "instruction_text": "Configure the search: destination Frankfurt am Main (FRA), depart Jul 17, 2026, return Jul 25, 2026. Then report how many KLM options exist for that route+date (e.g. '2 flights').",
+      "expected_filter_state": {
+        "dest": "FRA",
+        "date": "Jul 17",
+        "return_date": "Jul 25"
+      }
+    },
+    {
+      "task_id": "T2509",
+      "task_index_in_env": 9,
+      "instruction_text": "Set the search Lagos \u2192 Frankfurt for Jan 15, 2027 \u2192 Jan 22, 2027. Then report the KLM flight number for that depart in quotes (e.g. \"KL 573\").",
+      "expected_filter_state": {
+        "dest": "FRA",
+        "date": "Jan 15",
+        "return_date": "Jan 22"
+      }
+    },
+    {
+      "task_id": "T2510",
+      "task_index_in_env": 10,
+      "instruction_text": "Configure: destination FRA, depart Apr 30, 2027, return May 7, 2027 (the calendar will need to advance ~12 months). Report the price of that KLM service in $X form.",
+      "expected_filter_state": {
+        "dest": "FRA",
+        "date": "Apr 30",
+        "return_date": "May 7"
+      }
+    }
+  ]
+}

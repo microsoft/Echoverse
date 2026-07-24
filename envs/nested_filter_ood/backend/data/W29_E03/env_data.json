@@ -1,0 +1,46 @@
+{
+  "env_id": "W29_E03",
+  "widget_id": "W29_override_defaults_plus_frequency",
+  "widget_name": "Override default numeric inputs + compounding frequency dropdown",
+  "widget_category": "combo_calculator_full_override",
+  "widget_mechanic": "Compose: override one or more numeric defaults AND change the frequency dropdown from default Annually.",
+  "archetype": "calculator_form",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W17_override_default_numeric",
+    "W16_compounding_frequency_dropdown"
+  ],
+  "site_imitates": "Bankrate compound interest calculator",
+  "product_type": "compound interest projection (Bankrate calc with override defaults + frequency)",
+  "primary_inspiration": {
+    "task_id": "compositional_tasks_v2_composite_75",
+    "benchmark": "WTB",
+    "site": "tasks",
+    "instruction": "go to investor.gov and compute how much money I will have with an initial principle of $10000, to which I make monthly contributions of $200 over 10 years. Assume an interest rate of 5.0 compounded quarterly. Additionally, tell me the colors of the lines it plots in the results.",
+    "first_failure_summary": "[3.5] Incomplete task execution: A scroll action was attempted, but the post-action screenshot shows no visible change in page position/content, indicating the scroll had no effect."
+  },
+  "source_inspiration": [
+    {
+      "task_id": "compositional_tasks_v2_composite_75",
+      "benchmark": "WTB",
+      "site": "tasks",
+      "instruction": "go to investor.gov and compute how much money I will have with an initial principle of $10000, to which I make monthly contributions of $200 over 10 years. Assume an interest rate of 5.0 compounded quarterly. Additionally, tell me the colors of the lines it plots in the results.",
+      "first_failure_summary": "[3.5] Incomplete task execution: A scroll action was attempted, but the post-action screenshot shows no visible change in page position/content, indicating the scroll had no effect."
+    }
+  ],
+  "theme_key": "bankrate",
+  "theme_logo": "Bankrate",
+  "theme_card": "calc-result",
+  "theme_layout": "stepped-form-select",
+  "variant_idx": 2,
+  "n_seed_items": 1,
+  "filter_spec": {
+    "type": "calc_compute",
+    "fields": [
+      "principal",
+      "rate",
+      "years",
+      "frequency"
+    ]
+  }
+}

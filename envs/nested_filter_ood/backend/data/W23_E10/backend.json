@@ -1,0 +1,91 @@
+{
+  "env_id": "W23_E10",
+  "widget_id": "W23_more_filters_modal_plus_chip_bar",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "W23_E10_T001",
+      "task_index_in_env": 1,
+      "instruction_text": "On Apartments.com Houston TX, Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income of $8000. The condo should have a minimum area of 600 square feet, and the move-in date is the 1st of next month. Specifically (task 1/10): Hi! I'm searching on Apartments.com Houston TX: I want condos for rent matching Condo, \u2264$2,400/mo, 600+ sqft, move-in 1st of next month. Please open the All Filters modal from the chip-bar above, check ONLY these: Condo only, Max $2,400 /mo",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_condo_only=on, modal_max_rent_2400=on"
+      }
+    },
+    {
+      "task_id": "W23_E10_T002",
+      "task_index_in_env": 2,
+      "instruction_text": "On Apartments.com Houston TX, Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income of $8000. The condo should have a minimum area of 600 square feet, and the move-in date is the 1st of next month. Specifically (task 2/10): Quick \u2014 on Apartments.com Houston TX, open the All Filters modal and tick all three: Condo only, Max $2,400 /mo, 600+ sqft, apply. Then on the active-filter chip bar above the results, dismiss the \u201c600+ sqft\u201d chip \u2014 I changed my mind about ",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_condo_only=on, modal_max_rent_2400=on"
+      }
+    },
+    {
+      "task_id": "W23_E10_T003",
+      "task_index_in_env": 3,
+      "instruction_text": "On Apartments.com Houston TX, Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income of $8000. The condo should have a minimum area of 600 square feet, and the move-in date is the 1st of next month. Specifically (task 3/10): ok partner just weighed in \u2014 on Apartments.com Houston TX pls open the All Filters modal and check ALL of these: Condo only, Max $2,400 /mo, 600+ sqft, Move-in Ready (1st of next month). apply. then from the active-filter chip bar above the",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_condo_only=on, modal_max_rent_2400=on"
+      }
+    },
+    {
+      "task_id": "W23_E10_T004",
+      "task_index_in_env": 4,
+      "instruction_text": "On Apartments.com Houston TX, Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income of $8000. The condo should have a minimum area of 600 square feet, and the move-in date is the 1st of next month. Specifically (task 4/10): hey can u set up a search on Apartments.com Houston TX like this: in the All Filters modal apply Condo only, Pet-friendly, Dishwasher. then remove the \u201cPet-friendly\u201d chip and the \u201cDishwasher\u201d chip from the active-filter chip bar above the r",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_condo_only=on"
+      }
+    },
+    {
+      "task_id": "W23_E10_T005",
+      "task_index_in_env": 5,
+      "instruction_text": "On Apartments.com Houston TX, Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income of $8000. The condo should have a minimum area of 600 square feet, and the move-in date is the 1st of next month. Specifically (task 5/10): Quick one \u2014 how many condos for rent are showing on this Apartments.com Houston TX page right now, before any filtering?",
+      "expected_filter_state": {
+        "constraint": "20 condos for rent"
+      }
+    },
+    {
+      "task_id": "W23_E10_T006",
+      "task_index_in_env": 6,
+      "instruction_text": "On Apartments.com Houston TX, Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income of $8000. The condo should have a minimum area of 600 square feet, and the move-in date is the 1st of next month. Specifically (task 6/10): On Apartments.com Houston TX, what is the address of the cheapest condos for rent listed? Just give me the street address.",
+      "expected_filter_state": {
+        "constraint": "2581 Saxton Mist Dr"
+      }
+    },
+    {
+      "task_id": "W23_E10_T007",
+      "task_index_in_env": 7,
+      "instruction_text": "On Apartments.com Houston TX, Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income of $8000. The condo should have a minimum area of 600 square feet, and the move-in date is the 1st of next month. Specifically (task 7/10): On Apartments.com Houston TX, how many listings show a Pet-Friendly badge in their card right now (no filters applied)? And how many show a Price Reduced badge?",
+      "expected_filter_state": {
+        "constraint": "8 pet-friendly and 6 price reduced"
+      }
+    },
+    {
+      "task_id": "W23_E10_T008",
+      "task_index_in_env": 8,
+      "instruction_text": "On Apartments.com Houston TX, Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income of $8000. The condo should have a minimum area of 600 square feet, and the move-in date is the 1st of next month. Specifically (task 8/10): On Apartments.com Houston TX, open the All Filters modal and apply both \u201cCondo only\u201d and \u201cMax $2,400 /mo\u201d, then verify both chips show up in the active-filter chip bar above the results. After that, tell me how many results remain.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_condo_only=on, modal_max_rent_2400=on"
+      }
+    },
+    {
+      "task_id": "W23_E10_T009",
+      "task_index_in_env": 9,
+      "instruction_text": "On Apartments.com Houston TX, Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income of $8000. The condo should have a minimum area of 600 square feet, and the move-in date is the 1st of next month. Specifically (task 9/10): On Apartments.com Houston TX, in the All Filters modal turn on these three: Condo only, Max $2,400 /mo, 600+ sqft. Apply, verify all three chips appear in the active-filter chip bar, then read back to me the price of the most expensive list",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_condo_only=on, modal_max_rent_2400=on, modal_min_600_sqft=on"
+      }
+    },
+    {
+      "task_id": "W23_E10_T010",
+      "task_index_in_env": 10,
+      "instruction_text": "On Apartments.com Houston TX, Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income of $8000. The condo should have a minimum area of 600 square feet, and the move-in date is the 1st of next month. Specifically (task 10/10): On Apartments.com Houston TX, open the All Filters modal and tick Condo only, Max $2,400 /mo, 600+ sqft, apply, then on the active-filter chip bar above the results dismiss the \u201c600+ sqft\u201d chip. Once you're down to just Condo only, Max $2,4",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_condo_only=on, modal_max_rent_2400=on"
+      }
+    }
+  ]
+}

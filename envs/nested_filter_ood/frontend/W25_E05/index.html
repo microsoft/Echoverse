@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tacoma, WA Real Estate - Tacoma Homes For Sale | EchoHomes</title>
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#fff;color:#1c1c1c;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.35;}
+  a{color:inherit;text-decoration:none;cursor:pointer;}
+  a:hover{text-decoration:underline;}
+  button{font-family:inherit;}
+
+  /* ===== Top header ===== */
+  .zw-header{background:#fff;border-bottom:1px solid #e9e9eb;height:80px;display:flex;align-items:center;padding:0 24px;position:sticky;top:0;z-index:200;}
+  .zw-nav-left,.zw-nav-right{display:flex;align-items:center;gap:26px;flex:1;}
+  .zw-nav-right{justify-content:flex-end;}
+  .zw-nav-left a,.zw-nav-right a{font-size:14px;font-weight:600;color:#1c1c1c;letter-spacing:.1px;}
+  .zw-nav-left a:hover,.zw-nav-right a:hover{color:#006aff;text-decoration:none;}
+  .zw-logo{display:flex;align-items:center;gap:4px;flex-direction:row;}
+  .zw-logo-mark{width:34px;height:34px;display:inline-block;}
+  .zw-logo-word{font-weight:900;font-size:30px;color:#006aff;letter-spacing:-1.2px;font-family:"Open Sans","Helvetica Neue",Arial,sans-serif;line-height:1;position:relative;}
+  .zw-logo-word::after{content:"®";font-size:11px;vertical-align:super;font-weight:600;margin-left:1px;color:#006aff;}
+  .zw-signin{display:inline-flex;align-items:center;justify-content:center;background:#006aff;color:#fff;padding:9px 22px;border-radius:4px;font-weight:700;font-size:14px;border:1px solid #006aff;}
+  .zw-signin:hover{background:#0058d6;text-decoration:none;}
+
+  /* ===== Filter bar ===== */
+  .zw-filterbar{background:#fff;border-bottom:1px solid #e9e9eb;padding:10px 18px 10px 78px;display:flex;align-items:center;gap:10px;position:sticky;top:80px;z-index:180;}
+  .zw-search{flex:0 0 320px;display:flex;align-items:center;border:1px solid #c9ccd1;border-radius:4px;padding:0 10px;height:38px;background:#fff;}
+  .zw-search input{flex:1;border:none;outline:none;font-size:14px;color:#1c1c1c;background:transparent;}
+  .zw-search .zw-search-icon{color:#787a7c;font-size:15px;margin-left:6px;}
+  .zw-pill{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 14px;border:1px solid #c9ccd1;border-radius:4px;background:#fff;font-size:14px;font-weight:600;color:#1c1c1c;cursor:pointer;white-space:nowrap;position:relative;}
+  .zw-pill:hover{border-color:#1c1c1c;}
+  .zw-pill.is-open,.zw-pill.has-value{border:2px solid #006aff;padding:0 13px;color:#006aff;}
+  .zw-pill .chev{font-size:11px;color:#5b5d63;margin-left:2px;}
+  .zw-pill.is-open .chev,.zw-pill.has-value .chev{color:#006aff;}
+  .zw-save{background:#006aff;color:#fff;border:1px solid #006aff;height:38px;padding:0 16px;border-radius:4px;font-weight:700;font-size:14px;cursor:pointer;}
+  .zw-save:hover{background:#0058d6;}
+  .zw-spacer{flex:1;}
+
+  /* Dropdown panels */
+  .zw-panel{position:absolute;top:calc(100% + 6px);left:0;background:#fff;border:1px solid #d8dbe0;border-radius:8px;box-shadow:0 8px 28px rgba(0,0,0,.16);padding:18px 20px;min-width:340px;z-index:300;display:none;}
+  .w25-dropdown{position:relative;display:inline-block;}
+  .w25-dropdown.is-open .zw-panel{display:block;}
+  .w25-dropdown.is-open > .zw-pill{border:2px solid #006aff;padding:0 13px;color:#006aff;}
+  .zw-panel h4{margin:0 0 8px;font-size:13px;font-weight:800;color:#1c1c1c;text-transform:uppercase;letter-spacing:.4px;}
+  .zw-panel .panel-sub{font-size:12px;color:#5b5d63;margin-bottom:10px;}
+
+  /* Bed chips (preserve mechanic) */
+  .w25-chip-row{display:flex;gap:0;flex-wrap:nowrap;}
+  .w25-chip{padding:9px 14px;border:1px solid #c9ccd1;background:#fff;cursor:pointer;font-size:14px;font-weight:700;color:#1c1c1c;border-right:none;min-width:48px;text-align:center;}
+  .w25-chip:first-child{border-radius:4px 0 0 4px;}
+  .w25-chip:last-child{border-radius:0 4px 4px 0;border-right:1px solid #c9ccd1;}
+  .w25-chip:hover{background:#f1f4f7;}
+  .w25-chip.active{background:#006aff;color:#fff;border-color:#006aff;}
+  .w25-chip.active + .w25-chip{border-left-color:#006aff;}
+
+  /* Property-type radios (dropdown body) */
+  .zw-pt-list{display:flex;flex-direction:column;gap:2px;}
+  .w25-tab.pt-row{display:flex;align-items:center;justify-content:flex-start;gap:10px;background:#fff;border:none;border-radius:6px;padding:8px 10px;font-size:14px;color:#1c1c1c;cursor:pointer;font-weight:600;text-align:left;width:100%;}
+  .w25-tab.pt-row:hover{background:#f1f4f7;}
+  .w25-tab.pt-row .pt-radio{width:18px;height:18px;border:2px solid #9aa0a6;border-radius:50%;flex:0 0 18px;position:relative;}
+  .w25-tab.pt-row.active{color:#006aff;}
+  .w25-tab.pt-row.active .pt-radio{border-color:#006aff;}
+  .w25-tab.pt-row.active .pt-radio::after{content:"";position:absolute;top:3px;left:3px;width:8px;height:8px;background:#006aff;border-radius:50%;}
+  .pt-row .pt-emoji{width:22px;text-align:center;font-size:16px;}
+
+  .zw-panel-actions{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid #ebedf0;}
+  .zw-link{color:#006aff;font-weight:700;font-size:13px;cursor:pointer;background:none;border:none;padding:0;}
+  .zw-link:hover{text-decoration:underline;}
+  .zw-apply{background:#006aff;color:#fff;border:none;padding:8px 18px;border-radius:4px;font-weight:700;font-size:13px;cursor:pointer;}
+
+  /* ===== Body two-column ===== */
+  .zw-shell{display:flex;min-height:calc(100vh - 119px);}
+  .zw-rail{flex:0 0 60px;border-right:1px solid #e9e9eb;background:#fff;display:flex;flex-direction:column;align-items:center;padding-top:8px;position:sticky;top:119px;align-self:flex-start;max-height:calc(100vh - 119px);overflow:hidden;}
+  .zw-rail .rb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:10px 4px;width:100%;color:#1c1c1c;font-size:11px;font-weight:600;cursor:pointer;}
+  .zw-rail .rb.active{color:#006aff;}
+  .zw-rail .rb:hover{background:#f6f8fa;}
+  .zw-rail .rb-icon{font-size:18px;}
+
+  .zw-main{flex:1;display:flex;min-width:0;}
+  .zw-map{flex:0 0 50%;background:#dbe6d6;position:sticky;top:119px;height:calc(100vh - 119px);overflow:hidden;border-right:1px solid #e9e9eb;}
+  .zw-map-bg{position:absolute;inset:0;background:
+    linear-gradient(180deg, rgba(195,217,233,.85), rgba(195,217,233,.85)),
+    radial-gradient(ellipse 800px 500px at 35% 50%, #b6d4a8 30%, transparent 60%),
+    radial-gradient(ellipse 400px 280px at 20% 35%, #cfe1c1 40%, transparent 70%),
+    radial-gradient(ellipse 250px 200px at 70% 25%, #cfe1c1 40%, transparent 70%),
+    radial-gradient(ellipse 320px 220px at 80% 75%, #b6d4a8 40%, transparent 70%);}
+  .zw-map-roads{position:absolute;inset:0;background:
+    linear-gradient(135deg, transparent 49.6%, #d4cdb6 49.6%, #d4cdb6 50.4%, transparent 50.4%),
+    linear-gradient(70deg,  transparent 49.7%, #d4cdb6 49.7%, #d4cdb6 50.3%, transparent 50.3%),
+    linear-gradient(20deg,  transparent 49.7%, #d4cdb6 49.7%, #d4cdb6 50.3%, transparent 50.3%);opacity:.55;}
+  .zw-map-pin{position:absolute;background:#b81e1e;color:#fff;font-size:10px;font-weight:800;border:2px solid #fff;border-radius:13px;padding:3px 7px;box-shadow:0 1px 3px rgba(0,0,0,.4);transform:translate(-50%,-50%);white-space:nowrap;}
+  .zw-map-dot{position:absolute;width:13px;height:13px;background:#b81e1e;border:2px solid #fff;border-radius:50%;box-shadow:0 1px 2px rgba(0,0,0,.4);transform:translate(-50%,-50%);}
+  .zw-map-label{position:absolute;color:#3a3e44;font-size:11px;font-weight:600;text-shadow:0 1px 2px rgba(255,255,255,.8);transform:translate(-50%,-50%);pointer-events:none;}
+  .zw-map-counter{position:absolute;top:14px;left:14px;background:rgba(38,38,38,.85);color:#fff;font-size:12px;font-weight:700;padding:6px 12px;border-radius:4px;}
+  .zw-map-tools{position:absolute;top:14px;right:14px;display:flex;gap:8px;}
+  .zw-map-tools .mtbtn{background:#fff;border:1px solid #d6d8db;border-radius:4px;padding:6px 12px;font-size:13px;font-weight:700;color:#1c1c1c;display:inline-flex;align-items:center;gap:4px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.08);}
+  .zw-map-zoom{position:absolute;bottom:60px;right:14px;display:flex;flex-direction:column;background:#fff;border-radius:18px;box-shadow:0 1px 4px rgba(0,0,0,.22);}
+  .zw-map-zoom button{width:36px;height:36px;border:none;background:transparent;font-size:20px;font-weight:700;cursor:pointer;color:#1c1c1c;}
+  .zw-map-zoom button:first-child{border-bottom:1px solid #ebedf0;}
+  .zw-map-mode{position:absolute;bottom:14px;left:14px;background:#fff;border:1px solid #d6d8db;border-radius:4px;padding:6px 14px;font-size:13px;font-weight:700;color:#1c1c1c;display:inline-flex;align-items:center;gap:6px;}
+  .zw-map-attrib{position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.7);font-size:10px;color:#5b5d63;padding:2px 8px;display:flex;justify-content:space-between;}
+  .zw-map-google{position:absolute;bottom:18px;left:12px;font-size:12px;font-weight:700;color:#3a3e44;text-shadow:0 1px 2px rgba(255,255,255,.8);}
+
+  .zw-results{flex:1;padding:14px 18px 26px;background:#fff;min-width:0;}
+  .zw-results-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;}
+  .zw-results-title{font-size:22px;font-weight:800;color:#1c1c1c;line-height:1.15;}
+  .zw-results-count{font-size:14px;color:#1c1c1c;margin-top:2px;font-weight:600;}
+  .zw-sort{font-size:14px;color:#006aff;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:4px;}
+  .active-bar{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px;min-height:0;}
+  .active-bar:empty{display:none;}
+  .active-chip{background:#eef2f7;color:#1c1c1c;padding:5px 11px;border-radius:14px;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:6px;}
+  .ac-x{color:#5b5d63;cursor:pointer;font-weight:700;}
+
+  #result-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .empty{grid-column:1/-1;padding:36px;text-align:center;color:#5b5d63;background:#fff;border:1px dashed #d8dbe0;border-radius:8px;}
+  .listing-card{background:#fff;border:1px solid #ebedf0;border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;transition:box-shadow .12s;}
+  .listing-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.10);}
+  .lc-img{height:200px;background:linear-gradient(135deg,#dde3ea,#eef2f7);display:flex;align-items:center;justify-content:center;font-size:30px;color:#006aff;font-weight:700;position:relative;overflow:hidden;}
+  .lc-img img{width:100%;height:100%;object-fit:cover;display:block;}
+  .lc-img-placeholder{font-size:13px;font-weight:800;color:#5b6273;text-align:center;padding:0 18px;line-height:1.3;letter-spacing:.3px;text-transform:uppercase;}
+  .lc-badge{position:absolute;top:10px;left:10px;background:rgba(38,38,38,.85);color:#fff;font-size:11px;font-weight:700;padding:4px 8px;border-radius:4px;letter-spacing:.2px;}
+  .lc-fav{position:absolute;top:10px;right:10px;width:32px;height:32px;color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;text-shadow:0 1px 4px rgba(0,0,0,.5);}
+  .lc-dots-img{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px;}
+  .lc-dots-img span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.65);}
+  .lc-dots-img span.on{background:#fff;}
+  .lc-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px;position:relative;}
+  .lc-price-row{display:flex;justify-content:space-between;align-items:center;}
+  .lc-price{font-size:22px;font-weight:900;color:#1c1c1c;letter-spacing:-.3px;}
+  .lc-menu{color:#006aff;font-size:18px;font-weight:900;line-height:1;cursor:pointer;letter-spacing:1px;}
+  .lc-meta{font-size:14px;color:#1c1c1c;}
+  .lc-meta b{font-weight:700;}
+  .lc-addr{font-size:14px;color:#1c1c1c;margin-top:2px;line-height:1.3;}
+  .lc-mls{font-size:11px;color:#5b5d63;margin-top:6px;text-transform:uppercase;letter-spacing:.3px;}
+
+  /* ===== Footer ===== */
+  footer{background:#fff;color:#1c1c1c;padding:34px 32px 28px;font-size:13px;border-top:1px solid #ebedf0;}
+  .ft-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:36px;max-width:1200px;margin:0 auto 22px;}
+  .ft-cols h5{margin:0 0 10px;font-size:13px;font-weight:800;color:#1c1c1c;}
+  .ft-cols a{display:block;color:#1c1c1c;font-size:13px;line-height:1.9;color:#1c1c1c;}
+  .ft-cols a:hover{color:#006aff;}
+  .ft-base{max-width:1200px;margin:0 auto;border-top:1px solid #ebedf0;padding-top:18px;font-size:12px;color:#5b5d63;}
+  .ft-base a{color:#5b5d63;margin-right:14px;}
+  .ft-icon{margin:0 8px;color:#5b5d63;font-weight:700;}
+  /* Hide unused chrome from inherited CSS */
+  .w25-dropdown.is-open{z-index:301;}
+</style>
+</head>
+<body>
+
+<header class="zw-header">
+  <nav class="zw-nav-left">
+    <a class="active">Buy</a>
+    <a>Rent</a>
+    <a>Sell</a>
+    <a>Get a mortgage</a>
+    <a>Find an agent</a>
+  </nav>
+  <a class="zw-logo" aria-label="EchoHomes">
+    <svg class="zw-logo-mark" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+      <rect x="8" y="8" width="64" height="64" rx="16" fill="#006aff"/>
+      <text x="40" y="56" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="48" font-weight="800" fill="#fff">E</text>
+    </svg>
+    <span class="zw-logo-word">EchoHomes</span>
+  </a>
+  <nav class="zw-nav-right">
+    <a>Manage rentals</a>
+    <a>Advertise</a>
+    <a>Get help</a>
+    <a class="zw-signin">Sign in</a>
+  </nav>
+</header>
+
+<div class="zw-filterbar">
+  <div class="zw-search">
+    <input type="text" placeholder="Address, neighborhood, city, ZIP" value="Tacoma, WA">
+    <span class="zw-search-icon">🔍</span>
+  </div>
+
+  <button type="button" class="zw-pill has-value" onclick="event.stopPropagation();">For sale <span class="chev">▾</span></button>
+  <button type="button" class="zw-pill has-value" onclick="event.stopPropagation();">Up to $500K <span class="chev">▾</span></button>
+
+  <div class="w25-dropdown" id="dd-beds">
+    <button type="button" class="zw-pill" id="pill-beds" onclick="toggleZw('dd-beds', event)">
+      <span id="pill-beds-label">Beds &amp; baths</span> <span class="chev">▾</span>
+    </button>
+    <div class="zw-panel" onclick="event.stopPropagation();">
+      <h4>Bedrooms</h4>
+      <div class="panel-sub">Select your minimum number of bedrooms</div>
+      <div class="w25-chip-row">
+        <button type="button" class="w25-chip" data-facet="min_beds" data-val="0" onclick="pickChip(this,'min_beds')">Any</button>
+        <button type="button" class="w25-chip" data-facet="min_beds" data-val="1" onclick="pickChip(this,'min_beds')">1+</button>
+        <button type="button" class="w25-chip" data-facet="min_beds" data-val="2" onclick="pickChip(this,'min_beds')">2+</button>
+        <button type="button" class="w25-chip" data-facet="min_beds" data-val="3" onclick="pickChip(this,'min_beds')">3+</button>
+        <button type="button" class="w25-chip" data-facet="min_beds" data-val="4" onclick="pickChip(this,'min_beds')">4+</button>
+        <button type="button" class="w25-chip" data-facet="min_beds" data-val="5" onclick="pickChip(this,'min_beds')">5+</button>
+      </div>
+      <div class="zw-panel-actions">
+        <button type="button" class="zw-link" onclick="clearFacet('min_beds')">Reset</button>
+        <button type="button" class="zw-apply" onclick="closeAllZw()">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="w25-dropdown" id="dd-ptype">
+    <button type="button" class="zw-pill" id="pill-ptype" onclick="toggleZw('dd-ptype', event)">
+      <span id="pill-ptype-label">Home type</span> <span class="chev">▾</span>
+    </button>
+    <div class="zw-panel" onclick="event.stopPropagation();">
+      <h4>Home type</h4>
+      <div class="panel-sub">Select the type of home you're looking for</div>
+      <div class="zw-pt-list">
+        <button type="button" class="w25-tab pt-row" data-facet="property_type" data-val="Single-Family" onclick="pickTab(this,'property_type')">
+          <span class="pt-radio"></span><span class="pt-emoji">🏠</span><span>Houses</span>
+        </button>
+        <button type="button" class="w25-tab pt-row" data-facet="property_type" data-val="Townhouse" onclick="pickTab(this,'property_type')">
+          <span class="pt-radio"></span><span class="pt-emoji">🏘️</span><span>Townhomes</span>
+        </button>
+        <button type="button" class="w25-tab pt-row" data-facet="property_type" data-val="Multi-Family" onclick="pickTab(this,'property_type')">
+          <span class="pt-radio"></span><span class="pt-emoji">🏬</span><span>Multi-family</span>
+        </button>
+        <button type="button" class="w25-tab pt-row" data-facet="property_type" data-val="Condo" onclick="pickTab(this,'property_type')">
+          <span class="pt-radio"></span><span class="pt-emoji">🏢</span><span>Condos/Co-ops</span>
+        </button>
+        <button type="button" class="w25-tab pt-row" data-facet="property_type" data-val="Studio Apartment" onclick="pickTab(this,'property_type')">
+          <span class="pt-radio"></span><span class="pt-emoji">🛏️</span><span>Apartments</span>
+        </button>
+      </div>
+      <div class="zw-panel-actions">
+        <button type="button" class="zw-link" onclick="clearFacet('property_type')">Reset</button>
+        <button type="button" class="zw-apply" onclick="closeAllZw()">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <button type="button" class="zw-pill" onclick="event.stopPropagation();">⚙️ More <span class="chev">▾</span></button>
+
+  <div class="zw-spacer"></div>
+  <button type="button" class="zw-save">Save search</button>
+</div>
+
+<div class="zw-shell">
+  <aside class="zw-rail">
+    <div class="rb active"><div class="rb-icon">🔍</div>Search</div>
+    <div class="rb"><div class="rb-icon">🔔</div>Updates</div>
+    <div class="rb"><div class="rb-icon">♡</div>Favorites</div>
+    <div class="rb"><div class="rb-icon">💲</div>Home Loans</div>
+    <div class="rb"><div class="rb-icon">✉️</div>Inbox</div>
+  </aside>
+
+  <div class="zw-main">
+    <div class="zw-map" aria-hidden="true">
+      <div class="zw-map-bg"></div>
+      <div class="zw-map-roads"></div>
+      <div class="zw-map-counter" id="map-counter">— homes</div>
+      <div class="zw-map-tools">
+        <button type="button" class="mtbtn">Schools <span style="font-size:10px;">▾</span></button>
+        <button type="button" class="mtbtn">Draw</button>
+      </div>
+      <div class="zw-map-label" style="left:32%;top:18%;">Vashon Island</div>
+      <div class="zw-map-label" style="left:18%;top:32%;">Gig Harbor</div>
+      <div class="zw-map-label" style="left:48%;top:46%;font-weight:800;font-size:14px;">Tacoma</div>
+      <div class="zw-map-label" style="left:65%;top:62%;">Puyallup</div>
+      <div class="zw-map-label" style="left:23%;top:82%;">Fort Lewis</div>
+      <div class="zw-map-pin" style="left:42%;top:42%;">$399K</div>
+      <div class="zw-map-pin" style="left:55%;top:52%;">$489K</div>
+      <div class="zw-map-pin" style="left:38%;top:60%;">$315K</div>
+      <div class="zw-map-pin" style="left:62%;top:38%;">$475K</div>
+      <div class="zw-map-pin" style="left:48%;top:32%;">$409K</div>
+      <div class="zw-map-pin" style="left:30%;top:70%;">$299K</div>
+      <div class="zw-map-pin" style="left:70%;top:48%;">$499K</div>
+      <div class="zw-map-dot" style="left:50%;top:48%;"></div>
+      <div class="zw-map-dot" style="left:46%;top:54%;"></div>
+      <div class="zw-map-dot" style="left:54%;top:44%;"></div>
+      <div class="zw-map-dot" style="left:58%;top:58%;"></div>
+      <div class="zw-map-dot" style="left:35%;top:48%;"></div>
+      <div class="zw-map-dot" style="left:40%;top:38%;"></div>
+      <div class="zw-map-dot" style="left:60%;top:66%;"></div>
+      <div class="zw-map-dot" style="left:52%;top:62%;"></div>
+      <div class="zw-map-dot" style="left:44%;top:66%;"></div>
+      <div class="zw-map-dot" style="left:36%;top:56%;"></div>
+      <div class="zw-map-zoom">
+        <button type="button">+</button>
+        <button type="button">−</button>
+      </div>
+      <div class="zw-map-mode">Map <span style="font-size:10px;">▾</span></div>
+      <div class="zw-map-google">Echo Maps</div>
+      <div class="zw-map-attrib"><span>Keyboard shortcuts</span><span>Map data ©2026 Echo Maps · Terms · Report a map error</span></div>
+    </div>
+
+    <div class="zw-results">
+      <div class="zw-results-head">
+        <div>
+          <div class="zw-results-title">Real Estate &amp; Homes For Sale</div>
+          <div class="zw-results-count" id="result-count">— results</div>
+        </div>
+        <div class="zw-sort">Sort: Homes for You ▾</div>
+      </div>
+      <div class="active-bar" id="active-chips"></div>
+      <div id="result-grid"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="ft-cols">
+    <div>
+      <h5>About</h5>
+      <a>EchoHomes</a><a>About us</a><a>Careers</a><a>Investors</a><a>Press</a>
+    </div>
+    <div>
+      <h5>Buy, rent and sell</h5>
+      <a>Homes for sale in Tacoma</a><a>Houses for rent</a><a>Sell my home</a><a>Mortgage rates</a><a>Refinance rates</a>
+    </div>
+    <div>
+      <h5>Top markets</h5>
+      <a>Seattle real estate</a><a>Bellevue real estate</a><a>Tacoma real estate</a><a>Spokane real estate</a><a>Olympia real estate</a>
+    </div>
+    <div>
+      <h5>Follow us</h5>
+      <a>Facebook</a><a>Instagram</a><a>TikTok</a><a>YouTube</a>
+    </div>
+  </div>
+  <div class="ft-base">
+    <a>Terms of use</a><a>Privacy portal</a><a>Cookie preference</a><a>Learn</a><a>AI</a><a>Help</a>
+    <div style="margin-top:10px;">© EchoHomes, Inc. 2006-2026. Use is subject to Terms of Use.</div>
+  </div>
+</footer>
+
+<script>
+function escapeHtmlText(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
+const ENV_ID = 'W25_E05';
+let filterState = {};
+
+function _toInt(v){ const n=Number(v); return Number.isNaN(n)?v:n; }
+
+function collectState(){
+  const fs={};
+  document.querySelectorAll('.w25-chip.active').forEach(b=>{
+    const f=b.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(b.dataset.val); else fs[f]=b.dataset.val;
+  });
+  document.querySelectorAll('input[type=radio].w25-rad:checked').forEach(el=>{
+    const f=el.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(el.value); else fs[f]=el.value;
+  });
+  document.querySelectorAll('select.w25-sel').forEach(s=>{
+    const f=s.dataset.facet; if(!f) return;
+    const v=s.value;
+    if(v){ if(f==='min_beds') fs[f]=_toInt(v); else fs[f]=v; }
+  });
+  document.querySelectorAll('.w25-card.active').forEach(b=>{
+    const f=b.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(b.dataset.val); else fs[f]=b.dataset.val;
+  });
+  document.querySelectorAll('.w25-tab.active').forEach(b=>{
+    const f=b.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(b.dataset.val); else fs[f]=b.dataset.val;
+  });
+  return fs;
+}
+
+function pickChip(btn,facet){
+  const cur=btn.classList.contains('active');
+  document.querySelectorAll('.w25-chip[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  if(!cur) btn.classList.add('active');
+  onF();
+}
+function pickCard(btn,facet){
+  const cur=btn.classList.contains('active');
+  document.querySelectorAll('.w25-card[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  if(!cur) btn.classList.add('active');
+  onF();
+}
+function pickTab(btn,facet){
+  const cur=btn.classList.contains('active');
+  document.querySelectorAll('.w25-tab[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  if(!cur) btn.classList.add('active');
+  onF();
+}
+
+function onF(){
+  filterState=collectState();
+  const urlParams=new URLSearchParams(window.location.search);
+  const taskId=urlParams.get('task_id');
+
+  fetch('/env/'+ENV_ID+'/api/filter',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({filter_state:filterState})
+  }).then(r=>r.json()).then(data=>{
+    renderResults(data.results||[]);
+    const n=(data.results||[]).length;
+    const rc=document.getElementById('result-count');
+    if(rc) rc.textContent=n+' results';
+    const mc=document.getElementById('map-counter');
+    if(mc) mc.textContent=n+' of '+n+' homes';
+    renderActive();
+    syncPillLabels();
+  }).catch(()=>{});
+
+  fetch('/env/'+ENV_ID+'/api/submit',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({filter_state:filterState,answer:'',task_id:taskId})
+  }).catch(()=>{});
+}
+
+function renderResults(results){
+  const grid=document.getElementById('result-grid'); if(!grid) return;
+  if(!results.length){ grid.innerHTML='<div class="empty">No matching results.</div>'; return; }
+  grid.innerHTML=results.map((r,i)=>{
+    const price=escapeHtmlText('$'+(r.price||0).toLocaleString());
+    const beds=escapeHtmlText(r.beds!=null?r.beds:'?');
+    const baths=escapeHtmlText(r.baths!=null?r.baths:'?');
+    const sqft=escapeHtmlText(r.sqft!=null?r.sqft.toLocaleString():'');
+    const addr=escapeHtmlText(r.title||'');
+    const cityFull=escapeHtmlText(r.city_full||r.city||'');
+    const ptype=escapeHtmlText(r.property_type||'');
+    const img=r.image_url||'';
+    const badge=r.is_new?'<div class="lc-badge">'+(Math.floor(Math.random()*9)+1)+' days on EchoHomes</div>':'';
+    return `
+          <div class="listing-card">
+            <div class="lc-img">${img?`<img src="${escapeHtmlText(img)}" alt="">`:`<div class="lc-img-placeholder">${(addr.split(',')[0]||addr)}</div>`}
+              ${badge}
+              <div class="lc-fav">♡</div>
+              <div class="lc-dots-img"><span class="on"></span><span></span><span></span><span></span><span></span></div>
+            </div>
+            <div class="lc-body">
+              <div class="lc-price-row">
+                <div class="lc-price">${price}</div>
+                <span class="lc-menu">⋯</span>
+              </div>
+              <div class="lc-meta"><b>${beds}</b> bds | <b>${baths}</b> ba${sqft?` | <b>${sqft}</b> sqft`:''} - Active</div>
+              <div class="lc-addr">${addr}, ${cityFull}</div>
+              <div class="lc-mls">NWMLS as distributed by MLS GRID</div>
+            </div>
+          </div>`;
+  }).join('');
+}
+
+function renderActive(){
+  const bar=document.getElementById('active-chips'); if(!bar) return;
+  const labelMap={'min_beds':'Beds','property_type':'Home type'};
+  const valueMap=(k,v)=>{ if(k==='min_beds') return (v===0||v==='0')?'Any':(v+'+'); return v; };
+  const chips=[];
+  for(const [k,v] of Object.entries(filterState)){
+    const lbl=labelMap[k]||k;
+    chips.push('<span class="active-chip">'+escapeHtmlText(lbl)+': '+escapeHtmlText(valueMap(k,v))+' <span class="ac-x" onclick="clearFacet(\''+escapeHtmlText(escapeJsSingleQuoted(k))+'\')">×</span></span>');
+  }
+  bar.innerHTML=chips.join('');
+}
+
+function syncPillLabels(){
+  const beds=filterState['min_beds'];
+  const lb=document.getElementById('pill-beds-label');
+  const pb=document.getElementById('pill-beds');
+  if(lb&&pb){
+    if(beds!==undefined&&beds!==null&&beds!==''){
+      lb.textContent=(beds===0||beds==='0')?'Beds: Any':(beds+'+ bd');
+      pb.classList.add('has-value');
+    } else { lb.textContent='Beds & baths'; pb.classList.remove('has-value'); }
+  }
+  const pt=filterState['property_type'];
+  const lp=document.getElementById('pill-ptype-label');
+  const pp=document.getElementById('pill-ptype');
+  if(lp&&pp){
+    if(pt){ lp.textContent=pt; pp.classList.add('has-value'); }
+    else  { lp.textContent='Home type'; pp.classList.remove('has-value'); }
+  }
+}
+
+function clearFacet(facet){
+  document.querySelectorAll('.w25-chip[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.w25-card[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.w25-tab[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('input[type=radio].w25-rad[data-facet="'+facet+'"]').forEach(i=>{i.checked=false;});
+  document.querySelectorAll('select.w25-sel[data-facet="'+facet+'"]').forEach(s=>{s.selectedIndex=0;});
+  onF();
+}
+
+function toggleZw(id, ev){
+  if(ev) ev.stopPropagation();
+  const el=document.getElementById(id); if(!el) return;
+  const wasOpen=el.classList.contains('is-open');
+  document.querySelectorAll('.w25-dropdown').forEach(p=>p.classList.remove('is-open'));
+  if(!wasOpen) el.classList.add('is-open');
+}
+function closeAllZw(){
+  document.querySelectorAll('.w25-dropdown').forEach(p=>p.classList.remove('is-open'));
+}
+document.addEventListener('click',(e)=>{
+  if(!e.target.closest('.w25-dropdown')){ closeAllZw(); }
+});
+document.addEventListener('DOMContentLoaded',()=>{ onF(); });
+</script>
+</body>
+</html>

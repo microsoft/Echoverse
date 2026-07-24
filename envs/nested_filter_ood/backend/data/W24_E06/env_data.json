@@ -1,0 +1,35 @@
+{
+  "env_id": "W24_E06",
+  "widget_id": "W24_multi_checkbox_plus_exact_match",
+  "widget_name": "Multi-checkbox facet + exact-match toggle composition",
+  "widget_category": "combo_facet_strict",
+  "widget_mechanic": "Compose: multi-select facet AND enable exact-match (strict) toggle.",
+  "archetype": "faceted_catalog",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W01_multi_checkbox_facet",
+    "W06_exact_match_toggle"
+  ],
+  "site_imitates": "OhioMeansJobs.ohio.gov (state jobs board)",
+  "product_type": "Marketing job postings filtered to Bachelor's-level",
+  "brand_name": "WorkSeeker Ohio",
+  "source_inspiration": [
+    {
+      "task_id": "354b4ddf048815f8fd4163d0d7e1aaa3",
+      "benchmark": "OM2W",
+      "site": "ohiomeansjobs.ohio.gov",
+      "instruction": "Browse marketing jobs and filter by Bachelor's Degree education level.",
+      "first_failure_summary": "Agent applied Bachelor's filter as 'Bachelor's or higher' (typical default), pulling in MA + PhD postings. Strict-match keeps it literally Bachelor's."
+    }
+  ],
+  "theme_key": "ohiomeans",
+  "theme_logo": "WorkSeeker Ohio",
+  "theme_card": "ecommerce",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

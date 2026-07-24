@@ -1,0 +1,31 @@
+[project]
+name = "synthetic-env-harness"
+version = "0.1.0"
+description = "Standalone harness to launch synthetic environments and verify agent tasks."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "openai>=1.0.0",
+    "requests>=2.28.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+# Optional Redis-backed port pool for large distributed runs. The default
+# free-port allocator needs no external service.
+redis = ["redis>=4.0.0"]
+# Azure AD (Entra ID) authentication for the LLM verifier — lets the judge
+# authenticate to Azure OpenAI via DefaultAzureCredential (`az login` / managed
+# identity) instead of an API key.
+azure = ["azure-identity>=1.15.0"]
+
+[project.scripts]
+synthenv-run = "harness.run_env:main"
+synthenv-verify = "harness.verify_cli:main"
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["harness"]

@@ -1,0 +1,93 @@
+{
+  "env_id": "W07_E01",
+  "widget_id": "W07_more_filters_modal",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "flag_match",
+    "fields": [
+      "modal_*"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T0101",
+      "task_index_in_env": 1,
+      "instruction_text": "Quick one on Zillow Bolingbrook IL townhomes: I want to mirror what I asked the assistant earlier \u2014 \"Can you help me find townhomes for sale in Bolingbrook, Illinois with 3 or more bedrooms, at least 2 bathrooms, priced under $400k, and that are new to the market\". The only piece that isn't on the visible filter row is 'New to market (last 7 days)', which is hidden behind the blue 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes). Just turn that one on and apply it.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_new_to_market=on"
+      }
+    },
+    {
+      "task_id": "T0102",
+      "task_index_in_env": 2,
+      "instruction_text": "Looking at Bolingbrook townhomes on Zillow Bolingbrook IL townhomes \u2014 apply in-unit washer/dryer and 3D tour available both. They live behind the blue 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes); once you open it you'll see them as checkboxes. Don't forget to confirm.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_in_unit_washer_dryer=on, modal_3d_tour_available=on"
+      }
+    },
+    {
+      "task_id": "T0103",
+      "task_index_in_env": 3,
+      "instruction_text": "I'm starting to lose my mind scrolling, so btw, for the Bolingbrook townhomes search on Zillow Bolingbrook IL townhomes, I really want finished basement on. And honestly central A/C is becoming a deal-breaker too \u2014 turn it on. Both toggles live under the blue 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes) so you'll have to open that to find them; they're not in the visible filter dropdowns.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_finished_basement=on, modal_central_ac=on"
+      }
+    },
+    {
+      "task_id": "T0104",
+      "task_index_in_env": 4,
+      "instruction_text": "For my shortlist on Zillow Bolingbrook IL townhomes, narrow Bolingbrook townhomes down to ones that satisfy all three of: finished basement, price reduced (last 14 days), and in-unit washer/dryer. Heads up \u2014 none of these are on the visible filter bar; you have to crack open the blue 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes) and tick each one before hitting apply.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_finished_basement=on, modal_price_reduced=on, modal_in_unit_washer_dryer=on"
+      }
+    },
+    {
+      "task_id": "T0105",
+      "task_index_in_env": 5,
+      "instruction_text": "Quick read on Zillow Bolingbrook IL townhomes \u2014 out of the 20 Bolingbrook townhomes on the page, how many are listed under $597,000? Just the number is fine.",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "T0106",
+      "task_index_in_env": 6,
+      "instruction_text": "Hmm, on Zillow Bolingbrook IL townhomes, can you scan through the Bolingbrook townhomes listings and tell me \u2014 out of the ones flagged as 'Price reduced (last 14 days)' on the listing cards, which is the CHEAPEST? Address + price. (That flag is normally something you'd toggle via the blue 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes), but for now I just want you to eyeball the cards.)",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "T0107",
+      "task_index_in_env": 7,
+      "instruction_text": "On Zillow Bolingbrook IL townhomes, which is more common across the Bolingbrook townhomes: listings tagged 'Has garage' or '3D tour available'? Give me both counts so I can decide which feature to filter on. (Both attributes are normally hidden under the blue 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes), so you'd toggle them there \u2014 but right now I just want a head-count from the card flags.)",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "T0108",
+      "task_index_in_env": 8,
+      "instruction_text": "Hop into Zillow Bolingbrook IL townhomes, pop open the blue 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes), and tick 'Open house this weekend' \u2014 that toggle is NOT on the main filter row, it's hidden inside. After you apply it, tell me which of the matching Bolingbrook townhomes is the cheapest (address + price).",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_open_house_weekend=on"
+      }
+    },
+    {
+      "task_id": "T0109",
+      "task_index_in_env": 9,
+      "instruction_text": "On Zillow Bolingbrook IL townhomes for Bolingbrook townhomes: open the blue 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes) and flip on BOTH central A/C AND open house this weekend. Neither shows up in the standard dropdowns; they're only inside that hidden panel. After both are applied, tell me how many listings match in total.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_central_ac=on, modal_open_house_weekend=on"
+      }
+    },
+    {
+      "task_id": "T0110",
+      "task_index_in_env": 10,
+      "instruction_text": "Okay so, I've narrowed things down a bit but on Zillow Bolingbrook IL townhomes, this is a longer one. Inside the blue 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes) (the hidden filter panel \u2014 NOT the main bar), flip on open house this weekend, coming soon, and has garage. All of those are hidden in there. Once they're all applied, look at what's left and tell me the address + sqft of the single LARGEST townhomes still showing.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_open_house_weekend=on, modal_coming_soon=on, modal_has_garage=on"
+      }
+    }
+  ]
+}

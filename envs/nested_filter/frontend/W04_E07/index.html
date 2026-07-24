@@ -1,0 +1,503 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoPlay — Asgard's Wrath 2 · Reviews</title>
+<style>
+.wut-badge, .wut-badge-test, .utst-note,
+.f-section.widget-utst > h4,
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok, .live-status.good, .live-status.pending, .live-status.neutral,
+.ls-msg, .ls-dot, .ls-toggle, .ls-panel, .ls-reset,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source],
+[data-debug="1"]
+{ display: none !important; visibility: hidden !important; }
+
+* { box-sizing: border-box; }
+body { margin:0; line-height:1.5; }
+.empty-state { grid-column:1/-1; text-align:center; padding:40px; color:#999; font-size:14px; }
+.empty-state span { display:block; font-size:12px; margin-top:4px; }
+
+/* Dual-thumb slider (base) — colors overridden per brand */
+.dual-slider { position:relative; height:32px; margin:14px 0 6px; }
+.dual-slider .dual-track { position:absolute; top:14px; left:0; right:0; height:4px; border-radius:2px; }
+.dual-slider .dual-active { position:absolute; top:14px; height:4px; border-radius:2px; }
+.dual-slider input[type=range] { position:absolute; top:8px; left:0; width:100%; height:18px; background:transparent; pointer-events:none; appearance:none; -webkit-appearance:none; }
+.dual-slider input[type=range]::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; pointer-events:auto; width:18px; height:18px; border-radius:50%; background:#fff; border:2px solid #333; cursor:grab; box-shadow:0 1px 3px rgba(0,0,0,0.25); }
+.dual-slider input[type=range]::-moz-range-thumb { pointer-events:auto; width:18px; height:18px; border-radius:50%; background:#fff; border:2px solid #333; cursor:grab; box-shadow:0 1px 3px rgba(0,0,0,0.25); }
+.dual-slider .dt-tip { position:absolute; top:-22px; transform:translateX(-50%); font-size:10px; padding:2px 6px; background:#333; color:white; border-radius:2px; white-space:nowrap; pointer-events:none; }
+.dual-slider input.dt-min::-webkit-slider-thumb { background:#1c8b3a; border-color:#0e5e25; box-shadow:0 0 0 2px rgba(28,139,58,0.18); }
+.dual-slider input.dt-max::-webkit-slider-thumb { background:#c8232c; border-color:#7a1217; box-shadow:0 0 0 2px rgba(200,35,44,0.18); }
+.dual-slider input.dt-min::-moz-range-thumb { background:#1c8b3a; border-color:#0e5e25; }
+.dual-slider input.dt-max::-moz-range-thumb { background:#c8232c; border-color:#7a1217; }
+.dual-slider .dt-tip-min { background:#1c8b3a; }
+.dual-slider .dt-tip-max { background:#c8232c; }
+
+.result-thumb { background-size:cover !important; background-position:center !important; overflow:hidden; }
+.result-thumb img, .review-thumb img, .job-logo img, .stay-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+.review-thumb { padding:0 !important; overflow:hidden; }
+.job-logo { padding:0 !important; overflow:hidden; }
+.stay-photo img { position:absolute; inset:0; }
+
+
+body { font-family:'Motiva Sans','Arial',sans-serif; background:#1b2838; color:#c7d5e0; font-size:13px; margin:0; min-height:100vh; }
+.st-bar { background:#171a21; color:#c7d5e0; padding:7px 24px; font-size:11px; display:flex; gap:18px; align-items:center; }
+.st-bar a { color:#b0bec5; text-decoration:none; margin-right:14px; text-transform:uppercase; }
+.st-bar .install { background:linear-gradient(to bottom,#7cb8e4 5%,#3680b6 95%); padding:3px 12px; border-radius:2px; color:white; font-weight:700; margin-left:auto; text-transform:none; font-size:11px; }
+.st-header { background:#171a21; padding:14px 24px 0; display:flex; gap:24px; align-items:center; }
+.st-logo { font-weight:900; font-size:24px; color:white; letter-spacing:-0.5px; }
+.st-logo span { color:#66c0f4; }
+.st-nav { display:flex; gap:18px; font-size:14px; font-weight:600; color:white; text-transform:uppercase; padding:8px 0; }
+.st-nav span:hover { color:#66c0f4; cursor:pointer; }
+.st-search { margin-left:auto; display:flex; background:rgba(0,0,0,0.2); border:1px solid #316282; border-radius:2px; padding:2px; }
+.st-search input { background:transparent; border:none; color:white; padding:4px 8px; font-size:13px; width:200px; outline:none; }
+.st-search button { background:linear-gradient(to bottom,#67c1f5 5%,#417a9b 95%); color:white; border:none; padding:4px 12px; cursor:pointer; font-weight:700; border-radius:2px; }
+.st-subbar { background:#171a21; padding:0 24px 10px; display:flex; gap:0; font-size:11px; color:#7a93a8; }
+.st-subbar a { color:#7a93a8; text-decoration:none; padding:0 10px; border-right:1px solid #2a475e; }
+.st-subbar a:first-child { padding-left:0; }
+.st-subbar a:last-child { border:none; }
+.st-game-bar { background:linear-gradient(to right,#1b2838 0%,#2a475e 70%,#1b2838 100%); padding:14px 24px; display:flex; gap:16px; align-items:center; border-bottom:1px solid #2a475e; }
+.st-cap { width:184px; height:69px; background:linear-gradient(135deg,#2a3b54 0%,#4b6f9c 50%,#1a2638 100%); border-radius:2px; display:flex; align-items:center; justify-content:center; font-weight:900; color:white; font-size:14px; letter-spacing:1px; text-shadow:0 2px 4px rgba(0,0,0,0.6); flex-shrink:0; box-shadow:0 2px 6px rgba(0,0,0,0.4); }
+.st-game-info h1 { color:white; font-weight:300; font-size:26px; margin:0 0 2px 0; }
+.st-game-info .meta { font-size:12px; color:#8f98a0; margin-bottom:6px; }
+.st-summary-row { display:flex; gap:14px; font-size:12px; color:#c7d5e0; align-items:center; }
+.st-summary-row b { color:#66c0f4; }
+.st-summary-pill { background:#1c3a52; padding:3px 8px; border-radius:2px; font-size:11px; color:#8f98a0; }
+.st-rev-tabs { background:#2a475e; padding:10px 24px; display:flex; gap:0; align-items:center; border-bottom:1px solid #66c0f4; }
+.st-rev-tab { padding:8px 18px; font-size:14px; color:#c7d5e0; cursor:pointer; }
+.st-rev-tab.active { background:#67c1f5; color:white; font-weight:700; border-radius:2px; }
+.st-rev-tab.danger.active { background:#a04545; }
+.st-page { display:grid; grid-template-columns:1fr 308px; gap:18px; padding:18px 24px; max-width:1280px; margin:0 auto; }
+.st-feed-head { color:white; font-size:14px; font-weight:300; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid #2a475e; display:flex; gap:8px; align-items:baseline; }
+.st-feed-head b { color:#66c0f4; font-weight:700; }
+.st-rev-feed { display:flex; flex-direction:column; gap:14px; }
+.st-rev-card { background:#16202d; padding:0; border:1px solid #2a475e; display:grid; grid-template-columns:172px 1fr; gap:0; position:relative; }
+.st-rev-card.danger { }
+.st-rev-thumb { width:172px; height:auto; min-height:150px; background:#0e1620; border-right:1px solid #2a475e; padding:10px; display:flex; flex-direction:column; align-items:center; gap:6px; }
+.st-rev-thumb .av { width:88px; height:88px; background:#0e1620; border-radius:2px; overflow:hidden; }
+.st-rev-thumb .av img { width:100%; height:100%; object-fit:cover; display:block; }
+.st-rev-thumb .avname { color:#66c0f4; font-size:12px; font-weight:700; text-align:center; line-height:1.2; }
+.st-rev-thumb .avstats { font-size:10px; color:#8f98a0; text-align:center; }
+.st-rev-body-wrap { padding:14px 16px; display:flex; flex-direction:column; }
+.st-verdict-box { display:inline-flex; gap:8px; align-items:center; padding:6px 10px; background:#1a3148; border-radius:2px; margin-bottom:8px; align-self:flex-start; }
+.st-verdict-box.danger { background:#3a1f1f; }
+.st-verdict-icon { width:36px; height:36px; flex-shrink:0; background:#66c0f4; border-radius:2px; display:flex; align-items:center; justify-content:center; font-size:20px; color:#1b2838; font-weight:900; }
+.st-verdict-box.danger .st-verdict-icon { background:#a04545; color:white; }
+.st-verdict-label { font-weight:700; font-size:13px; color:white; line-height:1.1; }
+.st-verdict-hours { font-size:11px; color:#8f98a0; margin-top:2px; }
+.st-rev-meta { font-size:11px; color:#8f98a0; margin:2px 0 8px; padding-bottom:8px; border-bottom:1px solid rgba(103,193,245,0.1); }
+.st-rev-body { font-size:13px; color:#dbe6ed; line-height:1.5; flex-grow:1; }
+.st-rev-actions { display:flex; gap:0; margin-top:10px; padding-top:10px; border-top:1px solid rgba(103,193,245,0.1); align-items:center; font-size:11px; color:#8f98a0; }
+.st-rev-actions .helpful { flex-grow:1; }
+.st-rev-actions .vote-btns { display:flex; gap:4px; }
+.st-vote-btn { background:#2a475e; color:white; padding:3px 10px; font-size:11px; border-radius:2px; cursor:pointer; font-weight:700; }
+.st-vote-btn:hover { background:#66c0f4; color:#1b2838; }
+.st-award { color:#66c0f4; font-weight:700; cursor:pointer; margin-left:8px; }
+.st-sidebar { background:#16202d; padding:14px 16px; border:1px solid #2a475e; height:fit-content; }
+.st-side-h { font-size:13px; color:white; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin:0 0 10px 0; border-bottom:1px solid #2a475e; padding-bottom:6px; }
+.st-side-block { margin-bottom:18px; }
+.st-histo-wrap { position:relative; background:#0e1620; padding:0; border:1px solid #1f3145; }
+.st-histo { display:flex; align-items:flex-end; gap:1px; height:80px; padding:6px; position:relative; }
+.st-histo .bar { flex:1; background:#67c1f5; opacity:0.5; min-height:6px; }
+.st-histo .bar.in { opacity:1; background:#67c1f5; }
+.st-histo .bar.out { opacity:0.25; background:#4a6678; }
+.st-histo .brush { position:absolute; top:0; bottom:0; background:rgba(103,193,245,0.18); border-left:2px solid #66c0f4; border-right:2px solid #66c0f4; pointer-events:none; }
+.dual-slider { margin-top:6px; height:30px; }
+.dual-slider .dual-track { background:#1f3145; height:4px; top:13px; }
+.dual-slider .dual-active { background:#66c0f4; height:4px; top:13px; }
+.dual-slider input.dt-min::-webkit-slider-thumb { background:#66c0f4; border-color:#1b2838; }
+.dual-slider input.dt-max::-webkit-slider-thumb { background:#66c0f4; border-color:#1b2838; }
+.dual-slider .dt-tip { background:#0e1620; color:#66c0f4; border:1px solid #66c0f4; padding:1px 5px; }
+.dual-slider .dt-tip-min, .dual-slider .dt-tip-max { background:#0e1620; color:#66c0f4; }
+.st-axis { display:flex; justify-content:space-between; font-size:10px; color:#7a93a8; margin-top:4px; }
+.st-radio-row { display:flex; flex-direction:column; gap:4px; margin-top:6px; }
+.st-radio-row label { display:flex; gap:6px; align-items:center; font-size:12px; cursor:pointer; padding:4px 6px; border-radius:2px; }
+.st-radio-row label:hover { background:#2a475e; }
+.st-radio-row input { accent-color:#66c0f4; }
+.st-cb-row label { display:flex; gap:6px; align-items:center; font-size:12px; padding:4px 6px; cursor:pointer; }
+.st-cb-row label:hover { background:#2a475e; }
+.st-clear { background:#2a475e; color:white; border:none; padding:6px 12px; border-radius:2px; cursor:pointer; font:inherit; font-size:11px; font-weight:700; width:100%; margin-top:8px; }
+.st-clear:hover { background:#66c0f4; color:#1b2838; }
+
+</style></head><body><div class="st-bar">
+  <a href="#">STORE</a><a href="#">COMMUNITY</a><a href="#">ABOUT</a><a href="#">SUPPORT</a>
+  <span class="install">Install EchoPlay</span>
+  <a href="#">login</a><a href="#">language ▾</a>
+</div>
+<div class="st-header">
+  <div class="st-logo">EchoPlay<span>®</span></div>
+  <div class="st-nav"><span>YOUR STORE</span><span>NEW &amp; NOTEWORTHY</span><span>CATEGORIES</span><span>POINTS SHOP</span><span>NEWS</span><span>LABS</span></div>
+  <div class="st-search"><input value="Asgard's Wrath 2"><button>🔍</button></div>
+</div>
+<div class="st-subbar">
+  <a href="#">Your Store</a><a href="#">New Releases</a><a href="#">Top Sellers</a><a href="#">Upcoming</a><a href="#">Specials</a><a href="#">VR Titles</a><a href="#">Controller-Friendly</a><a href="#">News</a>
+</div>
+<div class="st-game-bar">
+  <div class="st-cap">ASGARD'S WRATH 2</div>
+  <div class="st-game-info">
+    <h1>Asgard's Wrath 2</h1>
+    <div class="meta">Meta Quest VR · Adventure / RPG · Released Dec 15, 2023 · Sanzaru Games</div>
+    <div class="st-summary-row">
+      <span>All Reviews: <b>Very Positive</b> (1,284)</span>
+      <span class="st-summary-pill">Recent: 87% Positive</span>
+      <span class="st-summary-pill">Single-player · VR Only</span>
+    </div>
+  </div>
+</div>
+<div class="st-rev-tabs">
+  <div class="st-rev-tab active">All Reviews (42)</div>
+  <div class="st-rev-tab">Most Helpful</div>
+  <div class="st-rev-tab">Most Recent</div>
+  <div class="st-rev-tab danger">Funny</div>
+</div>
+<div class="st-page">
+  <div>
+    <div class="st-feed-head">CUSTOMER REVIEWS · Showing <b id="result-count-2">42</b> reviews that match the filters set above</div>
+    <div id="result-grid" class="st-rev-feed"></div>
+  </div>
+  <aside class="st-sidebar">
+    <h3 class="st-side-h">Display As:</h3>
+    <div class="st-radio-row">
+      <label><input type="radio" name="dispas" checked> Summary</label>
+      <label><input type="radio" name="dispas"> Reviews</label>
+    </div>
+
+    <h3 class="st-side-h" style="margin-top:18px">Playtime</h3>
+    <div class="st-side-block slider-block">
+      <div class="st-histo-wrap">
+        <div class="st-histo" id="st-histo">
+          <div class="bar in" style="height:18%"></div><div class="bar in" style="height:32%"></div>
+          <div class="bar in" style="height:48%"></div><div class="bar in" style="height:70%"></div>
+          <div class="bar in" style="height:88%"></div><div class="bar in" style="height:62%"></div>
+          <div class="bar in" style="height:54%"></div><div class="bar in" style="height:42%"></div>
+          <div class="bar in" style="height:36%"></div><div class="bar in" style="height:28%"></div>
+          <div class="bar in" style="height:22%"></div><div class="bar in" style="height:16%"></div>
+          <div class="bar in" style="height:14%"></div><div class="bar in" style="height:12%"></div>
+          <div class="bar in" style="height:10%"></div><div class="bar in" style="height:8%"></div>
+          <div class="brush" id="st-brush" style="left:0%;right:0%"></div>
+        </div>
+      </div>
+      <div class="dual-slider" data-fmt="hours">
+        <div class="dual-track"></div><div class="dual-active"></div>
+        <div class="dt-tip dt-tip-min">0 hrs</div>
+        <div class="dt-tip dt-tip-max">3,000 hrs</div>
+        <input type="range" min="0" max="3000" value="0" step="1" class="dt-min" data-facet="min_price" oninput="dualUpd();stBrush()">
+        <input type="range" min="0" max="3000" value="3000" step="1" class="dt-max" data-facet="max_price" oninput="dualUpd();stBrush()">
+      </div>
+      <div class="st-axis"><span>0</span><span>500 hrs</span><span>1,500 hrs</span><span>3,000 hrs+</span></div>
+      <div class="st-hrs-box-row" style="display:flex;gap:8px;margin-top:10px;align-items:flex-end;">
+        <div style="flex:1;">
+          <label style="font-size:10px;color:#7a93a8;display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:0.5px;">Min hours</label>
+          <input type="text" class="dual-num-min" placeholder="0" oninput="numBoxSet(this)" onchange="numBoxSet(this)" style="width:100%;background:#0e1620;border:1px solid #1f3145;color:#c7d5e0;padding:5px 8px;font-size:12px;border-radius:2px;font-family:inherit;">
+        </div>
+        <div style="flex:1;">
+          <label style="font-size:10px;color:#7a93a8;display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:0.5px;">Max hours</label>
+          <input type="text" class="dual-num-max" placeholder="3000" oninput="numBoxSet(this)" onchange="numBoxSet(this)" style="width:100%;background:#0e1620;border:1px solid #1f3145;color:#c7d5e0;padding:5px 8px;font-size:12px;border-radius:2px;font-family:inherit;">
+        </div>
+      </div>
+    </div>
+
+    <h3 class="st-side-h">Review Type</h3>
+    <div class="st-radio-row">
+      <label><input type="radio" data-facet="condition" value="Recommended" onchange="onF()"> Positive — Recommended</label>
+      <label><input type="radio" data-facet="condition" value="Not Recommended" onchange="onF()"> Negative — Not Recommended</label>
+      <label><input type="radio" data-facet="condition" value="" checked onchange="onF()"> All</label>
+    </div>
+
+    <h3 class="st-side-h">Helpful-vote band <span style="float:right;font-weight:400;color:#7a93a8;font-size:10px">"color"</span></h3>
+    <div class="st-cb-row">
+      <label><input type="checkbox" data-facet="color" value="Mostly Negative" onchange="onF()"> Mostly Negative</label>
+      <label><input type="checkbox" data-facet="color" value="Negative" onchange="onF()"> Negative</label>
+      <label><input type="checkbox" data-facet="color" value="Mixed" onchange="onF()"> Mixed</label>
+      <label><input type="checkbox" data-facet="color" value="Positive" onchange="onF()"> Positive</label>
+      <label><input type="checkbox" data-facet="color" value="Mostly Positive" onchange="onF()"> Mostly Positive</label>
+      <label><input type="checkbox" data-facet="color" value="Overwhelmingly Positive" onchange="onF()"> Overwhelmingly Positive</label>
+    </div>
+    <div style="font-size:10px;color:#7a93a8;margin-top:8px;font-style:italic;">Filter reviews by helpfulness sentiment band.</div>
+    <button class="st-clear" onclick="lsReset(event)">Reset all filters</button>
+  </aside>
+</div><script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+const ENV_ID = "W04_E07";
+let filterState = {};
+
+function onF() { applyFilters(); }
+
+function applyFilters() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) { if (!newState[f]) newState[f] = []; newState[f].push(el.value || '1'); }
+    } else if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.multiple) {
+        const vals = Array.from(el.selectedOptions).map(o => o.value);
+        if (vals.length) newState[f] = vals;
+      } else if (el.value) newState[f] = el.value;
+    } else if (el.type === 'number' || el.type === 'range' || el.type === 'text' || el.type === 'hidden') {
+      if (el.dataset.always === '1' || (el.value !== '' && el.value !== el.defaultValue)) {
+        newState[f] = el.value;
+      }
+    }
+  });
+  document.querySelectorAll('.bucket-btn.active, .chip-btn.active, .pill.active').forEach(b => {
+    const f = b.dataset.facet;
+    if (!f) return;
+    if (!newState[f]) newState[f] = [];
+    if (Array.isArray(newState[f])) newState[f].push(b.dataset.val || b.textContent.trim());
+    else newState[f] = b.dataset.val || b.textContent.trim();
+  });
+  filterState = newState;
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    updateResults(data.results || []);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length + ' results';
+    const rc2 = document.getElementById('result-count-2');
+    if (rc2) rc2.textContent = (data.results || []).length;
+  }).catch(e => console.error('filter fail', e));
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : '';
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(() => {});
+}
+
+function escapeHtml(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function lsReset(ev) {
+  if (ev) { ev.stopPropagation(); ev.preventDefault(); }
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+    else if (el.tagName === 'SELECT') el.selectedIndex = 0;
+    else if (el.tagName === 'INPUT' && el.type !== 'range') el.value = '';
+  });
+  document.querySelectorAll('.dt-min').forEach(el => { el.value = el.min; });
+  document.querySelectorAll('.dt-max').forEach(el => { el.value = el.max; });
+  document.querySelectorAll('.bucket-btn.active, .chip-btn.active, .pill.active')
+    .forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.dual-num-min, .dual-num-max').forEach(el => { el.value = ''; });
+  document.querySelectorAll('.amen-pill.active').forEach(el => el.classList.remove('active'));
+  dualUpd();
+  applyFilters();
+}
+
+// Dual-thumb slider sync — runs after every drag/numeric-input change
+function dualUpd() {
+  document.querySelectorAll('.dual-slider').forEach(slider => {
+    const mn = slider.querySelector('.dt-min'), mx = slider.querySelector('.dt-max');
+    if (!mn || !mx) return;
+    const lo = +mn.min, hi = +mx.max;
+    let mnV = +mn.value, mxV = +mx.value;
+    if (mnV > mxV) { mn.value = mxV; mnV = mxV; }
+    const range = hi - lo || 1;
+    const minPct = ((mnV - lo) / range) * 100;
+    const maxPct = ((mxV - lo) / range) * 100;
+    const dt = slider.querySelector('.dual-active');
+    if (dt) { dt.style.left = minPct + '%'; dt.style.width = (maxPct - minPct) + '%'; }
+    const tipMin = slider.querySelector('.dt-tip-min'), tipMax = slider.querySelector('.dt-tip-max');
+    const fmt = slider.dataset.fmt || 'dollar';
+    const fmtVal = (v) => {
+      if (fmt === 'hours') return v + ' hrs';
+      if (fmt === 'salary') return '$' + (+v/1000) + 'K';
+      return '$' + (+v).toLocaleString();
+    };
+    if (tipMin) { tipMin.style.left = minPct + '%'; tipMin.textContent = 'MIN ' + fmtVal(mnV); }
+    if (tipMax) { tipMax.style.left = maxPct + '%'; tipMax.textContent = 'MAX ' + fmtVal(mxV); }
+    const minV = slider.parentElement.querySelector('.minv'),
+          maxV = slider.parentElement.querySelector('.maxv');
+    if (minV) minV.textContent = fmtVal(mnV);
+    if (maxV) maxV.textContent = fmtVal(mxV);
+    // Sync paired numeric input boxes (any input with .dual-num-min / .dual-num-max in the slider's container)
+    const container = slider.closest('.slider-block') || slider.parentElement;
+    const minBox = container.querySelector('.dual-num-min'),
+          maxBox = container.querySelector('.dual-num-max');
+    if (minBox && minBox !== document.activeElement) minBox.value = (mnV > lo) ? mnV : '';
+    if (maxBox && maxBox !== document.activeElement) maxBox.value = (mxV < hi) ? mxV : '';
+  });
+  onF();
+}
+
+// Generic min/max numeric box -> slider sync
+function numBoxSet(box) {
+  const container = box.closest('.slider-block') || box.parentElement.parentElement || box.parentElement;
+  const slider = container.querySelector('.dual-slider');
+  if (!slider) return;
+  const mn = slider.querySelector('.dt-min'), mx = slider.querySelector('.dt-max');
+  const lo = +mn.min, hi = +mx.max;
+  const minBox = container.querySelector('.dual-num-min');
+  const maxBox = container.querySelector('.dual-num-max');
+  if (minBox && minBox.value !== '') mn.value = Math.max(lo, Math.min(hi, parseInt(minBox.value.replace(/[^0-9]/g,'')) || lo));
+  else mn.value = lo;
+  if (maxBox && maxBox.value !== '') mx.value = Math.max(lo, Math.min(hi, parseInt(maxBox.value.replace(/[^0-9]/g,'')) || hi));
+  else mx.value = hi;
+  dualUpd();
+}
+
+function pickBucket(btn) {
+  const wasActive = btn.classList.contains('active');
+  btn.parentElement.querySelectorAll('.bucket-btn').forEach(b => b.classList.remove('active'));
+  if (!wasActive) {
+    btn.classList.add('active');
+    const slider = document.querySelector('.dual-slider');
+    if (slider) {
+      slider.querySelector('.dt-min').value = +btn.dataset.min;
+      slider.querySelector('.dt-max').value = +btn.dataset.max;
+      dualUpd();
+      return;
+    }
+  }
+  applyFilters();
+}
+
+function pickChip(btn) {
+  // Mutually-exclusive preset chips: set both thumbs and persist
+  const wasActive = btn.classList.contains('active');
+  btn.parentElement.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+  const slider = document.querySelector('.dual-slider');
+  if (!wasActive) {
+    btn.classList.add('active');
+    if (slider) {
+      if (btn.dataset.min !== undefined) slider.querySelector('.dt-min').value = +btn.dataset.min;
+      if (btn.dataset.max !== undefined) slider.querySelector('.dt-max').value = +btn.dataset.max;
+      dualUpd();
+      return;
+    }
+  }
+  if (slider) {
+    slider.querySelector('.dt-min').value = +slider.querySelector('.dt-min').min;
+    slider.querySelector('.dt-max').value = +slider.querySelector('.dt-max').max;
+    dualUpd();
+  } else {
+    applyFilters();
+  }
+}
+
+function togAmen(el) {
+  const cb = el.querySelector('input[type=checkbox]');
+  if (cb) {
+    cb.checked = !cb.checked;
+    el.classList.toggle('active', cb.checked);
+  }
+  onF();
+}
+
+function onAmenCh(input) {
+  const pill = input.closest('.amen-pill, .abnb-amen-pill');
+  if (pill) pill.classList.toggle('active', input.checked);
+  onF();
+}
+
+function updateResults(results) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div class="empty-state">No results match your filters.<br><span>Try removing some filters.</span></div>';
+    return;
+  }
+  const tpl = (typeof window.cardTemplate === 'function') ? window.cardTemplate :
+    (r) => `<div class="result-card"><div class="result-name">${escapeHtml(r.title)}</div><div class="result-price">$${(r.price||0).toLocaleString()}</div></div>`;
+  grid.innerHTML = results.map(tpl).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  dualUpd();
+  applyFilters();
+});
+
+</script>
+<script>
+window.cardTemplate = function(r) {
+  const isNeg = (r.recommended === false || r.condition === 'Not Recommended');
+  const cls = isNeg ? 'st-rev-card danger' : 'st-rev-card';
+  const vBoxCls = isNeg ? 'st-verdict-box danger' : 'st-verdict-box';
+  const vIcon = isNeg ? '👎' : '👍';
+  const vText = isNeg ? 'Not Recommended' : 'Recommended';
+  const hrs = (r.playtime_hours || Math.round((r.price||0)/10) || 0);
+  const avatar = r.image_url
+    ? `<div class="av"><img src="${r.image_url}" alt="${escapeHtml(r.brand||r.title||'')}" loading="lazy"></div>`
+    : `<div class="av" style="display:flex;align-items:center;justify-content:center;color:#66c0f4;font-weight:900;font-size:36px;">${escapeHtml(r.image_initial||'?')}</div>`;
+  const userName = escapeHtml((r.brand || (r.title||'').split('—')[0] || 'reviewer').trim());
+  const helpful = r.helpful_count || Math.max(1, Math.round((r.rating||3)*7));
+  const total = helpful + Math.max(2, Math.round(helpful*0.4));
+  return `<div class="${cls}">
+    <div class="st-rev-thumb">
+      ${avatar}
+      <div class="avname">${userName}</div>
+      <div class="avstats">${1 + (r.id||0)%9} products in account</div>
+      <div class="avstats">${1 + (r.id||0)%4} review${((r.id||0)%4)===0?'':'s'}</div>
+    </div>
+    <div class="st-rev-body-wrap">
+      <div class="${vBoxCls}">
+        <div class="st-verdict-icon">${vIcon}</div>
+        <div>
+          <div class="st-verdict-label">${vText}</div>
+          <div class="st-verdict-hours">${hrs.toLocaleString()} hrs on record</div>
+        </div>
+      </div>
+      <div class="st-rev-meta">POSTED: ${escapeHtml((r.posted||'RECENTLY').toUpperCase())}</div>
+      <div class="st-rev-body">${escapeHtml(r.review_body || r.title || '')}</div>
+      <div class="st-rev-actions">
+        <div class="helpful">${helpful} of ${total} people (${Math.round(helpful/total*100)}%) found this review helpful</div>
+        <div class="vote-btns"><span class="st-vote-btn">Helpful</span><span class="st-vote-btn">Funny</span></div>
+        <span class="st-award">🏆 Award</span>
+      </div>
+    </div>
+  </div>`;
+};
+function stBrush(){
+  const mn = document.querySelector('.dt-min'), mx = document.querySelector('.dt-max');
+  if (!mn || !mx) return;
+  const lo = +mn.min, hi = +mx.max;
+  const range = hi - lo || 1;
+  const left = ((+mn.value - lo)/range)*100;
+  const right = 100 - ((+mx.value - lo)/range)*100;
+  const br = document.getElementById('st-brush');
+  if (br) { br.style.left = left + '%'; br.style.right = right + '%'; }
+  // Color bars inside brush
+  const bars = document.querySelectorAll('#st-histo .bar');
+  const N = bars.length;
+  bars.forEach((b, i) => {
+    const pct = (i + 0.5) / N * 100;
+    if (pct >= left && pct <= 100 - right) { b.classList.add('in'); b.classList.remove('out'); }
+    else { b.classList.add('out'); b.classList.remove('in'); }
+  });
+}
+document.addEventListener('DOMContentLoaded', stBrush);
+</script>
+</body></html>

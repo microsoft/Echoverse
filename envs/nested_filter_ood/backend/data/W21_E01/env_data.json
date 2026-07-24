@@ -1,0 +1,57 @@
+{
+  "env_id": "W21_E01",
+  "widget_id": "W21_calendar_advance_plus_return_validation",
+  "widget_name": "Calendar multi-month advance + return-after-depart validation",
+  "widget_category": "combo_calendar",
+  "widget_mechanic": "Compose: calendar must advance to depart-target month AND return must be set \u2265 depart in correct order.",
+  "archetype": "booking_form",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W09_calendar_multi_month_advance",
+    "W11_return_after_depart_validation"
+  ],
+  "site_imitates": "AirAsia round-trip booking on airasia.com",
+  "product_type": "AirAsia round-trip",
+  "source_inspiration": [
+    {
+      "task_id": "flights_airasia_50",
+      "benchmark": "WTB",
+      "site": "airasia",
+      "instruction": "Book a flight with AirAsia from Hong Kong to Manila leaving August 7 and coming back August 14. If there are no available flights for those dates, please show evidence and indicate this in your answer. Any other blocker is considered a failure.",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent never set the required dates (Aug 7 depart, Aug 14 return). The form remained on different prefilled dates (shown in evidence as May 17\u201320, 2026)."
+    }
+  ],
+  "theme_key": "hotels",
+  "theme_logo": "BookEasy",
+  "theme_card": "hotel-card",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 0,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "primary_inspiration": "flights_airasia_50",
+  "brand_colors": {
+    "header_bg": "#ed1c24",
+    "header_fg": "#fff",
+    "primary": "#3aaa35",
+    "primary_hover": "#288626",
+    "accent": "#0e1f53",
+    "background": "#f6f6f8",
+    "accent_fg": "#0e1f53",
+    "accent_bg": "#fde6e7"
+  },
+  "ui_pattern": "dual_linked",
+  "ui_pattern_description": "Two-month side-by-side calendar with shared prev/next nav (depart then return)",
+  "fara_grounded_dates": {
+    "depart": "2026-08-07",
+    "return": "2026-08-14"
+  },
+  "fara_grounded_route": {
+    "from_city": "Hong Kong",
+    "from_code": "HKG",
+    "to_city": "Manila",
+    "to_code": "MNL"
+  }
+}

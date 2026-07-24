@@ -1,0 +1,598 @@
+<!doctype html><html><head><meta charset="utf-8">
+<title>EchoTV — Video Library</title>
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+
+
+
+
+
+:root {
+  --cspan-navy:#002d62;
+  --cspan-navy-dark:#001f47;
+  --cspan-red:#c8102e;
+  --cspan-link:#0a4a85;
+  --cspan-text:#1a1a1a;
+  --cspan-muted:#6a6a6a;
+  --cspan-border:#d8d8d8;
+  --cspan-bg:#ffffff;
+  --cspan-bg-soft:#f5f5f5;
+}
+body { margin:0; font-family:'Roboto','Helvetica Neue',Arial,sans-serif; background:#fff; color:var(--cspan-text); font-size:14px; line-height:1.45; }
+a { color:var(--cspan-link); text-decoration:none; }
+a:hover { text-decoration:underline; }
+
+.cspan-top { background:var(--cspan-navy-dark); color:#fff; padding:0 24px; height:32px; display:flex; align-items:center; font-size:11.5px; gap:18px; text-transform:uppercase; letter-spacing:0.4px; }
+.cspan-top a { color:#fff; opacity:0.92; }
+.cspan-top a:hover { opacity:1; text-decoration:none; }
+.cspan-top .right { margin-left:auto; display:flex; gap:18px; align-items:center; }
+.cspan-top .donate { background:var(--cspan-red); color:#fff; padding:4px 12px; font-weight:700; border-radius:2px; letter-spacing:0.6px; }
+
+.cspan-hdr { background:#fff; border-bottom:1px solid var(--cspan-border); padding:14px 24px 0; display:flex; align-items:flex-end; gap:24px; position:relative; }
+.cspan-hdr::after { content:''; position:absolute; left:0; right:0; bottom:0; height:4px; background:var(--cspan-red); }
+.cspan-hdr .logo-wrap { display:flex; flex-direction:column; align-items:flex-start; padding-bottom:10px; }
+.cspan-hdr .logo { font-family:'Arial Black','Helvetica Neue',sans-serif; font-size:38px; font-weight:900; color:var(--cspan-navy); letter-spacing:-2px; line-height:0.9; }
+.cspan-hdr .logo .dash { color:var(--cspan-red); display:inline-block; width:10px; height:5px; background:var(--cspan-red); vertical-align:middle; margin:0 1px 6px; }
+.cspan-hdr .tag { color:var(--cspan-muted); font-size:12px; font-style:italic; margin-top:4px; }
+.cspan-hdr nav { display:flex; gap:22px; margin-left:auto; font-size:13px; font-weight:700; padding-bottom:14px; }
+.cspan-hdr nav a { color:var(--cspan-text); text-transform:uppercase; letter-spacing:0.3px; padding-bottom:14px; border-bottom:3px solid transparent; }
+.cspan-hdr nav a:hover { color:var(--cspan-red); text-decoration:none; }
+.cspan-hdr .search-icon { font-size:16px; color:var(--cspan-navy); cursor:pointer; padding-bottom:14px; }
+
+.cspan-subnav { background:var(--cspan-navy); padding:0 24px; height:42px; display:flex; align-items:center; gap:28px; }
+.cspan-subnav a { color:#fff; font-size:12.5px; font-weight:600; padding:0 0; height:42px; line-height:42px; border-bottom:3px solid transparent; text-transform:uppercase; letter-spacing:0.5px; }
+.cspan-subnav a:hover { text-decoration:none; color:#fff; }
+.cspan-subnav a.active { border-bottom-color:var(--cspan-red); }
+
+.wrap { max-width:1180px; margin:0 auto; padding:18px 24px 24px; display:grid; grid-template-columns:240px 1fr; gap:26px; }
+.page-title { grid-column: 1 / -1; margin-bottom:4px; }
+.page-title h1 { color:var(--cspan-navy); font-size:30px; margin:6px 0 6px; font-weight:700; font-family:'Georgia','Times New Roman',serif; }
+.page-title .crumb { color:var(--cspan-muted); font-size:12px; }
+.page-title .crumb a { color:var(--cspan-link); }
+.page-title .crumb b { color:var(--cspan-text); font-weight:600; }
+
+.left-rail { font-size:14px; }
+.left-rail .panel { background:#fff; border:1px solid var(--cspan-border); padding:0 0 12px; margin-bottom:14px; }
+.left-rail .panel h4 { margin:0 0 10px; color:#fff; background:var(--cspan-navy); padding:9px 12px; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.6px; }
+.left-rail .panel .body { padding:0 12px; }
+.left-rail .panel .help { color:var(--cspan-muted); font-size:11.5px; margin-bottom:8px; line-height:1.4; }
+.left-rail select { width:100%; padding:7px 8px; border:1px solid #b5b5b5; background:#fff; font-size:13px; color:var(--cspan-text); border-radius:2px; }
+.left-rail select:focus { outline:2px solid var(--cspan-navy); outline-offset:-1px; }
+.left-rail .clear { color:var(--cspan-link); font-size:11.5px; margin-top:8px; display:inline-block; cursor:pointer; }
+.left-rail .clear:hover { text-decoration:underline; }
+.left-rail .panel ul { margin:0; padding:0; list-style:none; font-size:13px; }
+.left-rail .panel li { padding:4px 0; color:var(--cspan-text); cursor:pointer; display:flex; justify-content:space-between; }
+.left-rail .panel li:hover { color:var(--cspan-red); }
+.left-rail .panel li .cnt { color:var(--cspan-muted); font-size:11.5px; }
+
+main { min-width:0; }
+.search-bar { background:#fff; border:1px solid var(--cspan-border); padding:8px 10px; margin-bottom:14px; display:flex; align-items:center; gap:8px; border-radius:2px; }
+.search-bar input { flex:1; border:1px solid #c0c0c0; padding:8px 10px; font-size:14px; background:#fff; border-radius:2px; }
+.search-bar input:focus { outline:2px solid var(--cspan-navy); outline-offset:-1px; }
+.search-bar button { background:var(--cspan-navy); color:#fff; border:0; padding:9px 22px; cursor:pointer; font-weight:700; font-size:13px; letter-spacing:0.5px; border-radius:2px; }
+.search-bar button:hover { background:var(--cspan-navy-dark); }
+
+.result-summary { color:var(--cspan-text); font-size:13px; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--cspan-border); display:flex; align-items:center; }
+.result-summary b { color:var(--cspan-navy); font-size:15px; font-weight:700; }
+.result-summary .sortby { margin-left:auto; color:var(--cspan-muted); font-size:12.5px; }
+.result-summary .sortby select { border:1px solid var(--cspan-border); background:#fff; padding:3px 6px; font-size:12.5px; }
+
+.applied-row { display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-bottom:14px; font-size:12px; color:var(--cspan-muted); }
+.applied-row .applied-label { font-weight:600; color:var(--cspan-text); }
+.applied-row .chip { background:var(--cspan-navy); color:#fff; padding:4px 10px; border-radius:14px; font-size:11.5px; cursor:pointer; }
+.applied-row .chip::after { content:' ✕'; opacity:0.85; margin-left:5px; }
+
+.video-row { display:flex; gap:16px; padding:18px 0; border-bottom:1px solid #ececec; }
+.video-row .thumb { width:200px; height:118px; background:#000; position:relative; flex-shrink:0; overflow:hidden; border-radius:2px; }
+.video-row .thumb .dur { position:absolute; bottom:6px; right:6px; background:rgba(0,0,0,0.85); color:#fff; padding:2px 7px; font-size:11px; font-family:'Roboto Mono','Courier New',monospace; border-radius:2px; font-weight:600; }
+.video-row .thumb .cspan-bug { position:absolute; top:6px; left:6px; background:var(--cspan-red); color:#fff; font-size:9.5px; padding:3px 6px; font-weight:800; letter-spacing:0.5px; border-radius:1px; }
+.video-row .thumb .play-overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,rgba(0,0,0,0) 50%,rgba(0,0,0,0.35) 100%); opacity:0; transition:opacity 0.15s; }
+.video-row:hover .thumb .play-overlay { opacity:1; }
+.video-row .thumb .play-overlay::before { content:''; width:0; height:0; border-style:solid; border-width:14px 0 14px 22px; border-color:transparent transparent transparent #fff; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+.video-row .info { flex:1; min-width:0; }
+.video-row .info h3 { margin:0 0 6px; color:var(--cspan-link); font-size:16px; font-weight:700; line-height:1.3; }
+.video-row .info h3 a { color:inherit; }
+.video-row .info h3 a:hover { color:var(--cspan-red); text-decoration:underline; }
+.video-row .info .meta { color:var(--cspan-muted); font-size:12px; margin-bottom:6px; }
+.video-row .info .meta b { color:var(--cspan-text); font-weight:600; }
+.video-row .info .meta .sep { margin:0 6px; color:#bbb; }
+.video-row .info .tags { color:var(--cspan-muted); font-size:11.5px; }
+.video-row .info .tags a { color:var(--cspan-link); }
+.video-row .info .bucket-tag { display:inline-block; background:#eef3fb; color:var(--cspan-navy); padding:2px 8px; border-radius:2px; font-size:10.5px; font-weight:700; margin-right:6px; text-transform:uppercase; letter-spacing:0.4px; }
+
+.foot { margin-top:30px; background:var(--cspan-navy); color:#fff; padding:28px 24px 18px; font-size:12.5px; }
+.foot .foot-inner { max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:28px; }
+.foot .foot-col h5 { margin:0 0 10px; font-size:12px; text-transform:uppercase; letter-spacing:0.6px; color:#fff; font-weight:700; border-bottom:1px solid rgba(255,255,255,0.2); padding-bottom:6px; }
+.foot .foot-col ul { list-style:none; margin:0; padding:0; }
+.foot .foot-col li { padding:3px 0; }
+.foot .foot-col a { color:#cfd9eb; font-size:12px; }
+.foot .foot-col a:hover { color:#fff; }
+.foot .foot-bottom { max-width:1180px; margin:18px auto 0; padding-top:14px; border-top:1px solid rgba(255,255,255,0.2); text-align:center; font-size:11.5px; color:#a8b6cf; }
+.foot .foot-bottom a { color:#cfd9eb; margin:0 6px; }
+
+
+#task-banner { display:none; padding:14px 18px; background:#fff8e6; border:1px solid #f0c060;
+       border-radius:6px; margin:12px 0; font-family:system-ui,sans-serif; color:#222; }
+.tb-head { display:flex; gap:8px; align-items:center; margin-bottom:6px; }
+.tb-id { font-family:monospace; font-size:11px; color:#666; }
+.tb-type { font-size:11px; padding:2px 7px; border-radius:8px; font-weight:700; }
+.tb-type-write { background:#d8ecff; color:#0a4a8a; }
+.tb-type-read { background:#e6f7ec; color:#1a6d36; }
+.tb-type-read_write { background:#f4e3ff; color:#5d22a0; }
+.tb-diff { font-size:11px; padding:2px 7px; border-radius:8px; background:#fce4e4; color:#a82020; font-weight:700; }
+.tb-summary { font-size:14px; line-height:1.5; margin-bottom:8px; }
+.tb-answer-row { display:flex; gap:8px; align-items:center; margin:8px 0; }
+.tb-answer-label { font-size:12px; font-weight:600; color:#444; }
+.tb-answer-input { flex:1; padding:7px 10px; border:1px solid #cfd4dc; border-radius:5px; font-size:13px; }
+.tb-meta { font-size:11px; color:#888; margin-top:4px; }
+.tb-meta code { background:#fff; padding:1px 4px; border-radius:3px; font-size:11px; }
+.live-status { position:fixed; top:14px; right:14px; display:flex; align-items:center; gap:8px;
+       padding:8px 14px; border-radius:18px; background:#fff; border:1px solid #ddd;
+       font-family:system-ui,sans-serif; font-size:12px; z-index:9999; box-shadow:0 4px 14px rgba(0,0,0,0.2); max-width:380px; color:#222; }
+.live-status .ls-msg { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.live-status.good { background:#e6f7ec; color:#1a6d36; border-color:#5fae74; }
+.live-status.pending { background:#fff7e6; color:#8a5500; border-color:#f0c060; }
+.live-status.neutral { background:#fff; color:#555; border-color:#ddd; }
+.live-status .ls-toggle { cursor:pointer; opacity:0.6; user-select:none; }
+.live-status .ls-toggle:hover { opacity:1; }
+.live-status .ls-state { display:none; position:absolute; right:0; top:100%; margin-top:6px;
+       background:#fff; border:1px solid #ddd; border-radius:6px; padding:8px; max-width:300px; max-height:240px; overflow:auto; }
+.live-status.open .ls-state { display:block; }
+.live-status .ls-state pre { margin:0; font-size:11px; color:#222; }
+/* v4-pexels-css */
+.video-row .thumb img.thumb-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; }
+.video-row .thumb > * { position:absolute; z-index:1; }
+.video-row .thumb .cspan-bug { top:6px; left:6px; }
+.video-row .thumb .dur { bottom:6px; right:6px; background:rgba(0,0,0,0.85); color:#fff; padding:2px 7px; border-radius:2px; font-size:11px; font-weight:600; }
+
+</style></head><body>
+<div class="live-status neutral" id="live-status" onclick="this.classList.toggle('open')"><span class="ls-msg">💾 State auto-saves</span><span class="ls-toggle">⌄</span><div class="ls-state"><pre>{}</pre></div></div>
+
+<div class="cspan-top">
+  <a>EchoTV Now</a> <a>Watch Live</a> <a>Listen Live</a> <a>Schedule</a>
+  <div class="right"><a>Sign In</a><a class="donate">Donate</a></div>
+</div>
+<header class="cspan-hdr">
+  <div class="logo-wrap">
+    <div class="logo">EchoTV</div>
+    <div class="tag">Created by Cable. Offered as a Public Service.</div>
+  </div>
+  <nav><a>Watch</a><a>Series</a><a>Schedule</a><a>Topics</a><a>Video Library</a><a>Networks</a><span class="search-icon">⌕</span></nav>
+</header>
+<nav class="cspan-subnav">
+  <a class="active">Video Library</a><a>Most Recent</a><a>Most Viewed</a><a>Most Shared</a><a>Bookshelf</a><a>Classroom</a><a>Series</a>
+</nav>
+
+<div class="wrap">
+  <div class="page-title">
+    <h1>EchoTV Video Library</h1>
+    <div class="crumb"><a>Home</a> › <b>Video Library</b> › All Programs › All Dates</div>
+  </div>
+
+  <aside class="left-rail">
+    <div class="panel">
+      <h4>Duration</h4>
+      <div class="body">
+        <div class="help">Limit results to a specific video length.</div>
+        <select data-bucket-select data-facet="bucket" onchange="setBucket(this.value)">
+          <option value="">— Any duration —</option>
+          <option value="Under 15 min">Under 15 min</option><option value="15-60 min">15-60 min</option><option value="1-2 hours">1-2 hours</option><option value="Over 2 hours">Over 2 hours</option>
+        </select>
+        <a class="clear" onclick="clearBucket()">↺ Clear duration filter</a>
+      </div>
+    </div>
+    <div class="panel">
+      <h4>Program</h4>
+      <div class="body">
+        <ul>
+          <li><span>Hearings</span><span class="cnt">487</span></li>
+          <li><span>Floor Proceedings</span><span class="cnt">312</span></li>
+          <li><span>Briefings</span><span class="cnt">256</span></li>
+          <li><span>Public Affairs Events</span><span class="cnt">198</span></li>
+          <li><span>Court</span><span class="cnt">84</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="panel">
+      <h4>Format</h4>
+      <div class="body">
+        <ul>
+          <li><span>Full Program</span><span class="cnt">1,047</span></li>
+          <li><span>Clip</span><span class="cnt">3,852</span></li>
+          <li><span>Highlight</span><span class="cnt">214</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="panel">
+      <h4>Date Range</h4>
+      <div class="body">
+        <select disabled><option>All Dates</option></select>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <div id="task-banner"></div>
+    <div class="search-bar">
+      <input type="text" value="" placeholder="Search the EchoTV Video Library (over 280,000 hours)">
+      <button>SEARCH</button>
+    </div>
+    <div class="result-summary">
+      Showing <b><span id="result-count">16</span></b>&nbsp;archived videos
+      <span class="sortby">Sort by:
+        <select><option>Most Recent</option><option>Most Viewed</option><option>Oldest</option><option>Longest</option></select>
+      </span>
+    </div>
+    <div class="applied-row">
+      <span class="applied-label">Applied filters:</span>
+      <span class="chip">Federal</span>
+      <span class="chip">Has Transcript</span>
+    </div>
+    <div id="results">
+<div class="video-row" data-card-bucket="Under 15 min">
+  <div class="thumb"><img class="thumb-img" src="https://images.pexels.com/photos/30692441/pexels-photo-30692441.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="White House Press Briefing — Bond Yield Statement" loading="lazy"><span class="cspan-bug">EchoTV</span><span class="play-overlay"></span>
+    <span class="dur">12:08</span>
+  </div>
+  <div class="info">
+    <h3><a>White House Press Briefing — Bond Yield Statement</a></h3>
+    <div class="meta">Briefings · Aired <b>2026-04-22</b> · Duration 12:08</div>
+    <div>
+      <span style="font-size:12px;color:#666">Tags: federal, archived, broadcast-quality</span>
+    </div>
+  </div>
+</div>
+<div class="video-row" data-card-bucket="Under 15 min">
+  <div class="thumb"><img class="thumb-img" src="https://images.pexels.com/photos/432185/pexels-photo-432185.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Senator Hawley Floor Remarks on Antitrust" loading="lazy"><span class="cspan-bug">EchoTV</span><span class="play-overlay"></span>
+    <span class="dur">08:42</span>
+  </div>
+  <div class="info">
+    <h3><a>Senator Hawley Floor Remarks on Antitrust</a></h3>
+    <div class="meta">Senate · Aired <b>2026-04-15</b> · Duration 08:42</div>
+    <div>
+      <span style="font-size:12px;color:#666">Tags: federal, archived, broadcast-quality</span>
+    </div>
+  </div>
+</div>
+<div class="video-row" data-card-bucket="Under 15 min">
+  <div class="thumb"><img class="thumb-img" src="https://images.pexels.com/photos/4962590/pexels-photo-4962590.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Joint Committee Opening Statements" loading="lazy"><span class="cspan-bug">EchoTV</span><span class="play-overlay"></span>
+    <span class="dur">14:55</span>
+  </div>
+  <div class="info">
+    <h3><a>Joint Committee Opening Statements</a></h3>
+    <div class="meta">Hearings · Aired <b>2026-04-09</b> · Duration 14:55</div>
+    <div>
+      <span style="font-size:12px;color:#666">Tags: federal, archived, broadcast-quality</span>
+    </div>
+  </div>
+</div>
+<div class="video-row" data-card-bucket="Under 15 min">
+  <div class="thumb"><img class="thumb-img" src="https://images.pexels.com/photos/32288633/pexels-photo-32288633.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Speaker Press Stakeout After Vote" loading="lazy"><span class="cspan-bug">EchoTV</span><span class="play-overlay"></span>
+    <span class="dur">05:31</span>
+  </div>
+  <div class="info">
+    <h3><a>Speaker Press Stakeout After Vote</a></h3>
+    <div class="meta">Briefings · Aired <b>2026-04-02</b> · Duration 05:31</div>
+    <div>
+      <span style="font-size:12px;color:#666">Tags: federal, archived, broadcast-quality</span>
+    </div>
+  </div>
+</div>
+<div class="video-row" data-card-bucket="15-60 min">
+  <div class="thumb"><img class="thumb-img" src="https://images.pexels.com/photos/8353774/pexels-photo-8353774.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="House Judiciary Markup — Section 230" loading="lazy"><span class="cspan-bug">EchoTV</span><span class="play-overlay"></span>
+    <span class="dur">47:18</span>
+  </div>
+  <div class="info">
+    <h3><a>House Judiciary Markup — Section 230</a></h3>
+    <div class="meta">Hearings · Aired <b>2026-03-28</b> · Duration 47:18</div>
+    <div>
+      <span style="font-size:12px;color:#666">Tags: federal, archived, broadcast-quality</span>
+    </div>
+  </div>
+</div>
+<div class="video-row" data-card-bucket="15-60 min">
+  <div class="thumb"><img class="thumb-img" src="https://images.pexels.com/photos/4963425/pexels-photo-4963425.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Senate Banking Committee Q&amp;A with Fed Chair" loading="lazy"><span class="cspan-bug">EchoTV</span><span class="play-overlay"></span>
+    <span class="dur">38:02</span>
+  </div>
+  <div class="info">
+    <h3><a>Senate Banking Committee Q&amp;A with Fed Chair</a></h3>
+    <div class="meta">Hearings · Aired <b>2026-03-21</b> · Duration 38:02</div>
+    <div>
+      <span style="font-size:12px;color:#666">Tags: federal, archived, broadcast-quality</span>
+    </div>
+  </div>
+</div>
+<div class="video-row" data-card-bucket="15-60 min">
+  <div class="thumb"><img class="thumb-img" src="https://images.pexels.com/photos/9301835/pexels-photo-9301835.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Federalist Society Panel on Administrative Law" loading="lazy"><span class="cspan-bug">EchoTV</span><span class="play-overlay"></span>
+    <span class="dur">52:11</span>
+  </div>
+  <div class="info">
+    <h3><a>Federalist Society Panel on Administrative Law</a></h3>
+    <div class="meta">Public Affairs · Aired <b>2026-03-14</b> · Duration 52:11</div>
+    <div>
+      <span style="font-size:12px;color:#666">Tags: federal, archived, broadcast-quality</span>
+    </div>
+  </div>
+</div>
+<div class="video-row" data-card-bucket="15-60 min">
+  <div class="thumb"><img class="thumb-img" src="https://images.pexels.com/photos/7495291/pexels-photo-7495291.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="White House Daily Briefing" loading="lazy"><span class="cspan-bug">EchoTV</span><span class="play-overlay"></span>
+    <span class="dur">44:27</span>
+  </div>
+  <div class="info">
+    <h3><a>White House Daily Briefing</a></h3>
+    <div class="meta">Briefings · Aired <b>2026-03-07</b> · Duration 44:27</div>
+    <div>
+      <span style="font-size:12px;color:#666">Tags: federal, archived, broadcast-quality</span>
+    </div>
+  </div>
+</div>
+<div class="video-row" data-card-bucket="1-2 hours">
+  <div class="thumb"><img class="thumb-img" src="https://images.pexels.com/photos/5324939/pexels-photo-5324939.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Senate Foreign Relations — Treasury Sanctions Hearing" loading="lazy"><span class="cspan-bug">EchoTV</span><span class="play-overlay"></span>
+    <span class="dur">1:48:30</span>
+  </div>
+  <div class="info">
+    <h3><a>Senate Foreign Relations — Treasury Sanctions Hearing</a></h3>
+    <div class="meta">Hearings · Aired <b>2026-03-01</b> · Duration 1:48:30</div>
+    <div>
+      <span style="font-size:12px;color:#666">Tags: federal, archived, broadcast-quality</span>
+    </div>
+  </div>
+</div>
+<div class="video-row" data-card-bucket="1-2 hours">
+  <div class="thumb"><img class="thumb-img" src="https://images.pexels.com/photos/8171181/pexels-photo-8171181.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Supreme Court Oral Argument: Smith v. EPA" loading="lazy"><span class="cspan-bug">EchoTV</span><span class="play-overlay"></span>
+    <span class="dur">1:22:15</span>
+  </div>
+  <div class="info">
+    <h3><a>Supreme Court Oral Argument: Smith v. EPA</a></h3>
+    <div class="meta">Court · Aired <b>2026-02-22</b> · Duration 1:22:15</div>
+    <div>
+      <span style="font-size:12px;color:#666">Tags: federal, archived, broadcast-quality</span>
+    </div>
+  </div>
+</div>
+<div class="video-row" data-card-bucket="1-2 hours">
+  <div class="thumb"><img class="thumb-img" src="https://images.pexels.com/photos/8171181/pexels-photo-8171181.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="House Appropriations Subcommittee — Defense FY27" loading="lazy"><span class="cspan-bug">EchoTV</span><span class="play-overlay"></span>
+    <span class="dur">1:57:09</span>
+  </div>
+  <div class="info">
+    <h3><a>House Appropriations Subcommittee — Defense FY27</a></h3>
+    <div class="meta">Hearings · Aired <b>2026-02-15</b> · Duration 1:57:09</div>
+    <div>
+      <span style="font-size:12px;color:#666">Tags: federal, archived, broadcast-quality</span>
+    </div>
+  </div>
+</div>
+<div class="video-row" data-card-bucket="1-2 hours">
+  <div class="thumb"><img class="thumb-img" src="https://images.pexels.com/photos/22719281/pexels-photo-22719281.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Brookings Discussion — Future of AI Regulation" loading="lazy"><span class="cspan-bug">EchoTV</span><span class="play-overlay"></span>
+    <span class="dur">1:32:48</span>
+  </div>
+  <div class="info">
+    <h3><a>Brookings Discussion — Future of AI Regulation</a></h3>
+    <div class="meta">Public Affairs · Aired <b>2026-02-08</b> · Duration 1:32:48</div>
+    <div>
+      <span style="font-size:12px;color:#666">Tags: federal, archived, broadcast-quality</span>
+    </div>
+  </div>
+</div>
+<div class="video-row" data-card-bucket="Over 2 hours">
+  <div class="thumb"><img class="thumb-img" src="https://images.pexels.com/photos/4872018/pexels-photo-4872018.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="State of the Union Address with Floor Debate" loading="lazy"><span class="cspan-bug">EchoTV</span><span class="play-overlay"></span>
+    <span class="dur">2:48:11</span>
+  </div>
+  <div class="info">
+    <h3><a>State of the Union Address with Floor Debate</a></h3>
+    <div class="meta">Floor · Aired <b>2026-02-01</b> · Duration 2:48:11</div>
+    <div>
+      <span style="font-size:12px;color:#666">Tags: federal, archived, broadcast-quality</span>
+    </div>
+  </div>
+</div>
+<div class="video-row" data-card-bucket="Over 2 hours">
+  <div class="thumb"><img class="thumb-img" src="https://images.pexels.com/photos/4872023/pexels-photo-4872023.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="House Floor Debate — Continuing Resolution" loading="lazy"><span class="cspan-bug">EchoTV</span><span class="play-overlay"></span>
+    <span class="dur">3:12:55</span>
+  </div>
+  <div class="info">
+    <h3><a>House Floor Debate — Continuing Resolution</a></h3>
+    <div class="meta">Floor · Aired <b>2026-01-25</b> · Duration 3:12:55</div>
+    <div>
+      <span style="font-size:12px;color:#666">Tags: federal, archived, broadcast-quality</span>
+    </div>
+  </div>
+</div>
+<div class="video-row" data-card-bucket="Over 2 hours">
+  <div class="thumb"><img class="thumb-img" src="https://images.pexels.com/photos/4963388/pexels-photo-4963388.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Senate Confirmation Hearing — Attorney General Nominee" loading="lazy"><span class="cspan-bug">EchoTV</span><span class="play-overlay"></span>
+    <span class="dur">4:21:30</span>
+  </div>
+  <div class="info">
+    <h3><a>Senate Confirmation Hearing — Attorney General Nominee</a></h3>
+    <div class="meta">Hearings · Aired <b>2026-01-18</b> · Duration 4:21:30</div>
+    <div>
+      <span style="font-size:12px;color:#666">Tags: federal, archived, broadcast-quality</span>
+    </div>
+  </div>
+</div>
+<div class="video-row" data-card-bucket="Over 2 hours">
+  <div class="thumb"><img class="thumb-img" src="https://images.pexels.com/photos/4872023/pexels-photo-4872023.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Annual Federal Reserve Humphrey-Hawkins Testimony — Day 1" loading="lazy"><span class="cspan-bug">EchoTV</span><span class="play-overlay"></span>
+    <span class="dur">5:08:42</span>
+  </div>
+  <div class="info">
+    <h3><a>Annual Federal Reserve Humphrey-Hawkins Testimony — Day 1</a></h3>
+    <div class="meta">Hearings · Aired <b>2026-01-11</b> · Duration 5:08:42</div>
+    <div>
+      <span style="font-size:12px;color:#666">Tags: federal, archived, broadcast-quality</span>
+    </div>
+  </div>
+</div></div>
+  </main>
+</div>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-col">
+      <h5>About EchoTV</h5>
+      <ul><li><a>Mission &amp; History</a></li><li><a>Cable Partners</a></li><li><a>Public Affairs</a></li><li><a>Press Center</a></li><li><a>Jobs</a></li></ul>
+    </div>
+    <div class="foot-col">
+      <h5>Video Library</h5>
+      <ul><li><a>Most Recent</a></li><li><a>Most Viewed</a></li><li><a>Most Shared</a></li><li><a>Featured Clips</a></li><li><a>Personal Video Library</a></li></ul>
+    </div>
+    <div class="foot-col">
+      <h5>Education</h5>
+      <ul><li><a>EchoTV Classroom</a></li><li><a>EchoStudentCam</a></li><li><a>Lesson Plans</a></li><li><a>The Presidents</a></li><li><a>Capitol Questions</a></li></ul>
+    </div>
+    <div class="foot-col">
+      <h5>Connect</h5>
+      <ul><li><a>Contact Us</a></li><li><a>Newsletters</a></li><li><a>Podcasts</a></li><li><a>EchoSocial · EchoPost · EchoTube</a></li><li><a>RSS Feeds</a></li></ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    © 2026 EchoTV. Created by Cable. Offered as a Public Service.
+    <br><a>Privacy Notice</a> · <a>Cookie Preferences</a> · <a>Terms of Use</a> · <a>Copyright &amp; Licensing</a> · <a>FAQ</a>
+  </div>
+</footer>
+
+
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+const ENV_ID = "W02_E03";
+let filterState = {};
+
+function getTaskId() {
+  return new URLSearchParams(window.location.search).get('task_id');
+}
+function getAnswer() {
+  const el = document.getElementById('task-answer-input');
+  return el ? el.value : '';
+}
+function submitState() {
+  const taskId = getTaskId();
+  const answer = getAnswer();
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(updateStatusBar).catch(()=>{});
+  applyBucketVisibility();
+  updateResultCount();
+}
+function applyBucketVisibility() {
+  const cards = document.querySelectorAll('[data-card-bucket]');
+  cards.forEach(card => {
+    if (!filterState.bucket) { card.style.display = ''; return; }
+    card.style.display = (card.getAttribute('data-card-bucket') === filterState.bucket) ? '' : 'none';
+  });
+}
+function updateResultCount() {
+  const c = document.getElementById('result-count');
+  if (!c) return;
+  const cards = document.querySelectorAll('[data-card-bucket]');
+  let total = cards.length;
+  if (filterState.bucket) {
+    total = Array.from(cards).filter(x => x.getAttribute('data-card-bucket') === filterState.bucket).length;
+  }
+  c.textContent = total;
+}
+function updateStatusBar(data) {
+  const bar = document.getElementById('live-status');
+  if (!bar) return;
+  let msg, cls;
+  if (data && data.task_id) {
+    if (data.satisfies) { msg = '✅ Satisfies task ' + data.task_id; cls = 'good'; }
+    else { msg = '⏳ Working on task ' + data.task_id + ' — ' + (data.message || ''); cls = 'pending'; }
+  } else {
+    msg = '💾 State auto-saved'; cls = 'neutral';
+  }
+  bar.className = 'live-status ' + cls;
+  bar.querySelector('.ls-msg').textContent = msg;
+  bar.querySelector('.ls-state pre').textContent = JSON.stringify(filterState, null, 2);
+}
+function setBucket(label) {
+  if (!label) { delete filterState.bucket; }
+  else { filterState.bucket = label; }
+  refreshActiveUI();
+  submitState();
+}
+function clearBucket() { setBucket(''); }
+function refreshActiveUI() {
+  document.querySelectorAll('select[data-bucket-select]').forEach(sel => {
+    sel.value = filterState.bucket || '';
+  });
+  document.querySelectorAll('[data-bucket-val]').forEach(el => {
+    if (el.getAttribute('data-bucket-val') === filterState.bucket) el.classList.add('is-active');
+    else el.classList.remove('is-active');
+  });
+}
+function escapeHtml(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function loadTaskBanner() {
+  const tid = getTaskId();
+  fetch('/env/' + ENV_ID + '/api/task/' + encodeURIComponent(tid))
+    .then(r => r.ok ? r.json() : null)
+    .then(task => {
+      if (!task) return;
+      const banner = document.getElementById('task-banner');
+      if (!banner) return;
+      banner.style.display = 'block';
+      const answerInput = task.task_type !== 'write'
+        ? '<div class="tb-answer-row"><label class="tb-answer-label">Your answer:</label>' +
+          '<input id="task-answer-input" class="tb-answer-input" placeholder="Type your finding here" oninput="submitState()"></div>'
+        : '';
+      banner.innerHTML =
+        '<div class="tb-head">' +
+          '<span class="tb-id">' + escapeHtml(task.id) + '</span>' +
+          '<span class="tb-type tb-type-' + escapeHtml(task.task_type) + '">' + escapeHtml((task.task_type||'').toUpperCase()) + '</span>' +
+          '<span class="tb-diff">' + escapeHtml(task.task_difficulty || '') + '</span>' +
+        '</div>' +
+        '<div class="tb-summary">' + escapeHtml(task.task_summary) + '</div>' +
+        answerInput +
+        (task.reference_state_change ? '<div class="tb-meta">Expected state: <code>' + escapeHtml(task.reference_state_change) + '</code></div>' : '') +
+        (task.reference_answer ? '<div class="tb-meta">Expected answer (debug): <code>' + escapeHtml(task.reference_answer.substring(0,200)) + '</code></div>' : '');
+    }).catch(()=>{});
+}
+window.addEventListener('DOMContentLoaded', () => {
+  loadTaskBanner();
+  updateResultCount();
+  submitState();
+});
+</script>
+
+</body></html>

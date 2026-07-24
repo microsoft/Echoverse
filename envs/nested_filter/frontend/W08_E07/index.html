@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoPlay — Game Reviews & Browse</title>
+<style>
+
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-body,'Open Sans',Arial,sans-serif);background:var(--page-bg,#fff);color:var(--ink,#1a1a1a);font-size:14px;line-height:1.5}
+a{color:var(--brand-primary);text-decoration:none;cursor:pointer}
+button{font-family:inherit;cursor:pointer}
+.strip{padding:10px 28px;background:#f5f6f7;border-bottom:1px solid #e3e5e7;font-size:12px;color:#555;display:flex;gap:8px;align-items:center}
+.strip a{color:#555}
+.strip b{color:#222}
+.strip .sep{color:#aaa}
+.page{display:grid;grid-template-columns:260px 1fr;gap:28px;padding:18px 28px;min-height:80vh;max-width:1400px;margin:0 auto}
+.aside h3{font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:#999;margin:0 0 12px;border-bottom:1px solid #eee;padding-bottom:6px}
+.aside h4{font-size:13px;margin:14px 0 6px;color:#333;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.fsec{border-bottom:1px solid #ececec;padding:6px 0 14px}
+.fsec .opts label{display:flex;align-items:center;gap:8px;font-size:13px;padding:3px 0;cursor:pointer}
+.fsec input[type=checkbox],.fsec input[type=radio]{accent-color:var(--brand-primary)}
+.facet-clear{font-size:11px;color:var(--brand-primary);cursor:pointer;text-decoration:underline}
+.results{display:flex;flex-direction:column;gap:14px;min-width:0}
+.results-head{display:flex;align-items:center;gap:12px;padding:6px 0}
+.results-head h1{font-size:22px;margin:0;color:var(--ink)}
+.rc-count{color:#666;font-size:13px}
+.sort-dd{margin-left:auto;padding:6px 12px;border:1px solid #ddd;border-radius:4px;background:#fff;font-size:13px}
+.empty-msg{padding:32px;text-align:center;color:#999;border:1px dashed #d0d0d0;border-radius:8px}
+.footer{margin-top:48px;padding:20px 28px;border-top:1px solid #eee;color:#888;font-size:12px;background:#fafafa;text-align:center}
+
+/* Chip default visuals (per-placement overrides below) */
+.fc{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:14px;font-size:12px;font-weight:600;background:#eef2f7;color:#1f3a5f;border:1px solid #d4dceb;line-height:1}
+.fc .x{cursor:pointer;opacity:.6;font-size:15px;line-height:1;padding:0 2px;border-radius:50%;font-weight:bold}
+.fc .x:hover{opacity:1;background:rgba(0,0,0,.1)}
+.fc:empty{display:none}
+.chiprail{display:flex;flex-wrap:wrap;gap:8px}
+.chiprail:empty:before{content:"No filters applied";color:#bbb;font-size:11px;font-style:italic}
+.rail-label{font-size:12px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.clear-all{font-size:12px;color:var(--brand-primary);cursor:pointer;text-decoration:underline;margin-left:auto;white-space:nowrap}
+
+/* Placement: sticky_after_nav — Steam-style dark filter rail */
+.chip-sticky{position:sticky;top:0;z-index:30;background:linear-gradient(180deg,#1b2838,#16202d);padding:12px 28px;border-bottom:1px solid #0e1822;display:flex;gap:12px;align-items:center;box-shadow:0 2px 6px rgba(0,0,0,.4);flex-wrap:wrap;min-height:52px}
+.chip-sticky .rail-label{color:#66c0f4;font-weight:700}
+.chip-sticky .chiprail:empty:before{color:#5a6b7a}
+.chip-sticky .fc{background:linear-gradient(180deg,#67c1f5 5%,#417a9b 95%);color:#fff;border:1px solid #1f4a6b;border-radius:2px;padding:5px 4px 5px 10px;text-shadow:0 1px 0 rgba(0,0,0,.3);box-shadow:0 1px 0 rgba(255,255,255,.15) inset}
+.chip-sticky .fc .x{color:#cfe8ff;font-size:14px;padding:0 6px}
+.chip-sticky .fc .x:hover{color:#fff;background:rgba(255,255,255,.15)}
+.chip-sticky .clear-all{color:#66c0f4}
+
+/* Placement: top_bar (bright bar above breadcrumb) */
+.chip-topbar{background:var(--brand-accent,#fff200);padding:10px 28px;display:flex;gap:12px;align-items:center;border-top:1px solid rgba(0,0,0,.08);border-bottom:1px solid rgba(0,0,0,.1);flex-wrap:wrap}
+.chip-topbar .fc{background:#fff;color:#222;border:2px solid rgba(0,0,0,.15);border-radius:18px;padding:5px 12px;font-weight:700}
+.chip-topbar .fc .x{color:#444}
+
+/* Placement: breadcrumb_style */
+.chip-crumbs{padding:10px 28px;background:#fff;border-bottom:1px solid #eee;display:flex;gap:10px;align-items:center;font-size:13px;flex-wrap:wrap}
+.chip-crumbs .fc{background:transparent;color:var(--brand-primary);border:none;padding:2px 0;font-weight:600}
+.chip-crumbs .fc:after{content:"›";color:#999;margin-left:10px;font-weight:400}
+.chip-crumbs .fc:last-child:after{display:none}
+.chip-crumbs .fc .x{margin-left:4px;color:var(--brand-primary);background:rgba(0,0,0,.05);width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
+
+/* Placement: in_page_anchor */
+.chip-anchor-fab{display:none;position:fixed;bottom:24px;right:24px;z-index:40;background:var(--brand-primary);color:#fff;padding:10px 16px;border-radius:24px;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(0,0,0,.2);font-size:13px;font-weight:700;text-decoration:none}
+.chip-anchor-fab:hover{background:var(--brand-primary-dark)}
+.chip-anchor-zone{padding:14px 28px;background:linear-gradient(90deg,rgba(0,0,0,.02),rgba(0,0,0,.04));border-top:3px solid var(--brand-primary);border-bottom:1px solid #eee;display:flex;gap:12px;align-items:center;flex-wrap:wrap;scroll-margin-top:80px}
+.chip-anchor-zone .fc{background:#fff;border:1.5px solid var(--brand-primary);color:var(--brand-primary);padding:5px 12px;border-radius:4px;font-weight:600}
+.chip-anchor-zone .fc .x{color:var(--brand-primary)}
+
+/* Placement: inline_above_results */
+.chip-inline{padding:10px 14px;background:rgba(0,0,0,.02);border:1px dashed #d4d4d4;border-radius:8px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.chip-inline .fc{background:var(--brand-primary);color:#fff;border-color:var(--brand-primary-dark);border-radius:14px;padding:4px 10px}
+.chip-inline .fc .x{color:#fff}
+
+
+:root{--brand-primary:#66c0f4;--brand-primary-dark:#1a9fff;--brand-accent:#66c0f4;--page-bg:#1b2838;--ink:#c7d5e0;--font-body:'Motiva Sans','Open Sans',Arial,sans-serif}
+body{background:linear-gradient(180deg,#1b2838 0%,#16202d 60%,#0e1822 100%)}
+.strip{background:#171a21;color:#8f98a0;border-bottom:1px solid #0e1822}
+.strip a{color:#8f98a0}.strip b{color:#fff}.strip .sep{color:#444}
+.aside h3{color:#8f98a0;border-bottom-color:#1a3a5e}
+.aside h4{color:#fff}
+.fsec{border-bottom-color:#1a3a5e}
+.fsec .opts label{color:#c7d5e0}
+.results-head h1{color:#fff;text-transform:uppercase;letter-spacing:.5px;font-weight:300;font-size:26px}
+.rc-count{color:#8f98a0}
+.sort-dd{background:linear-gradient(180deg,#3a6c8d,#2a5572);color:#cfe8ff;border:1px solid #0e1822;border-radius:2px}
+.empty-msg{background:rgba(0,0,0,.2);border-color:#1a3a5e;color:#8f98a0}
+
+/* Steam-style top header */
+.vp-top{background:linear-gradient(180deg,#171a21,#0e1822);color:#fff;border-bottom:1px solid #0e1822;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.vp-top-inner{display:flex;align-items:center;padding:14px 28px;gap:30px;max-width:1400px;margin:0 auto}
+.vp-logo{display:flex;align-items:center;gap:10px;font-size:23px;font-weight:300;letter-spacing:1px;color:#fff}
+.vp-logo-mark{width:36px;height:36px;border-radius:50%;background:#66c0f4;position:relative;box-shadow:0 1px 2px rgba(0,0,0,.5);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:24px;line-height:1}
+.vp-logo-mark:after{content:none;display:none}
+.vp-logo-mark:before{content:none;display:none}
+.vp-logo-text{font-family:'Motiva Sans',Arial,sans-serif;font-weight:300}
+.vp-logo-sup{font-size:9px;color:#66c0f4;vertical-align:super;margin-left:2px}
+.vp-nav{flex:1;display:flex;gap:30px;align-items:center}
+.vp-nav a{color:#b8bcbf;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;position:relative;padding:4px 0}
+.vp-nav a.active{color:#fff}
+.vp-nav a.active:after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:#66c0f4}
+.vp-nav a:hover{color:#fff}
+.vp-account{display:flex;gap:14px;font-size:11px;align-items:center}
+.vp-install{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(180deg,#a4d007 5%,#536904 95%);color:#fff !important;padding:5px 12px;border-radius:2px;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
+.vp-install:hover{background:linear-gradient(180deg,#b6e016 5%,#6a8505 95%)}
+.vp-install:before{content:"⬇";font-size:10px}
+.vp-signin{color:#b8bcbf}
+.vp-lang{color:#b8bcbf;display:inline-flex;align-items:center;gap:4px}
+.vp-lang:after{content:"▾";font-size:10px}
+
+/* Secondary nav row with search */
+.vp-subnav{background:linear-gradient(180deg,#1b2838,#1b2838 80%,#162536);padding:0 28px;display:flex;gap:0;border-top:1px solid #1a3a5e;align-items:center;max-width:1400px;margin:0 auto}
+.vp-subnav a{color:#dcdedf;font-size:12px;padding:11px 16px;text-transform:none;letter-spacing:.2px;font-weight:400;display:inline-flex;align-items:center;gap:5px}
+.vp-subnav a.dd:after{content:"▾";font-size:9px;color:#66c0f4;margin-left:3px}
+.vp-subnav a:hover{color:#fff;background:rgba(102,192,244,.1)}
+.vp-search{margin-left:auto;display:flex;align-items:center;background:linear-gradient(180deg,#316282,#1b2838);border:1px solid #0e1822;border-radius:2px;padding:0;height:30px}
+.vp-search input{background:transparent;border:0;color:#cfe8ff;padding:0 12px;width:220px;font-size:13px;outline:none;font-family:inherit}
+.vp-search input::placeholder{color:#8aa9be;font-style:italic}
+.vp-search .vp-go{background:linear-gradient(180deg,#67c1f5 5%,#417a9b 95%);color:#0e1822;border:0;width:36px;height:30px;cursor:pointer;font-weight:bold;border-radius:0 2px 2px 0;font-size:14px}
+.vp-search .vp-go:hover{background:linear-gradient(180deg,#7ed0ff 5%,#5290b3 95%)}
+
+.footer{background:#0e1822;color:#5c7281;border-top:1px solid #1a3a5e}
+
+
+.result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.vp-tile{background:linear-gradient(180deg,#2a475e,#1b2838);border:1px solid #000;border-radius:3px;overflow:hidden;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s;cursor:pointer}
+.vp-tile:hover{transform:translateY(-2px);box-shadow:0 4px 18px rgba(102,192,244,.4);border-color:#66c0f4}
+.vp-img{height:130px;background:#0e1822 no-repeat center/cover;border-bottom:1px solid #000}
+.vp-body{padding:12px}
+.vp-title{font-weight:600;color:#fff;font-size:14px;margin-bottom:3px;font-family:'Motiva Sans',Arial,sans-serif}
+.vp-dev{font-size:11px;color:#66c0f4;margin-bottom:8px}
+.vp-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.vp-tag{font-size:10px;padding:3px 7px;background:rgba(103,193,245,.2);color:#67c1f5;border-radius:2px;text-transform:none;letter-spacing:.3px}
+.vp-tag.vp-stage{background:rgba(212,170,72,.2);color:#d4aa48}
+.vp-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #1a3a5e;padding-top:8px;font-size:11px;color:#8f98a0}
+.vp-price{color:#beee11;font-weight:600;font-size:13px;background:#000;padding:3px 8px;border-radius:2px}
+.vp-rev{color:#66c0f4}
+
+/* Sidebar (right) panel styling */
+.page{max-width:1400px}
+.aside{background:rgba(0,0,0,.15);padding:14px 16px;border-radius:3px;border:1px solid rgba(102,192,244,.08)}
+
+</style>
+</head>
+<body>
+
+<header class="vp-top">
+  <div class="vp-top-inner">
+    <div class="vp-logo">
+      <span class="vp-logo-mark">E</span>
+      <span class="vp-logo-text">EchoPlay<span class="vp-logo-sup">®</span></span>
+    </div>
+    <nav class="vp-nav">
+      <a class="active">STORE</a><a>COMMUNITY</a><a>ABOUT</a><a>SUPPORT</a>
+    </nav>
+    <div class="vp-account">
+      <a class="vp-install">Install EchoPlay</a>
+      <a class="vp-signin">sign in</a>
+      <span style="color:#444">|</span>
+      <a class="vp-lang">language</a>
+    </div>
+  </div>
+  <nav class="vp-subnav">
+    <a class="dd">Browse</a><a class="dd">Recommendations</a><a class="dd">Categories</a><a class="dd">Hardware</a><a class="dd">Ways to Play</a><a class="dd">Special Sections</a>
+    <div class="vp-search">
+      <input type="text" placeholder="search the store" aria-label="Search the store">
+      <button class="vp-go" type="button" aria-label="Search">🔍</button>
+    </div>
+  </nav>
+</header>
+
+<div class="chip-sticky">
+  <span class="rail-label">Active filters</span>
+  <div class="chiprail" id="active-chips"></div>
+  <a class="clear-all" onclick="lsReset()">Clear all</a>
+</div>
+<main class="page"><aside class="aside"><h3>Refine results</h3><div class="fsec" data-facet-group="brand"><h4>Developer<a class="facet-clear" onclick="clearFacet(this,'brand')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="brand" value="CD Projekt" onchange="onF()"> <span class="opt-lbl">Echo Redworks</span></label><label><input type="checkbox" data-facet="brand" value="Concerned Ape" onchange="onF()"> <span class="opt-lbl">Echo Grove</span></label><label><input type="checkbox" data-facet="brand" value="Maddy Makes" onchange="onF()"> <span class="opt-lbl">Echo Workshop</span></label><label><input type="checkbox" data-facet="brand" value="Mega Crit" onchange="onF()"> <span class="opt-lbl">Echo Critic</span></label><label><input type="checkbox" data-facet="brand" value="Team Cherry" onchange="onF()"> <span class="opt-lbl">Echo Orchard</span></label><label><input type="checkbox" data-facet="brand" value="ZA/UM" onchange="onF()"> <span class="opt-lbl">Echo Collective</span></label></div></div><div class="fsec" data-facet-group="category"><h4>Genre<a class="facet-clear" onclick="clearFacet(this,'category')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="category" value="Action" onchange="onF()"> <span class="opt-lbl">Action</span></label><label><input type="checkbox" data-facet="category" value="Adventure" onchange="onF()"> <span class="opt-lbl">Adventure</span></label><label><input type="checkbox" data-facet="category" value="Platformer" onchange="onF()"> <span class="opt-lbl">Platformer</span></label><label><input type="checkbox" data-facet="category" value="RPG" onchange="onF()"> <span class="opt-lbl">RPG</span></label><label><input type="checkbox" data-facet="category" value="Roguelike" onchange="onF()"> <span class="opt-lbl">Roguelike</span></label><label><input type="checkbox" data-facet="category" value="Simulation" onchange="onF()"> <span class="opt-lbl">Simulation</span></label><label><input type="checkbox" data-facet="category" value="Strategy" onchange="onF()"> <span class="opt-lbl">Strategy</span></label></div></div><div class="fsec" data-facet-group="color"><h4>Platform<a class="facet-clear" onclick="clearFacet(this,'color')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="color" value="PC" onchange="onF()"> <span class="opt-lbl">PC</span></label></div></div><div class="fsec" data-facet-group="condition"><h4>Release Stage<a class="facet-clear" onclick="clearFacet(this,'condition')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="condition" value="DLC" onchange="onF()"> <span class="opt-lbl">DLC</span></label><label><input type="checkbox" data-facet="condition" value="Early access" onchange="onF()"> <span class="opt-lbl">Early access</span></label><label><input type="checkbox" data-facet="condition" value="New release" onchange="onF()"> <span class="opt-lbl">New release</span></label><label><input type="checkbox" data-facet="condition" value="Stable" onchange="onF()"> <span class="opt-lbl">Stable</span></label></div></div><div class="fsec" data-facet-group="price"><h4>Price<a class="facet-clear" onclick="clearPrice()">clear</a></h4><div class="opts"><label><input type="radio" name="ptier" data-tier="0-9" onchange="setPriceTier(this)"> Free–$9</label><label><input type="radio" name="ptier" data-tier="10-19" onchange="setPriceTier(this)"> $10–$19</label><label><input type="radio" name="ptier" data-tier="20-39" onchange="setPriceTier(this)"> $20–$39</label><label><input type="radio" name="ptier" data-tier="40-79" onchange="setPriceTier(this)"> $40+</label></div></div><div class="fsec" data-facet-group="rating"><h4>Rating<a class="facet-clear" onclick="clearFacet(this,'rating_min')">clear</a></h4><div class="opts"><label><input type="radio" name="rating_min" data-facet="rating_min" value="4" onchange="onF()"> 4★ &amp; up</label><label><input type="radio" name="rating_min" data-facet="rating_min" value="3" onchange="onF()"> 3★ &amp; up</label></div></div></aside>
+<section class="results">
+  
+  
+  <div class="results-head">
+    <h1>Browse Games & Reviews</h1>
+    <span class="rc-count" id="result-count">18 games</span>
+    <select class="sort-dd"><option>Sort: Recommended</option><option>Highest Rated</option><option>Price: Low to High</option><option>Newest</option></select>
+  </div>
+  <div class="result-grid" id="result-grid"></div>
+</section></main>
+<footer class="footer">© 2025 EchoPlay LLC. All rights reserved. All trademarks are property of their respective owners. <span style="color:#66c0f4">VAT</span> included where applicable. &nbsp;|&nbsp; Privacy Policy &nbsp;|&nbsp; Legal &nbsp;|&nbsp; Refunds</footer>
+
+<script>
+const ENV_ID = 'W08_E07';
+let filterState = {};
+
+function buildStateFromDom() {
+  const s = {};
+  document.querySelectorAll('input[type=checkbox][data-facet]').forEach(el => {
+    if (el.checked) {
+      const f = el.dataset.facet;
+      (s[f] = s[f] || []).push(el.value);
+    }
+  });
+  document.querySelectorAll('input[type=radio][data-facet]:checked').forEach(el => {
+    s[el.dataset.facet] = el.value;
+  });
+  const tierEl = document.querySelector('input[name="ptier"]:checked');
+  if (tierEl) {
+    const [mn, mx] = (tierEl.dataset.tier || '').split('-').map(Number);
+    if (!isNaN(mn)) s.min_price = mn;
+    if (!isNaN(mx)) s.max_price = mx;
+  }
+  return s;
+}
+
+let _submitChain = Promise.resolve();
+function applyFilters() {
+  filterState = buildStateFromDom();
+  // Render chips synchronously so the agent gets instant visual
+  // confirmation of every pick — the widget mechanic is that the
+  // agent must verify each required chip is present in the bar.
+  renderActiveChips();
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    updateResults(data.results || []);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length + ' games';
+  }).catch(() => {});
+  // Autosave on every change — chained sequentially via _submitChain
+  // so submits from rapid successive picks arrive at the backend in
+  // click-order. Without this, FastAPI's threadpool can process them
+  // out of order and the CURRENT row may reflect a stale state.
+  const snapshot = JSON.parse(JSON.stringify(filterState));
+  _submitChain = _submitChain.then(() => fetch(
+    '/env/' + ENV_ID + '/api/submit',
+    {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({filter_state: snapshot, task_id: taskId})
+    }
+  ).catch(() => {}));
+}
+
+function onF() { applyFilters(); }
+
+function setPriceTier(el) { onF(); }
+function clearPrice() {
+  document.querySelectorAll('input[name="ptier"]').forEach(e => e.checked = false);
+  onF();
+}
+
+function escapeHtml(s) {
+  return (s == null ? '' : String(s)).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+}
+
+const FACET_LABELS = {"brand": "Developer", "category": "Genre", "color": "Platform", "condition": "Release Stage"};
+
+function chipLabel(facet, value) {
+  if (facet === 'min_price') return 'min ≥ $' + value;
+  if (facet === 'max_price') return 'max ≤ $' + value;
+  if (facet === 'price_range') return 'Price: ' + value;
+  if (facet === 'rating_min') return '★ ≥ ' + value;
+  const lbl = FACET_LABELS[facet] || facet;
+  return lbl + ': ' + value;
+}
+
+function renderActiveChips() {
+  const bars = document.querySelectorAll('.chiprail, #active-chips');
+  if (!bars.length) return;
+  const items = [];
+  const hasMin = 'min_price' in filterState, hasMax = 'max_price' in filterState;
+  if (hasMin || hasMax) {
+    const lo = hasMin ? '$' + filterState.min_price : 'any';
+    const hi = hasMax ? '$' + filterState.max_price : 'any';
+    items.push({facet:'price_range', value: lo + '–' + hi});
+  }
+  for (const [k, v] of Object.entries(filterState)) {
+    if (k === 'min_price' || k === 'max_price') continue;
+    if (Array.isArray(v)) {
+      v.forEach(val => items.push({facet:k, value: val}));
+    } else {
+      items.push({facet:k, value: v});
+    }
+  }
+  const html = items.map(it => {
+    const lbl = escapeHtml(chipLabel(it.facet, it.value));
+    const argF = escapeHtml(JSON.stringify(it.facet));
+    const argV = escapeHtml(JSON.stringify(it.value));
+    return '<span class="fc" data-facet="' + escapeHtml(it.facet) + '" data-value="' + escapeHtml(String(it.value)) + '">'
+      + '<span class="lbl">' + lbl + '</span>'
+      + '<span class="x" role="button" tabindex="0" title="Remove" onclick="removeActiveChip(' + argF + ',' + argV + ')">×</span>'
+      + '</span>';
+  }).join('');
+  bars.forEach(bar => { bar.innerHTML = html; });
+  // Show/hide an optional "anchor" link to chip rail if present
+  const anchorBtn = document.getElementById('chip-anchor-btn');
+  if (anchorBtn) {
+    anchorBtn.style.display = items.length ? 'inline-flex' : 'none';
+    const cnt = anchorBtn.querySelector('.anchor-count');
+    if (cnt) cnt.textContent = items.length;
+  }
+}
+
+function removeActiveChip(facet, value) {
+  const valStr = (value == null) ? '' : String(value);
+  if (facet === 'price_range') {
+    document.querySelectorAll('input[name="ptier"]').forEach(e => e.checked = false);
+    onF();
+    return;
+  }
+  document.querySelectorAll('input[type=checkbox][data-facet="' + facet + '"]').forEach(i => {
+    if (i.value === valStr) i.checked = false;
+  });
+  document.querySelectorAll('input[type=radio][data-facet="' + facet + '"]').forEach(i => {
+    if (i.value === valStr) i.checked = false;
+  });
+  onF();
+}
+
+function lsReset() {
+  document.querySelectorAll('input[data-facet], input[name="ptier"]').forEach(el => {
+    if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+  });
+  onF();
+}
+
+function clearFacet(a, facet) {
+  document.querySelectorAll('input[data-facet="' + facet + '"]').forEach(i => {
+    if (i.type === 'checkbox' || i.type === 'radio') i.checked = false;
+  });
+  onF();
+}
+
+function updateResults(results) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div class="empty-msg">No results match your filters.</div>';
+    return;
+  }
+  grid.innerHTML = results.map(r => renderCard(r)).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  applyFilters();
+});
+</script>
+
+<script>
+function renderCard(r) {
+  const img = escapeHtml(r.image_url || '');
+  const title = escapeHtml(r.title || '?');
+  const dev = escapeHtml(r.brand || '');
+  const stage = escapeHtml(r.condition || '');
+  const plat = escapeHtml(r.color || '');
+  const genre = escapeHtml(r.category || '');
+  const price = r.price > 0 ? '$' + r.price : 'Free to Play';
+  return `<div class="vp-tile">
+    <div class="vp-img" style="background-image:url('${img}')"></div>
+    <div class="vp-body">
+      <div class="vp-title">${title}</div>
+      <div class="vp-dev">${dev}</div>
+      <div class="vp-tags"><span class="vp-tag">${genre}</span><span class="vp-tag">${plat}</span><span class="vp-tag vp-stage">${stage}</span></div>
+      <div class="vp-foot"><span class="vp-rev">Mostly Positive</span><span class="vp-price">${price}</span></div>
+    </div>
+  </div>`;
+}
+</script>
+
+<style>
+.seo-block{background:#fafafa;border-top:1px solid #e5e5e5;padding:32px 28px;color:#555;font-size:12px;line-height:1.6}
+.seo-inner{max-width:1400px;margin:0 auto}
+.seo-blurb{font-size:13px;color:#666;max-width:920px;margin:0 auto 24px;text-align:center;line-height:1.65}
+.seo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
+.seo-col h6{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#222;margin:0 0 10px;font-weight:700}
+.seo-col ul{list-style:none;margin:0;padding:0}
+.seo-col li{padding:3px 0}
+.seo-col li a{color:#666;font-size:12px;text-decoration:none}
+.seo-col li a:hover{color:#333;text-decoration:underline}
+</style>
+<section class="seo-block"><div class="seo-inner"><div class="seo-blurb">EchoPlay is the digital storefront and community hub for PC gamers. Discover thousands of games across every genre, read honest user reviews, share screenshots and guides, and stay connected with your friends through chat, voice, and party invites.</div><div class="seo-grid"><div class="seo-col"><h6>Browse the Catalog</h6><ul><li><a>New Releases</a></li><li><a>Top Sellers</a></li><li><a>Free to Play</a></li><li><a>Early Access</a></li><li><a>DLC & Add-Ons</a></li><li><a>Indie Games</a></li><li><a>AAA Titles</a></li><li><a>VR Games</a></li><li><a>Local Multiplayer</a></li><li><a>Couch Co-Op</a></li></ul></div><div class="seo-col"><h6>By Genre</h6><ul><li><a>Action</a></li><li><a>Adventure</a></li><li><a>RPG</a></li><li><a>Strategy</a></li><li><a>Simulation</a></li><li><a>Roguelike</a></li><li><a>Platformer</a></li><li><a>Puzzle</a></li><li><a>Sports</a></li><li><a>Survival Horror</a></li></ul></div><div class="seo-col"><h6>Featured Developers</h6><ul><li><a>Echo Orchard</a></li><li><a>Echo Grove</a></li><li><a>Echo Critic</a></li><li><a>Echo Workshop Games</a></li><li><a>Echo Collective</a></li><li><a>Echo Redworks</a></li><li><a>Echo Giant Games</a></li><li><a>Echo Dragon Studios</a></li><li><a>EchoSoft</a></li><li><a>Echo Digital</a></li></ul></div><div class="seo-col"><h6>Platform Support</h6><ul><li><a>Windows PC</a></li><li><a>macOS</a></li><li><a>EchoPlayOS / Linux</a></li><li><a>EchoPlay Deck</a></li><li><a>VR (EchoView, EchoVR)</a></li><li><a>Controller Support</a></li><li><a>Cloud Saves</a></li><li><a>Big Picture Mode</a></li><li><a>Family Sharing</a></li><li><a>Workshop Mods</a></li></ul></div></div></div></section></body></html>

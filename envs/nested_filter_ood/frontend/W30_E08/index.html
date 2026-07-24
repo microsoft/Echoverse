@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoCloud RDS — Create database | EchoCloud Console</title>
+<style>
+
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+body { font-family: 'Amazon Ember', 'Helvetica Neue', Arial, sans-serif; background: #0f1419; color: #d1d5db; font-size: 13px; line-height: 1.5; }
+a { color: #44b9d6; text-decoration: none; }
+
+/* AWS Console top */
+.site-header { background: #161e2d; color: #fff; padding: 0 16px; height: 40px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #2b3543; }
+.logo-block { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+.logo-glyph { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; background: #ff9900; color: #161e2d; border-radius: 2px; font-size: 12px; font-weight: 800; line-height: 1; }
+.logo-text { font-size: 14px; color: #fff; }
+.search-bar { padding: 5px 12px; border-radius: 2px; background: #2b3543; border: 1px solid #3b4554; color: #d1d5db; font-size: 12px; width: 380px; }
+.nav-icon { color: #d1d5db; padding: 4px 10px; font-size: 12px; cursor: pointer; border-left: 1px solid #2b3543; }
+.region-btn { padding: 5px 12px; background: #2b3543; border-radius: 2px; color: #fff; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+.region-btn .lbl { opacity: .7; }
+.region-btn .val { font-weight: 600; color: #ff9900; }
+
+/* service breadcrumb bar */
+.svc-bar { background: #20283a; color: #fff; padding: 12px 16px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid #2b3543; font-size: 13px; }
+.svc-bar .logo { background: #ff9900; color: #161e2d; padding: 4px 8px; border-radius: 2px; font-weight: 700; font-size: 11px; }
+.svc-bar a { color: #d1d5db; opacity: .85; }
+.svc-bar .crumb-sep { opacity: .5; }
+
+.layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 80px); }
+
+.left-nav { background: #161e2d; border-right: 1px solid #2b3543; padding: 8px 0; }
+.ln-h { padding: 10px 16px; color: #ff9900; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
+.ln-item { padding: 8px 16px; color: #d1d5db; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+.ln-item:hover { background: #20283a; color: #fff; }
+.ln-item.active { background: #20283a; color: #ff9900; border-left: 3px solid #ff9900; padding-left: 13px; }
+.ln-section { border-top: 1px solid #2b3543; margin-top: 6px; padding-top: 6px; }
+
+.main { padding: 22px 28px; max-width: 1100px; }
+.page-h { font-size: 22px; color: #fff; margin: 0 0 4px; }
+.page-sub { color: #99a4b5; font-size: 13px; margin-bottom: 18px; }
+
+.console-card { background: #1a2236; border: 1px solid #2b3543; border-radius: 4px; margin-bottom: 18px; }
+.console-card .ch { padding: 12px 18px; border-bottom: 1px solid #2b3543; display: flex; align-items: center; gap: 10px; }
+.console-card .ch h2 { margin: 0; font-size: 15px; color: #fff; font-weight: 700; }
+.console-card .ch .info { color: #99a4b5; font-size: 12px; margin-left: 8px; }
+.console-card .cb { padding: 18px; }
+
+/* engine tabs */
+.engine-tabs { display: flex; gap: 0; border-bottom: 1px solid #2b3543; overflow-x: auto; margin-bottom: 14px; }
+.engine-tab { padding: 12px 18px; background: none; border: 0; border-bottom: 3px solid transparent; color: #d1d5db; font-size: 12px; cursor: pointer; font-weight: 600; white-space: nowrap; }
+.engine-tab:hover { color: #ff9900; }
+.engine-tab.active { color: #ff9900; border-bottom-color: #ff9900; }
+
+.fld { margin-bottom: 14px; }
+.fld-label { display: block; font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 5px; }
+.fld-hint { color: #99a4b5; font-size: 11px; margin-top: 4px; }
+.big-sel, .big-inp { width: 100%; padding: 7px 10px; border: 1px solid #3b4554; border-radius: 2px; font-size: 13px; background: #0f1419; color: #fff; }
+.big-sel option { background: #0f1419; color: #fff; }
+.big-sel:focus, .big-inp:focus { outline: 1px solid #ff9900; outline-offset: 0; border-color: #ff9900; }
+
+.usage-block { background: #0f1419; border: 1px solid #2b3543; border-radius: 2px; padding: 12px 14px; margin-bottom: 14px; }
+.usage-block h3 { margin: 0 0 8px; font-size: 13px; color: #ff9900; }
+.usage-row { display: grid; grid-template-columns: 1.4fr 28px 1.2fr 28px 1fr; align-items: center; gap: 8px; padding: 6px 0; border-top: 1px dashed #2b3543; }
+.usage-row:first-child { border-top: 0; }
+.ur-input { padding: 7px 10px; border: 1px solid #3b4554; border-radius: 2px; font-size: 13px; background: #20283a; color: #fff; }
+.ur-unit-lbl { font-size: 11px; color: #99a4b5; margin-top: 4px; display: block; }
+.ur-op { text-align: center; color: #99a4b5; font-weight: 700; }
+.ur-rate { font-size: 13px; color: #fff; }
+.ur-rate-sub { font-size: 11px; color: #99a4b5; }
+.ur-result { font-weight: 700; color: #ff9900; text-align: right; }
+
+.rad-tier { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border: 1px solid #2b3543; border-radius: 2px; margin-bottom: 4px; cursor: pointer; font-size: 12px; background: #0f1419; color: #fff; }
+.rad-tier:hover { border-color: #ff9900; background: #1a2236; }
+.rad-tier input { accent-color: #ff9900; }
+.tier-name { flex: 1; }
+.tier-fee { color: #99a4b5; font-size: 11px; }
+
+.btn-reset { padding: 6px 14px; border: 1px solid #3b4554; background: #20283a; color: #fff; border-radius: 2px; font-size: 12px; cursor: pointer; }
+.btn-primary { padding: 6px 18px; border: 1px solid #ff9900; background: #ff9900; color: #161e2d; border-radius: 2px; font-size: 12px; cursor: pointer; font-weight: 700; }
+.estimate-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; }
+
+.result-card { background: #1a2236; border: 1px solid #ff9900; border-radius: 4px; padding: 18px; }
+.res-label { font-size: 11px; color: #99a4b5; text-transform: uppercase; letter-spacing: .04em; }
+.res-value { font-size: 28px; font-weight: 700; color: #ff9900; margin: 4px 0 6px; }
+.res-sub { font-size: 12px; color: #99a4b5; }
+.res-detail { display: grid; grid-template-columns: 90px 1fr; row-gap: 3px; margin-top: 12px; font-size: 12px; color: #d1d5db; }
+.res-detail .k { color: #99a4b5; }
+.res-breakdown-h { margin: 14px 0 6px; font-size: 11px; text-transform: uppercase; color: #99a4b5; letter-spacing: .06em; }
+.res-breakdown { width: 100%; border-collapse: collapse; font-size: 12px; color: #d1d5db; }
+.res-breakdown td { padding: 4px 0; border-bottom: 1px dashed #2b3543; }
+.res-breakdown td:last-child { text-align: right; }
+
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo-block"><span class="logo-glyph">E</span><span class="logo-text">EchoCloud</span></div>
+  <input class="search-bar" type="text" placeholder="[Alt+S] Search for services, features, blogs, docs, and more" disabled>
+  <div class="nav-icon">📣</div>
+  <div class="nav-icon">⚙</div>
+  <div class="nav-icon">🔔</div>
+  <div class="nav-icon">admin / 0123-4567-8901</div>
+  <div class="region-btn"><span class="lbl">Region:</span><span class="val" id="header-region">(Choose region)</span> ▾</div>
+</header>
+
+<div class="svc-bar">
+  <span class="logo">RDS</span>
+  <a>RDS</a><span class="crumb-sep">›</span>
+  <a>Databases</a><span class="crumb-sep">›</span>
+  <span>Create database</span>
+</div>
+
+<div class="layout">
+  <aside class="left-nav">
+    <div class="ln-h">EchoCloud RDS</div>
+    <div class="ln-item">Dashboard</div>
+    <div class="ln-item active">Databases</div>
+    <div class="ln-item">Query Editor</div>
+    <div class="ln-item">Performance Insights</div>
+    <div class="ln-item">Snapshots</div>
+    <div class="ln-item">Reserved instances</div>
+    <div class="ln-item">Proxies</div>
+    <div class="ln-section">
+      <div class="ln-h">Cost & usage</div>
+      <div class="ln-item">Pricing calculator</div>
+      <div class="ln-item">Budgets</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <h1 class="page-h">Create database</h1>
+    <div class="page-sub">Choose a database engine, configure instance size and region, then estimate monthly cost.</div>
+
+    <div class="console-card">
+      <div class="ch"><h2>1. Engine & instance</h2><span class="info">Choose the database engine and instance class.</span></div>
+      <div class="cb">
+        <div class="engine-tabs">
+          <button class="engine-tab active">MySQL</button>
+          <button class="engine-tab">PostgreSQL</button>
+          <button class="engine-tab">MariaDB</button>
+          <button class="engine-tab">Aurora MySQL</button>
+          <button class="engine-tab">Aurora PostgreSQL</button>
+          <button class="engine-tab">EchoCloud</button>
+          <button class="engine-tab">SQL Server</button>
+        </div>
+        <div class="fld"><label class="fld-label">DB instance class</label><select id="fld-service" class="big-sel" data-facet="service" onchange="onServiceChange()"><option selected>MySQL (db.m5.large)</option><option>PostgreSQL (db.m5.large)</option><option>MariaDB (db.m5.large)</option><option>EchoCloud BYOL (db.m5.large)</option><option>SQL Server SE (db.m5.large)</option><option>Aurora MySQL (db.r5.large)</option><option>Aurora PostgreSQL (db.r5.large)</option><option>Aurora Serverless v2 (1 ACU)</option></select></div>
+        <div class="fld"><label class="fld-label">Region</label><select id="fld-region" class="big-sel" data-facet="region" onchange="onF()"><option selected>(Choose region)</option><optgroup label="Americas"><option value="us-east-1 (N. Virginia)">us-east-1 (N. Virginia)</option><option value="us-east-2 (Ohio)">us-east-2 (Ohio)</option><option value="us-west-2 (Oregon)">us-west-2 (Oregon)</option><option value="us-west-1 (N. California)">us-west-1 (N. California)</option><option value="us-gov-west-1 (GovCloud)">us-gov-west-1 (GovCloud)</option><option value="ca-central-1 (Canada)">ca-central-1 (Canada)</option><option value="sa-east-1 (São Paulo)">sa-east-1 (São Paulo)</option></optgroup><optgroup label="Europe"><option value="eu-west-1 (Ireland)">eu-west-1 (Ireland)</option><option value="eu-central-1 (Frankfurt)">eu-central-1 (Frankfurt)</option><option value="eu-west-2 (London)">eu-west-2 (London)</option></optgroup><optgroup label="Asia / Pacific"><option value="ap-northeast-1 (Tokyo)">ap-northeast-1 (Tokyo)</option><option value="ap-southeast-1 (Singapore)">ap-southeast-1 (Singapore)</option><option value="ap-southeast-2 (Sydney)">ap-southeast-2 (Sydney)</option><option value="ap-south-1 (Mumbai)">ap-south-1 (Mumbai)</option></optgroup></select><div class="fld-hint">The Region selected here also updates the header region badge.</div></div>
+      </div>
+    </div>
+
+    <div class="console-card">
+      <div class="ch"><h2>2. Usage (DB-hours)</h2><span class="info">Default is on-demand. Override with a preset or your own value.</span></div>
+      <div class="cb">
+        <div class="usage-block"><h3 id="usage-block-title">Estimated monthly usage</h3><div class="usage-row"><div class="ur-input-wrap"><input id="fld-volume" class="ur-input" type="number" data-facet="volume" value="0" placeholder="0" oninput="onF()"><span class="ur-unit-lbl" id="vol-unit-lbl">DB-hour</span></div><div class="ur-op">×</div><div><div class="ur-rate" id="vol-rate">$0.17100</div><div class="ur-rate-sub" id="vol-rate-sub">per DB-hour</div></div><div class="ur-op">=</div><div class="ur-result" id="vol-result">$0.00</div></div><div class="usage-row" id="secondary-usage-row" style="display:none"><div class="ur-input-wrap"><input id="fld-volume-out" class="ur-input" type="number" data-facet="volume_out" value="0" placeholder="0" oninput="onF()"><span class="ur-unit-lbl" id="vol-out-unit-lbl">Output units</span></div><div class="ur-op">×</div><div><div class="ur-rate" id="vol-out-rate">$0.00000</div><div class="ur-rate-sub" id="vol-out-rate-sub">per unit</div></div><div class="ur-op">=</div><div class="ur-result" id="vol-out-result">$0.00</div></div></div>
+        <div class="fld"><label class="fld-label">Override usage</label><select id="fld-override" class="big-sel" data-facet="override" onchange="onOverrideChange()"><option selected>(default usage)</option><option>730 DB-hours (1 month always-on)</option><option>1460 DB-hours (Multi-AZ 1 month)</option><option>100 DB-hours</option><option>8760 DB-hours (1 year always-on)</option><option>200 ACU-hours (Aurora Serverless)</option><option>Custom… (type below)</option></select><input id="fld-override-custom" class="big-inp" type="text" data-facet="override_custom" placeholder="Type your custom monthly usage…" oninput="onCustomOverride()" style="margin-top:8px; display:none"></div>
+      </div>
+    </div>
+
+    <div class="console-card">
+      <div class="ch"><h2>3. EchoCloud Support plan</h2><span class="info">Optional flat monthly fee.</span></div>
+      <div class="cb">
+        <label class="rad-tier"><input type="radio" name="support" value="none" data-facet="support_tier" onchange="onF()" checked> <span class="tier-name">None</span> <span class="tier-fee">free</span></label>
+<label class="rad-tier"><input type="radio" name="support" value="developer" data-facet="support_tier" onchange="onF()" > <span class="tier-name">Developer</span> <span class="tier-fee">$29/mo</span></label>
+<label class="rad-tier"><input type="radio" name="support" value="business" data-facet="support_tier" onchange="onF()" > <span class="tier-name">Business</span> <span class="tier-fee">$100/mo</span></label>
+<label class="rad-tier"><input type="radio" name="support" value="enterprise" data-facet="support_tier" onchange="onF()" > <span class="tier-name">Enterprise</span> <span class="tier-fee">$5,500/mo</span></label>
+<label class="rad-tier"><input type="radio" name="support" value="enterprise_plus" data-facet="support_tier" onchange="onF()" > <span class="tier-name">Enterprise Plus</span> <span class="tier-fee">$15,000/mo</span></label>
+      </div>
+    </div>
+
+    <div class="estimate-row">
+      <button class="btn-reset" type="button" onclick="lsReset(event)">Cancel</button>
+      <button class="btn-primary" type="button" onclick="document.getElementById('result-card').scrollIntoView({behavior:'smooth'})">Estimate cost</button>
+      <span style="margin-left:auto;color:#99a4b5;font-size:11px">Auto-saves on every change</span>
+    </div>
+
+    <div class="result-card" id="result-card"><div class="res-label">Estimated monthly bill</div><div class="res-value" id="res-value">$0.00</div><div class="res-sub" id="res-sub">Your estimate updates automatically as you configure the form.</div><div class="res-detail"><div class="k">Region</div><div class="v" id="res-region">—</div><div class="k">Override</div><div class="v" id="res-override">—</div><div class="k">Service</div><div class="v" id="res-service">—</div><div class="k">Support</div><div class="v" id="res-support">—</div></div><h5 class="res-breakdown-h">Breakdown</h5><table class="res-breakdown"><tbody id="breakdown-table"></tbody></table></div>
+  </main>
+</div>
+
+<div id="task-banner" style="display:none"></div>
+
+<script>
+const ENV_ID = "W30_E08";
+const SERVICES = {"MySQL (db.m5.large)": {"label": "MySQL (db.m5.large)", "rate": 0.171, "unit": "DB-hour"}, "PostgreSQL (db.m5.large)": {"label": "PostgreSQL (db.m5.large)", "rate": 0.182, "unit": "DB-hour"}, "MariaDB (db.m5.large)": {"label": "MariaDB (db.m5.large)", "rate": 0.171, "unit": "DB-hour"}, "Oracle BYOL (db.m5.large)": {"label": "Oracle BYOL (db.m5.large)", "rate": 0.226, "unit": "DB-hour"}, "SQL Server SE (db.m5.large)": {"label": "SQL Server SE (db.m5.large)", "rate": 0.483, "unit": "DB-hour"}, "Aurora MySQL (db.r5.large)": {"label": "Aurora MySQL (db.r5.large)", "rate": 0.29, "unit": "DB-hour"}, "Aurora PostgreSQL (db.r5.large)": {"label": "Aurora PostgreSQL (db.r5.large)", "rate": 0.29, "unit": "DB-hour"}, "Aurora Serverless v2 (1 ACU)": {"label": "Aurora Serverless v2 (1 ACU)", "rate": 0.12, "unit": "ACU-hour"}};
+const REGION_MULT = {"(Choose region)": 1.0, "us-east-1 (N. Virginia)": 1.0, "us-east-2 (Ohio)": 1.0, "us-west-2 (Oregon)": 1.0, "us-west-1 (N. California)": 1.1, "us-gov-west-1 (GovCloud)": 1.25, "ca-central-1 (Canada)": 1.07, "sa-east-1 (S\u00e3o Paulo)": 1.35, "eu-west-1 (Ireland)": 1.1, "eu-central-1 (Frankfurt)": 1.15, "eu-west-2 (London)": 1.12, "ap-northeast-1 (Tokyo)": 1.2, "ap-southeast-1 (Singapore)": 1.18, "ap-southeast-2 (Sydney)": 1.22, "ap-south-1 (Mumbai)": 1.06};
+const SUPPORT_FEE = {"none": 0, "developer": 29, "business": 100, "enterprise": 5500, "enterprise_plus": 15000};
+const REGION_DEFAULT = "(Choose region)";
+const SUPPORT_DEFAULT = "none";
+let filterState = {};
+
+function onF() { collectAndAutoSave(); computeEstimate(false); }
+
+function onServiceChange() {
+  const sel = document.getElementById('fld-service');
+  if (!sel) return;
+  const svc = SERVICES[sel.value];
+  const nameEl = document.getElementById('service-card-name');
+  if (nameEl) nameEl.textContent = sel.value;
+  const rateEl = document.getElementById('vol-rate');
+  if (rateEl && svc) rateEl.textContent = '$' + Number(svc.rate).toFixed(5);
+  const rateSub = document.getElementById('vol-rate-sub');
+  if (rateSub && svc) rateSub.textContent = 'per ' + svc.unit;
+  const unitLbl = document.getElementById('vol-unit-lbl');
+  if (unitLbl && svc) unitLbl.textContent = svc.unit;
+  // visually toggle service cards if present
+  document.querySelectorAll('[data-service-card]').forEach(c => {
+    c.classList.toggle('selected', c.dataset.serviceCard === sel.value);
+  });
+  onF();
+}
+
+function onOverrideChange() {
+  const sel = document.getElementById('fld-override');
+  const cust = document.getElementById('fld-override-custom');
+  if (!sel || !cust) { onF(); return; }
+  if (sel.value === 'Custom… (type below)') {
+    cust.style.display = 'block'; cust.focus();
+  } else {
+    cust.style.display = 'none'; cust.value = '';
+    _syncVolumeFromOverride(sel.value);
+  }
+  onF();
+}
+
+function _syncVolumeFromOverride(overrideStr) {
+  if (!overrideStr) return;
+  if (overrideStr === '(default usage)' || overrideStr === '(none)' || overrideStr === 'Custom… (type below)') return;
+  const parsed = _parseOverride(overrideStr);
+  if (parsed === null) return;
+  const volIn = document.getElementById('fld-volume');
+  const volOut = document.getElementById('fld-volume-out');
+  if (/input.*output/i.test(overrideStr)) {
+    const m = overrideStr.match(/(\d+(?:\.\d+)?)\s*M[^0-9]*?(\d+(?:\.\d+)?)\s*M/i);
+    if (m) {
+      if (volIn) volIn.value = String(Math.round(parseFloat(m[1]) * 1e6));
+      if (volOut) volOut.value = String(Math.round(parseFloat(m[2]) * 1e6));
+      return;
+    }
+  }
+  if (volIn) volIn.value = String(parsed);
+}
+
+function onCustomOverride() { collectAndAutoSave(); computeEstimate(false); }
+
+function collectAndAutoSave() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.value) newState[f] = el.value;
+    } else if (el.type === 'number' || el.type === 'text') {
+      if (el.value !== '' && el.value !== null) newState[f] = el.value;
+    } else if (el.type === 'hidden') {
+      if (el.value !== '' && el.value !== null) newState[f] = el.value;
+    }
+  });
+  const custom = newState.override_custom || '';
+  if (custom.trim()) {
+    newState.override = custom.trim();
+  } else if (newState.override === '(default usage)' || newState.override === 'Custom… (type below)' || newState.override === '(none)') {
+    delete newState.override;
+  }
+  delete newState.override_custom;
+  filterState = newState;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : (document.getElementById('res-value')?.textContent || '');
+
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(updateLiveStatus).catch(() => {});
+}
+
+function _parseOverride(str) {
+  if (!str) return null;
+  const tbMatch = str.match(/(\d+(?:\.\d+)?)\s*TB\b/i);
+  const pbMatch = str.match(/(\d+(?:\.\d+)?)\s*PB\b/i);
+  const gbMatch = str.match(/(\d+(?:\.\d+)?)\s*GB\b/i);
+  const mMatch  = str.match(/(\d+(?:\.\d+)?)\s*M\b/i);
+  const kMatch  = str.match(/(\d+(?:\.\d+)?)\s*K\b/i);
+  const numMatch = str.match(/(\d[\d,]*(?:\.\d+)?)/);
+  if (pbMatch) return parseFloat(pbMatch[1]) * 1e6;
+  if (tbMatch) return parseFloat(tbMatch[1]) * 1000;
+  if (mMatch)  return parseFloat(mMatch[1]) * 1e6;
+  if (gbMatch) return parseFloat(gbMatch[1]);
+  if (kMatch)  return parseFloat(kMatch[1]) * 1000;
+  if (numMatch) return parseFloat(numMatch[1].replace(/,/g,''));
+  return null;
+}
+
+function computeEstimate() {
+  const svcLabel = filterState.service || Object.keys(SERVICES)[0];
+  const svc = SERVICES[svcLabel] || SERVICES[Object.keys(SERVICES)[0]];
+  const region = filterState.region || REGION_DEFAULT;
+  const support = filterState.support_tier || SUPPORT_DEFAULT;
+  const rate = svc ? svc.rate : 0;
+  const mult = (REGION_MULT[region] !== undefined) ? REGION_MULT[region] : 1.10;
+  const supportFee = SUPPORT_FEE[support] || 0;
+
+  let volume = parseFloat(filterState.volume || '0');
+  let volumeOut = parseFloat(filterState.volume_out || '0');
+  const overrideStr = filterState.override || '';
+  const parsedOverride = _parseOverride(overrideStr);
+  if (parsedOverride !== null) {
+    if (/input.*output/i.test(overrideStr)) {
+      const m = overrideStr.match(/(\d+(?:\.\d+)?)\s*M.*?(\d+(?:\.\d+)?)\s*M/i);
+      if (m) { volume = parseFloat(m[1]) * 1e6; volumeOut = parseFloat(m[2]) * 1e6; }
+      else { volume = parsedOverride; volumeOut = parsedOverride; }
+    } else { volume = parsedOverride; }
+  }
+  if (!volume) volume = parseFloat(filterState.volume || '0') || 0;
+
+  let primaryCost = 0;
+  if (svc && svc.unit && svc.unit.indexOf('1K tokens') >= 0) {
+    primaryCost = (volume / 1000) * rate;
+  } else {
+    primaryCost = volume * rate;
+  }
+  let secondaryCost = 0;
+  if (svc && svc.secondary && volumeOut > 0) {
+    secondaryCost = (volumeOut / 1000) * svc.secondary.rate;
+  }
+  const baseCost = primaryCost + secondaryCost;
+  const regionUplift = baseCost * (mult - 1.0);
+  const total = baseCost + regionUplift + supportFee;
+
+  function money(n) { return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+  const monEl = document.getElementById('monthly-cost'); if (monEl) monEl.textContent = money(total);
+  const volRes = document.getElementById('vol-result'); if (volRes) volRes.textContent = money(primaryCost);
+  const rv = document.getElementById('res-value'); if (rv) rv.textContent = money(total);
+  const rs = document.getElementById('res-sub');
+  if (rs) rs.textContent = 'Computed for ' + (svc ? svc.label : svcLabel) + ' · ' + region +
+    (overrideStr ? ' · override: ' + overrideStr : '') +
+    ' · ' + volume.toLocaleString() + ' units' + (volumeOut > 0 ? ' (+ ' + volumeOut.toLocaleString() + ' out)' : '');
+  const rr = document.getElementById('res-region'); if (rr) rr.textContent = region;
+  const ro = document.getElementById('res-override'); if (ro) ro.textContent = overrideStr || '(default)';
+  const rsv = document.getElementById('res-service'); if (rsv) rsv.textContent = svc ? svc.label : svcLabel;
+  const rsp = document.getElementById('res-support'); if (rsp) rsp.textContent = support + ' (' + money(supportFee) + '/mo)';
+
+  const tbl = document.getElementById('breakdown-table');
+  if (tbl) {
+    tbl.replaceChildren();
+    const addRow = (label, value, isTotal) => {
+      const tr = document.createElement('tr');
+      if (isTotal) tr.className = 'tot';
+      const labelCell = document.createElement('td');
+      const valueCell = document.createElement('td');
+      if (isTotal) {
+        const labelBold = document.createElement('b');
+        labelBold.textContent = label;
+        labelCell.appendChild(labelBold);
+        const valueBold = document.createElement('b');
+        valueBold.textContent = value;
+        valueCell.appendChild(valueBold);
+      } else {
+        labelCell.textContent = label;
+        valueCell.textContent = value;
+      }
+      tr.appendChild(labelCell);
+      tr.appendChild(valueCell);
+      tbl.appendChild(tr);
+    };
+    addRow('Base ' + (svc ? svc.label : svcLabel) + ' (' + volume.toLocaleString() + ' units × $' + rate.toFixed(5) + ')', money(primaryCost));
+    if (secondaryCost > 0) addRow('Output usage (' + volumeOut.toLocaleString() + ' units)', money(secondaryCost));
+    addRow('Region uplift (' + region + ', ×' + mult.toFixed(2) + ')', money(regionUplift));
+    addRow('Support tier (' + support + ')', money(supportFee));
+    addRow('Estimated total', money(total), true);
+  }
+
+  const ansEl = document.getElementById('task-answer-input');
+  if (ansEl && !ansEl.value) ansEl.value = 'estimated cost: ' + money(total);
+}
+
+function updateLiveStatus() { /* badge hidden by CSS */ }
+
+function selectRegionCard(cardEl, value) {
+  document.querySelectorAll('[data-region-card]').forEach(c => c.classList.remove('selected'));
+  if (cardEl) cardEl.classList.add('selected');
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  onF();
+}
+
+function selectServiceCard(cardEl, value) {
+  document.querySelectorAll('[data-service-card]').forEach(c => c.classList.remove('selected'));
+  if (cardEl) cardEl.classList.add('selected');
+  const sel = document.getElementById('fld-service');
+  if (sel) sel.value = value;
+  onServiceChange();
+}
+
+function regionPickerOpen() {
+  const m = document.getElementById('region-picker-modal');
+  if (m) m.style.display = 'flex';
+}
+function regionPickerClose() {
+  const m = document.getElementById('region-picker-modal');
+  if (m) m.style.display = 'none';
+}
+function regionPickerSelect(value) {
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  const lbl = document.getElementById('region-picker-label');
+  if (lbl) lbl.textContent = value;
+  regionPickerClose();
+  onF();
+}
+function regionTabSwitch(tabKey, tabEl) {
+  document.querySelectorAll('[data-region-tab]').forEach(t => t.classList.toggle('active', t.dataset.regionTab === tabKey));
+  document.querySelectorAll('[data-region-panel]').forEach(p => p.classList.toggle('active', p.dataset.regionPanel === tabKey));
+}
+function regionSearchFilter() {
+  const input = document.getElementById('region-search-input');
+  if (!input) return;
+  const q = input.value.toLowerCase().trim();
+  const list = document.getElementById('region-search-list');
+  if (!list) return;
+  let firstShown = null;
+  list.querySelectorAll('[data-region-item]').forEach(it => {
+    const v = (it.dataset.regionItem || '').toLowerCase();
+    const show = !q || v.indexOf(q) >= 0;
+    it.style.display = show ? '' : 'none';
+    if (show && !firstShown) firstShown = it;
+  });
+  list.style.display = q ? 'block' : list.dataset.alwaysOpen === '1' ? 'block' : 'none';
+}
+function regionSearchPick(value, label) {
+  const input = document.getElementById('region-search-input');
+  if (input) input.value = label || value;
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  const list = document.getElementById('region-search-list');
+  if (list && list.dataset.alwaysOpen !== '1') list.style.display = 'none';
+  onF();
+}
+function regionSearchFocus() {
+  const list = document.getElementById('region-search-list');
+  if (list) list.style.display = 'block';
+}
+
+function lsReset(ev) {
+  if (ev && ev.preventDefault) { ev.preventDefault(); ev.stopPropagation(); }
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    if (el.type === 'radio') { el.checked = (el.value === SUPPORT_DEFAULT); }
+    else if (el.tagName === 'SELECT') { el.selectedIndex = 0; }
+    else if (el.tagName === 'INPUT') { el.value = ''; }
+  });
+  const cust = document.getElementById('fld-override-custom');
+  if (cust) cust.style.display = 'none';
+  document.querySelectorAll('[data-region-card]').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('[data-service-card]').forEach(c => c.classList.remove('selected'));
+  const volIn = document.getElementById('fld-volume'); if (volIn) volIn.value = '0';
+  const volOut = document.getElementById('fld-volume-out'); if (volOut) volOut.value = '0';
+  onF();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Catch all radio clicks (even when state doesn't change) for autosave.
+  document.addEventListener('click', (ev) => {
+    const t = ev.target;
+    if (t && t.tagName === 'INPUT' && t.type === 'radio' && t.dataset && t.dataset.facet) {
+      setTimeout(onF, 5);
+    }
+  }, true);
+  onServiceChange();
+  computeEstimate();
+  collectAndAutoSave();
+});
+</script>
+
+</body></html>

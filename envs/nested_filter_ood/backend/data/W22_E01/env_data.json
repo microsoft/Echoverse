@@ -1,0 +1,43 @@
+{
+  "env_id": "W22_E01",
+  "widget_id": "W22_min_max_slider_plus_plus_chip",
+  "widget_name": "Min/max price slider + \u2265N bedrooms plus-chip composition",
+  "widget_category": "combo_realestate_facets",
+  "widget_mechanic": "Compose: max-price slider AND \u2265N-bedroom plus-chip \u2014 both applied simultaneously.",
+  "archetype": "realestate_listings",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W04_min_max_slider",
+    "W05_plus_chips_at_least"
+  ],
+  "site_imitates": "Realtor.com Omaha NE",
+  "product_type": "Omaha homes",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_omaha__ne_11006",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "I'm looking to buy a house in Omaha, NE with 4 or more bedrooms, a large lot, and near top-rated schools. Can you find a listing that meets these criteria?",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent concluded the listing\u2019s lot size (7,405.2 sq ft) \u201csatisfies the large-lot requirement,\u201d even though this is not convincingly a large lot and is inconsistent with the agent\u2019s earlier stated minimum lot filter of 1/4 acre (10,890 sq ft)."
+    }
+  ],
+  "theme_key": "realtor",
+  "theme_logo": "Realtor Pro",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "primary_inspiration": {
+    "task_id": "realestate_complex_buy_house_omaha__ne_11006",
+    "benchmark": "WTB",
+    "site": "buy",
+    "instruction": "I'm looking to buy a house in Omaha, NE with 4 or more bedrooms, a large lot, and near top-rated schools. Can you find a listing that meets these criteria?",
+    "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent concluded the listing\u2019s lot size (7,405.2 sq ft) \u201csatisfies the large-lot requirement,\u201d even though this is not convincingly a large lot and is inconsistent with the agent\u2019s earlier stated minimum lot filter of 1/4 acre (10,890 sq ft).",
+    "fara_actions": 34,
+    "gpt54_actions": 36
+  }
+}

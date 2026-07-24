@@ -1,0 +1,554 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoCore 990 PRO Internal SSD - EchoTech</title>
+<style>
+.wut-badge, .wut-badge-test, .utst-note,
+.f-section.widget-utst > h4,
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok, .live-status.good, .live-status.pending, .live-status.neutral,
+.ls-msg, .ls-dot, .ls-toggle, .ls-panel, .ls-reset,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source],
+[data-debug="1"]
+{ display: none !important; visibility: hidden !important; }
+
+* { box-sizing: border-box; }
+body { margin:0; line-height:1.4; }
+.empty-state { grid-column:1/-1; text-align:center; padding:40px; color:#999; font-size:14px; }
+.empty-state span { display:block; font-size:12px; margin-top:4px; }
+
+/* Dual-thumb slider (base) — colors overridden per brand */
+.dual-slider { position:relative; height:32px; margin:14px 0 6px; }
+.dual-slider .dual-track { position:absolute; top:14px; left:0; right:0; height:4px; border-radius:2px; }
+.dual-slider .dual-active { position:absolute; top:14px; height:4px; border-radius:2px; }
+.dual-slider input[type=range] { position:absolute; top:8px; left:0; width:100%; height:18px; background:transparent; pointer-events:none; appearance:none; -webkit-appearance:none; }
+.dual-slider input[type=range]::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; pointer-events:auto; width:18px; height:18px; border-radius:50%; background:#fff; border:2px solid #0046be; cursor:grab; box-shadow:0 1px 3px rgba(0,0,0,0.25); }
+.dual-slider input[type=range]::-moz-range-thumb { pointer-events:auto; width:18px; height:18px; border-radius:50%; background:#fff; border:2px solid #0046be; cursor:grab; box-shadow:0 1px 3px rgba(0,0,0,0.25); }
+.dual-slider .dt-tip { position:absolute; top:-22px; transform:translateX(-50%); font-size:10px; padding:2px 6px; background:#1d252c; color:white; border-radius:2px; white-space:nowrap; pointer-events:none; font-weight:600; }
+.dual-slider input.dt-min::-webkit-slider-thumb { background:#fff; border-color:#0046be; box-shadow:0 0 0 2px rgba(0,70,190,0.18); }
+.dual-slider input.dt-max::-webkit-slider-thumb { background:#fff; border-color:#c8232c; box-shadow:0 0 0 2px rgba(200,35,44,0.18); }
+.dual-slider input.dt-min::-moz-range-thumb { background:#fff; border-color:#0046be; }
+.dual-slider input.dt-max::-moz-range-thumb { background:#fff; border-color:#c8232c; }
+.dual-slider .dt-tip-min { background:#0046be; }
+.dual-slider .dt-tip-max { background:#c8232c; }
+
+.result-thumb { background-size:cover !important; background-position:center !important; overflow:hidden; }
+.result-thumb img, .review-thumb img, .job-logo img, .stay-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+.review-thumb { padding:0 !important; overflow:hidden; }
+.job-logo { padding:0 !important; overflow:hidden; }
+.stay-photo img { position:absolute; inset:0; }
+
+/* ===== EchoTech brand ===== */
+body { font-family:"HumanBBYDigital","Human BBY Web","Segoe UI",Arial,sans-serif; background:#f1f1f1; color:#1d252c; font-size:14px; }
+
+/* Top blue header */
+.bb-top { background:#0046be; padding:10px 20px; display:flex; gap:18px; align-items:center; min-height:64px; }
+.bb-logo { display:inline-flex; flex-direction:column; align-items:flex-start; font-weight:900; color:#fff; font-size:22px; line-height:0.92; letter-spacing:-0.5px; text-decoration:none; padding:6px 8px; position:relative; }
+.bb-logo .bb-logo-word { font-style:italic; }
+.bb-logo .bb-tag { position:absolute; right:-2px; bottom:1px; width:14px; height:6px; background:#fff200; }
+.bb-search { flex:1; max-width:1040px; position:relative; }
+.bb-search input { width:100%; height:40px; border:none; border-radius:24px; padding:0 48px 0 20px; font:inherit; font-size:14px; color:#1d252c; background:#fff; }
+.bb-search input::placeholder { color:#6e6e6e; }
+.bb-search .bb-sbtn { position:absolute; right:6px; top:5px; width:30px; height:30px; border-radius:50%; border:none; background:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.bb-search .bb-sbtn svg { width:18px; height:18px; stroke:#1d252c; fill:none; stroke-width:2.4; }
+.bb-top-right { display:flex; align-items:center; gap:18px; color:#fff; }
+.bb-top-divider { width:1px; height:24px; background:#ffffff55; }
+.bb-cart { position:relative; color:#fff; text-decoration:none; display:inline-flex; align-items:center; }
+.bb-cart svg { width:26px; height:26px; stroke:#fff; fill:none; stroke-width:1.8; }
+
+/* Nav pill bar */
+.bb-nav { background:#0046be; padding:0 20px 12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.bb-pill { color:#fff; font-weight:600; font-size:14px; padding:7px 18px; border:1px solid #ffffff66; border-radius:18px; cursor:pointer; background:transparent; white-space:nowrap; }
+.bb-pill:hover { background:#ffffff14; }
+.bb-pill.active { border-color:#fff; }
+.bb-nav-spacer { flex:1; }
+.bb-nav-link { color:#fff; font-size:13px; text-decoration:none; opacity:0.95; padding:6px 4px; white-space:nowrap; }
+.bb-nav-link:hover { text-decoration:underline; }
+
+/* Breadcrumb + results bar */
+.bb-crumb { background:#fff; padding:10px 24px; font-size:12px; color:#1d252c; border-bottom:1px solid #e6e6e6; }
+.bb-crumb a { color:#0046be; text-decoration:none; }
+.bb-crumb a:hover { text-decoration:underline; }
+
+.bb-results-bar { background:#f1f1f1; padding:14px 24px 0; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+.bb-results-bar h1 { font-size:24px; font-weight:600; margin:0; color:#1d252c; }
+.bb-results-bar .bb-result-count { font-size:13px; color:#42505c; }
+.bb-sort { display:flex; align-items:center; gap:8px; font-size:13px; color:#1d252c; }
+.bb-sort select { border:1px solid #c5cbd1; border-radius:4px; padding:6px 8px; font:inherit; font-size:13px; background:#fff; }
+
+/* Page layout */
+.bb-page { display:grid; grid-template-columns:268px 1fr; gap:20px; padding:14px 24px 32px; align-items:start; }
+.bb-aside { background:#fff; padding:4px 16px 16px; border:1px solid #e6e6e6; border-radius:4px; }
+.bb-aside h3 { font-size:18px; font-weight:600; margin:14px 0 6px 0; color:#1d252c; }
+.bb-fac { padding:14px 0; border-bottom:1px solid #e6e6e6; }
+.bb-fac:last-child { border-bottom:none; }
+.bb-fac h4 { font-size:14px; font-weight:600; margin:0 0 10px 0; color:#1d252c; display:flex; justify-content:space-between; align-items:center; }
+.bb-fac h4:after { content:"▾"; color:#1d252c; font-size:10px; }
+.bb-fac.active { background:#f4f6fb; padding:14px 10px; margin:0 -10px; border-radius:4px; border-bottom:1px solid #e6e6e6; }
+.bb-fac label { display:flex; align-items:center; gap:8px; padding:5px 0; font-size:13px; color:#1d252c; cursor:pointer; }
+.bb-fac label:hover { color:#0046be; text-decoration:underline; }
+.bb-fac label input[type=checkbox] { accent-color:#0046be; width:14px; height:14px; }
+
+.chip-row { display:flex; flex-wrap:wrap; gap:6px; margin:2px 0 10px; }
+.chip-btn { padding:6px 12px; background:#fff; border:1px solid #c5cbd1; border-radius:18px; cursor:pointer; font:inherit; font-size:12px; color:#1d252c; }
+.chip-btn:hover { border-color:#0046be; color:#0046be; }
+.chip-btn.active { background:#0046be; border-color:#0046be; color:#fff; font-weight:600; }
+
+.bb-price-row { display:flex; align-items:center; gap:6px; margin-top:12px; }
+.bb-price-row input { width:84px; padding:8px 8px; font:inherit; font-size:13px; border:1px solid #c5cbd1; border-radius:4px; color:#1d252c; background:#fff; }
+.bb-price-row input:focus { outline:none; border-color:#0046be; box-shadow:0 0 0 2px rgba(0,70,190,0.18); }
+.bb-price-row .bb-sep { color:#42505c; font-size:13px; }
+.bb-price-row .bb-go { background:#0046be; color:#fff; border:none; padding:8px 14px; border-radius:18px; cursor:pointer; font:inherit; font-size:12px; font-weight:600; }
+.bb-price-row .bb-go:hover { background:#003599; }
+
+.dual-slider .dual-track { background:#dbe0e6; }
+.dual-slider .dual-active { background:#0046be; }
+
+.bb-fac-help { font-size:11px; color:#6e6e6e; margin-top:6px; }
+
+/* Main / cards */
+.bb-main {}
+.bb-banner { background:linear-gradient(90deg,#0046be 0%,#003599 100%); color:#fff; padding:18px 22px; border-radius:4px; margin-bottom:14px; display:flex; align-items:center; justify-content:space-between; }
+.bb-banner .bb-banner-eyebrow { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; opacity:0.9; }
+.bb-banner h2 { margin:2px 0 0 0; font-size:18px; font-weight:600; }
+.bb-banner .bb-banner-cta { background:#fff200; color:#1d252c; padding:8px 16px; border-radius:18px; font-size:13px; font-weight:700; text-decoration:none; }
+
+.result-grid { display:flex; flex-direction:column; }
+.result-card { display:grid; grid-template-columns:180px 1fr 220px; gap:18px; background:#fff; padding:18px; border-bottom:1px solid #e6e6e6; }
+.result-card:first-child { border-top:1px solid #e6e6e6; border-radius:4px 4px 0 0; }
+.result-card:last-child { border-radius:0 0 4px 4px; }
+.result-card:hover { box-shadow:inset 4px 0 0 #0046be; }
+.result-thumb { width:180px; height:180px; display:flex; align-items:center; justify-content:center; background:#fff; padding:8px; }
+.result-name { color:#1d252c; font-size:16px; line-height:1.3; font-weight:600; cursor:pointer; }
+.result-name:hover { color:#0046be; text-decoration:underline; }
+.result-rating { color:#42505c; font-size:13px; margin-top:6px; display:flex; align-items:center; gap:4px; }
+.result-rating .star { color:#ffb600; letter-spacing:1px; }
+.result-rating .review-count { color:#0046be; }
+.result-meta { font-size:12px; color:#42505c; margin-top:6px; }
+.result-bullets { font-size:12px; color:#1d252c; margin-top:8px; padding-left:18px; }
+.result-bullets li { margin:2px 0; }
+.bb-member-pill { display:inline-block; background:#0046be; color:#fff200; padding:3px 8px; border-radius:3px; font-size:11px; font-weight:700; margin-top:8px; letter-spacing:0.3px; }
+
+.price-col { text-align:right; display:flex; flex-direction:column; align-items:flex-end; }
+.result-price { font-size:22px; color:#1d252c; font-weight:600; line-height:1; }
+.result-price.sale { color:#c8232c; }
+.result-was { font-size:12px; color:#6e6e6e; text-decoration:line-through; margin-top:4px; }
+.result-save { font-size:11px; color:#c8232c; font-weight:600; margin-top:2px; }
+.result-stock { font-size:12px; color:#108043; margin-top:8px; font-weight:600; }
+.result-stock.out { color:#c8232c; }
+.result-ship { font-size:11px; color:#42505c; margin-top:4px; text-align:right; }
+.add-cart { background:#0046be; color:#fff; border:none; padding:10px 0; border-radius:18px; cursor:pointer; font:inherit; font-size:13px; font-weight:600; margin-top:10px; width:170px; }
+.add-cart:hover { background:#003599; }
+.add-cart.out { background:#e6e6e6; color:#6e6e6e; cursor:not-allowed; }
+
+/* Footer */
+.bb-foot { background:#1d252c; color:#fff; padding:28px 24px 18px; margin-top:18px; }
+.bb-foot-cols { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; max-width:1200px; margin:0 auto; }
+.bb-foot-cols h5 { font-size:13px; font-weight:700; margin:0 0 10px; }
+.bb-foot-cols a { display:block; color:#cfd4d9; font-size:12px; margin:6px 0; text-decoration:none; }
+.bb-foot-cols a:hover { color:#fff; text-decoration:underline; }
+.bb-foot-bottom { text-align:center; font-size:11px; color:#9aa3ad; margin-top:22px; padding-top:14px; border-top:1px solid #2e3942; }
+
+</style></head><body>
+
+<header class="bb-top">
+  <a href="#" class="bb-logo" aria-label="EchoTech">
+    <span class="bb-logo-word">EchoTech</span>
+  </a>
+  <div class="bb-search">
+    <input value="EchoCore 990 PRO Internal SSD" aria-label="Search EchoTech">
+    <button class="bb-sbtn" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
+  </div>
+  <div class="bb-top-right">
+    <span style="font-size:12px;">St. Cloud<br><b style="font-size:13px;">56301</b></span>
+    <div class="bb-top-divider"></div>
+    <span style="font-size:12px;">Hi, Sign In ▾</span>
+    <div class="bb-top-divider"></div>
+    <a class="bb-cart" href="#" aria-label="Cart">
+      <svg viewBox="0 0 24 24"><path d="M3 4h2l2.7 12.5a2 2 0 0 0 2 1.5h8a2 2 0 0 0 2-1.6L22 8H6"/><circle cx="9" cy="21" r="1.5"/><circle cx="18" cy="21" r="1.5"/></svg>
+    </a>
+  </div>
+</header>
+
+<nav class="bb-nav">
+  <button class="bb-pill">Shop</button>
+  <button class="bb-pill">Deals</button>
+  <button class="bb-pill">Support &amp; Services</button>
+  <button class="bb-pill">Discover</button>
+  <span class="bb-nav-spacer"></span>
+  <a href="#" class="bb-nav-link">Deal of the Day</a>
+  <a href="#" class="bb-nav-link">My EchoTech Memberships</a>
+  <a href="#" class="bb-nav-link">Credit Cards</a>
+  <a href="#" class="bb-nav-link">Gift Cards</a>
+  <a href="#" class="bb-nav-link">EchoTech Business</a>
+</nav>
+
+<div class="bb-crumb">
+  <a href="#">EchoTech</a> &nbsp;›&nbsp; <a href="#">Computers &amp; Tablets</a> &nbsp;›&nbsp; <a href="#">Computer Cards &amp; Components</a> &nbsp;›&nbsp; <a href="#">Internal Solid State Drives (SSD)</a> &nbsp;›&nbsp; <span>EchoCore 990 PRO</span>
+</div>
+
+<div class="bb-results-bar">
+  <div>
+    <h1>EchoCore 990 PRO Internal Solid State Drives</h1>
+    <div class="bb-result-count"><span id="result-count">18</span> items · Free shipping on most orders</div>
+  </div>
+  <div class="bb-sort">
+    <label for="bb-sort-sel">Sort by</label>
+    <select id="bb-sort-sel"><option>Best Match</option><option>Price (Low to High)</option><option>Price (High to Low)</option><option>Customer Rating</option></select>
+  </div>
+</div>
+
+<div class="bb-page">
+  <aside class="bb-aside">
+    <h3>Filter By</h3>
+
+    <div class="bb-fac active slider-block">
+      <h4>Price</h4>
+      <div class="chip-row">
+        <button class="chip-btn" data-min="0" data-max="49"  onclick="pickChip(this)" data-preset-opt="under-50">Under $50</button>
+        <button class="chip-btn" data-min="0" data-max="99"  onclick="pickChip(this)" data-preset-opt="under-100">$0 - $100</button>
+        <button class="chip-btn" data-min="100" data-max="199" onclick="pickChip(this)" data-preset-opt="100-200">$100 - $200</button>
+        <button class="chip-btn" data-min="200" data-max="999" onclick="pickChip(this)" data-preset-opt="over-200">$200 &amp; Above</button>
+      </div>
+      <div class="dual-slider" data-fmt="dollar">
+        <div class="dual-track"></div><div class="dual-active"></div>
+        <div class="dt-tip dt-tip-min">MIN $0</div>
+        <div class="dt-tip dt-tip-max">MAX $1,000</div>
+        <input type="range" min="0" max="1000" value="0" step="1" class="dt-min" data-facet="min_price" oninput="dualUpd()">
+        <input type="range" min="0" max="1000" value="1000" step="1" class="dt-max" data-facet="max_price" oninput="dualUpd()">
+      </div>
+      <div class="bb-price-row">
+        <input type="text" class="dual-num-min" placeholder="Min $" oninput="numBoxSet(this)" aria-label="Minimum price">
+        <span class="bb-sep">to</span>
+        <input type="text" class="dual-num-max" placeholder="Max $" oninput="numBoxSet(this)" aria-label="Maximum price">
+        <button class="bb-go" onclick="applyFilters()">Go</button>
+      </div>
+      <div class="bb-fac-help">Drag the blue thumb for MIN, the red thumb for MAX.</div>
+    </div>
+
+    <div class="bb-fac">
+      <h4>Customer Rating</h4>
+      <label><input type="checkbox" data-facet="rating_min" value="4" onchange="onF()"> ★★★★ &amp; Up</label>
+      <label><input type="checkbox" data-facet="rating_min" value="3" onchange="onF()"> ★★★ &amp; Up</label>
+    </div>
+
+    <div class="bb-fac">
+      <h4>Pickup &amp; Shipping</h4>
+      <label><input type="checkbox" data-facet="free_shipping" value="1" onchange="onF()"> Free Shipping</label>
+      <label><input type="checkbox" data-facet="in_stock" value="1" onchange="onF()"> In Stock at My Store</label>
+    </div>
+
+    <div class="bb-fac">
+      <h4>Condition</h4>
+      <label><input type="checkbox" data-facet="condition" value="New" onchange="onF()"> New</label>
+      <label><input type="checkbox" data-facet="condition" value="Refurbished" onchange="onF()"> Echo Squad Certified Refurbished</label>
+    </div>
+
+    <div class="bb-fac">
+      <h4>Brand</h4>
+      <label><input type="checkbox" data-facet="brand" value="Samsung" onchange="onF()"> EchoCore</label>
+    </div>
+  </aside>
+
+  <section class="bb-main">
+    <div class="bb-banner">
+      <div>
+        <div class="bb-banner-eyebrow">My EchoTech Plus™ &amp; Total™ Member Exclusive</div>
+        <h2>Save up to $80 on select EchoCore 990 PRO SSDs</h2>
+      </div>
+      <a href="#" class="bb-banner-cta">See offers</a>
+    </div>
+    <div class="result-grid" id="result-grid"></div>
+  </section>
+</div>
+
+<footer class="bb-foot">
+  <div class="bb-foot-cols">
+    <div>
+      <h5>Customer Service</h5>
+      <a href="#">Order Status</a>
+      <a href="#">Shipping, Delivery &amp; Pickup</a>
+      <a href="#">Returns &amp; Exchanges</a>
+      <a href="#">Product Recalls</a>
+    </div>
+    <div>
+      <h5>About EchoTech</h5>
+      <a href="#">Corporate Information</a>
+      <a href="#">Careers</a>
+      <a href="#">Corporate Responsibility</a>
+      <a href="#">Investor Relations</a>
+    </div>
+    <div>
+      <h5>EchoTech Stores</h5>
+      <a href="#">Find a Store</a>
+      <a href="#">Outlet — Clearance, Open-Box</a>
+      <a href="#">EchoTech Business</a>
+      <a href="#">Education Discounts</a>
+    </div>
+    <div>
+      <h5>Partnerships</h5>
+      <a href="#">Affiliate Program</a>
+      <a href="#">Developers</a>
+      <a href="#">Suppliers</a>
+      <a href="#">Brands</a>
+    </div>
+  </div>
+  <div class="bb-foot-bottom">© EchoTech Co., Inc. All rights reserved. 7601 Penn Avenue South, Richfield, MN 55423-3645</div>
+</footer>
+
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+const ENV_ID = "W04_E03";
+let filterState = {};
+
+function onF() { applyFilters(); }
+
+function applyFilters() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) { if (!newState[f]) newState[f] = []; newState[f].push(el.value || '1'); }
+    } else if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.multiple) {
+        const vals = Array.from(el.selectedOptions).map(o => o.value);
+        if (vals.length) newState[f] = vals;
+      } else if (el.value) newState[f] = el.value;
+    } else if (el.type === 'number' || el.type === 'range' || el.type === 'text' || el.type === 'hidden') {
+      if (el.dataset.always === '1' || (el.value !== '' && el.value !== el.defaultValue)) {
+        newState[f] = el.value;
+      }
+    }
+  });
+  document.querySelectorAll('.bucket-btn.active, .chip-btn.active, .pill.active').forEach(b => {
+    const f = b.dataset.facet;
+    if (!f) return;
+    if (!newState[f]) newState[f] = [];
+    if (Array.isArray(newState[f])) newState[f].push(b.dataset.val || b.textContent.trim());
+    else newState[f] = b.dataset.val || b.textContent.trim();
+  });
+  filterState = newState;
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    updateResults(data.results || []);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length;
+    const rc2 = document.getElementById('result-count-2');
+    if (rc2) rc2.textContent = (data.results || []).length;
+  }).catch(e => console.error('filter fail', e));
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : '';
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(() => {});
+}
+
+function escapeHtml(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function lsReset(ev) {
+  if (ev) { ev.stopPropagation(); ev.preventDefault(); }
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+    else if (el.tagName === 'SELECT') el.selectedIndex = 0;
+    else if (el.tagName === 'INPUT' && el.type !== 'range') el.value = '';
+  });
+  document.querySelectorAll('.dt-min').forEach(el => { el.value = el.min; });
+  document.querySelectorAll('.dt-max').forEach(el => { el.value = el.max; });
+  document.querySelectorAll('.bucket-btn.active, .chip-btn.active, .pill.active')
+    .forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.dual-num-min, .dual-num-max').forEach(el => { el.value = ''; });
+  document.querySelectorAll('.amen-pill.active').forEach(el => el.classList.remove('active'));
+  dualUpd();
+  applyFilters();
+}
+
+function dualUpd() {
+  document.querySelectorAll('.dual-slider').forEach(slider => {
+    const mn = slider.querySelector('.dt-min'), mx = slider.querySelector('.dt-max');
+    if (!mn || !mx) return;
+    const lo = +mn.min, hi = +mx.max;
+    let mnV = +mn.value, mxV = +mx.value;
+    if (mnV > mxV) { mn.value = mxV; mnV = mxV; }
+    const range = hi - lo || 1;
+    const minPct = ((mnV - lo) / range) * 100;
+    const maxPct = ((mxV - lo) / range) * 100;
+    const dt = slider.querySelector('.dual-active');
+    if (dt) { dt.style.left = minPct + '%'; dt.style.width = (maxPct - minPct) + '%'; }
+    const tipMin = slider.querySelector('.dt-tip-min'), tipMax = slider.querySelector('.dt-tip-max');
+    const fmt = slider.dataset.fmt || 'dollar';
+    const fmtVal = (v) => {
+      if (fmt === 'hours') return v + ' hrs';
+      if (fmt === 'salary') return '$' + (+v/1000) + 'K';
+      return '$' + (+v).toLocaleString();
+    };
+    if (tipMin) { tipMin.style.left = minPct + '%'; tipMin.textContent = 'MIN ' + fmtVal(mnV); }
+    if (tipMax) { tipMax.style.left = maxPct + '%'; tipMax.textContent = 'MAX ' + fmtVal(mxV); }
+    const minV = slider.parentElement.querySelector('.minv'),
+          maxV = slider.parentElement.querySelector('.maxv');
+    if (minV) minV.textContent = fmtVal(mnV);
+    if (maxV) maxV.textContent = fmtVal(mxV);
+    const container = slider.closest('.slider-block') || slider.parentElement;
+    const minBox = container.querySelector('.dual-num-min'),
+          maxBox = container.querySelector('.dual-num-max');
+    if (minBox && minBox !== document.activeElement) minBox.value = (mnV > lo) ? mnV : '';
+    if (maxBox && maxBox !== document.activeElement) maxBox.value = (mxV < hi) ? mxV : '';
+  });
+  onF();
+}
+
+function numBoxSet(box) {
+  const container = box.closest('.slider-block') || box.parentElement.parentElement || box.parentElement;
+  const slider = container.querySelector('.dual-slider');
+  if (!slider) return;
+  const mn = slider.querySelector('.dt-min'), mx = slider.querySelector('.dt-max');
+  const lo = +mn.min, hi = +mx.max;
+  const minBox = container.querySelector('.dual-num-min');
+  const maxBox = container.querySelector('.dual-num-max');
+  if (minBox && minBox.value !== '') mn.value = Math.max(lo, Math.min(hi, parseInt(minBox.value.replace(/[^0-9]/g,'')) || lo));
+  else mn.value = lo;
+  if (maxBox && maxBox.value !== '') mx.value = Math.max(lo, Math.min(hi, parseInt(maxBox.value.replace(/[^0-9]/g,'')) || hi));
+  else mx.value = hi;
+  dualUpd();
+}
+
+function pickBucket(btn) {
+  const wasActive = btn.classList.contains('active');
+  btn.parentElement.querySelectorAll('.bucket-btn').forEach(b => b.classList.remove('active'));
+  if (!wasActive) {
+    btn.classList.add('active');
+    const slider = document.querySelector('.dual-slider');
+    if (slider) {
+      slider.querySelector('.dt-min').value = +btn.dataset.min;
+      slider.querySelector('.dt-max').value = +btn.dataset.max;
+      dualUpd();
+      return;
+    }
+  }
+  applyFilters();
+}
+
+function pickChip(btn) {
+  const wasActive = btn.classList.contains('active');
+  btn.parentElement.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+  const slider = document.querySelector('.dual-slider');
+  if (!wasActive) {
+    btn.classList.add('active');
+    if (slider) {
+      if (btn.dataset.min !== undefined) slider.querySelector('.dt-min').value = +btn.dataset.min;
+      if (btn.dataset.max !== undefined) slider.querySelector('.dt-max').value = +btn.dataset.max;
+      dualUpd();
+      return;
+    }
+  }
+  if (slider) {
+    slider.querySelector('.dt-min').value = +slider.querySelector('.dt-min').min;
+    slider.querySelector('.dt-max').value = +slider.querySelector('.dt-max').max;
+    dualUpd();
+  } else {
+    applyFilters();
+  }
+}
+
+function togAmen(el) {
+  const cb = el.querySelector('input[type=checkbox]');
+  if (cb) {
+    cb.checked = !cb.checked;
+    el.classList.toggle('active', cb.checked);
+  }
+  onF();
+}
+
+function onAmenCh(input) {
+  const pill = input.closest('.amen-pill, .abnb-amen-pill');
+  if (pill) pill.classList.toggle('active', input.checked);
+  onF();
+}
+
+function updateResults(results) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div class="empty-state">No results match your filters.<br><span>Try adjusting the price range or removing filters.</span></div>';
+    return;
+  }
+  const tpl = (typeof window.cardTemplate === 'function') ? window.cardTemplate :
+    (r) => `<div class="result-card"><div class="result-name">${escapeHtml(r.title)}</div><div class="result-price">$${(r.price||0).toLocaleString()}</div></div>`;
+  grid.innerHTML = results.map(tpl).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  dualUpd();
+  applyFilters();
+});
+</script>
+
+<script>
+window.cardTemplate = function(r) {
+  const cap = r.capacity_gb;
+  const capStr = cap ? (cap < 1000 ? cap + 'GB' : (cap/1000) + 'TB') : '';
+  const price = (r.price || 0);
+  const wasPrice = r.original_price && r.original_price > price ? r.original_price : null;
+  const save = wasPrice ? (wasPrice - price) : 0;
+  const img = r.image_url ? `<img src="${r.image_url}" alt="${escapeHtml(r.title||'')}" loading="lazy" style="max-width:100%;max-height:100%;object-fit:contain">` : 'SSD';
+  const stars = '★★★★★';
+  const reviews = Math.round((r.rating||0)*180);
+  return `<div class="result-card">
+    <div class="result-thumb">${img}</div>
+    <div>
+      <div class="result-name">${escapeHtml(r.title)}</div>
+      <div class="result-rating"><span class="star">${stars}</span> <b>${(r.rating||0).toFixed(1)}</b> <span class="review-count">(${reviews.toLocaleString()} reviews)</span></div>
+      <ul class="result-bullets">
+        <li>${escapeHtml(r.brand||'EchoCore')} · ${capStr} · M.2 2280 NVMe PCIe Gen 4</li>
+        <li>${r.has_heatsink ? 'With integrated heatsink — ' : ''}Compatible with PS5, Desktops &amp; Laptops</li>
+        <li>${r.condition === 'Refurbished' ? '<b style="color:#0046be">Echo Squad Certified Refurbished</b>' : 'Brand new in box'}</li>
+      </ul>
+      ${r.free_shipping ? '<span class="bb-member-pill">My EchoTech Plus™</span>' : ''}
+    </div>
+    <div class="price-col">
+      ${wasPrice ? `<div class="result-price sale">$${price.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</div>` : `<div class="result-price">$${price.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</div>`}
+      ${wasPrice ? `<div class="result-was">Reg. $${wasPrice.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</div>` : ''}
+      ${save > 0 ? `<div class="result-save">Save $${save.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</div>` : ''}
+      <div class="result-stock${r.in_stock ? '' : ' out'}">${r.in_stock ? '✓ In stock' : 'Sold out'}</div>
+      <div class="result-ship">${r.free_shipping ? 'FREE shipping · Get it by Tue' : 'Shipping: $5.99'}</div>
+      <button class="add-cart${r.in_stock ? '' : ' out'}"${r.in_stock ? '' : ' disabled'}>${r.in_stock ? 'Add to Cart' : 'Sold Out'}</button>
+    </div>
+  </div>`;
+};
+</script>
+</body></html>

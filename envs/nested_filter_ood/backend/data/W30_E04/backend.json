@@ -1,0 +1,101 @@
+{
+  "env_id": "W30_E04",
+  "widget_id": "W30_region_plus_override_defaults",
+  "archetype": "calculator_form",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T300401",
+      "task_index_in_env": 1,
+      "instruction_text": "I'm scoping a Azure workload for a customer in East US \u2014 set up a quote for B-series Bs (Burstable \u2014 B2s), override the default usage to 1460 VM-hours (2 VMs always-on) for the month, and pin the Standard tier since this is a regulated tenant.",
+      "expected_filter_state": {
+        "region": "East US",
+        "override": "1460 VM-hours (2 VMs always-on)"
+      }
+    },
+    {
+      "task_id": "T300402",
+      "task_index_in_env": 2,
+      "instruction_text": "Could you put together a D-series v5 (General Purpose \u2014 D4s_v5) quote? Always-on 1-month workload \u2014 use 730 VM-hours (1 month always-on) \u2014 and bill it out of East US 2, the Developer tier is fine, we don't need anything fancier.",
+      "expected_filter_state": {
+        "region": "East US 2",
+        "override": "730 VM-hours (1 month always-on)"
+      }
+    },
+    {
+      "task_id": "T300403",
+      "task_index_in_env": 3,
+      "instruction_text": "Need to estimate F-series v2 (Compute Optimized \u2014 F4s_v2) sitting in Central US at about 100 instance-hours. We're on the Basic tier anyway.",
+      "expected_filter_state": {
+        "region": "Central US",
+        "override": "100 instance-hours"
+      }
+    },
+    {
+      "task_id": "T300404",
+      "task_index_in_env": 4,
+      "instruction_text": "Configure the calculator for E-series v5 (Memory Optimized \u2014 E4s_v5) in West US 2 \u2014 usage around 100 instance-hours per month and we're already on the Standard tier for the FedRAMP tenant.",
+      "expected_filter_state": {
+        "region": "West US 2",
+        "override": "100 instance-hours"
+      }
+    },
+    {
+      "task_id": "T300405",
+      "task_index_in_env": 5,
+      "instruction_text": "What's the projected monthly bill for M-series (Memory Optimized \u2014 M64s) in West US 3 doing 730 VM-hours (1 month always-on), with the Basic tier attached?",
+      "expected_filter_state": {
+        "region": "West US 3",
+        "override": "730 VM-hours (1 month always-on)"
+      }
+    },
+    {
+      "task_id": "T300406",
+      "task_index_in_env": 6,
+      "instruction_text": "Quick check \u2014 if I put 1460 VM-hours (2 VMs always-on) through NC-series (GPU \u2014 NC6s_v3) in Brazil South, on the None tier, what does the monthly estimate come to?",
+      "expected_filter_state": {
+        "region": "Brazil South",
+        "override": "1460 VM-hours (2 VMs always-on)"
+      }
+    },
+    {
+      "task_id": "T300407",
+      "task_index_in_env": 7,
+      "instruction_text": "Hmm, what would B-series Bs (Burstable \u2014 B2s) cost me in Canada Central for a 1460 VM-hours (2 VMs always-on) monthly commitment if I add the Standard tier on top? Just want the number.",
+      "expected_filter_state": {
+        "region": "Canada Central",
+        "override": "1460 VM-hours (2 VMs always-on)"
+      }
+    },
+    {
+      "task_id": "T300408",
+      "task_index_in_env": 8,
+      "instruction_text": "Pricing exercise for a finance review: configure the calculator for E-series v5 (Memory Optimized \u2014 E4s_v5) in West Europe, override usage to 100 instance-hours, leave support at the Basic tier, then tell me the all-in monthly total \u2014 they want it for the budget doc.",
+      "expected_filter_state": {
+        "region": "West Europe",
+        "override": "100 instance-hours"
+      }
+    },
+    {
+      "task_id": "T300409",
+      "task_index_in_env": 9,
+      "instruction_text": "OK so I need to estimate D-series v5 (General Purpose \u2014 D4s_v5) running in North Europe for one month \u2014 use 730 VM-hours (1 month always-on) \u2014 and we're on the Developer tier; set it up in the calculator and give me the monthly figure.",
+      "expected_filter_state": {
+        "region": "North Europe",
+        "override": "730 VM-hours (1 month always-on)"
+      }
+    },
+    {
+      "task_id": "T300410",
+      "task_index_in_env": 10,
+      "instruction_text": "Hey, can you set up an estimate for 1460 VM-hours (2 VMs always-on) out of UK South on NC-series (GPU \u2014 NC6s_v3) and tell me the monthly cost? We're on the Basic tier, but if it's over $1000/month we'll probably want to revisit.",
+      "expected_filter_state": {
+        "region": "UK South",
+        "override": "1460 VM-hours (2 VMs always-on)"
+      }
+    }
+  ]
+}

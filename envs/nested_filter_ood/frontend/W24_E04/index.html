@@ -1,0 +1,291 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Find a young male dog · EchoPets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{font-family:'Nunito Sans',-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#d3f1ed;color:#1a1a1a;font-size:13px;line-height:1.5}
+a{color:inherit;text-decoration:none;cursor:pointer}button{font-family:inherit}
+.live-status,.task-banner,.fara-source,.fara-banner,[data-debug="1"]{display:none!important}
+
+/* AdoptAPet-style promo + mint header */
+.ah-promo{background:#fff;color:#1a1a1a;padding:10px 28px;display:flex;align-items:center;gap:20px;border-bottom:1px solid #f0ebe2}
+.ah-promo .pp-logo{display:inline-flex;align-items:center;font-weight:900;font-size:22px;color:#d35028;letter-spacing:-.02em}
+.ah-promo .pp-logo span{color:#1f3a8a}
+.ah-promo .pp-msg{flex:1;font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:20px;color:#1a1a1a;letter-spacing:-.01em}
+.ah-promo .pp-msg em{font-style:normal;display:block;font-family:'Nunito Sans',sans-serif;font-size:11px;font-weight:600;color:#444;margin-top:2px}
+.ah-promo .pp-shop{font-size:12px;font-weight:600;text-decoration:underline;color:#1a1a1a}
+.ah-promo .pp-thumbs{display:flex;gap:6px}
+.ah-promo .pp-thumbs span{width:60px;height:38px;border-radius:5px;border:2px solid #f3b94d;background:#fef0d4;display:inline-block}
+.ah-promo .pp-x{font-size:18px;color:#666;padding:0 6px;cursor:pointer}
+
+.ah-header{background:#65cdc4;color:#1a1a1a;padding:14px 28px;display:flex;align-items:center;gap:24px}
+.ah-logo{font-family:'Playfair Display',Georgia,'Times New Roman',serif;font-style:italic;font-weight:700;font-size:32px;letter-spacing:-.02em;color:#1a1a1a;display:flex;align-items:center;gap:6px}
+.ah-nav{display:flex;gap:22px;font-size:13px;font-weight:700;margin-left:30px}
+.ah-nav a{padding:6px 2px;border-bottom:2px solid transparent;color:#1a1a1a}.ah-nav a:hover{border-bottom-color:#1a1a1a}
+.ah-cta{margin-left:auto;display:flex;gap:10px;align-items:center}
+.ah-cta .login{font-size:13px;font-weight:700;padding:9px 22px;border:1.5px solid #1a1a1a;border-radius:22px;background:transparent;color:#1a1a1a}
+.ah-cta .signup{font-size:13px;font-weight:700;padding:9px 22px;border-radius:22px;background:#1a1a1a;color:#fff}
+
+.ah-searchbar{background:#d3f1ed;padding:14px 28px;border-bottom:none;display:flex;gap:10px;align-items:center}
+.ah-searchbar input{flex:1;padding:11px 18px;border:1.5px solid #1a1a1a;border-radius:28px;font-size:13px;outline:none;background:#fff}
+.ah-searchbar .ah-zip{background:#fff;padding:10px 16px;border:1.5px solid #1a1a1a;border-radius:28px;font-size:12px;color:#1a1a1a;font-weight:600}
+.ah-searchbar button{background:#1a1a1a;color:#fff;border:none;padding:11px 26px;border-radius:28px;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.02em}
+
+.crumb{padding:10px 28px;font-size:11px;color:#5a6770;background:#fff;border-bottom:1px solid #ebe5db}
+.crumb a:hover{color:#0a8d80;text-decoration:underline}.crumb .sep{margin:0 6px;color:#cbd2d9}.crumb b{color:#1a1a1a;font-weight:700}
+
+.main-grid{display:grid;grid-template-columns:300px 1fr;gap:24px;padding:22px 28px 40px;max-width:1340px;margin:0 auto;background:#fff}
+.filter-aside{display:flex;flex-direction:column;gap:14px}
+.fa-title{display:flex;justify-content:space-between;align-items:center;padding:0 4px}
+.fa-title h3{margin:0;font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;color:#1a1a1a;letter-spacing:-.01em}
+.fa-title a{font-size:11px;color:#0a8d80;font-weight:700;text-decoration:underline}
+
+/* segmented section cards */
+.ah-card{background:#fff;border:1px solid #e5e0d6;border-radius:14px;padding:14px 16px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.ah-card-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;padding-bottom:8px;border-bottom:1px dashed #ebe5db}
+.ah-card-head h4{margin:0;font-size:13px;font-weight:800;color:#1a1a1a}
+.ah-sub{font-size:10px;color:#7c8a93;margin-top:2px;font-weight:500}
+.ah-clear{font-size:11px;color:#0a8d80;cursor:pointer;font-weight:600}
+.ah-card-body{display:flex;flex-direction:column;gap:2px}
+.ah-row{display:flex;align-items:center;gap:9px;padding:6px 0;font-size:12px;cursor:pointer;color:#1a1a1a;font-weight:500}
+.ah-row input[type=checkbox]{accent-color:#0a8d80;width:15px;height:15px;flex-shrink:0;margin:0}
+.ah-row:hover{color:#0a8d80}
+.ah-row-lbl{flex:1}
+
+/* exact-match toggle card */
+.ah-strict-card{background:linear-gradient(135deg,#fff4d6 0%,#ffe2a8 100%);border-radius:14px;padding:14px 16px;border:2px solid #f3b94d}
+.ah-strict-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.ah-strict-head .ic{font-size:18px}
+.ah-strict-head h4{margin:0;font-size:13px;font-weight:800;color:#1a1a1a}
+.ah-strict-help{font-size:11px;color:#5a4a18;line-height:1.4;margin-bottom:10px}
+.ah-strict-toggle{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer}
+.ah-strict-toggle .lbl{font-size:12px;font-weight:700;color:#1a1a1a}
+.ah-strict-toggle input[type=checkbox]{appearance:none;position:relative;width:42px;height:24px;background:#fff;border-radius:12px;cursor:pointer;outline:none;border:2px solid #d4a82c;transition:background .15s}
+.ah-strict-toggle input[type=checkbox]:before{content:"";position:absolute;left:2px;top:2px;width:16px;height:16px;background:#1a1a1a;border-radius:50%;transition:left .15s}
+.ah-strict-toggle input[type=checkbox]:checked{background:#1a1a1a;border-color:#1a1a1a}
+.ah-strict-toggle input[type=checkbox]:checked:before{left:20px;background:#f3b94d}
+.strict-indicator{padding:2px 8px;background:#1a1a1a;color:#f3b94d;border-radius:10px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;opacity:.5}
+.strict-indicator.on{opacity:1}
+
+/* results */
+.results-area{}
+.results-header{margin-bottom:18px;display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.results-header h1{margin:0;font-family:'Playfair Display',Georgia,serif;font-size:32px;font-weight:700;color:#1a1a1a;letter-spacing:-.015em}
+.results-sub{display:block;width:100%;color:#5a6770;font-size:13px;margin-top:4px}
+.results-tools{margin-left:auto;display:flex;gap:10px;align-items:center}
+.sort-dd{padding:8px 14px;border:1.5px solid #1a1a1a;border-radius:22px;font-size:12px;background:#fff;color:#1a1a1a;font-weight:600}
+.view-toggle{display:inline-flex;border:1.5px solid #1a1a1a;border-radius:22px;overflow:hidden}
+.view-toggle button{padding:7px 14px;background:#fff;border:none;cursor:pointer;font-size:12px;color:#1a1a1a;font-weight:700}
+.view-toggle button.active{background:#1a1a1a;color:#fff}
+.active-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.active-chip{background:#d3f1ed;color:#0a8d80;border:1px solid #65cdc4;padding:3px 10px;border-radius:11px;font-size:10px;font-weight:700}
+
+.result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+.result-card{background:#fff;border-radius:18px;overflow:hidden;border:1px solid #f0ebe2;box-shadow:0 1px 3px rgba(0,0,0,.05);display:flex;flex-direction:column;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.result-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.1)}
+.result-thumb-img,.result-thumb{width:100%;height:180px;object-fit:cover;background:#65cdc4;display:block}
+.result-thumb{display:flex;align-items:center;justify-content:center;font-size:42px;color:#fff;font-family:'Playfair Display',Georgia,serif;font-weight:700}
+.result-body{padding:13px 16px 16px;position:relative}
+.result-brand{font-size:10px;color:#5a6770;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.result-name{font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:700;margin:4px 0 4px;color:#1a1a1a;line-height:1.2;letter-spacing:-.01em}
+.result-meta{font-size:12px;color:#5a6770;margin-bottom:5px}
+.result-rating-row{font-size:11px;color:#f3b94d;font-weight:700}
+.result-price-row{margin-top:6px}
+.result-price{font-weight:800;font-size:13px;color:#0a8d80}
+.result-body::after{content:"♡";position:absolute;right:14px;top:13px;font-size:18px;color:#1a1a1a}
+.no-results{grid-column:1/-1;text-align:center;padding:60px;background:#fff;border-radius:14px;color:#5a6770}
+.pagination{display:flex;gap:6px;justify-content:center;margin-top:28px}
+.pagination button{padding:8px 14px;background:#fff;border:1.5px solid #1a1a1a;border-radius:22px;cursor:pointer;font-size:12px;color:#1a1a1a;font-weight:700}
+.pagination button.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+
+/* footer */
+.ah-footer{background:#1a1a1a;color:#bdc4ca;font-size:11px;margin-top:0;padding:36px 28px 22px}
+.ah-footer-row{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1340px;margin:0 auto}
+.ah-footer-col h5{margin:0 0 10px;color:#65cdc4;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:800}
+.ah-footer-col a{display:block;padding:4px 0;color:#bdc4ca}
+.ah-footer-col a:hover{color:#fff}
+.ah-footer-bottom{max-width:1340px;margin:24px auto 0;padding-top:16px;border-top:1px solid #2e3338;font-size:10px;color:#7c8a93;display:flex;justify-content:space-between;align-items:center}
+.ah-partners{padding:24px 28px;background:#fff;border-top:1px solid #ebe5db;display:flex;align-items:center;justify-content:center;gap:30px;font-size:12px;color:#5a6770}
+.ah-partners b{color:#1a1a1a;font-weight:700}
+.ah-partners .p-logo{padding:6px 12px;border-radius:6px;font-weight:900;font-size:13px;letter-spacing:.02em}
+.ah-partners .p-zoetis{color:#d35028}
+.ah-partners .p-ped{background:#f7c948;color:#1a3a8a;border-radius:50%;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;font-size:10px}
+.ah-partners .p-pet{color:#1a3a8a}.ah-partners .p-pet em{color:#d35028;font-style:normal}
+</style></head><body>
+<div class="ah-promo">
+  <span class="pp-logo">≋<span>≋</span></span>
+  <div class="pp-msg">Save 20% on the world's leading pet DNA test<em>Unlock breed, trait, and health insights with code AAP20</em></div>
+  <a class="pp-shop">Shop Now</a>
+  <span class="pp-x">✕</span>
+  <div class="pp-thumbs"><span></span><span></span></div>
+</div>
+<header class="ah-header">
+  <div class="ah-logo">EchoPets</div>
+  <nav class="ah-nav"><a>Find a pet</a><a>Find a shelter</a><a>Rehome a pet</a><a>Breed 101</a><a>Pet advice</a><a>Shop</a><a>Help</a></nav>
+  <div class="ah-cta"><a class="login">Login</a><a class="signup">Sign Up</a></div>
+</header>
+<div class="ah-searchbar">
+  <input placeholder="Search breed, name, or keyword..."><span class="ah-zip">📍 ZIP 33179 · 50 mi</span>
+  <button>Search pets</button>
+</div>
+<div class="crumb"><a>EchoPets</a><span class="sep">›</span><a>Adopt a pet</a><span class="sep">›</span><a>Dogs</a><span class="sep">›</span><b>Young · Male · Spayed · Private owner</b></div>
+
+<div class="main-grid">
+  <aside class="filter-aside">
+    <div class="fa-title"><h3>Refine your search</h3><a onclick="lsReset(event)">Clear all</a></div>
+    <div class="f-section ah-card"><div class="ah-card-head"><div><h4>Animal type</h4><div class="ah-sub">Pick one or more — strict mode keeps only those.</div></div><a class="ah-clear" onclick="clearFacet(this,'brand')">Clear</a></div><div class="ah-card-body"><label class="ah-row"><input type="checkbox" data-facet="brand" value="Dogs" onchange="onF()"><span class="ah-row-lbl">Dogs</span></label><label class="ah-row"><input type="checkbox" data-facet="brand" value="Cats" onchange="onF()"><span class="ah-row-lbl">Cats</span></label><label class="ah-row"><input type="checkbox" data-facet="brand" value="Other pets" onchange="onF()"><span class="ah-row-lbl">Other pets</span></label><label class="ah-row"><input type="checkbox" data-facet="brand" value="Shelters &amp; rescues" onchange="onF()"><span class="ah-row-lbl">Shelters &amp; rescues</span></label></div></div><div class="f-section ah-card"><div class="ah-card-head"><div><h4>Age</h4><div class="ah-sub">Puppies, Young, Adult or Senior.</div></div><a class="ah-clear" onclick="clearFacet(this,'category')">Clear</a></div><div class="ah-card-body"><label class="ah-row"><input type="checkbox" data-facet="category" value="Puppy" onchange="onF()"><span class="ah-row-lbl">Puppy</span></label><label class="ah-row"><input type="checkbox" data-facet="category" value="Young" onchange="onF()"><span class="ah-row-lbl">Young</span></label><label class="ah-row"><input type="checkbox" data-facet="category" value="Adult" onchange="onF()"><span class="ah-row-lbl">Adult</span></label><label class="ah-row"><input type="checkbox" data-facet="category" value="Senior" onchange="onF()"><span class="ah-row-lbl">Senior</span></label></div></div><div class="f-section ah-card"><div class="ah-card-head"><div><h4>Sex &amp; status</h4><div class="ah-sub">Spayed/neutered or intact.</div></div><a class="ah-clear" onclick="clearFacet(this,'condition')">Clear</a></div><div class="ah-card-body"><label class="ah-row"><input type="checkbox" data-facet="condition" value="Male / Neutered" onchange="onF()"><span class="ah-row-lbl">Male / Neutered</span></label><label class="ah-row"><input type="checkbox" data-facet="condition" value="Male / Intact" onchange="onF()"><span class="ah-row-lbl">Male / Intact</span></label><label class="ah-row"><input type="checkbox" data-facet="condition" value="Female / Spayed" onchange="onF()"><span class="ah-row-lbl">Female / Spayed</span></label><label class="ah-row"><input type="checkbox" data-facet="condition" value="Female / Intact" onchange="onF()"><span class="ah-row-lbl">Female / Intact</span></label></div></div><div class="f-section ah-card"><div class="ah-card-head"><div><h4>Source</h4><div class="ah-sub">Private owner, shelter, rescue or foster.</div></div><a class="ah-clear" onclick="clearFacet(this,'color')">Clear</a></div><div class="ah-card-body"><label class="ah-row"><input type="checkbox" data-facet="color" value="Private owner" onchange="onF()"><span class="ah-row-lbl">Private owner</span></label><label class="ah-row"><input type="checkbox" data-facet="color" value="Shelter" onchange="onF()"><span class="ah-row-lbl">Shelter</span></label><label class="ah-row"><input type="checkbox" data-facet="color" value="Rescue group" onchange="onF()"><span class="ah-row-lbl">Rescue group</span></label><label class="ah-row"><input type="checkbox" data-facet="color" value="Foster" onchange="onF()"><span class="ah-row-lbl">Foster</span></label></div></div>
+    <div class="f-section ah-strict-card">
+      <div class="ah-strict-head"><span class="ic">🎯</span><h4>Strict match</h4></div>
+      <div class="ah-strict-help">Show only listings that <b>exactly</b> match every checkbox — no "or similar" results.</div>
+      <label class="ah-strict-toggle">
+        <span class="lbl">Match my filters exactly</span>
+        <span class="strict-indicator">Off</span>
+        <input type="checkbox" data-facet="exact_match" value="1" onchange="onF()">
+      </label>
+    </div>
+  </aside>
+  <section class="results-area">
+    <div class="results-header">
+      <h1>Adoptable Dogs near 33179</h1>
+      <span class="results-sub">Young · Male · Spayed/Neutered · Listed by private owners within 50 miles</span>
+      <div class="results-tools">
+        <select class="sort-dd"><option>Sort: Most recent</option><option>Distance: nearest</option><option>Name A–Z</option></select>
+        <div class="view-toggle"><button class="active">▦</button><button>≡</button><button>🗺</button></div>
+      </div>
+    </div>
+    <span id="result-count" style="display:none">20 pets</span>
+    <div class="active-chips" id="active-chips"></div>
+    <div class="result-grid" id="result-grid"><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/12195409/pexels-photo-12195409.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Merlin – Husky 2yr3mo"><div class="result-body"><div class="result-brand">Dogs</div><div class="result-name">Merlin – Husky 2yr3mo</div><div class="result-meta">Young · Male / Neutered</div><div class="result-rating-row">★ 4.8</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/35511902/pexels-photo-35511902.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Porkchop – Bernese Pup"><div class="result-body"><div class="result-brand">Dogs</div><div class="result-name">Porkchop – Bernese Pup</div><div class="result-meta">Puppy · Male / Intact</div><div class="result-rating-row">★ 4.7</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/11408628/pexels-photo-11408628.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Beau – Labrador Mix 3yr"><div class="result-body"><div class="result-brand">Dogs</div><div class="result-name">Beau – Labrador Mix 3yr</div><div class="result-meta">Young · Male / Neutered</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/4697573/pexels-photo-4697573.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Rex – German Shepherd 4mo"><div class="result-body"><div class="result-brand">Dogs</div><div class="result-name">Rex – German Shepherd 4mo</div><div class="result-meta">Puppy · Male / Intact</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/32635851/pexels-photo-32635851.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Luna – Husky Mix 5yr"><div class="result-body"><div class="result-brand">Dogs</div><div class="result-name">Luna – Husky Mix 5yr</div><div class="result-meta">Adult · Female / Spayed</div><div class="result-rating-row">★ 4.7</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/32635851/pexels-photo-32635851.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Daisy – Beagle 8yr"><div class="result-body"><div class="result-brand">Dogs</div><div class="result-name">Daisy – Beagle 8yr</div><div class="result-meta">Senior · Female / Spayed</div><div class="result-rating-row">★ 4.3</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/30810870/pexels-photo-30810870.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Max – Border Collie 2yr"><div class="result-body"><div class="result-brand">Dogs</div><div class="result-name">Max – Border Collie 2yr</div><div class="result-meta">Young · Male / Neutered</div><div class="result-rating-row">★ 4.4</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/30556345/pexels-photo-30556345.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Bella – Lab 6mo"><div class="result-body"><div class="result-brand">Dogs</div><div class="result-name">Bella – Lab 6mo</div><div class="result-meta">Puppy · Female / Intact</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/13460413/pexels-photo-13460413.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Charlie – Spaniel 1yr"><div class="result-body"><div class="result-brand">Dogs</div><div class="result-name">Charlie – Spaniel 1yr</div><div class="result-meta">Young · Male / Neutered</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/16652369/pexels-photo-16652369.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Cooper – Doodle 2yr"><div class="result-body"><div class="result-brand">Dogs</div><div class="result-name">Cooper – Doodle 2yr</div><div class="result-meta">Young · Male / Neutered</div><div class="result-rating-row">★ 4.7</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/12195429/pexels-photo-12195429.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Rocky – Boxer 7yr"><div class="result-body"><div class="result-brand">Dogs</div><div class="result-name">Rocky – Boxer 7yr</div><div class="result-meta">Senior · Male / Neutered</div><div class="result-rating-row">★ 4.2</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/35511902/pexels-photo-35511902.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Sadie – Husky 3yr"><div class="result-body"><div class="result-brand">Dogs</div><div class="result-name">Sadie – Husky 3yr</div><div class="result-meta">Young · Female / Spayed</div><div class="result-rating-row">★ 4.4</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/37499463/pexels-photo-37499463.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Milo – Shih Tzu 5mo"><div class="result-body"><div class="result-brand">Dogs</div><div class="result-name">Milo – Shih Tzu 5mo</div><div class="result-meta">Puppy · Male / Intact</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/30556344/pexels-photo-30556344.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Bailey – Lab Mix 4yr"><div class="result-body"><div class="result-brand">Dogs</div><div class="result-name">Bailey – Lab Mix 4yr</div><div class="result-meta">Adult · Male / Neutered</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/32635851/pexels-photo-32635851.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Coco – Pug 9yr"><div class="result-body"><div class="result-brand">Dogs</div><div class="result-name">Coco – Pug 9yr</div><div class="result-meta">Senior · Female / Spayed</div><div class="result-rating-row">★ 4.1</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/20595085/pexels-photo-20595085.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Whiskers – Tabby Cat 2yr"><div class="result-body"><div class="result-brand">Cats</div><div class="result-name">Whiskers – Tabby Cat 2yr</div><div class="result-meta">Young · Male / Neutered</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/20595085/pexels-photo-20595085.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Felix – Siamese Cat 6mo"><div class="result-body"><div class="result-brand">Cats</div><div class="result-name">Felix – Siamese Cat 6mo</div><div class="result-meta">Puppy · Male / Intact</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/12195423/pexels-photo-12195423.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Hopper – Lop Rabbit 1yr"><div class="result-body"><div class="result-brand">Other pets</div><div class="result-name">Hopper – Lop Rabbit 1yr</div><div class="result-meta">Young · Male / Neutered</div><div class="result-rating-row">★ 4.4</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/30556344/pexels-photo-30556344.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Buddy – Australian Shepherd 2yr"><div class="result-body"><div class="result-brand">Dogs</div><div class="result-name">Buddy – Australian Shepherd 2yr</div><div class="result-meta">Young · Male / Neutered</div><div class="result-rating-row">★ 4.7</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/12195423/pexels-photo-12195423.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Toby – Yorkshire 1yr"><div class="result-body"><div class="result-brand">Dogs</div><div class="result-name">Toby – Yorkshire 1yr</div><div class="result-meta">Young · Male / Neutered</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price"></span></div></div></div></div>
+    <nav class="pagination"><button>‹</button><button class="active">1</button><button>2</button><button>3</button><button>›</button></nav>
+  </section>
+</div>
+
+<div class="ah-partners">
+  <b>Our partners</b>
+  <span class="p-logo p-zoetis">Echo Vet</span>
+  <span class="p-logo p-ped">Echo Chow</span>
+  <span class="p-logo p-pet">Echo Charities</span>
+</div>
+<footer class="ah-footer">
+  <div class="ah-footer-row">
+    <div class="ah-footer-col"><h5>Adopt</h5><a>Dogs &amp; puppies</a><a>Cats &amp; kittens</a><a>Small &amp; furry</a><a>Birds &amp; reptiles</a></div>
+    <div class="ah-footer-col"><h5>For shelters</h5><a>List a pet</a><a>Shelter portal</a><a>Adoption resources</a></div>
+    <div class="ah-footer-col"><h5>Learn</h5><a>Pet care library</a><a>Breed encyclopedia</a><a>Training tips</a></div>
+    <div class="ah-footer-col"><h5>About</h5><a>About us</a><a>Press</a><a>Contact</a><a>Privacy</a></div>
+  </div>
+  <div class="ah-footer-bottom"><span>© 2026 EchoPets. Connecting homeless pets with loving homes since 2003.</span><span>Terms · Privacy · Cookie preferences</span></div>
+</footer>
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
+const ENV_ID = 'W24_E04';
+let filterState = {};
+
+function onF() { applyFilters(); }
+
+function applyFilters() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) {
+        if (!newState[f]) newState[f] = [];
+        newState[f].push(el.value || el.dataset.val || '1');
+      }
+    }
+  });
+  filterState = newState;
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    updateResults(data.results || [], data.html_cards);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length + ' results';
+    renderActiveChips();
+    syncStrictBadge();
+  }).catch(()=>{});
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: '', task_id: taskId})
+  }).catch(()=>{});
+}
+
+function lsReset(ev) {
+  if (ev) { ev.stopPropagation(); ev.preventDefault(); }
+  document.querySelectorAll('[data-facet]').forEach(el => { if (el.type === 'checkbox') el.checked = false; });
+  applyFilters();
+}
+
+function updateResults(results, htmlCards) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div class="no-results">No results match your filters.</div>';
+    return;
+  }
+  if (htmlCards) { grid.innerHTML = htmlCards; customizeCards(); return; }
+  grid.innerHTML = results.map(r => {
+    const initial = (r.title || '?').charAt(0);
+    const priceLine = (r.price && r.price > 0) ? ('$' + r.price.toLocaleString()) : '';
+    const thumb = r.image_url
+      ? '<img class="result-thumb-img" loading="lazy" src="' + escapeHtmlText(r.image_url) + '" alt="' + (escapeHtmlText(r.image_alt || r.title || '')) + '">'
+      : '<div class="result-thumb">' + escapeHtmlText(initial) + '</div>';
+    return '<div class="result-card">' + thumb +
+      '<div class="result-body"><div class="result-brand">' + escapeHtmlText(r.brand || '') + '</div>' +
+      '<div class="result-name">' + escapeHtmlText(r.title || '') + '</div>' +
+      '<div class="result-meta">' + escapeHtmlText(r.category || '') + ' · ' + escapeHtmlText(r.condition || '') + '</div>' +
+      '<div class="result-rating-row">★ ' + escapeHtmlText(r.rating || '—') + '</div>' +
+      '<div class="result-price-row"><span class="result-price">' + escapeHtmlText(priceLine) + '</span></div></div></div>';
+  }).join('');
+}
+
+function renderActiveChips() {
+  const bar = document.getElementById('active-chips');
+  if (!bar) return;
+  const chips = [];
+  for (const [k, v] of Object.entries(filterState)) {
+    if (k === 'exact_match') continue;
+    if (Array.isArray(v)) v.forEach(val => chips.push(val));
+    else chips.push(v);
+  }
+  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+escapeHtmlText(c)+'</span>').join('');
+}
+
+function clearFacet(a, facet) {
+  document.querySelectorAll('input[type=checkbox][data-facet="' + facet + '"]').forEach(i => i.checked = false);
+  onF();
+}
+
+function customizeCards() {
+  document.querySelectorAll('#result-grid .result-card').forEach(card => {
+    card.querySelectorAll('.result-tag').forEach(t => {
+      const txt = (t.textContent || '').trim();
+      if (txt === 'FREE Shipping' || txt === 'Prime') t.remove();
+      else if (txt === 'In Stock') t.textContent = 'Available';
+    });
+    const cta = card.querySelector('.result-cta');
+    if (cta) cta.textContent = 'Meet Me';
+    card.querySelectorAll('.result-was, .result-save').forEach(e => e.remove());
+  });
+}
+
+function syncStrictBadge() {
+  const on = !!(filterState.exact_match && filterState.exact_match.length);
+  document.querySelectorAll('.strict-indicator').forEach(el => {
+    el.classList.toggle('on', on);
+    el.textContent = on ? 'Exact match: ON' : 'Exact match: off';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  applyFilters();
+});
+</script>
+</body></html>

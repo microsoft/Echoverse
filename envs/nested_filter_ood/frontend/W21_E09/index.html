@@ -1,0 +1,1017 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>EchoStay: Over a billion reviews & contributions for Hotels, Attractions, Restaurants, and more</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+#submit-status,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+
+
+
+
+
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; font-family:'Trip Sans','Trip Sans VF','Source Sans Pro',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; background:#fff; color:#000; }
+a { color: inherit; text-decoration: none; cursor: pointer; }
+:root { --ta-green:#00aa6c; --ta-green-dark:#004f32; --ta-text:#000; --ta-muted:#5a5a5a; --ta-line:#e0e0e0; --ta-bg:#fafafa; }
+
+/* ---- Tripadvisor top header (white bg, owl + nav + sign-in) ---- */
+.topbar { background:#fff; color:var(--ta-text); padding:14px 28px; display:flex; align-items:center; gap:28px; border-bottom:1px solid var(--ta-line); }
+.topbar .logo { font-size:26px; font-weight:900; letter-spacing:-.5px; color:var(--ta-green-dark); display:flex; align-items:center; gap:2px; }
+.topbar .logo-icon svg { color: var(--ta-green-dark); }
+.topbar .tag { display:none; }
+.topbar nav { margin-left:auto; display:flex; gap:24px; font-size:14px; font-weight:600; color:var(--ta-text); align-items:center; }
+.topbar nav a { display:inline-flex; align-items:center; gap:6px; padding:6px 2px; }
+.topbar nav a:hover { color: var(--ta-green-dark); }
+.topbar nav .ai-pill { background:transparent; border:none; }
+.topbar nav .ai-pill .sparkle { color: var(--ta-green); }
+.topbar nav .rewards { display:inline-flex; align-items:center; gap:6px; }
+.topbar nav .rewards .dot { width:18px; height:18px; border-radius:50%; background: linear-gradient(135deg,#f3a847,#c87021); border:1px solid #b56a18; display:inline-block; }
+.topbar nav .globe { width:18px; height:18px; border-radius:50%; border:1.5px solid #000; display:inline-block; position:relative; }
+.topbar nav .globe::before { content:''; position:absolute; inset:2px; border-radius:50%; border:1px solid #000; border-left-color:transparent; border-right-color:transparent; }
+.topbar nav .sep { color:#aaa; font-weight:400; }
+.topbar nav .signin { background: var(--ta-green-dark); color:#fff; padding:9px 22px; border-radius:24px; font-weight:700; font-size:14px; }
+.topbar nav .signin:hover { background:#001f12; color:#fff; }
+
+/* ---- Sub-nav tab bar ---- */
+.subnav { background:#fff; border-bottom:1px solid var(--ta-line); padding: 0 28px; display:flex; align-items:center; gap:32px; }
+.subnav .city { display:inline-flex; align-items:center; gap:8px; padding:14px 0; color: var(--ta-text); font-weight:700; font-size:15px; }
+.subnav .city .pin { width:22px; height:22px; border-radius:6px; background: #e6f4ed; color:var(--ta-green-dark); display:inline-flex; align-items:center; justify-content:center; }
+.subnav .tab { padding:18px 2px; font-weight:700; font-size:15px; color:var(--ta-text); border-bottom:3px solid transparent; }
+.subnav .tab.active { color: var(--ta-text); border-bottom-color:#000; }
+.subnav .tab:hover { color: var(--ta-green-dark); }
+
+/* ---- Hero (breadcrumb + heading) ---- */
+.hero { background:#fff; padding:14px 28px 8px; }
+.hero .crumbs { font-size:13px; color: var(--ta-muted); margin-bottom: 10px; display:flex; justify-content:space-between; align-items:center; }
+.hero .crumbs .trail span { margin: 0 4px; }
+.hero .crumbs .trail a:hover { text-decoration: underline; }
+.hero .crumbs .meta { font-size:13px; color: var(--ta-muted); }
+.hero h1 { margin:6px 0 14px; font-size:42px; line-height:1.05; font-weight:900; letter-spacing:-1px; color: var(--ta-text); font-family:'Trip Sans','Source Sans Pro',Georgia,serif; }
+.hero p  { margin:0; color: var(--ta-muted); font-size:14px; max-width:720px; }
+.shell { max-width:1180px; margin:0 auto; padding:0 28px 60px; background:#fff; }
+
+/* ---- Booking widget (pills row + day strip) ---- */
+.picker-card { background:#fff; border:1px solid var(--ta-line); border-radius:12px; padding:16px 16px 18px; margin-top:14px; box-shadow:0 1px 2px rgba(0,0,0,.04); position:relative; z-index:2; }
+.picker-card h3 { display:none; }
+.pill-row { display:flex; gap:10px; flex-wrap:wrap; align-items:stretch; }
+.field { display:inline-flex; flex-direction:column; padding:8px 18px; border:1px solid #000; border-radius:24px; background:#fff; cursor:pointer; min-width:200px; transition: box-shadow .15s; }
+.field:hover { box-shadow: 0 0 0 1px #000 inset; }
+.field .lbl { display:flex; align-items:center; gap:6px; font-size:11px; font-weight:700; text-transform:none; letter-spacing:0; color: var(--ta-text); margin-bottom:2px; }
+.field .lbl::before { content:''; width:14px; height:14px; display:inline-block; background-position:center; background-repeat:no-repeat; background-size:contain; }
+#fld-dep .lbl::before { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2'><rect x='3' y='5' width='18' height='16' rx='2'/><line x1='3' y1='10' x2='21' y2='10'/><line x1='8' y1='3' x2='8' y2='7'/><line x1='16' y1='3' x2='16' y2='7'/></svg>"); }
+#fld-ret .lbl::before { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2'><rect x='3' y='5' width='18' height='16' rx='2'/><line x1='3' y1='10' x2='21' y2='10'/><line x1='8' y1='3' x2='8' y2='7'/><line x1='16' y1='3' x2='16' y2='7'/></svg>"); }
+.field .val { display:block; font-size:14px; font-weight:600; color: var(--ta-text); margin:0; min-height:18px; }
+.field.empty .val { color:#777; font-weight:400; }
+.field#fld-dest .lbl::before { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2'><path d='M12 22s-7-7.5-7-13a7 7 0 0 1 14 0c0 5.5-7 13-7 13z'/><circle cx='12' cy='9' r='2.5'/></svg>"); }
+.field#fld-rooms .lbl::before { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2'><circle cx='9' cy='8' r='3.5'/><path d='M2 21c1-4 4.5-6 7-6s6 2 7 6'/><circle cx='17' cy='9' r='2.5'/><path d='M22 20c-.6-2.5-2.5-4-4.5-4'/></svg>"); }
+
+.btn { background: var(--ta-green-dark); color:#fff; border:0; padding:11px 28px; border-radius:24px; font-size:14px; font-weight:700; cursor:pointer; line-height:1; }
+.btn:hover { background:#001f12; }
+.btn.alt { background:#fff; color: var(--ta-text); border:1px solid #000; padding:10px 16px; }
+.btn.alt:hover { background:#f3f3f3; }
+.btn.nav-arrow { background:#fff; color: var(--ta-text); border:1px solid #000; padding:0; width:40px; height:40px; border-radius:50%; font-size:18px; display:inline-flex; align-items:center; justify-content:center; align-self:center; }
+.btn.nav-arrow:hover { background:#f3f3f3; }
+
+/* ---- Filter chips row ---- */
+.chips-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; padding-top:14px; border-top:1px solid var(--ta-line); align-items:center; }
+.chip { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; border:1px solid #000; border-radius:24px; background:#fff; font-size:13px; font-weight:600; color: var(--ta-text); cursor:pointer; }
+.chip:hover { background: #f3f3f3; }
+.chip.chip-filters { background:#000; color:#fff; border-color:#000; }
+.chip .caret::after { content:'⌄'; font-size:14px; line-height:1; margin-left:2px; }
+.chip .green-dots { display:inline-flex; gap:2px; }
+.chip .green-dots .dt { width:10px; height:10px; border-radius:50%; background: var(--ta-green); display:inline-block; }
+.chip .green-dots .dt.empty { background:#fff; border:1.5px solid var(--ta-green); width:7px; height:7px; }
+.task-banner { background:#fff8db; border:1px solid #ecd56b; border-radius:10px; padding:14px 18px; margin:18px 0 4px; font-size:13.5px; color:#523c00; display:none; }
+.task-banner.visible { display:block; }
+.task-banner .ttitle { font-weight:700; margin-bottom:4px; }
+.task-banner .tprop { white-space:pre-wrap; }
+.task-banner .ansbox { margin-top:10px; }
+.task-banner .ansbox input { padding:8px 10px; border:1px solid #d3b842; border-radius:6px; min-width:280px; font-size:13px; }
+.live-state { font-family:'Courier New',monospace; font-size:12px; background:#f6f6f4; border:1px dashed var(--ta-line); border-radius:6px; padding:8px 10px; margin-top:12px; color:#444; display:none; }
+.live-state b { color: var(--ta-green); }
+.results { margin-top:28px; display:grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 18px; }
+.results .left-col { min-width:0; }
+.results h2 { font-size:16px; margin:0 0 14px; color: var(--ta-text); font-weight:700; }
+.results .sort-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-size:13px; color: var(--ta-muted); }
+.results .sort-row b { color: var(--ta-text); }
+.results .grid { display:flex; flex-direction:column; gap:18px; }
+.results .grid > * { background:#fff; border:1px solid var(--ta-line); border-radius:12px; padding:0; overflow:hidden; box-shadow:0 1px 2px rgba(0,0,0,.04); display:grid; grid-template-columns: 240px 1fr; gap:0; min-height: 200px; }
+.results .grid > *:hover { box-shadow:0 4px 10px rgba(0,0,0,.08); }
+.results .empty { color:#666; font-size:14px; padding:24px; background:#fff; border:1px dashed var(--ta-line); border-radius:12px; display:block; grid-template-columns:none; }
+.map-pane { background: linear-gradient(135deg,#e8f4e6 0%,#d5ecd0 50%,#bce0bc 100%); border:1px solid var(--ta-line); border-radius:12px; position:sticky; top:18px; height:560px; overflow:hidden; }
+.map-pane::before { content:''; position:absolute; inset:0; background-image: repeating-linear-gradient(0deg, rgba(0,0,0,.05) 0 1px, transparent 1px 60px), repeating-linear-gradient(90deg, rgba(0,0,0,.05) 0 1px, transparent 1px 60px); }
+.map-pane .pin { position:absolute; background: var(--ta-green-dark); color:#fff; padding:5px 10px; border-radius:14px; font-size:12px; font-weight:700; box-shadow:0 2px 4px rgba(0,0,0,.25); }
+.map-pane .pin.light { background:#fff; color: var(--ta-green-dark); border:1px solid var(--ta-green-dark); }
+.map-pane .map-label { position:absolute; color: var(--ta-green-dark); font-weight:700; font-size:13px; opacity:.55; }
+.map-pane .zoom { position:absolute; right:12px; bottom:12px; display:flex; flex-direction:column; gap:6px; }
+.map-pane .zoom button { width:34px; height:34px; background:#fff; border:1px solid var(--ta-line); border-radius:6px; font-size:18px; font-weight:700; cursor:pointer; box-shadow:0 1px 3px rgba(0,0,0,.1); }
+
+/* ---- Hotel card ---- */
+.results .grid .h-card-img { background:#dde; background-size:cover; background-position:center; position:relative; }
+.results .grid .h-card-img::before { content:'❤'; position:absolute; top:10px; right:10px; width:30px; height:30px; border-radius:50%; background: rgba(255,255,255,.92); color:#000; display:flex; align-items:center; justify-content:center; font-size:14px; box-shadow:0 1px 2px rgba(0,0,0,.18); }
+.results .grid .h-card-body { padding:14px 16px; display:flex; flex-direction:column; gap:8px; }
+.results .grid .h-rank { font-size:18px; font-weight:700; color: var(--ta-text); line-height:1.2; margin:0; }
+.results .grid .h-rating { display:flex; align-items:center; gap:6px; font-size:13px; color: var(--ta-muted); }
+.results .grid .h-rating .score { color: var(--ta-text); font-weight:700; }
+.results .grid .h-rating .dots { display:inline-flex; gap:2px; }
+.results .grid .h-rating .dots .dt { width:11px; height:11px; border-radius:50%; background: var(--ta-green); }
+.results .grid .h-rating .dots .dt.empty { background:#fff; border:1.5px solid var(--ta-green); width:8px; height:8px; }
+.results .grid .h-rating a { color: var(--ta-text); text-decoration: underline; }
+.results .grid .h-best { font-size:13px; color: var(--ta-text); }
+.results .grid .h-mentions { display:flex; align-items:flex-start; gap:6px; font-size:13px; color: var(--ta-muted); flex-wrap:wrap; }
+.results .grid .h-mentions::before { content:'✓'; color: var(--ta-green-dark); font-weight:700; }
+.results .grid .h-price-col { padding:14px 18px; border-left:1px solid var(--ta-line); display:flex; flex-direction:column; align-items:flex-end; justify-content:space-between; gap:8px; min-width:170px; }
+.results .grid .h-price-col .strike { font-size:13px; color:#888; text-decoration: line-through; }
+.results .grid .h-price-col .price { font-size:22px; color:#d12d3a; font-weight:800; line-height:1; }
+.results .grid .h-price-col .refund { font-size:12px; color: var(--ta-muted); text-align:right; }
+.results .grid .h-price-col .view-btn { background: var(--ta-green-dark); color:#fff; padding:10px 26px; border-radius:22px; font-weight:700; font-size:14px; }
+@media (max-width: 1000px) {
+  .results { grid-template-columns: 1fr; }
+  .map-pane { display:none; }
+  .results .grid > * { grid-template-columns: 1fr; }
+  .results .grid .h-price-col { border-left:none; border-top:1px solid var(--ta-line); align-items:flex-start; }
+}
+
+/* ---- Server-rendered hotel cards (Tripadvisor styling) ---- */
+.hotel-card { display: grid !important; grid-template-columns: 260px 1fr !important; gap: 0 !important; padding: 0 !important; overflow:hidden; }
+.hotel-photo { min-height: 200px; background:#dde; position:relative; }
+.hotel-photo::after { content:'♡'; position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,.95); color:#000; display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow:0 1px 3px rgba(0,0,0,.2); }
+.hotel-body { padding: 14px 16px 16px; display:flex; flex-direction:column; gap:8px; min-width:0; }
+.hotel-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+.hotel-head > div:first-child { min-width:0; flex:1; }
+.hotel-name { font-size:18px; font-weight:700; color: var(--ta-text); line-height:1.2; margin:0 0 4px; }
+.hotel-stars { color: var(--ta-green); font-size:14px; letter-spacing:1px; margin: 2px 0 4px; }
+.hotel-loc { font-size:13px; color: var(--ta-muted); }
+.hotel-score { display:flex; flex-direction:column; align-items:flex-end; gap:2px; min-width:80px; }
+.hotel-score-num { font-size:18px; font-weight:800; color:#fff; background: var(--ta-green-dark); padding: 3px 9px; border-radius: 6px 6px 6px 0; }
+.hotel-score-word { font-size:13px; font-weight:700; color: var(--ta-text); }
+.hotel-score-rev { font-size:12px; color: var(--ta-muted); }
+.hotel-amens { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+.hotel-amen { font-size:12px; padding: 3px 9px; background:#f1f7f3; color: var(--ta-green-dark); border-radius:12px; font-weight:600; }
+.hotel-foot { display:flex; justify-content:space-between; align-items:flex-end; gap:12px; margin-top:auto; padding-top:8px; border-top:1px dashed var(--ta-line); }
+.hotel-price-block { display:flex; flex-direction:column; gap:2px; }
+.hotel-price { font-size:22px; font-weight:800; color: #d12d3a; line-height:1; }
+.hotel-night { font-size:13px; font-weight:500; color: var(--ta-muted); }
+.hotel-total { font-size:12px; color: var(--ta-muted); }
+.hotel-reserve { background: var(--ta-green-dark); color:#fff; border:0; padding: 10px 26px; border-radius:22px; font-weight:700; font-size:14px; cursor:pointer; }
+.hotel-reserve:hover { background:#001f12; }
+.results .grid > .hotel-card:hover { box-shadow:0 6px 16px rgba(0,0,0,.10); border-color:#cfcfcf; }
+
+footer { background:#fff; color: var(--ta-muted); padding:36px 28px 30px; font-size:13px; border-top:1px solid var(--ta-line); }
+footer .f-cols { max-width:1180px; margin: 0 auto; display:grid; grid-template-columns: repeat(4, 1fr); gap:24px; padding-bottom:24px; border-bottom:1px solid var(--ta-line); }
+footer .f-cols h5 { margin:0 0 10px; font-size:13px; color: var(--ta-text); font-weight:700; text-transform:uppercase; letter-spacing:.4px; }
+footer .f-cols ul { list-style:none; padding:0; margin:0; }
+footer .f-cols li { margin: 6px 0; }
+footer .f-cols a:hover { text-decoration: underline; }
+footer .f-bottom { max-width:1180px; margin: 18px auto 0; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+footer .f-bottom .owl { display:inline-flex; align-items:center; gap:6px; color: var(--ta-green-dark); font-weight:900; font-size:20px; }
+
+/* ---- Tripadvisor-style dual-month calendar overlay ---- */
+.cal-overlay { margin-top:16px; background:#fff; border:1px solid var(--ta-line); border-radius:16px; padding:18px 22px 22px; box-shadow:0 6px 18px rgba(0,0,0,.06); }
+.cal-pills { display:flex; gap:12px; margin-bottom:18px; }
+.cal-pill { flex:1; padding:10px 18px; border:2px solid var(--ta-line); border-radius:12px; background:#fff; cursor:pointer; transition:border-color .15s, background .15s; min-width:0; }
+.cal-pill:hover { border-color:#999; }
+.cal-pill.active { border-color: var(--ta-green-dark); background:#f3faf6; box-shadow: 0 0 0 1px var(--ta-green-dark) inset; }
+.cal-pill .pill-label { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.6px; color: var(--ta-muted); margin-bottom:4px; }
+.cal-pill.active .pill-label { color: var(--ta-green-dark); }
+.cal-pill .pill-value { font-size:16px; font-weight:700; color: var(--ta-text); line-height:1.1; }
+.cal-pill.empty .pill-value { color:#888; font-weight:500; }
+
+.cal-dual { display:grid; grid-template-columns: 1fr 1fr; gap:36px; position:relative; padding: 0 8px; }
+.cal-arrow { position:absolute; top:0; width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid #d0d0d0; color: var(--ta-text); font-size:20px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 1px 2px rgba(0,0,0,.06); z-index:1; transition: background .12s, border-color .12s; }
+.cal-arrow:hover { background:#f3faf6; border-color: var(--ta-green-dark); color: var(--ta-green-dark); }
+.cal-arrow.prev { left:-6px; }
+.cal-arrow.next { right:-6px; }
+.cal-arrow:disabled { opacity:.35; cursor:not-allowed; }
+
+.cal { font-size:14px; }
+.cal .cal-head { display:flex; justify-content:center; align-items:center; padding: 4px 0 14px; min-height:36px; }
+.cal .cal-head .nav { display:none; }
+.cal .cal-head .title { font-weight:800; color: var(--ta-text); font-size:16px; letter-spacing:.2px; }
+.cal .dow { display:grid; grid-template-columns:repeat(7,1fr); gap:0; color: var(--ta-muted); font-size:12px; font-weight:700; text-align:center; padding-bottom:8px; text-transform:uppercase; }
+.cal .days { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
+.cal .day { height:42px; display:flex; align-items:center; justify-content:center; cursor:pointer; border-radius:50%; font-size:14px; font-weight:500; color: var(--ta-text); user-select:none; background:transparent; position:relative; transition: background .12s, color .12s; }
+.cal .day:hover { background: #f0f7f3; }
+.cal .day.muted { color:transparent; cursor:default; background:transparent; pointer-events:none; }
+.cal .day.disabled { color:#c8c8c8; cursor:not-allowed; text-decoration:line-through; background:transparent; pointer-events:none; }
+.cal .day.disabled:hover { background:transparent; }
+.cal .day.today::after { content:''; position:absolute; bottom:5px; left:50%; transform:translateX(-50%); width:4px; height:4px; border-radius:50%; background: var(--ta-green-dark); }
+.cal .day.in-range { background:#e6f4ed; color: var(--ta-green-dark); font-weight:700; border-radius:0; }
+.cal .day.dep, .cal .day.ret { background: var(--ta-green); color:#fff; font-weight:800; border-radius:50%; box-shadow: 0 2px 6px rgba(0,170,108,.35); }
+.cal .day.dep.today::after, .cal .day.ret.today::after { background:#fff; }
+
+.cal-helper { font-size:12px; color: var(--ta-muted); margin: 14px 2px 0; display:flex; align-items:center; justify-content:space-between; gap:14px; }
+.cal-helper .legend { display:inline-flex; align-items:center; gap:14px; }
+.cal-helper .lg { display:inline-flex; align-items:center; gap:6px; }
+.cal-helper .sw { width:12px; height:12px; border-radius:50%; display:inline-block; }
+.cal-helper .sw.dep { background: var(--ta-green); }
+.cal-helper .sw.rng { background: #e6f4ed; border:1px solid #b9dcc6; }
+.cal-helper .clear { color: var(--ta-green-dark); font-weight:700; cursor:pointer; text-decoration:underline; }
+.cal-err { color:#c0392b; font-size:12px; font-weight:600; margin-top:10px; min-height:16px; }
+
+@media (max-width: 820px) {
+  .cal-dual { grid-template-columns: 1fr; gap:18px; }
+  .cal-arrow.next { right:-6px; }
+}
+
+/* Hide hero gradient/image (we use a clean white Tripadvisor hero) */
+.hero::before { content: none !important; display:none !important; }
+.hero { position: static; overflow: visible; }
+.hero h1, .hero p, .hero .route-pill { color: var(--ta-text) !important; text-shadow: none !important; }
+.hero .route-pill { display:none !important; }
+</style>
+</head><body>
+<header class="topbar">
+  <div class="logo"><span class="logo-icon"><svg viewBox='0 0 56 24' width='52' height='22' style='vertical-align:middle;margin-right:4px;display:inline-block' aria-hidden='true'><rect x='17' y='1' width='22' height='22' rx='5' fill='currentColor'/><text x='28' y='18' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' font-size='16' font-weight='800' fill='#fff'>E</text></svg></span><span>EchoStay</span></div>
+  <nav>
+    <a class="ai-pill"><span class="sparkle">✦</span> Plan with AI</a>
+    <a class="rewards"><span class="dot"></span> Rewards</a>
+    <a>Discover</a>
+    <a>Review</a>
+    <a>More</a>
+    <a class="globe-wrap"><span class="globe"></span></a>
+    <span class="sep">|</span>
+    <a>USD</a>
+    <a class="signin">Sign in</a>
+  </nav>
+</header>
+<div class="subnav">
+  <span class="city"><span class="pin">📍</span> Las Vegas</span>
+  <a class="tab active">Hotels</a>
+  <a class="tab">Things to Do</a>
+  <a class="tab">Restaurants</a>
+  <a class="tab">Cruises</a>
+  <a class="tab">Forums</a>
+</div>
+<section class="hero">
+  <div class="crumbs">
+    <div class="trail"><a>United States</a><span>›</span><a>Nevada (NV)</a><span>›</span><a>Las Vegas</a><span>›</span><a>Las Vegas Hotels</a></div>
+    <div class="meta">THE 10 BEST Hotels in Las Vegas 2026</div>
+  </div>
+  <h1>Las Vegas Hotels and Places to Stay</h1>
+</section>
+<main class="shell">
+  <div class="picker-card">
+    <div class="pill-row">
+      <div class="field" id="fld-dest"><span class="lbl">Destination</span><span class="val">Hotels near Grand Canyon, Las Vegas</span></div>
+      <div class="field" id="fld-dep"><span class="lbl">Check-in</span><span class="val" id="val-dep">Choose date</span></div>
+      <div class="field" id="fld-ret"><span class="lbl">Check-out</span><span class="val" id="val-ret">Choose date</span></div>
+      <div class="field" id="fld-rooms"><span class="lbl">Rooms/Guests</span><span class="val">1 Room, 2 Guests</span></div>
+    </div>
+
+    <div class="cal-overlay" id="cal-overlay">
+      <div class="cal-pills">
+        <div class="cal-pill active empty" id="pill-checkin">
+          <div class="pill-label">Check-in</div>
+          <div class="pill-value" id="pill-val-dep">Add date</div>
+        </div>
+        <div class="cal-pill empty" id="pill-checkout">
+          <div class="pill-label">Check-out</div>
+          <div class="pill-value" id="pill-val-ret">Add date</div>
+        </div>
+      </div>
+      <div class="cal-dual">
+        <button class="cal-arrow prev" id="cal-prev" type="button" aria-label="Previous month">‹</button>
+        <div class="cal-month" id="cal-month-left"></div>
+        <div class="cal-month" id="cal-month-right"></div>
+        <button class="cal-arrow next" id="cal-next" type="button" aria-label="Next month">›</button>
+      </div>
+      <div class="cal-helper">
+        <span class="legend">
+          <span class="lg"><span class="sw dep"></span> Selected</span>
+          <span class="lg"><span class="sw rng"></span> Stay nights</span>
+        </span>
+        <span class="clear" id="cal-clear">Clear dates</span>
+      </div>
+      <div class="cal-err" id="cal-err"></div>
+    </div>
+
+    <div class="chips-row">
+      <span class="chip chip-filters">⚙ Filters</span>
+      <span class="chip">Price <span class="caret"></span></span>
+      <span class="chip">Amenities <span class="caret"></span></span>
+      <span class="chip">Pets Allowed</span>
+      <span class="chip">4 Star</span>
+      <span class="chip"><span class="green-dots"><span class="dt"></span><span class="dt"></span><span class="dt"></span><span class="dt"></span><span class="dt empty"></span></span> &amp; up</span>
+      <span class="chip">Luxury</span>
+      <span class="chip">Family-friendly</span>
+    </div>
+
+    <div id="submit-status" style="font-size:12px;color:#888;margin-top:10px;"></div>
+    <div id="live-state" class="live-state"><b>filterState</b> = {}</div>
+  </div>
+
+  <div id="task-banner" class="task-banner">
+    <div class="ttitle"></div>
+    <div class="tprop"></div>
+    <div class="ansbox" style="display:none;">
+      <label style="display:block;font-size:12px;margin-bottom:4px;">Your answer:</label>
+      <input id="task-answer-input" type="text" oninput="queueSubmit()" placeholder="Type your answer..." />
+    </div>
+  </div>
+
+  <section class="results">
+    <div class="left-col">
+      <div class="sort-row">
+        <span id="result-count">Results</span>
+        <span>Sort by: <b>Best Value</b> ⌄</span>
+      </div>
+      <div id="result-grid" class="grid"><div class="empty">Pick dates to see results.</div></div>
+    </div>
+    <aside class="map-pane" aria-label="Map of Las Vegas hotels">
+      <div class="map-label" style="top:18%;left:38%;">LAS VEGAS</div>
+      <div class="map-label" style="top:42%;left:60%;font-size:11px;">PARADISE</div>
+      <div class="map-label" style="top:78%;left:22%;font-size:11px;">SPRING VALLEY</div>
+      <div class="pin" style="top:22%;left:30%;">$126</div>
+      <div class="pin light" style="top:28%;left:48%;">$134</div>
+      <div class="pin" style="top:38%;left:36%;">$98</div>
+      <div class="pin light" style="top:46%;left:54%;">$171</div>
+      <div class="pin" style="top:54%;left:42%;">$232</div>
+      <div class="pin" style="top:62%;left:30%;">$144</div>
+      <div class="pin light" style="top:68%;left:58%;">$277</div>
+      <div class="pin" style="top:36%;left:18%;">$84</div>
+      <div class="pin" style="top:74%;left:48%;">$109</div>
+      <div class="zoom"><button>+</button><button>−</button></div>
+    </aside>
+  </section>
+</main>
+<footer>
+  <div class="f-cols">
+    <div><h5>About EchoStay</h5><ul><li><a>About Us</a></li><li><a>Press</a></li><li><a>Resources and Policies</a></li><li><a>Careers</a></li><li><a>Trust &amp; Safety</a></li><li><a>Contact us</a></li><li><a>Accessibility Statement</a></li></ul></div>
+    <div><h5>Explore</h5><ul><li><a>Write a review</a></li><li><a>Add a Place</a></li><li><a>Join</a></li><li><a>EchoStay Choice</a></li><li><a>EchoStay Green</a></li><li><a>Help Center</a></li></ul></div>
+    <div><h5>Do Business With Us</h5><ul><li><a>Owners</a></li><li><a>EchoStay Advantage</a></li><li><a>Sponsored Placements</a></li><li><a>Advertise with Us</a></li><li><a>Access our Content API</a></li><li><a>Become an Affiliate</a></li></ul></div>
+    <div><h5>Get The App</h5><ul><li><a>EchoPhone App</a></li><li><a>EchoDroid App</a></li><li><a>EchoStay for Mobile</a></li></ul></div>
+  </div>
+  <div class="f-bottom">
+    <div class="owl"><span style="display:inline-block;color:var(--ta-green-dark);font-size:22px;">E</span> EchoStay</div>
+    <div>© 2026 EchoStay LLC All rights reserved. · Terms of Use · Privacy and Cookies Statement · Cookie consent · Site Map</div>
+  </div>
+</footer>
+<script>
+
+window.__ENV_ID = "W21_E09"; const ENV_ID = window.__ENV_ID;
+const TASK_ID = new URLSearchParams(location.search).get('task_id') || '';
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DOW    = ['S','M','T','W','T','F','S'];
+function fmt(y,m,d){ return MONTHS[m] + ' ' + d + ', ' + y; }
+function isoY(y,m,d){ const s=(n)=>String(n).padStart(2,'0'); return y+'-'+s(m+1)+'-'+s(d); }
+function parseISO(s){ if(!s) return null; const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s); if(!m) return null; return [+m[1],+m[2]-1,+m[3]]; }
+function daysInMonth(y,m){ return new Date(y,m+1,0).getDate(); }
+function before(a,b){ // a,b = [y,m,d]
+  if(!a||!b) return false;
+  if(a[0]!==b[0]) return a[0]<b[0];
+  if(a[1]!==b[1]) return a[1]<b[1];
+  return a[2]<b[2];
+}
+function sameDay(a,b){ return a&&b&&a[0]===b[0]&&a[1]===b[1]&&a[2]===b[2]; }
+
+const filterState = { depart_date: '', return_date: '' };
+let __dep = null, __ret = null;          // [y,m,d] tuples
+let __submitTimer = null;
+
+async function submitState(){
+  if (!ENV_ID) return;
+  const payload = { filter_state: { ...filterState } };
+  if (TASK_ID) payload.task_id = TASK_ID;
+  const ans = document.getElementById('task-answer-input');
+  if (ans && ans.value.trim()) payload.answer = ans.value.trim();
+  try {
+    const r = await fetch('/env/'+ENV_ID+'/api/submit', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload),
+    });
+    const j = await r.json().catch(()=>({}));
+    const el = document.getElementById('submit-status');
+    if (el && j) {
+      el.textContent = 'submit: state='+(j.satisfies_state?'\u2713':'\u2717')
+                     + ' answer='+(j.satisfies_answer?'\u2713':'\u2717')
+                     + (j.message?(' \u2014 '+j.message):'');
+    }
+  } catch(e) {}
+}
+function queueSubmit(){ if (__submitTimer) clearTimeout(__submitTimer); __submitTimer=setTimeout(submitState, 120); }
+
+async function refreshResults(){
+  if (!ENV_ID) return;
+  try {
+    const r = await fetch('/env/'+ENV_ID+'/api/filter', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ filter_state: { ...filterState } }),
+    });
+    const j = await r.json();
+    const grid = document.getElementById('result-grid');
+    const count = document.getElementById('result-count');
+    if (!grid) return;
+    if (j && j.html_cards && j.html_cards.length) {
+      grid.innerHTML = (Array.isArray(j.html_cards) ? j.html_cards.join('') : j.html_cards);
+      if (count) count.textContent = j.count + ' result' + (j.count===1?'':'s');
+    } else {
+      grid.innerHTML = '<div class="empty">No matches \u2014 try widening your dates.</div>';
+      if (count) count.textContent = '0 results';
+    }
+  } catch(e) {}
+}
+
+function liveStateUpdate(){
+  const el = document.getElementById('live-state');
+  if (el) el.innerHTML = '<b>filterState</b> = ' + JSON.stringify(filterState);
+}
+
+function applyDepart(y,m,d){
+  __dep = [y,m,d];
+  filterState.depart_date = fmt(y,m,d);
+  if (__ret && before(__ret, __dep)) { __ret = null; filterState.return_date = ''; }
+  if (typeof window.W21_renderAll === 'function') window.W21_renderAll();
+  liveStateUpdate();
+  submitState();
+  refreshResults();
+}
+function applyReturn(y,m,d){
+  if (!__dep) { applyDepart(y,m,d); return; }
+  if (before([y,m,d], __dep)) { submitState(); return; }
+  __ret = [y,m,d];
+  filterState.return_date = fmt(y,m,d);
+  if (typeof window.W21_renderAll === 'function') window.W21_renderAll();
+  liveStateUpdate();
+  submitState();
+  refreshResults();
+}
+function getDep(){ return __dep ? [...__dep] : null; }
+function getRet(){ return __ret ? [...__ret] : null; }
+
+async function loadTaskBanner(){
+  if (!TASK_ID) return;
+  try {
+    const r = await fetch('/env/'+ENV_ID+'/api/task/'+TASK_ID);
+    if (!r.ok) return;
+    const t = await r.json();
+    const banner = document.getElementById('task-banner');
+    if (!banner) return;
+    banner.classList.add('visible');
+    banner.querySelector('.ttitle').textContent = 'Task ' + (t.id||TASK_ID) + ' \u00b7 ' + (t.task_type||'') + ' \u00b7 ' + (t.task_difficulty||'');
+    banner.querySelector('.tprop').textContent  = t.task_proposal || t.task_summary || '';
+    const ab = banner.querySelector('.ansbox');
+    if (t.task_type === 'read' || t.task_type === 'read_write') {
+      ab.style.display='block';
+    } else {
+      ab.style.display='none';
+    }
+  } catch(e) {}
+}
+
+window.W21 = {
+  set: function(depISO, retISO){
+    const a = parseISO(depISO); const b = parseISO(retISO);
+    if (a) applyDepart(a[0],a[1],a[2]);
+    if (b) applyReturn(b[0],b[1],b[2]);
+  },
+  setAnswer: function(s){
+    const el = document.getElementById('task-answer-input');
+    if (el) { el.value = s||''; el.dispatchEvent(new Event('input',{bubbles:true})); }
+  },
+  getState: function(){ return { ...filterState }; },
+  applyDepart, applyReturn, getDep, getRet,
+};
+
+function W21_renderMonth(host, y, m, opts){
+  opts = opts || {};
+  const dep = getDep(), ret = getRet();
+  host.classList.add('cal');
+  let html = '';
+  html += '<div class="cal-head">';
+  if (opts.showPrev) html += '<button class="nav" data-nav="prev">\u2039</button>'; else html += '<span></span>';
+  html += '<div class="title">' + MONTHS[m] + ' ' + y + '</div>';
+  if (opts.showNext) html += '<button class="nav" data-nav="next">\u203a</button>'; else html += '<span></span>';
+  html += '</div>';
+  html += '<div class="dow">' + DOW.map(d=>'<div>'+d+'</div>').join('') + '</div>';
+  html += '<div class="days">';
+  const first = new Date(y,m,1).getDay();
+  for (let i=0;i<first;i++) html += '<div class="day muted"></div>';
+  const last = daysInMonth(y,m);
+  for (let d=1; d<=last; d++) {
+    const cur=[y,m,d];
+    let cls='day';
+    if (sameDay(cur,dep)) cls += ' dep';
+    else if (sameDay(cur,ret)) cls += ' ret';
+    else if (dep && ret && before(dep,cur) && before(cur,ret)) cls += ' in-range';
+    if (opts.disableBefore && before(cur, opts.disableBefore) && !sameDay(cur,opts.disableBefore)) cls += ' disabled';
+    html += '<div class="'+cls+'" data-d="'+d+'" data-m="'+m+'" data-y="'+y+'">'+d+'</div>';
+  }
+  html += '</div>';
+  host.innerHTML = html;
+
+  host.querySelectorAll('.day').forEach(el => {
+    el.addEventListener('click', () => {
+      if (el.classList.contains('muted') || el.classList.contains('disabled')) return;
+      const yy=+el.dataset.y, mm=+el.dataset.m, dd=+el.dataset.d;
+      if (opts.role === 'depart') applyDepart(yy,mm,dd);
+      else if (opts.role === 'return') applyReturn(yy,mm,dd);
+      else {
+        const dep=getDep(), ret=getRet();
+        if (!dep || (dep&&ret)) { __ret=null; filterState.return_date=''; applyDepart(yy,mm,dd); }
+        else applyReturn(yy,mm,dd);
+      }
+    });
+  });
+  host.querySelectorAll('.nav').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const dir = btn.dataset.nav === 'next' ? 1 : -1;
+      if (opts.onNav) opts.onNav(dir);
+    });
+  });
+}
+
+let __startDate=null;
+function W21_initPattern(defaultY){
+  // Anchor on June 2026 so left=Jun, right=Jul (matches July 21 task).
+  __startDate=[defaultY, 5, 1];
+  const prev = document.getElementById('cal-prev');
+  const next = document.getElementById('cal-next');
+  const clr  = document.getElementById('cal-clear');
+  if (prev) prev.addEventListener('click', ()=>shift(-1));
+  if (next) next.addEventListener('click', ()=>shift(1));
+  if (clr)  clr.addEventListener('click', ()=>{
+    __dep=null; __ret=null;
+    filterState.depart_date=''; filterState.return_date='';
+    liveStateUpdate(); submitState(); refreshResults();
+    render();
+  });
+  window.W21_renderAll=render;
+  render();
+}
+function shift(months){
+  const d = new Date(__startDate[0], __startDate[1] + months, 1);
+  __startDate = [d.getFullYear(), d.getMonth(), 1];
+  render();
+}
+
+function __addMonth(y, m, delta){
+  const d = new Date(y, m + delta, 1);
+  return [d.getFullYear(), d.getMonth()];
+}
+
+function render(){
+  const left  = document.getElementById('cal-month-left');
+  const right = document.getElementById('cal-month-right');
+  const dep = getDep(), ret = getRet();
+
+  if (left && right) {
+    const ly = __startDate[0], lm = __startDate[1];
+    const [ry, rm] = __addMonth(ly, lm, 1);
+    W21_renderMonth(left,  ly, lm, { showPrev:false, showNext:false });
+    W21_renderMonth(right, ry, rm, { showPrev:false, showNext:false });
+    __markToday(left);
+    __markToday(right);
+  }
+
+  // Top pill-row (Check-in / Check-out fields)
+  const fldDep = document.getElementById('fld-dep');
+  const fldRet = document.getElementById('fld-ret');
+  if (fldDep) fldDep.classList.toggle('empty', !dep);
+  if (fldRet) fldRet.classList.toggle('empty', !ret);
+  const vDep = document.getElementById('val-dep');
+  const vRet = document.getElementById('val-ret');
+  if (vDep) vDep.textContent = dep ? fmt(dep[0],dep[1],dep[2]) : 'Choose date';
+  if (vRet) vRet.textContent = ret ? fmt(ret[0],ret[1],ret[2]) : 'Choose date';
+
+  // Calendar header pills
+  const pcin  = document.getElementById('pill-checkin');
+  const pcout = document.getElementById('pill-checkout');
+  const pvDep = document.getElementById('pill-val-dep');
+  const pvRet = document.getElementById('pill-val-ret');
+  if (pvDep) pvDep.textContent = dep ? fmt(dep[0],dep[1],dep[2]) : 'Add date';
+  if (pvRet) pvRet.textContent = ret ? fmt(ret[0],ret[1],ret[2]) : 'Add date';
+  if (pcin)  { pcin.classList.toggle('empty', !dep); pcin.classList.toggle('active', !dep || (dep && ret)); }
+  if (pcout) { pcout.classList.toggle('empty', !ret); pcout.classList.toggle('active', !!(dep && !ret)); }
+
+  // Keep hidden data-facet mirrors in sync for the verifier.
+  __syncMirror('depart_date', dep ? fmt(dep[0],dep[1],dep[2]) : '');
+  __syncMirror('return_date', ret ? fmt(ret[0],ret[1],ret[2]) : '');
+
+  const err = document.getElementById('cal-err');
+  if (err && !err.dataset.sticky) err.textContent = '';
+}
+
+function __syncMirror(facet, value){
+  const sel = '#w21-mirror-host input[data-facet="' + facet + '"]';
+  const inp = document.querySelector(sel);
+  if (inp && inp.value !== value) inp.value = value;
+}
+
+function __markToday(host){
+  const t = new Date();
+  const ty = t.getFullYear(), tm = t.getMonth(), td = t.getDate();
+  host.querySelectorAll('.day[data-y]').forEach(el => {
+    if (+el.dataset.y === ty && +el.dataset.m === tm && +el.dataset.d === td) {
+      el.classList.add('today');
+    }
+  });
+}
+
+// Override applyReturn to show a friendly error in the calendar when
+// the user picks a return date that lands before the chosen depart.
+const __origApplyReturn = applyReturn;
+applyReturn = function(y, m, d){
+  if (__dep && before([y,m,d], __dep)) {
+    const err = document.getElementById('cal-err');
+    if (err) {
+      err.textContent = 'Check-out must be on or after your check-in date.';
+      setTimeout(()=>{ if (err.textContent.startsWith('Check-out')) err.textContent=''; }, 2800);
+    }
+  }
+  __origApplyReturn(y, m, d);
+};
+
+
+// Pattern bootstrap
+document.addEventListener('DOMContentLoaded', () => {
+  loadTaskBanner();
+  liveStateUpdate();
+  if (typeof window.W21_initPattern === 'function') window.W21_initPattern(2026);
+});
+
+
+/* ----------------------------- W21 PATCH (begin) -----------------------------
+   Overrides buggy renderCal/calAdv from the baked template with:
+   * a correct calendar grid (real days-in-month + first-day-of-week)
+   * canonical "Month D, YYYY" mirrors written to hidden depart/return inputs
+   * a hard depart-before-return lock that snaps invalid returns back
+   ----------------------------------------------------------------------------- */
+(function () {
+  const MONTHS = ['January','February','March','April','May','June','July',
+                  'August','September','October','November','December'];
+
+  // Base anchor: June 2026 == calIdx 0 (matches the original template labels).
+  const BASE_YEAR = 2026, BASE_MONTH = 5; // June (0-indexed)
+
+  // Per-grid state.
+  window.calIdx = window.calIdx || {};
+  window.calSel = window.calSel || {}; // {gridId: {y, m, d}}
+
+  function ymOf(gridId) {
+    const idx = (window.calIdx[gridId] || 0);
+    const total = BASE_MONTH + idx;
+    const m = ((total % 12) + 12) % 12;
+    const y = BASE_YEAR + Math.floor(total / 12);
+    return {y, m};
+  }
+
+  function daysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
+
+  function gridFacet(gridId) {
+    // Hidden mirror facet for this grid.
+    if (gridId === 'cal-grid-d') return 'depart_date';
+    if (gridId === 'cal-grid-r') return 'return_date';
+    // Solo `cal-grid` (W09 single-cal variants V0/V2/V3/V4): treat as depart.
+    return 'depart_date';
+  }
+
+  function ensureMirror(facet) {
+    let host = document.getElementById('w21-mirror-host');
+    if (!host) {
+      host = document.createElement('div');
+      host.id = 'w21-mirror-host';
+      host.setAttribute('aria-hidden', 'true');
+      host.style.cssText = 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden';
+      document.body.appendChild(host);
+    }
+    let inp = host.querySelector('input[data-facet="' + facet + '"][data-w21-mirror="1"]');
+    if (!inp) {
+      inp = document.createElement('input');
+      inp.type = 'text';
+      inp.setAttribute('data-facet', facet);
+      inp.setAttribute('data-w21-mirror', '1');
+      inp.id = 'w21-mirror-' + facet;
+      const syncFromMirror = () => {
+        try {
+          if (typeof filterState === 'object' && filterState) {
+            filterState[facet] = inp.value || '';
+          }
+          if (typeof liveStateUpdate === 'function') liveStateUpdate();
+        } catch (e) {}
+        if (typeof submitState === 'function') submitState();
+      };
+      inp.addEventListener('input', syncFromMirror);
+      inp.addEventListener('change', syncFromMirror);
+      host.appendChild(inp);
+    }
+    return inp;
+  }
+
+  function setMirror(facet, value) {
+    const inp = ensureMirror(facet);
+    inp.value = value;
+    try { inp.dispatchEvent(new Event('input', {bubbles:true})); } catch(e) {}
+    try { inp.dispatchEvent(new Event('change', {bubbles:true})); } catch(e) {}
+    // Also fill any native <input type="date" data-facet="..."> with an
+    // ISO-formatted version so the visible widget reflects the click.
+    document.querySelectorAll('input[type="date"][data-facet="' + facet + '"]').forEach(d => {
+      try {
+        const parsed = new Date(value);
+        if (!isNaN(parsed)) {
+          const iso = parsed.toISOString().slice(0, 10);
+          d.value = iso;
+        }
+      } catch (e) { /* ignore */ }
+    });
+  }
+
+  function clearMirror(facet) {
+    const inp = document.querySelector('#w21-mirror-host input[data-facet="' + facet + '"]');
+    if (inp) inp.value = '';
+    document.querySelectorAll('input[type="date"][data-facet="' + facet + '"]').forEach(d => { d.value = ''; });
+  }
+
+  function returnLocked() {
+    const rg = document.getElementById('cal-grid-r');
+    if (!rg) return false;
+    if (rg.classList.contains('disabled')) return true;
+    if (rg.dataset.returnLocked === '1') return true;
+    return false;
+  }
+
+  function lockReturnIfNeeded() {
+    const rg = document.getElementById('cal-grid-r');
+    if (!rg) return;
+    // Only lock when no depart has been picked yet.
+    const departSet = !!(window.calSel['cal-grid-d'] || window.calSel['cal-grid']);
+    if (departSet) return;
+    rg.classList.add('disabled');
+    rg.dataset.returnLocked = '1';
+    const parent = rg.parentElement;
+    if (parent) {
+      parent.querySelectorAll('.cal-head').forEach(h => { h.classList.add('cal-disabled'); h.style.opacity = '0.4'; });
+      parent.querySelectorAll('.cal-nav').forEach(b => b.setAttribute('disabled', 'disabled'));
+      const head = parent.querySelector('.cal-disabled-h, h4, h5');
+      if (head && !parent.querySelector('.w21-lock-icon')) {
+        const lock = document.createElement('span');
+        lock.className = 'w21-lock-icon';
+        lock.textContent = ' 🔒';
+        lock.style.cssText = 'margin-left:6px;font-size:11px';
+        head.appendChild(lock);
+      }
+      if (!parent.querySelector('.w21-lock-hint')) {
+        const hint = document.createElement('div');
+        hint.className = 'w21-lock-hint';
+        hint.textContent = 'Pick a departure date to unlock return.';
+        hint.style.cssText = 'font-size:11px;color:#777;margin:4px 0 8px 0;font-style:italic';
+        rg.parentElement.insertBefore(hint, rg);
+      }
+    }
+  }
+
+  function unlockReturnCalendar() {
+    const rg = document.getElementById('cal-grid-r');
+    if (!rg) return;
+    rg.classList.remove('disabled');
+    rg.dataset.returnLocked = '';
+    const parent = rg.parentElement;
+    if (parent) {
+      parent.querySelectorAll('.cal-head').forEach(h => { h.classList.remove('cal-disabled'); h.style.opacity = ''; });
+      parent.querySelectorAll('.cal-nav').forEach(b => b.removeAttribute('disabled'));
+      parent.querySelectorAll('.w21-lock-icon, .w21-lock-hint').forEach(e => e.remove());
+    }
+  }
+
+  function refreshLabel(gridId) {
+    const {y, m} = ymOf(gridId);
+    const text = MONTHS[m] + ' ' + y;
+    let lid;
+    if (gridId === 'cal-grid') lid = 'cal-label';
+    else if (gridId === 'cal-grid-d') lid = 'cal-label-d';
+    else if (gridId === 'cal-grid-r') lid = 'cal-label-r';
+    if (lid) {
+      const el = document.getElementById(lid);
+      if (el) el.textContent = text;
+    }
+  }
+
+  function renderCalImpl(gridId) {
+    const grid = document.getElementById(gridId);
+    if (!grid) return;
+    const {y, m} = ymOf(gridId);
+    refreshLabel(gridId);
+
+    const isLocked = grid.classList.contains('disabled') || grid.dataset.returnLocked === '1';
+    grid.innerHTML = '';
+
+    ['S','M','T','W','T','F','S'].forEach(d => {
+      const h = document.createElement('div');
+      h.className = 'cal-day-h';
+      h.textContent = d;
+      grid.appendChild(h);
+    });
+
+    const firstDow = new Date(y, m, 1).getDay();
+    for (let p = 0; p < firstDow; p++) {
+      const b = document.createElement('div');
+      b.className = 'cal-day blank';
+      grid.appendChild(b);
+    }
+
+    const dim = daysInMonth(y, m);
+    const sel = window.calSel[gridId];
+    for (let i = 1; i <= dim; i++) {
+      const c = document.createElement('div');
+      c.className = 'cal-day';
+      c.textContent = i;
+      if (sel && sel.y === y && sel.m === m && sel.d === i) c.classList.add('sel');
+      if (isLocked) c.classList.add('locked');
+      c.onclick = () => {
+        if (grid.classList.contains('disabled') || grid.dataset.returnLocked === '1') return;
+
+        // Return-after-depart validation.
+        if (gridId === 'cal-grid-r') {
+          const dep = window.calSel['cal-grid-d'] || window.calSel['cal-grid'];
+          if (!dep) {
+            return; // safety — shouldn't be reachable while locked
+          }
+          const dDep = new Date(dep.y, dep.m, dep.d);
+          const dCand = new Date(y, m, i);
+          if (dCand < dDep) {
+            // Reject: flash the cell briefly and bail.
+            c.style.transition = 'background 0.15s';
+            const prev = c.style.background;
+            c.style.background = '#fee';
+            c.style.outline = '2px solid #c00';
+            setTimeout(() => { c.style.background = prev; c.style.outline = ''; }, 400);
+            const parent = grid.parentElement;
+            if (parent && !parent.querySelector('.w21-err')) {
+              const err = document.createElement('div');
+              err.className = 'w21-err';
+              err.textContent = 'Return date must be on or after the departure date.';
+              err.style.cssText = 'color:#c00;font-size:11px;margin:4px 0;font-weight:600';
+              parent.insertBefore(err, grid);
+              setTimeout(() => err.remove(), 2500);
+            }
+            return;
+          }
+        }
+
+        document.querySelectorAll('#' + gridId + ' .cal-day').forEach(x => x.classList.remove('sel'));
+        c.classList.add('sel');
+        window.calSel[gridId] = {y, m, d: i};
+
+        const canonical = MONTHS[m] + ' ' + i + ', ' + y;
+        const facet = gridFacet(gridId);
+        setMirror(facet, canonical);
+
+        if (gridId === 'cal-grid-d' || gridId === 'cal-grid') {
+          // Depart picked — unlock return calendar.
+          unlockReturnCalendar();
+          // If a return was previously chosen and is now invalid, clear it.
+          const ret = window.calSel['cal-grid-r'];
+          if (ret) {
+            const dDep = new Date(y, m, i);
+            const dRet = new Date(ret.y, ret.m, ret.d);
+            if (dRet < dDep) {
+              window.calSel['cal-grid-r'] = null;
+              clearMirror('return_date');
+              renderCalImpl('cal-grid-r');
+            }
+          }
+        }
+
+        if (typeof applyFilters === 'function') applyFilters();
+      };
+      grid.appendChild(c);
+    }
+  }
+
+  function calAdvImpl(delta, gridId) {
+    gridId = gridId || 'cal-grid';
+    if (!document.getElementById(gridId)) return;
+    // Don't allow navigating a locked return calendar.
+    const grid = document.getElementById(gridId);
+    if (grid && (grid.classList.contains('disabled') || grid.dataset.returnLocked === '1')) return;
+    window.calIdx[gridId] = (window.calIdx[gridId] || 0) + delta;
+    renderCalImpl(gridId);
+  }
+
+  // Override the buggy globals.
+  window.renderCal = renderCalImpl;
+  window.calAdv = calAdvImpl;
+
+  // Initialize on DOM ready (handles both pre- and post-DOMContentLoaded
+  // ordering since the original DOMContentLoaded handler may have run already
+  // with the buggy renderer).
+  function wireNativeDateInputs() {
+    // Native <input type="date" data-facet="depart_date|return_date"> emits
+    // ISO-format values (YYYY-MM-DD). Mirror those into our canonical
+    // "Month D, YYYY" facet so server-side _match_state can substring-match
+    // against the expected "Month D, YYYY" or "Month D" references.
+    document.querySelectorAll('input[type="date"][data-facet="depart_date"], input[type="date"][data-facet="return_date"]').forEach(d => {
+      if (d.dataset.w21Wired === '1') return;
+      d.dataset.w21Wired = '1';
+      const facet = d.dataset.facet;
+      const sync = () => {
+        const v = d.value; // YYYY-MM-DD or ''
+        if (!v) { clearMirror(facet); return; }
+        const parts = v.split('-');
+        if (parts.length !== 3) return;
+        const y = parseInt(parts[0], 10);
+        const m = parseInt(parts[1], 10) - 1;
+        const day = parseInt(parts[2], 10);
+        if (isNaN(y) || isNaN(m) || isNaN(day) || m < 0 || m > 11) return;
+        // Return-after-depart validation for native inputs.
+        if (facet === 'return_date') {
+          const depEl = document.querySelector('#w21-mirror-host input[data-facet="depart_date"]')
+                     || document.querySelector('input[type="date"][data-facet="depart_date"]');
+          const depVal = depEl ? depEl.value : '';
+          if (depVal) {
+            const depDate = new Date(depVal);
+            const candDate = new Date(y, m, day);
+            if (!isNaN(depDate) && candDate < depDate) {
+              d.value = '';
+              clearMirror(facet);
+              const parent = d.parentElement;
+              if (parent && !parent.querySelector('.w21-err')) {
+                const err = document.createElement('div');
+                err.className = 'w21-err';
+                err.textContent = 'Return date must be on or after the departure date.';
+                err.style.cssText = 'color:#c00;font-size:11px;margin:4px 0;font-weight:600';
+                parent.appendChild(err);
+                setTimeout(() => err.remove(), 2500);
+              }
+              return;
+            }
+          }
+        }
+        const canonical = MONTHS[m] + ' ' + day + ', ' + y;
+        // Write directly to the mirror without recursing through setMirror's
+        // native-input back-fill (which would clobber the user-visible value).
+        const mirror = ensureMirror(facet);
+        mirror.value = canonical;
+      };
+      d.addEventListener('input', sync);
+      d.addEventListener('change', sync);
+      // Initial sync in case the input already has a value.
+      sync();
+    });
+  }
+
+  function init() {
+    ensureMirror('depart_date');
+    ensureMirror('return_date');
+    ['cal-grid', 'cal-grid-d', 'cal-grid-r'].forEach(id => {
+      if (document.getElementById(id)) renderCalImpl(id);
+    });
+    lockReturnIfNeeded();
+    wireNativeDateInputs();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // Expose helpers for tests.
+  window.lockReturnIfNeeded = lockReturnIfNeeded;
+  window.unlockReturnCalendar = unlockReturnCalendar;
+})();
+/* ------------------------------ W21 PATCH (end) ------------------------------ */
+
+<!-- W21-PATCHED:v4 -->
+</script>
+<!-- W21-POLISH:v1 -->
+</body></html>

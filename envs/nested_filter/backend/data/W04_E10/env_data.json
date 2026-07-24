@@ -1,0 +1,38 @@
+{
+  "env_id": "W04_E10",
+  "widget_id": "W04_min_max_slider",
+  "widget_name": "Min/max range slider \u2014 direction-sensitive",
+  "widget_category": "range_input",
+  "widget_mechanic": "Two-thumb slider where one thumb is min and the other is max. Agent must set the value on the correct thumb (max cap vs min floor). Especially error-prone when the UI shows the same $ value in both thumbs' input boxes.",
+  "archetype": "faceted_catalog",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W04_min_max_slider"
+  ],
+  "site_imitates": "Airbnb \u2014 Cleveland, OH 3-night stays (Price range filter)",
+  "product_type": "Airbnb stays in Cleveland",
+  "source_inspiration": [],
+  "theme_key": "airbnb",
+  "theme_logo": "Airbnb",
+  "theme_card": "stays-photo",
+  "theme_layout": "top-filters",
+  "variant_idx": 4,
+  "n_seed_items": 18,
+  "filter_spec": {
+    "type": "range",
+    "fields": [
+      "min_price",
+      "max_price"
+    ],
+    "item_field": "price"
+  },
+  "primary_inspiration": {
+    "task_id": "a13e4231a3d6a7000c622c56448d97ba",
+    "benchmark": "OM2W",
+    "site": "airbnb.com",
+    "instruction": "Find an Airbnb in Cleveland for three nights. The check-in date is the day after tomorrow. We have 2 adults, 2 kids, and 1 pet. The budget is $100 to $300 per night. Essential amenities include free parking, a washer, and a gym.",
+    "first_failure_summary": "[6.4] Fine-grained grounding error: The click landed in empty space just left of the calendar\u2019s previous-month chevron, missing the actual clickable control, and no month change occurred.",
+    "fara_actions": 37,
+    "gpt54_actions": 53
+  }
+}

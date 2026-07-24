@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>EchoStay | Hotel Reservations - Book a Hotel Stay</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+#submit-status,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+
+
+
+
+
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; font-family:'Proxima Nova','Helvetica Neue',Arial,sans-serif; background:#f4f4f2; color:#1c1c1c; -webkit-font-smoothing:antialiased; }
+a { color: inherit; text-decoration: none; }
+
+/* ============ TOPBAR (Marriott Bonvoy navy) ============ */
+.topbar { background:#1c1f22; color:#fff; padding:0 28px; display:flex; align-items:center; gap:0; height:72px; position:relative; z-index:5; }
+.topbar .logo-wrap { display:flex; align-items:center; gap:10px; padding-right:14px; }
+.topbar .logo-svg { width:60px; height:42px; flex-shrink:0; }
+.topbar .logo-text { display:flex; flex-direction:column; line-height:1; letter-spacing:0; }
+.topbar .logo-text .l1 { font-family:'Georgia','Times New Roman',serif; font-size:15px; font-weight:400; letter-spacing:1.5px; }
+.topbar .logo-text .l2 { font-family:'Georgia','Times New Roman',serif; font-size:18px; font-weight:400; letter-spacing:1.5px; margin-top:2px; }
+.topbar .logo-text .l2 sup { font-size:8px; vertical-align:super; }
+.topbar nav.mainnav { margin-left:32px; display:flex; gap:24px; font-size:13.5px; font-weight:400; }
+.topbar nav.mainnav a { padding:6px 0; cursor:pointer; }
+.topbar nav.mainnav a:hover { text-decoration:underline; text-underline-offset:6px; }
+.topbar .right-side { margin-left:auto; display:flex; align-items:center; gap:22px; font-size:13px; }
+.topbar .right-side .item { display:inline-flex; align-items:center; gap:6px; cursor:pointer; }
+.topbar .right-side .item:hover { text-decoration:underline; text-underline-offset:4px; }
+.topbar .right-side .signin { border:1px solid rgba(255,255,255,.9); border-radius:24px; padding:8px 16px; font-weight:500; }
+.topbar .right-side .signin:hover { background:rgba(255,255,255,.08); text-decoration:none; }
+
+/* ============ HERO ============ */
+.hero { position: relative; overflow: hidden; min-height:340px; padding:40px 28px 120px; color:#fff; }
+.hero::before { content:''; position:absolute; inset:0; background-image: linear-gradient(rgba(0,0,0,.30),rgba(0,0,0,.15)), url('https://images.pexels.com/photos/261395/pexels-photo-261395.jpeg?auto=compress&cs=tinysrgb&h=600'); background-size: cover; background-position: center; z-index: 0; }
+.hero > * { position: relative; z-index: 1; }
+.hero-content { max-width:560px; margin-top:60px; }
+.hero-content .brandmark { display:flex; align-items:center; flex-direction:column; margin-bottom:14px; }
+.hero-content .brandmark svg { width:46px; height:46px; }
+.hero-content .brandmark .name { font-family:'Georgia',serif; font-size:18px; letter-spacing:5px; margin-top:6px; font-weight:400; }
+.hero-content .brandmark .by { font-size:9px; letter-spacing:3px; opacity:.85; margin-top:2px; }
+.hero-content h1 { margin:18px 0 10px; font-family:'Georgia',serif; font-size:38px; line-height:1.15; font-weight:400; letter-spacing:-.5px; text-shadow:0 2px 6px rgba(0,0,0,.35); }
+.hero-content p { margin:0 0 18px; font-size:15px; opacity:.98; max-width:520px; text-shadow:0 1px 3px rgba(0,0,0,.45); }
+.hero-content .pill-cta { display:inline-block; background:#fff; color:#0a0a0a; padding:11px 24px; border-radius:24px; font-size:13.5px; font-weight:600; }
+
+/* ============ SHELL & PICKER CARD ============ */
+.shell { max-width:1180px; margin:0 auto; padding:0 18px 60px; }
+.picker-card { background:#fff; border:1px solid #e6e6e6; border-radius:6px; padding:0; margin-top:-80px; box-shadow:0 12px 32px rgba(0,0,0,.22); position:relative; z-index:2; overflow:hidden; }
+.pc-row { display:grid; grid-template-columns:1.4fr 1fr auto; align-items:stretch; }
+.pc-cell { padding:18px 22px; border-right:1px solid #e6e6e6; position:relative; }
+.pc-cell:last-child { border-right:none; }
+.pc-cell .pc-lbl { display:flex; align-items:center; gap:6px; font-size:11px; font-weight:600; color:#1c1c1c; letter-spacing:.4px; text-transform:uppercase; margin-bottom:6px; }
+.pc-cell .pc-lbl .pin { color:#ff6e00; font-size:13px; }
+.pc-cell .pc-val { font-size:18px; font-weight:400; color:#1c1c1c; min-height:22px; border-bottom:1px solid #1c1c1c; padding-bottom:4px; }
+.pc-cell .pc-val.placeholder { color:#999; }
+.pc-cta { display:flex; align-items:center; justify-content:center; padding:16px 22px; }
+.pc-cta .btn-find { background:#1c1c1c; color:#fff; border:0; padding:14px 32px; border-radius:28px; font-size:14px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; }
+.pc-cta .btn-find:hover { background:#000; }
+
+/* ============ STEP PILLS ============ */
+.step-row { display:flex; gap:0; padding:14px 22px 0; border-top:1px solid #f0f0f0; }
+.step-pill { padding:12px 22px; font-size:13px; font-weight:600; color:#666; cursor:pointer; border-bottom:2px solid transparent; transition:all .15s; letter-spacing:.2px; }
+.step-pill:hover { color:#1c1c1c; }
+.step-pill.active { color:#1c1c1c; border-bottom-color:#1c1c1c; }
+.step-pill .num { display:inline-block; width:18px; height:18px; line-height:18px; text-align:center; background:#1c1c1c; color:#fff; border-radius:50%; font-size:10px; font-weight:700; margin-right:8px; }
+.step-pill:not(.active) .num { background:#bbb; }
+
+/* ============ WIZARD HOST ============ */
+.wiz-host { padding:22px 28px 18px; min-height:280px; background:#fff; }
+.wiz-host h4 { margin:0 0 18px; font-size:15px; font-weight:600; color:#1c1c1c; }
+.wiz-host .review-row { font-size:14px; color:#333; padding:10px 0; border-bottom:1px solid #eee; }
+.wiz-host .review-row b { color:#1c1c1c; font-weight:600; }
+.wiz-host .review-note { font-size:13px; color:#777; margin-top:14px; font-style:italic; }
+
+/* ============ WIZ NAV BUTTONS ============ */
+.wiz-nav { display:flex; justify-content:space-between; align-items:center; padding:14px 28px 22px; gap:10px; }
+.wiz-nav .reset-link { color:#1c1c1c; font-size:13px; text-decoration:underline; cursor:pointer; }
+.wiz-nav .btn-grp { display:flex; gap:10px; }
+.btn { background:#1c1c1c; color:#fff; border:0; padding:11px 26px; border-radius:24px; font-size:13.5px; font-weight:600; cursor:pointer; }
+.btn:hover { background:#000; }
+.btn.alt { background:#fff; color:#1c1c1c; border:1px solid #1c1c1c; }
+.btn.alt:hover { background:#f5f5f3; }
+
+/* ============ TABS (Specific/Flexible) ============ */
+.cal-tabs { display:flex; justify-content:center; gap:0; margin:6px 0 14px; padding-bottom:12px; border-bottom:1px solid #ececec; }
+.cal-tab { padding:8px 26px; font-size:13.5px; font-weight:500; color:#666; cursor:pointer; border-radius:22px; transition:all .15s; }
+.cal-tab:hover { color:#1c1c1c; }
+.cal-tab.active { background:#fff; color:#1c1c1c; font-weight:600; border:1.5px solid #1c1c1c; }
+
+/* ============ CHECK-IN / CHECK-OUT PILLS (Marriott-style) ============ */
+.cio-row { display:flex; justify-content:center; gap:14px; margin:0 auto 16px; max-width:660px; }
+.cio-pill { flex:1; padding:10px 16px; border:1.5px solid #d8d8d8; border-radius:6px; background:#fff; cursor:pointer; transition:all .15s; display:flex; align-items:center; gap:10px; }
+.cio-pill:hover { border-color:#7a7a7a; }
+.cio-pill.active { border-color:#1c1c1c; box-shadow:inset 0 0 0 1px #1c1c1c; }
+.cio-pill .ic { width:22px; height:22px; flex-shrink:0; color:#1c1c1c; }
+.cio-pill .meta { flex:1; min-width:0; }
+.cio-pill .meta .l { display:block; font-size:10px; font-weight:700; letter-spacing:.6px; color:#6a6a6a; text-transform:uppercase; }
+.cio-pill .meta .v { display:block; font-size:14px; font-weight:500; color:#1c1c1c; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.cio-pill .meta .v.placeholder { color:#a0a0a0; font-weight:400; }
+.cio-pill.active .meta .l { color:#1c1c1c; }
+.cio-arrow { align-self:center; color:#8a8a8a; font-size:14px; flex-shrink:0; }
+
+/* ============ TASK BANNER ============ */
+.task-banner { background:#fff8db; border:1px solid #ecd56b; border-radius:6px; padding:14px 18px; margin:18px 0 4px; font-size:13.5px; color:#523c00; display:none; }
+.task-banner.visible { display:block; }
+.task-banner .ttitle { font-weight:700; margin-bottom:4px; }
+.task-banner .tprop { white-space:pre-wrap; }
+.task-banner .ansbox { margin-top:10px; }
+.task-banner .ansbox input { padding:8px 10px; border:1px solid #d3b842; border-radius:6px; min-width:280px; font-size:13px; }
+.live-state { font-family:'Courier New',monospace; font-size:11px; background:#f6f6f4; border:1px dashed #dcdcdc; border-radius:4px; padding:6px 10px; margin:0 28px 14px; color:#888; }
+.live-state b { color:#1c1c1c; }
+
+/* ============ RESULTS ============ */
+.results { margin-top:32px; }
+.results h2 { font-size:20px; margin:6px 0 14px; color:#1c1c1c; font-family:'Georgia',serif; font-weight:400; }
+.results .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; }
+.results .grid > * { background:#fff; border:1px solid #e6e6e6; border-radius:6px; padding:16px; }
+.results .empty { color:#666; font-size:14px; padding:22px; background:#fff; border:1px dashed #d6d6d6; border-radius:6px; text-align:center; }
+
+/* ============ FOOTER ============ */
+footer { background:#1c1f22; color:#a8a8a8; padding:38px 28px 22px; font-size:12px; margin-top:40px; }
+footer .ft-grid { max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:30px; padding-bottom:24px; border-bottom:1px solid #2c2f33; }
+footer .ft-grid h5 { color:#fff; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.6px; margin:0 0 12px; }
+footer .ft-grid a { display:block; color:#a8a8a8; padding:4px 0; font-size:12.5px; }
+footer .ft-grid a:hover { color:#fff; }
+footer .ft-bottom { max-width:1180px; margin:0 auto; padding-top:18px; display:flex; justify-content:space-between; align-items:center; font-size:11.5px; }
+footer .ft-bottom .copy { opacity:.7; }
+
+/* ============ CALENDAR (Marriott dual-month) ============ */
+.cal-dual { display:flex; gap:42px; align-items:flex-start; justify-content:center; padding:6px 44px 6px; position:relative; min-height:300px; }
+.cal-dual .cal-nav-edge { position:absolute; top:8px; background:#fff; border:1px solid #e0e0e0; cursor:pointer; padding:0; width:36px; height:36px; font-size:18px; color:#1c1c1c; border-radius:50%; display:flex; align-items:center; justify-content:center; line-height:1; transition:all .15s; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+.cal-dual .cal-nav-edge:hover { background:#1c1c1c; color:#fff; border-color:#1c1c1c; }
+.cal-dual .cal-nav-edge:active { transform:scale(.94); }
+.cal-dual .cal-nav-edge.left { left:0; }
+.cal-dual .cal-nav-edge.right { right:0; }
+.cal { font-size:13px; width:280px; flex-shrink:0; }
+.cal .cal-head { display:flex; justify-content:center; align-items:center; padding:6px 4px 14px; position:relative; }
+.cal .cal-head .title { font-weight:600; color:#1c1c1c; font-size:15px; font-family:'Georgia','Times New Roman',serif; letter-spacing:.3px; }
+.cal .dow { display:grid; grid-template-columns:repeat(7,1fr); gap:0; color:#8a8a8a; font-size:10.5px; text-align:center; padding-bottom:4px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; border-bottom:1px solid #f0f0f0; margin-bottom:6px; }
+.cal .dow > div { padding:6px 0; }
+.cal .days { display:grid; grid-template-columns:repeat(7,1fr); gap:2px 0; }
+.cal .day { width:38px; height:38px; margin:0 auto; display:flex; align-items:center; justify-content:center; cursor:pointer; border-radius:50%; font-size:13.5px; color:#1c1c1c; user-select:none; transition:background .12s, color .12s, box-shadow .12s; position:relative; font-weight:400; }
+.cal .day:hover { background:#f0ece1; }
+.cal .day.today { box-shadow:inset 0 0 0 1.5px #b0b0b0; font-weight:700; }
+.cal .day.muted { color:transparent; cursor:default; pointer-events:none; }
+.cal .day.muted:hover { background:transparent; }
+.cal .day.disabled { color:#ccc; cursor:not-allowed; text-decoration:line-through; }
+.cal .day.disabled:hover { background:transparent; }
+.cal .day.dep, .cal .day.ret { background:#1c1c1c; color:#fff; font-weight:700; box-shadow:none; z-index:1; }
+.cal .day.dep:hover, .cal .day.ret:hover { background:#000; }
+.cal .day.in-range { background:#f0ece1; color:#1c1c1c; border-radius:0; font-weight:500; }
+.cal .day.in-range:hover { background:#e6dfca; }
+.cal .day.range-start { border-top-left-radius:50%; border-bottom-left-radius:50%; }
+.cal .day.range-end { border-top-right-radius:50%; border-bottom-right-radius:50%; }
+@media (max-width: 820px){
+  .cal-dual { flex-direction:column; align-items:center; gap:20px; padding:6px 22px; }
+}
+</style>
+</head><body>
+<header class="topbar">
+  <div class="logo-wrap">
+    <svg class="logo-svg" viewBox="0 0 70 50" aria-hidden="true">
+      <rect x="8" y="4" width="42" height="42" rx="10" fill="#ff6e00"/>
+      <text x="29" y="36" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="800" fill="#fff">E</text>
+    </svg>
+    <div class="logo-text">
+      <span class="l1">EchoStay</span>
+      <span class="l2"></span>
+    </div>
+  </div>
+  <nav class="mainnav">
+    <a>Book</a><a>Offers</a><a>Brands</a><a>Credit Cards</a><a>EchoStay</a><a>Meetings &amp; Events</a>
+  </nav>
+  <div class="right-side">
+    <span class="item">&#9432; Help</span>
+    <span class="item">&#127760; English</span>
+    <span class="item">&#128188; Trips</span>
+    <span class="item signin">&#128100; Sign In or Join</span>
+  </div>
+</header>
+<section class="hero">
+  <div class="hero-content">
+    <div class="brandmark">
+      <svg viewBox="0 0 60 60" aria-hidden="true"><rect x="6" y="6" width="48" height="48" rx="12" fill="#ff6e00"/><text x="30" y="42" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="800" fill="#fff">E</text></svg>
+      <span class="name">HOMES &amp; VILLAS</span>
+      <span class="by">BY EchoStay</span>
+    </div>
+    <h1>Members Earn 40K Bonus Points</h1>
+    <p>Register &amp; earn bonus points on global stays through January 3, 2027.</p>
+    <span class="pill-cta">Browse Homes</span>
+  </div>
+</section>
+<main class="shell">
+  <div class="picker-card">
+    <div class="pc-row">
+      <div class="pc-cell">
+        <div class="pc-lbl"><span class="pin">&#9679;</span> DESTINATION</div>
+        <div class="pc-val">EchoStay Anchorage Airport</div>
+      </div>
+      <div class="pc-cell">
+        <div class="pc-lbl"><span class="pin">&#128197;</span> <span id="trip-len">YOUR TRIP</span></div>
+        <div class="pc-val" id="trip-dates-display">Pick your check-in and check-out dates</div>
+      </div>
+      <div class="pc-cta">
+        <button class="btn-find" type="button">&#128269; Find Hotels</button>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div id="step-1" class="step-pill active" onclick="__step=1;render();"><span class="num">1</span>Check-in</div>
+      <div id="step-2" class="step-pill" onclick="__step=2;render();"><span class="num">2</span>Review</div>
+      <div id="step-3" class="step-pill" onclick="__step=3;render();"><span class="num">3</span>Check-out</div>
+    </div>
+
+    <div id="wiz-host" class="wiz-host"></div>
+
+    <div class="wiz-nav">
+      <span class="reset-link" onclick="__dep=null;__ret=null;filterState.depart_date='';filterState.return_date='';liveStateUpdate();submitState();refreshResults();render();">Reset</span>
+      <div class="btn-grp">
+        <button class="btn alt" id="wiz-prev" onclick="wizStep(-1)">&#8249; Back</button>
+        <button class="btn" id="wiz-next" onclick="wizStep(1)">Next &#8250;</button>
+      </div>
+    </div>
+
+    <div id="submit-status" style="font-size:11px;color:#888;padding:0 28px 10px;"></div>
+    <div id="live-state" class="live-state"><b>filterState</b> = {}</div>
+  </div>
+
+  <div id="task-banner" class="task-banner">
+    <div class="ttitle"></div>
+    <div class="tprop"></div>
+    <div class="ansbox" style="display:none;">
+      <label style="display:block;font-size:12px;margin-bottom:4px;">Your answer:</label>
+      <input id="task-answer-input" type="text" oninput="queueSubmit()" placeholder="Type your answer..." />
+    </div>
+  </div>
+
+  <section class="results">
+    <h2 id="result-count">Results</h2>
+    <div id="result-grid" class="grid"><div class="empty">Pick check-in and check-out dates to see hotel availability.</div></div>
+  </section>
+</main>
+<footer>
+  <div class="ft-grid">
+    <div>
+      <h5>EchoStay</h5>
+      <a>Member Sign In</a><a>Join Now</a><a>About EchoStay</a><a>Member Benefits</a>
+    </div>
+    <div>
+      <h5>Hotels &amp; Resorts</h5>
+      <a>Our Brands</a><a>Find a Hotel</a><a>Vacations By EchoStay</a><a>Cruises</a>
+    </div>
+    <div>
+      <h5>Help</h5>
+      <a>Customer Support</a><a>Reservation Help</a><a>Site Help</a><a>Modify or Cancel</a>
+    </div>
+    <div>
+      <h5>About Us</h5>
+      <a>Careers</a><a>Newsroom</a><a>Investor Relations</a><a>Corporate Responsibility</a>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <span class="copy">&copy; 1996&ndash;2026 EchoStay International, Inc. All rights reserved. EchoStay Proprietary Information.</span>
+    <span>Tracking Preferences &middot; Terms of Use &middot; Privacy Center &middot; Sitemap</span>
+  </div>
+</footer>
+<script>
+
+window.__ENV_ID = "W21_E08"; const ENV_ID = window.__ENV_ID;
+const TASK_ID = new URLSearchParams(location.search).get('task_id') || '';
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DOW    = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+function fmt(y,m,d){ return MONTHS[m] + ' ' + d + ', ' + y; }
+function isoY(y,m,d){ const s=(n)=>String(n).padStart(2,'0'); return y+'-'+s(m+1)+'-'+s(d); }
+function parseISO(s){ if(!s) return null; const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s); if(!m) return null; return [+m[1],+m[2]-1,+m[3]]; }
+function daysInMonth(y,m){ return new Date(y,m+1,0).getDate(); }
+function before(a,b){ // a,b = [y,m,d]
+  if(!a||!b) return false;
+  if(a[0]!==b[0]) return a[0]<b[0];
+  if(a[1]!==b[1]) return a[1]<b[1];
+  return a[2]<b[2];
+}
+function sameDay(a,b){ return a&&b&&a[0]===b[0]&&a[1]===b[1]&&a[2]===b[2]; }
+
+const filterState = { depart_date: '', return_date: '' };
+let __dep = null, __ret = null;          // [y,m,d] tuples
+let __submitTimer = null;
+
+async function submitState(){
+  if (!ENV_ID) return;
+  const payload = { filter_state: { ...filterState } };
+  if (TASK_ID) payload.task_id = TASK_ID;
+  const ans = document.getElementById('task-answer-input');
+  if (ans && ans.value.trim()) payload.answer = ans.value.trim();
+  try {
+    const r = await fetch('/env/'+ENV_ID+'/api/submit', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload),
+    });
+    const j = await r.json().catch(()=>({}));
+    const el = document.getElementById('submit-status');
+    if (el && j) {
+      el.textContent = 'submit: state='+(j.satisfies_state?'\u2713':'\u2717')
+                     + ' answer='+(j.satisfies_answer?'\u2713':'\u2717')
+                     + (j.message?(' \u2014 '+j.message):'');
+    }
+  } catch(e) {}
+}
+function queueSubmit(){ if (__submitTimer) clearTimeout(__submitTimer); __submitTimer=setTimeout(submitState, 120); }
+
+async function refreshResults(){
+  if (!ENV_ID) return;
+  try {
+    const r = await fetch('/env/'+ENV_ID+'/api/filter', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ filter_state: { ...filterState } }),
+    });
+    const j = await r.json();
+    const grid = document.getElementById('result-grid');
+    const count = document.getElementById('result-count');
+    if (!grid) return;
+    if (j && j.html_cards && j.html_cards.length) {
+      grid.innerHTML = (Array.isArray(j.html_cards) ? j.html_cards.join('') : j.html_cards);
+      if (count) count.textContent = j.count + ' result' + (j.count===1?'':'s');
+    } else {
+      grid.innerHTML = '<div class="empty">No matches \u2014 try widening your dates.</div>';
+      if (count) count.textContent = '0 results';
+    }
+  } catch(e) {}
+}
+
+function liveStateUpdate(){
+  const el = document.getElementById('live-state');
+  if (el) el.innerHTML = '<b>filterState</b> = ' + JSON.stringify(filterState);
+}
+
+function applyDepart(y,m,d){
+  __dep = [y,m,d];
+  filterState.depart_date = fmt(y,m,d);
+  if (__ret && before(__ret, __dep)) { __ret = null; filterState.return_date = ''; }
+  if (typeof window.W21_renderAll === 'function') window.W21_renderAll();
+  if (typeof updateTripDatesDisplay === 'function') updateTripDatesDisplay();
+  liveStateUpdate();
+  submitState();
+  refreshResults();
+}
+function applyReturn(y,m,d){
+  if (!__dep) { applyDepart(y,m,d); return; }
+  if (before([y,m,d], __dep)) { submitState(); return; }
+  __ret = [y,m,d];
+  filterState.return_date = fmt(y,m,d);
+  if (typeof window.W21_renderAll === 'function') window.W21_renderAll();
+  if (typeof updateTripDatesDisplay === 'function') updateTripDatesDisplay();
+  liveStateUpdate();
+  submitState();
+  refreshResults();
+}
+function getDep(){ return __dep ? [...__dep] : null; }
+function getRet(){ return __ret ? [...__ret] : null; }
+
+async function loadTaskBanner(){
+  if (!TASK_ID) return;
+  try {
+    const r = await fetch('/env/'+ENV_ID+'/api/task/'+TASK_ID);
+    if (!r.ok) return;
+    const t = await r.json();
+    const banner = document.getElementById('task-banner');
+    if (!banner) return;
+    banner.classList.add('visible');
+    banner.querySelector('.ttitle').textContent = 'Task ' + (t.id||TASK_ID) + ' \u00b7 ' + (t.task_type||'') + ' \u00b7 ' + (t.task_difficulty||'');
+    banner.querySelector('.tprop').textContent  = t.task_proposal || t.task_summary || '';
+    const ab = banner.querySelector('.ansbox');
+    if (t.task_type === 'read' || t.task_type === 'read_write') {
+      ab.style.display='block';
+    } else {
+      ab.style.display='none';
+    }
+  } catch(e) {}
+}
+
+window.W21 = {
+  set: function(depISO, retISO){
+    const a = parseISO(depISO); const b = parseISO(retISO);
+    if (a) applyDepart(a[0],a[1],a[2]);
+    if (b) applyReturn(b[0],b[1],b[2]);
+  },
+  setAnswer: function(s){
+    const el = document.getElementById('task-answer-input');
+    if (el) { el.value = s||''; el.dispatchEvent(new Event('input',{bubbles:true})); }
+  },
+  getState: function(){ return { ...filterState }; },
+  applyDepart, applyReturn, getDep, getRet,
+};
+
+function W21_renderMonth(host, y, m, opts){
+  opts = opts || {};
+  const dep = getDep(), ret = getRet();
+  const today = new Date();
+  const tY = today.getFullYear(), tM = today.getMonth(), tD = today.getDate();
+  host.classList.add('cal');
+  let html = '';
+  html += '<div class="cal-head">';
+  html += '<div class="title">' + MONTHS[m] + ' ' + y + '</div>';
+  html += '</div>';
+  html += '<div class="dow">' + DOW.map(d=>'<div>'+d.charAt(0)+d.charAt(1)+d.charAt(2)+'</div>').join('') + '</div>';
+  html += '<div class="days">';
+  const first = new Date(y,m,1).getDay();
+  for (let i=0;i<first;i++) html += '<div class="day muted"></div>';
+  const last = daysInMonth(y,m);
+  for (let d=1; d<=last; d++) {
+    const cur=[y,m,d];
+    let cls='day';
+    if (sameDay(cur,dep)) {
+      cls += ' dep';
+      if (ret && before(dep, ret)) cls += ' range-start';
+    } else if (sameDay(cur,ret)) {
+      cls += ' ret';
+      if (dep && before(dep, ret)) cls += ' range-end';
+    } else if (dep && ret && before(dep,cur) && before(cur,ret)) {
+      cls += ' in-range';
+    }
+    if (y===tY && m===tM && d===tD) cls += ' today';
+    if (opts.disableBefore && before(cur, opts.disableBefore) && !sameDay(cur,opts.disableBefore)) cls += ' disabled';
+    html += '<div class="'+cls+'" data-d="'+d+'" data-m="'+m+'" data-y="'+y+'">'+d+'</div>';
+  }
+  html += '</div>';
+  host.innerHTML = html;
+
+  host.querySelectorAll('.day').forEach(el => {
+    el.addEventListener('click', () => {
+      if (el.classList.contains('muted') || el.classList.contains('disabled')) return;
+      const yy=+el.dataset.y, mm=+el.dataset.m, dd=+el.dataset.d;
+      if (opts.role === 'depart') applyDepart(yy,mm,dd);
+      else if (opts.role === 'return') applyReturn(yy,mm,dd);
+      else {
+        const dep=getDep(), ret=getRet();
+        if (!dep || (dep&&ret)) { __ret=null; filterState.return_date=''; applyDepart(yy,mm,dd); }
+        else applyReturn(yy,mm,dd);
+      }
+    });
+  });
+  host.querySelectorAll('.nav').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const dir = btn.dataset.nav === 'next' ? 1 : -1;
+      if (opts.onNav) opts.onNav(dir);
+    });
+  });
+}
+
+function W21_cioPillsHtml(activeRole){
+  const dep=getDep(), ret=getRet();
+  const monsShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const dows = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  function fmtPretty(t){ if(!t) return ''; const dd=new Date(t[0],t[1],t[2]); return dows[dd.getDay()]+', '+monsShort[t[1]]+' '+t[2]+', '+t[0]; }
+  const ciVal = dep ? fmtPretty(dep) : 'Add Dates';
+  const coVal = ret ? fmtPretty(ret) : 'Add Dates';
+  const ciCls = activeRole==='depart' ? ' active' : '';
+  const coCls = activeRole==='return' ? ' active' : '';
+  const ciValCls = dep ? '' : ' placeholder';
+  const coValCls = ret ? '' : ' placeholder';
+  return ''+
+    '<div class="cio-row" role="group" aria-label="Trip dates">'+
+    '  <div class="cio-pill'+ciCls+'" onclick="__step=1;render();">'+
+    '    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>'+
+    '    <div class="meta"><span class="l">Check-In</span><span class="v'+ciValCls+'">'+ciVal+'</span></div>'+
+    '  </div>'+
+    '  <span class="cio-arrow">&#10142;</span>'+
+    '  <div class="cio-pill'+coCls+'" onclick="if(getDep()){__step=3;render();}else{__step=1;render();}">'+
+    '    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4M9 14l2 2 4-4"/></svg>'+
+    '    <div class="meta"><span class="l">Check-Out</span><span class="v'+coValCls+'">'+coVal+'</span></div>'+
+    '  </div>'+
+    '</div>';
+}
+
+let __ym=null, __step=1;
+function W21_initPattern(defaultY){
+  // Start the calendar on June 2026 so users see depart-target months (Jul/Oct/etc.) within a few clicks.
+  __ym=[defaultY, 5]; window.W21_renderAll=render; render();
+}
+function wizStep(dir){
+  __step = Math.max(1, Math.min(3, __step+dir));
+  render();
+}
+function updateTripDatesDisplay(){
+  const el = document.getElementById('trip-dates-display');
+  const lenEl = document.getElementById('trip-len');
+  if (!el) return;
+  const dep=getDep(), ret=getRet();
+  if (dep && ret){
+    const a = new Date(dep[0],dep[1],dep[2]);
+    const b = new Date(ret[0],ret[1],ret[2]);
+    const nights = Math.max(1, Math.round((b-a)/(1000*60*60*24)));
+    const dows = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const monsShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    el.textContent = dows[a.getDay()]+', '+monsShort[dep[1]]+' '+dep[2]+'  \u2013  '+dows[b.getDay()]+', '+monsShort[ret[1]]+' '+ret[2];
+    if (lenEl) lenEl.textContent = nights + (nights===1?' NIGHT':' NIGHTS');
+  } else if (dep){
+    const a = new Date(dep[0],dep[1],dep[2]);
+    const dows = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const monsShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    el.textContent = 'Check-in: '+dows[a.getDay()]+', '+monsShort[dep[1]]+' '+dep[2]+'  \u2014  pick check-out';
+    if (lenEl) lenEl.textContent = 'CHECK-OUT NEEDED';
+  } else {
+    el.textContent = 'Pick your check-in and check-out dates';
+    if (lenEl) lenEl.textContent = 'YOUR TRIP';
+  }
+}
+function render(){
+  const host=document.getElementById('wiz-host');
+  for (let i=1;i<=3;i++){
+    const el=document.getElementById('step-'+i);
+    if (el) el.classList.toggle('active', i===__step);
+  }
+  const dep=getDep(), ret=getRet();
+  // tabs row at top of every calendar step
+  const tabsHtml = '<div class="cal-tabs"><div class="cal-tab active">Specific Dates</div><div class="cal-tab">Flexible Dates</div></div>';
+  if (__step===1){
+    const cio = W21_cioPillsHtml('depart');
+    host.innerHTML='<h4>Step 1 \u00b7 Choose your check-in date</h4>'+tabsHtml+cio+
+      '<div class="cal-dual">'+
+      '  <button class="cal-nav-edge left" data-edge="prev" aria-label="Previous month">&#8249;</button>'+
+      '  <div id="m1a"></div>'+
+      '  <div id="m1b"></div>'+
+      '  <button class="cal-nav-edge right" data-edge="next" aria-label="Next month">&#8250;</button>'+
+      '</div>';
+    const [y,m] = __ym;
+    const nm = m+1>11 ? [y+1,0] : [y,m+1];
+    W21_renderMonth(document.getElementById('m1a'), y, m, { role:'depart' });
+    W21_renderMonth(document.getElementById('m1b'), nm[0], nm[1], { role:'depart' });
+    host.querySelector('.cal-nav-edge.left').addEventListener('click', () => shift(-1));
+    host.querySelector('.cal-nav-edge.right').addEventListener('click', () => shift(1));
+  } else if (__step===2){
+    host.innerHTML='<h4>Step 2 \u00b7 Review your trip</h4>'+
+      '<div class="review-row">Check-in: <b>'+(dep?fmt(dep[0],dep[1],dep[2]):'\u2014 not selected')+'</b></div>'+
+      '<div class="review-row">Check-out: <b>'+(ret?fmt(ret[0],ret[1],ret[2]):'\u2014 not selected')+'</b></div>'+
+      '<div class="review-note">Click \u201cNext\u201d to choose your check-out date, or \u201cBack\u201d to change check-in.</div>';
+  } else {
+    const cio = W21_cioPillsHtml('return');
+    host.innerHTML='<h4>Step 3 \u00b7 Choose your check-out date</h4>'+tabsHtml+cio+
+      '<div class="cal-dual">'+
+      '  <button class="cal-nav-edge left" data-edge="prev" aria-label="Previous month">&#8249;</button>'+
+      '  <div id="m2a"></div>'+
+      '  <div id="m2b"></div>'+
+      '  <button class="cal-nav-edge right" data-edge="next" aria-label="Next month">&#8250;</button>'+
+      '</div>';
+    const [y,m] = __ym;
+    const nm = m+1>11 ? [y+1,0] : [y,m+1];
+    const opts={ role:'return' };
+    if (dep) opts.disableBefore = dep;
+    W21_renderMonth(document.getElementById('m2a'), y, m, opts);
+    W21_renderMonth(document.getElementById('m2b'), nm[0], nm[1], opts);
+    host.querySelector('.cal-nav-edge.left').addEventListener('click', () => shift(-1));
+    host.querySelector('.cal-nav-edge.right').addEventListener('click', () => shift(1));
+  }
+  updateTripDatesDisplay();
+}
+function shift(dir){ let[y,m]=__ym; m+=dir; while(m<0){m+=12;y--;} while(m>11){m-=12;y++;} __ym=[y,m]; render(); }
+
+
+// Pattern bootstrap
+document.addEventListener('DOMContentLoaded', () => {
+  loadTaskBanner();
+  liveStateUpdate();
+  if (typeof window.W21_initPattern === 'function') window.W21_initPattern(2026);
+});
+
+
+/* ----------------------------- W21 PATCH (begin) -----------------------------
+   Overrides buggy renderCal/calAdv from the baked template with:
+   * a correct calendar grid (real days-in-month + first-day-of-week)
+   * canonical "Month D, YYYY" mirrors written to hidden depart/return inputs
+   * a hard depart-before-return lock that snaps invalid returns back
+   ----------------------------------------------------------------------------- */
+(function () {
+  const MONTHS = ['January','February','March','April','May','June','July',
+                  'August','September','October','November','December'];
+
+  // Base anchor: June 2026 == calIdx 0 (matches the original template labels).
+  const BASE_YEAR = 2026, BASE_MONTH = 5; // June (0-indexed)
+
+  // Per-grid state.
+  window.calIdx = window.calIdx || {};
+  window.calSel = window.calSel || {}; // {gridId: {y, m, d}}
+
+  function ymOf(gridId) {
+    const idx = (window.calIdx[gridId] || 0);
+    const total = BASE_MONTH + idx;
+    const m = ((total % 12) + 12) % 12;
+    const y = BASE_YEAR + Math.floor(total / 12);
+    return {y, m};
+  }
+
+  function daysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
+
+  function gridFacet(gridId) {
+    // Hidden mirror facet for this grid.
+    if (gridId === 'cal-grid-d') return 'depart_date';
+    if (gridId === 'cal-grid-r') return 'return_date';
+    // Solo `cal-grid` (W09 single-cal variants V0/V2/V3/V4): treat as depart.
+    return 'depart_date';
+  }
+
+  function ensureMirror(facet) {
+    let host = document.getElementById('w21-mirror-host');
+    if (!host) {
+      host = document.createElement('div');
+      host.id = 'w21-mirror-host';
+      host.setAttribute('aria-hidden', 'true');
+      host.style.cssText = 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden';
+      document.body.appendChild(host);
+    }
+    let inp = host.querySelector('input[data-facet="' + facet + '"][data-w21-mirror="1"]');
+    if (!inp) {
+      inp = document.createElement('input');
+      inp.type = 'text';
+      inp.setAttribute('data-facet', facet);
+      inp.setAttribute('data-w21-mirror', '1');
+      inp.id = 'w21-mirror-' + facet;
+      const syncFromMirror = () => {
+        try {
+          if (typeof filterState === 'object' && filterState) {
+            filterState[facet] = inp.value || '';
+          }
+          if (typeof liveStateUpdate === 'function') liveStateUpdate();
+        } catch (e) {}
+        if (typeof submitState === 'function') submitState();
+      };
+      inp.addEventListener('input', syncFromMirror);
+      inp.addEventListener('change', syncFromMirror);
+      host.appendChild(inp);
+    }
+    return inp;
+  }
+
+  function setMirror(facet, value) {
+    const inp = ensureMirror(facet);
+    inp.value = value;
+    try { inp.dispatchEvent(new Event('input', {bubbles:true})); } catch(e) {}
+    try { inp.dispatchEvent(new Event('change', {bubbles:true})); } catch(e) {}
+    // Also fill any native <input type="date" data-facet="..."> with an
+    // ISO-formatted version so the visible widget reflects the click.
+    document.querySelectorAll('input[type="date"][data-facet="' + facet + '"]').forEach(d => {
+      try {
+        const parsed = new Date(value);
+        if (!isNaN(parsed)) {
+          const iso = parsed.toISOString().slice(0, 10);
+          d.value = iso;
+        }
+      } catch (e) { /* ignore */ }
+    });
+  }
+
+  function clearMirror(facet) {
+    const inp = document.querySelector('#w21-mirror-host input[data-facet="' + facet + '"]');
+    if (inp) inp.value = '';
+    document.querySelectorAll('input[type="date"][data-facet="' + facet + '"]').forEach(d => { d.value = ''; });
+  }
+
+  function returnLocked() {
+    const rg = document.getElementById('cal-grid-r');
+    if (!rg) return false;
+    if (rg.classList.contains('disabled')) return true;
+    if (rg.dataset.returnLocked === '1') return true;
+    return false;
+  }
+
+  function lockReturnIfNeeded() {
+    const rg = document.getElementById('cal-grid-r');
+    if (!rg) return;
+    // Only lock when no depart has been picked yet.
+    const departSet = !!(window.calSel['cal-grid-d'] || window.calSel['cal-grid']);
+    if (departSet) return;
+    rg.classList.add('disabled');
+    rg.dataset.returnLocked = '1';
+    const parent = rg.parentElement;
+    if (parent) {
+      parent.querySelectorAll('.cal-head').forEach(h => { h.classList.add('cal-disabled'); h.style.opacity = '0.4'; });
+      parent.querySelectorAll('.cal-nav').forEach(b => b.setAttribute('disabled', 'disabled'));
+      const head = parent.querySelector('.cal-disabled-h, h4, h5');
+      if (head && !parent.querySelector('.w21-lock-icon')) {
+        const lock = document.createElement('span');
+        lock.className = 'w21-lock-icon';
+        lock.textContent = ' 🔒';
+        lock.style.cssText = 'margin-left:6px;font-size:11px';
+        head.appendChild(lock);
+      }
+      if (!parent.querySelector('.w21-lock-hint')) {
+        const hint = document.createElement('div');
+        hint.className = 'w21-lock-hint';
+        hint.textContent = 'Pick a departure date to unlock return.';
+        hint.style.cssText = 'font-size:11px;color:#777;margin:4px 0 8px 0;font-style:italic';
+        rg.parentElement.insertBefore(hint, rg);
+      }
+    }
+  }
+
+  function unlockReturnCalendar() {
+    const rg = document.getElementById('cal-grid-r');
+    if (!rg) return;
+    rg.classList.remove('disabled');
+    rg.dataset.returnLocked = '';
+    const parent = rg.parentElement;
+    if (parent) {
+      parent.querySelectorAll('.cal-head').forEach(h => { h.classList.remove('cal-disabled'); h.style.opacity = ''; });
+      parent.querySelectorAll('.cal-nav').forEach(b => b.removeAttribute('disabled'));
+      parent.querySelectorAll('.w21-lock-icon, .w21-lock-hint').forEach(e => e.remove());
+    }
+  }
+
+  function refreshLabel(gridId) {
+    const {y, m} = ymOf(gridId);
+    const text = MONTHS[m] + ' ' + y;
+    let lid;
+    if (gridId === 'cal-grid') lid = 'cal-label';
+    else if (gridId === 'cal-grid-d') lid = 'cal-label-d';
+    else if (gridId === 'cal-grid-r') lid = 'cal-label-r';
+    if (lid) {
+      const el = document.getElementById(lid);
+      if (el) el.textContent = text;
+    }
+  }
+
+  function renderCalImpl(gridId) {
+    const grid = document.getElementById(gridId);
+    if (!grid) return;
+    const {y, m} = ymOf(gridId);
+    refreshLabel(gridId);
+
+    const isLocked = grid.classList.contains('disabled') || grid.dataset.returnLocked === '1';
+    grid.innerHTML = '';
+
+    ['S','M','T','W','T','F','S'].forEach(d => {
+      const h = document.createElement('div');
+      h.className = 'cal-day-h';
+      h.textContent = d;
+      grid.appendChild(h);
+    });
+
+    const firstDow = new Date(y, m, 1).getDay();
+    for (let p = 0; p < firstDow; p++) {
+      const b = document.createElement('div');
+      b.className = 'cal-day blank';
+      grid.appendChild(b);
+    }
+
+    const dim = daysInMonth(y, m);
+    const sel = window.calSel[gridId];
+    for (let i = 1; i <= dim; i++) {
+      const c = document.createElement('div');
+      c.className = 'cal-day';
+      c.textContent = i;
+      if (sel && sel.y === y && sel.m === m && sel.d === i) c.classList.add('sel');
+      if (isLocked) c.classList.add('locked');
+      c.onclick = () => {
+        if (grid.classList.contains('disabled') || grid.dataset.returnLocked === '1') return;
+
+        // Return-after-depart validation.
+        if (gridId === 'cal-grid-r') {
+          const dep = window.calSel['cal-grid-d'] || window.calSel['cal-grid'];
+          if (!dep) {
+            return; // safety — shouldn't be reachable while locked
+          }
+          const dDep = new Date(dep.y, dep.m, dep.d);
+          const dCand = new Date(y, m, i);
+          if (dCand < dDep) {
+            // Reject: flash the cell briefly and bail.
+            c.style.transition = 'background 0.15s';
+            const prev = c.style.background;
+            c.style.background = '#fee';
+            c.style.outline = '2px solid #c00';
+            setTimeout(() => { c.style.background = prev; c.style.outline = ''; }, 400);
+            const parent = grid.parentElement;
+            if (parent && !parent.querySelector('.w21-err')) {
+              const err = document.createElement('div');
+              err.className = 'w21-err';
+              err.textContent = 'Return date must be on or after the departure date.';
+              err.style.cssText = 'color:#c00;font-size:11px;margin:4px 0;font-weight:600';
+              parent.insertBefore(err, grid);
+              setTimeout(() => err.remove(), 2500);
+            }
+            return;
+          }
+        }
+
+        document.querySelectorAll('#' + gridId + ' .cal-day').forEach(x => x.classList.remove('sel'));
+        c.classList.add('sel');
+        window.calSel[gridId] = {y, m, d: i};
+
+        const canonical = MONTHS[m] + ' ' + i + ', ' + y;
+        const facet = gridFacet(gridId);
+        setMirror(facet, canonical);
+
+        if (gridId === 'cal-grid-d' || gridId === 'cal-grid') {
+          // Depart picked — unlock return calendar.
+          unlockReturnCalendar();
+          // If a return was previously chosen and is now invalid, clear it.
+          const ret = window.calSel['cal-grid-r'];
+          if (ret) {
+            const dDep = new Date(y, m, i);
+            const dRet = new Date(ret.y, ret.m, ret.d);
+            if (dRet < dDep) {
+              window.calSel['cal-grid-r'] = null;
+              clearMirror('return_date');
+              renderCalImpl('cal-grid-r');
+            }
+          }
+        }
+
+        if (typeof applyFilters === 'function') applyFilters();
+      };
+      grid.appendChild(c);
+    }
+  }
+
+  function calAdvImpl(delta, gridId) {
+    gridId = gridId || 'cal-grid';
+    if (!document.getElementById(gridId)) return;
+    // Don't allow navigating a locked return calendar.
+    const grid = document.getElementById(gridId);
+    if (grid && (grid.classList.contains('disabled') || grid.dataset.returnLocked === '1')) return;
+    window.calIdx[gridId] = (window.calIdx[gridId] || 0) + delta;
+    renderCalImpl(gridId);
+  }
+
+  // Override the buggy globals.
+  window.renderCal = renderCalImpl;
+  window.calAdv = calAdvImpl;
+
+  // Initialize on DOM ready (handles both pre- and post-DOMContentLoaded
+  // ordering since the original DOMContentLoaded handler may have run already
+  // with the buggy renderer).
+  function wireNativeDateInputs() {
+    // Native <input type="date" data-facet="depart_date|return_date"> emits
+    // ISO-format values (YYYY-MM-DD). Mirror those into our canonical
+    // "Month D, YYYY" facet so server-side _match_state can substring-match
+    // against the expected "Month D, YYYY" or "Month D" references.
+    document.querySelectorAll('input[type="date"][data-facet="depart_date"], input[type="date"][data-facet="return_date"]').forEach(d => {
+      if (d.dataset.w21Wired === '1') return;
+      d.dataset.w21Wired = '1';
+      const facet = d.dataset.facet;
+      const sync = () => {
+        const v = d.value; // YYYY-MM-DD or ''
+        if (!v) { clearMirror(facet); return; }
+        const parts = v.split('-');
+        if (parts.length !== 3) return;
+        const y = parseInt(parts[0], 10);
+        const m = parseInt(parts[1], 10) - 1;
+        const day = parseInt(parts[2], 10);
+        if (isNaN(y) || isNaN(m) || isNaN(day) || m < 0 || m > 11) return;
+        // Return-after-depart validation for native inputs.
+        if (facet === 'return_date') {
+          const depEl = document.querySelector('#w21-mirror-host input[data-facet="depart_date"]')
+                     || document.querySelector('input[type="date"][data-facet="depart_date"]');
+          const depVal = depEl ? depEl.value : '';
+          if (depVal) {
+            const depDate = new Date(depVal);
+            const candDate = new Date(y, m, day);
+            if (!isNaN(depDate) && candDate < depDate) {
+              d.value = '';
+              clearMirror(facet);
+              const parent = d.parentElement;
+              if (parent && !parent.querySelector('.w21-err')) {
+                const err = document.createElement('div');
+                err.className = 'w21-err';
+                err.textContent = 'Return date must be on or after the departure date.';
+                err.style.cssText = 'color:#c00;font-size:11px;margin:4px 0;font-weight:600';
+                parent.appendChild(err);
+                setTimeout(() => err.remove(), 2500);
+              }
+              return;
+            }
+          }
+        }
+        const canonical = MONTHS[m] + ' ' + day + ', ' + y;
+        // Write directly to the mirror without recursing through setMirror's
+        // native-input back-fill (which would clobber the user-visible value).
+        const mirror = ensureMirror(facet);
+        mirror.value = canonical;
+      };
+      d.addEventListener('input', sync);
+      d.addEventListener('change', sync);
+      // Initial sync in case the input already has a value.
+      sync();
+    });
+  }
+
+  function init() {
+    ensureMirror('depart_date');
+    ensureMirror('return_date');
+    ['cal-grid', 'cal-grid-d', 'cal-grid-r'].forEach(id => {
+      if (document.getElementById(id)) renderCalImpl(id);
+    });
+    lockReturnIfNeeded();
+    wireNativeDateInputs();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // Expose helpers for tests.
+  window.lockReturnIfNeeded = lockReturnIfNeeded;
+  window.unlockReturnCalendar = unlockReturnCalendar;
+})();
+/* ------------------------------ W21 PATCH (end) ------------------------------ */
+
+<!-- W21-PATCHED:v4 -->
+</script>
+<!-- W21-POLISH:v1 -->
+</body></html>

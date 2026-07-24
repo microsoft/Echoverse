@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bolingbrook, IL Real Estate &amp; Homes for Sale | EchoHomes</title>
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#fafafa;color:#1a1a1a;font-family:'Source Sans Pro','Helvetica Neue',Arial,sans-serif;font-size:14px;line-height:1.4;}
+  a{color:inherit;text-decoration:none;cursor:pointer;}
+  a:hover{text-decoration:underline;}
+  button{font-family:inherit;}
+  /* Plus-chip bedrooms (mostly identical across brands so verifier behavior is stable) */
+  .w25-chip-row{display:flex;gap:0;flex-wrap:nowrap;}
+  .w25-chip{padding:9px 16px;border:1px solid #c8ccd1;background:#fff;cursor:pointer;font-size:14px;font-weight:600;color:#1a1a1a;border-right:none;}
+  .w25-chip:first-child{border-radius:6px 0 0 6px;}
+  .w25-chip:last-child{border-radius:0 6px 6px 0;border-right:1px solid #c8ccd1;}
+  .w25-chip:hover{background:#f1f4f7;}
+  .w25-chip.active{background:#C72030;color:#fff;border-color:#C72030;}
+  /* Active chips bar */
+  .active-bar{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;min-height:32px;}
+  .active-chip{background:#f2f3f5;color:#1a1a1a;padding:6px 12px;border-radius:16px;font-size:13px;display:inline-flex;align-items:center;gap:8px;}
+  .ac-x{color:#5a5e63;cursor:pointer;font-weight:700;}
+  /* Result grid */
+  #result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;}
+  .empty{padding:28px;text-align:center;color:#5a5e63;background:#fff;border:1px dashed #d8dbe0;border-radius:8px;}
+  .listing-card{background:#fff;border-radius:6px;overflow:hidden;border:1px solid #ebedf0;cursor:pointer;transition:transform .12s,box-shadow .12s;}
+  .listing-card:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.08);}
+  .lc-img{height:170px;background:linear-gradient(135deg,#dde3ea,#eef2f7);display:flex;align-items:center;justify-content:center;font-size:38px;color:#C72030;font-weight:700;position:relative;overflow:hidden;}
+  .lc-img img{width:100%;height:100%;object-fit:cover;display:block;}
+  .lc-badge{position:absolute;top:8px;left:8px;background:#C72030;color:#fff;font-size:10px;font-weight:800;padding:4px 8px;border-radius:3px;letter-spacing:.4px;text-transform:uppercase;}
+  .lc-fav{position:absolute;top:8px;right:8px;width:30px;height:30px;background:rgba(0,0,0,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;}
+  .lc-body{padding:12px 14px 14px;}
+  .lc-price{font-size:19px;font-weight:900;color:#1a1a1a;}
+  .lc-meta{font-size:13px;color:#3a3e44;margin-top:3px;display:flex;gap:6px;flex-wrap:wrap;}
+  .lc-meta b{font-weight:700;}
+  .lc-addr{font-size:13px;color:#3a3e44;margin-top:5px;line-height:1.3;}
+  .lc-ptype{font-size:11px;color:#5a5e63;margin-top:6px;text-transform:uppercase;letter-spacing:.4px;font-weight:600;}
+  /* Dropdowns */
+  .w25-dropdown{position:relative;display:inline-block;}
+  .w25-pill-trigger,.w25-dd-trigger{padding:8px 14px;border:1px solid #c8ccd1;background:#fff;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;color:#1a1a1a;}
+  .w25-pill-trigger:hover,.w25-dd-trigger:hover{border-color:#9aa0a6;}
+  .w25-dropdown.open .w25-pill-trigger,.w25-dropdown.open .w25-dd-trigger{border-color:#C72030;color:#C72030;}
+  .w25-dropdown-panel{display:none;position:absolute;top:calc(100% + 6px);left:0;background:#fff;border:1px solid #d8dbe0;border-radius:8px;box-shadow:0 6px 22px rgba(0,0,0,.12);padding:14px 16px;min-width:260px;z-index:130;}
+  .w25-dropdown.open .w25-dropdown-panel{display:block;}
+  .dd-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#5a5e63;margin-bottom:8px;}
+  .dd-radio-row{display:flex;align-items:center;gap:9px;padding:6px 4px;font-size:14px;cursor:pointer;border-radius:4px;}
+  .dd-radio-row:hover{background:#f1f4f7;}
+  .dd-icon{display:inline-block;width:22px;text-align:center;}
+  .dd-actions{margin-top:10px;text-align:right;}
+  .dd-clear{font-size:12px;color:#C72030;cursor:pointer;font-weight:700;}
+  /* Sidebar shared */
+  .side-section{background:#fff;border:1px solid #ebedf0;border-radius:8px;padding:14px 16px;margin-bottom:14px;}
+  .side-section-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#1a1a1a;margin-bottom:10px;}
+  .side-clear{font-size:12px;color:#C72030;cursor:pointer;font-weight:700;display:inline-block;margin-top:8px;}
+  .side-radio-row,.side-check-row{display:flex;align-items:center;gap:9px;padding:6px 0;font-size:14px;cursor:pointer;}
+  .side-radio-row input,.side-check-row input{display:none;}
+  .radio-dot{width:16px;height:16px;border:2px solid #999;border-radius:50%;display:inline-block;position:relative;}
+  .side-radio-row input:checked + .radio-dot{border-color:#C72030;}
+  .side-radio-row input:checked + .radio-dot::after{content:'';position:absolute;top:2px;left:2px;width:8px;height:8px;background:#C72030;border-radius:50%;}
+  .check-box{width:16px;height:16px;border:2px solid #999;border-radius:3px;display:inline-block;position:relative;}
+  .side-check-row input:checked + .check-box{background:#C72030;border-color:#C72030;}
+  .side-check-row input:checked + .check-box::after{content:'✓';position:absolute;top:-4px;left:2px;color:#fff;font-size:14px;font-weight:900;}
+  /* PT card grid (Trulia) */
+  .pt-card-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .w25-card.pt-card{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 6px;background:#fff;border:2px solid #d8dbe0;border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;color:#1a1a1a;text-align:center;line-height:1.2;min-height:78px;}
+  .w25-card.pt-card:hover{border-color:#C72030;}
+  .w25-card.pt-card.active{border-color:#C72030;background:rgba(0,122,85,.06);color:#C72030;}
+  .pt-card-icon{font-size:22px;margin-bottom:5px;line-height:1;}
+  .pt-card-label{font-weight:700;font-size:11px;}
+  /* PT tab strip (Zillow Tacoma / HotPads) */
+  .pt-tab-strip{display:flex;gap:0;background:#fff;border:1px solid #d8dbe0;border-radius:6px;overflow:hidden;flex-wrap:nowrap;align-items:stretch;}
+  .w25-tab.pt-tab{flex:1;padding:11px 8px;background:transparent;border:none;cursor:pointer;font-size:13px;font-weight:700;color:#3a3e44;border-right:1px solid #ebedf0;white-space:nowrap;}
+  .w25-tab.pt-tab:last-child{border-right:none;}
+  .w25-tab.pt-tab:hover{background:#f6f8fa;}
+  .w25-tab.pt-tab.active{background:#C72030;color:#fff;}
+  .pt-tab-clear{padding:11px 14px;background:#fff;color:#5a5e63;border:none;border-left:1px solid #ebedf0;cursor:pointer;font-size:12px;font-weight:700;}
+  /* PT pill row (Movoto) */
+  .pt-pill-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:6px 0;}
+  .pt-pill-label{font-size:13px;font-weight:800;color:#3a3e44;margin-right:4px;}
+  .w25-card.pt-pill{padding:8px 16px;background:#fff;border:1.5px solid #d8c5d6;border-radius:18px;font-size:13px;font-weight:700;color:#5a4256;cursor:pointer;}
+  .w25-card.pt-pill:hover{border-color:#C72030;color:#C72030;}
+  .w25-card.pt-pill.active{background:#C72030;color:#fff;border-color:#C72030;}
+  .pt-pill-clear{background:transparent;border:none;color:#999;font-size:16px;font-weight:700;cursor:pointer;padding:4px 8px;}
+  /* Native select (Compass / Realtor variant) */
+  .select-wrap{display:flex;flex-direction:column;gap:4px;}
+  .select-label{font-size:12px;font-weight:700;color:#3a3e44;letter-spacing:.4px;text-transform:uppercase;}
+  .pt-select{padding:9px 12px;border:1px solid #c8ccd1;border-radius:4px;font-size:14px;font-weight:600;background:#fff;min-width:190px;cursor:pointer;font-family:inherit;}
+  .pt-select:focus{outline:none;border-color:#C72030;box-shadow:0 0 0 2px rgba(0,0,0,.08);}
+  /* Page chrome */
+  .page-title{font-size:22px;font-weight:800;margin:18px 0 2px;color:#1a1a1a;}
+  .page-sub{font-size:13px;color:#5a5e63;margin-bottom:14px;}
+  #result-count{font-size:14px;font-weight:700;color:#1a1a1a;}
+
+  /* Realtor.com brand-specific tweaks */
+  .listing-card{border-radius:6px;border:1px solid #e2e2e2;box-shadow:0 1px 2px rgba(0,0,0,.04);}
+  .listing-card:hover{border-color:#C72030;}
+  .lc-img{background:linear-gradient(135deg,#e9d6b8,#cdb38a);color:#5a3e15;height:185px;font-size:28px;}
+  .lc-price{color:#0f1f4c;font-size:21px;}
+  .lc-badge{background:#C72030;color:#fff;}
+  .lc-fav{color:#fff;background:rgba(15,31,76,.55);}
+  .pt-tab-strip{border-color:#d8dbe0;}
+  .w25-tab.pt-tab.active{background:#C72030;color:#fff;}
+  /* Realtor layout: left sidebar map placeholder + right results */
+  .realtor-layout{display:grid;grid-template-columns:38% 62%;gap:0;min-height:calc(100vh - 220px);}
+  .realtor-map{background:linear-gradient(135deg,#dbe4e8,#c4d2d8);position:relative;border-right:1px solid #d8dbe0;min-height:560px;overflow:hidden;}
+  .realtor-map::before{content:'';position:absolute;inset:0;background:
+    radial-gradient(circle at 25% 35%,rgba(199,32,48,.18) 0,transparent 22px),
+    radial-gradient(circle at 55% 60%,rgba(199,32,48,.18) 0,transparent 22px),
+    radial-gradient(circle at 70% 30%,rgba(199,32,48,.18) 0,transparent 22px),
+    radial-gradient(circle at 40% 75%,rgba(199,32,48,.18) 0,transparent 22px),
+    radial-gradient(circle at 80% 80%,rgba(199,32,48,.18) 0,transparent 22px),
+    linear-gradient(45deg,transparent 49%,rgba(255,255,255,.55) 49%,rgba(255,255,255,.55) 51%,transparent 51%),
+    linear-gradient(-45deg,transparent 49%,rgba(255,255,255,.4) 49%,rgba(255,255,255,.4) 51%,transparent 51%);
+    background-size:auto,auto,auto,auto,auto,140px 140px,180px 180px;}
+  .map-pin{position:absolute;background:#C72030;color:#fff;padding:5px 9px;border-radius:14px;font-size:12px;font-weight:800;box-shadow:0 2px 6px rgba(0,0,0,.25);}
+  .map-pin::after{content:'';position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#C72030;}
+  .map-controls{position:absolute;top:14px;right:14px;display:flex;flex-direction:column;gap:6px;}
+  .map-btn{background:#fff;border:1px solid #c0c0c0;width:36px;height:36px;border-radius:4px;font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.12);}
+  .map-banner{position:absolute;top:14px;left:14px;background:#fff;padding:8px 14px;border-radius:4px;font-size:13px;font-weight:700;color:#1a1a1a;box-shadow:0 1px 3px rgba(0,0,0,.12);}
+  .results-pane{padding:14px 22px 28px;}
+  #result-grid{grid-template-columns:repeat(auto-fill,minmax(260px,1fr));}
+  .realtor-sub-nav{background:#f4f6f8;padding:8px 28px;font-size:12px;color:#5a5e63;border-bottom:1px solid #ebedf0;}
+  .realtor-sub-nav a{color:#0f1f4c;font-weight:600;}
+  .realtor-sub-nav a:hover{text-decoration:underline;}
+  .lc-realtor-flag{position:absolute;top:8px;right:8px;background:#fff;color:#C72030;font-size:10px;font-weight:800;padding:4px 7px;border-radius:3px;letter-spacing:.4px;border:1px solid #C72030;}
+</style>
+</head>
+<body>
+
+<header class="site-header" style="background:#fff;color:#1a1a1a;border-bottom:1px solid #e2e2e2;padding:0 28px;height:62px;display:flex;align-items:center;gap:24px;position:sticky;top:0;z-index:140;">
+  <a class="site-logo" style="display:flex;align-items:center;gap:2px;font-weight:900;font-size:22px;color:#1a1a1a;letter-spacing:-0.6px;font-family:'Helvetica Neue',Arial,sans-serif;">
+    <span style="display:inline-flex;width:22px;height:18px;background:#C72030;margin-right:5px;border-radius:4px;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:13px;line-height:1;">E</span>EchoHomes<sup style="font-size:50%;color:#C72030;margin-left:1px;">®</sup>
+  </a>
+  <nav style="display:flex;gap:22px;font-size:14px;flex:1;">
+    <a style="color:#1a1a1a;border-bottom:3px solid #C72030;font-weight:800;padding:21px 0;">Buy</a>
+    <a style="color:#212121;font-weight:700;padding:21px 0;">Rent</a>
+    <a style="color:#212121;font-weight:700;padding:21px 0;">Sell</a>
+    <a style="color:#212121;font-weight:700;padding:21px 0;">Mortgage</a>
+    <a style="color:#212121;font-weight:700;padding:21px 0;">Find Echo Agent<sup style="font-size:60%;">®</sup></a>
+    <a style="color:#212121;font-weight:700;padding:21px 0;">My Home</a>
+    <a style="color:#212121;font-weight:700;padding:21px 0;">News &amp; Insights</a>
+  </nav>
+  <div style="display:flex;gap:14px;align-items:center;font-size:13px;font-weight:600;">
+    <a>Advertise</a><a>Help</a>
+    <span style="padding:7px 16px;background:#fff;border:1px solid #c8ccd1;border-radius:22px;font-weight:700;">Manage Rentals</span>
+    <span style="padding:7px 16px;background:#C72030;color:#fff;border:1px solid #C72030;border-radius:22px;font-weight:700;">Sign In</span>
+  </div>
+</header>
+<div class="search-row" style="background:#fff;padding:10px 28px;border-bottom:1px solid #ebedf0;display:flex;gap:10px;align-items:center;">
+  <input style="flex:1;max-width:760px;padding:11px 16px;border:2px solid #1f1f1f;border-radius:6px;font-size:14px;font-weight:600;" placeholder="Address, school, city, ZIP or neighborhood" value="Bolingbrook, IL">
+  <button style="padding:11px 22px;background:#C72030;color:#fff;border:none;border-radius:6px;font-weight:800;font-size:14px;cursor:pointer;">Search</button>
+</div>
+<div class="realtor-sub-nav">
+  <a>Bolingbrook</a> &rsaquo; <a>Will County</a> &rsaquo; <a>Illinois</a> &rsaquo; Real Estate &amp; Homes for Sale
+</div>
+
+
+<div class="filter-bar" style="background:#fff;border-bottom:1px solid #ebedf0;padding:12px 28px;position:sticky;top:62px;z-index:120;display:flex;flex-direction:column;gap:10px;">
+  <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
+    <span style="padding:8px 14px;background:#fff;border:1px solid #c8ccd1;border-radius:6px;font-size:13px;font-weight:700;color:#1a1a1a;display:inline-flex;align-items:center;gap:6px;">For Sale <span style="color:#5a5e63;">▾</span></span>
+    <span style="padding:8px 14px;background:#fff;border:1px solid #c8ccd1;border-radius:6px;font-size:13px;font-weight:700;color:#1a1a1a;display:inline-flex;align-items:center;gap:6px;">Price <span style="color:#5a5e63;">▾</span></span>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-size:12px;font-weight:800;color:#3a3e44;text-transform:uppercase;letter-spacing:.5px;">Bedrooms</span>
+      <div class="w25-chip-row"><button type="button" class="w25-chip" data-facet="min_beds" data-val="0" onclick="pickChip(this,'min_beds')">Any</button>
+<button type="button" class="w25-chip" data-facet="min_beds" data-val="1" onclick="pickChip(this,'min_beds')">1+</button>
+<button type="button" class="w25-chip" data-facet="min_beds" data-val="2" onclick="pickChip(this,'min_beds')">2+</button>
+<button type="button" class="w25-chip" data-facet="min_beds" data-val="3" onclick="pickChip(this,'min_beds')">3+</button>
+<button type="button" class="w25-chip" data-facet="min_beds" data-val="4" onclick="pickChip(this,'min_beds')">4+</button>
+<button type="button" class="w25-chip" data-facet="min_beds" data-val="5" onclick="pickChip(this,'min_beds')">5+</button></div>
+    </div>
+    <div style="width:1px;height:30px;background:#ebedf0;"></div>
+    <div style="flex:1;min-width:380px;">
+<div class="pt-tab-strip" role="tablist" aria-label="Home Type">
+  <button type="button" class="w25-tab pt-tab" data-facet="property_type" data-val="Single-Family" onclick="pickTab(this,'property_type')">🏠 Single-Family</button><button type="button" class="w25-tab pt-tab" data-facet="property_type" data-val="Condo" onclick="pickTab(this,'property_type')">🏢 Condo</button><button type="button" class="w25-tab pt-tab" data-facet="property_type" data-val="Townhouse" onclick="pickTab(this,'property_type')">🏘️ Townhouse</button><button type="button" class="w25-tab pt-tab" data-facet="property_type" data-val="Multi-Family" onclick="pickTab(this,'property_type')">🏬 Multi-Family</button><button type="button" class="w25-tab pt-tab" data-facet="property_type" data-val="Studio Apartment" onclick="pickTab(this,'property_type')">🛏️ Studio</button>
+  <button type="button" class="pt-tab-clear" onclick="clearFacet('property_type')">Clear</button>
+</div>
+</div>
+    <span style="padding:8px 14px;background:#fff;border:1px solid #c8ccd1;border-radius:6px;font-size:13px;font-weight:700;color:#1a1a1a;">More Filters</span>
+    <span style="margin-left:auto;font-size:13px;color:#5a5e63;font-weight:600;">Save Search ♡</span>
+  </div>
+</div>
+<div class="realtor-layout">
+  <div class="realtor-map">
+    <div class="map-banner">Bolingbrook, IL · Map View</div>
+    <div class="map-controls"><button class="map-btn" title="Zoom in">+</button><button class="map-btn" title="Zoom out">−</button></div>
+    <div class="map-pin" style="top:26%;left:22%;">$365K</div>
+    <div class="map-pin" style="top:34%;left:48%;">$289K</div>
+    <div class="map-pin" style="top:48%;left:30%;">$412K</div>
+    <div class="map-pin" style="top:58%;left:60%;">$525K</div>
+    <div class="map-pin" style="top:68%;left:38%;">$339K</div>
+    <div class="map-pin" style="top:42%;left:72%;">$478K</div>
+    <div class="map-pin" style="top:76%;left:72%;">$610K</div>
+  </div>
+  <div class="results-pane">
+    <div class="page-title">Bolingbrook, IL Real Estate &amp; Homes for Sale</div>
+    <div class="page-sub"><span id="result-count">— homes</span> · Sort: <b style="color:#1a1a1a;">Homes for You ▾</b></div>
+    <div class="active-bar" id="active-chips"></div>
+    <div id="result-grid"></div>
+  </div>
+</div>
+
+<footer style="background:#1f1f1f;color:#cfd2d6;padding:24px 28px 30px;font-size:12px;margin-top:0;border-top:4px solid #C72030;">
+  <div style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:8px;opacity:.85;"><a style="color:#cfd2d6;">About</a><a style="color:#cfd2d6;">Careers</a><a style="color:#cfd2d6;">Press Room</a><a style="color:#cfd2d6;">Help</a><a style="color:#cfd2d6;">Advertise</a><a style="color:#cfd2d6;">Site Map</a><a style="color:#cfd2d6;">Terms</a><a style="color:#cfd2d6;">Privacy</a><a style="color:#cfd2d6;">Do Not Sell or Share My Personal Information</a></div>
+  <div style="opacity:.7;">© 2024 EchoHomes, Inc. All rights reserved. EchoHomes® is the trademark of EchoHomes, Inc. Equal Housing Opportunity.</div></footer>
+<script>
+function escapeHtmlText(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
+const ENV_ID = 'W25_E07';
+let filterState = {};
+
+function _toInt(v){ const n=Number(v); return Number.isNaN(n)?v:n; }
+
+function collectState(){
+  const fs={};
+  document.querySelectorAll('.w25-chip.active').forEach(b=>{
+    const f=b.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(b.dataset.val); else fs[f]=b.dataset.val;
+  });
+  document.querySelectorAll('input[type=radio].w25-rad:checked').forEach(el=>{
+    const f=el.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(el.value); else fs[f]=el.value;
+  });
+  document.querySelectorAll('select.w25-sel').forEach(s=>{
+    const f=s.dataset.facet; if(!f) return;
+    const v=s.value;
+    if(v){ if(f==='min_beds') fs[f]=_toInt(v); else fs[f]=v; }
+  });
+  document.querySelectorAll('.w25-card.active').forEach(b=>{
+    const f=b.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(b.dataset.val); else fs[f]=b.dataset.val;
+  });
+  document.querySelectorAll('.w25-tab.active').forEach(b=>{
+    const f=b.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(b.dataset.val); else fs[f]=b.dataset.val;
+  });
+  return fs;
+}
+
+function pickChip(btn,facet){
+  const cur=btn.classList.contains('active');
+  document.querySelectorAll('.w25-chip[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  if(!cur) btn.classList.add('active');
+  onF();
+}
+function pickCard(btn,facet){
+  const cur=btn.classList.contains('active');
+  document.querySelectorAll('.w25-card[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  if(!cur) btn.classList.add('active');
+  onF();
+}
+function pickTab(btn,facet){
+  const cur=btn.classList.contains('active');
+  document.querySelectorAll('.w25-tab[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  if(!cur) btn.classList.add('active');
+  onF();
+}
+function onSelChange(_el){ onF(); }
+function onRadChange(_el){ onF(); }
+
+function onF(){
+  filterState=collectState();
+  const urlParams=new URLSearchParams(window.location.search);
+  const taskId=urlParams.get('task_id');
+
+  fetch('/env/'+ENV_ID+'/api/filter',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({filter_state:filterState})
+  }).then(r=>r.json()).then(data=>{
+    renderResults(data.results||[]);
+    const rc=document.getElementById('result-count');
+    if(rc) rc.textContent=(data.results||[]).length+' homes';
+    renderActive();
+  }).catch(()=>{});
+
+  fetch('/env/'+ENV_ID+'/api/submit',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({filter_state:filterState,answer:'',task_id:taskId})
+  }).catch(()=>{});
+}
+
+function renderResults(results){
+  const grid=document.getElementById('result-grid'); if(!grid) return;
+  if(!results.length){ grid.innerHTML='<div class="empty">No homes match the current filters.</div>'; return; }
+  const isRentEnv=false;
+  grid.innerHTML=results.map(r=>{
+    const isRent=(r.product_type==='rentals')||isRentEnv;
+    const price=escapeHtmlText('$'+(r.price||0).toLocaleString()+(isRent?'/mo':''));
+    const beds=escapeHtmlText(r.beds!=null?r.beds:'?');
+    const baths=escapeHtmlText(r.baths!=null?r.baths:'?');
+    const sqft=escapeHtmlText(r.sqft!=null?r.sqft.toLocaleString():'');
+    const addr=escapeHtmlText(r.title||'');
+    const cityFull=escapeHtmlText(r.city_full||r.city||'');
+    const ptype=escapeHtmlText(r.property_type||'');
+    const img=r.image_url||'';
+    return `
+          <div class="listing-card">
+            <div class="lc-img">${img?`<img src="${escapeHtmlText(img)}" alt="">`:`<div>${(addr.split(',')[0]||addr).split(' ').slice(0,2).join(' ')}</div>`}
+              ${r.is_new?'<div class="lc-badge">NEW - 2 HRS AGO</div>':''}
+              <div class="lc-realtor-flag">EchoHomes<sup>®</sup></div>
+              <div class="lc-fav">♡</div>
+            </div>
+            <div class="lc-body">
+              <div class="lc-price">${price}</div>
+              <div class="lc-meta"><b>${beds}</b> bd · <b>${baths}</b> ba${sqft?` · <b>${sqft}</b> sqft`:''}</div>
+              <div class="lc-addr">${addr} · ${cityFull}</div>
+              <div class="lc-ptype">${ptype} · Brokered by Coldwell Banker</div>
+            </div>
+          </div>`;
+  }).join('');
+}
+
+function renderActive(){
+  const bar=document.getElementById('active-chips'); if(!bar) return;
+  const labelMap={'min_beds':'Beds','property_type':'Home Type'};
+  const valueMap=(k,v)=>{ if(k==='min_beds') return (v===0||v==='0')?'Any':(v+'+'); return v; };
+  const chips=[];
+  for(const [k,v] of Object.entries(filterState)){
+    const lbl=labelMap[k]||k;
+    chips.push('<span class="active-chip">'+escapeHtmlText(lbl)+': '+escapeHtmlText(valueMap(k,v))+' <span class="ac-x" onclick="clearFacet(\''+escapeHtmlText(escapeJsSingleQuoted(k))+'\')">×</span></span>');
+  }
+  bar.innerHTML=chips.join('');
+}
+
+function clearFacet(facet){
+  document.querySelectorAll('.w25-chip[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.w25-card[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.w25-tab[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('input[type=radio].w25-rad[data-facet="'+facet+'"]').forEach(i=>{i.checked=false;});
+  document.querySelectorAll('select.w25-sel[data-facet="'+facet+'"]').forEach(s=>{s.selectedIndex=0;});
+  onF();
+}
+
+function toggleDropdown(id){
+  const el=document.getElementById(id); if(!el) return;
+  const parent=el.parentElement;
+  const wasOpen=parent&&parent.classList.contains('open');
+  document.querySelectorAll('.w25-dropdown').forEach(d=>d.classList.remove('open'));
+  document.querySelectorAll('.w25-dropdown-panel').forEach(p=>p.classList.remove('open'));
+  if(!wasOpen&&parent) parent.classList.add('open');
+}
+document.addEventListener('click',(e)=>{
+  if(!e.target.closest('.w25-dropdown')&&!e.target.closest('.w25-pill-trigger')&&!e.target.closest('.w25-dd-trigger')){
+    document.querySelectorAll('.w25-dropdown').forEach(d=>d.classList.remove('open'));
+  }
+});
+document.addEventListener('DOMContentLoaded',()=>{ onF(); });
+</script>
+</body>
+</html>

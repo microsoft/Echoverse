@@ -1,0 +1,288 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>School Activities in New York · EchoEvents</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{font-family:'Neue Plak','Helvetica Neue',Arial,sans-serif;background:#fff;color:#1e0a3c;font-size:13px;line-height:1.5}
+a{color:inherit;text-decoration:none;cursor:pointer}button{font-family:inherit}
+.live-status,.task-banner,.fara-source,.fara-banner,[data-debug="1"]{display:none!important}
+
+.ev-header{background:#fff;padding:14px 28px;display:flex;align-items:center;gap:24px;border-bottom:1px solid #eeeded;position:relative;z-index:2}
+.ev-logo{font-family:'Neue Plak Extended',Arial,sans-serif;font-weight:900;font-size:26px;color:#f05537;letter-spacing:-.02em;display:flex;align-items:center;gap:6px}
+.ev-logo .swoop{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;background:#f05537;color:#fff;font-size:15px;font-weight:900;box-shadow:inset -2px -3px 0 rgba(0,0,0,.08)}
+.ev-logo span{color:#1e0a3c}
+.cat-strip{background:#fff;border-bottom:1px solid #eeeded;padding:10px 28px;display:flex;gap:6px;overflow-x:auto;align-items:center}
+.cat-strip a{padding:6px 14px;border-radius:18px;font-size:12px;color:#3d2a64;font-weight:600;white-space:nowrap;border:1px solid transparent}
+.cat-strip a:hover{background:#fff0eb;color:#f05537}
+.cat-strip a.active{background:#1e0a3c;color:#fff}
+.cat-strip .divider{width:1px;height:18px;background:#eeeded;margin:0 4px}
+.ev-search{flex:1;display:flex;background:#f7f7f8;border-radius:24px;padding:4px 18px;align-items:center;gap:8px;max-width:520px;border:1px solid #eeeded}
+.ev-search input{flex:1;border:none;outline:none;background:transparent;font-size:13px;padding:6px 0;color:#1e0a3c}
+.ev-search .sep{width:1px;height:18px;background:#dbdae3}
+.ev-search button{background:transparent;color:#1e0a3c;border:none;font-size:18px;cursor:pointer}
+.ev-nav{display:flex;gap:18px;font-size:13px;font-weight:600;color:#1e0a3c}
+.ev-nav a:hover{color:#f05537}
+.ev-cta{display:flex;gap:8px;align-items:center}
+.ev-cta a{font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;color:#1e0a3c}
+.ev-cta a.primary{background:#f05537;color:#fff}
+
+/* Banner w/ exact-match toggle */
+.ev-banner{background:linear-gradient(135deg,#fff0eb 0%,#ffe4d6 100%);border-bottom:1px solid #ffd1ba;padding:16px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.ev-banner .b-ic{width:36px;height:36px;background:#f05537;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800}
+.ev-banner .b-text{flex:1;min-width:240px}
+.ev-banner .b-text h3{margin:0;font-size:14px;font-weight:800;color:#1e0a3c}
+.ev-banner .b-text p{margin:2px 0 0;font-size:11px;color:#3d2a64}
+.ev-banner .b-toggle{display:flex;align-items:center;gap:10px;cursor:pointer;background:#fff;padding:8px 14px;border-radius:24px;border:1.5px solid #f05537;font-size:12px;font-weight:700;color:#1e0a3c}
+.ev-banner .b-toggle input{appearance:none;position:relative;width:40px;height:22px;background:#dbdae3;border-radius:11px;cursor:pointer;outline:none;transition:background .15s}
+.ev-banner .b-toggle input:before{content:"";position:absolute;left:1px;top:1px;width:18px;height:18px;background:#fff;border-radius:50%;transition:left .15s;box-shadow:0 1px 2px rgba(0,0,0,.18)}
+.ev-banner .b-toggle input:checked{background:#f05537}
+.ev-banner .b-toggle input:checked:before{left:20px}
+.strict-indicator{padding:3px 8px;background:#eeeded;color:#3d2a64;border-radius:11px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+.strict-indicator.on{background:#f05537;color:#fff}
+
+.crumb{padding:12px 28px;font-size:11px;color:#3d2a64;background:#fff;border-bottom:1px solid #eeeded}
+.crumb a:hover{color:#f05537;text-decoration:underline}.crumb .sep{margin:0 6px;color:#bbb6c8}.crumb b{color:#1e0a3c;font-weight:700}
+
+.main-grid{display:grid;grid-template-columns:300px 1fr;gap:28px;padding:22px 28px 40px;max-width:1320px;margin:0 auto}
+
+.filter-aside{background:#fff;border:1px solid #eeeded;border-radius:8px;padding:0;height:fit-content}
+.fa-title{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #eeeded}
+.fa-title h3{margin:0;font-size:14px;font-weight:800;color:#1e0a3c}
+.fa-title a{font-size:11px;color:#f05537;cursor:pointer;font-weight:700}
+
+.ev-acc{border-bottom:1px solid #eeeded}
+.ev-acc:last-of-type{border-bottom:none}
+.ev-acc summary{display:flex;align-items:center;gap:10px;padding:13px 18px;cursor:pointer;list-style:none;user-select:none;font-weight:700;font-size:12px;color:#1e0a3c;text-transform:uppercase;letter-spacing:.04em}
+.ev-acc summary::-webkit-details-marker{display:none}
+.ev-acc summary:hover{background:#fdfaf6;color:#f05537}
+.ev-acc-title{flex:1}
+.ev-acc-clear{font-size:10px;color:#f05537;text-transform:none;letter-spacing:0;font-weight:600;text-decoration:underline}
+.ev-chev{font-size:11px;color:#3d2a64;transition:transform .15s}
+.ev-acc[open] .ev-chev{transform:rotate(180deg)}
+.ev-acc-body{padding:4px 16px 14px;display:flex;flex-wrap:wrap;gap:6px}
+
+.ev-pill{position:relative;display:inline-flex;align-items:center;background:#fff;border:1.5px solid #dbdae3;border-radius:18px;padding:5px 12px;cursor:pointer;transition:all .14s;font-size:11px;color:#1e0a3c;font-weight:600}
+.ev-pill:hover{border-color:#f05537;color:#f05537}
+.ev-pill input[type=checkbox]{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;z-index:1}
+.ev-pill:has(input:checked){background:#f05537;border-color:#f05537;color:#fff}
+.ev-pill-lbl{position:relative;z-index:0}
+
+.results-area{}
+.results-header{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.results-header h1{margin:0;font-size:26px;font-weight:800;color:#1e0a3c;letter-spacing:-.01em}
+.results-sub{display:block;width:100%;color:#3d2a64;font-size:13px;margin-top:4px}
+.results-tools{margin-left:auto;display:flex;gap:10px;align-items:center}
+.sort-dd{padding:7px 14px;border:1px solid #dbdae3;border-radius:20px;font-size:11px;background:#fff;color:#1e0a3c;font-weight:600}
+.view-toggle{display:inline-flex;border:1px solid #dbdae3;border-radius:20px;overflow:hidden}
+.view-toggle button{padding:6px 14px;background:#fff;border:none;cursor:pointer;font-size:11px;color:#1e0a3c}
+.view-toggle button.active{background:#1e0a3c;color:#fff}
+.active-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.active-chip{background:#fff0eb;color:#f05537;border:1px solid #f05537;padding:3px 11px;border-radius:14px;font-size:10px;font-weight:700}
+
+.result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+.result-card{background:#fff;border-radius:8px;overflow:hidden;border:1px solid #eeeded;display:flex;flex-direction:column;cursor:pointer;transition:transform .12s,box-shadow .12s}
+.result-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.08);border-color:#f05537}
+.result-thumb-img,.result-thumb{width:100%;height:160px;object-fit:cover;background:#f7f7f8;display:block}
+.result-thumb{display:flex;align-items:center;justify-content:center;font-size:42px;color:#bbb}
+.result-body{padding:12px 16px}
+.result-brand{font-size:10px;color:#f05537;text-transform:uppercase;letter-spacing:.06em;font-weight:800}
+.result-name{font-size:15px;font-weight:800;margin:4px 0 4px;color:#1e0a3c;line-height:1.25}
+.result-meta{font-size:11px;color:#3d2a64;margin-bottom:4px}
+.result-rating-row{font-size:11px;color:#f05537}
+.result-price-row{margin-top:6px}
+.result-price{font-weight:800;font-size:13px;color:#1e0a3c}
+.no-results{grid-column:1/-1;text-align:center;padding:60px;color:#3d2a64;background:#fff;border-radius:8px}
+.pagination{display:flex;gap:6px;justify-content:center;margin-top:22px}
+.pagination button{padding:7px 13px;background:#fff;border:1px solid #dbdae3;border-radius:18px;cursor:pointer;font-size:11px;color:#1e0a3c;font-weight:700}
+.pagination button.active{background:#f05537;color:#fff;border-color:#f05537}
+
+.ev-footer{background:#1e0a3c;color:#bbb6c8;font-size:11px;margin-top:40px;padding:32px 28px 18px}
+.ev-footer-row{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1320px;margin:0 auto}
+.ev-footer-col h5{margin:0 0 10px;color:#f05537;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.ev-footer-col a{display:block;padding:3px 0;color:#bbb6c8}
+.ev-footer-col a:hover{color:#fff}
+.ev-footer-bottom{max-width:1320px;margin:22px auto 0;padding-top:14px;border-top:1px solid #3d2a64;font-size:10px;color:#7a6b9c}
+</style></head><body>
+<header class="ev-header">
+  <div class="ev-logo"><span class="swoop">E</span>EchoEvents</div>
+  <div class="ev-search">
+    <input placeholder="Search events">
+    <span class="sep"></span>
+    <input placeholder="New York" style="max-width:140px">
+    <button>🔍</button>
+  </div>
+  <nav class="ev-nav"><a>Find Events</a><a>Create Events</a><a>Help</a></nav>
+  <div class="ev-cta"><a>Sign in</a><a class="primary">Sign up</a></div>
+</header>
+
+<div class="cat-strip">
+  <a>For you</a>
+  <a>Online</a>
+  <a>Today</a>
+  <a>This weekend</a>
+  <span class="divider"></span>
+  <a>Music</a>
+  <a>Food & Drink</a>
+  <a>Charity</a>
+  <a>Health</a>
+  <a>Business</a>
+  <a class="active">School Activities</a>
+  <a>Sports & Fitness</a>
+  <a>Arts</a>
+  <a>Holiday</a>
+</div>
+
+<div class="ev-banner">
+  <div class="b-ic">🎯</div>
+  <div class="b-text"><h3>Get exact matches</h3><p>Turn on strict mode to keep In-Person + School Activities literal — no Online events or unrelated categories.</p></div>
+  <label class="b-toggle">
+    <span class="strict-indicator">Off</span>
+    <span>Match exactly</span>
+    <input type="checkbox" data-facet="exact_match" value="1" onchange="onF()">
+  </label>
+</div>
+
+<div class="crumb"><a>EchoEvents</a><span class="sep">›</span><a>Browse events</a><span class="sep">›</span><a>New York</a><span class="sep">›</span><b>School Activities · This month</b></div>
+
+<div class="main-grid">
+  <aside class="filter-aside">
+    <div class="fa-title"><h3>Filters</h3><a onclick="lsReset(event)">Clear all</a></div>
+    <details class="f-section ev-acc" open><summary><span class="ev-acc-title">Category</span><a class="ev-acc-clear" onclick="event.preventDefault();event.stopPropagation();clearFacet(this,'brand')">Clear</a><span class="ev-chev">▾</span></summary><div class="ev-acc-body"><label class="ev-pill"><input type="checkbox" data-facet="brand" value="Business" onchange="onF()"><span class="ev-pill-lbl">Business</span></label><label class="ev-pill"><input type="checkbox" data-facet="brand" value="Food &amp; Drink" onchange="onF()"><span class="ev-pill-lbl">Food &amp; Drink</span></label><label class="ev-pill"><input type="checkbox" data-facet="brand" value="Health" onchange="onF()"><span class="ev-pill-lbl">Health</span></label><label class="ev-pill"><input type="checkbox" data-facet="brand" value="Music" onchange="onF()"><span class="ev-pill-lbl">Music</span></label><label class="ev-pill"><input type="checkbox" data-facet="brand" value="School Activities" onchange="onF()"><span class="ev-pill-lbl">School Activities</span></label><label class="ev-pill"><input type="checkbox" data-facet="brand" value="Sports &amp; Fitness" onchange="onF()"><span class="ev-pill-lbl">Sports &amp; Fitness</span></label></div></details><details class="f-section ev-acc" open><summary><span class="ev-acc-title">Format</span><a class="ev-acc-clear" onclick="event.preventDefault();event.stopPropagation();clearFacet(this,'category')">Clear</a><span class="ev-chev">▾</span></summary><div class="ev-acc-body"><label class="ev-pill"><input type="checkbox" data-facet="category" value="Hybrid" onchange="onF()"><span class="ev-pill-lbl">Hybrid</span></label><label class="ev-pill"><input type="checkbox" data-facet="category" value="In-Person" onchange="onF()"><span class="ev-pill-lbl">In-Person</span></label><label class="ev-pill"><input type="checkbox" data-facet="category" value="Online" onchange="onF()"><span class="ev-pill-lbl">Online</span></label></div></details><details class="f-section ev-acc" open><summary><span class="ev-acc-title">Audience</span><a class="ev-acc-clear" onclick="event.preventDefault();event.stopPropagation();clearFacet(this,'condition')">Clear</a><span class="ev-chev">▾</span></summary><div class="ev-acc-body"><label class="ev-pill"><input type="checkbox" data-facet="condition" value="Adults" onchange="onF()"><span class="ev-pill-lbl">Adults</span></label><label class="ev-pill"><input type="checkbox" data-facet="condition" value="Family-friendly" onchange="onF()"><span class="ev-pill-lbl">Family-friendly</span></label><label class="ev-pill"><input type="checkbox" data-facet="condition" value="Kids" onchange="onF()"><span class="ev-pill-lbl">Kids</span></label><label class="ev-pill"><input type="checkbox" data-facet="condition" value="Teens" onchange="onF()"><span class="ev-pill-lbl">Teens</span></label></div></details><details class="f-section ev-acc" open><summary><span class="ev-acc-title">Borough</span><a class="ev-acc-clear" onclick="event.preventDefault();event.stopPropagation();clearFacet(this,'color')">Clear</a><span class="ev-chev">▾</span></summary><div class="ev-acc-body"><label class="ev-pill"><input type="checkbox" data-facet="color" value="Bronx" onchange="onF()"><span class="ev-pill-lbl">Bronx</span></label><label class="ev-pill"><input type="checkbox" data-facet="color" value="Brooklyn" onchange="onF()"><span class="ev-pill-lbl">Brooklyn</span></label><label class="ev-pill"><input type="checkbox" data-facet="color" value="Manhattan" onchange="onF()"><span class="ev-pill-lbl">Manhattan</span></label><label class="ev-pill"><input type="checkbox" data-facet="color" value="Queens" onchange="onF()"><span class="ev-pill-lbl">Queens</span></label><label class="ev-pill"><input type="checkbox" data-facet="color" value="Staten Island" onchange="onF()"><span class="ev-pill-lbl">Staten Island</span></label></div></details>
+  </aside>
+  <section class="results-area">
+    <div class="results-header">
+      <h1>School Activities in New York</h1>
+      <span class="results-sub">In-person events · This month · 20 events found</span>
+      <div class="results-tools">
+        <select class="sort-dd"><option>Sort: Relevance</option><option>Date: Soonest first</option><option>Date: Latest first</option><option>Most popular</option></select>
+        <div class="view-toggle"><button class="active">▦ Cards</button><button>🗓 Calendar</button></div>
+      </div>
+    </div>
+    <span id="result-count" style="display:none">20 events</span>
+    <div class="active-chips" id="active-chips"></div>
+    <div class="result-grid" id="result-grid"><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/19451448/pexels-photo-19451448.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Brooklyn Robotics Club – Open House"><div class="result-body"><div class="result-brand">School Activities</div><div class="result-name">Brooklyn Robotics Club – Open House</div><div class="result-meta">In-Person · Family-friendly</div><div class="result-rating-row">★ 4.7</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/730589/pexels-photo-730589.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Manhattan Math Olympiad Prep"><div class="result-body"><div class="result-brand">School Activities</div><div class="result-name">Manhattan Math Olympiad Prep</div><div class="result-meta">In-Person · Teens</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price">$15</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/6949384/pexels-photo-6949384.jpeg?auto=compress&cs=tinysrgb&h=130" alt="PS 42 Science Fair Showcase"><div class="result-body"><div class="result-brand">School Activities</div><div class="result-name">PS 42 Science Fair Showcase</div><div class="result-meta">In-Person · Family-friendly</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/6949384/pexels-photo-6949384.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Bronx STEM Saturday Workshop"><div class="result-body"><div class="result-brand">School Activities</div><div class="result-name">Bronx STEM Saturday Workshop</div><div class="result-meta">In-Person · Kids</div><div class="result-rating-row">★ 4.7</div><div class="result-price-row"><span class="result-price">$5</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/8348738/pexels-photo-8348738.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Queens College Application Bootcamp"><div class="result-body"><div class="result-brand">School Activities</div><div class="result-name">Queens College Application Bootcamp</div><div class="result-meta">In-Person · Teens</div><div class="result-rating-row">★ 4.8</div><div class="result-price-row"><span class="result-price">$25</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/34506066/pexels-photo-34506066.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Brooklyn Spelling Bee Finals"><div class="result-body"><div class="result-brand">School Activities</div><div class="result-name">Brooklyn Spelling Bee Finals</div><div class="result-meta">In-Person · Family-friendly</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/6949886/pexels-photo-6949886.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Staten Island Debate Tournament"><div class="result-body"><div class="result-brand">School Activities</div><div class="result-name">Staten Island Debate Tournament</div><div class="result-meta">In-Person · Teens</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price">$10</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/534271/pexels-photo-534271.jpeg?auto=compress&cs=tinysrgb&h=130" alt="NYC Teacher Professional Development"><div class="result-body"><div class="result-brand">School Activities</div><div class="result-name">NYC Teacher Professional Development</div><div class="result-meta">In-Person · Adults</div><div class="result-rating-row">★ 4.4</div><div class="result-price-row"><span class="result-price">$35</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/6949384/pexels-photo-6949384.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Manhattan After-School Coding Club"><div class="result-body"><div class="result-brand">School Activities</div><div class="result-name">Manhattan After-School Coding Club</div><div class="result-meta">In-Person · Kids</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price">$20</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/25809259/pexels-photo-25809259.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Brooklyn Art Class for Kids"><div class="result-body"><div class="result-brand">School Activities</div><div class="result-name">Brooklyn Art Class for Kids</div><div class="result-meta">In-Person · Kids</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price">$25</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/730589/pexels-photo-730589.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Virtual SAT Prep Class"><div class="result-body"><div class="result-brand">School Activities</div><div class="result-name">Virtual SAT Prep Class</div><div class="result-meta">Online · Teens</div><div class="result-rating-row">★ 4.4</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/12111225/pexels-photo-12111225.jpeg?auto=compress&cs=tinysrgb&h=130" alt="NYC Online Homework Help Hour"><div class="result-body"><div class="result-brand">School Activities</div><div class="result-name">NYC Online Homework Help Hour</div><div class="result-meta">Online · Kids</div><div class="result-rating-row">★ 4.3</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/1181370/pexels-photo-1181370.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Music Mondays in Central Park"><div class="result-body"><div class="result-brand">Music</div><div class="result-name">Music Mondays in Central Park</div><div class="result-meta">In-Person · Family-friendly</div><div class="result-rating-row">★ 4.7</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/3866658/pexels-photo-3866658.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Brooklyn Jazz Night"><div class="result-body"><div class="result-brand">Music</div><div class="result-name">Brooklyn Jazz Night</div><div class="result-meta">In-Person · Adults</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price">$30</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/9275222/pexels-photo-9275222.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Queens Food Truck Festival"><div class="result-body"><div class="result-brand">Food &amp; Drink</div><div class="result-name">Queens Food Truck Festival</div><div class="result-meta">In-Person · Family-friendly</div><div class="result-rating-row">★ 4.7</div><div class="result-price-row"><span class="result-price">$5</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/18800458/pexels-photo-18800458.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Manhattan Startup Mixer"><div class="result-body"><div class="result-brand">Business</div><div class="result-name">Manhattan Startup Mixer</div><div class="result-meta">In-Person · Adults</div><div class="result-rating-row">★ 4.4</div><div class="result-price-row"><span class="result-price">$25</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/37012314/pexels-photo-37012314.jpeg?auto=compress&cs=tinysrgb&h=130" alt="NYC Yoga in the Park"><div class="result-body"><div class="result-brand">Health</div><div class="result-name">NYC Yoga in the Park</div><div class="result-meta">In-Person · Adults</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price">$10</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/6949384/pexels-photo-6949384.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Brooklyn 5K Charity Run"><div class="result-body"><div class="result-brand">Sports &amp; Fitness</div><div class="result-name">Brooklyn 5K Charity Run</div><div class="result-meta">In-Person · Family-friendly</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price">$30</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/25809255/pexels-photo-25809255.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Manhattan Hybrid School Career Day"><div class="result-body"><div class="result-brand">School Activities</div><div class="result-name">Manhattan Hybrid School Career Day</div><div class="result-meta">Hybrid · Teens</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price"></span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/1181399/pexels-photo-1181399.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Bronx School Reading Circle"><div class="result-body"><div class="result-brand">School Activities</div><div class="result-name">Bronx School Reading Circle</div><div class="result-meta">In-Person · Kids</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price"></span></div></div></div></div>
+    <nav class="pagination"><button>‹ Prev</button><button class="active">1</button><button>2</button><button>3</button><button>Next ›</button></nav>
+  </section>
+</div>
+
+<footer class="ev-footer">
+  <div class="ev-footer-row">
+    <div class="ev-footer-col"><h5>Use EchoEvents</h5><a>Create events</a><a>Pricing</a><a>Help center</a><a>App</a></div>
+    <div class="ev-footer-col"><h5>Plan events</h5><a>Event planning</a><a>Sell tickets online</a><a>Event marketing</a><a>Promote events</a></div>
+    <div class="ev-footer-col"><h5>Find events</h5><a>New York events</a><a>Online events</a><a>Free events</a><a>This weekend</a></div>
+    <div class="ev-footer-col"><h5>Connect with us</h5><a>About EchoEvents</a><a>Press</a><a>Contact us</a><a>Investor relations</a></div>
+  </div>
+  <div class="ev-footer-bottom">© 2026 EchoEvents Inc. · Bring the world together through live experiences · Privacy · Terms</div>
+</footer>
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
+const ENV_ID = 'W24_E10';
+let filterState = {};
+
+function onF() { applyFilters(); }
+
+function applyFilters() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) {
+        if (!newState[f]) newState[f] = [];
+        newState[f].push(el.value || el.dataset.val || '1');
+      }
+    }
+  });
+  filterState = newState;
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    updateResults(data.results || [], data.html_cards);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length + ' results';
+    renderActiveChips();
+    syncStrictBadge();
+  }).catch(()=>{});
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: '', task_id: taskId})
+  }).catch(()=>{});
+}
+
+function lsReset(ev) {
+  if (ev) { ev.stopPropagation(); ev.preventDefault(); }
+  document.querySelectorAll('[data-facet]').forEach(el => { if (el.type === 'checkbox') el.checked = false; });
+  applyFilters();
+}
+
+function updateResults(results, htmlCards) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div class="no-results">No results match your filters.</div>';
+    return;
+  }
+  if (htmlCards) { grid.innerHTML = htmlCards; customizeCards(); return; }
+  grid.innerHTML = results.map(r => {
+    const initial = (r.title || '?').charAt(0);
+    const priceLine = (r.price && r.price > 0) ? ('$' + r.price.toLocaleString()) : '';
+    const thumb = r.image_url
+      ? '<img class="result-thumb-img" loading="lazy" src="' + escapeHtmlText(r.image_url) + '" alt="' + (escapeHtmlText(r.image_alt || r.title || '')) + '">'
+      : '<div class="result-thumb">' + escapeHtmlText(initial) + '</div>';
+    return '<div class="result-card">' + thumb +
+      '<div class="result-body"><div class="result-brand">' + escapeHtmlText(r.brand || '') + '</div>' +
+      '<div class="result-name">' + escapeHtmlText(r.title || '') + '</div>' +
+      '<div class="result-meta">' + escapeHtmlText(r.category || '') + ' · ' + escapeHtmlText(r.condition || '') + '</div>' +
+      '<div class="result-rating-row">★ ' + escapeHtmlText(r.rating || '—') + '</div>' +
+      '<div class="result-price-row"><span class="result-price">' + escapeHtmlText(priceLine) + '</span></div></div></div>';
+  }).join('');
+}
+
+function renderActiveChips() {
+  const bar = document.getElementById('active-chips');
+  if (!bar) return;
+  const chips = [];
+  for (const [k, v] of Object.entries(filterState)) {
+    if (k === 'exact_match') continue;
+    if (Array.isArray(v)) v.forEach(val => chips.push(val));
+    else chips.push(v);
+  }
+  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+escapeHtmlText(c)+'</span>').join('');
+}
+
+function clearFacet(a, facet) {
+  document.querySelectorAll('input[type=checkbox][data-facet="' + facet + '"]').forEach(i => i.checked = false);
+  onF();
+}
+
+function customizeCards() {
+  document.querySelectorAll('#result-grid .result-card').forEach(card => {
+    card.querySelectorAll('.result-tag').forEach(t => {
+      const txt = (t.textContent || '').trim();
+      if (txt === 'FREE Shipping' || txt === 'Prime') t.remove();
+      else if (txt === 'In Stock') t.textContent = 'Available';
+    });
+    const cta = card.querySelector('.result-cta');
+    if (cta) cta.textContent = 'Get Tickets';
+    card.querySelectorAll('.result-was, .result-save').forEach(e => e.remove());
+  });
+}
+
+function syncStrictBadge() {
+  const on = !!(filterState.exact_match && filterState.exact_match.length);
+  document.querySelectorAll('.strict-indicator').forEach(el => {
+    el.classList.toggle('on', on);
+    el.textContent = on ? 'Exact match: ON' : 'Exact match: off';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  applyFilters();
+});
+</script>
+</body></html>

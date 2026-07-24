@@ -1,0 +1,96 @@
+{
+  "env_id": "W16_E04",
+  "widget_id": "W16_compounding_frequency_dropdown",
+  "archetype": "calculator_form",
+  "filter_spec": {
+    "type": "calc_compute",
+    "fields": [
+      "principal",
+      "rate",
+      "years",
+      "frequency"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T1531",
+      "task_index_in_env": 1,
+      "instruction_text": "Help me compute savings growth projections on SmartAsset calculator with these inputs: $10,000 principal, 5% rate, quarterly compounding, 10-year horizon.",
+      "expected_filter_state": {
+        "freq": "quarterly"
+      }
+    },
+    {
+      "task_id": "T1532",
+      "task_index_in_env": 2,
+      "instruction_text": "Help me compute savings growth projections on SmartAsset calculator with these inputs: $10,000 principal, 5% rate, monthly compounding, 10-year horizon.",
+      "expected_filter_state": {
+        "freq": "monthly"
+      }
+    },
+    {
+      "task_id": "T1533",
+      "task_index_in_env": 3,
+      "instruction_text": "On SmartAsset calculator, run the numbers on savings growth projections: $10K principal, 5% rate, compounded daily, 10 years.",
+      "expected_filter_state": {
+        "freq": "daily"
+      }
+    },
+    {
+      "task_id": "T1534",
+      "task_index_in_env": 4,
+      "instruction_text": "Help me compute savings growth projections on SmartAsset calculator with these inputs: $10,000 principal, 5% rate, semi-annually compounding, 10-year horizon.",
+      "expected_filter_state": {
+        "freq": "semi-annually"
+      }
+    },
+    {
+      "task_id": "T1535",
+      "task_index_in_env": 5,
+      "instruction_text": "Help me compute savings growth projections on SmartAsset calculator with these inputs: $10,000 principal, 5% rate, bi-weekly (loan amortisation) compounding, 10-year horizon.",
+      "expected_filter_state": {
+        "freq": "bi-weekly (loan amortisation)"
+      }
+    },
+    {
+      "task_id": "T1536",
+      "task_index_in_env": 6,
+      "instruction_text": "Help me compute savings growth projections on SmartAsset calculator with these inputs: $10,000 principal, 5% rate, quarterly compounding, 10-year horizon.",
+      "expected_filter_state": {
+        "freq": "quarterly"
+      }
+    },
+    {
+      "task_id": "T1537",
+      "task_index_in_env": 7,
+      "instruction_text": "Use SmartAsset calculator to compute savings growth projections starting with $10,000 at 5% compounded monthly over 10 years.",
+      "expected_filter_state": {
+        "freq": "monthly"
+      }
+    },
+    {
+      "task_id": "T1538",
+      "task_index_in_env": 8,
+      "instruction_text": "Help me compute savings growth projections on SmartAsset calculator with these inputs: $10,000 principal, 5% rate, quarterly (Period field) compounding, 10-year horizon.",
+      "expected_filter_state": {
+        "freq": "quarterly (Period field)"
+      }
+    },
+    {
+      "task_id": "T1539",
+      "task_index_in_env": 9,
+      "instruction_text": "Help me compute savings growth projections on SmartAsset calculator with these inputs: $10,000 principal, 5% rate, continuously compounding, 10-year horizon.",
+      "expected_filter_state": {
+        "freq": "continuously"
+      }
+    },
+    {
+      "task_id": "T1540",
+      "task_index_in_env": 10,
+      "instruction_text": "On SmartAsset calculator, run the numbers on savings growth projections: $10K principal, 5% rate, compounded quarterly (verify result differs from annual), 10 years.",
+      "expected_filter_state": {
+        "freq": "quarterly (verify result differs from annual)"
+      }
+    }
+  ]
+}

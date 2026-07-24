@@ -1,0 +1,303 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Used BMW 8-cylinder · EchoAuto</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{font-family:'Inter','Helvetica Neue',Arial,sans-serif;background:#f4f5f7;color:#222b35;font-size:13px;line-height:1.5}
+a{color:inherit;text-decoration:none;cursor:pointer}button{font-family:inherit}
+.live-status,.task-banner,.fara-source,.fara-banner,[data-debug="1"]{display:none!important}
+
+.cn-top{background:#0c1d33;color:#cbd5e1;font-size:11px;padding:6px 28px;display:flex;gap:18px;align-items:center}
+.cn-top a:hover{color:#ff5a1f}.cn-top .sp{flex:1}
+.cn-top .pill{background:#13294b;padding:2px 8px;border-radius:10px;color:#9fb4d4;border:1px solid #1f3a64;font-size:10px}
+.cn-header{background:#fff;padding:14px 28px;display:flex;align-items:center;gap:28px;border-bottom:1px solid #e3e6ec;box-shadow:0 1px 0 rgba(12,29,51,.04)}
+.cn-logo{font-family:'Inter','Helvetica Neue',sans-serif;font-weight:900;font-size:26px;color:#0c1d33;letter-spacing:-.025em;display:flex;align-items:baseline;gap:1px;text-transform:lowercase}
+.cn-logo .dot{color:#ff5a1f;font-size:32px;line-height:0;margin:0 1px 0 -1px}
+.cn-logo .ext{color:#0c1d33;font-weight:800}
+.cn-nav{display:flex;gap:24px;font-size:13px;font-weight:600;color:#0c1d33}
+.cn-nav a{padding:8px 2px;border-bottom:3px solid transparent}
+.cn-nav a.act{border-bottom-color:#ff5a1f;color:#0c1d33;font-weight:700}
+.cn-nav a:hover{color:#ff5a1f}
+.cn-cta{margin-left:auto;display:flex;gap:10px;align-items:center}
+.cn-cta a{font-size:12px;font-weight:700;padding:8px 14px;border-radius:20px;color:#0c1d33}
+.cn-cta a.heart{border:1px solid #d8dde5}
+.cn-cta a.primary{background:#ff5a1f;color:#fff;border:1px solid #ff5a1f}
+.cn-cta a.primary:hover{background:#e8460d}
+
+.cn-searchhero{background:linear-gradient(135deg,#0c1d33 0%,#163758 100%);color:#fff;padding:20px 28px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.cn-searchhero h2{margin:0;font-size:18px;font-weight:800;letter-spacing:-.01em;color:#fff}
+.cn-searchhero .sh-input{flex:1;display:flex;background:#fff;border-radius:4px;padding:0 12px;min-width:240px;align-items:center;border:1px solid transparent}
+.cn-searchhero .sh-input::before{content:"🔍";opacity:.5;margin-right:6px}
+.cn-searchhero .sh-input input{flex:1;border:none;outline:none;background:transparent;padding:10px 0;font-size:13px;color:#222b35}
+.cn-searchhero .sh-zip{background:#fff;padding:10px 14px;border-radius:4px;font-size:12px;color:#0c1d33;font-weight:700;display:flex;align-items:center;gap:6px}
+.cn-searchhero .sh-zip small{color:#5b6a7e;font-weight:500}
+.cn-searchhero button{background:#ff5a1f;color:#fff;border:none;padding:11px 24px;border-radius:4px;font-size:12px;font-weight:800;cursor:pointer;letter-spacing:.04em;text-transform:uppercase}
+.cn-searchhero button:hover{background:#e8460d}
+
+.crumb{padding:10px 28px;font-size:11px;color:#5b6a7e;background:#fff;border-bottom:1px solid #e3e6ec}
+.crumb a:hover{color:#ff5a1f;text-decoration:underline}.crumb .sep{margin:0 6px;color:#cbd2d9}.crumb b{color:#0c1d33;font-weight:700}
+
+.cn-content{padding:20px 28px 40px;max-width:1380px;margin:0 auto}
+.cn-layout{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+
+/* SIDEBAR FILTER PANEL */
+.cn-panel{background:#fff;border-radius:6px;box-shadow:0 1px 3px rgba(12,29,51,.08);overflow:hidden;border:1px solid #e3e6ec;position:sticky;top:14px}
+.cn-panel-head{background:#0c1d33;color:#fff;padding:13px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cn-panel-head .ph-title{font-size:13px;font-weight:800;letter-spacing:.02em;text-transform:uppercase}
+.cn-panel-head .ph-close{margin-left:auto;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:default;border-radius:3px;color:#ff5a1f;font-size:14px;background:#13294b}
+.cn-panel-head .ph-clear{font-size:11px;color:#ff7a4d;text-decoration:underline;cursor:pointer;font-weight:600}
+
+.cn-panel-strict{background:#fff7f3;color:#0c1d33;padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #fed7c1;border-left:3px solid #ff5a1f}
+.cn-panel-strict .lbl{font-size:12px;font-weight:800}
+.cn-panel-strict .lbl small{display:block;font-size:10px;color:#5b6a7e;font-weight:500;margin-top:2px}
+.cn-panel-strict label{margin-left:auto;display:flex;align-items:center;gap:8px;cursor:pointer}
+.cn-panel-strict input[type=checkbox]{appearance:none;position:relative;width:40px;height:22px;background:#cbd5e1;border-radius:11px;cursor:pointer;outline:none;border:1px solid #b6c1d1;transition:background .15s}
+.cn-panel-strict input[type=checkbox]:before{content:"";position:absolute;left:1px;top:1px;width:18px;height:18px;background:#fff;border-radius:50%;transition:left .15s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.cn-panel-strict input[type=checkbox]:checked{background:#ff5a1f;border-color:#ff5a1f}
+.cn-panel-strict input[type=checkbox]:checked:before{left:19px}
+.strict-indicator{padding:2px 8px;background:#e3e6ec;color:#5b6a7e;border-radius:10px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.strict-indicator.on{background:#ff5a1f;color:#fff}
+
+.cn-panel-body{padding:12px 16px;max-height:65vh;overflow-y:auto}
+.cn-group{margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #eef0f4}
+.cn-group:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.cn-group-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.cn-group-head h4{margin:0;font-size:12px;font-weight:800;color:#0c1d33;text-transform:none;letter-spacing:0}
+.cn-group-clear{font-size:10px;color:#ff5a1f;cursor:pointer;font-weight:600;text-decoration:underline}
+.cn-group-body{display:flex;flex-direction:column;gap:3px}
+.cn-row{display:flex;align-items:center;gap:8px;padding:5px 0;cursor:pointer;font-size:12px;color:#222b35}
+.cn-row input[type=checkbox]{accent-color:#ff5a1f;width:14px;height:14px;margin:0;flex-shrink:0}
+.cn-row:hover .cn-lbl{color:#ff5a1f}
+.cn-row .count{margin-left:auto;color:#8b95a5;font-size:11px}
+
+.cn-panel-foot{background:#f9fafb;padding:12px 16px;display:flex;gap:8px;border-top:1px solid #eef0f4}
+.cn-panel-foot button{flex:1;padding:10px;border:none;border-radius:4px;font-size:12px;font-weight:800;cursor:pointer;letter-spacing:.04em;text-transform:uppercase}
+.cn-panel-foot .cn-apply{background:#ff5a1f;color:#fff}
+.cn-panel-foot .cn-reset{background:#fff;color:#0c1d33;border:1px solid #cbd5e1}
+
+.results-area{}
+.results-header{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #e3e6ec}
+.results-header h1{margin:0;font-size:22px;font-weight:800;color:#0c1d33;letter-spacing:-.015em}
+.results-sub{display:block;width:100%;color:#5b6a7e;font-size:12px;margin-top:4px}
+.results-tools{margin-left:auto;display:flex;gap:10px;align-items:center}
+.sort-dd{padding:8px 12px;border:1px solid #cbd5e1;border-radius:4px;font-size:12px;background:#fff;color:#0c1d33;font-weight:600}
+.view-toggle{display:inline-flex;border:1px solid #cbd5e1;border-radius:4px;overflow:hidden}
+.view-toggle button{padding:7px 12px;background:#fff;border:none;cursor:pointer;font-size:11px;color:#0c1d33}
+.view-toggle button.active{background:#0c1d33;color:#fff}
+.active-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.active-chip{background:#fff;color:#0c1d33;padding:5px 12px;border-radius:14px;font-size:11px;font-weight:600;border:1px solid #cbd5e1;display:inline-flex;align-items:center;gap:5px}
+.active-chip .x{color:#ff5a1f;font-weight:800}
+
+.result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.result-card{background:#fff;border-radius:6px;overflow:hidden;border:1px solid #e3e6ec;display:flex;flex-direction:column;cursor:pointer;transition:transform .12s,box-shadow .12s;position:relative}
+.result-card:hover{box-shadow:0 6px 20px rgba(12,29,51,.12);border-color:#cbd5e1}
+.result-thumb-img,.result-thumb{width:100%;height:170px;object-fit:cover;background:#eef0f4;display:block}
+.result-thumb{display:flex;align-items:center;justify-content:center;font-size:42px;color:#b6c1d1}
+.result-badge{position:absolute;top:10px;left:10px;background:rgba(12,29,51,.92);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:3px;letter-spacing:.04em;text-transform:uppercase}
+.result-badge.cpo{background:#ff5a1f}
+.result-fave{position:absolute;top:10px;right:10px;width:30px;height:30px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#0c1d33;font-size:14px}
+.result-body{padding:12px 14px;display:flex;flex-direction:column;flex:1}
+.result-price{font-weight:900;font-size:20px;color:#0c1d33;line-height:1}
+.result-price-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.result-mileage{font-size:11px;color:#5b6a7e;font-weight:600}
+.result-name{font-size:14px;font-weight:700;margin:0 0 5px;color:#0c1d33;line-height:1.25}
+.result-brand{font-size:10px;color:#8b95a5;text-transform:uppercase;letter-spacing:.06em;font-weight:700;display:none}
+.result-meta{font-size:11px;color:#5b6a7e;margin-bottom:6px}
+.result-rating-row{font-size:11px;color:#ff5a1f;font-weight:600}
+.result-dealer{margin-top:auto;padding-top:8px;border-top:1px solid #eef0f4;font-size:11px;color:#5b6a7e;display:flex;justify-content:space-between;align-items:center}
+.result-dealer .dist{color:#0c1d33;font-weight:600}
+.no-results{grid-column:1/-1;text-align:center;padding:48px;color:#5b6a7e;background:#fff;border-radius:6px}
+.pagination{display:flex;gap:6px;justify-content:center;margin-top:22px}
+.pagination button{padding:7px 13px;background:#fff;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;font-size:11px;color:#0c1d33;font-weight:700}
+.pagination button.active{background:#0c1d33;color:#fff;border-color:#0c1d33}
+
+.cn-footer{background:#0c1d33;color:#9fb4d4;font-size:11px;margin-top:40px;padding:32px 28px 18px}
+.cn-footer-row{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1380px;margin:0 auto}
+.cn-footer-col h5{margin:0 0 10px;color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.cn-footer-col a{display:block;padding:3px 0;color:#9fb4d4}
+.cn-footer-col a:hover{color:#ff5a1f}
+.cn-footer-bottom{max-width:1380px;margin:22px auto 0;padding-top:14px;border-top:1px solid #1f3a64;font-size:10px;color:#6f86a3;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+</style></head><body>
+<div class="cn-top"><a>Sell my car</a><a>Get pre-approved</a><a>Insurance</a><a>Reviews &amp; news</a><span class="sp"></span><span class="pill">📍 Chicago, IL 60606</span><a>Sign in</a><a>Help</a></div>
+<header class="cn-header">
+  <div class="cn-logo">EchoAuto</div>
+  <nav class="cn-nav"><a class="act">Shop</a><a>Sell</a><a>Research</a><a>Reviews</a><a>News</a><a>Financing</a><a>Service &amp; repair</a></nav>
+  <div class="cn-cta"><a class="heart">♡ Saved</a><a class="primary">Sell my car</a></div>
+</header>
+<div class="cn-searchhero">
+  <h2>Find your perfect car</h2>
+  <div class="sh-input"><input placeholder="Make, model, or keyword..." value="BMW"></div>
+  <div class="sh-zip">60606 <small>· 100 mi</small></div>
+  <button>Search</button>
+</div>
+<div class="crumb"><a>EchoAuto</a><span class="sep">›</span><a>Used cars</a><span class="sep">›</span><a>BMW</a><span class="sep">›</span><b>8-cylinder · 2005–2015 · $25k–$50k</b></div>
+
+<div class="cn-content"><div class="cn-layout">
+  <aside class="cn-panel" role="dialog" aria-label="Filter cars">
+    <div class="cn-panel-head">
+      <span class="ph-title">Filter results</span>
+      <a class="ph-clear" onclick="lsReset(event)">Clear all</a>
+      <span class="ph-close" title="Filter panel">⚙</span>
+    </div>
+    <div class="cn-panel-strict">
+      <div class="lbl">Strict match<small>Match exactly the make + cylinders + listing type</small></div>
+      <label>
+        <span class="strict-indicator">Off</span>
+        <input type="checkbox" data-facet="exact_match" value="1" onchange="onF()">
+      </label>
+    </div>
+    <div class="cn-panel-body">
+      <div class="f-section cn-group"><div class="cn-group-head"><h4>Make</h4><a class="cn-group-clear" onclick="clearFacet(this,'brand')">Clear</a></div><div class="cn-group-body"><label class="cn-row"><input type="checkbox" data-facet="brand" value="Audi" onchange="onF()"><span class="cn-lbl">Audi</span></label><label class="cn-row"><input type="checkbox" data-facet="brand" value="BMW" onchange="onF()"><span class="cn-lbl">BMW</span></label><label class="cn-row"><input type="checkbox" data-facet="brand" value="Cadillac" onchange="onF()"><span class="cn-lbl">Cadillac</span></label><label class="cn-row"><input type="checkbox" data-facet="brand" value="Lexus" onchange="onF()"><span class="cn-lbl">Lexus</span></label><label class="cn-row"><input type="checkbox" data-facet="brand" value="Mercedes-Benz" onchange="onF()"><span class="cn-lbl">Mercedes-Benz</span></label><label class="cn-row"><input type="checkbox" data-facet="brand" value="Porsche" onchange="onF()"><span class="cn-lbl">Porsche</span></label></div></div><div class="f-section cn-group"><div class="cn-group-head"><h4>Listing type</h4><a class="cn-group-clear" onclick="clearFacet(this,'category')">Clear</a></div><div class="cn-group-body"><label class="cn-row"><input type="checkbox" data-facet="category" value="Certified Pre-Owned" onchange="onF()"><span class="cn-lbl">Certified Pre-Owned</span></label><label class="cn-row"><input type="checkbox" data-facet="category" value="New" onchange="onF()"><span class="cn-lbl">New</span></label><label class="cn-row"><input type="checkbox" data-facet="category" value="Used" onchange="onF()"><span class="cn-lbl">Used</span></label></div></div><div class="f-section cn-group"><div class="cn-group-head"><h4>Engine cylinders</h4><a class="cn-group-clear" onclick="clearFacet(this,'condition')">Clear</a></div><div class="cn-group-body"><label class="cn-row"><input type="checkbox" data-facet="condition" value="6-cyl" onchange="onF()"><span class="cn-lbl">6-cyl</span></label><label class="cn-row"><input type="checkbox" data-facet="condition" value="8-cyl" onchange="onF()"><span class="cn-lbl">8-cyl</span></label></div></div><div class="f-section cn-group"><div class="cn-group-head"><h4>Body style</h4><a class="cn-group-clear" onclick="clearFacet(this,'color')">Clear</a></div><div class="cn-group-body"><label class="cn-row"><input type="checkbox" data-facet="color" value="Convertible" onchange="onF()"><span class="cn-lbl">Convertible</span></label><label class="cn-row"><input type="checkbox" data-facet="color" value="Coupe" onchange="onF()"><span class="cn-lbl">Coupe</span></label><label class="cn-row"><input type="checkbox" data-facet="color" value="Sedan" onchange="onF()"><span class="cn-lbl">Sedan</span></label><label class="cn-row"><input type="checkbox" data-facet="color" value="SUV" onchange="onF()"><span class="cn-lbl">SUV</span></label><label class="cn-row"><input type="checkbox" data-facet="color" value="Wagon" onchange="onF()"><span class="cn-lbl">Wagon</span></label></div></div>
+    </div>
+    <div class="cn-panel-foot">
+      <button class="cn-reset" onclick="lsReset(event)">Reset</button>
+      <button class="cn-apply" onclick="onF()">Apply filters</button>
+    </div>
+  </aside>
+  <section class="results-area">
+    <div class="results-header">
+      <h1>Used BMW 8-cylinder · 2005–2015</h1>
+      <span class="results-sub">Showing 20 listings · $25,000–$50,000 · Private + dealer</span>
+      <div class="results-tools">
+        <select class="sort-dd"><option>Best match</option><option>Price: Low–High</option><option>Price: High–Low</option><option>Newest listings</option><option>Lowest mileage</option></select>
+        <div class="view-toggle"><button class="active">▦ Grid</button><button>≡ List</button></div>
+      </div>
+    </div>
+    <span id="result-count" style="display:none">20 listings</span>
+    <div class="active-chips" id="active-chips"></div>
+    <div class="result-grid" id="result-grid"><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/17016698/pexels-photo-17016698.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2013 BMW 550i Sedan"><div class="result-body"><div class="result-price-row"><span class="result-price">$28,500</span><span class="result-mileage">42,592 mi</span></div><div class="result-name">2013 BMW 550i Sedan</div><div class="result-meta">Sedan · 8-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.5 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Patrick BMW · Schaumburg, IL</span><span class="dist">8 mi away</span></div></div></div><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/27124278/pexels-photo-27124278.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2014 BMW 650i Coupe"><div class="result-body"><div class="result-price-row"><span class="result-price">$35,900</span><span class="result-mileage">64,048 mi</span></div><div class="result-name">2014 BMW 650i Coupe</div><div class="result-meta">Coupe · 8-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.6 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Perillo BMW · Chicago, IL</span><span class="dist">36 mi away</span></div></div></div><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/11945283/pexels-photo-11945283.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2011 BMW X5 xDrive50i"><div class="result-body"><div class="result-price-row"><span class="result-price">$26,900</span><span class="result-mileage">57,256 mi</span></div><div class="result-name">2011 BMW X5 xDrive50i</div><div class="result-meta">SUV · 8-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.4 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Fields BMW · Northfield</span><span class="dist">22 mi away</span></div></div></div><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/27659273/pexels-photo-27659273.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2012 BMW 750i Sedan"><div class="result-body"><div class="result-price-row"><span class="result-price">$32,000</span><span class="result-mileage">41,434 mi</span></div><div class="result-name">2012 BMW 750i Sedan</div><div class="result-meta">Sedan · 8-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.5 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Laurel BMW · Westmont</span><span class="dist">74 mi away</span></div></div></div><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/35628774/pexels-photo-35628774.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2015 BMW M5 Sedan"><div class="result-body"><div class="result-price-row"><span class="result-price">$48,500</span><span class="result-mileage">39,395 mi</span></div><div class="result-name">2015 BMW M5 Sedan</div><div class="result-meta">Sedan · 8-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.8 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Loeber Motors · Lincolnwood</span><span class="dist">80 mi away</span></div></div></div><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/14730671/pexels-photo-14730671.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2014 BMW X6 xDrive50i"><div class="result-body"><div class="result-price-row"><span class="result-price">$39,900</span><span class="result-mileage">83,302 mi</span></div><div class="result-name">2014 BMW X6 xDrive50i</div><div class="result-meta">SUV · 8-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.6 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Bavarian Motors · Naperville</span><span class="dist">9 mi away</span></div></div></div><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/18029637/pexels-photo-18029637.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2008 BMW M3 Coupe"><div class="result-body"><div class="result-price-row"><span class="result-price">$33,500</span><span class="result-mileage">31,905 mi</span></div><div class="result-name">2008 BMW M3 Coupe</div><div class="result-meta">Coupe · 8-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.7 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Karl Knauz BMW · Lake Bluff</span><span class="dist">16 mi away</span></div></div></div><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/11945283/pexels-photo-11945283.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2013 BMW 335i Sedan"><div class="result-body"><div class="result-price-row"><span class="result-price">$22,500</span><span class="result-mileage">56,657 mi</span></div><div class="result-name">2013 BMW 335i Sedan</div><div class="result-meta">Sedan · 6-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.4 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Elmhurst BMW</span><span class="dist">34 mi away</span></div></div></div><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/16288341/pexels-photo-16288341.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2012 BMW 328i Sedan"><div class="result-body"><div class="result-price-row"><span class="result-price">$19,500</span><span class="result-mileage">94,237 mi</span></div><div class="result-name">2012 BMW 328i Sedan</div><div class="result-meta">Sedan · 6-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.3 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Mercedes-Benz of Chicago</span><span class="dist">8 mi away</span></div></div></div><div class="result-card"><div class="result-badge cpo">Certified</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/26691305/pexels-photo-26691305.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2014 BMW 535i Sedan"><div class="result-body"><div class="result-price-row"><span class="result-price">$28,900</span><span class="result-mileage">54,062 mi</span></div><div class="result-name">2014 BMW 535i Sedan</div><div class="result-meta">Sedan · 6-cyl · Automatic · Certified Pre-Owned</div><div class="result-rating-row">★ 4.5 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Audi Exchange · Highland Park</span><span class="dist">74 mi away</span></div></div></div><div class="result-card"><div class="result-badge cpo">Certified</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/17016698/pexels-photo-17016698.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2015 BMW 650i Convertible"><div class="result-body"><div class="result-price-row"><span class="result-price">$49,500</span><span class="result-mileage">82,987 mi</span></div><div class="result-name">2015 BMW 650i Convertible</div><div class="result-meta">Convertible · 8-cyl · Automatic · Certified Pre-Owned</div><div class="result-rating-row">★ 4.7 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Lexus of Highland Park</span><span class="dist">33 mi away</span></div></div></div><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/27659273/pexels-photo-27659273.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2010 BMW 750Li Sedan"><div class="result-body"><div class="result-price-row"><span class="result-price">$25,500</span><span class="result-mileage">86,878 mi</span></div><div class="result-name">2010 BMW 750Li Sedan</div><div class="result-meta">Sedan · 8-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.4 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Porsche Westmont</span><span class="dist">80 mi away</span></div></div></div><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/34852197/pexels-photo-34852197.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2018 BMW M5 Sedan"><div class="result-body"><div class="result-price-row"><span class="result-price">$68,000</span><span class="result-mileage">64,463 mi</span></div><div class="result-name">2018 BMW M5 Sedan</div><div class="result-meta">Sedan · 8-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.8 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Cadillac of Naperville</span><span class="dist">5 mi away</span></div></div></div><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/12960439/pexels-photo-12960439.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2014 Mercedes-Benz E550 Sedan"><div class="result-body"><div class="result-price-row"><span class="result-price">$32,500</span><span class="result-mileage">48,926 mi</span></div><div class="result-name">2014 Mercedes-Benz E550 Sedan</div><div class="result-meta">Sedan · 8-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.5 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Joe Rizza Lexus</span><span class="dist">59 mi away</span></div></div></div><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/14979539/pexels-photo-14979539.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2013 Mercedes-Benz S550"><div class="result-body"><div class="result-price-row"><span class="result-price">$38,500</span><span class="result-mileage">72,597 mi</span></div><div class="result-name">2013 Mercedes-Benz S550</div><div class="result-meta">Sedan · 8-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.6 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Continental Audi</span><span class="dist">40 mi away</span></div></div></div><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/37094847/pexels-photo-37094847.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2012 Audi S5 Coupe"><div class="result-body"><div class="result-price-row"><span class="result-price">$28,500</span><span class="result-mileage">48,379 mi</span></div><div class="result-name">2012 Audi S5 Coupe</div><div class="result-meta">Coupe · 8-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.5 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>BMW of Orland Park</span><span class="dist">32 mi away</span></div></div></div><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/14764071/pexels-photo-14764071.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2014 Audi A8 4.0T"><div class="result-body"><div class="result-price-row"><span class="result-price">$39,500</span><span class="result-mileage">72,118 mi</span></div><div class="result-name">2014 Audi A8 4.0T</div><div class="result-meta">Sedan · 8-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.6 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Imperial Motors</span><span class="dist">18 mi away</span></div></div></div><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/15264151/pexels-photo-15264151.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2013 Lexus LS460"><div class="result-body"><div class="result-price-row"><span class="result-price">$30,500</span><span class="result-mileage">40,156 mi</span></div><div class="result-name">2013 Lexus LS460</div><div class="result-meta">Sedan · 8-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.6 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>McGrath Auto · Elgin</span><span class="dist">53 mi away</span></div></div></div><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/32281845/pexels-photo-32281845.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2015 Porsche Cayenne S"><div class="result-body"><div class="result-price-row"><span class="result-price">$49,500</span><span class="result-mileage">40,676 mi</span></div><div class="result-name">2015 Porsche Cayenne S</div><div class="result-meta">SUV · 8-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.7 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Napleton Auto</span><span class="dist">50 mi away</span></div></div></div><div class="result-card"><div class="result-badge ">Great Deal</div><div class="result-fave">♡</div><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/14764071/pexels-photo-14764071.jpeg?auto=compress&cs=tinysrgb&h=130" alt="2013 Cadillac CTS-V Sedan"><div class="result-body"><div class="result-price-row"><span class="result-price">$36,500</span><span class="result-mileage">73,082 mi</span></div><div class="result-name">2013 Cadillac CTS-V Sedan</div><div class="result-meta">Sedan · 8-cyl · Automatic · Used</div><div class="result-rating-row">★ 4.6 <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div><div class="result-dealer"><span>Mercedes-Benz of Westmont</span><span class="dist">38 mi away</span></div></div></div></div>
+    <nav class="pagination"><button>‹ Prev</button><button class="active">1</button><button>2</button><button>3</button><button>4</button><button>Next ›</button></nav>
+  </section>
+</div></div>
+
+<footer class="cn-footer">
+  <div class="cn-footer-row">
+    <div class="cn-footer-col"><h5>For shoppers</h5><a>New cars</a><a>Used cars</a><a>Certified pre-owned</a><a>Compare cars</a><a>Auto loan calculator</a></div>
+    <div class="cn-footer-col"><h5>For sellers</h5><a>Sell my car</a><a>Trade-in value</a><a>Dealer reviews</a><a>Sell to a dealer</a></div>
+    <div class="cn-footer-col"><h5>Research</h5><a>Expert reviews</a><a>Auto news</a><a>Buying guides</a><a>Owner reviews</a><a>Recall lookup</a></div>
+    <div class="cn-footer-col"><h5>About EchoAuto</h5><a>About us</a><a>Careers</a><a>Press</a><a>Investor relations</a><a>Contact us</a></div>
+  </div>
+  <div class="cn-footer-bottom"><span>© 2026 EchoAuto LLC · Helping car shoppers since 1998</span><span>Privacy · Terms · Do Not Sell or Share My Personal Info · Accessibility</span></div>
+</footer>
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
+const ENV_ID = 'W24_E09';
+let filterState = {};
+
+function onF() { applyFilters(); }
+
+function applyFilters() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) {
+        if (!newState[f]) newState[f] = [];
+        newState[f].push(el.value || el.dataset.val || '1');
+      }
+    }
+  });
+  filterState = newState;
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    updateResults(data.results || [], data.html_cards);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length + ' results';
+    renderActiveChips();
+    syncStrictBadge();
+  }).catch(()=>{});
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: '', task_id: taskId})
+  }).catch(()=>{});
+}
+
+function lsReset(ev) {
+  if (ev) { ev.stopPropagation(); ev.preventDefault(); }
+  document.querySelectorAll('[data-facet]').forEach(el => { if (el.type === 'checkbox') el.checked = false; });
+  applyFilters();
+}
+
+function updateResults(results, htmlCards) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div class="no-results">No matching listings. Try clearing a filter or turning off strict match.</div>';
+    return;
+  }
+  if (htmlCards) { grid.innerHTML = htmlCards; customizeCards(); return; }
+  const dealers = ['Patrick BMW · Schaumburg, IL','Perillo BMW · Chicago, IL','Fields BMW · Northfield','Laurel BMW · Westmont','Loeber Motors · Lincolnwood','Bavarian Motors · Naperville','Karl Knauz BMW · Lake Bluff','Elmhurst BMW','Mercedes-Benz of Chicago','Audi Exchange · Highland Park','Lexus of Highland Park','Porsche Westmont','Cadillac of Naperville','Joe Rizza Lexus','Continental Audi','BMW of Orland Park','Imperial Motors','McGrath Auto · Elgin','Napleton Auto','Mercedes-Benz of Westmont'];
+  grid.innerHTML = results.map((r,i) => {
+    const initial = (r.title || '?').charAt(0);
+    const priceLine = (r.price && r.price > 0) ? ('$' + r.price.toLocaleString()) : '—';
+    const thumb = r.image_url
+      ? '<img class="result-thumb-img" loading="lazy" src="' + escapeHtmlText(r.image_url) + '" alt="' + (escapeHtmlText(r.image_alt || r.title || '')) + '">'
+      : '<div class="result-thumb">' + escapeHtmlText(initial) + '</div>';
+    const cpo = (r.category||'') === 'Certified Pre-Owned';
+    const badge = '<div class="result-badge ' + (cpo?'cpo':'') + '">' + (cpo?'Certified':'Great Deal') + '</div>';
+    const miles = 28000 + (((r.id||i)*7919)%67000);
+    const dist = 5 + (((r.id||i)*131)%76);
+    const dealer = dealers[(r.id||i) % dealers.length];
+    return '<div class="result-card">' + badge + '<div class="result-fave">♡</div>' + thumb +
+      '<div class="result-body">' +
+      '<div class="result-price-row"><span class="result-price">' + escapeHtmlText(priceLine) + '</span><span class="result-mileage">' + miles.toLocaleString() + ' mi</span></div>' +
+      '<div class="result-name">' + escapeHtmlText(r.title || '') + '</div>' +
+      '<div class="result-meta">' + escapeHtmlText(r.color || '') + ' · ' + escapeHtmlText(r.condition || '') + ' · Automatic · ' + escapeHtmlText(r.category || '') + '</div>' +
+      '<div class="result-rating-row">★ ' + escapeHtmlText(r.rating || '—') + ' <span style="color:#5b6a7e;font-weight:500"> · 24 reviews</span></div>' +
+      '<div class="result-dealer"><span>' + dealer + '</span><span class="dist">' + dist + ' mi away</span></div>' +
+      '</div></div>';
+  }).join('');
+}
+
+function renderActiveChips() {
+  const bar = document.getElementById('active-chips');
+  if (!bar) return;
+  const chips = [];
+  for (const [k, v] of Object.entries(filterState)) {
+    if (k === 'exact_match') {
+      if (v && v.length) chips.push({label:'Strict match: ON'});
+      continue;
+    }
+    if (Array.isArray(v)) v.forEach(val => chips.push({label:val}));
+    else chips.push({label:v});
+  }
+  bar.innerHTML = chips.map(c => '<span class="active-chip">' + escapeHtmlText(c.label) + ' <span class="x">×</span></span>').join('');
+}
+
+function clearFacet(a, facet) {
+  document.querySelectorAll('input[type=checkbox][data-facet="' + facet + '"]').forEach(i => i.checked = false);
+  onF();
+}
+
+function customizeCards() {
+  document.querySelectorAll('#result-grid .result-card').forEach(card => {
+    card.querySelectorAll('.result-tag').forEach(t => {
+      const txt = (t.textContent || '').trim();
+      if (txt === 'FREE Shipping' || txt === 'Prime') t.remove();
+      else if (txt === 'In Stock') t.textContent = 'Available';
+    });
+    const cta = card.querySelector('.result-cta');
+    if (cta) cta.textContent = 'View Listing';
+  });
+}
+
+function syncStrictBadge() {
+  const on = !!(filterState.exact_match && filterState.exact_match.length);
+  document.querySelectorAll('.strict-indicator').forEach(el => {
+    el.classList.toggle('on', on);
+    el.textContent = on ? 'Strict: ON' : 'Off';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  applyFilters();
+});
+</script>
+</body></html>

@@ -1,0 +1,96 @@
+{
+  "env_id": "W13_E08",
+  "widget_id": "W13_numeric_input_precise_target",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "range_multi",
+    "fields": [
+      "max_price",
+      "min_sqft",
+      "min_lot",
+      "max_rent"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T1271",
+      "task_index_in_env": 1,
+      "instruction_text": "On HotPads rentals, can you find listings with a max price of $500,000?",
+      "expected_filter_state": {
+        "constraint": "a max price of $500,000"
+      }
+    },
+    {
+      "task_id": "T1272",
+      "task_index_in_env": 2,
+      "instruction_text": "On HotPads rentals, can you find listings with a lot size of at least 0.5 acres?",
+      "expected_filter_state": {
+        "constraint": "a lot size of at least 0.5 acres"
+      }
+    },
+    {
+      "task_id": "T1273",
+      "task_index_in_env": 3,
+      "instruction_text": "Pull up listings on HotPads rentals with a max price of $350,000.",
+      "expected_filter_state": {
+        "constraint": "a max price of $350,000"
+      }
+    },
+    {
+      "task_id": "T1274",
+      "task_index_in_env": 4,
+      "instruction_text": "Pull up listings on HotPads rentals with a max rent of $1,800/mo.",
+      "expected_filter_state": {
+        "constraint": "a max rent of $1,800/mo"
+      }
+    },
+    {
+      "task_id": "T1275",
+      "task_index_in_env": 5,
+      "instruction_text": "Pull up listings on HotPads rentals with at least 2,000 sq ft of living space.",
+      "expected_filter_state": {
+        "constraint": "at least 2,000 sq ft of living space"
+      }
+    },
+    {
+      "task_id": "T1276",
+      "task_index_in_env": 6,
+      "instruction_text": "Help me search HotPads rentals for listings that have a max price of $750,000.",
+      "expected_filter_state": {
+        "constraint": "a max price of $750,000"
+      }
+    },
+    {
+      "task_id": "T1277",
+      "task_index_in_env": 7,
+      "instruction_text": "Pull up listings on HotPads rentals with a max rent of $3,000/mo.",
+      "expected_filter_state": {
+        "constraint": "a max rent of $3,000/mo"
+      }
+    },
+    {
+      "task_id": "T1278",
+      "task_index_in_env": 8,
+      "instruction_text": "On HotPads rentals, can you find listings with at least 1.5 acres of land?",
+      "expected_filter_state": {
+        "constraint": "at least 1.5 acres of land"
+      }
+    },
+    {
+      "task_id": "T1279",
+      "task_index_in_env": 9,
+      "instruction_text": "Pull up listings on HotPads rentals with a max price of $650,000.",
+      "expected_filter_state": {
+        "constraint": "a max price of $650,000"
+      }
+    },
+    {
+      "task_id": "T1280",
+      "task_index_in_env": 10,
+      "instruction_text": "On HotPads rentals, can you find listings with a max rent of $2,400/mo?",
+      "expected_filter_state": {
+        "constraint": "a max rent of $2,400/mo"
+      }
+    }
+  ]
+}

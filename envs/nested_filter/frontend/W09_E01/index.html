@@ -1,0 +1,701 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoAir</title>
+<style>
+
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill, .autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write, .tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+[data-debug="1"] { display: none !important; }
+
+* { box-sizing:border-box; }
+body { margin:0; font-family:'Inter','Helvetica Neue', Arial, sans-serif; background:#f4f4f6;
+  color:#1f1f23; font-size:14px; line-height:1.5; }
+a { color:#ED1B2E; text-decoration:none; }
+button { font-family:inherit; }
+.page-wrap { max-width:1240px; margin:0 auto; padding:0 22px; }
+
+.s-hdr { padding:12px 28px; display:flex; align-items:center; gap:24px;
+  background:linear-gradient(180deg,#ED1B2E 0%, #C8102E 100%);
+  box-shadow:0 1px 4px rgba(0,0,0,0.12); position:relative; z-index:5; }
+.s-hdr .logo { font-weight:800; font-size:20px; letter-spacing:-0.3px; }
+.s-hdr nav { display:flex; gap:22px; margin-left:auto; font-size:13px; font-weight:600; }
+.s-hdr nav a { opacity:0.95; cursor:pointer; color:#fff; }
+.s-hdr nav a:hover { opacity:1; text-decoration:underline; }
+.s-hdr .acct { display:flex; align-items:center; gap:8px; padding:6px 14px;
+  border:1px solid rgba(255,255,255,0.6); border-radius:20px; color:#fff; font-size:12px; font-weight:600; }
+
+/* AirAsia-style search summary bar */
+.aa-tripbar { background:#fff; border-radius:0 0 10px 10px; box-shadow:0 4px 18px rgba(0,0,0,0.08);
+  display:flex; align-items:stretch; margin:0 auto 14px; max-width:1196px; position:relative; z-index:3;
+  overflow:hidden; border:1px solid #f0e6e7; border-top:0; }
+.aa-tripbar .tb-cell { padding:10px 16px; border-right:1px solid #f0f0f3; flex:1; min-width:0; }
+.aa-tripbar .tb-cell:last-of-type { border-right:0; }
+.aa-tripbar .tb-lbl { font-size:10px; color:#8a8a92; text-transform:uppercase; letter-spacing:0.5px; font-weight:700; }
+.aa-tripbar .tb-val { font-size:14px; color:#1f1f23; font-weight:700; margin-top:2px; }
+.aa-tripbar .tb-sub { font-size:11px; color:#6b7280; }
+.aa-tripbar .tb-go { background:#ED1B2E; color:#fff; border:0; padding:0 24px; font-weight:800;
+  font-size:14px; cursor:pointer; letter-spacing:0.3px; display:flex; align-items:center; gap:6px; }
+.aa-tripbar .tb-go:hover { background:#C8102E; }
+.aa-tab-row { display:flex; gap:4px; padding:14px 12px 0; background:#fff; border-radius:10px 10px 0 0;
+  max-width:1196px; margin:18px auto 0; box-shadow:0 -1px 0 rgba(0,0,0,0.02); border:1px solid #f0e6e7;
+  border-bottom:0; position:relative; z-index:4; }
+.aa-tab { padding:8px 14px 10px; font-size:12px; font-weight:700; color:#5a5a63; cursor:pointer;
+  border-radius:6px 6px 0 0; display:flex; align-items:center; gap:6px; border-bottom:3px solid transparent; }
+.aa-tab.act { color:#ED1B2E; border-bottom:3px solid #ED1B2E; }
+
+/* TASK BANNER (hidden anyway, kept for parity) */
+#task-banner { display:none; background:#fff8e1; border:1px solid #f5d77c;
+  border-left:5px solid #f5b400; padding:14px 18px; margin:14px 0; border-radius:6px; }
+
+/* RESULT CARDS */
+.rc { background:#fff; border:1px solid #ececec; border-radius:10px;
+  overflow:hidden; display:flex; flex-direction:column;
+  box-shadow:0 1px 3px rgba(0,0,0,0.04); transition:transform 0.1s, box-shadow 0.1s; }
+.rc:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(237,27,46,0.10); }
+.rc-thumb { height:130px; background-size:cover; background-position:center; background-color:#eee;
+  position:relative; }
+.rc-thumb::after { content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.12) 100%); }
+.rc-body { padding:12px 14px; display:flex; flex-direction:column; gap:5px; flex:1; }
+.rc-airline { font-size:10px; color:#ED1B2E; text-transform:uppercase;
+  letter-spacing:0.6px; font-weight:800; }
+.rc-title { font-size:15px; font-weight:800; color:#1f1f23; letter-spacing:-0.2px; }
+.rc-sub { font-size:12px; color:#6b7280; }
+.rc-meta { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+.rc-tag { font-size:11px; padding:2px 8px; background:#f6f6f8;
+  border-radius:10px; color:#3a3a42; }
+.rc-foot { display:flex; align-items:center; justify-content:space-between;
+  margin-top:auto; padding-top:10px; }
+.rc-price { font-size:18px; font-weight:800; color:#ED1B2E; letter-spacing:-0.3px; }
+.rc-btn { background:#ED1B2E; color:#fff; border:0; padding:7px 14px;
+  font-size:12px; border-radius:4px; cursor:pointer; font-weight:800; letter-spacing:0.2px; }
+.rc-btn:hover { background:#C8102E; }
+
+.results-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
+  gap:14px; margin-top:18px; }
+.crumb { font-size:12px; color:#6b7280; margin:14px 0 6px; }
+.crumb a { color:#6b7280; }
+.crumb b { color:#1a1a1a; }
+.results-meta { display:flex; align-items:center; justify-content:space-between;
+  margin:8px 0 14px; gap:14px; }
+.results-meta .rm-count { font-size:13px; color:#52606d; }
+.results-meta .rm-sort { font-size:13px; color:#1a1a1a; padding:6px 10px;
+  border:1px solid #d1d5db; border-radius:6px; background:#fff; cursor:pointer; }
+
+.facet-wrap { background:#fff; border:1px solid #ececec; border-radius:10px;
+  padding:18px; box-shadow:0 1px 3px rgba(0,0,0,0.04); }
+
+.s-foot { background:#fff; border-top:1px solid #e6e6e6; padding:28px 24px; margin-top:48px; }
+.s-foot .row { max-width:1200px; margin:0 auto; display:flex; gap:32px; flex-wrap:wrap; }
+.s-foot .col { flex:1; min-width:140px; }
+.s-foot h5 { margin:0 0 10px; font-size:12px; color:#1a1a1a;
+  text-transform:uppercase; letter-spacing:0.5px; }
+.s-foot a { display:block; color:#666; padding:3px 0; font-size:12px; cursor:pointer; }
+.s-foot .copy { max-width:1200px; margin:18px auto 0; padding-top:16px;
+  border-top:1px solid #e6e6e6; color:#666; font-size:11px; }
+
+/* shared calendar primitives — AirAsia MOVE dual-month booking calendar */
+:root {
+  --w09-pri:#ED1B2E;
+  --w09-pri-d:#C8102E;
+  --w09-aa-green:#006C5B;     /* AirAsia MOVE dark teal-green (selected) */
+  --w09-aa-green-d:#004E40;
+  --w09-aa-green-l:#E6F4F0;   /* hover / range tint */
+  --w09-aa-lime:#00DA7B;      /* MOVE bright lime (Search button) */
+  --w09-aa-lime-d:#00B868;
+  --w09-card:#ffffff;
+  --w09-text:#1f1f23;
+  --w09-muted:#6b7280;
+  --w09-line:#ebebef;
+}
+
+/* dual-month calendar laid out as a popover that hangs below the tripbar */
+.w09-cal-pop { background:var(--w09-card); border-radius:0 0 14px 14px;
+  box-shadow:0 14px 36px rgba(0,0,0,0.14); border:1px solid #efeff2; border-top:0;
+  max-width:1196px; margin:-6px auto 22px; padding:18px 26px 16px; position:relative; z-index:2; }
+.w09-cal-pop::before { content:""; position:absolute; top:-1px; left:24px; right:24px; height:3px;
+  background:linear-gradient(90deg, var(--w09-aa-green), var(--w09-aa-lime)); border-radius:2px; }
+.w09-cal-trip { display:flex; align-items:center; gap:10px; padding:0 4px 10px;
+  border-bottom:1px solid var(--w09-line); margin-bottom:14px; font-size:12px; color:var(--w09-muted); }
+.w09-cal-trip .trip-tag { background:var(--w09-aa-green-l); color:var(--w09-aa-green-d);
+  font-weight:800; padding:4px 10px; border-radius:20px; font-size:11px;
+  text-transform:uppercase; letter-spacing:0.5px; }
+.w09-cal-trip .trip-route { color:var(--w09-text); font-weight:700; font-size:13px; }
+.w09-cal-trip .trip-route .arr { color:var(--w09-aa-green); margin:0 4px; font-weight:900; }
+.w09-cal-trip .trip-spacer { flex:1; }
+.w09-cal-trip .trip-cur { font-size:11px; color:var(--w09-muted); font-weight:600; }
+
+.w09-cal-header { display:grid; grid-template-columns:40px 1fr 1fr 40px;
+  align-items:center; column-gap:18px; margin-bottom:6px; padding:0 6px; }
+.w09-nav-btn { width:36px; height:36px; border-radius:50%; border:1px solid #d8dde2;
+  background:#fff; color:#1f1f23; font-size:20px; font-weight:700; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; line-height:1;
+  transition:all 0.12s; padding:0; }
+.w09-nav-btn:hover { background:var(--w09-aa-green); color:#fff; border-color:var(--w09-aa-green);
+  box-shadow:0 4px 12px rgba(0,108,91,0.25); }
+.w09-nav-btn:disabled { color:#cbd0d6; cursor:not-allowed; background:#fafafa; }
+.w09-nav-btn:disabled:hover { background:#fafafa; color:#cbd0d6; border-color:#d8dde2; box-shadow:none; }
+.w09-month-label { text-align:center; font-weight:800; color:var(--w09-text);
+  font-size:16px; letter-spacing:-0.2px; padding:6px 0; }
+
+.w09-months { display:grid; grid-template-columns:1fr 1fr; column-gap:42px;
+  padding:4px 6px 0; }
+.w09-month-col { min-width:0; }
+
+.w09-grid { display:grid; grid-template-columns:repeat(7,1fr); row-gap:2px; column-gap:0; }
+.w09-dow { text-align:center; font-size:11px; color:var(--w09-muted);
+  padding:8px 0 10px; font-weight:600; letter-spacing:0.3px; }
+.w09-day { text-align:center; cursor:pointer; font-size:14px; color:var(--w09-text);
+  transition:background 0.1s, color 0.1s; user-select:none;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  min-height:46px; font-weight:600; border-radius:4px; position:relative; }
+.w09-day:hover { background:var(--w09-aa-green-l); color:var(--w09-aa-green-d); }
+.w09-day.sel { background:var(--w09-aa-green); color:#fff; font-weight:800; }
+.w09-day.sel:hover { background:var(--w09-aa-green-d); color:#fff; }
+.w09-day.sel .w09-fare { color:#d6f1e8; }
+.w09-day.today { box-shadow:inset 0 0 0 1.5px var(--w09-aa-green); }
+.w09-day.past { color:#cbd0d6; cursor:default; font-weight:500; }
+.w09-day.past .w09-fare { color:#dde0e3; }
+.w09-day.past:hover { background:transparent; color:#cbd0d6; }
+.w09-day.empty { cursor:default; }
+.w09-day.empty:hover { background:transparent; }
+.w09-fare { font-size:10px; color:var(--w09-aa-green); font-weight:700; margin-top:2px;
+  letter-spacing:0.1px; line-height:1; }
+
+.w09-cal-foot { display:flex; justify-content:space-between; align-items:center;
+  border-top:1px solid var(--w09-line); padding:14px 6px 0; margin-top:12px; }
+.w09-cal-foot .foot-hint { font-size:12px; color:var(--w09-muted); }
+.w09-cal-foot .foot-hint b { color:var(--w09-aa-green-d); font-weight:800; }
+.w09-cal-foot .foot-actions { display:flex; gap:10px; }
+.w09-btn-reset { background:#fff; color:#1f1f23; border:1px solid #c9ced3;
+  border-radius:24px; padding:9px 22px; font-weight:700; font-size:13px; cursor:pointer;
+  transition:all 0.12s; }
+.w09-btn-reset:hover { border-color:var(--w09-aa-green); color:var(--w09-aa-green-d);
+  background:var(--w09-aa-green-l); }
+.w09-btn-confirm { background:var(--w09-aa-lime); color:#003E2C; border:0;
+  border-radius:24px; padding:9px 26px; font-weight:800; font-size:13px; cursor:pointer;
+  transition:all 0.12s; letter-spacing:0.2px;
+  box-shadow:0 4px 12px rgba(0,218,123,0.32); }
+.w09-btn-confirm:hover { background:var(--w09-aa-lime-d); box-shadow:0 6px 16px rgba(0,184,104,0.4); }
+
+.w09-selected-display { display:none; }
+
+@media (max-width: 880px) {
+  .w09-months { grid-template-columns:1fr; row-gap:18px; }
+  .w09-cal-header { grid-template-columns:40px 1fr 40px; }
+  .w09-cal-header .w09-month-label:last-of-type { display:none; }
+}
+
+.layout-sb { display:block; margin-top:14px; }
+
+.live-status { position:fixed; bottom:14px; right:14px; z-index:200;
+  padding:10px 14px; border-radius:8px; font-size:12px; font-weight:700;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15); background:#fff;
+  border-left:4px solid #ccc; min-width:200px; }
+.live-status.good { border-color:#2ecc71; color:#1f8a4d; }
+.live-status.pending { border-color:#f0a020; color:#a06800; }
+.live-status.neutral { border-color:#888; color:#444; }
+.ls-msg { display:block; }
+</style>
+</head><body>
+<header class="s-hdr"><div><div class="logo"><span style="display:inline-flex;align-items:center;gap:6px;line-height:1;"><span style="background:#fff;color:#ED1B2E;font-weight:900;padding:5px 10px;border-radius:14px;font-style:italic;letter-spacing:-0.8px;font-size:18px;font-family:'Segoe UI',sans-serif;">EchoAir</span></span></div><div style="font-size:10px;opacity:0.85;margin-top:3px;color:#fff;letter-spacing:0.3px;">Now everyone can fly</div></div><nav><a>Flights</a><a>Hotels</a><a>SNAP</a><a>Activities</a><a>Manage trip</a><a>Check-in</a></nav><div class="acct">👤 Sign in</div><div style="font-size:12px;opacity:0.95;color:#fff;font-weight:600;">🌐 EN · MYR</div></header>
+
+<div class="aa-tab-row"><div class="aa-tab act">✈️ Flights</div><div class="aa-tab">🏨 Hotels</div><div class="aa-tab">🏝 Flight + Hotel</div><div class="aa-tab">🚗 Transfers</div><div class="aa-tab">🎟 Activities</div></div>
+<div class="aa-tripbar">
+  <div class="tb-cell"><div class="tb-lbl">From</div><div class="tb-val">Singapore (SIN)</div><div class="tb-sub">Changi Airport</div></div>
+  <div class="tb-cell"><div class="tb-lbl">To</div><div class="tb-val">Langkawi (LGK)</div><div class="tb-sub">Langkawi Intl</div></div>
+  <div class="tb-cell" style="border-bottom:3px solid #006C5B;background:#f9fbfa;"><div class="tb-lbl" style="color:#006C5B;">Departure</div><div class="tb-val" id="tb-dep-val">Select date</div><div class="tb-sub">One way</div></div>
+  <div class="tb-cell"><div class="tb-lbl">Passengers · Class</div><div class="tb-val">1 Adult</div><div class="tb-sub">Economy</div></div>
+  <button class="tb-go">SEARCH ›</button>
+</div>
+
+<div class="w09-cal-pop" id="w09-cal-root">
+  <div class="w09-cal-trip">
+    <span class="trip-tag">Departure</span>
+    <span class="trip-route">SIN <span class="arr">→</span> LGK</span>
+    <span class="trip-spacer"></span>
+    <span class="trip-cur">Prices in MYR · one-way</span>
+  </div>
+  <div class="w09-cal-header">
+    <button type="button" id="w09-prev" class="w09-nav-btn" aria-label="Previous month">‹</button>
+    <div class="w09-month-label" id="w09-label-1">May 2026</div>
+    <div class="w09-month-label" id="w09-label-2">June 2026</div>
+    <button type="button" id="w09-next" class="w09-nav-btn" aria-label="Next month">›</button>
+  </div>
+  <div class="w09-months">
+    <div class="w09-month-col"><div class="w09-grid" id="w09-grid-1"></div></div>
+    <div class="w09-month-col"><div class="w09-grid" id="w09-grid-2"></div></div>
+  </div>
+  <div class="w09-cal-foot">
+    <div class="foot-hint" id="w09-foot-hint">Tap a day to set departure</div>
+    <div class="foot-actions">
+      <button type="button" class="w09-btn-reset" id="w09-reset">Reset</button>
+      <button type="button" class="w09-btn-confirm" id="w09-confirm">Confirm</button>
+    </div>
+  </div>
+  <input type="hidden" id="cal-date-state" data-facet="date" value="">
+  <span class="w09-selected-display" aria-hidden="true"></span>
+</div>
+
+<div class="page-wrap" style="padding-top:18px;">
+  <div id="task-banner"></div>
+  <div class="layout-sb">
+    <main>
+      <div class="crumb"><a>Home</a> &rsaquo; <a>EchoAir</a> &rsaquo; <b>Available flights</b></div><h2 style="margin:6px 0 4px; font-size:22px; font-weight:800; color:#1a1a1a;">Available flights</h2><div class="results-meta"><span class="rm-count">Cheap fares across Asia and Oceania</span><button class="rm-sort">Sort: Recommended ▾</button></div>
+      <div class="results-grid">
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/64757/aircraft-fly-propeller-propeller-plane-64757.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">SIN → LGK</div>
+    <div class="rc-sub">Singapore → Langkawi</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jul 2, 2026</span>
+      <span class="rc-tag">⏱ 1h 25m</span>
+      <span class="rc-tag">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price">RM89</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/13716228/pexels-photo-13716228.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">SIN → LGK</div>
+    <div class="rc-sub">Singapore → Langkawi</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jul 2, 2026</span>
+      <span class="rc-tag">⏱ 4h 10m</span>
+      <span class="rc-tag">1 stop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price">RM119</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/30628796/pexels-photo-30628796.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">SIN → KUL</div>
+    <div class="rc-sub">Singapore → Kuala Lumpur</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jul 2, 2026</span>
+      <span class="rc-tag">⏱ 1h 5m</span>
+      <span class="rc-tag">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price">RM65</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/14547139/pexels-photo-14547139.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">SIN → BKK</div>
+    <div class="rc-sub">Singapore → Bangkok</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jul 2, 2026</span>
+      <span class="rc-tag">⏱ 2h 30m</span>
+      <span class="rc-tag">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price">RM145</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/33327971/pexels-photo-33327971.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">SIN → DPS</div>
+    <div class="rc-sub">Singapore → Bali</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jul 2, 2026</span>
+      <span class="rc-tag">⏱ 2h 40m</span>
+      <span class="rc-tag">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price">RM175</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/1381416/pexels-photo-1381416.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">SIN → MNL</div>
+    <div class="rc-sub">Singapore → Manila</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jul 3, 2026</span>
+      <span class="rc-tag">⏱ 3h 25m</span>
+      <span class="rc-tag">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price">RM195</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/30767897/pexels-photo-30767897.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">KUL → LGK</div>
+    <div class="rc-sub">Kuala Lumpur → Langkawi</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jul 2, 2026</span>
+      <span class="rc-tag">⏱ 55m</span>
+      <span class="rc-tag">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price">RM39</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/7507131/pexels-photo-7507131.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">HKG → MNL</div>
+    <div class="rc-sub">Hong Kong → Manila</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jul 2, 2026</span>
+      <span class="rc-tag">⏱ 2h 5m</span>
+      <span class="rc-tag">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price">RM220</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/1928072/pexels-photo-1928072.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">SIN → LGK</div>
+    <div class="rc-sub">Singapore → Langkawi</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Aug 7, 2026</span>
+      <span class="rc-tag">⏱ 1h 25m</span>
+      <span class="rc-tag">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price">RM95</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/29587915/pexels-photo-29587915.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">BKK → LGK</div>
+    <div class="rc-sub">Bangkok → Langkawi</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jul 2, 2026</span>
+      <span class="rc-tag">⏱ 5h 35m</span>
+      <span class="rc-tag">1 stop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price">RM159</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/30767898/pexels-photo-30767898.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">SIN → PEN</div>
+    <div class="rc-sub">Singapore → Penang</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jul 2, 2026</span>
+      <span class="rc-tag">⏱ 1h 25m</span>
+      <span class="rc-tag">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price">RM79</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/24461266/pexels-photo-24461266.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">SIN → LGK</div>
+    <div class="rc-sub">Singapore → Langkawi</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jul 4, 2026</span>
+      <span class="rc-tag">⏱ 1h 30m</span>
+      <span class="rc-tag">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price">RM99</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/14400667/pexels-photo-14400667.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">KUL → MNL</div>
+    <div class="rc-sub">Kuala Lumpur → Manila</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jul 2, 2026</span>
+      <span class="rc-tag">⏱ 3h 50m</span>
+      <span class="rc-tag">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price">RM189</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/16737433/pexels-photo-16737433.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">SIN → CGK</div>
+    <div class="rc-sub">Singapore → Jakarta</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jul 2, 2026</span>
+      <span class="rc-tag">⏱ 1h 55m</span>
+      <span class="rc-tag">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price">RM109</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/33259929/pexels-photo-33259929.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">SIN → LGK</div>
+    <div class="rc-sub">Singapore → Langkawi</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jul 9, 2026</span>
+      <span class="rc-tag">⏱ 1h 25m</span>
+      <span class="rc-tag">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price">RM109</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/271639/pexels-photo-271639.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">SIN → HKG</div>
+    <div class="rc-sub">Singapore → Hong Kong</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jul 2, 2026</span>
+      <span class="rc-tag">⏱ 3h 50m</span>
+      <span class="rc-tag">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price">RM285</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+      </div>
+    </main>
+  </div>
+</div>
+<footer class="s-foot">
+  <div class="row"><div class="col"><h5>Company</h5><a>About</a><a>Careers</a><a>News</a><a>Investors</a></div><div class="col"><h5>Help</h5><a>Manage trip</a><a>Check-in</a><a>Baggage</a><a>Contact</a></div><div class="col"><h5>Discover</h5><a>Routes</a><a>Deals</a><a>Loyalty</a><a>Hotels</a></div><div class="col"><h5>Legal</h5><a>Terms</a><a>Privacy</a><a>Cookies</a><a>Accessibility</a></div></div>
+  <div class="copy">© 2026 EchoAir. All rights reserved.</div>
+</footer>
+<div class="live-status neutral" id="live-status"><span class="ls-msg">💾 Auto-saved</span></div>
+<script>
+function escapeHtmlText(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+const ENV_ID = 'W09_E01';
+
+let filterState = {};
+function onF(){ applyFilters(); }
+function applyFilters(){
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) { if (!newState[f]) newState[f] = []; newState[f].push(el.value || true); }
+    } else if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.value) newState[f] = el.value;
+    } else {
+      if (el.value) newState[f] = el.value;
+    }
+  });
+  filterState = newState;
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).catch(()=>{});
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : '';
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(data => { updateLiveStatus(data); }).catch(()=>{});
+}
+function escapeHtml(s){ return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function updateLiveStatus(d){
+  const bar = document.getElementById('live-status'); if (!bar) return;
+  let msg='', cls='neutral';
+  if (d && d.task_id) {
+    if (d.satisfies) { msg = '✅ Satisfies task ' + d.task_id; cls='good'; }
+    else { msg = '⏳ Not yet matching ' + d.task_id; cls='pending'; }
+  } else { msg = '💾 Auto-saved'; cls='neutral'; }
+  bar.className = 'live-status ' + cls;
+  const m = bar.querySelector('.ls-msg'); if (m) m.textContent = msg;
+}
+function loadTaskBanner(){
+  const urlParams = new URLSearchParams(window.location.search);
+  const tid = urlParams.get('task_id'); if (!tid) return;
+  fetch('/env/' + ENV_ID + '/api/task/' + encodeURIComponent(tid))
+    .then(r => r.ok ? r.json() : null)
+    .then(task => {
+      if (!task) return;
+      const banner = document.getElementById('task-banner'); if (!banner) return;
+      banner.style.display = 'block';
+      banner.innerHTML = `<div class="tb-summary">${escapeHtml(task.task_summary||'')}</div>`;
+    }).catch(()=>{});
+}
+document.addEventListener('DOMContentLoaded', loadTaskBanner);
+
+/* ───── shared calendar utilities ───── */
+const W09_MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const W09_DOW1 = ["S","M","T","W","T","F","S"];
+function w09DaysIn(y,m){return new Date(y, m+1, 0).getDate();}
+function w09FirstDow(y,m){return new Date(y, m, 1).getDay();}
+function w09Fare(y,m,d){
+  // deterministic pseudo-fare so the calendar feels alive (AirAsia signature)
+  const s = (y*131 + (m+1)*53 + d*17) % 100;
+  return 39 + s; // RM 39 - 138
+}
+function w09SetDate(y,m,d){
+  const v = W09_MONTHS[m] + " " + d + ", " + y;
+  const inp = document.getElementById("cal-date-state");
+  if (inp) inp.value = v;
+  document.querySelectorAll(".w09-selected-display").forEach(el => el.textContent = "✓ " + v);
+  const hint = document.getElementById("w09-foot-hint");
+  if (hint) hint.innerHTML = "Departure: <b>" + escapeHtmlText(v) + "</b>";
+  const tb = document.getElementById("tb-dep-val");
+  if (tb) tb.textContent = W09_MONTHS[m].slice(0,3) + " " + d + ", " + y;
+  // update .sel highlighting across both month grids
+  document.querySelectorAll(".w09-day.sel").forEach(el => el.classList.remove("sel"));
+  const cell = document.querySelector('.w09-day[data-y="'+y+'"][data-m="'+m+'"][data-d="'+d+'"]');
+  if (cell) cell.classList.add("sel");
+  if (typeof onF === "function") onF();
+}
+function w09RenderGrid(y, m, gridId){
+  const g = document.getElementById(gridId); if (!g) return;
+  let h = "";
+  W09_DOW1.forEach(d => h += `<div class="w09-dow">${d}</div>`);
+  const n = w09DaysIn(y,m), first = w09FirstDow(y,m);
+  for (let i=0;i<first;i++) h += `<div class="w09-day empty"></div>`;
+  const cur = (document.getElementById("cal-date-state")||{}).value || "";
+  const today = new Date();
+  const tY = today.getFullYear(), tM = today.getMonth(), tD = today.getDate();
+  for (let d=1; d<=n; d++) {
+    const cand = W09_MONTHS[m] + " " + d + ", " + y;
+    const sel = (cur === cand) ? " sel" : "";
+    const isToday = (y===tY && m===tM && d===tD) ? " today" : "";
+    const fare = w09Fare(y,m,d);
+    h += `<div class="w09-day${sel}${isToday}" data-d="${escapeHtmlText(d)}" data-y="${escapeHtmlText(y)}" data-m="${escapeHtmlText(m)}"><span>${escapeHtmlText(d)}</span><span class="w09-fare">RM${escapeHtmlText(fare)}</span></div>`;
+  }
+  g.innerHTML = h;
+  g.querySelectorAll(".w09-day[data-d]").forEach(el => {
+    el.addEventListener("click", () => w09SetDate(
+      parseInt(el.dataset.y,10), parseInt(el.dataset.m,10), parseInt(el.dataset.d,10)
+    ));
+  });
+}
+
+
+(function(){
+  // Dual-month picker — left = current month, right = next month
+  let _y = 2026, _m = 4; // May 2026 default (matches AirAsia reference screenshot)
+  function nextMonth(y,m){ m++; if(m>11){m=0;y++;} return {y:y,m:m}; }
+  function render(){
+    const lbl1 = document.getElementById("w09-label-1");
+    const lbl2 = document.getElementById("w09-label-2");
+    if (lbl1) lbl1.textContent = W09_MONTHS[_m] + " " + _y;
+    const nx = nextMonth(_y, _m);
+    if (lbl2) lbl2.textContent = W09_MONTHS[nx.m] + " " + nx.y;
+    w09RenderGrid(_y, _m, "w09-grid-1");
+    w09RenderGrid(nx.y, nx.m, "w09-grid-2");
+  }
+  window.w09Next = function(){ _m++; if(_m>11){_m=0;_y++;} render(); if(typeof onF==='function') onF(); };
+  window.w09Prev = function(){ _m--; if(_m<0){_m=11;_y--;} render(); if(typeof onF==='function') onF(); };
+  function resetCal(){
+    const inp = document.getElementById("cal-date-state");
+    if (inp) inp.value = "";
+    const tb = document.getElementById("tb-dep-val");
+    if (tb) tb.textContent = "Select date";
+    const hint = document.getElementById("w09-foot-hint");
+    if (hint) hint.textContent = "Tap a day to set departure";
+    document.querySelectorAll(".w09-selected-display").forEach(el => el.textContent = "");
+    render();
+    if (typeof onF === "function") onF();
+  }
+  document.addEventListener("DOMContentLoaded", function(){
+    render();
+    const p = document.getElementById("w09-prev"); if (p) p.addEventListener("click", w09Prev);
+    const n = document.getElementById("w09-next"); if (n) n.addEventListener("click", w09Next);
+    const r = document.getElementById("w09-reset"); if (r) r.addEventListener("click", resetCal);
+    const c = document.getElementById("w09-confirm"); if (c) c.addEventListener("click", function(){ if (typeof onF==='function') onF(); });
+  });
+})();
+</script></body></html>

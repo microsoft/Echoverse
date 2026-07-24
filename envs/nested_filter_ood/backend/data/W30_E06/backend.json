@@ -1,0 +1,101 @@
+{
+  "env_id": "W30_E06",
+  "widget_id": "W30_region_plus_override_defaults",
+  "archetype": "calculator_form",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T300601",
+      "task_index_in_env": 1,
+      "instruction_text": "I'm scoping a Google Cloud workload for a customer in us-central1 (Iowa) \u2014 set up a quote for Standard storage, override the default usage to 10 TB storage for the month, and pin the Standard tier since this is a regulated tenant.",
+      "expected_filter_state": {
+        "region": "us-central1 (Iowa)",
+        "override": "10 TB storage"
+      }
+    },
+    {
+      "task_id": "T300602",
+      "task_index_in_env": 2,
+      "instruction_text": "Could you put together a Coldline storage quote? Always-on 1-month workload \u2014 use 1 TB storage \u2014 and bill it out of us-east1 (S. Carolina), the Basic tier is fine, we don't need anything fancier.",
+      "expected_filter_state": {
+        "region": "us-east1 (S. Carolina)",
+        "override": "1 TB storage"
+      }
+    },
+    {
+      "task_id": "T300603",
+      "task_index_in_env": 3,
+      "instruction_text": "Need to estimate Archive storage sitting in us-east4 (N. Virginia) at about 500 GB storage. We're on the Basic tier anyway.",
+      "expected_filter_state": {
+        "region": "us-east4 (N. Virginia)",
+        "override": "500 GB storage"
+      }
+    },
+    {
+      "task_id": "T300604",
+      "task_index_in_env": 4,
+      "instruction_text": "Configure the calculator for Autoclass (Standard tier) in us-west1 (Oregon) \u2014 usage around 500 GB storage per month and we're already on the Premium tier for the FedRAMP tenant.",
+      "expected_filter_state": {
+        "region": "us-west1 (Oregon)",
+        "override": "500 GB storage"
+      }
+    },
+    {
+      "task_id": "T300605",
+      "task_index_in_env": 5,
+      "instruction_text": "What's the projected monthly bill for Standard storage in us-west2 (Los Angeles) doing 1 TB storage, with the Basic tier attached?",
+      "expected_filter_state": {
+        "region": "us-west2 (Los Angeles)",
+        "override": "1 TB storage"
+      }
+    },
+    {
+      "task_id": "T300606",
+      "task_index_in_env": 6,
+      "instruction_text": "Quick check \u2014 if I put 10 TB storage through Nearline storage in northamerica-northeast1 (Montr\u00e9al), on the Basic tier, what does the monthly estimate come to?",
+      "expected_filter_state": {
+        "region": "northamerica-northeast1 (Montr\u00e9al)",
+        "override": "10 TB storage"
+      }
+    },
+    {
+      "task_id": "T300607",
+      "task_index_in_env": 7,
+      "instruction_text": "Hmm, what would Standard storage cost me in southamerica-east1 (S\u00e3o Paulo) for a 10 TB storage monthly commitment if I add the Standard tier on top? Just want the number.",
+      "expected_filter_state": {
+        "region": "southamerica-east1 (S\u00e3o Paulo)",
+        "override": "10 TB storage"
+      }
+    },
+    {
+      "task_id": "T300608",
+      "task_index_in_env": 8,
+      "instruction_text": "Pricing exercise for a finance review: configure the calculator for Autoclass (Standard tier) in europe-west1 (Belgium), override usage to 500 GB storage, leave support at the Basic tier, then tell me the all-in monthly total \u2014 they want it for the budget doc.",
+      "expected_filter_state": {
+        "region": "europe-west1 (Belgium)",
+        "override": "500 GB storage"
+      }
+    },
+    {
+      "task_id": "T300609",
+      "task_index_in_env": 9,
+      "instruction_text": "OK so I need to estimate Coldline storage running in europe-west2 (London) for one month \u2014 use 1 TB storage \u2014 and we're on the Basic tier; set it up in the calculator and give me the monthly figure.",
+      "expected_filter_state": {
+        "region": "europe-west2 (London)",
+        "override": "1 TB storage"
+      }
+    },
+    {
+      "task_id": "T300610",
+      "task_index_in_env": 10,
+      "instruction_text": "Hey, can you set up an estimate for 10 TB storage out of europe-west4 (Netherlands) on Nearline storage and tell me the monthly cost? We're on the Basic tier, but if it's over $1000/month we'll probably want to revisit.",
+      "expected_filter_state": {
+        "region": "europe-west4 (Netherlands)",
+        "override": "10 TB storage"
+      }
+    }
+  ]
+}

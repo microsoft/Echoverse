@@ -1,0 +1,688 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoStay</title>
+<style>
+
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill, .autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write, .tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+[data-debug="1"] { display: none !important; }
+
+* { box-sizing:border-box; }
+body { margin:0; font-family:"Circular","Helvetica Neue","Helvetica",Arial,sans-serif; background:#ffffff;
+  color:#222222; font-size:14px; line-height:1.4; -webkit-font-smoothing:antialiased; }
+a { color:#222; text-decoration:none; }
+button { font-family:inherit; }
+.page-wrap { max-width:1240px; margin:0 auto; padding:0 24px; }
+
+/* AIRBNB HEADER */
+.ab-hdr { background:#ffffff; border-bottom:1px solid #ebebeb; }
+.ab-hdr-inner { max-width:1760px; margin:0 auto; padding:18px 80px 6px;
+  display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:24px; }
+.ab-logo { display:inline-flex; align-items:center; gap:2px; color:#FF385C;
+  font-weight:800; font-size:22px; letter-spacing:-0.6px; line-height:1; }
+.ab-logo svg { width:30px; height:30px; }
+.ab-tabs { display:flex; justify-content:center; align-items:flex-end; gap:24px; }
+.ab-tab { background:transparent; border:0; padding:6px 10px 14px; cursor:pointer;
+  display:flex; align-items:center; gap:8px; color:#717171; font-size:14px;
+  font-weight:500; border-bottom:2px solid transparent; position:relative; }
+.ab-tab.active { color:#222; border-bottom-color:#222; }
+.ab-tab .tab-ico { width:40px; height:40px; display:inline-block; }
+.ab-tab .new-pill { position:absolute; top:-4px; right:24px; background:#222;
+  color:#fff; font-size:9px; font-weight:700; padding:3px 6px; border-radius:8px;
+  letter-spacing:0.5px; }
+.ab-right { display:flex; align-items:center; justify-content:flex-end; gap:6px; }
+.ab-host { padding:12px 14px; font-size:14px; font-weight:500; color:#222;
+  border-radius:22px; cursor:pointer; }
+.ab-host:hover { background:#f7f7f7; }
+.ab-icon-btn { width:42px; height:42px; border-radius:50%; border:0; background:transparent;
+  cursor:pointer; display:inline-flex; align-items:center; justify-content:center;
+  color:#222; font-size:16px; }
+.ab-icon-btn:hover { background:#f7f7f7; }
+.ab-menu { display:inline-flex; align-items:center; gap:10px; padding:5px 5px 5px 12px;
+  border:1px solid #dddddd; border-radius:21px; background:#fff; cursor:pointer; margin-left:6px; }
+.ab-menu:hover { box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+.ab-menu .ab-avatar { width:30px; height:30px; border-radius:50%; background:#717171;
+  color:#fff; display:flex; align-items:center; justify-content:center; font-size:14px; }
+
+/* AIRBNB SEARCH BAR */
+.ab-search-wrap { display:flex; justify-content:center; padding:18px 24px 4px;
+  background:#fff; position:relative; z-index:5; }
+.ab-search { display:flex; align-items:center; background:#fff; border:1px solid #dddddd;
+  border-radius:36px; box-shadow:0 1px 2px rgba(0,0,0,0.08); height:66px;
+  width:100%; max-width:850px; }
+.ab-search.has-active { background:#ebebeb; }
+.ab-sf { position:relative; flex:1; padding:14px 24px; display:flex; flex-direction:column;
+  gap:2px; cursor:pointer; border-radius:33px; min-width:0; height:100%; justify-content:center; }
+.ab-sf:hover:not(.active) { background:#ebebeb; }
+.ab-search.has-active .ab-sf:not(.active):hover { background:#dddddd; }
+.ab-sf.active { background:#fff; box-shadow:0 1px 6px rgba(0,0,0,0.18); }
+.ab-sf-lbl { font-size:12px; font-weight:600; color:#222; line-height:1; }
+.ab-sf-val { font-size:14px; color:#717171; line-height:1.2; min-height:18px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ab-sf-val.has-val { color:#222; }
+.ab-sep { width:1px; height:32px; background:#dddddd; }
+.ab-search.has-active .ab-sep.adj { background:transparent; }
+.ab-sf:hover + .ab-sep, .ab-sep.adj { background:transparent; }
+.ab-search-cta { display:inline-flex; align-items:center; justify-content:center;
+  background:#FF385C; color:#fff; border:0; border-radius:50%; width:48px; height:48px;
+  cursor:pointer; margin:0 8px 0 4px; flex-shrink:0; transition:width 0.2s; }
+.ab-search-cta:hover { background:#e31c5f; }
+.ab-search-cta svg { width:16px; height:16px; }
+.ab-sf.active .ab-search-cta { width:120px; border-radius:24px; }
+
+/* AIRBNB CALENDAR PANEL (inline dropdown) */
+.ab-cal-anchor { position:relative; display:flex; justify-content:center;
+  padding:0 24px; }
+.ab-cal-panel { background:#fff; border-radius:32px; box-shadow:0 6px 20px rgba(0,0,0,0.20);
+  padding:28px 32px 22px; width:874px; max-width:100%; margin-top:12px; position:relative; z-index:4; }
+.ab-cal-toggle { display:flex; justify-content:center; margin-bottom:18px; }
+.ab-cal-toggle-inner { display:inline-flex; background:#ebebeb; border-radius:32px; padding:4px; gap:0; }
+.ab-cal-toggle-inner button { background:transparent; border:0; padding:10px 22px;
+  font-size:14px; font-weight:600; color:#222; border-radius:28px; cursor:pointer; }
+.ab-cal-toggle-inner button.active { background:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.12); }
+/* CHECK-IN / CHECK-OUT date pills, Airbnb-style, above the grids */
+.ab-cal-pills { display:grid; grid-template-columns:1fr 1fr; gap:12px;
+  margin:0 8px 18px; }
+.ab-cal-pill { border:1px solid #b0b0b0; border-radius:14px; padding:10px 14px;
+  cursor:pointer; background:#fff; min-height:54px; display:flex; flex-direction:column;
+  justify-content:center; gap:2px; transition:border-color 0.1s, box-shadow 0.1s; }
+.ab-cal-pill.active { border:2px solid #222; padding:9px 13px; box-shadow:0 1px 6px rgba(0,0,0,0.10); }
+.ab-cal-pill .pill-lbl { font-size:10px; font-weight:700; color:#222; letter-spacing:0.4px;
+  text-transform:uppercase; line-height:1; }
+.ab-cal-pill .pill-val { font-size:14px; color:#717171; line-height:1.2; min-height:18px; }
+.ab-cal-pill .pill-val.has-val { color:#222; font-weight:500; }
+.ab-cal-body { display:grid; grid-template-columns:40px 1fr 1fr 40px;
+  align-items:start; gap:0 28px; padding:0 4px; }
+.ab-cal-arrow { width:32px; height:32px; border-radius:50%; border:1px solid #b0b0b0;
+  background:transparent; color:#222; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; margin-top:10px;
+  padding:0; transition:background 0.12s, border-color 0.12s, transform 0.05s; }
+.ab-cal-arrow svg { width:14px; height:14px; stroke:#222; fill:none; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.ab-cal-arrow:hover { background:#f7f7f7; border-color:#222; }
+.ab-cal-arrow:active { transform:scale(0.94); }
+.ab-cal-month { padding:0 4px; }
+.ab-cal-mlabel { text-align:center; font-size:16px; font-weight:700; color:#222;
+  margin:6px 0 18px; letter-spacing:-0.2px; }
+
+/* shared day-grid primitives — Airbnb-style round cells */
+:root {
+  --w09-pri:#222222;
+  --w09-pri-d:#000000;
+  --w09-accent:#FF385C;
+  --w09-card:#ffffff;
+  --w09-text:#222222;
+  --w09-muted:#717171;
+}
+
+.ab-cal-chips { display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-start;
+  margin-top:20px; padding-top:8px; border-top:1px solid #ebebeb; padding-left:42px; }
+.ab-cal-chips button { background:transparent; border:1px solid transparent; padding:6px 14px;
+  border-radius:24px; font-size:13px; color:#222; cursor:pointer; font-weight:500; }
+.ab-cal-chips button.active { border-color:#222; }
+.ab-cal-chips button:hover:not(.active) { background:#f7f7f7; }
+
+/* AIRBNB RESULT CARDS */
+.rc { background:#fff; border-radius:12px; overflow:hidden;
+  display:flex; flex-direction:column; cursor:pointer; transition:transform 0.18s; }
+.rc:hover { transform:scale(1.02); }
+.rc-thumb { height:200px; background-size:cover; background-position:center;
+  background-color:#eee; border-radius:12px; position:relative; }
+.rc-badge { position:absolute; top:12px; left:12px; background:#fff;
+  font-size:11px; font-weight:600; color:#222; padding:6px 10px; border-radius:12px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.12); }
+.rc-heart { position:absolute; top:12px; right:12px; color:#fff; font-size:20px;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,0.4)); cursor:pointer; }
+.rc-body { padding:10px 2px 0; display:flex; flex-direction:column; gap:2px; flex:1; }
+.rc-airline { font-size:12px; color:#717171; font-weight:400; }
+.rc-title { font-size:15px; font-weight:600; color:#222; }
+.rc-sub { font-size:13px; color:#717171; }
+.rc-meta { display:none; }
+.rc-foot { display:flex; align-items:center; justify-content:space-between;
+  margin-top:6px; }
+.rc-price { font-size:14px; font-weight:600; color:#222; text-decoration:underline; }
+.rc-btn { display:none; }
+
+.results-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(228px, 1fr));
+  gap:30px 18px; margin-top:16px; }
+.crumb { font-size:12px; color:#717171; margin:14px 0 6px; }
+.crumb a { color:#717171; }
+.crumb b { color:#222; }
+.results-meta { display:flex; align-items:center; justify-content:space-between;
+  margin:8px 0 14px; gap:14px; }
+.results-meta .rm-count { font-size:13px; color:#717171; }
+.results-meta .rm-sort { font-size:13px; color:#222; padding:8px 14px;
+  border:1px solid #dddddd; border-radius:20px; background:#fff; cursor:pointer; font-weight:500; }
+
+.facet-wrap { display:none; }
+
+.s-foot { background:#f7f7f7; border-top:1px solid #dddddd; padding:32px 24px; margin-top:48px; }
+.s-foot .row { max-width:1240px; margin:0 auto; display:flex; gap:32px; flex-wrap:wrap; }
+.s-foot .col { flex:1; min-width:140px; }
+.s-foot h5 { margin:0 0 12px; font-size:14px; color:#222; font-weight:700;
+  text-transform:none; letter-spacing:0; }
+.s-foot a { display:block; color:#222; padding:4px 0; font-size:13px; cursor:pointer; }
+.s-foot a:hover { text-decoration:underline; }
+.s-foot .copy { max-width:1240px; margin:24px auto 0; padding-top:20px;
+  border-top:1px solid #dddddd; color:#222; font-size:13px; display:flex; gap:6px; }
+.s-foot .copy a { display:inline; padding:0; }
+.s-foot .copy a::before { content:"·"; margin:0 6px; color:#717171; }
+
+/* shared day grid — Airbnb circular cells */
+.w09-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:0; }
+.w09-dow { text-align:center; font-size:12px; color:#717171; padding:6px 0 14px;
+  font-weight:600; letter-spacing:0; text-transform:none; }
+.w09-day { text-align:center; height:44px; line-height:44px; cursor:pointer; border-radius:50%;
+  font-size:14px; color:#222; transition:background 0.08s, color 0.08s; user-select:none;
+  font-weight:600; margin:1px 0; }
+.w09-day:hover { background:#222; color:#fff; }
+.w09-day.sel { background:#222; color:#fff; font-weight:700; }
+.w09-day.today { box-shadow:inset 0 0 0 1px #b0b0b0; }
+.w09-day.today.sel { box-shadow:none; }
+.w09-day.empty { cursor:default; }
+.w09-day.empty:hover { background:transparent; }
+.w09-selected-display { color:#222; font-weight:500; }
+
+.live-status { display:none !important; }
+</style>
+</head><body>
+<header class="ab-hdr">
+  <div class="ab-hdr-inner">
+    <div class="ab-logo">
+      <svg viewBox="0 0 32 32" fill="#FF385C" aria-hidden="true">
+        <rect x="3" y="3" width="26" height="26" rx="7"/>
+        <text x="16" y="23" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="800" fill="#fff">E</text>
+      </svg>
+      <span>EchoStay</span>
+    </div>
+    <nav class="ab-tabs">
+      <button class="ab-tab active" type="button">
+        <span class="tab-ico" aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="40" height="40"><path fill="#FF6B6B" d="M5 22l15-12 15 12v12a3 3 0 01-3 3H8a3 3 0 01-3-3V22z"/><path fill="#444" d="M16 28h8v9h-8z"/><circle cx="22" cy="33" r="0.9" fill="#FFF"/></svg>
+        </span>Homes</button>
+      <button class="ab-tab" type="button">
+        <span class="new-pill">NEW</span>
+        <span class="tab-ico" aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="40" height="40"><circle cx="20" cy="16" r="11" fill="#E94B5C"/><path d="M9 16 L20 32 L31 16Z" fill="#E94B5C"/><circle cx="20" cy="16" r="5" fill="#FCEFD8"/></svg>
+        </span>Experiences</button>
+      <button class="ab-tab" type="button">
+        <span class="new-pill">NEW</span>
+        <span class="tab-ico" aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="40" height="40"><rect x="6" y="20" width="28" height="14" rx="2" fill="#5C6166"/><path d="M10 20 L13 8 H27 L30 20 Z" fill="#7E8389"/><rect x="18" y="24" width="4" height="3" fill="#FFD66A"/></svg>
+        </span>Services</button>
+    </nav>
+    <div class="ab-right">
+      <span class="ab-host">Become a host</span>
+      <button class="ab-icon-btn" type="button" aria-label="Language">🌐</button>
+      <span class="ab-menu"><span style="font-size:14px;">≡</span><span class="ab-avatar">👤</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="ab-search-wrap">
+  <div id="task-banner" style="display:none;"></div>
+  <div class="ab-search has-active" id="w09-cal-root">
+    <div class="ab-sf" id="w09-sf-where"><span class="ab-sf-lbl">Where</span>
+      <span class="ab-sf-val has-val">Leadville, CO</span></div>
+    <div class="ab-sep adj"></div>
+    <div class="ab-sf active" id="w09-open-modal-1"><span class="ab-sf-lbl">When</span>
+      <span class="ab-sf-val w09-selected-display">Add dates</span></div>
+    <div class="ab-sep adj"></div>
+    <div class="ab-sf" id="w09-open-modal-2"><span class="ab-sf-lbl">Who</span>
+      <span class="ab-sf-val">Add guests</span></div>
+    <div class="ab-sep"></div>
+    <div class="ab-sf" id="w09-sf-what"><span class="ab-sf-lbl">What</span>
+      <span class="ab-sf-val">Add description</span></div>
+    <button class="ab-search-cta" id="w09-open-modal-3" type="button" aria-label="Search">
+      <svg viewBox="0 0 32 32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round">
+        <circle cx="13" cy="13" r="9"/><path d="M22 22l7 7"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="ab-cal-anchor">
+  <div class="ab-cal-panel" id="w09-modal">
+    <div class="ab-cal-toggle">
+      <div class="ab-cal-toggle-inner">
+        <button type="button" class="active">Dates</button>
+        <button type="button">Flexible</button>
+      </div>
+    </div>
+    <div class="ab-cal-pills">
+      <div class="ab-cal-pill active" id="w09-pill-in">
+        <span class="pill-lbl">Check in</span>
+        <span class="pill-val w09-selected-display">Add date</span>
+      </div>
+      <div class="ab-cal-pill" id="w09-pill-out">
+        <span class="pill-lbl">Checkout</span>
+        <span class="pill-val">Add date</span>
+      </div>
+    </div>
+    <div class="ab-cal-body">
+      <button type="button" id="w09-prev" class="ab-cal-arrow" aria-label="Previous month">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 6 9 12 15 18"/></svg>
+      </button>
+      <div class="ab-cal-month">
+        <div class="ab-cal-mlabel" id="w09-label-left">May 2026</div>
+        <div class="w09-grid" id="w09-grid-left"></div>
+      </div>
+      <div class="ab-cal-month">
+        <div class="ab-cal-mlabel" id="w09-label-right">June 2026</div>
+        <div class="w09-grid" id="w09-grid-right"></div>
+      </div>
+      <button type="button" id="w09-next" class="ab-cal-arrow" aria-label="Next month">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg>
+      </button>
+    </div>
+    <div class="ab-cal-chips">
+      <button type="button" class="active">Exact dates</button>
+      <button type="button">± 1 day</button>
+      <button type="button">± 2 days</button>
+      <button type="button">± 3 days</button>
+      <button type="button">± 7 days</button>
+      <button type="button">± 14 days</button>
+    </div>
+    <input type="hidden" id="cal-date-state" data-facet="date" value="">
+  </div>
+</div>
+
+<div class="page-wrap">
+  <main style="margin-top:24px;">
+    <div class="crumb"><a>Home</a> &rsaquo; <a>EchoStay</a> &rsaquo; <b>Stays in Leadville, CO</b></div><h2 style="margin:6px 0 4px; font-size:22px; font-weight:800; color:#1a1a1a;">Stays in Leadville, CO</h2><div class="results-meta"><span class="rm-count">Bed &amp; breakfasts · Jul 5 – Jul 18, 2026 · 2 guests</span><button class="rm-sort">Sort: Recommended ▾</button></div>
+    <div class="results-grid">
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">Bed &amp; Breakfast</div>
+    <div class="rc-title">Mountain Pine B&amp;B</div>
+    <div class="rc-sub">Leadville, CO · ★ 4.83 (287)</div>
+    <div class="rc-meta"><span class="rc-tag">Free Wi-Fi</span><span class="rc-tag">Breakfast Included</span><span class="rc-tag">Mountain View</span></div>
+    <div class="rc-foot">
+      <span class="rc-price">$145<span style="font-size:11px;color:#666;font-weight:500"> /night</span></span>
+      <button class="rc-btn">Book</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">Entire Cabin</div>
+    <div class="rc-title">Aspen Cabin on Turquoise Lake</div>
+    <div class="rc-sub">Leadville, CO · ★ 4.91 (412)</div>
+    <div class="rc-meta"><span class="rc-tag">Hot Tub</span><span class="rc-tag">Fireplace</span><span class="rc-tag">Kitchen</span></div>
+    <div class="rc-foot">
+      <span class="rc-price">$219<span style="font-size:11px;color:#666;font-weight:500"> /night</span></span>
+      <button class="rc-btn">Book</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/271619/pexels-photo-271619.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">Bed &amp; Breakfast</div>
+    <div class="rc-title">Historic Victorian B&amp;B</div>
+    <div class="rc-sub">Leadville, CO · ★ 4.78 (158)</div>
+    <div class="rc-meta"><span class="rc-tag">Free Wi-Fi</span><span class="rc-tag">Breakfast Included</span><span class="rc-tag">Pet-friendly</span></div>
+    <div class="rc-foot">
+      <span class="rc-price">$175<span style="font-size:11px;color:#666;font-weight:500"> /night</span></span>
+      <button class="rc-btn">Book</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/271643/pexels-photo-271643.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">Entire Cottage</div>
+    <div class="rc-title">Silver Mining Cottage</div>
+    <div class="rc-sub">Leadville, CO · ★ 4.65 (92)</div>
+    <div class="rc-meta"><span class="rc-tag">Kitchen</span><span class="rc-tag">Mountain View</span></div>
+    <div class="rc-foot">
+      <span class="rc-price">$135<span style="font-size:11px;color:#666;font-weight:500"> /night</span></span>
+      <button class="rc-btn">Book</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/261101/pexels-photo-261101.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">Loft</div>
+    <div class="rc-title">Leadville Loft Downtown</div>
+    <div class="rc-sub">Leadville, CO · ★ 4.72 (245)</div>
+    <div class="rc-meta"><span class="rc-tag">Free Wi-Fi</span><span class="rc-tag">Kitchen</span></div>
+    <div class="rc-foot">
+      <span class="rc-price">$119<span style="font-size:11px;color:#666;font-weight:500"> /night</span></span>
+      <button class="rc-btn">Book</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/262047/pexels-photo-262047.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">Bed &amp; Breakfast</div>
+    <div class="rc-title">Alpine Meadow B&amp;B</div>
+    <div class="rc-sub">Leadville, CO · ★ 4.88 (321)</div>
+    <div class="rc-meta"><span class="rc-tag">Breakfast Included</span><span class="rc-tag">Hot Tub</span><span class="rc-tag">Free Wi-Fi</span></div>
+    <div class="rc-foot">
+      <span class="rc-price">$165<span style="font-size:11px;color:#666;font-weight:500"> /night</span></span>
+      <button class="rc-btn">Book</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/262048/pexels-photo-262048.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">Private Room</div>
+    <div class="rc-title">Mt. Massive Lodge Room</div>
+    <div class="rc-sub">Leadville, CO · ★ 4.55 (67)</div>
+    <div class="rc-meta"><span class="rc-tag">Free Wi-Fi</span><span class="rc-tag">Shared Kitchen</span></div>
+    <div class="rc-foot">
+      <span class="rc-price">$99<span style="font-size:11px;color:#666;font-weight:500"> /night</span></span>
+      <button class="rc-btn">Book</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/279746/pexels-photo-279746.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">Entire Cabin</div>
+    <div class="rc-title">Tabor Cabin Retreat</div>
+    <div class="rc-sub">Leadville, CO · ★ 4.81 (198)</div>
+    <div class="rc-meta"><span class="rc-tag">Fireplace</span><span class="rc-tag">Hot Tub</span><span class="rc-tag">Mountain View</span></div>
+    <div class="rc-foot">
+      <span class="rc-price">$189<span style="font-size:11px;color:#666;font-weight:500"> /night</span></span>
+      <button class="rc-btn">Book</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/189333/pexels-photo-189333.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">Bed &amp; Breakfast</div>
+    <div class="rc-title">Painted Lady B&amp;B</div>
+    <div class="rc-sub">Leadville, CO · ★ 4.86 (273)</div>
+    <div class="rc-meta"><span class="rc-tag">Breakfast Included</span><span class="rc-tag">Free Wi-Fi</span><span class="rc-tag">Pet-friendly</span></div>
+    <div class="rc-foot">
+      <span class="rc-price">$159<span style="font-size:11px;color:#666;font-weight:500"> /night</span></span>
+      <button class="rc-btn">Book</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/97083/pexels-photo-97083.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">Entire Cabin</div>
+    <div class="rc-title">Sky Cabin near Twin Lakes</div>
+    <div class="rc-sub">Leadville, CO · ★ 4.93 (502)</div>
+    <div class="rc-meta"><span class="rc-tag">Hot Tub</span><span class="rc-tag">Fireplace</span><span class="rc-tag">Kitchen</span></div>
+    <div class="rc-foot">
+      <span class="rc-price">$245<span style="font-size:11px;color:#666;font-weight:500"> /night</span></span>
+      <button class="rc-btn">Book</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">Bed &amp; Breakfast</div>
+    <div class="rc-title">Miner's House B&amp;B</div>
+    <div class="rc-sub">Leadville, CO · ★ 4.69 (134)</div>
+    <div class="rc-meta"><span class="rc-tag">Breakfast Included</span><span class="rc-tag">Free Wi-Fi</span></div>
+    <div class="rc-foot">
+      <span class="rc-price">$139<span style="font-size:11px;color:#666;font-weight:500"> /night</span></span>
+      <button class="rc-btn">Book</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/237371/pexels-photo-237371.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">Studio</div>
+    <div class="rc-title">Yellow Pine Studio</div>
+    <div class="rc-sub">Leadville, CO · ★ 4.61 (89)</div>
+    <div class="rc-meta"><span class="rc-tag">Free Wi-Fi</span><span class="rc-tag">Kitchen</span></div>
+    <div class="rc-foot">
+      <span class="rc-price">$85<span style="font-size:11px;color:#666;font-weight:500"> /night</span></span>
+      <button class="rc-btn">Book</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/87651/pexels-photo-87651.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">Entire Cottage</div>
+    <div class="rc-title">Climax Cottage</div>
+    <div class="rc-sub">Leadville, CO · ★ 4.74 (167)</div>
+    <div class="rc-meta"><span class="rc-tag">Kitchen</span><span class="rc-tag">Fireplace</span><span class="rc-tag">Pet-friendly</span></div>
+    <div class="rc-foot">
+      <span class="rc-price">$155<span style="font-size:11px;color:#666;font-weight:500"> /night</span></span>
+      <button class="rc-btn">Book</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">Bed &amp; Breakfast</div>
+    <div class="rc-title">Lake County B&amp;B</div>
+    <div class="rc-sub">Leadville, CO · ★ 4.79 (211)</div>
+    <div class="rc-meta"><span class="rc-tag">Breakfast Included</span><span class="rc-tag">Free Wi-Fi</span><span class="rc-tag">Hot Tub</span></div>
+    <div class="rc-foot">
+      <span class="rc-price">$169<span style="font-size:11px;color:#666;font-weight:500"> /night</span></span>
+      <button class="rc-btn">Book</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">Loft</div>
+    <div class="rc-title">Mosquito Pass Loft</div>
+    <div class="rc-sub">Leadville, CO · ★ 4.66 (105)</div>
+    <div class="rc-meta"><span class="rc-tag">Kitchen</span><span class="rc-tag">Mountain View</span></div>
+    <div class="rc-foot">
+      <span class="rc-price">$125<span style="font-size:11px;color:#666;font-weight:500"> /night</span></span>
+      <button class="rc-btn">Book</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/237272/pexels-photo-237272.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">Entire Cottage</div>
+    <div class="rc-title">Continental Divide Cottage</div>
+    <div class="rc-sub">Leadville, CO · ★ 4.85 (256)</div>
+    <div class="rc-meta"><span class="rc-tag">Hot Tub</span><span class="rc-tag">Fireplace</span><span class="rc-tag">Kitchen</span></div>
+    <div class="rc-foot">
+      <span class="rc-price">$199<span style="font-size:11px;color:#666;font-weight:500"> /night</span></span>
+      <button class="rc-btn">Book</button>
+    </div>
+  </div>
+</article>
+    </div>
+  </main>
+</div>
+<footer class="s-foot">
+  <div class="row"><div class="col"><h5>Company</h5><a>About</a><a>Careers</a><a>Press</a><a>Investors</a></div><div class="col"><h5>Support</h5><a>Help Center</a><a>Cancel a booking</a><a>Contact</a><a>FAQs</a></div><div class="col"><h5>Discover</h5><a>Top destinations</a><a>Hotel deals</a><a>Loyalty</a><a>Gift cards</a></div><div class="col"><h5>Legal</h5><a>Terms</a><a>Privacy</a><a>Cookies</a><a>Accessibility</a></div></div>
+  <div class="copy">© 2026 EchoStay. All rights reserved.</div>
+</footer>
+<div class="live-status neutral" id="live-status"><span class="ls-msg">💾 Auto-saved</span></div>
+<script>
+const ENV_ID = 'W09_E07';
+
+let filterState = {};
+function onF(){ applyFilters(); }
+function applyFilters(){
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) { if (!newState[f]) newState[f] = []; newState[f].push(el.value || true); }
+    } else if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.value) newState[f] = el.value;
+    } else {
+      if (el.value) newState[f] = el.value;
+    }
+  });
+  filterState = newState;
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).catch(()=>{});
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : '';
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(data => { updateLiveStatus(data); }).catch(()=>{});
+}
+function escapeHtml(s){ return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function updateLiveStatus(d){
+  const bar = document.getElementById('live-status'); if (!bar) return;
+  let msg='', cls='neutral';
+  if (d && d.task_id) {
+    if (d.satisfies) { msg = '✅ Satisfies task ' + d.task_id; cls='good'; }
+    else { msg = '⏳ Not yet matching ' + d.task_id; cls='pending'; }
+  } else { msg = '💾 Auto-saved'; cls='neutral'; }
+  bar.className = 'live-status ' + cls;
+  const m = bar.querySelector('.ls-msg'); if (m) m.textContent = msg;
+}
+function loadTaskBanner(){
+  const urlParams = new URLSearchParams(window.location.search);
+  const tid = urlParams.get('task_id'); if (!tid) return;
+  fetch('/env/' + ENV_ID + '/api/task/' + encodeURIComponent(tid))
+    .then(r => r.ok ? r.json() : null)
+    .then(task => {
+      if (!task) return;
+      const banner = document.getElementById('task-banner'); if (!banner) return;
+      banner.style.display = 'block';
+      banner.innerHTML = `<div class="tb-summary">${escapeHtml(task.task_summary||'')}</div>`;
+    }).catch(()=>{});
+}
+document.addEventListener('DOMContentLoaded', loadTaskBanner);
+
+/* ───── shared calendar utilities ───── */
+const W09_MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const W09_DOW1 = ["S","M","T","W","T","F","S"];
+const W09_TODAY = {y:2026, m:4, d:4}; // notional "today" = May 4, 2026
+function w09DaysIn(y,m){return new Date(y, m+1, 0).getDate();}
+function w09FirstDow(y,m){return new Date(y, m, 1).getDay();}
+function w09SetDate(y,m,d){
+  const v = W09_MONTHS[m] + " " + d + ", " + y;
+  const inp = document.getElementById("cal-date-state");
+  if (inp) inp.value = v;
+  document.querySelectorAll(".w09-selected-display").forEach(el => {
+    el.textContent = v;
+    el.classList.add("has-val");
+  });
+  if (typeof onF === "function") onF();
+}
+function w09RenderGrid(y, m, gridId){
+  const g = document.getElementById(gridId); if (!g) return;
+  let h = "";
+  W09_DOW1.forEach(d => h += `<div class="w09-dow">${d}</div>`);
+  const n = w09DaysIn(y,m), first = w09FirstDow(y,m);
+  for (let i=0;i<first;i++) h += `<div class="w09-day empty"></div>`;
+  const cur = (document.getElementById("cal-date-state")||{}).value || "";
+  for (let d=1; d<=n; d++) {
+    const cand = W09_MONTHS[m] + " " + d + ", " + y;
+    const sel = (cur === cand) ? " sel" : "";
+    const today = (y===W09_TODAY.y && m===W09_TODAY.m && d===W09_TODAY.d) ? " today" : "";
+    h += `<div class="w09-day${sel}${today}" data-d="${d}" data-y="${y}" data-m="${m}">${d}</div>`;
+  }
+  g.innerHTML = h;
+  g.querySelectorAll(".w09-day[data-d]").forEach(el => {
+    el.addEventListener("click", () => w09SetDate(
+      parseInt(el.dataset.y,10), parseInt(el.dataset.m,10), parseInt(el.dataset.d,10)
+    ));
+  });
+}
+
+
+(function(){
+  let _y = 2026, _m = 4;
+  function render(){
+    let ny = _y, nm = _m + 1; if (nm > 11) { nm = 0; ny = _y + 1; }
+    const ll = document.getElementById("w09-label-left");
+    const rl = document.getElementById("w09-label-right");
+    if (ll) ll.textContent = W09_MONTHS[_m] + " " + _y;
+    if (rl) rl.textContent = W09_MONTHS[nm] + " " + ny;
+    w09RenderGrid(_y, _m, "w09-grid-left");
+    w09RenderGrid(ny, nm, "w09-grid-right");
+  }
+  window.w09Next = function(){ _m++; if(_m>11){_m=0;_y++;} render(); if(typeof onF==='function') onF(); };
+  window.w09Prev = function(){ _m--; if(_m<0){_m=11;_y--;} render(); if(typeof onF==='function') onF(); };
+  document.addEventListener("DOMContentLoaded", function(){
+    render();
+    const prevBtn = document.getElementById("w09-prev");
+    const nextBtn = document.getElementById("w09-next");
+    if (prevBtn) prevBtn.addEventListener("click", w09Prev);
+    if (nextBtn) nextBtn.addEventListener("click", w09Next);
+    const sb = document.querySelector('.ab-search');
+    function activate(id){
+      document.querySelectorAll('.ab-sf').forEach(el => el.classList.remove('active'));
+      const t = document.getElementById(id); if (t) t.classList.add('active');
+      if (sb) sb.classList.add('has-active');
+    }
+    ["w09-open-modal-1","w09-open-modal-2","w09-open-modal-3"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener("click", function(){ activate("w09-open-modal-1"); });
+    });
+    const whereField = document.getElementById("w09-sf-where");
+    const whatField = document.getElementById("w09-sf-what");
+    if (whereField) whereField.addEventListener("click", function(){ activate("w09-sf-where"); });
+    if (whatField) whatField.addEventListener("click", function(){ activate("w09-sf-what"); });
+    document.querySelectorAll('.ab-cal-toggle-inner button').forEach(btn => {
+      btn.addEventListener('click', function(){
+        document.querySelectorAll('.ab-cal-toggle-inner button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+    document.querySelectorAll('.ab-cal-chips button').forEach(btn => {
+      btn.addEventListener('click', function(){
+        document.querySelectorAll('.ab-cal-chips button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+    document.querySelectorAll('.ab-cal-pill').forEach(pill => {
+      pill.addEventListener('click', function(){
+        document.querySelectorAll('.ab-cal-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+      });
+    });
+  });
+})();
+</script></body></html>

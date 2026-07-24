@@ -1,0 +1,93 @@
+{
+  "env_id": "W10_E01",
+  "widget_id": "W10_calendar_year_explicit",
+  "archetype": "booking_form",
+  "filter_spec": {
+    "type": "date_pick_year",
+    "fields": [
+      "date"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T0901",
+      "task_index_in_env": 1,
+      "instruction_text": "Book LOT flights for January 21, 2027. Please verify the year shown in the calendar header before confirming.",
+      "expected_filter_state": {
+        "date": "January 21, 2027"
+      }
+    },
+    {
+      "task_id": "T0902",
+      "task_index_in_env": 2,
+      "instruction_text": "Reserve LOT flights on February 21, 2027 \u2014 be careful the year is right.",
+      "expected_filter_state": {
+        "date": "February 21, 2027"
+      }
+    },
+    {
+      "task_id": "T0903",
+      "task_index_in_env": 3,
+      "instruction_text": "I need LOT flights for March 5, 2027. Make sure the year matches exactly.",
+      "expected_filter_state": {
+        "date": "March 5, 2027"
+      }
+    },
+    {
+      "task_id": "T0904",
+      "task_index_in_env": 4,
+      "instruction_text": "Book LOT flights for January 1, 2027. Please verify the year shown in the calendar header before confirming.",
+      "expected_filter_state": {
+        "date": "January 1, 2027"
+      }
+    },
+    {
+      "task_id": "T0905",
+      "task_index_in_env": 5,
+      "instruction_text": "I need LOT flights for December 31, 2026. Make sure the year matches exactly.",
+      "expected_filter_state": {
+        "date": "December 31, 2026"
+      }
+    },
+    {
+      "task_id": "T0906",
+      "task_index_in_env": 6,
+      "instruction_text": "Reserve LOT flights on June 15, 2028 \u2014 be careful the year is right.",
+      "expected_filter_state": {
+        "date": "June 15, 2028"
+      }
+    },
+    {
+      "task_id": "T0907",
+      "task_index_in_env": 7,
+      "instruction_text": "I need LOT flights for departing December 28, 2026 and returning January 5, 2027. Make sure the year matches exactly.",
+      "expected_filter_state": {
+        "date": "departing December 28, 2026 and returning January 5, 2027"
+      }
+    },
+    {
+      "task_id": "T0908",
+      "task_index_in_env": 8,
+      "instruction_text": "Book LOT flights for a 2027 date using the year-picker shortcut. Please verify the year shown in the calendar header before confirming.",
+      "expected_filter_state": {
+        "date": "a 2027 date using the year-picker shortcut"
+      }
+    },
+    {
+      "task_id": "T0909",
+      "task_index_in_env": 9,
+      "instruction_text": "Book LOT flights for February 14, 2027. Please verify the year shown in the calendar header before confirming.",
+      "expected_filter_state": {
+        "date": "February 14, 2027"
+      }
+    },
+    {
+      "task_id": "T0910",
+      "task_index_in_env": 10,
+      "instruction_text": "Reserve LOT flights on October 31, 2026 (current year, verify header) \u2014 be careful the year is right.",
+      "expected_filter_state": {
+        "date": "October 31, 2026 (current year, verify header)"
+      }
+    }
+  ]
+}

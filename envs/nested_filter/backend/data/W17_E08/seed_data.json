@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "calc_type": "college savings \u2014 12-year-old, community-college-then-transfer plan",
+    "scenario": "12-year-old, community-college-then-transfer plan",
+    "child_age_default": 12,
+    "start_age_default": 18,
+    "default_inputs": {
+      "tuition": 12000,
+      "room_board": 9000,
+      "years": 6,
+      "income": 60000,
+      "inflation": 5,
+      "current_savings": 7500,
+      "monthly_contributions": 150,
+      "rate_of_return": 7
+    },
+    "site": "Office of Financial Readiness (finred.usalearning.gov) College Savings Calculator"
+  }
+]

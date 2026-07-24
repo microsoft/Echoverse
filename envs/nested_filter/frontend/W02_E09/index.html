@@ -1,0 +1,446 @@
+<!doctype html><html><head><meta charset="utf-8">
+<title>EchoStream — Browse</title>
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+
+
+
+
+
+body { margin:0; background:#141414; color:#fff; font-family:'EchoStream Sans','Helvetica Neue',Arial,sans-serif; font-size:14px; }
+a { color:#fff; text-decoration:none; }
+.nf-hdr { display:flex; align-items:center; gap:24px; padding:14px 56px; background:linear-gradient(to bottom, rgba(0,0,0,0.85) 10%, rgba(0,0,0,0)); position:absolute; top:0; left:0; right:0; z-index:10; }
+.nf-logo { color:#e50914; font-weight:900; font-size:28px; letter-spacing:-1.5px; font-family:'Bebas Neue','Helvetica Neue',Arial,sans-serif; }
+.nf-hdr nav { display:flex; gap:18px; font-size:14px; }
+.nf-hdr nav a { color:#e5e5e5; cursor:pointer; }
+.nf-hdr nav a:hover { color:#b3b3b3; }
+.nf-hdr nav a.active { color:#fff; font-weight:500; }
+.nf-hdr .right { margin-left:auto; display:flex; align-items:center; gap:18px; font-size:18px; color:#fff; }
+.nf-hdr .right .kids { font-size:13px; color:#fff; }
+.nf-hdr .right .avatar { width:32px; height:32px; background:linear-gradient(135deg,#f5a623,#d0021b); border-radius:4px; display:inline-block; }
+
+.nf-billboard {
+  position:relative;
+  min-height:360px;
+  padding:80px 56px 60px;
+  background:
+    linear-gradient(to top, #141414 0%, rgba(20,20,20,0) 30%),
+    linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 35%, rgba(0,0,0,0.1) 70%),
+    url('https://images.pexels.com/photos/8761641/pexels-photo-8761641.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600') center/cover no-repeat,
+    #141414;
+}
+.nf-billboard .nf-genre-row { display:flex; gap:14px; align-items:center; margin-bottom:18px; }
+.nf-billboard .nf-genre-row h1 { margin:0; font-size:34px; font-weight:700; letter-spacing:-0.5px; color:#fff; }
+.nf-billboard .nf-genre-row .genre-pill { padding:6px 14px; border:1px solid rgba(255,255,255,0.55); border-radius:3px; font-size:13px; color:#fff; display:inline-flex; align-items:center; gap:8px; background:rgba(0,0,0,0.4); }
+.nf-billboard .ft-title { font-size:38px; line-height:1.05; margin:0 0 12px; font-weight:800; letter-spacing:-1px; max-width:560px; text-shadow:0 2px 6px rgba(0,0,0,0.7); }
+.nf-billboard .ft-meta { display:flex; gap:14px; align-items:center; color:#e5e5e5; font-size:13px; margin-bottom:12px; }
+.nf-billboard .ft-meta .match { color:#46d369; font-weight:700; }
+.nf-billboard .ft-meta .mat { border:1px solid #b3b3b3; padding:1px 6px; font-size:11px; }
+.nf-billboard .ft-meta .hd { background:#444; padding:1px 6px; font-size:11px; border-radius:2px; }
+.nf-billboard p.ft-desc { color:#fff; max-width:520px; line-height:1.45; margin:0 0 18px; font-size:15px; text-shadow:0 2px 4px rgba(0,0,0,0.7); }
+.nf-billboard .btn-row { display:flex; gap:12px; }
+.nf-billboard .btn { padding:10px 26px; border-radius:4px; font-weight:700; font-size:16px; cursor:pointer; border:0; display:inline-flex; align-items:center; gap:8px; }
+.nf-billboard .play { background:#fff; color:#000; }
+.nf-billboard .play:hover { background:rgba(255,255,255,0.75); }
+.nf-billboard .info { background:rgba(109,109,110,0.7); color:#fff; }
+.nf-billboard .info:hover { background:rgba(109,109,110,0.5); }
+.nf-billboard .ft-age-tag { position:absolute; right:0; bottom:120px; background:rgba(51,51,51,0.6); border-left:3px solid #ccc; padding:6px 36px 6px 14px; font-size:13px; color:#fff; }
+
+.runtime-bar { padding:18px 56px; background:#141414; border-bottom:1px solid #232323; display:flex; gap:14px; align-items:center; }
+.runtime-bar label { color:#fff; font-size:14px; font-weight:600; }
+.runtime-bar select { padding:9px 14px; background:#000; color:#fff; border:1px solid #545454; font-size:14px; min-width:200px; cursor:pointer; border-radius:2px; }
+.runtime-bar select:hover { border-color:#fff; }
+.runtime-bar .fake-pill { padding:9px 14px; background:#000; color:#fff; border:1px solid #545454; font-size:14px; border-radius:2px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
+.runtime-bar .fake-pill:hover { border-color:#fff; }
+.runtime-bar .clear { color:#0080ff; cursor:pointer; font-size:13px; }
+.runtime-bar .note { color:#8c8c8c; font-size:12px; margin-left:auto; }
+
+.nf-row { padding:28px 56px 8px; }
+.nf-row h2 { color:#e5e5e5; font-size:22px; margin:0 0 14px; font-weight:700; letter-spacing:-0.2px; }
+.nf-row .scroller { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:6px; }
+
+.tile { background:#222; aspect-ratio: 16/9; border-radius:3px; overflow:hidden; position:relative; cursor:pointer; padding:14px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:flex-end; transition:transform 0.18s ease; }
+.tile:hover { outline:2px solid #fff; transform:scale(1.05); z-index:5; }
+.tile::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg, #2c2c54, #6a1b1b); opacity:0.75; z-index:0; }
+.tile > * { position:relative; z-index:1; }
+.tile.kind-Movie::before { background:linear-gradient(135deg, #144378, #2a8d96); }
+.tile.kind-Series::before { background:linear-gradient(135deg, #6a0d3c, #b4002c); }
+.tile .top-row { display:flex; gap:6px; align-items:center; margin-bottom:auto; font-size:11px; color:#fff; opacity:0.92; }
+.tile .top-row .mat { background:rgba(0,0,0,0.6); padding:2px 6px; border:1px solid rgba(255,255,255,0.3); border-radius:2px; font-weight:600; }
+.tile .top-row .runtime { background:rgba(0,0,0,0.5); padding:2px 6px; border-radius:2px; }
+.tile .title { font-weight:700; font-size:17px; line-height:1.15; color:#fff; }
+.tile .meta { font-size:12px; color:#e5e5e5; margin-top:4px; }
+.tile .bucket-tag { display:inline-block; margin-top:6px; background:rgba(229,9,20,0.85); color:#fff; padding:2px 6px; border-radius:2px; font-size:10px; font-weight:700; }
+
+.results-meta { padding:0 56px 12px; color:#8c8c8c; font-size:13px; }
+
+.nf-footer { padding:60px 56px 40px; color:#737373; font-size:13px; max-width:1000px; }
+.nf-footer .social { display:flex; gap:18px; font-size:22px; margin-bottom:22px; }
+.nf-footer .social span { cursor:pointer; }
+.nf-footer .footer-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px 24px; margin-bottom:22px; }
+.nf-footer .footer-grid a { color:#737373; font-size:13px; cursor:pointer; }
+.nf-footer .footer-grid a:hover { text-decoration:underline; }
+.nf-footer .service { display:inline-block; border:1px solid #737373; padding:6px 12px; color:#737373; font-size:12px; margin-bottom:22px; cursor:pointer; }
+.nf-footer .copy { font-size:11px; }
+
+
+#task-banner { display:none; padding:14px 18px; background:#fff8e6; border:1px solid #f0c060;
+       border-radius:6px; margin:12px 0; font-family:system-ui,sans-serif; color:#222; }
+.tb-head { display:flex; gap:8px; align-items:center; margin-bottom:6px; }
+.tb-id { font-family:monospace; font-size:11px; color:#666; }
+.tb-type { font-size:11px; padding:2px 7px; border-radius:8px; font-weight:700; }
+.tb-type-write { background:#d8ecff; color:#0a4a8a; }
+.tb-type-read { background:#e6f7ec; color:#1a6d36; }
+.tb-type-read_write { background:#f4e3ff; color:#5d22a0; }
+.tb-diff { font-size:11px; padding:2px 7px; border-radius:8px; background:#fce4e4; color:#a82020; font-weight:700; }
+.tb-summary { font-size:14px; line-height:1.5; margin-bottom:8px; }
+.tb-answer-row { display:flex; gap:8px; align-items:center; margin:8px 0; }
+.tb-answer-label { font-size:12px; font-weight:600; color:#444; }
+.tb-answer-input { flex:1; padding:7px 10px; border:1px solid #cfd4dc; border-radius:5px; font-size:13px; }
+.tb-meta { font-size:11px; color:#888; margin-top:4px; }
+.tb-meta code { background:#fff; padding:1px 4px; border-radius:3px; font-size:11px; }
+.live-status { position:fixed; top:14px; right:14px; display:flex; align-items:center; gap:8px;
+       padding:8px 14px; border-radius:18px; background:#fff; border:1px solid #ddd;
+       font-family:system-ui,sans-serif; font-size:12px; z-index:9999; box-shadow:0 4px 14px rgba(0,0,0,0.2); max-width:380px; color:#222; }
+.live-status .ls-msg { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.live-status.good { background:#e6f7ec; color:#1a6d36; border-color:#5fae74; }
+.live-status.pending { background:#fff7e6; color:#8a5500; border-color:#f0c060; }
+.live-status.neutral { background:#fff; color:#555; border-color:#ddd; }
+.live-status .ls-toggle { cursor:pointer; opacity:0.6; user-select:none; }
+.live-status .ls-toggle:hover { opacity:1; }
+.live-status .ls-state { display:none; position:absolute; right:0; top:100%; margin-top:6px;
+       background:#fff; border:1px solid #ddd; border-radius:6px; padding:8px; max-width:300px; max-height:240px; overflow:auto; }
+.live-status.open .ls-state { display:block; }
+.live-status .ls-state pre { margin:0; font-size:11px; color:#222; }
+/* v4-pexels-css */
+
+.tile img.poster-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; }
+.tile::before { z-index:0 !important; opacity:0.55 !important; }
+.tile > * { position:relative; z-index:1; }
+.tile { text-shadow:0 1px 2px rgba(0,0,0,0.6); }
+
+</style></head><body>
+<div class="live-status neutral" id="live-status" onclick="this.classList.toggle('open')"><span class="ls-msg">💾 State auto-saves</span><span class="ls-toggle">⌄</span><div class="ls-state"><pre>{}</pre></div></div>
+
+<header class="nf-hdr">
+  <div class="nf-logo">EchoStream</div>
+  <nav>
+    <a>Home</a>
+    <a>TV Shows</a>
+    <a>Movies</a>
+    <a>New &amp; Popular</a>
+    <a>My List</a>
+    <a>Browse by Languages</a>
+  </nav>
+  <div class="right">
+    <span style="font-size:16px">🔍</span>
+    <span class="kids">Kids</span>
+    <span style="font-size:16px">🔔</span>
+    <span class="avatar"></span>
+  </div>
+</header>
+
+<section class="nf-billboard">
+  <h1 class="ft-title">Glass Onion: A Knives Out Mystery</h1>
+  <div class="ft-meta">
+    <span class="match">98% Match</span>
+    <span>2022</span>
+    <span class="mat">PG-13</span>
+    <span>2h 19m</span>
+    <span class="hd">HD</span>
+  </div>
+  <p class="ft-desc">World-famous detective Benoit Blanc travels to Greece to peel back the layers of a mystery surrounding a tech billionaire and his eclectic crew of friends.</p>
+  <div class="btn-row">
+    <button class="btn play">▶ Play</button>
+    <button class="btn info">ⓘ More Info</button>
+  </div>
+  <div class="ft-age-tag">PG-13</div>
+</section>
+
+<div class="results-meta" id="task-banner"></div>
+
+<section class="nf-row" style="padding-top:18px;padding-bottom:6px">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+    <h2 style="margin:0">Movies &amp; TV</h2>
+    <span style="color:#999;font-size:14px">›</span>
+    <span style="color:#bbb;font-size:14px">Browse by Runtime</span>
+  </div>
+</section>
+
+<div class="runtime-bar">
+  <label for="rt">Runtime</label>
+  <select id="rt" data-bucket-select data-facet="bucket" onchange="setBucket(this.value)">
+    <option value="">— Any runtime —</option>
+    <option value="Under 30 min">Under 30 min</option><option value="30-60 min">30-60 min</option><option value="60-90 min">60-90 min</option><option value="90-120 min">90-120 min</option><option value="Over 120 min">Over 120 min</option>
+  </select>
+  <span class="fake-pill">Genre ▾</span>
+  <span class="fake-pill">Year ▾</span>
+  <span class="fake-pill">Maturity ▾</span>
+  <span class="clear" onclick="clearBucket()">Clear</span>
+  <span class="note"><span id="result-count">20</span> titles match this runtime.</span>
+</div>
+
+<section class="nf-row">
+  <h2>Top picks across runtime tiers</h2>
+  <div class="scroller">
+<div class="tile kind-Series" data-card-bucket="Under 30 min"><img class="poster-img" src="https://images.pexels.com/photos/5202925/pexels-photo-5202925.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Love, Death &amp; Robots" loading="lazy">
+  <div class="top-row"><span class="mat">TV-MA</span><span class="runtime">18m</span><span>Series</span></div>
+  <div class="title">Love, Death &amp; Robots</div>
+  <div class="meta">2019 · Animation, Sci-Fi</div>
+</div>
+<div class="tile kind-Series" data-card-bucket="Under 30 min"><img class="poster-img" src="https://images.pexels.com/photos/35618217/pexels-photo-35618217.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Inside Job" loading="lazy">
+  <div class="top-row"><span class="mat">TV-MA</span><span class="runtime">25m</span><span>Series</span></div>
+  <div class="title">Inside Job</div>
+  <div class="meta">2021 · Animation, Comedy</div>
+</div>
+<div class="tile kind-Series" data-card-bucket="Under 30 min"><img class="poster-img" src="https://images.pexels.com/photos/7130471/pexels-photo-7130471.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Ridley Jones" loading="lazy">
+  <div class="top-row"><span class="mat">TV-Y</span><span class="runtime">24m</span><span>Series</span></div>
+  <div class="title">Ridley Jones</div>
+  <div class="meta">2021 · Kids, Animation</div>
+</div>
+<div class="tile kind-Series" data-card-bucket="30-60 min"><img class="poster-img" src="https://images.pexels.com/photos/26066148/pexels-photo-26066148.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Stranger Things" loading="lazy">
+  <div class="top-row"><span class="mat">TV-14</span><span class="runtime">51m</span><span>Series</span></div>
+  <div class="title">Stranger Things</div>
+  <div class="meta">2016 · Sci-Fi, Drama</div>
+</div>
+<div class="tile kind-Series" data-card-bucket="30-60 min"><img class="poster-img" src="https://images.pexels.com/photos/7130490/pexels-photo-7130490.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Wednesday" loading="lazy">
+  <div class="top-row"><span class="mat">TV-14</span><span class="runtime">47m</span><span>Series</span></div>
+  <div class="title">Wednesday</div>
+  <div class="meta">2022 · Mystery, Comedy</div>
+</div>
+<div class="tile kind-Series" data-card-bucket="30-60 min"><img class="poster-img" src="https://images.pexels.com/photos/7511701/pexels-photo-7511701.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="The Crown" loading="lazy">
+  <div class="top-row"><span class="mat">TV-MA</span><span class="runtime">58m</span><span>Series</span></div>
+  <div class="title">The Crown</div>
+  <div class="meta">2016 · Drama, History</div>
+</div>
+<div class="tile kind-Series" data-card-bucket="30-60 min"><img class="poster-img" src="https://images.pexels.com/photos/7234415/pexels-photo-7234415.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Squid Game" loading="lazy">
+  <div class="top-row"><span class="mat">TV-MA</span><span class="runtime">56m</span><span>Series</span></div>
+  <div class="title">Squid Game</div>
+  <div class="meta">2021 · Drama, Thriller</div>
+</div>
+<div class="tile kind-Movie" data-card-bucket="60-90 min"><img class="poster-img" src="https://images.pexels.com/photos/28947853/pexels-photo-28947853.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Hubie Halloween" loading="lazy">
+  <div class="top-row"><span class="mat">PG-13</span><span class="runtime">102m</span><span>Movie</span></div>
+  <div class="title">Hubie Halloween</div>
+  <div class="meta">2020 · Comedy</div>
+</div>
+<div class="tile kind-Movie" data-card-bucket="60-90 min"><img class="poster-img" src="https://images.pexels.com/photos/713149/pexels-photo-713149.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="My Octopus Teacher" loading="lazy">
+  <div class="top-row"><span class="mat">PG</span><span class="runtime">85m</span><span>Movie</span></div>
+  <div class="title">My Octopus Teacher</div>
+  <div class="meta">2020 · Documentary</div>
+</div>
+<div class="tile kind-Movie" data-card-bucket="60-90 min"><img class="poster-img" src="https://images.pexels.com/photos/25809234/pexels-photo-25809234.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="American Murder" loading="lazy">
+  <div class="top-row"><span class="mat">TV-MA</span><span class="runtime">83m</span><span>Movie</span></div>
+  <div class="title">American Murder</div>
+  <div class="meta">2020 · Documentary, True Crime</div>
+</div>
+<div class="tile kind-Movie" data-card-bucket="60-90 min"><img class="poster-img" src="https://images.pexels.com/photos/28379863/pexels-photo-28379863.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Klaus" loading="lazy">
+  <div class="top-row"><span class="mat">PG</span><span class="runtime">96m</span><span>Movie</span></div>
+  <div class="title">Klaus</div>
+  <div class="meta">2019 · Animation, Family</div>
+</div>
+<div class="tile kind-Movie" data-card-bucket="Over 120 min"><img class="poster-img" src="https://images.pexels.com/photos/25809234/pexels-photo-25809234.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="The Irishman" loading="lazy">
+  <div class="top-row"><span class="mat">R</span><span class="runtime">209m</span><span>Movie</span></div>
+  <div class="title">The Irishman</div>
+  <div class="meta">2019 · Crime, Drama</div>
+</div>
+<div class="tile kind-Movie" data-card-bucket="Over 120 min"><img class="poster-img" src="https://images.pexels.com/photos/6750060/pexels-photo-6750060.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Glass Onion: A Knives Out Mystery" loading="lazy">
+  <div class="top-row"><span class="mat">PG-13</span><span class="runtime">139m</span><span>Movie</span></div>
+  <div class="title">Glass Onion: A Knives Out Mystery</div>
+  <div class="meta">2022 · Mystery, Comedy</div>
+</div>
+<div class="tile kind-Movie" data-card-bucket="Over 120 min"><img class="poster-img" src="https://images.pexels.com/photos/13230484/pexels-photo-13230484.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Don&#x27;t Look Up" loading="lazy">
+  <div class="top-row"><span class="mat">R</span><span class="runtime">138m</span><span>Movie</span></div>
+  <div class="title">Don&#x27;t Look Up</div>
+  <div class="meta">2021 · Comedy, Drama</div>
+</div>
+<div class="tile kind-Movie" data-card-bucket="Over 120 min"><img class="poster-img" src="https://images.pexels.com/photos/8761641/pexels-photo-8761641.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Bird Box" loading="lazy">
+  <div class="top-row"><span class="mat">R</span><span class="runtime">124m</span><span>Movie</span></div>
+  <div class="title">Bird Box</div>
+  <div class="meta">2018 · Thriller</div>
+</div>
+<div class="tile kind-Movie" data-card-bucket="90-120 min"><img class="poster-img" src="https://images.pexels.com/photos/7135027/pexels-photo-7135027.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Extraction" loading="lazy">
+  <div class="top-row"><span class="mat">R</span><span class="runtime">117m</span><span>Movie</span></div>
+  <div class="title">Extraction</div>
+  <div class="meta">2020 · Action</div>
+</div>
+<div class="tile kind-Movie" data-card-bucket="90-120 min"><img class="poster-img" src="https://images.pexels.com/photos/29708241/pexels-photo-29708241.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Red Notice" loading="lazy">
+  <div class="top-row"><span class="mat">PG-13</span><span class="runtime">118m</span><span>Movie</span></div>
+  <div class="title">Red Notice</div>
+  <div class="meta">2021 · Action, Comedy</div>
+</div>
+<div class="tile kind-Movie" data-card-bucket="Over 120 min"><img class="poster-img" src="https://images.pexels.com/photos/1745762/pexels-photo-1745762.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="The Gray Man" loading="lazy">
+  <div class="top-row"><span class="mat">PG-13</span><span class="runtime">122m</span><span>Movie</span></div>
+  <div class="title">The Gray Man</div>
+  <div class="meta">2022 · Action, Thriller</div>
+</div>
+<div class="tile kind-Movie" data-card-bucket="Over 120 min"><img class="poster-img" src="https://images.pexels.com/photos/29708260/pexels-photo-29708260.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Roma" loading="lazy">
+  <div class="top-row"><span class="mat">R</span><span class="runtime">135m</span><span>Movie</span></div>
+  <div class="title">Roma</div>
+  <div class="meta">2018 · Drama</div>
+</div>
+<div class="tile kind-Movie" data-card-bucket="Over 120 min"><img class="poster-img" src="https://images.pexels.com/photos/29708240/pexels-photo-29708240.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="The Old Guard" loading="lazy">
+  <div class="top-row"><span class="mat">R</span><span class="runtime">125m</span><span>Movie</span></div>
+  <div class="title">The Old Guard</div>
+  <div class="meta">2020 · Action, Fantasy</div>
+</div></div>
+</section>
+
+<footer class="nf-footer">
+  <div class="social"><span>📘</span><span>📸</span><span>🐦</span><span>▶️</span></div>
+  <div class="footer-grid">
+    <a>Audio Description</a><a>Investor Relations</a><a>Legal Notices</a><a>Help Center</a>
+    <a>Gift Cards</a><a>Jobs</a><a>Cookie Preferences</a><a>Account</a>
+    <a>Media Center</a><a>Terms of Use</a><a>Corporate Information</a><a>Privacy</a>
+    <a>Contact Us</a>
+  </div>
+  <div class="service">Service Code</div>
+  <div class="copy">© 1997-2025 EchoStream, Inc.</div>
+</footer>
+
+
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+const ENV_ID = "W02_E09";
+let filterState = {};
+
+function getTaskId() {
+  return new URLSearchParams(window.location.search).get('task_id');
+}
+function getAnswer() {
+  const el = document.getElementById('task-answer-input');
+  return el ? el.value : '';
+}
+function submitState() {
+  const taskId = getTaskId();
+  const answer = getAnswer();
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(updateStatusBar).catch(()=>{});
+  applyBucketVisibility();
+  updateResultCount();
+}
+function applyBucketVisibility() {
+  const cards = document.querySelectorAll('[data-card-bucket]');
+  cards.forEach(card => {
+    if (!filterState.bucket) { card.style.display = ''; return; }
+    card.style.display = (card.getAttribute('data-card-bucket') === filterState.bucket) ? '' : 'none';
+  });
+}
+function updateResultCount() {
+  const c = document.getElementById('result-count');
+  if (!c) return;
+  const cards = document.querySelectorAll('[data-card-bucket]');
+  let total = cards.length;
+  if (filterState.bucket) {
+    total = Array.from(cards).filter(x => x.getAttribute('data-card-bucket') === filterState.bucket).length;
+  }
+  c.textContent = total;
+}
+function updateStatusBar(data) {
+  const bar = document.getElementById('live-status');
+  if (!bar) return;
+  let msg, cls;
+  if (data && data.task_id) {
+    if (data.satisfies) { msg = '✅ Satisfies task ' + data.task_id; cls = 'good'; }
+    else { msg = '⏳ Working on task ' + data.task_id + ' — ' + (data.message || ''); cls = 'pending'; }
+  } else {
+    msg = '💾 State auto-saved'; cls = 'neutral';
+  }
+  bar.className = 'live-status ' + cls;
+  bar.querySelector('.ls-msg').textContent = msg;
+  bar.querySelector('.ls-state pre').textContent = JSON.stringify(filterState, null, 2);
+}
+function setBucket(label) {
+  if (!label) { delete filterState.bucket; }
+  else { filterState.bucket = label; }
+  refreshActiveUI();
+  submitState();
+}
+function clearBucket() { setBucket(''); }
+function refreshActiveUI() {
+  document.querySelectorAll('select[data-bucket-select]').forEach(sel => {
+    sel.value = filterState.bucket || '';
+  });
+  document.querySelectorAll('[data-bucket-val]').forEach(el => {
+    if (el.getAttribute('data-bucket-val') === filterState.bucket) el.classList.add('is-active');
+    else el.classList.remove('is-active');
+  });
+}
+function escapeHtml(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function loadTaskBanner() {
+  const tid = getTaskId();
+  fetch('/env/' + ENV_ID + '/api/task/' + encodeURIComponent(tid))
+    .then(r => r.ok ? r.json() : null)
+    .then(task => {
+      if (!task) return;
+      const banner = document.getElementById('task-banner');
+      if (!banner) return;
+      banner.style.display = 'block';
+      const answerInput = task.task_type !== 'write'
+        ? '<div class="tb-answer-row"><label class="tb-answer-label">Your answer:</label>' +
+          '<input id="task-answer-input" class="tb-answer-input" placeholder="Type your finding here" oninput="submitState()"></div>'
+        : '';
+      banner.innerHTML =
+        '<div class="tb-head">' +
+          '<span class="tb-id">' + escapeHtml(task.id) + '</span>' +
+          '<span class="tb-type tb-type-' + escapeHtml(task.task_type) + '">' + escapeHtml((task.task_type||'').toUpperCase()) + '</span>' +
+          '<span class="tb-diff">' + escapeHtml(task.task_difficulty || '') + '</span>' +
+        '</div>' +
+        '<div class="tb-summary">' + escapeHtml(task.task_summary) + '</div>' +
+        answerInput +
+        (task.reference_state_change ? '<div class="tb-meta">Expected state: <code>' + escapeHtml(task.reference_state_change) + '</code></div>' : '') +
+        (task.reference_answer ? '<div class="tb-meta">Expected answer (debug): <code>' + escapeHtml(task.reference_answer.substring(0,200)) + '</code></div>' : '');
+    }).catch(()=>{});
+}
+window.addEventListener('DOMContentLoaded', () => {
+  loadTaskBanner();
+  updateResultCount();
+  submitState();
+});
+</script>
+
+</body></html>

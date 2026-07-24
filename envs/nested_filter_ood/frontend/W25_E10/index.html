@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homes in Jackson, TN</title>
+<style>
+  *{box-sizing:border-box;}
+  :root{
+    --rdc-primary:#01346b;     /* realtor.com deep navy */
+    --rdc-accent:#bc1c2c;      /* realtor.com red (logo roof + NEW badge) */
+    --rdc-cta:#cf2030;         /* search button red */
+    --rdc-cta-hover:#a31823;
+    --rdc-ink:#1a1a1a;
+    --rdc-ink-2:#3d4144;
+    --rdc-ink-3:#666b6f;
+    --rdc-line:#dcdfe1;
+    --rdc-bg:#f4f5f6;
+  }
+  html,body{margin:0;padding:0;background:var(--rdc-bg);color:var(--rdc-ink);font-family:'Open Sans','Helvetica Neue',Arial,sans-serif;font-size:14px;line-height:1.4;}
+  a{color:inherit;text-decoration:none;cursor:pointer;}
+  a:hover{text-decoration:underline;}
+  button{font-family:inherit;}
+  /* Plus-chip bedrooms (mostly identical across brands so verifier behavior is stable) */
+  .w25-chip-row{display:flex;gap:0;flex-wrap:nowrap;}
+  .w25-chip{padding:9px 16px;border:1px solid #c8ccd1;background:#fff;cursor:pointer;font-size:14px;font-weight:600;color:var(--rdc-ink);border-right:none;}
+  .w25-chip:first-child{border-radius:4px 0 0 4px;}
+  .w25-chip:last-child{border-radius:0 4px 4px 0;border-right:1px solid #c8ccd1;}
+  .w25-chip:hover{background:#eef1f4;}
+  .w25-chip.active{background:var(--rdc-primary);color:#fff;border-color:var(--rdc-primary);}
+  /* Active chips bar */
+  .active-bar{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;min-height:32px;}
+  .active-chip{background:#fff;color:var(--rdc-ink);border:1px solid var(--rdc-primary);padding:5px 10px;border-radius:4px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:8px;}
+  .ac-x{color:var(--rdc-primary);cursor:pointer;font-weight:700;font-size:14px;}
+  /* Result grid */
+  #result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;}
+  .empty{padding:28px;text-align:center;color:var(--rdc-ink-3);background:#fff;border:1px dashed #d8dbe0;border-radius:8px;}
+  .listing-card{background:#fff;border-radius:4px;overflow:hidden;border:1px solid #e4e6e8;cursor:pointer;transition:transform .12s,box-shadow .12s;}
+  .listing-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);}
+  .lc-img{height:188px;background:linear-gradient(135deg,#e8ecef,#f4f5f6);display:flex;align-items:center;justify-content:center;font-size:38px;color:var(--rdc-primary);font-weight:700;position:relative;overflow:hidden;}
+  .lc-img img{width:100%;height:100%;object-fit:cover;display:block;}
+  .lc-badge{position:absolute;top:10px;left:0;background:var(--rdc-accent);color:#fff;font-size:10px;font-weight:800;padding:5px 10px 5px 12px;letter-spacing:.4px;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 6px) 50%,100% 100%,0 100%);}
+  .lc-fav{position:absolute;top:10px;right:10px;width:32px;height:32px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--rdc-ink-2);font-size:16px;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+  .lc-fav:hover{color:var(--rdc-accent);}
+  .lc-body{padding:12px 14px 6px;}
+  .lc-price{font-size:20px;font-weight:800;color:var(--rdc-ink);letter-spacing:-.3px;}
+  .lc-meta{font-size:13px;color:var(--rdc-ink-2);margin-top:4px;display:flex;gap:6px;flex-wrap:wrap;}
+  .lc-meta b{font-weight:700;color:var(--rdc-ink);}
+  .lc-meta .lc-dot{color:#b0b3b6;}
+  .lc-addr{font-size:13px;color:var(--rdc-ink-2);margin-top:5px;line-height:1.35;}
+  .lc-ptype{font-size:11px;color:var(--rdc-ink-3);margin-top:6px;text-transform:uppercase;letter-spacing:.4px;font-weight:700;}
+  .lc-broker{border-top:1px solid #ebedf0;margin-top:10px;padding:8px 14px;font-size:10px;color:var(--rdc-ink-3);text-transform:uppercase;letter-spacing:.5px;font-weight:700;display:flex;align-items:center;gap:6px;}
+  .lc-broker::before{content:'';display:inline-block;width:14px;height:10px;background:var(--rdc-primary);border-radius:1px;}
+  /* Dropdowns */
+  .w25-dropdown{position:relative;display:inline-block;}
+  .w25-pill-trigger,.w25-dd-trigger{padding:8px 14px;border:1px solid #c8ccd1;background:#fff;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;color:var(--rdc-ink);}
+  .w25-pill-trigger:hover,.w25-dd-trigger:hover{border-color:#9aa0a6;}
+  .w25-dropdown.open .w25-pill-trigger,.w25-dropdown.open .w25-dd-trigger{border-color:var(--rdc-primary);color:var(--rdc-primary);}
+  .w25-dropdown-panel{display:none;position:absolute;top:calc(100% + 6px);left:0;background:#fff;border:1px solid #d8dbe0;border-radius:8px;box-shadow:0 6px 22px rgba(0,0,0,.12);padding:14px 16px;min-width:260px;z-index:130;}
+  .w25-dropdown.open .w25-dropdown-panel{display:block;}
+  .dd-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--rdc-ink-3);margin-bottom:8px;}
+  .dd-radio-row{display:flex;align-items:center;gap:9px;padding:6px 4px;font-size:14px;cursor:pointer;border-radius:4px;}
+  .dd-radio-row:hover{background:#f1f4f7;}
+  .dd-icon{display:inline-block;width:22px;text-align:center;}
+  .dd-actions{margin-top:10px;text-align:right;}
+  .dd-clear{font-size:12px;color:var(--rdc-primary);cursor:pointer;font-weight:700;}
+  /* Native select (Compass / Realtor variant) */
+  .select-wrap{display:flex;flex-direction:column;gap:4px;}
+  .select-label{font-size:12px;font-weight:700;color:var(--rdc-ink-2);letter-spacing:.4px;text-transform:uppercase;}
+  .pt-select{padding:9px 12px;border:1px solid #c8ccd1;border-radius:4px;font-size:14px;font-weight:600;background:#fff;min-width:190px;cursor:pointer;font-family:inherit;color:var(--rdc-ink);}
+  .pt-select:focus{outline:none;border-color:var(--rdc-primary);box-shadow:0 0 0 2px rgba(1,52,107,.15);}
+  /* Page chrome */
+  .page-title{font-size:24px;font-weight:800;margin:18px 0 2px;color:var(--rdc-ink);letter-spacing:-.3px;}
+  .page-sub{font-size:13px;color:var(--rdc-ink-3);margin-bottom:14px;}
+  #result-count{font-size:14px;font-weight:700;color:var(--rdc-ink);}
+  /* Realtor.com map+list hint strip */
+  .map-strip{height:160px;border-radius:6px;background:linear-gradient(135deg,#e6efe5,#e0e9e0 40%,#dce8df 70%,#e3eedf);border:1px solid #d8dbe0;position:relative;overflow:hidden;margin-bottom:14px;}
+  .map-strip::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.4) 1px,transparent 1px);background-size:48px 48px;}
+  .map-pin{position:absolute;width:30px;height:30px;background:var(--rdc-accent);border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:11px;box-shadow:0 2px 6px rgba(0,0,0,.18);}
+  .map-pin span{transform:rotate(45deg);}
+  .map-overlay{position:absolute;top:10px;left:10px;background:#fff;padding:6px 12px;border-radius:4px;font-size:12px;font-weight:700;color:var(--rdc-ink-2);box-shadow:0 1px 4px rgba(0,0,0,.15);}
+  .map-toggle{position:absolute;top:10px;right:10px;background:#fff;padding:6px 12px;border-radius:4px;font-size:12px;font-weight:700;color:var(--rdc-primary);box-shadow:0 1px 4px rgba(0,0,0,.15);cursor:pointer;}
+  /* Sidebar shared */
+  .side-section{background:#fff;border:1px solid #ebedf0;border-radius:8px;padding:14px 16px;margin-bottom:14px;}
+  .side-section-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#1a1a1a;margin-bottom:10px;}
+  .side-clear{font-size:12px;color:#0b76d6;cursor:pointer;font-weight:700;display:inline-block;margin-top:8px;}
+  .side-radio-row,.side-check-row{display:flex;align-items:center;gap:9px;padding:6px 0;font-size:14px;cursor:pointer;}
+  .side-radio-row input,.side-check-row input{display:none;}
+  .radio-dot{width:16px;height:16px;border:2px solid #999;border-radius:50%;display:inline-block;position:relative;}
+  .side-radio-row input:checked + .radio-dot{border-color:#0b76d6;}
+  .side-radio-row input:checked + .radio-dot::after{content:'';position:absolute;top:2px;left:2px;width:8px;height:8px;background:#0b76d6;border-radius:50%;}
+  .check-box{width:16px;height:16px;border:2px solid #999;border-radius:3px;display:inline-block;position:relative;}
+  .side-check-row input:checked + .check-box{background:#0b76d6;border-color:#0b76d6;}
+  .side-check-row input:checked + .check-box::after{content:'✓';position:absolute;top:-4px;left:2px;color:#fff;font-size:14px;font-weight:900;}
+  /* PT card grid (Trulia) */
+  .pt-card-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .w25-card.pt-card{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 6px;background:#fff;border:2px solid #d8dbe0;border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;color:#1a1a1a;text-align:center;line-height:1.2;min-height:78px;}
+  .w25-card.pt-card:hover{border-color:#0b76d6;}
+  .w25-card.pt-card.active{border-color:#0b76d6;background:rgba(0,122,85,.06);color:#0b76d6;}
+  .pt-card-icon{font-size:22px;margin-bottom:5px;line-height:1;}
+  .pt-card-label{font-weight:700;font-size:11px;}
+  /* PT tab strip (Zillow Tacoma / HotPads) */
+  .pt-tab-strip{display:flex;gap:0;background:#fff;border:1px solid #d8dbe0;border-radius:6px;overflow:hidden;flex-wrap:nowrap;align-items:stretch;}
+  .w25-tab.pt-tab{flex:1;padding:11px 8px;background:transparent;border:none;cursor:pointer;font-size:13px;font-weight:700;color:#3a3e44;border-right:1px solid #ebedf0;white-space:nowrap;}
+  .w25-tab.pt-tab:last-child{border-right:none;}
+  .w25-tab.pt-tab:hover{background:#f6f8fa;}
+  .w25-tab.pt-tab.active{background:#0b76d6;color:#fff;}
+  .pt-tab-clear{padding:11px 14px;background:#fff;color:#5a5e63;border:none;border-left:1px solid #ebedf0;cursor:pointer;font-size:12px;font-weight:700;}
+  /* PT pill row (Movoto) */
+  .pt-pill-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:6px 0;}
+  .pt-pill-label{font-size:13px;font-weight:800;color:#3a3e44;margin-right:4px;}
+  .w25-card.pt-pill{padding:8px 16px;background:#fff;border:1.5px solid #d8c5d6;border-radius:18px;font-size:13px;font-weight:700;color:#5a4256;cursor:pointer;}
+  .w25-card.pt-pill:hover{border-color:#0b76d6;color:#0b76d6;}
+  .w25-card.pt-pill.active{background:#0b76d6;color:#fff;border-color:#0b76d6;}
+  .pt-pill-clear{background:transparent;border:none;color:#999;font-size:16px;font-weight:700;cursor:pointer;padding:4px 8px;}
+  /* Native select (Compass / Realtor variant) */
+  .select-wrap{display:flex;flex-direction:column;gap:4px;}
+  .select-label{font-size:12px;font-weight:700;color:#3a3e44;letter-spacing:.4px;text-transform:uppercase;}
+  .pt-select{padding:9px 12px;border:1px solid #c8ccd1;border-radius:4px;font-size:14px;font-weight:600;background:#fff;min-width:190px;cursor:pointer;font-family:inherit;}
+  .pt-select:focus{outline:none;border-color:var(--rdc-primary);box-shadow:0 0 0 2px rgba(1,52,107,.15);}
+</style>
+</head>
+<body>
+
+<header class="site-header" style="background:#fff;border-bottom:1px solid #e2e2e2;padding:0 28px;height:64px;display:flex;align-items:center;gap:28px;position:sticky;top:0;z-index:140;">
+  <a class="site-logo" style="display:flex;align-items:center;gap:6px;font-weight:800;font-size:22px;color:#1a1a1a;letter-spacing:-.4px;font-family:'Open Sans',Arial,sans-serif;">
+    <span style="position:relative;display:inline-flex;width:24px;height:22px;margin-right:2px;background:var(--rdc-accent);border-radius:4px;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:15px;line-height:1;">E</span>
+    EchoHomes<sup style="font-size:55%;font-weight:700;color:#1a1a1a;margin-left:1px;">&reg;</sup>
+  </a>
+  <nav class="site-nav" style="display:flex;gap:24px;font-size:14px;flex:1;">
+    <a class="active" style="color:var(--rdc-ink);border-bottom:3px solid var(--rdc-accent);font-weight:700;padding:22px 0;">Buy</a>
+    <a style="color:var(--rdc-ink);font-weight:700;padding:22px 0;">Rent</a>
+    <a style="color:var(--rdc-ink);font-weight:700;padding:22px 0;">Sell</a>
+    <a style="color:var(--rdc-ink);font-weight:700;padding:22px 0;">Mortgage</a>
+    <a style="color:var(--rdc-ink);font-weight:700;padding:22px 0;">Find Echo Agent<sup style="font-size:60%;">&reg;</sup></a>
+    <a style="color:var(--rdc-ink);font-weight:700;padding:22px 0;">My Home</a>
+    <a style="color:var(--rdc-ink);font-weight:700;padding:22px 0;">News &amp; Insights</a>
+  </nav>
+  <div class="account-zone" style="display:flex;gap:14px;align-items:center;font-size:13px;font-weight:600;color:var(--rdc-ink-2);">
+    <a>Advertise</a><a>Help</a>
+    <span class="pill" style="padding:7px 14px;background:#fff;border:1px solid #c8ccd1;border-radius:22px;font-weight:700;color:var(--rdc-ink);">Manage Rentals</span>
+    <span class="pill" style="padding:7px 18px;background:#fff;color:var(--rdc-ink);border:1.5px solid var(--rdc-ink);border-radius:22px;font-weight:800;">Sign In</span>
+  </div>
+</header>
+<div class="search-row" style="background:#fff;padding:12px 28px;border-bottom:1px solid #ebedf0;display:flex;gap:8px;align-items:center;">
+  <div style="position:relative;flex:1;max-width:760px;">
+    <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#8a8e92;font-size:16px;">&#128269;</span>
+    <input style="width:100%;padding:12px 16px 12px 40px;border:2px solid #1f1f1f;border-radius:4px;font-size:14px;font-weight:600;color:var(--rdc-ink);" placeholder="Address, school, city, ZIP or neighborhood" value="Jackson, TN">
+  </div>
+  <button style="padding:12px 24px;background:var(--rdc-cta);color:#fff;border:none;border-radius:4px;font-weight:800;font-size:14px;cursor:pointer;letter-spacing:.2px;">Search</button>
+</div>
+
+
+<div class="filter-bar" style="background:#fff;border-bottom:1px solid #ebedf0;padding:12px 28px;display:flex;flex-direction:column;gap:12px;">
+  <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-size:12px;font-weight:800;color:var(--rdc-ink-2);text-transform:uppercase;letter-spacing:.5px;">Bedrooms</span>
+      <div class="w25-chip-row"><button type="button" class="w25-chip" data-facet="min_beds" data-val="0" onclick="pickChip(this,'min_beds')">Any</button>
+<button type="button" class="w25-chip" data-facet="min_beds" data-val="1" onclick="pickChip(this,'min_beds')">1+</button>
+<button type="button" class="w25-chip" data-facet="min_beds" data-val="2" onclick="pickChip(this,'min_beds')">2+</button>
+<button type="button" class="w25-chip" data-facet="min_beds" data-val="3" onclick="pickChip(this,'min_beds')">3+</button>
+<button type="button" class="w25-chip" data-facet="min_beds" data-val="4" onclick="pickChip(this,'min_beds')">4+</button>
+<button type="button" class="w25-chip" data-facet="min_beds" data-val="5" onclick="pickChip(this,'min_beds')">5+</button></div>
+    </div>
+    <div style="width:1px;height:30px;background:#ebedf0;"></div>
+    <div>
+<div class="select-wrap">
+  <label class="select-label">Home Type</label>
+  <select class="w25-sel pt-select" data-facet="property_type" onchange="onSelChange(this)"><option value="">All home types</option><option value="Single-Family">Single-Family</option><option value="Condo">Condo</option><option value="Townhouse">Townhouse</option><option value="Multi-Family">Multi-Family</option><option value="Studio Apartment">Studio Apartment</option></select>
+</div>
+</div>
+    <div style="margin-left:auto;display:flex;gap:8px;">
+      <span class="w25-pill-trigger">Price</span>
+      <span class="w25-pill-trigger">Baths</span>
+      <span class="w25-pill-trigger">More</span>
+    </div>
+  </div>
+</div>
+<div class="page-wrap" style="max-width:1380px;margin:0 auto;padding:18px 28px 28px;">
+  <div style="font-size:12px;color:var(--rdc-ink-3);margin-bottom:8px;"><a style="color:var(--rdc-primary);font-weight:700;">Home</a> &rsaquo; <a style="color:var(--rdc-primary);font-weight:700;">TN</a> &rsaquo; <a style="color:var(--rdc-primary);font-weight:700;">Madison County</a> &rsaquo; Jackson</div>
+  <div class="page-title">Jackson, TN Real Estate &amp; Homes for Sale</div>
+  <div class="page-sub"><span id="result-count">— homes</span> &middot; Sort: <span style="color:var(--rdc-primary);font-weight:700;">Homes for You</span> &middot; Updated daily</div>
+  <div class="map-strip" aria-hidden="true">
+    <div class="map-overlay">Map View &middot; Jackson, TN</div>
+    <div class="map-toggle">Layer &#9662;</div>
+    <div class="map-pin" style="top:46px;left:18%;"><span>$425K</span></div>
+    <div class="map-pin" style="top:78px;left:32%;"><span>$315K</span></div>
+    <div class="map-pin" style="top:34px;left:48%;"><span>$540K</span></div>
+    <div class="map-pin" style="top:90px;left:62%;"><span>$269K</span></div>
+    <div class="map-pin" style="top:54px;left:78%;"><span>$385K</span></div>
+  </div>
+  <div class="active-bar" id="active-chips"></div>
+  <div id="result-grid"></div>
+</div>
+
+<footer style="background:#1f1f1f;color:#cfd2d6;padding:26px 28px 30px;font-size:12px;margin-top:30px;border-top:4px solid var(--rdc-accent);">
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:18px;max-width:1380px;margin:0 auto 18px;">
+    <div><div style="font-weight:800;color:#fff;margin-bottom:8px;font-size:13px;">Find a home</div><div style="display:flex;flex-direction:column;gap:4px;opacity:.85;"><a style="color:#cfd2d6;">Homes for Sale</a><a style="color:#cfd2d6;">Homes for Rent</a><a style="color:#cfd2d6;">Open Houses</a><a style="color:#cfd2d6;">New Construction</a></div></div>
+    <div><div style="font-weight:800;color:#fff;margin-bottom:8px;font-size:13px;">Sell a home</div><div style="display:flex;flex-direction:column;gap:4px;opacity:.85;"><a style="color:#cfd2d6;">Find an Agent</a><a style="color:#cfd2d6;">Sell with EchoHomes</a><a style="color:#cfd2d6;">Home Value</a></div></div>
+    <div><div style="font-weight:800;color:#fff;margin-bottom:8px;font-size:13px;">Mortgage</div><div style="display:flex;flex-direction:column;gap:4px;opacity:.85;"><a style="color:#cfd2d6;">Mortgage Rates</a><a style="color:#cfd2d6;">Mortgage Calculator</a><a style="color:#cfd2d6;">Refinance</a></div></div>
+    <div><div style="font-weight:800;color:#fff;margin-bottom:8px;font-size:13px;">News &amp; Insights</div><div style="display:flex;flex-direction:column;gap:4px;opacity:.85;"><a style="color:#cfd2d6;">Real Estate News</a><a style="color:#cfd2d6;">Buyer Guide</a><a style="color:#cfd2d6;">Seller Guide</a></div></div>
+    <div><div style="font-weight:800;color:#fff;margin-bottom:8px;font-size:13px;">Company</div><div style="display:flex;flex-direction:column;gap:4px;opacity:.85;"><a style="color:#cfd2d6;">About</a><a style="color:#cfd2d6;">Careers</a><a style="color:#cfd2d6;">Press Room</a><a style="color:#cfd2d6;">Advertise</a></div></div>
+  </div>
+  <div style="border-top:1px solid #333;padding-top:14px;display:flex;gap:18px;flex-wrap:wrap;opacity:.85;max-width:1380px;margin:0 auto;"><a style="color:#cfd2d6;">Site Map</a><a style="color:#cfd2d6;">Terms of Use</a><a style="color:#cfd2d6;">Privacy</a><a style="color:#cfd2d6;">Do Not Sell or Share My Personal Information</a><a style="color:#cfd2d6;">Help</a></div>
+  <div style="opacity:.65;margin-top:10px;max-width:1380px;margin-left:auto;margin-right:auto;">&copy; 2024 EchoHomes, Inc. All rights reserved. EchoHomes&reg; is the trademark of EchoHomes, Inc.</div>
+</footer>
+<script>
+function escapeHtmlText(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
+const ENV_ID = 'W25_E10';
+let filterState = {};
+
+function _toInt(v){ const n=Number(v); return Number.isNaN(n)?v:n; }
+
+function collectState(){
+  const fs={};
+  document.querySelectorAll('.w25-chip.active').forEach(b=>{
+    const f=b.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(b.dataset.val); else fs[f]=b.dataset.val;
+  });
+  document.querySelectorAll('input[type=radio].w25-rad:checked').forEach(el=>{
+    const f=el.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(el.value); else fs[f]=el.value;
+  });
+  document.querySelectorAll('select.w25-sel').forEach(s=>{
+    const f=s.dataset.facet; if(!f) return;
+    const v=s.value;
+    if(v){ if(f==='min_beds') fs[f]=_toInt(v); else fs[f]=v; }
+  });
+  document.querySelectorAll('.w25-card.active').forEach(b=>{
+    const f=b.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(b.dataset.val); else fs[f]=b.dataset.val;
+  });
+  document.querySelectorAll('.w25-tab.active').forEach(b=>{
+    const f=b.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(b.dataset.val); else fs[f]=b.dataset.val;
+  });
+  return fs;
+}
+
+function pickChip(btn,facet){
+  const cur=btn.classList.contains('active');
+  document.querySelectorAll('.w25-chip[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  if(!cur) btn.classList.add('active');
+  onF();
+}
+function pickCard(btn,facet){
+  const cur=btn.classList.contains('active');
+  document.querySelectorAll('.w25-card[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  if(!cur) btn.classList.add('active');
+  onF();
+}
+function pickTab(btn,facet){
+  const cur=btn.classList.contains('active');
+  document.querySelectorAll('.w25-tab[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  if(!cur) btn.classList.add('active');
+  onF();
+}
+function onSelChange(_el){ onF(); }
+function onRadChange(_el){ onF(); }
+
+function onF(){
+  filterState=collectState();
+  const urlParams=new URLSearchParams(window.location.search);
+  const taskId=urlParams.get('task_id');
+
+  fetch('/env/'+ENV_ID+'/api/filter',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({filter_state:filterState})
+  }).then(r=>r.json()).then(data=>{
+    renderResults(data.results||[]);
+    const rc=document.getElementById('result-count');
+    if(rc) rc.textContent=(data.results||[]).length+' homes';
+    renderActive();
+  }).catch(()=>{});
+
+  fetch('/env/'+ENV_ID+'/api/submit',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({filter_state:filterState,answer:'',task_id:taskId})
+  }).catch(()=>{});
+}
+
+function renderResults(results){
+  const grid=document.getElementById('result-grid'); if(!grid) return;
+  if(!results.length){ grid.innerHTML='<div class="empty">No homes match the current filters.</div>'; return; }
+  const isRentEnv=false;
+  const brokers=['Echo Realty','Echo Partners Realty','Echo Group MLS','Echo Home Services','Echo Max Realty','Echo Signature Realty'];
+  grid.innerHTML=results.map((r,i)=>{
+    const isRent=(r.product_type==='rentals')||isRentEnv;
+    const price=escapeHtmlText('$'+(r.price||0).toLocaleString()+(isRent?'/mo':''));
+    const beds=escapeHtmlText(r.beds!=null?r.beds:'?');
+    const baths=escapeHtmlText(r.baths!=null?r.baths:'?');
+    const sqft=escapeHtmlText(r.sqft!=null?r.sqft.toLocaleString():'');
+    const addr=escapeHtmlText(r.title||'');
+    const cityFull=escapeHtmlText(r.city_full||r.city||'');
+    const ptype=escapeHtmlText(r.property_type||'');
+    const img=r.image_url||'';
+    const broker=brokers[i%brokers.length];
+    return `
+          <div class="listing-card">
+            <div class="lc-img">${img?`<img src="${escapeHtmlText(img)}" alt="">`:`<div>${(addr.split(',')[0]||addr).split(' ').slice(0,2).join(' ')}</div>`}
+              ${r.is_new?'<div class="lc-badge">NEW - 1 DAY ON ECHO</div>':''}
+              <div class="lc-fav">&#9825;</div>
+            </div>
+            <div class="lc-body">
+              <div class="lc-price">${price}</div>
+              <div class="lc-meta"><b>${beds}</b> bed <span class="lc-dot">|</span> <b>${baths}</b> bath${sqft?` <span class="lc-dot">|</span> <b>${sqft}</b> sqft`:''}</div>
+              <div class="lc-addr">${addr}<br><span style="opacity:.75;">${cityFull}</span></div>
+              <div class="lc-ptype">${ptype}</div>
+            </div>
+            <div class="lc-broker">Brokered by ${broker}</div>
+          </div>`;
+  }).join('');
+}
+
+function renderActive(){
+  const bar=document.getElementById('active-chips'); if(!bar) return;
+  const labelMap={'min_beds':'Beds','property_type':'Home Type'};
+  const valueMap=(k,v)=>{ if(k==='min_beds') return (v===0||v==='0')?'Any':(v+'+'); return v; };
+  const chips=[];
+  for(const [k,v] of Object.entries(filterState)){
+    const lbl=labelMap[k]||k;
+    chips.push('<span class="active-chip">'+escapeHtmlText(lbl)+': '+escapeHtmlText(valueMap(k,v))+' <span class="ac-x" onclick="clearFacet(\''+escapeHtmlText(escapeJsSingleQuoted(k))+'\')">×</span></span>');
+  }
+  bar.innerHTML=chips.join('');
+}
+
+function clearFacet(facet){
+  document.querySelectorAll('.w25-chip[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.w25-card[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.w25-tab[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('input[type=radio].w25-rad[data-facet="'+facet+'"]').forEach(i=>{i.checked=false;});
+  document.querySelectorAll('select.w25-sel[data-facet="'+facet+'"]').forEach(s=>{s.selectedIndex=0;});
+  onF();
+}
+
+function toggleDropdown(id){
+  const el=document.getElementById(id); if(!el) return;
+  const parent=el.parentElement;
+  const wasOpen=parent&&parent.classList.contains('open');
+  document.querySelectorAll('.w25-dropdown').forEach(d=>d.classList.remove('open'));
+  document.querySelectorAll('.w25-dropdown-panel').forEach(p=>p.classList.remove('open'));
+  if(!wasOpen&&parent) parent.classList.add('open');
+}
+document.addEventListener('click',(e)=>{
+  if(!e.target.closest('.w25-dropdown')&&!e.target.closest('.w25-pill-trigger')&&!e.target.closest('.w25-dd-trigger')){
+    document.querySelectorAll('.w25-dropdown').forEach(d=>d.classList.remove('open'));
+  }
+});
+document.addEventListener('DOMContentLoaded',()=>{ onF(); });
+</script>
+</body>
+</html>

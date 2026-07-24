@@ -1,0 +1,104 @@
+{
+  "env_id": "W15_E01",
+  "widget_id": "W15_compat_vs_species_toggle",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "axis_compose",
+    "fields": [
+      "species",
+      "compat"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "W15_E01_T001",
+      "task_index_in_env": 1,
+      "instruction_text": "On Petfinder in ZIP 94587 (San Lorenzo, CA), just pull up DOGS only \u2014 nothing else for now. A berkeley family only wants to see dogs in the listing. Use the species checkbox column and the 'Personality & Compatibility' chip group so only the Dog species checkbox is on and no compatibility tags are set.",
+      "task_type": "write",
+      "task_difficulty": "easy",
+      "expected_filter_state": "filter_state: species=[Dog]",
+      "expected_answer": ""
+    },
+    {
+      "task_id": "W15_E01_T002",
+      "task_index_in_env": 2,
+      "instruction_text": "Quick question \u2014 on Petfinder, how many CAT listings are showing in the current catalog (don't apply any filters, just the raw cat count from the species checkbox column and the 'Personality & Compatibility' chip group)? Just the integer.",
+      "task_type": "read",
+      "task_difficulty": "easy",
+      "expected_filter_state": "",
+      "expected_answer": "'8 cats'"
+    },
+    {
+      "task_id": "W15_E01_T003",
+      "task_index_in_env": 3,
+      "instruction_text": "On Petfinder, narrow to RABBITS and make sure the 'Good with no children' compatibility tag is on too \u2014 a Berkeley family is helping a single retiree neighbour. Use the species checkbox column and the 'Personality & Compatibility' chip group: the species side must be Rabbit, and compatibility must include 'Good with no children'.",
+      "task_type": "write",
+      "task_difficulty": "medium",
+      "expected_filter_state": "filter_state: species=[Rabbit]; filter_state: compat=[Good with no children]",
+      "expected_answer": ""
+    },
+    {
+      "task_id": "W15_E01_T004",
+      "task_index_in_env": 4,
+      "instruction_text": "On Petfinder, a Berkeley family already has a chocolate lab and a 4-year-old. Pull up either a dog OR a cat (no rabbits no birds \u2014 species side: both Dog and Cat checked), and on the compatibility side require BOTH 'Good with kids' AND 'Good with dogs'. Use the species checkbox column and the 'Personality & Compatibility' chip group; don't filter sex or breed.",
+      "task_type": "write",
+      "task_difficulty": "medium",
+      "expected_filter_state": "filter_state: species=[Dog]; filter_state: species=[Cat]; filter_state: compat=[Good with kids]; filter_state: compat=[Good with dogs]",
+      "expected_answer": ""
+    },
+    {
+      "task_id": "W15_E01_T005",
+      "task_index_in_env": 5,
+      "instruction_text": "On Petfinder, among the DOGS that carry BOTH the 'Good with kids' tag AND the 'Good with cats' tag in the species checkbox column and the 'Personality & Compatibility' chip group, which single dog has the highest adopter rating? Give me name + breed + rating.",
+      "task_type": "read",
+      "task_difficulty": "medium",
+      "expected_filter_state": "",
+      "expected_answer": "'Bailey' the 'Labrador Retriever' \u2014 4.8 stars"
+    },
+    {
+      "task_id": "W15_E01_T006",
+      "task_index_in_env": 6,
+      "instruction_text": "On Petfinder, how many RABBITS in the catalog are tagged 'Good with kids' on the compatibility side (this is the compatibility tag, NOT a separate 'kids' species \u2014 the species checkbox column and the 'Personality & Compatibility' chip group keeps those two axes separate), and which of those rabbits has the highest rating? Give count and the top rabbit's name + rating.",
+      "task_type": "read",
+      "task_difficulty": "medium",
+      "expected_filter_state": "",
+      "expected_answer": "'2 rabbits' \u2014 top-rated is 'Pepper' (4.7 stars)"
+    },
+    {
+      "task_id": "W15_E01_T007",
+      "task_index_in_env": 7,
+      "instruction_text": "Carefully on Petfinder: a Berkeley family wants to see only CATS and RABBITS (both species, nothing else), and on the compatibility side BOTH 'Good with cats' AND 'Good with kids' must be on. Reason: senior resident cat + two elementary-age kids. Use the species checkbox column and the 'Personality & Compatibility' chip group \u2014 the trick is that 'cats' shows up in BOTH the species picker (Cat) AND the compatibility tags ('Good with cats'); make sure each is set on the correct axis.",
+      "task_type": "write",
+      "task_difficulty": "hard",
+      "expected_filter_state": "filter_state: species=[Cat]; filter_state: species=[Rabbit]; filter_state: compat=[Good with cats]; filter_state: compat=[Good with kids]",
+      "expected_answer": ""
+    },
+    {
+      "task_id": "W15_E01_T008",
+      "task_index_in_env": 8,
+      "instruction_text": "On Petfinder, set up filters to show only BIRDS that are 'Good with kids' on the compatibility side \u2014 yes, the bird species filter is separate from the kids/dogs compatibility tags, don't confuse the two columns in the species checkbox column and the 'Personality & Compatibility' chip group. Then tell me which single bird has the highest rating, and what's its rating.",
+      "task_type": "read_write",
+      "task_difficulty": "hard",
+      "expected_filter_state": "filter_state: species=[Bird]; filter_state: compat=[Good with kids]",
+      "expected_answer": "'Sky' \u2014 4.6 stars"
+    },
+    {
+      "task_id": "W15_E01_T009",
+      "task_index_in_env": 9,
+      "instruction_text": "On Petfinder, filter the catalog to DOGS and CATS (both species) that are tagged 'Good with cats' on the compatibility side \u2014 yes the 'Cat' species and the 'Good with cats' compatibility tag are TWO different controls in the species checkbox column and the 'Personality & Compatibility' chip group, both have to be set correctly. Then count how many of the matching pets are already spayed OR neutered.",
+      "task_type": "read_write",
+      "task_difficulty": "hard",
+      "expected_filter_state": "filter_state: species=[Dog]; filter_state: species=[Cat]; filter_state: compat=[Good with cats]",
+      "expected_answer": "'13 pets' are spayed or neutered"
+    },
+    {
+      "task_id": "W15_E01_T010",
+      "task_index_in_env": 10,
+      "instruction_text": "On Petfinder, set the filters so the catalog shows DOGS and RABBITS (those two species) that ALSO carry the 'Good with kids' compatibility tag \u2014 remember in the species checkbox column and the 'Personality & Compatibility' chip group the species checkboxes are a different control from the compatibility tags. Then tell me which single listed pet has the highest rating, with name + breed + rating.",
+      "task_type": "read_write",
+      "task_difficulty": "hard",
+      "expected_filter_state": "filter_state: species=[Dog]; filter_state: species=[Rabbit]; filter_state: compat=[Good with kids]",
+      "expected_answer": "'Bailey' the 'Labrador Retriever' \u2014 4.8 stars"
+    }
+  ]
+}

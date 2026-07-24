@@ -1,0 +1,500 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cleveland Vacation Rentals & Stays | EchoStay</title>
+<style>
+.wut-badge, .wut-badge-test, .utst-note,
+.f-section.widget-utst > h4,
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok, .live-status.good, .live-status.pending, .live-status.neutral,
+.ls-msg, .ls-dot, .ls-toggle, .ls-panel, .ls-reset,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source],
+[data-debug="1"]
+{ display: none !important; visibility: hidden !important; }
+
+* { box-sizing: border-box; }
+body { margin:0; line-height:1.5; }
+.empty-state { grid-column:1/-1; text-align:center; padding:40px; color:#999; font-size:14px; }
+.empty-state span { display:block; font-size:12px; margin-top:4px; }
+
+/* Dual-thumb slider (base) — colors overridden per brand */
+.dual-slider { position:relative; height:32px; margin:14px 0 6px; }
+.dual-slider .dual-track { position:absolute; top:14px; left:0; right:0; height:4px; border-radius:2px; }
+.dual-slider .dual-active { position:absolute; top:14px; height:4px; border-radius:2px; }
+.dual-slider input[type=range] { position:absolute; top:8px; left:0; width:100%; height:18px; background:transparent; pointer-events:none; appearance:none; -webkit-appearance:none; }
+.dual-slider input[type=range]::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; pointer-events:auto; width:18px; height:18px; border-radius:50%; background:#fff; border:2px solid #333; cursor:grab; box-shadow:0 1px 3px rgba(0,0,0,0.25); }
+.dual-slider input[type=range]::-moz-range-thumb { pointer-events:auto; width:18px; height:18px; border-radius:50%; background:#fff; border:2px solid #333; cursor:grab; box-shadow:0 1px 3px rgba(0,0,0,0.25); }
+.dual-slider .dt-tip { position:absolute; top:-22px; transform:translateX(-50%); font-size:10px; padding:2px 6px; background:#333; color:white; border-radius:2px; white-space:nowrap; pointer-events:none; }
+.dual-slider input.dt-min::-webkit-slider-thumb { background:#1c8b3a; border-color:#0e5e25; box-shadow:0 0 0 2px rgba(28,139,58,0.18); }
+.dual-slider input.dt-max::-webkit-slider-thumb { background:#c8232c; border-color:#7a1217; box-shadow:0 0 0 2px rgba(200,35,44,0.18); }
+.dual-slider input.dt-min::-moz-range-thumb { background:#1c8b3a; border-color:#0e5e25; }
+.dual-slider input.dt-max::-moz-range-thumb { background:#c8232c; border-color:#7a1217; }
+.dual-slider .dt-tip-min { background:#1c8b3a; }
+.dual-slider .dt-tip-max { background:#c8232c; }
+
+.result-thumb { background-size:cover !important; background-position:center !important; overflow:hidden; }
+.result-thumb img, .review-thumb img, .job-logo img, .stay-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+.review-thumb { padding:0 !important; overflow:hidden; }
+.job-logo { padding:0 !important; overflow:hidden; }
+.stay-photo img { position:absolute; inset:0; }
+
+
+body { font-family:'Circular','Nunito','Helvetica Neue','Segoe UI',Arial,sans-serif; background:white; color:#222; font-size:14px; }
+.ab-top { padding:14px 80px 0; border-bottom:1px solid #ebebeb; position:sticky; top:0; background:white; z-index:5; }
+.ab-top-row1 { display:flex; gap:18px; align-items:center; }
+.ab-top-row2 { display:flex; justify-content:center; padding:14px 0 16px; }
+.ab-logo { display:flex; align-items:center; gap:4px; color:#ff385c; font-weight:800; font-size:21px; letter-spacing:-0.5px; flex-shrink:0; }
+.ab-logo svg { width:30px; height:30px; }
+.ab-tabs { display:flex; gap:8px; flex:1; justify-content:center; font-size:15px; }
+.ab-tabs .tab { padding:8px 16px; color:#717171; cursor:pointer; border-radius:18px; font-weight:500; }
+.ab-tabs .tab:hover { background:#f7f7f7; color:#222; }
+.ab-tabs .tab.active { color:#222; font-weight:600; background:transparent; }
+.ab-sbar { display:flex; max-width:850px; border:1px solid #ddd; border-radius:32px; padding:0; box-shadow:0 1px 6px rgba(0,0,0,0.06); align-items:center; }
+.ab-sbar > div { padding:14px 22px; flex:1; cursor:pointer; border-radius:32px; }
+.ab-sbar > div:hover:not(.sep) { background:#ebebeb; }
+.ab-sbar .lbl { font-size:12px; font-weight:600; color:#222; }
+.ab-sbar .val { font-size:13px; color:#717171; }
+.ab-sbar .sep { width:1px; padding:0; background:#dddddd; flex:0; height:32px; cursor:default; }
+.ab-sbar button { margin:8px; background:#ff385c; color:white; border:none; padding:0 16px; height:42px; border-radius:24px; cursor:pointer; font-weight:600; display:flex; align-items:center; justify-content:center; gap:6px; flex-shrink:0; font-size:14px; }
+.ab-sbar button svg { width:14px; height:14px; }
+.ab-userpill { display:flex; gap:10px; align-items:center; border:1px solid #ddd; padding:5px 5px 5px 12px; border-radius:24px; cursor:pointer; flex-shrink:0; }
+.ab-userpill:hover { box-shadow:0 2px 6px rgba(0,0,0,0.12); }
+.ab-userpill .avatar { width:30px; height:30px; background:#717171; border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:13px; font-weight:600; }
+.ab-userpill .globe { color:#222; font-size:13px; }
+.ab-cat-bar { display:flex; gap:32px; padding:10px 80px; border-bottom:1px solid #ebebeb; overflow-x:auto; align-items:center; }
+.ab-cat { font-size:12px; color:#717171; padding:8px 4px; border-bottom:2px solid transparent; cursor:pointer; min-width:60px; text-align:center; opacity:0.7; flex-shrink:0; }
+.ab-cat:hover { color:#222; opacity:1; border-bottom-color:#dddddd; }
+.ab-cat.active { color:#222; border-bottom-color:#222; opacity:1; font-weight:600; }
+.ab-cat .ico { font-size:22px; display:block; margin-bottom:4px; line-height:1; filter:grayscale(0.2); }
+.ab-filterbtn { padding:10px 16px; border:1px solid #b0b0b0; background:white; border-radius:12px; cursor:pointer; font-weight:600; font-size:12px; display:flex; gap:6px; align-items:center; margin-left:auto; flex-shrink:0; color:#222; }
+.ab-filterbtn:hover { border-color:#222; box-shadow:0 1px 8px rgba(0,0,0,0.1); }
+.ab-totaltoggle { display:flex; align-items:center; gap:10px; padding:8px 14px; border:1px solid #dddddd; border-radius:12px; cursor:pointer; font-size:12px; font-weight:600; color:#222; flex-shrink:0; }
+.ab-totaltoggle .tt-text { display:flex; flex-direction:column; line-height:1.1; }
+.ab-totaltoggle .tt-sub { font-size:10px; color:#717171; font-weight:400; }
+.ab-totaltoggle .tt-switch { width:30px; height:18px; background:#222; border-radius:10px; position:relative; }
+.ab-totaltoggle .tt-switch::after { content:''; position:absolute; top:2px; right:2px; width:14px; height:14px; background:white; border-radius:50%; }
+.ab-page { padding:18px 80px 60px; }
+.ab-page h1 { font-size:22px; font-weight:600; margin:8px 0 16px 0; color:#222; letter-spacing:-0.4px; }
+.result-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:24px 16px; }
+.result-card { cursor:pointer; }
+.stay-photo { position:relative; width:100%; aspect-ratio:1.05/1; background:linear-gradient(135deg,#dadada,#a8a8a8); border-radius:14px; overflow:hidden; }
+.stay-photo .heart { position:absolute; top:10px; right:10px; color:white; font-size:20px; text-shadow:0 0 5px rgba(0,0,0,0.4); }
+.stay-photo .guest-fav { position:absolute; top:10px; left:10px; background:white; padding:4px 10px; border-radius:14px; font-size:11px; font-weight:700; }
+.stay-info { margin-top:10px; }
+.stay-loc { display:flex; justify-content:space-between; font-size:14px; font-weight:600; color:#222; }
+.stay-loc .rating { font-size:14px; }
+.stay-desc { font-size:14px; color:#717171; margin-top:2px; }
+.stay-dates { font-size:14px; color:#717171; }
+.stay-price { font-size:14px; color:#222; margin-top:6px; }
+.stay-price b { font-weight:700; }
+.stay-price .total { color:#717171; text-decoration:underline; font-size:13px; margin-left:6px; }
+.stay-badges { font-size:11px; color:#717171; margin-top:2px; }
+
+/* Modal */
+.ab-modal-back { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:60; display:none; align-items:center; justify-content:center; }
+.ab-modal-back.open { display:flex; }
+.ab-modal { background:white; width:780px; max-width:95vw; max-height:90vh; border-radius:14px; display:flex; flex-direction:column; box-shadow:0 12px 50px rgba(0,0,0,0.35); }
+.ab-modal-h { padding:14px 24px; border-bottom:1px solid #ebebeb; display:flex; align-items:center; justify-content:space-between; }
+.ab-modal-h h3 { margin:0; font-size:18px; font-weight:700; }
+.ab-modal-h button { background:none; border:none; font-size:22px; cursor:pointer; padding:0; line-height:1; }
+.ab-modal-body { padding:24px 32px; flex:1; overflow:auto; }
+.ab-modal-body h4 { font-size:22px; margin:0 0 6px 0; font-weight:600; }
+.ab-modal-body .sub { font-size:14px; color:#222; margin-bottom:18px; }
+
+.ab-histo { display:flex; align-items:flex-end; gap:2px; height:90px; padding:8px 0 0; position:relative; }
+.ab-histo .bar { flex:1; background:#222; border-radius:2px 2px 0 0; min-height:6px; }
+.ab-histo .bar.out { background:#dadada; }
+.ab-histo .brush { position:absolute; inset:0 0 0 0; pointer-events:none; }
+.ab-histo .brush .lo, .ab-histo .brush .hi { position:absolute; top:0; bottom:0; width:24px; background:white; border:2px solid #222; border-radius:50%; transform:translate(-50%, 50%); top:auto; bottom:-12px; height:24px; cursor:grab; box-shadow:0 2px 5px rgba(0,0,0,0.2); }
+.dual-slider { margin-top:18px; height:32px; }
+.dual-slider .dual-track { background:#dadada; height:2px; top:15px; }
+.dual-slider .dual-active { background:#222; height:2px; top:15px; }
+.dual-slider input.dt-min::-webkit-slider-thumb { background:white; border:2px solid #222; width:24px; height:24px; }
+.dual-slider input.dt-max::-webkit-slider-thumb { background:white; border:2px solid #222; width:24px; height:24px; }
+.dual-slider .dt-tip { background:#222; }
+.ab-price-box-row { display:flex; gap:20px; margin-top:20px; }
+.ab-price-box { flex:1; border:1px solid #b0b0b0; border-radius:8px; padding:10px 14px; }
+.ab-price-box label { font-size:10px; color:#717171; font-weight:700; text-transform:uppercase; }
+.ab-price-box .wrap { display:flex; align-items:baseline; gap:4px; margin-top:2px; }
+.ab-price-box .dol { font-size:16px; }
+.ab-price-box input { border:none; padding:0; font:inherit; font-size:16px; font-weight:600; width:100%; font-feature-settings:"tnum"; }
+.ab-price-box input:focus { outline:none; }
+
+.ab-amen-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+.abnb-amen-pill { padding:8px 18px; border:1px solid #b0b0b0; border-radius:24px; cursor:pointer; font-size:14px; background:white; display:flex; align-items:center; gap:6px; position:relative; }
+.abnb-amen-pill:hover { border-color:#222; }
+.abnb-amen-pill input { position:absolute; inset:0; opacity:0; cursor:pointer; margin:0; }
+.abnb-amen-pill.active { background:#f7f7f7; border:2px solid #222; padding:7px 17px; font-weight:600; }
+.ab-modal-foot { padding:14px 24px; border-top:1px solid #ebebeb; display:flex; justify-content:space-between; align-items:center; }
+.ab-modal-foot .clear { background:none; border:none; cursor:pointer; text-decoration:underline; font-weight:600; }
+.ab-modal-foot .show { background:#222; color:white; border:none; padding:12px 22px; border-radius:8px; cursor:pointer; font-weight:600; }
+
+</style></head><body><div class="ab-top">
+  <div class="ab-top-row1">
+    <div class="ab-logo">
+      <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="7" fill="currentColor"/><text x="16" y="23" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="800" fill="#fff">E</text></svg>
+      <span>EchoStay</span>
+    </div>
+    <div class="ab-tabs">
+      <span class="tab active">Homes</span>
+      <span class="tab">Experiences</span>
+      <span class="tab">Services</span>
+    </div>
+    <div class="ab-userpill"><span class="globe">🌐</span><span>≡</span><div class="avatar">SG</div></div>
+  </div>
+  <div class="ab-top-row2">
+    <div class="ab-sbar">
+      <div><div class="lbl">Where</div><div class="val">Cleveland, OH</div></div>
+      <div class="sep"></div>
+      <div><div class="lbl">Check in</div><div class="val">Apr 5, 2025</div></div>
+      <div class="sep"></div>
+      <div><div class="lbl">Check out</div><div class="val">Apr 8, 2025</div></div>
+      <div class="sep"></div>
+      <div><div class="lbl">Who</div><div class="val">2 guests</div></div>
+      <button title="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg> Search</button>
+    </div>
+  </div>
+</div>
+<div class="ab-cat-bar">
+  <div class="ab-cat active"><span class="ico">🏙️</span>City</div>
+  <div class="ab-cat"><span class="ico">🏡</span>Cabins</div>
+  <div class="ab-cat"><span class="ico">🏞️</span>Amazing views</div>
+  <div class="ab-cat"><span class="ico">🏊</span>Amazing pools</div>
+  <div class="ab-cat"><span class="ico">🏖️</span>Beachfront</div>
+  <div class="ab-cat"><span class="ico">🏰</span>Mansions</div>
+  <div class="ab-cat"><span class="ico">🌳</span>Treehouses</div>
+  <div class="ab-cat"><span class="ico">🛶</span>Lakefront</div>
+  <div class="ab-cat"><span class="ico">⛷️</span>Skiing</div>
+  <div class="ab-cat"><span class="ico">🏛️</span>Historical</div>
+  <div class="ab-cat"><span class="ico">🌾</span>Countryside</div>
+  <div class="ab-cat"><span class="ico">🎨</span>Design</div>
+  <button class="ab-filterbtn" onclick="abOpenModal()">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4h10M5 8h6M7 12h2"/></svg>
+    Filters
+  </button>
+  <div class="ab-totaltoggle">
+    <div class="tt-text"><span>Display total before taxes</span></div>
+    <div class="tt-switch"></div>
+  </div>
+</div>
+<div class="ab-page">
+  <h1>Over <span id="result-count">18</span> places in Cleveland</h1>
+  <div class="result-grid" id="result-grid"></div>
+</div>
+
+<div class="ab-modal-back open" id="ab-modal-back">
+  <div class="ab-modal">
+    <div class="ab-modal-h"><h3>Filters</h3><button onclick="abCloseModal()">×</button></div>
+    <div class="ab-modal-body">
+      <h4>Price range</h4>
+      <div class="sub">Nightly prices including fees and taxes</div>
+      <div class="slider-block">
+        <div class="ab-histo" id="ab-histo">
+          <div class="bar in" style="height:14%"></div><div class="bar in" style="height:22%"></div>
+          <div class="bar in" style="height:32%"></div><div class="bar in" style="height:46%"></div>
+          <div class="bar in" style="height:62%"></div><div class="bar in" style="height:82%"></div>
+          <div class="bar in" style="height:96%"></div><div class="bar in" style="height:78%"></div>
+          <div class="bar in" style="height:58%"></div><div class="bar in" style="height:42%"></div>
+          <div class="bar in" style="height:34%"></div><div class="bar in" style="height:26%"></div>
+          <div class="bar in" style="height:20%"></div><div class="bar in" style="height:16%"></div>
+          <div class="bar in" style="height:12%"></div><div class="bar in" style="height:8%"></div>
+        </div>
+        <div class="dual-slider" data-fmt="dollar">
+          <div class="dual-track"></div><div class="dual-active"></div>
+          <div class="dt-tip dt-tip-min">$0</div>
+          <div class="dt-tip dt-tip-max">$1,300</div>
+          <input type="range" min="0" max="1300" value="0" step="5" class="dt-min" data-facet="min_price" oninput="dualUpd();abBrush()">
+          <input type="range" min="0" max="1300" value="1300" step="5" class="dt-max" data-facet="max_price" oninput="dualUpd();abBrush()">
+        </div>
+        <div class="ab-price-box-row">
+          <div class="ab-price-box">
+            <label>Minimum</label>
+            <div class="wrap"><span class="dol">$</span><input type="text" class="dual-num-min" placeholder="0" oninput="numBoxSet(this)"></div>
+          </div>
+          <div class="ab-price-box">
+            <label>Maximum</label>
+            <div class="wrap"><span class="dol">$</span><input type="text" class="dual-num-max" placeholder="1,300+" oninput="numBoxSet(this)"></div>
+          </div>
+        </div>
+      </div>
+
+      <h4 style="margin-top:32px">Amenities</h4>
+      <div class="ab-amen-row">
+        <label class="abnb-amen-pill"><input type="checkbox" data-facet="free_shipping" value="1" onchange="onAmenCh(this)"> 🅿 Free parking on premises</label>
+        <label class="abnb-amen-pill"><input type="checkbox" data-facet="pet_friendly" value="1" onchange="onAmenCh(this)"> 🐾 Pets allowed</label>
+        <label class="abnb-amen-pill"><input type="checkbox" data-facet="washer" value="1" onchange="onAmenCh(this)"> 🧺 Washer</label>
+        <label class="abnb-amen-pill"><input type="checkbox" data-facet="gym" value="1" onchange="onAmenCh(this)"> 💪 Gym</label>
+      </div>
+    </div>
+    <div class="ab-modal-foot">
+      <button class="clear" onclick="lsReset(event)">Clear all</button>
+      <button class="show" onclick="abCloseModal()">Show <span id="result-count-2">18</span> places</button>
+    </div>
+  </div>
+</div><script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+const ENV_ID = "W04_E10";
+let filterState = {};
+
+function onF() { applyFilters(); }
+
+function applyFilters() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) { if (!newState[f]) newState[f] = []; newState[f].push(el.value || '1'); }
+    } else if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.multiple) {
+        const vals = Array.from(el.selectedOptions).map(o => o.value);
+        if (vals.length) newState[f] = vals;
+      } else if (el.value) newState[f] = el.value;
+    } else if (el.type === 'number' || el.type === 'range' || el.type === 'text' || el.type === 'hidden') {
+      if (el.dataset.always === '1' || (el.value !== '' && el.value !== el.defaultValue)) {
+        newState[f] = el.value;
+      }
+    }
+  });
+  document.querySelectorAll('.bucket-btn.active, .chip-btn.active, .pill.active').forEach(b => {
+    const f = b.dataset.facet;
+    if (!f) return;
+    if (!newState[f]) newState[f] = [];
+    if (Array.isArray(newState[f])) newState[f].push(b.dataset.val || b.textContent.trim());
+    else newState[f] = b.dataset.val || b.textContent.trim();
+  });
+  filterState = newState;
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    updateResults(data.results || []);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length;
+    const rc2 = document.getElementById('result-count-2');
+    if (rc2) rc2.textContent = (data.results || []).length;
+  }).catch(e => console.error('filter fail', e));
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : '';
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(() => {});
+}
+
+function escapeHtml(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function lsReset(ev) {
+  if (ev) { ev.stopPropagation(); ev.preventDefault(); }
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+    else if (el.tagName === 'SELECT') el.selectedIndex = 0;
+    else if (el.tagName === 'INPUT' && el.type !== 'range') el.value = '';
+  });
+  document.querySelectorAll('.dt-min').forEach(el => { el.value = el.min; });
+  document.querySelectorAll('.dt-max').forEach(el => { el.value = el.max; });
+  document.querySelectorAll('.bucket-btn.active, .chip-btn.active, .pill.active')
+    .forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.dual-num-min, .dual-num-max').forEach(el => { el.value = ''; });
+  document.querySelectorAll('.amen-pill.active').forEach(el => el.classList.remove('active'));
+  dualUpd();
+  applyFilters();
+}
+
+// Dual-thumb slider sync — runs after every drag/numeric-input change
+function dualUpd() {
+  document.querySelectorAll('.dual-slider').forEach(slider => {
+    const mn = slider.querySelector('.dt-min'), mx = slider.querySelector('.dt-max');
+    if (!mn || !mx) return;
+    const lo = +mn.min, hi = +mx.max;
+    let mnV = +mn.value, mxV = +mx.value;
+    if (mnV > mxV) { mn.value = mxV; mnV = mxV; }
+    const range = hi - lo || 1;
+    const minPct = ((mnV - lo) / range) * 100;
+    const maxPct = ((mxV - lo) / range) * 100;
+    const dt = slider.querySelector('.dual-active');
+    if (dt) { dt.style.left = minPct + '%'; dt.style.width = (maxPct - minPct) + '%'; }
+    const tipMin = slider.querySelector('.dt-tip-min'), tipMax = slider.querySelector('.dt-tip-max');
+    const fmt = slider.dataset.fmt || 'dollar';
+    const fmtVal = (v) => {
+      if (fmt === 'hours') return v + ' hrs';
+      if (fmt === 'salary') return '$' + (+v/1000) + 'K';
+      return '$' + (+v).toLocaleString();
+    };
+    if (tipMin) { tipMin.style.left = minPct + '%'; tipMin.textContent = 'MIN ' + fmtVal(mnV); }
+    if (tipMax) { tipMax.style.left = maxPct + '%'; tipMax.textContent = 'MAX ' + fmtVal(mxV); }
+    const minV = slider.parentElement.querySelector('.minv'),
+          maxV = slider.parentElement.querySelector('.maxv');
+    if (minV) minV.textContent = fmtVal(mnV);
+    if (maxV) maxV.textContent = fmtVal(mxV);
+    // Sync paired numeric input boxes (any input with .dual-num-min / .dual-num-max in the slider's container)
+    const container = slider.closest('.slider-block') || slider.parentElement;
+    const minBox = container.querySelector('.dual-num-min'),
+          maxBox = container.querySelector('.dual-num-max');
+    if (minBox && minBox !== document.activeElement) minBox.value = (mnV > lo) ? mnV : '';
+    if (maxBox && maxBox !== document.activeElement) maxBox.value = (mxV < hi) ? mxV : '';
+  });
+  onF();
+}
+
+// Generic min/max numeric box -> slider sync
+function numBoxSet(box) {
+  const container = box.closest('.slider-block') || box.parentElement.parentElement || box.parentElement;
+  const slider = container.querySelector('.dual-slider');
+  if (!slider) return;
+  const mn = slider.querySelector('.dt-min'), mx = slider.querySelector('.dt-max');
+  const lo = +mn.min, hi = +mx.max;
+  const minBox = container.querySelector('.dual-num-min');
+  const maxBox = container.querySelector('.dual-num-max');
+  if (minBox && minBox.value !== '') mn.value = Math.max(lo, Math.min(hi, parseInt(minBox.value.replace(/[^0-9]/g,'')) || lo));
+  else mn.value = lo;
+  if (maxBox && maxBox.value !== '') mx.value = Math.max(lo, Math.min(hi, parseInt(maxBox.value.replace(/[^0-9]/g,'')) || hi));
+  else mx.value = hi;
+  dualUpd();
+}
+
+function pickBucket(btn) {
+  const wasActive = btn.classList.contains('active');
+  btn.parentElement.querySelectorAll('.bucket-btn').forEach(b => b.classList.remove('active'));
+  if (!wasActive) {
+    btn.classList.add('active');
+    const slider = document.querySelector('.dual-slider');
+    if (slider) {
+      slider.querySelector('.dt-min').value = +btn.dataset.min;
+      slider.querySelector('.dt-max').value = +btn.dataset.max;
+      dualUpd();
+      return;
+    }
+  }
+  applyFilters();
+}
+
+function pickChip(btn) {
+  // Mutually-exclusive preset chips: set both thumbs and persist
+  const wasActive = btn.classList.contains('active');
+  btn.parentElement.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+  const slider = document.querySelector('.dual-slider');
+  if (!wasActive) {
+    btn.classList.add('active');
+    if (slider) {
+      if (btn.dataset.min !== undefined) slider.querySelector('.dt-min').value = +btn.dataset.min;
+      if (btn.dataset.max !== undefined) slider.querySelector('.dt-max').value = +btn.dataset.max;
+      dualUpd();
+      return;
+    }
+  }
+  if (slider) {
+    slider.querySelector('.dt-min').value = +slider.querySelector('.dt-min').min;
+    slider.querySelector('.dt-max').value = +slider.querySelector('.dt-max').max;
+    dualUpd();
+  } else {
+    applyFilters();
+  }
+}
+
+function togAmen(el) {
+  const cb = el.querySelector('input[type=checkbox]');
+  if (cb) {
+    cb.checked = !cb.checked;
+    el.classList.toggle('active', cb.checked);
+  }
+  onF();
+}
+
+function onAmenCh(input) {
+  const pill = input.closest('.amen-pill, .abnb-amen-pill');
+  if (pill) pill.classList.toggle('active', input.checked);
+  onF();
+}
+
+function updateResults(results) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div class="empty-state">No results match your filters.<br><span>Try removing some filters.</span></div>';
+    return;
+  }
+  const tpl = (typeof window.cardTemplate === 'function') ? window.cardTemplate :
+    (r) => `<div class="result-card"><div class="result-name">${escapeHtml(r.title)}</div><div class="result-price">$${(r.price||0).toLocaleString()}</div></div>`;
+  grid.innerHTML = results.map(tpl).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  dualUpd();
+  applyFilters();
+});
+
+</script>
+<script>
+window.cardTemplate = function(r) {
+  const beds = r.beds || 2, baths = r.baths || 1;
+  const price = r.nightly_price || r.price || 0;
+  const photo = r.image_url ? `<img src="${r.image_url}" alt="${escapeHtml(r.title||'')}" loading="lazy">` : '';
+  const fav = r.is_top_rated ? '<span class="guest-fav">Guest favorite</span>' : '';
+  const amen = [];
+  if (r.free_parking || r.free_shipping) amen.push('Free parking');
+  if (r.pet_friendly) amen.push('Pets allowed');
+  if (r.washer) amen.push('Washer');
+  if (r.gym) amen.push('Gym');
+  return `<div class="result-card">
+    <div class="stay-photo">${photo}${fav}<span class="heart">♡</span></div>
+    <div class="stay-info">
+      <div class="stay-loc"><span>${escapeHtml(r.neighborhood || r.title || 'Cleveland')}</span><span class="rating">★ ${r.rating} (${r.review_count||Math.round((r.rating||4)*22)})</span></div>
+      <div class="stay-desc">${escapeHtml(r.title)}</div>
+      <div class="stay-dates">${beds} beds · ${baths} baths · ${r.sqft || 850} sqft</div>
+      <div class="stay-price"><b>$${price}</b> night<span class="total">$${(price*3).toLocaleString()} total</span></div>
+      ${amen.length ? `<div class="stay-badges">${amen.join(' · ')}</div>` : ''}
+    </div>
+  </div>`;
+};
+function abOpenModal(){ document.getElementById('ab-modal-back').classList.add('open'); abBrush(); }
+function abCloseModal(){ document.getElementById('ab-modal-back').classList.remove('open'); }
+function abBrush(){
+  const mn = document.querySelector('.dt-min'), mx = document.querySelector('.dt-max');
+  if (!mn || !mx) return;
+  const lo = +mn.min, hi = +mx.max, range = hi - lo || 1;
+  const left = ((+mn.value - lo)/range)*100;
+  const right = 100 - ((+mx.value - lo)/range)*100;
+  const bars = document.querySelectorAll('#ab-histo .bar');
+  const N = bars.length;
+  bars.forEach((b, i) => {
+    const pct = (i + 0.5) / N * 100;
+    if (pct >= left && pct <= 100 - right) { b.classList.add('in'); b.classList.remove('out'); }
+    else { b.classList.add('out'); b.classList.remove('in'); }
+  });
+}
+document.addEventListener('DOMContentLoaded', abBrush);
+</script>
+</body></html>

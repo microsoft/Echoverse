@@ -1,0 +1,93 @@
+{
+  "env_id": "W09_E03",
+  "widget_id": "W09_calendar_multi_month_advance",
+  "archetype": "booking_form",
+  "filter_spec": {
+    "type": "date_pick",
+    "fields": [
+      "date"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T0821",
+      "task_index_in_env": 1,
+      "instruction_text": "Set up Drury hotel rooms for September 18, 2026.",
+      "expected_filter_state": {
+        "date": "September 18, 2026"
+      }
+    },
+    {
+      "task_id": "T0822",
+      "task_index_in_env": 2,
+      "instruction_text": "Set up Drury hotel rooms for June 13.",
+      "expected_filter_state": {
+        "date": "June 13"
+      }
+    },
+    {
+      "task_id": "T0823",
+      "task_index_in_env": 3,
+      "instruction_text": "Could you book Drury hotel rooms for check-in January 25, 2027? I want the dates to be exactly right.",
+      "expected_filter_state": {
+        "date": "check-in January 25, 2027"
+      }
+    },
+    {
+      "task_id": "T0824",
+      "task_index_in_env": 4,
+      "instruction_text": "Book Drury hotel rooms for me \u2014 the date is July 17, 2026.",
+      "expected_filter_state": {
+        "date": "July 17, 2026"
+      }
+    },
+    {
+      "task_id": "T0825",
+      "task_index_in_env": 5,
+      "instruction_text": "I'd like to reserve Drury hotel rooms for January 21, 2027. Please get the calendar dates correct.",
+      "expected_filter_state": {
+        "date": "January 21, 2027"
+      }
+    },
+    {
+      "task_id": "T0826",
+      "task_index_in_env": 6,
+      "instruction_text": "I'd like to reserve Drury hotel rooms for August 7 to August 14, 2026. Please get the calendar dates correct.",
+      "expected_filter_state": {
+        "date": "August 7 to August 14, 2026"
+      }
+    },
+    {
+      "task_id": "T0827",
+      "task_index_in_env": 7,
+      "instruction_text": "I'd like to reserve Drury hotel rooms for March 15, 2027. Please get the calendar dates correct.",
+      "expected_filter_state": {
+        "date": "March 15, 2027"
+      }
+    },
+    {
+      "task_id": "T0828",
+      "task_index_in_env": 8,
+      "instruction_text": "Set up Drury hotel rooms for November 30, 2026.",
+      "expected_filter_state": {
+        "date": "November 30, 2026"
+      }
+    },
+    {
+      "task_id": "T0829",
+      "task_index_in_env": 9,
+      "instruction_text": "Could you book Drury hotel rooms for December 31, 2026? I want the dates to be exactly right.",
+      "expected_filter_state": {
+        "date": "December 31, 2026"
+      }
+    },
+    {
+      "task_id": "T0830",
+      "task_index_in_env": 10,
+      "instruction_text": "Set up Drury hotel rooms for check-in January 25 to January 28, 2027.",
+      "expected_filter_state": {
+        "date": "check-in January 25 to January 28, 2027"
+      }
+    }
+  ]
+}

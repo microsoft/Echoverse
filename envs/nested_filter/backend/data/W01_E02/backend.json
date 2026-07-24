@@ -1,0 +1,96 @@
+{
+  "env_id": "W01_E02",
+  "widget_id": "W01_multi_checkbox_facet",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "brand",
+      "condition",
+      "color",
+      "category"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T0011",
+      "task_index_in_env": 1,
+      "instruction_text": "I'm browsing Uniqlo men's apparel. Can you help me find Men's Blazers that are open-box (not refurbished)?",
+      "expected_filter_state": {
+        "constraint": "that are open-box (not refurbished)"
+      }
+    },
+    {
+      "task_id": "T0012",
+      "task_index_in_env": 2,
+      "instruction_text": "Help me narrow down to Men's Blazers in black, size M. I'm on Uniqlo men's apparel.",
+      "expected_filter_state": {
+        "constraint": "in black, size M"
+      }
+    },
+    {
+      "task_id": "T0013",
+      "task_index_in_env": 3,
+      "instruction_text": "I'm browsing Uniqlo men's apparel. Can you help me find Men's Blazers that run on Linux and macOS?",
+      "expected_filter_state": {
+        "constraint": "that run on Linux and macOS"
+      }
+    },
+    {
+      "task_id": "T0014",
+      "task_index_in_env": 4,
+      "instruction_text": "I'm browsing Uniqlo men's apparel. Can you help me find Men's Blazers that are young, spayed, and male?",
+      "expected_filter_state": {
+        "constraint": "that are young, spayed, and male"
+      }
+    },
+    {
+      "task_id": "T0015",
+      "task_index_in_env": 5,
+      "instruction_text": "Pull up Men's Blazers with a 5-star rating and Prime eligibility on Uniqlo men's apparel \u2014 I want to compare what's available.",
+      "expected_filter_state": {
+        "constraint": "with a 5-star rating and Prime eligibility"
+      }
+    },
+    {
+      "task_id": "T0016",
+      "task_index_in_env": 6,
+      "instruction_text": "I'm browsing Uniqlo men's apparel. Can you help me find Men's Blazers with remote and full-time tags?",
+      "expected_filter_state": {
+        "constraint": "with remote and full-time tags"
+      }
+    },
+    {
+      "task_id": "T0017",
+      "task_index_in_env": 7,
+      "instruction_text": "Help me narrow down to Men's Blazers in vegan and organic categories. I'm on Uniqlo men's apparel.",
+      "expected_filter_state": {
+        "constraint": "in vegan and organic categories"
+      }
+    },
+    {
+      "task_id": "T0018",
+      "task_index_in_env": 8,
+      "instruction_text": "Pull up Men's Blazers with MIT license and active maintenance on Uniqlo men's apparel \u2014 I want to compare what's available.",
+      "expected_filter_state": {
+        "constraint": "with MIT license and active maintenance"
+      }
+    },
+    {
+      "task_id": "T0019",
+      "task_index_in_env": 9,
+      "instruction_text": "Help me narrow down to Men's Blazers in red, size S, with mini length. I'm on Uniqlo men's apparel.",
+      "expected_filter_state": {
+        "constraint": "in red, size S, with mini length"
+      }
+    },
+    {
+      "task_id": "T0020",
+      "task_index_in_env": 10,
+      "instruction_text": "Pull up Men's Blazers as refurbished, unlocked, 256GB on Uniqlo men's apparel \u2014 I want to compare what's available.",
+      "expected_filter_state": {
+        "constraint": "as refurbished, unlocked, 256GB"
+      }
+    }
+  ]
+}

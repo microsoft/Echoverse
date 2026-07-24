@@ -1,0 +1,755 @@
+<!doctype html><html><head><meta charset="utf-8">
+<title>EchoAudio — Business & Careers Bestsellers</title>
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+
+
+
+
+
+:root {
+  --aud-navy: #102744;
+  --aud-navy-2: #0a1a30;
+  --aud-orange: #f8991c;
+  --aud-orange-2: #e07d00;
+  --aud-text: #1c1c1c;
+  --aud-muted: #5a6772;
+  --aud-link: #2563ad;
+  --aud-bg: #ffffff;
+  --aud-rail: #ffffff;
+  --aud-border: #e3e6ea;
+}
+body { margin:0; font-family:'EchoShop Ember','Helvetica Neue','Segoe UI',Arial,sans-serif; background:#fff; color:var(--aud-text); font-size:14px; -webkit-font-smoothing:antialiased; }
+a { color:var(--aud-link); text-decoration:none; }
+a:hover { text-decoration:underline; }
+
+.aud-top { background:#0a1a30; color:#cdd6e1; padding:0 28px; height:32px; display:flex; align-items:center; gap:22px; font-size:12px; }
+.aud-top a { color:#cdd6e1; }
+.aud-top a:hover { color:#fff; text-decoration:none; }
+.aud-top .spacer { flex:1; }
+
+.aud-hdr { background:var(--aud-navy); color:#fff; padding:14px 28px; display:flex; align-items:center; gap:24px; border-bottom:1px solid #08172a; }
+.aud-hdr .brand { display:flex; align-items:center; gap:10px; }
+.aud-hdr .brand .logo { font-weight:900; font-size:30px; letter-spacing:-1px; color:#fff; font-family:'Helvetica Neue',Arial,sans-serif; }
+.aud-hdr .brand .dot { width:14px; height:14px; border-radius:50%; background:var(--aud-orange); display:inline-flex; align-items:center; justify-content:center; margin-left:-2px; box-shadow:0 0 0 3px rgba(248,153,28,0.25); color:#0a1a30; font-size:10px; font-weight:900; line-height:1; }
+.aud-hdr .brand .tag { font-size:10px; color:#9aa9bc; letter-spacing:0.4px; text-transform:uppercase; margin-top:4px; }
+.aud-hdr .search { flex:1; max-width:720px; display:flex; background:#fff; border-radius:22px; overflow:hidden; box-shadow:0 1px 0 rgba(0,0,0,0.08); border:1px solid #1a3252; }
+.aud-hdr .search select { background:#f3f3f3; border:0; padding:0 14px; font-size:13px; color:#333; border-right:1px solid #ddd; }
+.aud-hdr .search input { flex:1; border:0; padding:10px 14px; font-size:14px; color:#111; outline:none; }
+.aud-hdr .search button { background:var(--aud-orange); color:#0a1a30; border:0; padding:0 22px; font-weight:700; cursor:pointer; font-size:14px; }
+.aud-hdr .search button:hover { background:#ffb13d; }
+.aud-hdr .topright { display:flex; gap:22px; color:#fff; font-size:12px; align-items:center; }
+.aud-hdr .topright .pill { display:flex; flex-direction:column; line-height:1.2; cursor:pointer; }
+.aud-hdr .topright .pill span { font-size:10px; color:#9aa9bc; text-transform:uppercase; letter-spacing:0.4px; }
+.aud-hdr .topright .pill b { font-weight:700; font-size:13px; color:#fff; }
+.aud-hdr .topright .cart { display:flex; align-items:center; gap:6px; font-weight:700; font-size:13px; }
+.aud-hdr .topright .cart .cnt { background:var(--aud-orange); color:#0a1a30; border-radius:10px; padding:1px 7px; font-size:11px; }
+
+.aud-subnav { background:#fff; color:var(--aud-text); padding:0 28px; height:44px; display:flex; align-items:center; gap:22px; font-size:13px; border-bottom:1px solid var(--aud-border); }
+.aud-subnav a { color:#34495d; font-weight:600; padding:14px 0; border-bottom:3px solid transparent; }
+.aud-subnav a:hover { color:var(--aud-orange-2); text-decoration:none; }
+.aud-subnav a.active { color:var(--aud-text); border-bottom-color:var(--aud-orange); }
+
+.wrap { max-width:1280px; margin:0 auto; padding:20px 28px 40px; display:grid; grid-template-columns:248px 1fr; gap:28px; }
+.page-title { grid-column: 1 / -1; padding:6px 0 14px; }
+.page-title .crumb { color:var(--aud-muted); font-size:12px; margin-bottom:6px; }
+.page-title .crumb a { color:var(--aud-link); }
+.page-title .crumb b { color:var(--aud-text); }
+.page-title h1 { font-size:26px; color:var(--aud-text); margin:0; font-weight:700; letter-spacing:-0.2px; }
+.page-title .sub { color:var(--aud-muted); font-size:13px; margin-top:4px; }
+
+.left-rail { font-size:13px; display:block; }
+.left-rail .rail-head { font-size:11px; text-transform:uppercase; letter-spacing:0.6px; color:var(--aud-muted); padding-bottom:10px; border-bottom:1px solid var(--aud-border); margin-bottom:14px; font-weight:700; }
+.left-rail .panel { padding-bottom:16px; margin-bottom:16px; border-bottom:1px solid var(--aud-border); }
+.left-rail .panel:last-child { border-bottom:0; }
+.left-rail .panel h4 { margin:0 0 8px; font-size:13px; color:var(--aud-text); font-weight:700; display:flex; align-items:center; justify-content:space-between; }
+.left-rail .panel h4 .badge { background:var(--aud-orange); color:#0a1a30; border-radius:10px; padding:1px 8px; font-size:10px; font-weight:700; }
+.left-rail .panel .help { color:var(--aud-muted); font-size:11px; margin-bottom:8px; line-height:1.4; }
+.left-rail select { width:100%; padding:9px 12px; border:1px solid #c4ccd4; background:#fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%23333' d='M0 0l5 6 5-6z'/></svg>") no-repeat right 12px center; -webkit-appearance:none; appearance:none; font-size:13px; border-radius:6px; color:var(--aud-text); cursor:pointer; font-family:inherit; }
+.left-rail select:focus { outline:none; border-color:var(--aud-orange); box-shadow:0 0 0 2px rgba(248,153,28,0.2); }
+.left-rail select:hover { border-color:#7e8a96; }
+.left-rail .clear { color:var(--aud-link); font-size:11px; margin-top:8px; display:inline-block; cursor:pointer; }
+.left-rail .clear:hover { text-decoration:underline; }
+.left-rail .panel ul { margin:0; padding:0; list-style:none; font-size:13px; }
+.left-rail .panel li { padding:4px 0; color:var(--aud-link); cursor:pointer; }
+.left-rail .panel li:hover { text-decoration:underline; }
+.left-rail .stars-row { display:flex; align-items:center; gap:6px; padding:3px 0; color:var(--aud-link); cursor:pointer; }
+.left-rail .stars-row .s { color:var(--aud-orange); letter-spacing:1px; }
+
+.refine-row, .modal-backdrop, .refine-modal { display:none !important; }
+
+main { min-width:0; }
+.result-bar { display:flex; align-items:center; gap:12px; margin-bottom:14px; padding:12px 14px; background:#f7f8fa; border:1px solid var(--aud-border); border-radius:8px; }
+.result-bar b { color:var(--aud-text); font-weight:700; }
+.result-bar .pill { background:#fff; border:1px solid var(--aud-border); padding:3px 10px; border-radius:12px; font-size:12px; color:var(--aud-muted); }
+.result-bar .right { margin-left:auto; color:var(--aud-muted); font-size:13px; display:flex; align-items:center; gap:8px; }
+.result-bar .right b { color:var(--aud-text); }
+
+.applied-row { display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-bottom:16px; color:var(--aud-muted); font-size:12px; }
+.applied-row .lbl { font-weight:600; color:var(--aud-text); }
+.applied-row .chip { background:#fff; border:1px solid #c8d0d6; padding:4px 10px; border-radius:14px; font-size:12px; color:#34495d; }
+.applied-row .chip.bucket { border-color:var(--aud-orange); background:#fff8ec; color:#7c5400; font-weight:600; }
+.applied-row .chip .x { margin-left:6px; color:#a06800; cursor:pointer; opacity:0.7; }
+.applied-row .chip .x:hover { opacity:1; }
+
+.book-row { display:flex; gap:20px; padding:20px 0; border-bottom:1px solid #eef1f4; align-items:flex-start; }
+.book-row:hover { background:#fafbfc; }
+.book-row .cover { width:128px; height:128px; background:linear-gradient(135deg,#3a2515,#7a4a1f); border-radius:6px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:42px; color:#fff; box-shadow:0 6px 16px rgba(0,0,0,0.18); overflow:hidden; position:relative; }
+.book-row .cover::after { content:''; position:absolute; left:0; top:0; bottom:0; width:6px; background:rgba(0,0,0,0.18); }
+.book-row .info { flex:1; min-width:0; }
+.book-row .info h3 { margin:0 0 4px; color:var(--aud-text); font-size:17px; font-weight:700; line-height:1.25; }
+.book-row .info h3 a { color:var(--aud-link); }
+.book-row .info h3 a:hover { color:#c64a00; text-decoration:underline; }
+.book-row .info .by { color:#34495d; font-size:13px; margin-bottom:2px; }
+.book-row .info .by a, .book-row .info .nar a { color:var(--aud-link); }
+.book-row .info .nar { color:#34495d; font-size:13px; margin-bottom:8px; }
+.book-row .info .meta { font-size:13px; color:var(--aud-muted); display:flex; align-items:center; flex-wrap:wrap; gap:14px; }
+.book-row .info .meta .stars { color:#e88012; font-weight:700; letter-spacing:0.5px; }
+.book-row .info .meta .stars .num { color:var(--aud-link); margin-left:4px; font-weight:600; }
+.book-row .info .meta .len { color:var(--aud-text); font-weight:600; }
+.book-row .info .meta .len::before { content:'⏱ '; opacity:0.6; }
+.book-row .info .badges { display:flex; gap:6px; margin-top:10px; flex-wrap:wrap; }
+.book-row .info .badges span { background:#fff5e1; color:#7c5400; font-size:10px; padding:3px 9px; border-radius:3px; font-weight:700; letter-spacing:0.3px; text-transform:uppercase; border:1px solid #f0d294; }
+.book-row .info .badges span.best { background:var(--aud-orange); color:#0a1a30; border-color:var(--aud-orange-2); }
+.book-row .actions { width:168px; flex-shrink:0; display:flex; flex-direction:column; gap:8px; align-items:stretch; }
+.book-row .actions .price { font-size:18px; color:var(--aud-text); font-weight:700; text-align:center; }
+.book-row .actions .price .free { display:block; font-size:11px; color:var(--aud-muted); font-weight:500; margin-top:2px; }
+.book-row .actions button { background:var(--aud-orange); color:#0a1a30; border:1px solid var(--aud-orange-2); padding:9px; font-weight:700; cursor:pointer; border-radius:20px; font-size:13px; }
+.book-row .actions button:hover { background:#ffb13d; }
+.book-row .actions .wish { background:#fff; border:1px solid #c8d0d6; color:#34495d; padding:9px; cursor:pointer; border-radius:20px; font-size:13px; font-weight:600; }
+.book-row .actions .wish:hover { background:#f7f8fa; }
+
+.foot { background:var(--aud-navy); color:#cdd6e1; padding:32px 28px 18px; margin-top:30px; font-size:12px; }
+.foot .fcols { max-width:1280px; margin:0 auto; display:grid; grid-template-columns:repeat(4, 1fr); gap:32px; padding-bottom:24px; border-bottom:1px solid #1c3858; }
+.foot .fcols h5 { color:#fff; font-size:13px; margin:0 0 10px; font-weight:700; }
+.foot .fcols a { color:#cdd6e1; display:block; padding:3px 0; font-size:12px; }
+.foot .fcols a:hover { color:#fff; }
+.foot .fbot { max-width:1280px; margin:16px auto 0; display:flex; align-items:center; gap:12px; font-size:11px; color:#9aa9bc; }
+.foot .fbot .logo-mini { font-weight:900; color:#fff; font-size:18px; letter-spacing:-0.5px; }
+.foot .fbot .dot { width:8px; height:8px; border-radius:50%; background:var(--aud-orange); display:inline-flex; align-items:center; justify-content:center; margin-left:2px; margin-right:8px; color:#0a1a30; font-size:6px; font-weight:900; line-height:1; }
+
+
+#task-banner { display:none; padding:14px 18px; background:#fff8e6; border:1px solid #f0c060;
+       border-radius:6px; margin:12px 0; font-family:system-ui,sans-serif; color:#222; }
+.tb-head { display:flex; gap:8px; align-items:center; margin-bottom:6px; }
+.tb-id { font-family:monospace; font-size:11px; color:#666; }
+.tb-type { font-size:11px; padding:2px 7px; border-radius:8px; font-weight:700; }
+.tb-type-write { background:#d8ecff; color:#0a4a8a; }
+.tb-type-read { background:#e6f7ec; color:#1a6d36; }
+.tb-type-read_write { background:#f4e3ff; color:#5d22a0; }
+.tb-diff { font-size:11px; padding:2px 7px; border-radius:8px; background:#fce4e4; color:#a82020; font-weight:700; }
+.tb-summary { font-size:14px; line-height:1.5; margin-bottom:8px; }
+.tb-answer-row { display:flex; gap:8px; align-items:center; margin:8px 0; }
+.tb-answer-label { font-size:12px; font-weight:600; color:#444; }
+.tb-answer-input { flex:1; padding:7px 10px; border:1px solid #cfd4dc; border-radius:5px; font-size:13px; }
+.tb-meta { font-size:11px; color:#888; margin-top:4px; }
+.tb-meta code { background:#fff; padding:1px 4px; border-radius:3px; font-size:11px; }
+.live-status { position:fixed; top:14px; right:14px; display:flex; align-items:center; gap:8px;
+       padding:8px 14px; border-radius:18px; background:#fff; border:1px solid #ddd;
+       font-family:system-ui,sans-serif; font-size:12px; z-index:9999; box-shadow:0 4px 14px rgba(0,0,0,0.2); max-width:380px; color:#222; }
+.live-status .ls-msg { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.live-status.good { background:#e6f7ec; color:#1a6d36; border-color:#5fae74; }
+.live-status.pending { background:#fff7e6; color:#8a5500; border-color:#f0c060; }
+.live-status.neutral { background:#fff; color:#555; border-color:#ddd; }
+.live-status .ls-toggle { cursor:pointer; opacity:0.6; user-select:none; }
+.live-status .ls-toggle:hover { opacity:1; }
+.live-status .ls-state { display:none; position:absolute; right:0; top:100%; margin-top:6px;
+       background:#fff; border:1px solid #ddd; border-radius:6px; padding:8px; max-width:300px; max-height:240px; overflow:auto; }
+.live-status.open .ls-state { display:block; }
+.live-status .ls-state pre { margin:0; font-size:11px; color:#222; }
+/* v4-pexels-css */
+
+.book-row .cover { padding:0 !important; overflow:hidden; position:relative; }
+.book-row .cover img.thumb-img { width:100%; height:100%; object-fit:cover; display:block; }
+
+</style></head><body>
+<div class="live-status neutral" id="live-status" onclick="this.classList.toggle('open')"><span class="ls-msg">💾 State auto-saves</span><span class="ls-toggle">⌄</span><div class="ls-state"><pre>{}</pre></div></div>
+
+<div class="aud-top">
+  <a>Hello, sign in</a><a>Account &amp; Lists ▾</a><a>Library</a><a>Wish List</a>
+  <span class="spacer"></span>
+  <a>Gift Centre</a><a>Help</a><a>Try EchoAudio Premium Plus free</a>
+</div>
+<header class="aud-hdr">
+  <div class="brand">
+    <span class="logo">EchoAudio</span><span class="dot">E</span>
+  </div>
+  <div class="search">
+    <select disabled><option>Audiobooks</option></select>
+    <input value="business audiobooks" readonly aria-label="Search EchoAudio">
+    <button>🔍 Search</button>
+  </div>
+  <div class="topright">
+    <div class="pill"><span>Deliver to</span><b>📍 United States</b></div>
+    <div class="pill"><span>Returns</span><b>&amp; Orders</b></div>
+    <div class="cart">🛒 Cart <span class="cnt">0</span></div>
+  </div>
+</header>
+<nav class="aud-subnav">
+  <a>Browse</a><a class="active">Bestsellers</a><a>Best of 2026</a><a>New Releases</a><a>EchoAudio Originals</a><a>Plus Catalog</a><a>Categories</a><a>Deals &amp; Promotions</a>
+</nav>
+
+<div class="wrap">
+  <div class="page-title">
+    <div class="crumb"><a>EchoAudio Books &amp; Originals</a> › <a>Categories</a> › <a>Business &amp; Careers</a> › <b>Bestsellers</b></div>
+    <h1>Best Sellers in EchoAudio Business &amp; Careers</h1>
+    <div class="sub">Top-charting business audiobooks this week, refreshed daily.</div>
+  </div>
+
+  <aside class="left-rail">
+    <div class="rail-head">Refine results</div>
+    <div class="panel">
+      <h4>Length <span class="badge">Filter</span></h4>
+      <div class="help">Total listening time (unabridged runtime).</div>
+      <select data-bucket-select data-facet="bucket" onchange="setBucket(this.value)" aria-label="Length filter">
+        <option value="">— Any length —</option>
+        <option value="Under 1 hour">Under 1 hour</option>
+        <option value="1-3 hours">1-3 hours</option>
+        <option value="3-6 hours">3-6 hours</option>
+        <option value="6-10 hours">6-10 hours</option>
+        <option value="10-20 hours">10-20 hours</option>
+        <option value="Over 20 hours">Over 20 hours</option>
+      </select>
+      <a class="clear" onclick="clearBucket()">↺ Clear length filter</a>
+    </div>
+    <div class="panel">
+      <h4>Average Customer Review</h4>
+      <div class="stars-row"><span class="s">★★★★☆</span> &amp; Up</div>
+      <div class="stars-row"><span class="s">★★★☆☆</span> &amp; Up</div>
+      <div class="stars-row"><span class="s">★★☆☆☆</span> &amp; Up</div>
+      <div class="stars-row"><span class="s">★☆☆☆☆</span> &amp; Up</div>
+    </div>
+    <div class="panel">
+      <h4>Format</h4>
+      <ul><li>Unabridged</li><li>Abridged</li><li>Original recording</li></ul>
+    </div>
+    <div class="panel">
+      <h4>Release Date</h4>
+      <ul><li>Last 30 days</li><li>Last 90 days</li><li>Coming soon</li></ul>
+    </div>
+    <div class="panel">
+      <h4>Price</h4>
+      <ul><li>Free with Plus</li><li>Under $5</li><li>$5 to $15</li><li>Over $15</li></ul>
+    </div>
+    <div class="panel">
+      <h4>Language</h4>
+      <ul><li>English</li><li>Spanish</li><li>French</li></ul>
+    </div>
+  </aside>
+
+  <main>
+    <div id="task-banner"></div>
+    <div class="result-bar">
+      <b><span id="result-count">16</span></b> results
+      <span class="pill">in Business &amp; Careers</span>
+      <span class="right">Sort by: <b>Bestselling</b> ▾</span>
+    </div>
+    <div class="applied-row">
+      <span class="lbl">Filters applied:</span>
+      <span class="chip">Category: Business &amp; Careers</span>
+      <span class="chip">Language: English</span>
+      <span class="chip bucket" id="length-chip" style="display:none">Length: <span id="length-chip-label"></span><span class="x" onclick="clearBucket()">✕</span></span>
+    </div>
+    <div id="results">
+<div class="book-row" data-card-bucket="Under 1 hour">
+  <div class="cover"><img class="thumb-img" src="https://images.pexels.com/photos/19582451/pexels-photo-19582451.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="The 4-Minute Pitch" loading="lazy"></div>
+  <div class="info" style="flex:1;min-width:0">
+    <h3><a>The 4-Minute Pitch</a></h3>
+    <div class="by">By: <a>Marcus Cho</a></div>
+    <div class="nar">Narrated by: <a>Aja Cooper</a></div>
+    <div class="meta">
+      <span class="stars">★★★★★ 4.6</span>
+      <span style="color:#666;font-size:12px;margin-left:6px">(1,418 ratings)</span>
+      <span class="len">Length: 00:48</span>
+    </div>
+    <div class="badges"><span class="best">★ Bestseller</span><span>Listening Length Verified</span></div>
+  </div>
+  <div class="actions">
+    <button>Add to cart</button>
+    <button class="wish">♡ Wish List</button>
+    <div style="font-size:12px;color:#555;text-align:center;margin-top:4px">$14.95 · Free with EchoAudio Premium</div>
+  </div>
+</div>
+<div class="book-row" data-card-bucket="Under 1 hour">
+  <div class="cover"><img class="thumb-img" src="https://images.pexels.com/photos/31567151/pexels-photo-31567151.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Negotiation in a Nutshell" loading="lazy"></div>
+  <div class="info" style="flex:1;min-width:0">
+    <h3><a>Negotiation in a Nutshell</a></h3>
+    <div class="by">By: <a>Dana Reilly</a></div>
+    <div class="nar">Narrated by: <a>Mark Bramhall</a></div>
+    <div class="meta">
+      <span class="stars">★★★★☆ 4.2</span>
+      <span style="color:#666;font-size:12px;margin-left:6px">(987 ratings)</span>
+      <span class="len">Length: 00:35</span>
+    </div>
+    <div class="badges"><span class="best">★ Bestseller</span><span>Listening Length Verified</span></div>
+  </div>
+  <div class="actions">
+    <button>Add to cart</button>
+    <button class="wish">♡ Wish List</button>
+    <div style="font-size:12px;color:#555;text-align:center;margin-top:4px">$14.95 · Free with EchoAudio Premium</div>
+  </div>
+</div>
+<div class="book-row" data-card-bucket="1-3 hours">
+  <div class="cover"><img class="thumb-img" src="https://images.pexels.com/photos/35698025/pexels-photo-35698025.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Atomic Habits Workshop Recap" loading="lazy"></div>
+  <div class="info" style="flex:1;min-width:0">
+    <h3><a>Atomic Habits Workshop Recap</a></h3>
+    <div class="by">By: <a>James Clear</a></div>
+    <div class="nar">Narrated by: <a>James Clear</a></div>
+    <div class="meta">
+      <span class="stars">★★★★★ 4.7</span>
+      <span style="color:#666;font-size:12px;margin-left:6px">(12,300 ratings)</span>
+      <span class="len">Length: 02:11</span>
+    </div>
+    <div class="badges"><span class="best">★ Bestseller</span><span>Listening Length Verified</span></div>
+  </div>
+  <div class="actions">
+    <button>Add to cart</button>
+    <button class="wish">♡ Wish List</button>
+    <div style="font-size:12px;color:#555;text-align:center;margin-top:4px">$14.95 · Free with EchoAudio Premium</div>
+  </div>
+</div>
+<div class="book-row" data-card-bucket="1-3 hours">
+  <div class="cover"><img class="thumb-img" src="https://images.pexels.com/photos/6962413/pexels-photo-6962413.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Quiet Quitting: A Q&amp;A" loading="lazy"></div>
+  <div class="info" style="flex:1;min-width:0">
+    <h3><a>Quiet Quitting: A Q&amp;A</a></h3>
+    <div class="by">By: <a>Anne Helen Petersen</a></div>
+    <div class="nar">Narrated by: <a>Anne Helen Petersen</a></div>
+    <div class="meta">
+      <span class="stars">★★★★☆ 4.4</span>
+      <span style="color:#666;font-size:12px;margin-left:6px">(3,210 ratings)</span>
+      <span class="len">Length: 01:42</span>
+    </div>
+    <div class="badges"><span class="best">★ Bestseller</span><span>Listening Length Verified</span></div>
+  </div>
+  <div class="actions">
+    <button>Add to cart</button>
+    <button class="wish">♡ Wish List</button>
+    <div style="font-size:12px;color:#555;text-align:center;margin-top:4px">$14.95 · Free with EchoAudio Premium</div>
+  </div>
+</div>
+<div class="book-row" data-card-bucket="1-3 hours">
+  <div class="cover"><img class="thumb-img" src="https://images.pexels.com/photos/5910395/pexels-photo-5910395.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="The Lean Startup — Abridged" loading="lazy"></div>
+  <div class="info" style="flex:1;min-width:0">
+    <h3><a>The Lean Startup — Abridged</a></h3>
+    <div class="by">By: <a>Eric Ries</a></div>
+    <div class="nar">Narrated by: <a>Eric Ries</a></div>
+    <div class="meta">
+      <span class="stars">★★★★☆ 4.5</span>
+      <span style="color:#666;font-size:12px;margin-left:6px">(8,402 ratings)</span>
+      <span class="len">Length: 02:54</span>
+    </div>
+    <div class="badges"><span class="best">★ Bestseller</span><span>Listening Length Verified</span></div>
+  </div>
+  <div class="actions">
+    <button>Add to cart</button>
+    <button class="wish">♡ Wish List</button>
+    <div style="font-size:12px;color:#555;text-align:center;margin-top:4px">$14.95 · Free with EchoAudio Premium</div>
+  </div>
+</div>
+<div class="book-row" data-card-bucket="3-6 hours">
+  <div class="cover"><img class="thumb-img" src="https://images.pexels.com/photos/7682364/pexels-photo-7682364.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Deep Work" loading="lazy"></div>
+  <div class="info" style="flex:1;min-width:0">
+    <h3><a>Deep Work</a></h3>
+    <div class="by">By: <a>Cal Newport</a></div>
+    <div class="nar">Narrated by: <a>Jeff Bottoms</a></div>
+    <div class="meta">
+      <span class="stars">★★★★★ 4.8</span>
+      <span style="color:#666;font-size:12px;margin-left:6px">(23,915 ratings)</span>
+      <span class="len">Length: 04:22</span>
+    </div>
+    <div class="badges"><span class="best">★ Bestseller</span><span>Listening Length Verified</span></div>
+  </div>
+  <div class="actions">
+    <button>Add to cart</button>
+    <button class="wish">♡ Wish List</button>
+    <div style="font-size:12px;color:#555;text-align:center;margin-top:4px">$14.95 · Free with EchoAudio Premium</div>
+  </div>
+</div>
+<div class="book-row" data-card-bucket="3-6 hours">
+  <div class="cover"><img class="thumb-img" src="https://images.pexels.com/photos/30752163/pexels-photo-30752163.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Radical Candor — Updated" loading="lazy"></div>
+  <div class="info" style="flex:1;min-width:0">
+    <h3><a>Radical Candor — Updated</a></h3>
+    <div class="by">By: <a>Kim Scott</a></div>
+    <div class="nar">Narrated by: <a>Teri Schnaubelt</a></div>
+    <div class="meta">
+      <span class="stars">★★★★★ 4.6</span>
+      <span style="color:#666;font-size:12px;margin-left:6px">(15,701 ratings)</span>
+      <span class="len">Length: 05:19</span>
+    </div>
+    <div class="badges"><span class="best">★ Bestseller</span><span>Listening Length Verified</span></div>
+  </div>
+  <div class="actions">
+    <button>Add to cart</button>
+    <button class="wish">♡ Wish List</button>
+    <div style="font-size:12px;color:#555;text-align:center;margin-top:4px">$14.95 · Free with EchoAudio Premium</div>
+  </div>
+</div>
+<div class="book-row" data-card-bucket="3-6 hours">
+  <div class="cover"><img class="thumb-img" src="https://images.pexels.com/photos/7643400/pexels-photo-7643400.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Crucial Conversations" loading="lazy"></div>
+  <div class="info" style="flex:1;min-width:0">
+    <h3><a>Crucial Conversations</a></h3>
+    <div class="by">By: <a>Joseph Grenny et al.</a></div>
+    <div class="nar">Narrated by: <a>Joseph Grenny</a></div>
+    <div class="meta">
+      <span class="stars">★★★★☆ 4.5</span>
+      <span style="color:#666;font-size:12px;margin-left:6px">(9,820 ratings)</span>
+      <span class="len">Length: 05:55</span>
+    </div>
+    <div class="badges"><span class="best">★ Bestseller</span><span>Listening Length Verified</span></div>
+  </div>
+  <div class="actions">
+    <button>Add to cart</button>
+    <button class="wish">♡ Wish List</button>
+    <div style="font-size:12px;color:#555;text-align:center;margin-top:4px">$14.95 · Free with EchoAudio Premium</div>
+  </div>
+</div>
+<div class="book-row" data-card-bucket="6-10 hours">
+  <div class="cover"><img class="thumb-img" src="https://images.pexels.com/photos/5009227/pexels-photo-5009227.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Thinking, Fast and Slow" loading="lazy"></div>
+  <div class="info" style="flex:1;min-width:0">
+    <h3><a>Thinking, Fast and Slow</a></h3>
+    <div class="by">By: <a>Daniel Kahneman</a></div>
+    <div class="nar">Narrated by: <a>Patrick Egan</a></div>
+    <div class="meta">
+      <span class="stars">★★★★★ 4.7</span>
+      <span style="color:#666;font-size:12px;margin-left:6px">(31,205 ratings)</span>
+      <span class="len">Length: 07:08</span>
+    </div>
+    <div class="badges"><span class="best">★ Bestseller</span><span>Listening Length Verified</span></div>
+  </div>
+  <div class="actions">
+    <button>Add to cart</button>
+    <button class="wish">♡ Wish List</button>
+    <div style="font-size:12px;color:#555;text-align:center;margin-top:4px">$14.95 · Free with EchoAudio Premium</div>
+  </div>
+</div>
+<div class="book-row" data-card-bucket="6-10 hours">
+  <div class="cover"><img class="thumb-img" src="https://images.pexels.com/photos/18847269/pexels-photo-18847269.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Never Split the Difference" loading="lazy"></div>
+  <div class="info" style="flex:1;min-width:0">
+    <h3><a>Never Split the Difference</a></h3>
+    <div class="by">By: <a>Chris Voss</a></div>
+    <div class="nar">Narrated by: <a>Michael Kramer</a></div>
+    <div class="meta">
+      <span class="stars">★★★★★ 4.8</span>
+      <span style="color:#666;font-size:12px;margin-left:6px">(42,180 ratings)</span>
+      <span class="len">Length: 08:07</span>
+    </div>
+    <div class="badges"><span class="best">★ Bestseller</span><span>Listening Length Verified</span></div>
+  </div>
+  <div class="actions">
+    <button>Add to cart</button>
+    <button class="wish">♡ Wish List</button>
+    <div style="font-size:12px;color:#555;text-align:center;margin-top:4px">$14.95 · Free with EchoAudio Premium</div>
+  </div>
+</div>
+<div class="book-row" data-card-bucket="6-10 hours">
+  <div class="cover"><img class="thumb-img" src="https://images.pexels.com/photos/276005/pexels-photo-276005.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Principles: Life and Work" loading="lazy"></div>
+  <div class="info" style="flex:1;min-width:0">
+    <h3><a>Principles: Life and Work</a></h3>
+    <div class="by">By: <a>Ray Dalio</a></div>
+    <div class="nar">Narrated by: <a>Jeremy Bobb</a></div>
+    <div class="meta">
+      <span class="stars">★★★★☆ 4.4</span>
+      <span style="color:#666;font-size:12px;margin-left:6px">(11,920 ratings)</span>
+      <span class="len">Length: 09:30</span>
+    </div>
+    <div class="badges"><span class="best">★ Bestseller</span><span>Listening Length Verified</span></div>
+  </div>
+  <div class="actions">
+    <button>Add to cart</button>
+    <button class="wish">♡ Wish List</button>
+    <div style="font-size:12px;color:#555;text-align:center;margin-top:4px">$14.95 · Free with EchoAudio Premium</div>
+  </div>
+</div>
+<div class="book-row" data-card-bucket="10-20 hours">
+  <div class="cover"><img class="thumb-img" src="https://images.pexels.com/photos/731173/pexels-photo-731173.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Shoe Dog" loading="lazy"></div>
+  <div class="info" style="flex:1;min-width:0">
+    <h3><a>Shoe Dog</a></h3>
+    <div class="by">By: <a>Phil Knight</a></div>
+    <div class="nar">Narrated by: <a>Norbert Leo Butz</a></div>
+    <div class="meta">
+      <span class="stars">★★★★★ 4.8</span>
+      <span style="color:#666;font-size:12px;margin-left:6px">(38,711 ratings)</span>
+      <span class="len">Length: 13:21</span>
+    </div>
+    <div class="badges"><span class="best">★ Bestseller</span><span>Listening Length Verified</span></div>
+  </div>
+  <div class="actions">
+    <button>Add to cart</button>
+    <button class="wish">♡ Wish List</button>
+    <div style="font-size:12px;color:#555;text-align:center;margin-top:4px">$14.95 · Free with EchoAudio Premium</div>
+  </div>
+</div>
+<div class="book-row" data-card-bucket="10-20 hours">
+  <div class="cover"><img class="thumb-img" src="https://images.pexels.com/photos/6344091/pexels-photo-6344091.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="The Hard Thing About Hard Things" loading="lazy"></div>
+  <div class="info" style="flex:1;min-width:0">
+    <h3><a>The Hard Thing About Hard Things</a></h3>
+    <div class="by">By: <a>Ben Horowitz</a></div>
+    <div class="nar">Narrated by: <a>Kevin Kenerly</a></div>
+    <div class="meta">
+      <span class="stars">★★★★★ 4.6</span>
+      <span style="color:#666;font-size:12px;margin-left:6px">(14,008 ratings)</span>
+      <span class="len">Length: 10:47</span>
+    </div>
+    <div class="badges"><span class="best">★ Bestseller</span><span>Listening Length Verified</span></div>
+  </div>
+  <div class="actions">
+    <button>Add to cart</button>
+    <button class="wish">♡ Wish List</button>
+    <div style="font-size:12px;color:#555;text-align:center;margin-top:4px">$14.95 · Free with EchoAudio Premium</div>
+  </div>
+</div>
+<div class="book-row" data-card-bucket="10-20 hours">
+  <div class="cover"><img class="thumb-img" src="https://images.pexels.com/photos/276005/pexels-photo-276005.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Bad Blood: Theranos" loading="lazy"></div>
+  <div class="info" style="flex:1;min-width:0">
+    <h3><a>Bad Blood: Theranos</a></h3>
+    <div class="by">By: <a>John Carreyrou</a></div>
+    <div class="nar">Narrated by: <a>Will Damron</a></div>
+    <div class="meta">
+      <span class="stars">★★★★★ 4.7</span>
+      <span style="color:#666;font-size:12px;margin-left:6px">(29,440 ratings)</span>
+      <span class="len">Length: 11:36</span>
+    </div>
+    <div class="badges"><span class="best">★ Bestseller</span><span>Listening Length Verified</span></div>
+  </div>
+  <div class="actions">
+    <button>Add to cart</button>
+    <button class="wish">♡ Wish List</button>
+    <div style="font-size:12px;color:#555;text-align:center;margin-top:4px">$14.95 · Free with EchoAudio Premium</div>
+  </div>
+</div>
+<div class="book-row" data-card-bucket="Over 20 hours">
+  <div class="cover"><img class="thumb-img" src="https://images.pexels.com/photos/8762862/pexels-photo-8762862.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Steve Jobs" loading="lazy"></div>
+  <div class="info" style="flex:1;min-width:0">
+    <h3><a>Steve Jobs</a></h3>
+    <div class="by">By: <a>Walter Isaacson</a></div>
+    <div class="nar">Narrated by: <a>Dylan Baker</a></div>
+    <div class="meta">
+      <span class="stars">★★★★★ 4.8</span>
+      <span style="color:#666;font-size:12px;margin-left:6px">(51,200 ratings)</span>
+      <span class="len">Length: 25:18</span>
+    </div>
+    <div class="badges"><span class="best">★ Bestseller</span><span>Listening Length Verified</span></div>
+  </div>
+  <div class="actions">
+    <button>Add to cart</button>
+    <button class="wish">♡ Wish List</button>
+    <div style="font-size:12px;color:#555;text-align:center;margin-top:4px">$14.95 · Free with EchoAudio Premium</div>
+  </div>
+</div>
+<div class="book-row" data-card-bucket="Over 20 hours">
+  <div class="cover"><img class="thumb-img" src="https://images.pexels.com/photos/8499497/pexels-photo-8499497.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280" alt="Titan: John D. Rockefeller, Sr." loading="lazy"></div>
+  <div class="info" style="flex:1;min-width:0">
+    <h3><a>Titan: John D. Rockefeller, Sr.</a></h3>
+    <div class="by">By: <a>Ron Chernow</a></div>
+    <div class="nar">Narrated by: <a>Grover Gardner</a></div>
+    <div class="meta">
+      <span class="stars">★★★★★ 4.7</span>
+      <span style="color:#666;font-size:12px;margin-left:6px">(8,901 ratings)</span>
+      <span class="len">Length: 33:14</span>
+    </div>
+    <div class="badges"><span class="best">★ Bestseller</span><span>Listening Length Verified</span></div>
+  </div>
+  <div class="actions">
+    <button>Add to cart</button>
+    <button class="wish">♡ Wish List</button>
+    <div style="font-size:12px;color:#555;text-align:center;margin-top:4px">$14.95 · Free with EchoAudio Premium</div>
+  </div>
+</div></div>
+  </main>
+</div>
+
+<footer class="foot">
+  <div class="fcols">
+    <div>
+      <h5>Get to know us</h5>
+      <a>About EchoAudio</a><a>Careers</a><a>Newsroom</a><a>Diversity &amp; Inclusion</a><a>Investor relations</a>
+    </div>
+    <div>
+      <h5>Make money with us</h5>
+      <a>Become a narrator</a><a>Publish on EchoAudio</a><a>EchoAudio Affiliate Programme</a><a>Advertise with us</a>
+    </div>
+    <div>
+      <h5>Let us help you</h5>
+      <a>Manage subscription</a><a>Account details</a><a>Help centre</a><a>Redeem promo code</a><a>Return an audiobook</a>
+    </div>
+    <div>
+      <h5>Listen anywhere</h5>
+      <a>EchoAudio app for iOS</a><a>EchoAudio app for Android</a><a>Echo Voice devices</a><a>Echo Speakers &amp; smart speakers</a>
+    </div>
+  </div>
+  <div class="fbot">
+    <span class="logo-mini">EchoAudio</span><span class="dot">E</span>
+    <span>© 1997-2026 EchoAudio, Inc. or its affiliates. An EchoAudio company.</span>
+    <span style="margin-left:auto">Conditions of Use · Privacy Notice · Cookie Notice · Help</span>
+  </div>
+</footer>
+
+
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+const ENV_ID = "W02_E04";
+let filterState = {};
+
+function getTaskId() {
+  return new URLSearchParams(window.location.search).get('task_id');
+}
+function getAnswer() {
+  const el = document.getElementById('task-answer-input');
+  return el ? el.value : '';
+}
+function submitState() {
+  const taskId = getTaskId();
+  const answer = getAnswer();
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(updateStatusBar).catch(()=>{});
+  applyBucketVisibility();
+  updateResultCount();
+}
+function applyBucketVisibility() {
+  const cards = document.querySelectorAll('[data-card-bucket]');
+  cards.forEach(card => {
+    if (!filterState.bucket) { card.style.display = ''; return; }
+    card.style.display = (card.getAttribute('data-card-bucket') === filterState.bucket) ? '' : 'none';
+  });
+}
+function updateResultCount() {
+  const c = document.getElementById('result-count');
+  if (!c) return;
+  const cards = document.querySelectorAll('[data-card-bucket]');
+  let total = cards.length;
+  if (filterState.bucket) {
+    total = Array.from(cards).filter(x => x.getAttribute('data-card-bucket') === filterState.bucket).length;
+  }
+  c.textContent = total;
+}
+function updateStatusBar(data) {
+  const bar = document.getElementById('live-status');
+  if (!bar) return;
+  let msg, cls;
+  if (data && data.task_id) {
+    if (data.satisfies) { msg = '✅ Satisfies task ' + data.task_id; cls = 'good'; }
+    else { msg = '⏳ Working on task ' + data.task_id + ' — ' + (data.message || ''); cls = 'pending'; }
+  } else {
+    msg = '💾 State auto-saved'; cls = 'neutral';
+  }
+  bar.className = 'live-status ' + cls;
+  bar.querySelector('.ls-msg').textContent = msg;
+  bar.querySelector('.ls-state pre').textContent = JSON.stringify(filterState, null, 2);
+}
+function setBucket(label) {
+  if (!label) { delete filterState.bucket; }
+  else { filterState.bucket = label; }
+  refreshActiveUI();
+  submitState();
+}
+function clearBucket() { setBucket(''); }
+function refreshActiveUI() {
+  document.querySelectorAll('select[data-bucket-select]').forEach(sel => {
+    sel.value = filterState.bucket || '';
+  });
+  document.querySelectorAll('[data-bucket-val]').forEach(el => {
+    if (el.getAttribute('data-bucket-val') === filterState.bucket) el.classList.add('is-active');
+    else el.classList.remove('is-active');
+  });
+  const chip = document.getElementById('length-chip');
+  const chipLbl = document.getElementById('length-chip-label');
+  if (chip && chipLbl) {
+    if (filterState.bucket) { chip.style.display = ''; chipLbl.textContent = filterState.bucket; }
+    else { chip.style.display = 'none'; }
+  }
+}
+function openRefine() {
+  const bd = document.getElementById('refine-bd');
+  const md = document.getElementById('refine-modal');
+  if (!bd || !md) return;
+  bd.classList.add('open');
+  md.classList.add('open');
+  md.setAttribute('aria-hidden','false');
+}
+function closeRefine() {
+  const bd = document.getElementById('refine-bd');
+  const md = document.getElementById('refine-modal');
+  if (!bd || !md) return;
+  bd.classList.remove('open');
+  md.classList.remove('open');
+  md.setAttribute('aria-hidden','true');
+}
+function escapeHtml(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function loadTaskBanner() {
+  const tid = getTaskId();
+  fetch('/env/' + ENV_ID + '/api/task/' + encodeURIComponent(tid))
+    .then(r => r.ok ? r.json() : null)
+    .then(task => {
+      if (!task) return;
+      const banner = document.getElementById('task-banner');
+      if (!banner) return;
+      banner.style.display = 'block';
+      const answerInput = task.task_type !== 'write'
+        ? '<div class="tb-answer-row"><label class="tb-answer-label">Your answer:</label>' +
+          '<input id="task-answer-input" class="tb-answer-input" placeholder="Type your finding here" oninput="submitState()"></div>'
+        : '';
+      banner.innerHTML =
+        '<div class="tb-head">' +
+          '<span class="tb-id">' + escapeHtml(task.id) + '</span>' +
+          '<span class="tb-type tb-type-' + escapeHtml(task.task_type) + '">' + escapeHtml((task.task_type||'').toUpperCase()) + '</span>' +
+          '<span class="tb-diff">' + escapeHtml(task.task_difficulty || '') + '</span>' +
+        '</div>' +
+        '<div class="tb-summary">' + escapeHtml(task.task_summary) + '</div>' +
+        answerInput +
+        (task.reference_state_change ? '<div class="tb-meta">Expected state: <code>' + escapeHtml(task.reference_state_change) + '</code></div>' : '') +
+        (task.reference_answer ? '<div class="tb-meta">Expected answer (debug): <code>' + escapeHtml(task.reference_answer.substring(0,200)) + '</code></div>' : '');
+    }).catch(()=>{});
+}
+window.addEventListener('DOMContentLoaded', () => {
+  loadTaskBanner();
+  updateResultCount();
+  submitState();
+});
+</script>
+
+</body></html>

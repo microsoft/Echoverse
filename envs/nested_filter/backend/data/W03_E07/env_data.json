@@ -1,0 +1,46 @@
+{
+  "env_id": "W03_E07",
+  "widget_id": "W03_autocomplete_disambig",
+  "widget_name": "Autocomplete with disambiguation",
+  "widget_category": "autocomplete",
+  "widget_mechanic": "Type-to-search field returns \u22652 similarly-labelled options where one is a decoy (LGK vs LGW, Las Vegas vs Grand Canyon AZ). Agent must wait for the suggestion list, identify the correct entry (often by IATA code / state / disambiguator), and click that exact option \u2014 not the first suggestion.",
+  "archetype": "booking_form",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W03_autocomplete_disambig"
+  ],
+  "site_imitates": "Tripadvisor (tripadvisor.com)",
+  "product_type": "hotels",
+  "source_inspiration": [
+    {
+      "task_id": "hotels_head_tripadvisor_347",
+      "benchmark": "WTB",
+      "site": "tripadvisor",
+      "instruction": "How many hotels are available near the Grand Canyon in Las Vegas, Nevada through tripadvisor.com July 21 checking out July 27? If the hotel doesn't take reservations for that date or there are no available rooms for that time, please indicate that in your answer",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent selected \u201cGrand Canyon National Park, Arizona, United States\u201d as the destination, abandoning the required Las Vegas, Nevada location scope instead of applying a Las Vegas-based \u2018near Grand Canyon\u2019 proximity interpretation or stating the limitation."
+    }
+  ],
+  "theme_key": "yelp",
+  "theme_logo": "Tripadvisor \u2014 Things to do",
+  "theme_card": "hotel-card",
+  "theme_layout": "tripadvisor_hotels_search",
+  "variant_idx": 1,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "text_match",
+    "fields": [
+      "from",
+      "to"
+    ]
+  },
+  "primary_inspiration": {
+    "task_id": "hotels_head_tripadvisor_347",
+    "benchmark": "WTB",
+    "site": "tripadvisor",
+    "instruction": "How many hotels are available near the Grand Canyon in Las Vegas, Nevada through tripadvisor.com July 21 checking out July 27? If the hotel doesn't take reservations for that date or there are no available rooms for that time, please indicate that in your answer",
+    "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent selected \u201cGrand Canyon National Park, Arizona, United States\u201d as the destination, abandoning the required Las Vegas, Nevada location scope instead of applying a Las Vegas-based \u2018near Grand Canyon\u2019 proximity interpretation or stating the limitation."
+  },
+  "theme_brand": "Tripadvisor \u2014 Things to do",
+  "inspiration_task_id": "hotels_head_tripadvisor_347",
+  "inspiration_failure": "Fara confused 'Grand Canyon National Park' (AZ) with 'Papillon Grand Canyon Helicopters (Las Vegas, NV)' and 'Las Vegas, New Mexico'."
+}

@@ -1,0 +1,95 @@
+{
+  "env_id": "W08_E04",
+  "widget_id": "W08_filter_chip_confirmation",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "brand",
+      "condition",
+      "color"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "W08_E04_T001",
+      "task_index_in_env": 1,
+      "instruction_text": "Find used 8-cylinder BMWs \u2014 apply **BMW** (Make), **Used** (New/Used), and **8-cylinder** (Cylinders) chips in the bottom filter toolbar.",
+      "expected_filter_state": {
+        "constraint": "brand=[BMW], condition=[Used], color=[8-cylinder]"
+      }
+    },
+    {
+      "task_id": "W08_E04_T002",
+      "task_index_in_env": 2,
+      "instruction_text": "Mirror the Cars.com request: cheapest **used BMW 8-cylinder** priced $25K-$50K. Apply BMW + Used + 8-cylinder chips and the $25,000\u2013$50,000 price band. Confirm all four pills sit in the bottom chip toolbar before reading the cheapest match.",
+      "expected_filter_state": {
+        "constraint": "brand=[BMW], condition=[Used], color=[8-cylinder], min_price=25000, max_price=50000"
+      }
+    },
+    {
+      "task_id": "W08_E04_T003",
+      "task_index_in_env": 3,
+      "instruction_text": "Apply **BMW** + **Used** + **8-cylinder** + **SUV** (body style). Once all four pills are docked in the bottom toolbar, change your mind and \u00d7 off the SUV body-style chip so you see all body styles.",
+      "expected_filter_state": {
+        "constraint": "brand=[BMW], condition=[Used], color=[8-cylinder]"
+      }
+    },
+    {
+      "task_id": "W08_E04_T004",
+      "task_index_in_env": 4,
+      "instruction_text": "Cross-shop two German makes: apply **BMW** AND **Mercedes-Benz** under Make, plus **Used** + **8-cylinder**. Then \u00d7 off the Mercedes-Benz chip so it's only BMW used 8-cylinder.",
+      "expected_filter_state": {
+        "constraint": "brand=[BMW], condition=[Used], color=[8-cylinder]"
+      }
+    },
+    {
+      "task_id": "W08_E04_T005",
+      "task_index_in_env": 5,
+      "instruction_text": "No filters applied \u2014 how many vehicles are listed on AutoLot right now?",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E04_T006",
+      "task_index_in_env": 6,
+      "instruction_text": "Without filtering, which vehicle has the highest customer rating, and what's the rating?",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E04_T007",
+      "task_index_in_env": 7,
+      "instruction_text": "No filters \u2014 tell me how many vehicles are priced under $25,000 versus $25,000-and-up.",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E04_T008",
+      "task_index_in_env": 8,
+      "instruction_text": "Apply the **BMW** (Make) chip AND the **8-cylinder** (Cylinders) chip. After both pills are in the bottom toolbar, tell me how many vehicles match.",
+      "expected_filter_state": {
+        "constraint": "brand=[BMW], color=[8-cylinder]"
+      }
+    },
+    {
+      "task_id": "W08_E04_T009",
+      "task_index_in_env": 9,
+      "instruction_text": "Multi-step Fara replay: apply **BMW** + **Used** + **8-cylinder** + $25K\u2013$50K price band. Then \u00d7 off the price-band chip so price is unconstrained. Tell me how many used 8-cylinder BMWs remain across all prices.",
+      "expected_filter_state": {
+        "constraint": "brand=[BMW], condition=[Used], color=[8-cylinder]"
+      }
+    },
+    {
+      "task_id": "W08_E04_T010",
+      "task_index_in_env": 10,
+      "instruction_text": "Apply **BMW** + **Used** + **8-cylinder** + $25,000\u2013$50,000 price. Verify all four pills are in the toolbar, then name the cheapest used 8-cyl BMW in that price band (model + price).",
+      "expected_filter_state": {
+        "constraint": "brand=[BMW], condition=[Used], color=[8-cylinder], min_price=25000, max_price=50000"
+      }
+    }
+  ]
+}

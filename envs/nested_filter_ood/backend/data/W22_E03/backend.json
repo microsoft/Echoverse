@@ -1,0 +1,101 @@
+{
+  "env_id": "W22_E03",
+  "widget_id": "W22_min_max_slider_plus_plus_chip",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2121",
+      "task_index_in_env": 1,
+      "instruction_text": "Show me Montesano homes on Realtor.com Montesano WA \u2014 budget $500,000 max, 4+ bedrooms.",
+      "expected_filter_state": {
+        "max_price": 500000,
+        "min_beds": 4
+      }
+    },
+    {
+      "task_id": "T2122",
+      "task_index_in_env": 2,
+      "instruction_text": "On Realtor.com Montesano WA, find Montesano homes under $450,000 with at least 3 bedrooms.",
+      "expected_filter_state": {
+        "max_price": 450000,
+        "min_beds": 3
+      }
+    },
+    {
+      "task_id": "T2123",
+      "task_index_in_env": 3,
+      "instruction_text": "I'm looking on Realtor.com Montesano WA for Montesano homes that fit under $350,000 and have 2 or more bedrooms.",
+      "expected_filter_state": {
+        "max_price": 350000,
+        "min_beds": 2
+      }
+    },
+    {
+      "task_id": "T2124",
+      "task_index_in_env": 4,
+      "instruction_text": "Show me Montesano homes on Realtor.com Montesano WA \u2014 budget $750,000 max, 4+ bedrooms.",
+      "expected_filter_state": {
+        "max_price": 750000,
+        "min_beds": 4
+      }
+    },
+    {
+      "task_id": "T2125",
+      "task_index_in_env": 5,
+      "instruction_text": "On Realtor.com Montesano WA, find Montesano homes under $300,000 with at least 1 bedrooms.",
+      "expected_filter_state": {
+        "max_price": 300000,
+        "min_beds": 1
+      }
+    },
+    {
+      "task_id": "T2126",
+      "task_index_in_env": 6,
+      "instruction_text": "Help me search Realtor.com Montesano WA for Montesano homes priced under $650,000 that have 3+ beds.",
+      "expected_filter_state": {
+        "max_price": 650000,
+        "min_beds": 3
+      }
+    },
+    {
+      "task_id": "T2127",
+      "task_index_in_env": 7,
+      "instruction_text": "Help me search Realtor.com Montesano WA for Montesano homes priced under $550,000 that have 4+ beds.",
+      "expected_filter_state": {
+        "max_price": 550000,
+        "min_beds": 4
+      }
+    },
+    {
+      "task_id": "T2128",
+      "task_index_in_env": 8,
+      "instruction_text": "Show me Montesano homes on Realtor.com Montesano WA \u2014 budget $400,000 max, 2+ bedrooms.",
+      "expected_filter_state": {
+        "max_price": 400000,
+        "min_beds": 2
+      }
+    },
+    {
+      "task_id": "T2129",
+      "task_index_in_env": 9,
+      "instruction_text": "Show me Montesano homes on Realtor.com Montesano WA \u2014 budget $850,000 max, 5+ bedrooms.",
+      "expected_filter_state": {
+        "max_price": 850000,
+        "min_beds": 5
+      }
+    },
+    {
+      "task_id": "T2130",
+      "task_index_in_env": 10,
+      "instruction_text": "I'm looking on Realtor.com Montesano WA for Montesano homes that fit under $250,000 and have 2 or more bedrooms.",
+      "expected_filter_state": {
+        "max_price": 250000,
+        "min_beds": 2
+      }
+    }
+  ]
+}

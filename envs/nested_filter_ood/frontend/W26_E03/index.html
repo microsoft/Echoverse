@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EchoAir — EchoAir flight Lagos → Frankfurt</title>
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+
+
+
+
+
+:root { --brand: #00A1DE; --accent: #003580; }
+
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1a1a1a;background:#fafafa;min-height:100vh;padding-bottom:80px}
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #e0e0e0;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:1000;box-shadow:0 -2px 12px rgba(0,0,0,.08)}
+.live-status{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#555;padding:8px 12px;background:#f4f4f4;border-radius:6px;flex:1;min-width:200px}
+.live-status.working{background:#e7f1ff;color:#0a3b7e}
+.live-status.pass{background:#d4f4d8;color:#175c2c;border:1px solid #5cc274}
+.live-status.fail{background:#fde6e6;color:#7a1f1f;border:1px solid #e07b7b}
+.bar-actions{display:flex;gap:8px;align-items:center}
+.answer-input{padding:8px 12px;border:1px solid #cbd5e0;border-radius:6px;font-size:13px;min-width:240px}
+.btn-apply{padding:9px 18px;background:#222;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer}
+.btn-apply:hover{filter:brightness(1.1)}
+.task-banner{position:fixed;top:0;left:0;right:0;background:#fff8d2;border-bottom:1px solid #e3d18c;padding:8px 16px;font-size:13px;z-index:2000;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.task-banner .tb-id{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#7a661c;margin-bottom:2px}
+.task-banner .tb-text{color:#4a3a00;font-weight:500}
+.ac-list{position:absolute;z-index:1100;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 12px 30px rgba(0,0,0,.14);min-width:320px;max-width:480px;max-height:340px;overflow-y:auto;margin-top:4px;padding:6px 0;display:none}
+.ac-item{padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;border-bottom:1px solid #f3f4f6}
+.ac-item:hover{background:#f6f8fc}
+.ac-item:last-child{border-bottom:none}
+.ac-pin{font-size:14px;color:#888;flex:0 0 16px}
+.ac-text{flex:1;display:flex;flex-direction:column;gap:1px;min-width:0}
+.ac-name{font-size:14px;color:#1a1a1a;font-weight:500;line-height:1.2}
+.ac-city{font-size:12px;color:#7a7a7a;line-height:1.2}
+.ac-code{font-weight:700;font-size:12px;color:#666;letter-spacing:.5px;flex:0 0 auto;padding:2px 8px;border-radius:4px;background:#f0f3f7}
+.ac-no{padding:14px 16px;color:#b34a4a;font-size:13px;font-style:italic}
+/* KLM-style always-visible dual-month calendar */
+.cal-pop{display:block !important;position:static;z-index:auto;background:#fff;border:1px solid #e2e8f0;border-radius:14px;box-shadow:0 6px 24px rgba(0,53,128,.08);padding:22px 28px 26px;margin:18px 0 0;min-width:0;width:100%}
+.cal-pop.open{display:block}
+.cal-pop-head{display:flex;align-items:center;justify-content:space-between;margin:-4px 0 14px;padding:0 2px;gap:14px;flex-wrap:wrap}
+.cal-pop-title{font-size:15px;font-weight:800;color:#003580;letter-spacing:.2px;text-transform:uppercase}
+.cal-pills{display:flex;gap:8px}
+.cal-pill{display:inline-flex;flex-direction:column;align-items:flex-start;gap:1px;background:#f4f8fc;border:1px solid #d8e3ee;border-radius:8px;padding:6px 14px;min-width:148px;cursor:pointer;transition:all .15s}
+.cal-pill .cal-pill-lab{font-size:10px;font-weight:800;color:#5d748f;letter-spacing:.7px;text-transform:uppercase}
+.cal-pill .cal-pill-val{font-size:13px;font-weight:700;color:#003580;line-height:1.2}
+.cal-pill.active{background:#003580;border-color:#003580}
+.cal-pill.active .cal-pill-lab{color:#9bb6df}
+.cal-pill.active .cal-pill-val{color:#fff}
+.cal-pill:hover{border-color:#00A1DE}
+.cal-dual{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+.cal-side{min-width:0}
+.cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding:0 2px;height:42px}
+.cal-head .cal-month{font-weight:800;font-size:15px;color:#003580;flex:1;text-align:center;letter-spacing:.2px}
+.cal-nav{background:#fff;border:1px solid #d8e3ee;width:38px;height:38px;cursor:pointer;font-size:20px;color:#003580;border-radius:50%;display:flex;align-items:center;justify-content:center;line-height:1;font-weight:700;transition:all .15s}
+.cal-nav:hover{background:#eaf3fb;border-color:#00A1DE;color:#00A1DE;box-shadow:0 2px 8px rgba(0,161,222,.18)}
+.cal-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px}
+.cal-dow span{text-align:center;font-size:11px;font-weight:700;color:#6b7a90;padding:6px 0;text-transform:uppercase;letter-spacing:.6px}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-day{height:40px;width:40px;margin:0 auto;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:50%;font-size:13px;color:#1a2a44;background:transparent;transition:background .12s, color .12s, box-shadow .12s;font-weight:500;padding:0}
+.cal-day.blank{cursor:default;visibility:hidden}
+.cal-day:not(.blank):hover{background:#eaf3fb;color:#003580}
+.cal-day.today{box-shadow:inset 0 0 0 1.5px #00A1DE;font-weight:700;color:#003580}
+.cal-day.selected,.cal-day.range-end{background:#003580 !important;color:#fff !important;font-weight:700;box-shadow:0 3px 8px rgba(0,53,128,.32)}
+.cal-foot{margin-top:14px;padding-top:12px;border-top:1px solid #eef2f7;display:flex;justify-content:space-between;align-items:center;color:#5d748f;font-size:12px}
+.cal-foot .cal-legend{display:flex;gap:14px;align-items:center}
+.cal-foot .cal-leg-item{display:inline-flex;align-items:center;gap:6px}
+.cal-foot .cal-leg-dot{width:12px;height:12px;border-radius:50%;background:#003580;display:inline-block}
+.cal-foot .cal-leg-dot.today{background:transparent;box-shadow:inset 0 0 0 1.5px #00A1DE}
+@media (max-width:760px){.cal-dual{grid-template-columns:1fr;gap:18px}.cal-pop{padding:16px}}
+.result-grid{display:flex;flex-direction:column;gap:10px;padding:16px}
+.flight-row{background:#fff;border:1px solid #e6eaef;border-radius:8px;padding:14px 16px;display:grid;grid-template-columns:140px 1fr 200px 140px;gap:14px;align-items:center;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.flight-row .fr-air{font-weight:700;font-size:14px;color:#222}
+.flight-row .fr-air .fr-sub{font-weight:400;font-size:11px;color:#888;display:block;margin-top:2px}
+.flight-row .fr-route{display:flex;align-items:center;gap:10px;font-size:13px}
+.flight-row .fr-end{text-align:center}
+.flight-row .fr-time{font-weight:700;font-size:16px;color:#222}
+.flight-row .fr-code{font-size:11px;color:#888;letter-spacing:.5px}
+.flight-row .fr-mid{flex:1;text-align:center;color:#888;font-size:11px}
+.flight-row .fr-mid .fr-line{height:1px;background:#cbd5e0;margin:4px 0;position:relative}
+.flight-row .fr-mid .fr-line::after{content:'✈';position:absolute;right:-2px;top:-8px;color:#888;font-size:11px}
+.flight-row .fr-meta{font-size:12px;color:#666}
+.flight-row .fr-meta .fr-when{color:#222;font-weight:600}
+.flight-row .fr-price{text-align:right}
+.flight-row .fr-price .fr-amt{font-weight:800;font-size:20px;color:var(--brand,#0066cc)}
+.flight-row .fr-price .fr-per{font-size:11px;color:#888}
+.flight-row .fr-price button{margin-top:6px;padding:6px 14px;background:var(--brand,#0066cc);color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer;font-size:12px}
+.hotel-row{background:#fff;border:1px solid #e6eaef;border-radius:8px;padding:0;display:grid;grid-template-columns:200px 1fr 160px;gap:0;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.hotel-row .hr-img{height:140px;background-size:cover;background-position:center;background-color:#dde}
+.hotel-row .hr-body{padding:12px 16px}
+.hotel-row .hr-name{font-weight:700;font-size:15px;color:#222;margin-bottom:4px}
+.hotel-row .hr-loc{font-size:12px;color:#777;margin-bottom:6px}
+.hotel-row .hr-rev{font-size:12px;color:#0a8754;font-weight:600;margin-bottom:6px}
+.hotel-row .hr-meta{font-size:12px;color:#555;line-height:1.5}
+.hotel-row .hr-price{padding:14px 12px;text-align:right;background:#fafbfc;border-left:1px solid #eef}
+.hotel-row .hr-price .hr-amt{font-weight:800;font-size:20px;color:#222}
+.hotel-row .hr-price .hr-per{font-size:11px;color:#888}
+.hotel-row .hr-price button{margin-top:8px;padding:6px 12px;background:var(--brand,#0066cc);color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer;font-size:12px}
+.section-head{padding:12px 16px;font-size:14px;color:#666;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eef}
+.section-head h2{margin:0;font-size:16px;color:#222}
+
+
+body { background:#fff }
+.kl-top { background:#fff; border-bottom:1px solid #e8e8e8 }
+.kl-row1 { display:flex; align-items:center; padding:8px 32px; gap:18px; font-size:12px; color:#555 }
+.kl-row1 .sp { flex:1 }
+.kl-row1 a { color:#003580; text-decoration:none }
+.kl-row2 { display:flex; align-items:center; padding:12px 32px; gap:30px; border-top:1px solid #f4f4f4 }
+.kl-logo { display:flex; align-items:center; gap:10px; font-weight:800; font-size:22px; color:#003580 }
+.kl-logo .crown { background:#00A1DE; color:#fff; padding:6px 8px; border-radius:6px; font-size:12px; letter-spacing:1px }
+.kl-logo .sub { font-weight:400; font-size:11px; color:#555; display:block; margin-top:-2px }
+.kl-nav { display:flex; gap:22px; flex:1 }
+.kl-nav a { color:#003580; text-decoration:none; font-size:14px; font-weight:600 }
+.kl-nav a.active { border-bottom:3px solid #00A1DE; padding-bottom:6px }
+.kl-alert { background:#FFA500; color:#fff; padding:10px 32px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px }
+.kl-alert .icon { font-size:16px }
+.kl-hero { background:url('https://images.pexels.com/photos/3769138/pexels-photo-3769138.jpeg?w=1600') center/cover #cce6f3; padding:60px 32px 130px }
+.kl-card { max-width:1100px; margin:-100px auto 0; background:#fff; border-radius:8px; box-shadow:0 12px 40px rgba(0,0,0,.18); padding:26px 28px; position:relative; z-index:5 }
+.kl-tabs { display:flex; gap:24px; margin-bottom:18px; border-bottom:1px solid #eee }
+.kl-tab { padding:0 4px 14px; font-weight:700; font-size:14px; color:#999; cursor:pointer }
+.kl-tab.active { color:#003580; border-bottom:4px solid #00A1DE }
+.kl-controls { display:flex; gap:14px; margin-bottom:18px; flex-wrap:wrap }
+.kl-control { padding:10px 14px; background:#f5f8fa; border-radius:6px; font-size:13px; color:#003580; font-weight:600 }
+.kl-form { display:grid; grid-template-columns:1.3fr 0.3fr 1.3fr 1fr 1fr 1fr; gap:8px; align-items:end }
+.kl-field { display:flex; flex-direction:column; gap:4px; position:relative }
+.kl-field label { font-size:12px; font-weight:700; color:#003580 }
+.kl-field input { padding:14px 12px; border:1px solid #c8d4dd; border-radius:6px; font-size:14px; background:#fff; outline:none }
+.kl-field input:focus { border-color:#00A1DE }
+.kl-swap { display:flex; align-items:center; justify-content:center; height:46px }
+.kl-swap button { background:#fff; border:1px solid #c8d4dd; border-radius:50%; width:36px; height:36px; cursor:pointer; color:#003580 }
+.kl-search { background:#003580; color:#fff; padding:14px 18px; border:none; border-radius:6px; font-size:15px; font-weight:800; cursor:pointer; height:46px }
+.kl-search:hover { background:#002358 }
+.kl-results { max-width:1100px; margin:24px auto 0; padding:0 32px }
+.cal-day.selected, .cal-day.range-end { background:#003580; color:#fff }
+
+/* KLM footer */
+.kl-footer { background:#002255; color:#cfd9eb; margin-top:48px; padding:36px 32px 18px; font-size:13px }
+.kl-footer-grid { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:32px }
+.kl-footer-col h4 { color:#fff; font-size:13px; margin:0 0 10px; text-transform:uppercase; letter-spacing:.6px }
+.kl-footer-col a { display:block; color:#cfd9eb; text-decoration:none; padding:4px 0; font-size:13px }
+.kl-footer-col a:hover { color:#fff; text-decoration:underline }
+.kl-footer-bottom { max-width:1100px; margin:24px auto 0; padding-top:16px; border-top:1px solid #1a3a70; display:flex; justify-content:space-between; align-items:center; font-size:12px; color:#8ea4c8 }
+.kl-footer-bottom .crown { background:#00A1DE; color:#fff; padding:5px 9px; border-radius:5px; font-size:11px; letter-spacing:1px; font-weight:800 }
+
+
+/* W26 polish — destination image strip + auto-submit */
+.dest-strip-wrap { max-width:1100px; margin:24px auto 0; padding:0 32px; }
+.dest-strip-head { font-size:13px; font-weight:700; color:#444; margin-bottom:10px; text-transform:uppercase; letter-spacing:.6px; }
+.dest-strip { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; }
+.dest-tile { position:relative; height:120px; border-radius:10px; overflow:hidden; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.08); transition:transform .15s, box-shadow .15s; background:#dde; }
+.dest-tile:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.18); }
+.dest-tile img { width:100%; height:100%; object-fit:cover; display:block; }
+.dest-tile .dest-label { position:absolute; left:0; right:0; bottom:0; padding:8px 10px; background:linear-gradient(to top, rgba(0,0,0,.78), rgba(0,0,0,0)); color:#fff; }
+.dest-tile .dest-name { font-size:13px; font-weight:700; line-height:1.1; }
+.dest-tile .dest-code { font-size:10px; opacity:.85; letter-spacing:.5px; margin-top:2px; }
+.dest-tile.selected { outline:3px solid var(--brand, #007F3D); }
+
+/* Auto-submit affordance: replace search button area with a status pill */
+.aa-search-replaced, .ta-sb-btn-replaced, .kl-search-replaced, .lt-search-replaced,
+.wz-search-replaced, .fa-search-replaced, .dr-search-replaced {
+  display:none !important;
+}
+.live-status.working { background:#e7f1ff; color:#0a3b7e; }
+.live-status.pass { background:#d4f4d8; color:#175c2c; border:1px solid #5cc274; }
+.live-status.fail { background:#fde6e6; color:#7a1f1f; border:1px solid #e07b7b; }
+.answer-input { padding:8px 12px; border:1px solid #cbd5e0; border-radius:6px; font-size:13px; min-width:240px }
+
+/* W26_POLISH_BOTTOM_BAR_HIDE v1 */
+
+/* W26 polish: hide leftover empty bottom-bar (its children were already display:none, but the empty container itself was visible as a 50px white bar with shadow). */
+.bottom-bar, .bar-actions, #live-status, #answer-input, #submit-btn { display:none !important; }
+.task-banner, #task-banner { display:none !important; visibility:hidden !important; }
+body { padding-bottom: 0 !important; }
+
+
+/* W26 variant: sidebar autocomplete drawer */
+.ac-sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.32); z-index:5000; }
+.ac-sidebar-overlay.open { display:block; }
+.ac-sidebar-panel { position:fixed; top:0; right:0; bottom:0; width:380px; max-width:90vw; background:#fff; box-shadow:-12px 0 40px rgba(0,0,0,.18); z-index:5100; transform:translateX(100%); transition:transform .25s ease; display:flex; flex-direction:column; }
+.ac-sidebar-overlay.open + .ac-sidebar-panel, .ac-sidebar-panel.open { transform:translateX(0); }
+.ac-sidebar-head { padding:18px 20px 12px; border-bottom:1px solid #eef1f5; display:flex; align-items:center; gap:10px; }
+.ac-sidebar-head .ac-sb-title { font-weight:700; font-size:15px; color:#222; flex:1; }
+.ac-sidebar-head .ac-sb-close { background:transparent; border:none; cursor:pointer; font-size:22px; color:#64748b; }
+.ac-sidebar-body { padding:14px 16px; }
+.ac-sidebar-body .ac-sb-input { width:100%; padding:11px 14px; border:1px solid #cbd5e0; border-radius:10px; font-size:14px; outline:none; }
+.ac-sidebar-body .ac-sb-input:focus { border-color:var(--brand,#00a1de); box-shadow:0 0 0 3px rgba(0,161,222,.18); }
+.ac-sidebar-list { position:static; box-shadow:none; border:none; max-height:none; min-width:0; max-width:none; overflow-y:auto; flex:1; display:block; padding:6px 0; }
+.ac-sidebar-section { font-size:11px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:.7px; padding:14px 20px 4px; }
+
+</style>
+</head>
+<body>
+<div id="task-banner" class="task-banner" style="display:none"></div>
+
+<header class="kl-top">
+  <div class="kl-row1">
+    <a href="#">Personal travel</a><a href="#">Business travel</a><a href="#">Travel agent</a>
+    <div class="sp"></div>
+    <a href="#">🌐 English</a><a href="#">Flying Blue Login</a>
+  </div>
+  <div class="kl-row2">
+    <div class="kl-logo">
+      <span class="crown">E</span>
+      <div>EchoAir<span class="sub">Founded 1919</span></div>
+    </div>
+    <nav class="kl-nav">
+      <a href="#" class="active">Book</a>
+      <a href="#">My Trip</a>
+      <a href="#">Check-in</a>
+      <a href="#">Flight Status</a>
+      <a href="#">Information</a>
+    </nav>
+  </div>
+</header>
+
+<div class="kl-alert">
+  <span class="icon">⚠️</span>
+  Travel alert: Allow extra time at security desks at Schiphol Amsterdam. <a href="#" style="color:#fff;text-decoration:underline;margin-left:8px">Read more</a>
+</div>
+
+<section class="kl-hero"></section>
+
+<div class="kl-card">
+  <div class="kl-tabs">
+    <div class="kl-tab active">Book flight</div>
+    <div class="kl-tab">Book a stay</div>
+    <div class="kl-tab">Cars</div>
+    <div class="kl-tab">Activities</div>
+  </div>
+  <div class="kl-controls">
+    <span class="kl-control">⚫ Round trip   ⚪ One way   ⚪ Multi-city</span>
+    <span class="kl-control">👤 1 adult</span>
+    <span class="kl-control">💺 Economy</span>
+    <span class="kl-control">+ Add flight options</span>
+  </div>
+  <div class="kl-form">
+    <div class="kl-field">
+      <label>From</label>
+      <input type="text" value="Lagos (LOS)" oninput="focusAc('origin', event)" class="ac-inp" / onclick="openAcSidebar('origin')" readonly>
+      
+    </div>
+    <div class="kl-swap"><button>⇄</button></div>
+    <div class="kl-field">
+      <label>To</label>
+      <input type="text" placeholder="Add a destination" oninput="focusAc('dest', event)" class="ac-inp" / onclick="openAcSidebar('dest')" readonly>
+      
+    </div>
+    <div class="kl-field">
+      <label>Depart</label>
+      <input type="text" placeholder="Select date" readonly onclick="document.getElementById('cal-pop').scrollIntoView({behavior:'smooth',block:'center'});setCalActivePill('depart')" data-facet-input="depart" />
+    </div>
+    <div class="kl-field">
+      <label>Return</label>
+      <input type="text" placeholder="Select date" readonly onclick="document.getElementById('cal-pop').scrollIntoView({behavior:'smooth',block:'center'});setCalActivePill('return')" data-facet-input="return" />
+    </div>
+    <div class="kl-field">
+      <label>Travellers</label>
+      <input type="text" value="1 adult" readonly />
+    </div>
+    
+  </div>
+  
+<div id="cal-pop" class="cal-pop">
+  <div class="cal-pop-head">
+    <div class="cal-pop-title">Select your travel dates</div>
+    <div class="cal-pills" role="tablist">
+      <div class="cal-pill active" id="cal-pill-depart" data-cal-pill="depart" onclick="setCalActivePill('depart')">
+        <span class="cal-pill-lab">Depart</span>
+        <span class="cal-pill-val" id="cal-pill-depart-val">Select date</span>
+      </div>
+      <div class="cal-pill" id="cal-pill-return" data-cal-pill="return" onclick="setCalActivePill('return')">
+        <span class="cal-pill-lab">Return</span>
+        <span class="cal-pill-val" id="cal-pill-return-val">Select date</span>
+      </div>
+    </div>
+  </div>
+  <div class="cal-dual">
+    <div class="cal-side">
+      <div class="cal-head">
+        <button type="button" class="cal-nav" onclick="calAdv(-1,'calL','calR')" aria-label="Previous month">‹</button>
+        <div class="cal-month" id="calL-label">July 2026</div>
+        <span style="width:38px"></span>
+      </div>
+      <div data-cal-grid="calL" data-cal-label="calL-label" data-base-month="6" data-base-year="2026" id="calL"></div>
+    </div>
+    <div class="cal-side">
+      <div class="cal-head">
+        <span style="width:38px"></span>
+        <div class="cal-month" id="calR-label">August 2026</div>
+        <button type="button" class="cal-nav" onclick="calAdv(1,'calL','calR')" aria-label="Next month">›</button>
+      </div>
+      <div data-cal-grid="calR" data-cal-label="calR-label" data-base-month="7" data-base-year="2026" id="calR"></div>
+    </div>
+  </div>
+  <div class="cal-foot">
+    <div class="cal-legend">
+      <span class="cal-leg-item"><span class="cal-leg-dot"></span>Selected</span>
+      <span class="cal-leg-item"><span class="cal-leg-dot today"></span>Today</span>
+    </div>
+    <div>Prices in USD · Round trip</div>
+  </div>
+</div>
+</div>
+
+<!-- W26 polish destination strip -->
+<div class="dest-strip-wrap"><div class="dest-strip-head">Popular destinations from Lagos</div><div class="dest-strip"><div class="dest-tile" data-code="FRA" data-name="Frankfurt" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/7427427/pexels-photo-7427427.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Frankfurt"/><div class="dest-label"><div class="dest-name">Frankfurt</div><div class="dest-code">FRA</div></div></div><div class="dest-tile" data-code="MUC" data-name="Munich" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/4096283/pexels-photo-4096283.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Munich"/><div class="dest-label"><div class="dest-name">Munich</div><div class="dest-code">MUC</div></div></div><div class="dest-tile" data-code="BER" data-name="Berlin" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/27604148/pexels-photo-27604148.png?auto=compress&cs=tinysrgb&h=130" alt="Berlin"/><div class="dest-label"><div class="dest-name">Berlin</div><div class="dest-code">BER</div></div></div><div class="dest-tile" data-code="HAM" data-name="Hamburg" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/17068518/pexels-photo-17068518.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Hamburg"/><div class="dest-label"><div class="dest-name">Hamburg</div><div class="dest-code">HAM</div></div></div><div class="dest-tile" data-code="HHN" data-name="Hahn" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/8032138/pexels-photo-8032138.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Hahn"/><div class="dest-label"><div class="dest-name">Hahn</div><div class="dest-code">HHN</div></div></div><div class="dest-tile" data-code="AMS" data-name="Amsterdam" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/8134821/pexels-photo-8134821.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Amsterdam"/><div class="dest-label"><div class="dest-name">Amsterdam</div><div class="dest-code">AMS</div></div></div></div></div>
+<div class="kl-results">
+  <div class="section-head">
+    <h2>EchoAir flight options</h2>
+    <div id="result-count">16 results</div>
+  </div>
+  <div id="result-grid" class="result-grid"><div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">KL 591 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">22:30</div><div class="fr-code">LOS · Lagos</div></div>
+    <div class="fr-mid"><div class="fr-when">7h 50m</div><div class="fr-line"></div><div>1 stop</div></div>
+    <div class="fr-end"><div class="fr-time">05:30</div><div class="fr-code">FRA · Frankfurt</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jul 17, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$1240</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">KL 595 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">23:55</div><div class="fr-code">LOS · Lagos</div></div>
+    <div class="fr-mid"><div class="fr-when">8h 10m</div><div class="fr-line"></div><div>1 stop</div></div>
+    <div class="fr-end"><div class="fr-time">07:55</div><div class="fr-code">FRA · Frankfurt</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jul 17, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$1389</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">KL 597 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">22:30</div><div class="fr-code">LOS · Lagos</div></div>
+    <div class="fr-mid"><div class="fr-when">7h 50m</div><div class="fr-line"></div><div>1 stop</div></div>
+    <div class="fr-end"><div class="fr-time">05:30</div><div class="fr-code">FRA · Frankfurt</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Aug 14, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$1150</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">KL 581 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">22:30</div><div class="fr-code">LOS · Lagos</div></div>
+    <div class="fr-mid"><div class="fr-when">7h 50m</div><div class="fr-line"></div><div>1 stop</div></div>
+    <div class="fr-end"><div class="fr-time">05:30</div><div class="fr-code">FRA · Frankfurt</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Sep 9, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$985</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">KL 587 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">22:30</div><div class="fr-code">LOS · Lagos</div></div>
+    <div class="fr-mid"><div class="fr-when">7h 50m</div><div class="fr-line"></div><div>1 stop</div></div>
+    <div class="fr-end"><div class="fr-time">05:30</div><div class="fr-code">FRA · Frankfurt</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Oct 22, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$1095</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">KL 561 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">22:30</div><div class="fr-code">LOS · Lagos</div></div>
+    <div class="fr-mid"><div class="fr-when">7h 50m</div><div class="fr-line"></div><div>1 stop</div></div>
+    <div class="fr-end"><div class="fr-time">05:30</div><div class="fr-code">FRA · Frankfurt</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Nov 11, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$1199</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">KL 565 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">22:30</div><div class="fr-code">LOS · Lagos</div></div>
+    <div class="fr-mid"><div class="fr-when">7h 50m</div><div class="fr-line"></div><div>1 stop</div></div>
+    <div class="fr-end"><div class="fr-time">05:30</div><div class="fr-code">FRA · Frankfurt</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Dec 6, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$1450</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">KL 573 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">22:30</div><div class="fr-code">LOS · Lagos</div></div>
+    <div class="fr-mid"><div class="fr-when">7h 50m</div><div class="fr-line"></div><div>1 stop</div></div>
+    <div class="fr-end"><div class="fr-time">05:30</div><div class="fr-code">FRA · Frankfurt</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jan 15, 2027</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$1029</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">KL 553 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">22:30</div><div class="fr-code">LOS · Lagos</div></div>
+    <div class="fr-mid"><div class="fr-when">7h 50m</div><div class="fr-line"></div><div>1 stop</div></div>
+    <div class="fr-end"><div class="fr-time">05:30</div><div class="fr-code">FRA · Frankfurt</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Feb 26, 2027</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$955</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">KL 521 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">23:25</div><div class="fr-code">LOS · Lagos</div></div>
+    <div class="fr-mid"><div class="fr-when">6h 35m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">05:25</div><div class="fr-code">AMS · Amsterdam</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jul 17, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$890</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">Lufthansa<span class="fr-sub">LH 569 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">23:50</div><div class="fr-code">LOS · Lagos</div></div>
+    <div class="fr-mid"><div class="fr-when">6h 30m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">05:50</div><div class="fr-code">FRA · Frankfurt</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jul 17, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$1310</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">KL 715 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">13:05</div><div class="fr-code">LOS · Lagos</div></div>
+    <div class="fr-mid"><div class="fr-when">6h 10m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">19:05</div><div class="fr-code">JNB · Johannesburg</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jul 17, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$840</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">KL 537 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">23:00</div><div class="fr-code">ABV · Abuja</div></div>
+    <div class="fr-mid"><div class="fr-when">8h 15m</div><div class="fr-line"></div><div>1 stop</div></div>
+    <div class="fr-end"><div class="fr-time">07:00</div><div class="fr-code">FRA · Frankfurt</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jul 17, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$1340</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">Ryanair<span class="fr-sub">FR 9821 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">15:30</div><div class="fr-code">LOS · Lagos</div></div>
+    <div class="fr-mid"><div class="fr-when">9h 45m</div><div class="fr-line"></div><div>2 stops</div></div>
+    <div class="fr-end"><div class="fr-time">00:30</div><div class="fr-code">HHN · Frankfurt Hahn</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jul 17, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$799</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">KL 1141 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">22:00</div><div class="fr-code">LOS · Lagos</div></div>
+    <div class="fr-mid"><div class="fr-when">11h 20m</div><div class="fr-line"></div><div>2 stops</div></div>
+    <div class="fr-end"><div class="fr-time">09:00</div><div class="fr-code">FRO · Florø</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jul 17, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$1550</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">KL 599 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">22:30</div><div class="fr-code">LOS · Lagos</div></div>
+    <div class="fr-mid"><div class="fr-when">7h 50m</div><div class="fr-line"></div><div>1 stop</div></div>
+    <div class="fr-end"><div class="fr-time">05:30</div><div class="fr-code">FRA · Frankfurt</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Apr 30, 2027</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$1080</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div></div>
+</div>
+
+<script>
+function togglePop(id, anchor){
+  const pops = document.querySelectorAll('.cal-pop, .ac-list-wrap');
+  pops.forEach(p => { if (p.id !== id) p.classList.remove('open'); });
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+function focusAc(kind, ev){
+  const inp = ev.target;
+  acShow(inp, kind);
+}
+</script>
+
+<footer class="kl-footer">
+  <div class="kl-footer-grid">
+    <div class="kl-footer-col">
+      <h4>Plan & Book</h4>
+      <a href="#">Book a flight</a>
+      <a href="#">Manage my booking</a>
+      <a href="#">Online check-in</a>
+      <a href="#">Flight schedule</a>
+      <a href="#">Baggage allowance</a>
+    </div>
+    <div class="kl-footer-col">
+      <h4>Service & Contact</h4>
+      <a href="#">Help & contact</a>
+      <a href="#">Travel updates</a>
+      <a href="#">Refund request</a>
+      <a href="#">Lost & found</a>
+      <a href="#">Special assistance</a>
+    </div>
+    <div class="kl-footer-col">
+      <h4>Flying Blue</h4>
+      <a href="#">Join Flying Blue</a>
+      <a href="#">Earn Miles</a>
+      <a href="#">Spend Miles</a>
+      <a href="#">Member benefits</a>
+      <a href="#">Promo Rewards</a>
+    </div>
+    <div class="kl-footer-col">
+      <h4>About EchoAir</h4>
+      <a href="#">Corporate</a>
+      <a href="#">Press</a>
+      <a href="#">Careers</a>
+      <a href="#">Sustainability</a>
+      <a href="#">News</a>
+    </div>
+  </div>
+  <div class="kl-footer-bottom">
+    <div style="display:flex;align-items:center;gap:12px"><span class="crown">E</span><span>© EchoAir · Schiphol, Amsterdam</span></div>
+    <div><a href="#" style="color:#8ea4c8;text-decoration:none;margin-left:14px">Privacy</a><a href="#" style="color:#8ea4c8;text-decoration:none;margin-left:14px">Cookies</a><a href="#" style="color:#8ea4c8;text-decoration:none;margin-left:14px">Terms</a></div>
+  </div>
+</footer>
+
+
+
+<div class="bottom-bar">
+  <div id="live-status" class="live-status">no filters set</div>
+  <div class="bar-actions">
+    <input id="answer-input" oninput="onAnswerChange()" class="answer-input" placeholder="(answer for read tasks)" />
+    
+  </div>
+</div>
+
+<script>
+window.AC_SUGS = [{"code": "FRA", "name": "Frankfurt am Main", "city": "Frankfurt", "country": "Germany"}, {"code": "HHN", "name": "Frankfurt Hahn", "city": "Hahn", "country": "Germany"}, {"code": "MUC", "name": "Munich", "city": "Munich", "country": "Germany"}, {"code": "BER", "name": "Berlin Brandenburg", "city": "Berlin", "country": "Germany"}, {"code": "HAM", "name": "Hamburg", "city": "Hamburg", "country": "Germany"}, {"code": "DUS", "name": "D\u00fcsseldorf", "city": "D\u00fcsseldorf", "country": "Germany"}, {"code": "CGN", "name": "Cologne Bonn", "city": "Cologne", "country": "Germany"}, {"code": "STR", "name": "Stuttgart", "city": "Stuttgart", "country": "Germany"}, {"code": "ATH", "name": "Athens Eleftherios Venizelos", "city": "Athens", "country": "Greece"}, {"code": "LOS", "name": "Murtala Mohammed Intl", "city": "Lagos", "country": "Nigeria"}, {"code": "ABV", "name": "Nnamdi Azikiwe Intl", "city": "Abuja", "country": "Nigeria"}, {"code": "AMS", "name": "Schiphol Amsterdam", "city": "Amsterdam", "country": "Netherlands"}, {"code": "JNB", "name": "Johannesburg OR Tambo", "city": "Johannesburg", "country": "South Africa"}, {"code": "NBO", "name": "Jomo Kenyatta", "city": "Nairobi", "country": "Kenya"}, {"code": "CAI", "name": "Cairo International", "city": "Cairo", "country": "Egypt"}, {"code": "FRO", "name": "Flor\u00f8 Airport", "city": "Flor\u00f8", "country": "Norway"}];
+window.SEED_ITEMS = [{"id": 1, "airline": "KLM", "flight_no": "KL 591", "from_code": "LOS", "from_name": "Lagos", "to_code": "FRA", "to_name": "Frankfurt", "depart_date": "Jul 17, 2026", "return_date": "Jul 25, 2026", "departure_time": "22:30", "duration": "7h 50m", "stops": "1 stop", "price": 1240}, {"id": 2, "airline": "KLM", "flight_no": "KL 595", "from_code": "LOS", "from_name": "Lagos", "to_code": "FRA", "to_name": "Frankfurt", "depart_date": "Jul 17, 2026", "return_date": "Jul 25, 2026", "departure_time": "23:55", "duration": "8h 10m", "stops": "1 stop", "price": 1389}, {"id": 3, "airline": "KLM", "flight_no": "KL 597", "from_code": "LOS", "from_name": "Lagos", "to_code": "FRA", "to_name": "Frankfurt", "depart_date": "Aug 14, 2026", "return_date": "Aug 21, 2026", "departure_time": "22:30", "duration": "7h 50m", "stops": "1 stop", "price": 1150}, {"id": 4, "airline": "KLM", "flight_no": "KL 581", "from_code": "LOS", "from_name": "Lagos", "to_code": "FRA", "to_name": "Frankfurt", "depart_date": "Sep 9, 2026", "return_date": "Sep 16, 2026", "departure_time": "22:30", "duration": "7h 50m", "stops": "1 stop", "price": 985}, {"id": 5, "airline": "KLM", "flight_no": "KL 587", "from_code": "LOS", "from_name": "Lagos", "to_code": "FRA", "to_name": "Frankfurt", "depart_date": "Oct 22, 2026", "return_date": "Oct 29, 2026", "departure_time": "22:30", "duration": "7h 50m", "stops": "1 stop", "price": 1095}, {"id": 6, "airline": "KLM", "flight_no": "KL 561", "from_code": "LOS", "from_name": "Lagos", "to_code": "FRA", "to_name": "Frankfurt", "depart_date": "Nov 11, 2026", "return_date": "Nov 18, 2026", "departure_time": "22:30", "duration": "7h 50m", "stops": "1 stop", "price": 1199}, {"id": 7, "airline": "KLM", "flight_no": "KL 565", "from_code": "LOS", "from_name": "Lagos", "to_code": "FRA", "to_name": "Frankfurt", "depart_date": "Dec 6, 2026", "return_date": "Dec 13, 2026", "departure_time": "22:30", "duration": "7h 50m", "stops": "1 stop", "price": 1450}, {"id": 8, "airline": "KLM", "flight_no": "KL 573", "from_code": "LOS", "from_name": "Lagos", "to_code": "FRA", "to_name": "Frankfurt", "depart_date": "Jan 15, 2027", "return_date": "Jan 22, 2027", "departure_time": "22:30", "duration": "7h 50m", "stops": "1 stop", "price": 1029}, {"id": 9, "airline": "KLM", "flight_no": "KL 553", "from_code": "LOS", "from_name": "Lagos", "to_code": "FRA", "to_name": "Frankfurt", "depart_date": "Feb 26, 2027", "return_date": "Mar 5, 2027", "departure_time": "22:30", "duration": "7h 50m", "stops": "1 stop", "price": 955}, {"id": 10, "airline": "KLM", "flight_no": "KL 521", "from_code": "LOS", "from_name": "Lagos", "to_code": "AMS", "to_name": "Amsterdam", "depart_date": "Jul 17, 2026", "return_date": "Jul 25, 2026", "departure_time": "23:25", "duration": "6h 35m", "stops": "nonstop", "price": 890}, {"id": 11, "airline": "Lufthansa", "flight_no": "LH 569", "from_code": "LOS", "from_name": "Lagos", "to_code": "FRA", "to_name": "Frankfurt", "depart_date": "Jul 17, 2026", "return_date": "Jul 25, 2026", "departure_time": "23:50", "duration": "6h 30m", "stops": "nonstop", "price": 1310}, {"id": 12, "airline": "KLM", "flight_no": "KL 715", "from_code": "LOS", "from_name": "Lagos", "to_code": "JNB", "to_name": "Johannesburg", "depart_date": "Jul 17, 2026", "return_date": "Jul 25, 2026", "departure_time": "13:05", "duration": "6h 10m", "stops": "nonstop", "price": 840}, {"id": 13, "airline": "KLM", "flight_no": "KL 537", "from_code": "ABV", "from_name": "Abuja", "to_code": "FRA", "to_name": "Frankfurt", "depart_date": "Jul 17, 2026", "return_date": "Jul 25, 2026", "departure_time": "23:00", "duration": "8h 15m", "stops": "1 stop", "price": 1340}, {"id": 14, "airline": "Ryanair", "flight_no": "FR 9821", "from_code": "LOS", "from_name": "Lagos", "to_code": "HHN", "to_name": "Frankfurt Hahn", "depart_date": "Jul 17, 2026", "return_date": "Jul 25, 2026", "departure_time": "15:30", "duration": "9h 45m", "stops": "2 stops", "price": 799}, {"id": 15, "airline": "KLM", "flight_no": "KL 1141", "from_code": "LOS", "from_name": "Lagos", "to_code": "FRO", "to_name": "Flor\u00f8", "depart_date": "Jul 17, 2026", "return_date": "Jul 25, 2026", "departure_time": "22:00", "duration": "11h 20m", "stops": "2 stops", "price": 1550}, {"id": 16, "airline": "KLM", "flight_no": "KL 599", "from_code": "LOS", "from_name": "Lagos", "to_code": "FRA", "to_name": "Frankfurt", "depart_date": "Apr 30, 2027", "return_date": "May 7, 2027", "departure_time": "22:30", "duration": "7h 50m", "stops": "1 stop", "price": 1080}];
+
+const MONTHS_SHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const MONTHS_LONG  = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+const W26_STATE = {};       // {dest, origin, date, return_date}
+const CAL_STATE = {};       // gridId -> offset from base month
+
+function _calMonthYear(gridId){
+  const grid = document.getElementById(gridId);
+  if (!grid) return [0, 2026];
+  const baseM = parseInt(grid.dataset.baseMonth || "4", 10);   // 0=Jan
+  const baseY = parseInt(grid.dataset.baseYear  || "2026", 10);
+  const offset = CAL_STATE[gridId] || 0;
+  let m = baseM + offset;
+  let y = baseY + Math.floor(m / 12);
+  m = ((m % 12) + 12) % 12;
+  return [m, y];
+}
+
+function _renderCal(gridId, labelId){
+  const g = document.getElementById(gridId);
+  if (!g) return;
+  const [m, y] = _calMonthYear(gridId);
+  const first = new Date(y, m, 1);
+  const last  = new Date(y, m+1, 0);
+  const startDow = first.getDay();
+  const days = last.getDate();
+  const today = new Date();
+  const tY = today.getFullYear(), tM = today.getMonth(), tD = today.getDate();
+  let html = '<div class="cal-dow">' +
+    ["S","M","T","W","T","F","S"].map(d => `<span>${d}</span>`).join('') +
+    '</div><div class="cal-days">';
+  for (let i=0; i<startDow; i++) html += '<div class="cal-day blank"></div>';
+  for (let d=1; d<=days; d++){
+    const cls = ['cal-day'];
+    if (y === tY && m === tM && d === tD) cls.push('today');
+    if (W26_STATE.date === `${MONTHS_SHORT[m]} ${d}, ${y}`) cls.push('selected');
+    if (W26_STATE.return_date === `${MONTHS_SHORT[m]} ${d}, ${y}`) cls.push('selected','range-end');
+    html += `<div class="${cls.join(' ')}" data-day="${d}" data-month="${m}" data-year="${y}">${d}</div>`;
+  }
+  html += '</div>';
+  g.innerHTML = html;
+  const lab = document.getElementById(labelId);
+  if (lab) lab.textContent = MONTHS_LONG[m] + " " + y;
+}
+
+function _renderAllCals(){
+  document.querySelectorAll('[data-cal-grid]').forEach(node => {
+    const gid = node.dataset.calGrid;
+    const lid = node.dataset.calLabel || (gid + '-label');
+    _renderCal(gid, lid);
+  });
+}
+
+function calAdv(delta, gridIdL, gridIdR){
+  // dual-month: advance BOTH calendars in lock-step
+  CAL_STATE[gridIdL] = (CAL_STATE[gridIdL]||0) + delta;
+  if (gridIdR) CAL_STATE[gridIdR] = (CAL_STATE[gridIdR]||0) + delta;
+  _renderAllCals();
+}
+
+// --- Autocomplete ---
+function acShow(inp, kind){
+  const q = (inp.value || "").trim().toLowerCase();
+  let list = document.getElementById('ac-list-' + kind);
+  if (!list) return;
+  if (!q){ list.style.display = 'none'; list.innerHTML = ''; return; }
+  const hits = (window.AC_SUGS || []).filter(s => {
+    return s.code.toLowerCase().startsWith(q) ||
+           s.name.toLowerCase().includes(q) ||
+           s.city.toLowerCase().includes(q);
+  }).slice(0, 8);
+  if (!hits.length){
+    list.style.display = 'block';
+    list.innerHTML = '<div class="ac-no">Oh my, we couldn\u2019t find anything for &ldquo;' + inp.value + '&rdquo;</div>';
+    return;
+  }
+  list.style.display = 'block';
+  list.innerHTML = hits.map(h => `
+    <div class="ac-item" data-code="${h.code}" data-name="${h.name}" data-kind="${kind}">
+      <span class="ac-pin">📍</span>
+      <span class="ac-text">
+        <span class="ac-name">${h.name}</span>
+        <span class="ac-city">${h.city}${h.country ? ', ' + h.country : ''}</span>
+      </span>
+      <span class="ac-code">${h.code}</span>
+    </div>`).join('');
+  list.querySelectorAll('.ac-item').forEach(it => {
+    it.addEventListener('click', () => {
+      inp.value = it.dataset.name + ' (' + it.dataset.code + ')';
+      if (kind === 'dest' || kind === 'to') W26_STATE.dest = it.dataset.code;
+      else if (kind === 'origin' || kind === 'from') W26_STATE.origin = it.dataset.code;
+      list.style.display = 'none';
+      list.innerHTML = '';
+      _syncStatus();
+      applyFilters(); /* W26 polish auto-submit */
+    });
+  });
+}
+
+function _onDayClick(ev){
+  const t = ev.target.closest('.cal-day');
+  if (!t || t.classList.contains('blank')) return;
+  const m = parseInt(t.dataset.month, 10);
+  const y = parseInt(t.dataset.year, 10);
+  const d = parseInt(t.dataset.day, 10);
+  const txt = `${MONTHS_SHORT[m]} ${d}, ${y}`;
+  const active = W26_STATE._activePill || 'depart';
+  if (active === 'depart'){
+    W26_STATE.date = txt;
+    // if return is before new depart, clear it
+    if (W26_STATE.return_date && _dateValOf(W26_STATE.return_date) < _dateValOf(txt)){
+      W26_STATE.return_date = null;
+    }
+    W26_STATE._activePill = 'return';
+  } else {
+    if (W26_STATE.date && _dateValOf(txt) < _dateValOf(W26_STATE.date)){
+      // can't return before depart — treat as new depart
+      W26_STATE.date = txt;
+      W26_STATE.return_date = null;
+      W26_STATE._activePill = 'return';
+    } else {
+      W26_STATE.return_date = txt;
+      W26_STATE._activePill = 'depart';
+    }
+  }
+  _renderAllCals();
+  _syncPills();
+  // write to visible inputs if any
+  const depInp = document.querySelector('[data-facet-input="depart"]');
+  if (depInp) depInp.value = W26_STATE.date || '';
+  const retInp = document.querySelector('[data-facet-input="return"]');
+  if (retInp) retInp.value = W26_STATE.return_date || '';
+  _syncStatus();
+  applyFilters(); /* W26 polish day-click submit */
+}
+
+function _dateValOf(s){
+  if (!s) return 0;
+  const parts = s.split(/[ ,]+/);
+  const mi = MONTHS_SHORT.indexOf(parts[0]);
+  return new Date(parseInt(parts[2],10), mi, parseInt(parts[1],10)).getTime();
+}
+
+function setCalActivePill(which){
+  W26_STATE._activePill = which;
+  _syncPills();
+}
+
+function _syncPills(){
+  const dp = document.getElementById('cal-pill-depart');
+  const rp = document.getElementById('cal-pill-return');
+  if (dp) dp.classList.toggle('active', (W26_STATE._activePill||'depart') === 'depart');
+  if (rp) rp.classList.toggle('active', W26_STATE._activePill === 'return');
+  const dv = document.getElementById('cal-pill-depart-val');
+  if (dv) dv.textContent = W26_STATE.date || 'Select date';
+  const rv = document.getElementById('cal-pill-return-val');
+  if (rv) rv.textContent = W26_STATE.return_date || 'Select date';
+}
+
+function _syncStatus(){
+  const el = document.getElementById('live-status');
+  if (!el) return;
+  const parts = [];
+  if (W26_STATE.origin) parts.push('origin: ' + W26_STATE.origin);
+  if (W26_STATE.dest) parts.push('dest: ' + W26_STATE.dest);
+  if (W26_STATE.date) parts.push('date: ' + W26_STATE.date);
+  if (W26_STATE.return_date) parts.push('return: ' + W26_STATE.return_date);
+  el.textContent = parts.length ? parts.join(' · ') : 'no filters set';
+  el.className = 'live-status' + (parts.length ? ' working' : '');
+}
+
+// --- task banner + submit ---
+const URL_PARAMS = new URLSearchParams(location.search);
+const CURRENT_TASK_ID = URL_PARAMS.get('task_id');
+window.__ENV_ID = "W26_E03"; const ENV_ID = window.__ENV_ID;
+
+async function loadTaskBanner(){
+  const banner = document.getElementById('task-banner');
+  if (!banner || !CURRENT_TASK_ID) return;
+  try {
+    const r = await fetch(`/env/${ENV_ID}/api/task/${CURRENT_TASK_ID}`);
+    if (!r.ok) return;
+    const t = await r.json();
+    banner.innerHTML = `<div class="tb-id">${t.id} · ${t.task_type}</div><div class="tb-text">${t.task_summary || ''}</div>`;
+    banner.style.display = 'block';
+  } catch(e){}
+}
+
+async function applyFilters(){
+  const answer = (document.getElementById('answer-input') || {}).value || '';
+  const filter_state = Object.assign({}, W26_STATE);
+  try {
+    const r1 = await fetch(`/env/${ENV_ID}/api/filter`, {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({filter_state})
+    });
+    const d1 = await r1.json();
+    const grid = document.getElementById('result-grid');
+    if (grid && d1.html_cards) grid.innerHTML = d1.html_cards;
+    const cnt = document.getElementById('result-count');
+    if (cnt) cnt.textContent = d1.count + ' results';
+  } catch(e){}
+  try {
+    const r2 = await fetch(`/env/${ENV_ID}/api/submit`, {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({filter_state, answer, task_id: CURRENT_TASK_ID || ''})
+    });
+    const d2 = await r2.json();
+    const ls = document.getElementById('live-status');
+    if (ls){
+      ls.textContent = d2.message || '';
+      ls.className = 'live-status ' + (d2.satisfies ? 'pass' : 'fail');
+    }
+  } catch(e){}
+}
+
+
+// W26 polish — destination tile click sets dest + submits
+function pickDest(node){
+  const code = node.dataset.code, name = node.dataset.name;
+  W26_STATE.dest = code;
+  // also reflect in the visible destination input if present
+  const destInp = document.querySelector('[oninput*="\'dest\'"], [oninput*="\'to\'"]');
+  if (destInp) destInp.value = name + ' (' + code + ')';
+  document.querySelectorAll('.dest-tile.selected').forEach(t => t.classList.remove('selected'));
+  node.classList.add('selected');
+  _syncStatus();
+  applyFilters();
+}
+// Debounced answer-input -> submit
+let _ansTimer = null;
+function onAnswerChange(){
+  clearTimeout(_ansTimer);
+  _ansTimer = setTimeout(() => { applyFilters(); }, 350);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  _renderAllCals();
+  document.addEventListener('click', _onDayClick);
+  _syncPills();
+  // hide ac lists on outside click
+  document.body.addEventListener('click', (ev) => {
+    if (!ev.target.closest('.ac-inp') && !ev.target.closest('.ac-list')){
+      document.querySelectorAll('.ac-list').forEach(b => { b.style.display = 'none'; });
+    }
+  });
+  loadTaskBanner();
+  _syncStatus();
+  // initial render
+  const grid = document.getElementById('result-grid');
+  if (grid && grid.dataset.initial){
+    try { grid.innerHTML = JSON.parse(grid.dataset.initial).cards || ''; } catch(e){}
+  }
+});
+
+
+
+function openAcSidebar(kind){
+  var ov = document.getElementById('ac-sidebar-overlay');
+  var pn = document.getElementById('ac-sidebar-panel');
+  if (!ov || !pn) return;
+  pn.querySelectorAll('[data-section]').forEach(function(s){ s.style.display = (s.dataset.section===kind ? 'block':'none'); });
+  ov.classList.add('open'); pn.classList.add('open');
+  var inp = pn.querySelector('[data-section="'+kind+'"] .ac-sb-input');
+  if (inp){ inp.focus(); }
+}
+function closeAcSidebar(){
+  var ov = document.getElementById('ac-sidebar-overlay');
+  var pn = document.getElementById('ac-sidebar-panel');
+  if (ov) ov.classList.remove('open'); if (pn) pn.classList.remove('open');
+}
+
+// W26 polish: dispatch togglePop("ac-modal") / togglePop("ac-sidebar") / togglePop("cal-modal")
+(function(){
+  if (window._w26TogglePopPatched) return;
+  window._w26TogglePopPatched = true;
+  var _origToggle = window.togglePop;
+  window.togglePop = function(id, anchor){
+    if (id === 'ac-modal-origin'){ openAcModal('origin'); return; }
+    if (id === 'ac-modal-dest'){ openAcModal('dest'); return; }
+    if (id === 'ac-sidebar-origin'){ openAcSidebar('origin'); return; }
+    if (id === 'ac-sidebar-dest'){ openAcSidebar('dest'); return; }
+    if (id === 'cal-modal'){ openCalModal(); return; }
+    if (typeof _origToggle === 'function') return _origToggle(id, anchor);
+  };
+})();
+
+
+// W26 polish: when any .ac-item or .recent-card is clicked inside a modal/sidebar, close it after a tick
+(function(){
+  if (window._w26AcPickCloserPatched) return;
+  window._w26AcPickCloserPatched = true;
+  document.addEventListener('click', function(ev){
+    var t = ev.target.closest('.ac-item, .recent-card');
+    if (!t) return;
+    setTimeout(function(){
+      var mov = document.getElementById('ac-modal-overlay');
+      if (mov && mov.classList.contains('open')) mov.classList.remove('open');
+      var sov = document.getElementById('ac-sidebar-overlay');
+      var spn = document.getElementById('ac-sidebar-panel');
+      if (sov && sov.classList.contains('open')) sov.classList.remove('open');
+      if (spn && spn.classList.contains('open')) spn.classList.remove('open');
+    }, 50);
+  });
+})();
+</script>
+
+<div id="ac-sidebar-overlay" class="ac-sidebar-overlay" onclick="closeAcSidebar()"></div>
+<aside id="ac-sidebar-panel" class="ac-sidebar-panel">
+  <div class="ac-sidebar-head"><span class="ac-sb-title">Where would you like to go?</span><button type="button" class="ac-sb-close" onclick="closeAcSidebar()">×</button></div>
+  
+    <div class="ac-sidebar-body" data-section="origin">
+      <div class="ac-sb-title" style="font-size:12px;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">From</div>
+      <input class="ac-sb-input ac-inp" placeholder="City or airport" oninput="focusAc('origin', event)" />
+      <div class="ac-sidebar-section">Suggestions</div>
+      <div id="ac-list-origin" class="ac-list ac-sidebar-list"></div>
+    </div>
+    <div class="ac-sidebar-body" data-section="dest">
+      <div class="ac-sb-title" style="font-size:12px;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">To</div>
+      <input class="ac-sb-input ac-inp" placeholder="City or airport" oninput="focusAc('dest', event)" />
+      <div class="ac-sidebar-section">Suggestions</div>
+      <div id="ac-list-dest" class="ac-list ac-sidebar-list"></div>
+    </div>
+</aside>
+</body>
+</html>

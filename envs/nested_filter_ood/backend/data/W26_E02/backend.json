@@ -1,0 +1,98 @@
+{
+  "env_id": "W26_E02",
+  "widget_id": "W26_autocomplete_plus_calendar_advance",
+  "archetype": "booking_form",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2501",
+      "task_index_in_env": 1,
+      "instruction_text": "How many hotels are available near the Grand Canyon in Las Vegas, Nevada through TripAdvisor checking in July 21 and checking out July 27, 2026? Set the destination autocomplete to a Las Vegas, NV entry (NOT Grand Canyon National Park, Arizona) and pick Jul 21 \u2192 Jul 27, 2026 in the calendar.",
+      "expected_filter_state": {
+        "dest": "LAS",
+        "date": "Jul 21",
+        "return_date": "Jul 27"
+      }
+    },
+    {
+      "task_id": "T2502",
+      "task_index_in_env": 2,
+      "instruction_text": "Same Grand Canyon-area Las Vegas, NV hotels but for an August 12 \u2192 August 18, 2026 stay. Watch out \u2014 the dropdown also offers Grand Canyon NP in Arizona; pick the Las Vegas, NV entry.",
+      "expected_filter_state": {
+        "dest": "LAS",
+        "date": "Aug 12",
+        "return_date": "Aug 18"
+      }
+    },
+    {
+      "task_id": "T2503",
+      "task_index_in_env": 3,
+      "instruction_text": "Find me hotels in Las Vegas, NV for Jan 9, 2027 checking out Jan 14, 2027. The calendar opens on May 2026 \u2014 you'll need to advance about 8 months. Destination should resolve to Las Vegas (LAS), not the Arizona Grand Canyon listings.",
+      "expected_filter_state": {
+        "dest": "LAS",
+        "date": "Jan 9",
+        "return_date": "Jan 14"
+      }
+    },
+    {
+      "task_id": "T2504",
+      "task_index_in_env": 4,
+      "instruction_text": "Configure a single-night hotel search in Las Vegas, NV for Dec 12, 2026 (depart only). Make sure the autocomplete resolves to Las Vegas, NV.",
+      "expected_filter_state": {
+        "dest": "LAS",
+        "date": "Dec 12"
+      }
+    },
+    {
+      "task_id": "T2505",
+      "task_index_in_env": 5,
+      "instruction_text": "What is the cheapest nightly rate shown for hotels in Las Vegas, NV near the Grand Canyon (Las Vegas) area for Jul 21\u201327, 2026? Reply as $X (e.g. $145).",
+      "expected_filter_state": {}
+    },
+    {
+      "task_id": "T2506",
+      "task_index_in_env": 6,
+      "instruction_text": "How many Las Vegas, NV hotels are listed (not Arizona ones) in the current results? Reply with the integer count followed by the word 'hotels' (e.g. '10 hotels').",
+      "expected_filter_state": {}
+    },
+    {
+      "task_id": "T2507",
+      "task_index_in_env": 7,
+      "instruction_text": "Look at the top result \u2014 what's the hotel name? Reply with the name in quotes (e.g. \"Grand Canyon Hotel Las Vegas\").",
+      "expected_filter_state": {}
+    },
+    {
+      "task_id": "T2508",
+      "task_index_in_env": 8,
+      "instruction_text": "Set the search to Las Vegas, NV checking in Jul 21, 2026 and checking out Jul 27, 2026. Also tell me the rating of the top-listed hotel (e.g. '4.5 stars').",
+      "expected_filter_state": {
+        "dest": "LAS",
+        "date": "Jul 21",
+        "return_date": "Jul 27"
+      }
+    },
+    {
+      "task_id": "T2509",
+      "task_index_in_env": 9,
+      "instruction_text": "Configure: destination Las Vegas, NV; check-in Oct 7, 2026; check-out Oct 14, 2026. Then report the nightly rate of the Nevada Skyline Resort in $X form.",
+      "expected_filter_state": {
+        "dest": "LAS",
+        "date": "Oct 7",
+        "return_date": "Oct 14"
+      }
+    },
+    {
+      "task_id": "T2510",
+      "task_index_in_env": 10,
+      "instruction_text": "Final: set destination to Las Vegas, NV and dates Feb 14, 2027 \u2192 Feb 19, 2027 (calendar advance needed). Report how many reviews the Grand Canyon Las Vegas Convention Center Hotel has (e.g. '4,512 reviews').",
+      "expected_filter_state": {
+        "dest": "LAS",
+        "date": "Feb 14",
+        "return_date": "Feb 19"
+      }
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "env_id": "W03_E02",
+  "widget_id": "W03_autocomplete_disambig",
+  "archetype": "booking_form",
+  "filter_spec": {
+    "type": "text_match",
+    "fields": [
+      "from",
+      "to"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "W03_E02_T001",
+      "task_type": "write",
+      "reference_state_change": "filter_state: from=LCA, to=ATH",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E02_T002",
+      "task_type": "write",
+      "reference_state_change": "filter_state: from=LCA, to=ATH",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E02_T003",
+      "task_type": "write",
+      "reference_state_change": "filter_state: from=LCA, to=HER",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E02_T004",
+      "task_type": "write",
+      "reference_state_change": "filter_state: from=LCA, to=BUD",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E02_T005",
+      "task_type": "read",
+      "reference_state_change": "filter_state: from=LCA, to=ATH",
+      "reference_answer": "EUR 49 W6 4081 Wizz Air LCA ATH"
+    },
+    {
+      "id": "W03_E02_T006",
+      "task_type": "read_write",
+      "reference_state_change": "filter_state: from=LCA, to=ATH",
+      "reference_answer": "2 W6 Wizz Air LCA ATH flights"
+    },
+    {
+      "id": "W03_E02_T007",
+      "task_type": "write",
+      "reference_state_change": "filter_state: from=LCA, to=WAW",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E02_T008",
+      "task_type": "write",
+      "reference_state_change": "filter_state: from=LCA, to=LTN",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E02_T009",
+      "task_type": "read",
+      "reference_state_change": "filter_state: from=LCA, to=SKG",
+      "reference_answer": "2h 20m W6 4109 LCA SKG"
+    },
+    {
+      "id": "W03_E02_T010",
+      "task_type": "read_write",
+      "reference_state_change": "filter_state: from=LCA, to=TBS",
+      "reference_answer": "01:10 W6 4151 LCA TBS"
+    }
+  ]
+}

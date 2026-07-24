@@ -1,0 +1,40 @@
+{
+  "env_id": "W05_E09",
+  "widget_id": "W05_plus_chips_at_least",
+  "widget_name": "Plus-chip (\u2265 N) selector",
+  "widget_category": "chip_selector",
+  "widget_mechanic": "Row of clickable chips labelled 1+, 2+, 3+, 4+, etc. for bedroom/bathroom-style attributes. Agent must click the chip matching '\u2265 N', not the chip for N-1 or N+1.",
+  "archetype": "realestate_listings",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W05_plus_chips_at_least"
+  ],
+  "site_imitates": "RentCafe Oviedo FL",
+  "product_type": "rental homes in Oviedo, FL",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_oviedo__fl_3554",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "Can you help me find a 3 bedroom house with at least 2 bathrooms in Oviedo, Florida, located near top-rated schools?",
+      "first_failure_summary": "[6.4] Fine-grained grounding error: The coordinate marker is on the left sidebar (near the Search icon) rather than within the main address search input where the typing occurred."
+    }
+  ],
+  "theme_key": "rentals",
+  "theme_logo": "RentSpot",
+  "theme_card": "apt-card",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 3,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "gte",
+    "fields": [
+      "min_beds",
+      "min_baths"
+    ],
+    "item_fields": [
+      "beds",
+      "baths"
+    ]
+  }
+}

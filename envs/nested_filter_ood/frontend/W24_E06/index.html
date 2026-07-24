@@ -1,0 +1,291 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Marketing Jobs — EchoJobs</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{font-family:'Source Sans Pro','Public Sans','Helvetica Neue',Arial,sans-serif;background:#f5f7fa;color:#222;font-size:13px;line-height:1.5}
+a{color:inherit;text-decoration:none;cursor:pointer}button{font-family:inherit}
+.live-status,.task-banner,.fara-source,.fara-banner,[data-debug="1"]{display:none!important}
+
+/* gov header */
+.gov-bar{background:#f2f3f5;color:#1b1b1b;font-size:11px;padding:7px 32px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #e5e7eb}
+.gov-bar .flag{display:inline-block;width:14px;height:10px;background:linear-gradient(to bottom,#b22234 33%,#fff 33% 66%,#b22234 66%);margin-right:6px;border:1px solid #ccc}
+.gov-bar .howto{color:#b22234;text-decoration:underline;font-weight:700;margin-left:4px}
+.gov-bar .right{margin-left:auto;display:flex;align-items:center;gap:6px;color:#1b1b1b}
+.gov-bar .right .globe{font-size:13px}
+.ws-header{background:#fff;padding:18px 32px 16px;display:flex;align-items:center;gap:28px}
+.ws-logo{display:flex;align-items:center;gap:0;color:#1b1b1b;text-decoration:none}
+.ws-logo svg.ohio-mark{width:58px;height:48px;display:block}
+.ws-logo-text{display:flex;flex-direction:column;line-height:1.05;margin-left:2px}
+.ws-logo-text .lt-name{font-size:14px;font-weight:800;color:#003176;letter-spacing:.01em}
+.ws-nav{display:flex;gap:30px;font-size:14px;font-weight:600;color:#3b4856;margin-left:30px}
+.ws-nav a{padding:8px 2px;border-bottom:3px solid transparent;transition:color .15s}
+.ws-nav a.act{color:#003176;font-weight:700}
+.ws-nav a:hover{color:#003176}
+.ws-cta{margin-left:auto;display:flex;gap:22px;align-items:center}
+.ws-icon-btn{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:#3b4856;cursor:pointer}
+.ws-icon-btn .ic{width:38px;height:38px;border-radius:50%;border:1.5px solid #003176;color:#003176;display:flex;align-items:center;justify-content:center;font-size:16px;background:#fff}
+.ws-cta .signup{background:#003176;color:#fff;font-size:14px;font-weight:700;padding:11px 22px;border-radius:30px;border:1.5px solid #003176}
+.ws-cta .signup:hover{background:#00276a}
+.ws-subnav{background:#003176;color:#fff;padding:9px 32px;display:flex;gap:22px;font-size:12.5px;font-weight:500}
+.ws-subnav a:hover{text-decoration:underline}
+.ws-subnav .sn-spacer{flex:1}
+.ws-subnav .lang{opacity:.85;border-left:1px solid rgba(255,255,255,.3);padding-left:14px}
+
+.crumb{padding:10px 32px;font-size:12px;color:#5c6a78;background:#fff;border-bottom:1px solid #e2e8ee}
+.crumb a:hover{color:#b22234;text-decoration:underline}.crumb .sep{margin:0 6px;color:#aab4be}.crumb b{color:#1b1b1b;font-weight:700}
+
+/* HERO STRIP */
+.hero-strip{background:linear-gradient(180deg,#fff 0%,#f5f7fa 100%);padding:24px 32px 18px;border-bottom:1px solid #e2e8ee}
+.hero-strip .hs-inner{max-width:1380px;margin:0 auto;display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.hero-strip .hs-tab{width:38px;height:3px;background:#b22234;margin-bottom:8px}
+.hero-strip h1.hs-title{margin:0;font-size:30px;font-weight:300;color:#1b1b1b;letter-spacing:-.01em;line-height:1.15}
+.hero-strip h1.hs-title b{font-weight:700;color:#003176}
+
+/* TOP TOOLBAR with segmented exact-match */
+.top-toolbar{background:#fff;padding:14px 32px;border-bottom:1px solid #e2e8ee;display:flex;align-items:center;gap:14px;flex-wrap:wrap;max-width:1380px;margin:0 auto}
+.tt-search{flex:1;min-width:240px;display:flex;background:#fff;border:1.5px solid #d8dee5;border-radius:30px;padding:0 18px;align-items:center;gap:10px;box-shadow:0 1px 4px rgba(0,49,118,.06)}
+.tt-search input{flex:1;border:none;outline:none;background:transparent;font-size:13.5px;padding:11px 0;color:#1b1b1b}
+.tt-search .tt-icon{color:#003176;font-size:15px}
+.tt-loc{display:flex;background:#fff;border:1.5px solid #d8dee5;border-radius:30px;padding:10px 16px;align-items:center;gap:6px;font-size:12.5px;color:#1b1b1b;font-weight:500}
+.tt-go{background:#003176;color:#fff;border:none;padding:11px 26px;border-radius:30px;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.02em}
+.tt-go:hover{background:#00276a}
+
+/* Segmented exact-match selector */
+.tt-strict{display:inline-flex;align-items:center;border:1.5px solid #003176;border-radius:30px;overflow:hidden;font-size:11.5px;font-weight:700;position:relative;background:#fff}
+.tt-strict .seg-label{position:relative;display:flex;cursor:pointer;margin:0}
+.tt-strict .seg-label input[type=checkbox]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;margin:0;z-index:2}
+.tt-strict .seg{padding:9px 16px;background:#fff;color:#003176;letter-spacing:.02em;display:flex;align-items:center;gap:6px;position:relative;z-index:1;border-radius:30px}
+.tt-strict .seg-label:has(input:checked) .seg{background:#003176;color:#fff}
+
+.main-grid{display:grid;grid-template-columns:280px 1fr;gap:24px;padding:20px 32px 36px;max-width:1380px;margin:0 auto}
+
+.filter-aside{background:#fff;border:1px solid #e2e8ee;border-radius:4px;padding:0;height:fit-content}
+.fa-title{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#003176;color:#fff}
+.fa-title h3{margin:0;font-size:13px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+.fa-title a{font-size:11px;color:#fff;text-decoration:underline}
+
+.ws-section{padding:14px 16px;border-top:1px solid #e2e8ee}
+.ws-section:first-of-type{border-top:none}
+.ws-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.ws-head h4{margin:0;font-size:12px;font-weight:800;color:#003176;text-transform:uppercase;letter-spacing:.04em}
+.ws-clear{font-size:10px;color:#b22234;font-weight:700;cursor:pointer;text-decoration:underline}
+.ws-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px}
+.ws-cb{display:flex;align-items:center;gap:6px;padding:4px 0;cursor:pointer;font-size:12px;color:#1b1b1b}
+.ws-cb input[type=checkbox]{accent-color:#003176;width:14px;height:14px;margin:0;flex-shrink:0}
+.ws-cb:hover{color:#b22234}
+
+/* results */
+.results-area{}
+.results-header{background:#fff;border:1px solid #e2e8ee;border-radius:4px;padding:16px 18px;margin-bottom:14px;display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.results-header h1{margin:0;font-size:22px;font-weight:800;color:#003176}
+.results-sub{display:block;width:100%;color:#5c6a78;font-size:12px;margin-top:4px}
+.results-tools{margin-left:auto;display:flex;gap:10px;align-items:center}
+.sort-dd{padding:7px 12px;border:1px solid #cbd5e0;border-radius:3px;font-size:12px;background:#fff;color:#1b1b1b}
+.strict-indicator{padding:2px 8px;background:#e2e8ee;color:#5c6a78;border-radius:3px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+.strict-indicator.on{background:#b22234;color:#fff}
+.active-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.active-chip{background:#003176;color:#fff;padding:3px 10px;border-radius:3px;font-size:10px;font-weight:700;text-transform:uppercase}
+
+.result-grid{display:grid;grid-template-columns:1fr;gap:8px}
+.result-card{background:#fff;border:1px solid #e2e8ee;border-left:4px solid #003176;padding:14px 18px;border-radius:3px;display:grid;grid-template-columns:1fr 140px;gap:14px;align-items:start;cursor:pointer}
+.result-card:hover{border-left-color:#b22234;box-shadow:0 1px 6px rgba(0,0,0,.05)}
+.result-thumb-img,.result-thumb{display:none}
+.result-body{}
+.result-brand{font-size:11px;color:#b22234;text-transform:uppercase;letter-spacing:.05em;font-weight:800;margin-bottom:3px}
+.result-name{font-size:16px;font-weight:800;color:#003176;line-height:1.25;margin-bottom:5px}
+.result-meta{font-size:12px;color:#5c6a78;margin-bottom:5px}
+.result-rating-row{font-size:11px;color:#5c6a78}
+.result-price-row{text-align:right}
+.result-price{font-weight:800;font-size:15px;color:#003176}
+.no-results{padding:48px;text-align:center;color:#5c6a78;background:#fff;border:1px solid #e2e8ee;border-radius:4px}
+.pagination{display:flex;gap:4px;justify-content:center;margin-top:20px}
+.pagination button{padding:7px 13px;background:#fff;border:1px solid #cbd5e0;border-radius:3px;cursor:pointer;font-size:11px;color:#003176;font-weight:700}
+.pagination button.active{background:#003176;color:#fff;border-color:#003176}
+
+.ws-footer{background:#1b1b1b;color:#aab4be;font-size:11px;margin-top:36px;padding:28px 28px 16px}
+.ws-footer-row{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1380px;margin:0 auto}
+.ws-footer-col h5{margin:0 0 10px;color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.ws-footer-col a{display:block;padding:3px 0;color:#aab4be}
+.ws-footer-col a:hover{color:#fff}
+.ws-footer-bottom{max-width:1380px;margin:20px auto 0;padding-top:14px;border-top:1px solid #2a2a2a;font-size:10px;color:#7a8390}
+</style></head><body>
+<div class="gov-bar"><span class="flag"></span>An official EchoJobs site. <a class="howto">Here&#x27;s how you know ▾</a><span class="right"><span class="globe">🌐</span>Language Translation</span></div>
+<header class="ws-header">
+  <a class="ws-logo">
+    <svg class="ohio-mark" viewBox="0 0 120 96" xmlns="http://www.w3.org/2000/svg" aria-label="EchoJobs">
+      <rect x="16" y="8" width="88" height="80" rx="18" fill="#003176"/>
+      <text x="60" y="66" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="58" font-weight="800" fill="#fff">E</text>
+    </svg>
+    <div class="ws-logo-text"><span class="lt-name">EchoJobs</span></div>
+  </a>
+  <nav class="ws-nav"><a class="act">For Job Seekers</a><a>For Employers</a><a>For Students</a><a>News &amp; Events</a></nav>
+  <div class="ws-cta">
+    <div class="ws-icon-btn"><div class="ic">💬</div>Live Chat</div>
+    <div class="ws-icon-btn"><div class="ic">🔍</div>Site Search</div>
+    <a class="signup">Log In/Sign Up</a>
+  </div>
+</header>
+<div class="ws-subnav"><a>My profile</a><a>Saved searches</a><a>Resume builder</a><a>Career Navigator</a><a>Training</a><span class="sn-spacer"></span><a class="lang">EN | ES</a></div>
+
+<div class="hero-strip"><div class="hs-inner">
+  <div><div class="hs-tab"></div><h1 class="hs-title">Marketing jobs in <b>Ohio</b></h1></div>
+</div></div>
+
+<div class="top-toolbar">
+  <div class="tt-search"><span class="tt-icon">🔍</span><input value="Marketing" placeholder="Search by job title, skill or company"></div>
+  <div class="tt-loc"><span>📍</span>Ohio · 25 mi</div>
+  <button class="tt-go">Search jobs</button>
+  <div class="tt-strict" title="Exact match toggle">
+    <label class="seg-label"><input type="checkbox" data-facet="exact_match" value="1" onchange="onF()"><span class="seg">⚡ Strict match</span></label>
+  </div>
+  <span class="strict-indicator">Exact match: off</span>
+</div>
+
+<div class="crumb"><a>EchoJobs</a><span class="sep">›</span><a>Find a Job</a><span class="sep">›</span><b>Marketing · Bachelor&#x27;s degree</b></div>
+
+<div class="main-grid">
+  <aside class="filter-aside">
+    <div class="fa-title"><h3>Refine results</h3><a onclick="lsReset(event)">Clear all</a></div>
+    <div class="f-section ws-section"><div class="ws-head"><h4>Job category</h4><a class="ws-clear" onclick="clearFacet(this,'brand')">Clear</a></div><div class="ws-grid"><label class="ws-cb"><input type="checkbox" data-facet="brand" value="Education" onchange="onF()"><span>Education</span></label><label class="ws-cb"><input type="checkbox" data-facet="brand" value="Engineering" onchange="onF()"><span>Engineering</span></label><label class="ws-cb"><input type="checkbox" data-facet="brand" value="Finance" onchange="onF()"><span>Finance</span></label><label class="ws-cb"><input type="checkbox" data-facet="brand" value="Healthcare" onchange="onF()"><span>Healthcare</span></label><label class="ws-cb"><input type="checkbox" data-facet="brand" value="Marketing" onchange="onF()"><span>Marketing</span></label><label class="ws-cb"><input type="checkbox" data-facet="brand" value="Sales" onchange="onF()"><span>Sales</span></label></div></div><div class="f-section ws-section"><div class="ws-head"><h4>Employment type</h4><a class="ws-clear" onclick="clearFacet(this,'category')">Clear</a></div><div class="ws-grid"><label class="ws-cb"><input type="checkbox" data-facet="category" value="Contract" onchange="onF()"><span>Contract</span></label><label class="ws-cb"><input type="checkbox" data-facet="category" value="Full-time" onchange="onF()"><span>Full-time</span></label><label class="ws-cb"><input type="checkbox" data-facet="category" value="Internship" onchange="onF()"><span>Internship</span></label><label class="ws-cb"><input type="checkbox" data-facet="category" value="Part-time" onchange="onF()"><span>Part-time</span></label><label class="ws-cb"><input type="checkbox" data-facet="category" value="Temporary" onchange="onF()"><span>Temporary</span></label></div></div><div class="f-section ws-section"><div class="ws-head"><h4>Education required</h4><a class="ws-clear" onclick="clearFacet(this,'condition')">Clear</a></div><div class="ws-grid"><label class="ws-cb"><input type="checkbox" data-facet="condition" value="Associate&#x27;s" onchange="onF()"><span>Associate&#x27;s</span></label><label class="ws-cb"><input type="checkbox" data-facet="condition" value="Bachelor&#x27;s" onchange="onF()"><span>Bachelor&#x27;s</span></label><label class="ws-cb"><input type="checkbox" data-facet="condition" value="Doctorate" onchange="onF()"><span>Doctorate</span></label><label class="ws-cb"><input type="checkbox" data-facet="condition" value="High School" onchange="onF()"><span>High School</span></label><label class="ws-cb"><input type="checkbox" data-facet="condition" value="Master&#x27;s" onchange="onF()"><span>Master&#x27;s</span></label></div></div><div class="f-section ws-section"><div class="ws-head"><h4>Experience level</h4><a class="ws-clear" onclick="clearFacet(this,'color')">Clear</a></div><div class="ws-grid"><label class="ws-cb"><input type="checkbox" data-facet="color" value="Entry-level" onchange="onF()"><span>Entry-level</span></label><label class="ws-cb"><input type="checkbox" data-facet="color" value="Executive" onchange="onF()"><span>Executive</span></label><label class="ws-cb"><input type="checkbox" data-facet="color" value="Mid-level" onchange="onF()"><span>Mid-level</span></label><label class="ws-cb"><input type="checkbox" data-facet="color" value="Senior" onchange="onF()"><span>Senior</span></label></div></div>
+  </aside>
+  <section class="results-area">
+    <div class="results-header">
+      <h1>Marketing jobs · Ohio</h1>
+      <span class="results-sub">Showing 20 results · Bachelor&#x27;s degree · Full-time + Contract</span>
+      <div class="results-tools">
+        <select class="sort-dd"><option>Most relevant</option><option>Most recent</option><option>Highest salary</option><option>Nearest location</option></select>
+      </div>
+    </div>
+    <span id="result-count" style="display:none">20 results</span>
+    <div class="active-chips" id="active-chips"></div>
+    <div class="result-grid" id="result-grid"><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/17737281/pexels-photo-17737281.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Marketing Coordinator – Procter &amp; Gamble"><div class="result-body"><div class="result-brand">Marketing</div><div class="result-name">Marketing Coordinator – Procter &amp; Gamble</div><div class="result-meta">Full-time · Bachelor&#x27;s</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price">$55,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/432185/pexels-photo-432185.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Digital Marketing Specialist – Cleveland Clinic"><div class="result-body"><div class="result-brand">Marketing</div><div class="result-name">Digital Marketing Specialist – Cleveland Clinic</div><div class="result-meta">Full-time · Bachelor&#x27;s</div><div class="result-rating-row">★ 4.7</div><div class="result-price-row"><span class="result-price">$72,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/6804068/pexels-photo-6804068.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Marketing Analyst – Cardinal Health"><div class="result-body"><div class="result-brand">Marketing</div><div class="result-name">Marketing Analyst – Cardinal Health</div><div class="result-meta">Full-time · Bachelor&#x27;s</div><div class="result-rating-row">★ 4.4</div><div class="result-price-row"><span class="result-price">$68,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/265101/pexels-photo-265101.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Senior Marketing Manager – Sherwin-Williams"><div class="result-body"><div class="result-brand">Marketing</div><div class="result-name">Senior Marketing Manager – Sherwin-Williams</div><div class="result-meta">Full-time · Bachelor&#x27;s</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price">$110,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/6804068/pexels-photo-6804068.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Director of Marketing – Cintas"><div class="result-body"><div class="result-brand">Marketing</div><div class="result-name">Director of Marketing – Cintas</div><div class="result-meta">Full-time · Master&#x27;s</div><div class="result-rating-row">★ 4.8</div><div class="result-price-row"><span class="result-price">$165,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/36123565/pexels-photo-36123565.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Marketing Intern – Nationwide"><div class="result-body"><div class="result-brand">Marketing</div><div class="result-name">Marketing Intern – Nationwide</div><div class="result-meta">Internship · Associate&#x27;s</div><div class="result-rating-row">★ 4.0</div><div class="result-price-row"><span class="result-price">$22,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/9170392/pexels-photo-9170392.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Marketing Content Writer – Progressive"><div class="result-body"><div class="result-brand">Marketing</div><div class="result-name">Marketing Content Writer – Progressive</div><div class="result-meta">Contract · Bachelor&#x27;s</div><div class="result-rating-row">★ 4.3</div><div class="result-price-row"><span class="result-price">$48,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/5483188/pexels-photo-5483188.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Brand Strategist – Goodyear"><div class="result-body"><div class="result-brand">Marketing</div><div class="result-name">Brand Strategist – Goodyear</div><div class="result-meta">Full-time · Master&#x27;s</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price">$130,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/13323673/pexels-photo-13323673.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Marketing Research Assistant – OSU"><div class="result-body"><div class="result-brand">Marketing</div><div class="result-name">Marketing Research Assistant – OSU</div><div class="result-meta">Part-time · Bachelor&#x27;s</div><div class="result-rating-row">★ 4.2</div><div class="result-price-row"><span class="result-price">$32,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/6804613/pexels-photo-6804613.jpeg?auto=compress&cs=tinysrgb&h=130" alt="VP of Marketing – KeyBank"><div class="result-body"><div class="result-brand">Marketing</div><div class="result-name">VP of Marketing – KeyBank</div><div class="result-meta">Full-time · Doctorate</div><div class="result-rating-row">★ 4.9</div><div class="result-price-row"><span class="result-price">$225,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/6794928/pexels-photo-6794928.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Sales Representative – Cintas"><div class="result-body"><div class="result-brand">Sales</div><div class="result-name">Sales Representative – Cintas</div><div class="result-meta">Full-time · Bachelor&#x27;s</div><div class="result-rating-row">★ 4.3</div><div class="result-price-row"><span class="result-price">$52,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/37320179/pexels-photo-37320179.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Sales Manager – Diebold"><div class="result-body"><div class="result-brand">Sales</div><div class="result-name">Sales Manager – Diebold</div><div class="result-meta">Full-time · Master&#x27;s</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price">$115,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/6804613/pexels-photo-6804613.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Marketing Coordinator – Children&#x27;s Hospital"><div class="result-body"><div class="result-brand">Marketing</div><div class="result-name">Marketing Coordinator – Children&#x27;s Hospital</div><div class="result-meta">Full-time · Bachelor&#x27;s</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price">$60,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/36765702/pexels-photo-36765702.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Marketing Operations Lead – Marathon"><div class="result-body"><div class="result-brand">Marketing</div><div class="result-name">Marketing Operations Lead – Marathon</div><div class="result-meta">Full-time · Bachelor&#x27;s</div><div class="result-rating-row">★ 4.4</div><div class="result-price-row"><span class="result-price">$105,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/7989140/pexels-photo-7989140.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Marketing Intern – Cleveland Browns"><div class="result-body"><div class="result-brand">Marketing</div><div class="result-name">Marketing Intern – Cleveland Browns</div><div class="result-meta">Internship · High School</div><div class="result-rating-row">★ 4.1</div><div class="result-price-row"><span class="result-price">$18,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/5483188/pexels-photo-5483188.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Software Engineer II – JPMorgan"><div class="result-body"><div class="result-brand">Engineering</div><div class="result-name">Software Engineer II – JPMorgan</div><div class="result-meta">Full-time · Bachelor&#x27;s</div><div class="result-rating-row">★ 4.7</div><div class="result-price-row"><span class="result-price">$125,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/1181316/pexels-photo-1181316.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Registered Nurse – University Hospitals"><div class="result-body"><div class="result-brand">Healthcare</div><div class="result-name">Registered Nurse – University Hospitals</div><div class="result-meta">Full-time · Bachelor&#x27;s</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price">$78,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/1181316/pexels-photo-1181316.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Financial Analyst – Fifth Third"><div class="result-body"><div class="result-brand">Finance</div><div class="result-name">Financial Analyst – Fifth Third</div><div class="result-meta">Full-time · Bachelor&#x27;s</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price">$65,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/9170392/pexels-photo-9170392.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Marketing Specialist – Honda Ohio Plant"><div class="result-body"><div class="result-brand">Marketing</div><div class="result-name">Marketing Specialist – Honda Ohio Plant</div><div class="result-meta">Contract · Bachelor&#x27;s</div><div class="result-rating-row">★ 4.4</div><div class="result-price-row"><span class="result-price">$70,000</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/20762607/pexels-photo-20762607.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Marketing Director – American Greetings"><div class="result-body"><div class="result-brand">Marketing</div><div class="result-name">Marketing Director – American Greetings</div><div class="result-meta">Full-time · Master&#x27;s</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price">$175,000</span></div></div></div></div>
+    <nav class="pagination"><button>‹ Prev</button><button class="active">1</button><button>2</button><button>3</button><button>Next ›</button></nav>
+  </section>
+</div>
+
+<footer class="ws-footer">
+  <div class="ws-footer-row">
+    <div class="ws-footer-col"><h5>About EchoJobs</h5><a>Mission</a><a>Partners</a><a>Statewide career centers</a><a>Press releases</a></div>
+    <div class="ws-footer-col"><h5>Job seekers</h5><a>Find a job</a><a>Resume builder</a><a>Interview prep</a><a>Salary guide</a></div>
+    <div class="ws-footer-col"><h5>Employers</h5><a>Post a job</a><a>Talent sourcing</a><a>Workforce training grants</a></div>
+    <div class="ws-footer-col"><h5>Resources</h5><a>Veterans services</a><a>Disability services</a><a>Re-entry support</a><a>Apprenticeships</a></div>
+  </div>
+  <div class="ws-footer-bottom">An official website of EchoJobs · © 2026 EchoJobs · Privacy · Accessibility</div>
+</footer>
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
+const ENV_ID = 'W24_E06';
+let filterState = {};
+
+function onF() { applyFilters(); }
+
+function applyFilters() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) {
+        if (!newState[f]) newState[f] = [];
+        newState[f].push(el.value || el.dataset.val || '1');
+      }
+    }
+  });
+  filterState = newState;
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    updateResults(data.results || [], data.html_cards);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length + ' results';
+    renderActiveChips();
+    syncStrictBadge();
+  }).catch(()=>{});
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: '', task_id: taskId})
+  }).catch(()=>{});
+}
+
+function lsReset(ev) {
+  if (ev) { ev.stopPropagation(); ev.preventDefault(); }
+  document.querySelectorAll('[data-facet]').forEach(el => { if (el.type === 'checkbox') el.checked = false; });
+  applyFilters();
+}
+
+function updateResults(results, htmlCards) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div class="no-results">No results match your filters.</div>';
+    return;
+  }
+  if (htmlCards) { grid.innerHTML = htmlCards; customizeCards(); return; }
+  grid.innerHTML = results.map(r => {
+    const initial = (r.title || '?').charAt(0);
+    const priceLine = (r.price && r.price > 0) ? ('$' + r.price.toLocaleString()) : '';
+    const thumb = r.image_url
+      ? '<img class="result-thumb-img" loading="lazy" src="' + escapeHtmlText(r.image_url) + '" alt="' + (escapeHtmlText(r.image_alt || r.title || '')) + '">'
+      : '<div class="result-thumb">' + escapeHtmlText(initial) + '</div>';
+    return '<div class="result-card">' + thumb +
+      '<div class="result-body"><div class="result-brand">' + escapeHtmlText(r.brand || '') + '</div>' +
+      '<div class="result-name">' + escapeHtmlText(r.title || '') + '</div>' +
+      '<div class="result-meta">' + escapeHtmlText(r.category || '') + ' · ' + escapeHtmlText(r.condition || '') + '</div>' +
+      '<div class="result-rating-row">★ ' + escapeHtmlText(r.rating || '—') + '</div>' +
+      '<div class="result-price-row"><span class="result-price">' + escapeHtmlText(priceLine) + '</span></div></div></div>';
+  }).join('');
+}
+
+function renderActiveChips() {
+  const bar = document.getElementById('active-chips');
+  if (!bar) return;
+  const chips = [];
+  for (const [k, v] of Object.entries(filterState)) {
+    if (k === 'exact_match') continue;
+    if (Array.isArray(v)) v.forEach(val => chips.push(val));
+    else chips.push(v);
+  }
+  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+escapeHtmlText(c)+'</span>').join('');
+}
+
+function clearFacet(a, facet) {
+  document.querySelectorAll('input[type=checkbox][data-facet="' + facet + '"]').forEach(i => i.checked = false);
+  onF();
+}
+
+function customizeCards() {
+  document.querySelectorAll('#result-grid .result-card').forEach(card => {
+    card.querySelectorAll('.result-tag').forEach(t => {
+      const txt = (t.textContent || '').trim();
+      if (txt === 'FREE Shipping' || txt === 'Prime') t.remove();
+      else if (txt === 'In Stock') t.textContent = 'Open';
+    });
+    const cta = card.querySelector('.result-cta');
+    if (cta) cta.textContent = 'Apply Now';
+    card.querySelectorAll('.result-was, .result-save').forEach(e => e.remove());
+    const priceRow = card.querySelector('.result-price-row .result-price');
+    if (priceRow && /\$[\d,]+/.test(priceRow.textContent) && !/\/\s*yr/.test(priceRow.textContent)) {
+      priceRow.textContent = priceRow.textContent.trim() + ' / yr';
+    }
+  });
+}
+
+function syncStrictBadge() {
+  const on = !!(filterState.exact_match && filterState.exact_match.length);
+  document.querySelectorAll('.strict-indicator').forEach(el => {
+    el.classList.toggle('on', on);
+    el.textContent = on ? 'Exact match: ON' : 'Exact match: off';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  applyFilters();
+});
+</script>
+</body></html>

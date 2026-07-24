@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Used EchoMotor for sale near you – EchoAuto</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-body,'Open Sans',Arial,sans-serif);background:var(--page-bg,#fff);color:var(--ink,#1a1a1a);font-size:14px;line-height:1.5}
+a{color:var(--brand-primary);text-decoration:none;cursor:pointer}
+button{font-family:inherit;cursor:pointer}
+.strip{padding:10px 28px;background:#f5f6f7;border-bottom:1px solid #e3e5e7;font-size:12px;color:#555;display:flex;gap:8px;align-items:center}
+.strip a{color:#555}
+.strip b{color:#222}
+.strip .sep{color:#aaa}
+.page{display:grid;grid-template-columns:260px 1fr;gap:32px;padding:18px 36px;min-height:80vh;max-width:1400px;margin:0 auto}
+.aside h3{font-family:var(--font-head);font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:#101820;margin:0 0 12px;border-bottom:2px solid #101820;padding-bottom:8px;font-weight:700}
+.aside h4{font-family:var(--font-head);font-size:13px;margin:14px 0 6px;color:#101820;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.fsec{border-bottom:1px solid #ececec;padding:6px 0 14px}
+.fsec .opts label{display:flex;align-items:center;gap:8px;font-size:13px;padding:3px 0;cursor:pointer;color:#3b4654}
+.fsec .opts label:hover{color:var(--brand-primary)}
+.fsec input[type=checkbox],.fsec input[type=radio]{accent-color:var(--brand-primary)}
+.facet-clear{font-size:11px;color:var(--brand-primary);cursor:pointer;text-decoration:underline;font-weight:600}
+.results{display:flex;flex-direction:column;gap:14px;min-width:0}
+.results-head{display:flex;align-items:center;gap:12px;padding:6px 0 4px}
+.results-head h1{font-family:var(--font-head);font-size:22px;margin:0;color:#101820;font-weight:800;letter-spacing:-.4px}
+.rc-count{color:#5a6470;font-size:13px}
+.sort-dd{margin-left:auto;padding:8px 14px;border:1px solid var(--line);border-radius:22px;background:#fff;font-size:13px;font-weight:600;color:#101820;cursor:pointer}
+.empty-msg{padding:32px;text-align:center;color:#999;border:1px dashed #d0d0d0;border-radius:8px}
+.footer{margin-top:48px;padding:20px 28px;border-top:1px solid #eee;color:#888;font-size:12px;background:#fafafa;text-align:center}
+
+/* Chip default visuals (per-placement overrides below) */
+.fc{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:14px;font-size:12px;font-weight:600;background:#eef2f7;color:#1f3a5f;border:1px solid #d4dceb;line-height:1}
+.fc .x{cursor:pointer;opacity:.6;font-size:15px;line-height:1;padding:0 2px;border-radius:50%;font-weight:bold}
+.fc .x:hover{opacity:1;background:rgba(0,0,0,.1)}
+.fc:empty{display:none}
+.chiprail{display:flex;flex-wrap:wrap;gap:8px}
+.chiprail:empty:before{content:"No filters applied";color:#bbb;font-size:11px;font-style:italic}
+.rail-label{font-size:12px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.clear-all{font-size:12px;color:var(--brand-primary);cursor:pointer;text-decoration:underline;margin-left:auto;white-space:nowrap}
+
+/* Placement: sticky_after_nav */
+.chip-sticky{position:sticky;top:0;z-index:30;background:#fff;padding:10px 28px;border-bottom:1px solid #e3e5e7;display:flex;gap:12px;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,.05);flex-wrap:wrap;min-height:50px}
+.chip-sticky .fc{background:var(--brand-primary);color:#fff;border-color:var(--brand-primary-dark);border-radius:4px}
+.chip-sticky .fc .x{color:#fff}
+.chip-sticky .fc .x:hover{background:rgba(255,255,255,.25)}
+
+/* Placement: top_bar (bright bar above breadcrumb) */
+.chip-topbar{background:var(--brand-accent,#fff200);padding:10px 28px;display:flex;gap:12px;align-items:center;border-top:1px solid rgba(0,0,0,.08);border-bottom:1px solid rgba(0,0,0,.1);flex-wrap:wrap}
+.chip-topbar .fc{background:#fff;color:#222;border:2px solid rgba(0,0,0,.15);border-radius:18px;padding:5px 12px;font-weight:700}
+.chip-topbar .fc .x{color:#444}
+
+/* Placement: breadcrumb_style */
+.chip-crumbs{padding:12px 36px;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;font-size:13px;flex-wrap:wrap;max-width:1400px;margin:0 auto}
+.chip-crumbs .rail-label{color:#101820}
+.chip-crumbs .fc{background:#f4f1fb;color:var(--brand-primary-dark);border:1px solid #e0d4f7;padding:5px 10px 5px 12px;font-weight:700;border-radius:18px}
+.chip-crumbs .fc:after{display:none}
+.chip-crumbs .fc:last-child:after{display:none}
+.chip-crumbs .fc .x{margin-left:6px;color:var(--brand-primary-dark);background:rgba(101,16,244,.12);width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;border-radius:50%}
+
+/* Placement: in_page_anchor */
+.chip-anchor-fab{display:none;position:fixed;bottom:24px;right:24px;z-index:40;background:var(--brand-primary);color:#fff;padding:10px 16px;border-radius:24px;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(0,0,0,.2);font-size:13px;font-weight:700;text-decoration:none}
+.chip-anchor-fab:hover{background:var(--brand-primary-dark)}
+.chip-anchor-zone{padding:14px 28px;background:linear-gradient(90deg,rgba(0,0,0,.02),rgba(0,0,0,.04));border-top:3px solid var(--brand-primary);border-bottom:1px solid #eee;display:flex;gap:12px;align-items:center;flex-wrap:wrap;scroll-margin-top:80px}
+.chip-anchor-zone .fc{background:#fff;border:1.5px solid var(--brand-primary);color:var(--brand-primary);padding:5px 12px;border-radius:4px;font-weight:600}
+.chip-anchor-zone .fc .x{color:var(--brand-primary)}
+
+/* Placement: inline_above_results */
+.chip-inline{padding:10px 14px;background:rgba(0,0,0,.02);border:1px dashed #d4d4d4;border-radius:8px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.chip-inline .fc{background:var(--brand-primary);color:#fff;border-color:var(--brand-primary-dark);border-radius:14px;padding:4px 10px}
+.chip-inline .fc .x{color:#fff}
+
+
+:root{--brand-primary:#6510f4;--brand-primary-dark:#4a0bb8;--brand-accent:#ffd31d;--page-bg:#ffffff;--ink:#101820;--ink-2:#3b4654;--mute:#6b7480;--line:#e6e8ec;--font-body:'Source Sans 3','Helvetica Neue',Arial,sans-serif;--font-head:'Montserrat','Source Sans 3',Arial,sans-serif}
+.ch-top{background:#fff;border-bottom:1px solid #e6e8ec}
+.ch-top-inner{display:flex;align-items:center;padding:14px 36px;gap:36px;max-width:1400px;margin:0 auto}
+.ch-logo{font-family:var(--font-head);font-weight:700;font-size:24px;letter-spacing:-.4px;color:#101820;position:relative;padding:6px 14px 10px 14px}
+.ch-logo:after{content:"";position:absolute;left:-2px;right:-2px;top:6px;bottom:6px;border:2px solid var(--brand-primary);border-radius:50%/55%;transform:rotate(-12deg);pointer-events:none}
+.ch-logo .ch-dot{color:#101820}
+.ch-nav{flex:1;display:flex;gap:34px;justify-content:center}
+.ch-nav a{color:#101820;font-size:14px;font-weight:600;letter-spacing:.2px;padding:6px 2px;border-bottom:2px solid transparent}
+.ch-nav a.active{border-bottom-color:var(--brand-primary)}
+.ch-nav a:hover{color:var(--brand-primary)}
+.ch-account{display:flex;align-items:center;gap:10px;font-size:14px;color:#101820;font-weight:600}
+.ch-avatar{width:28px;height:28px;border-radius:50%;background:#eef0f3;display:inline-flex;align-items:center;justify-content:center;color:#6b7480;font-size:13px;position:relative}
+.ch-avatar:after{content:"";position:absolute;top:-1px;right:-1px;width:8px;height:8px;border-radius:50%;background:var(--brand-primary);border:1.5px solid #fff}
+
+.ch-hero{background:linear-gradient(180deg,#f4f1fb 0%,#ffffff 100%);padding:22px 36px 18px;border-bottom:1px solid var(--line)}
+.ch-hero-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;gap:24px}
+.ch-hero h2{font-family:var(--font-head);font-size:26px;font-weight:800;color:#101820;margin:0;letter-spacing:-.5px}
+.ch-hero p{margin:4px 0 0;color:#5a6470;font-size:14px}
+.ch-hero-pill{margin-left:auto;background:#101820;color:#fff;font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;display:inline-flex;gap:8px;align-items:center}
+.ch-hero-pill .ph{color:var(--brand-accent)}
+
+.result-grid{display:flex;flex-direction:column;gap:14px}
+.lt-row{display:grid;grid-template-columns:260px 1fr 160px;gap:0;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;transition:box-shadow .15s,border-color .15s}
+.lt-row:hover{box-shadow:0 6px 20px rgba(16,24,32,.08);border-color:#d2d6dc}
+.lt-photo{background:#eef0f3 no-repeat center/cover;min-height:180px;position:relative}
+.lt-photo:after{content:"Used";position:absolute;top:10px;left:10px;background:rgba(16,24,32,.85);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:3px;letter-spacing:.3px}
+.lt-body{padding:16px 18px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.lt-title{font-family:var(--font-head);font-weight:700;font-size:17px;color:#101820;letter-spacing:-.2px}
+.lt-meta{font-size:13px;color:#5a6470}
+.lt-meta b{color:#101820;font-weight:600}
+.lt-loc{font-size:12px;color:#7d8590;margin-top:auto;display:flex;align-items:center;gap:6px}
+.lt-loc:before{content:"📍";font-size:11px}
+.lt-stats{display:flex;justify-content:space-between;align-items:flex-end;font-size:13px;color:#666;margin-top:6px}
+.lt-rate{display:inline-flex;align-items:center;gap:4px;color:#3b4654;font-weight:600}
+.lt-rate .star{color:#ffb400}
+.lt-price{font-family:var(--font-head);font-weight:800;color:#101820;font-size:22px;letter-spacing:-.5px}
+.lt-actions{padding:18px 18px 18px 0;display:flex;flex-direction:column;gap:8px;justify-content:center}
+.lt-cta{padding:10px 16px;background:var(--brand-primary);color:#fff;border:none;border-radius:22px;font-weight:700;cursor:pointer;font-size:13px;letter-spacing:.2px}
+.lt-cta:hover{background:var(--brand-primary-dark)}
+.lt-fav{padding:8px 14px;background:#fff;color:#101820;border:1.5px solid var(--line);border-radius:22px;cursor:pointer;font-size:13px;font-weight:600}
+.lt-fav:hover{border-color:var(--brand-primary);color:var(--brand-primary)}
+
+.footer{margin-top:48px;padding:28px 36px;border-top:1px solid var(--line);background:#101820;color:#aeb6c0;font-size:12px}
+.footer-inner{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.footer-nav{display:flex;gap:22px;flex-wrap:wrap}
+.footer-nav a{color:#cdd3da;font-weight:600}
+.footer-nav a:hover{color:#fff}
+.footer-mark{font-family:var(--font-head);color:#fff;font-weight:700;font-size:14px}
+
+</style>
+</head>
+<body>
+
+<header class="ch-top">
+  <div class="ch-top-inner">
+    <div class="ch-logo">EchoAuto</div>
+    <nav class="ch-nav">
+      <a class="active">Buy</a><a>Sell</a><a>Research</a><a>Finance</a>
+    </nav>
+    <div class="ch-account"><span class="ch-avatar">👤</span><span>Account</span></div>
+  </div>
+</header>
+
+<section class="ch-hero">
+  <div class="ch-hero-inner">
+    <div>
+      <h2>Imagine the possibilities.</h2>
+      <p>Used EchoMotor listings near 77002 · Houston, TX</p>
+    </div>
+    <div class="ch-hero-pill"><span class="ph">★</span> Best Value Top Picks</div>
+  </div>
+</section>
+
+<div class="chip-crumbs">
+  <span class="rail-label">You're filtering by:</span>
+  <div class="chiprail" id="active-chips"></div>
+  <a class="clear-all" onclick="lsReset()">Clear all</a>
+</div>
+<main class="page"><aside class="aside"><h3>Refine results</h3><div class="fsec" data-facet-group="brand"><h4>Make<a class="facet-clear" onclick="clearFacet(this,'brand')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="brand" value="Audi" onchange="onF()"> <span class="opt-lbl">EchoPremium</span></label><label><input type="checkbox" data-facet="brand" value="BMW" onchange="onF()"> <span class="opt-lbl">EchoMotor</span></label><label><input type="checkbox" data-facet="brand" value="Ford" onchange="onF()"> <span class="opt-lbl">EchoRoad</span></label><label><input type="checkbox" data-facet="brand" value="Lexus" onchange="onF()"> <span class="opt-lbl">EchoLuxe</span></label><label><input type="checkbox" data-facet="brand" value="Mercedes-Benz" onchange="onF()"> <span class="opt-lbl">EchoLuxury</span></label></div></div><div class="fsec" data-facet-group="category"><h4>Body Style<a class="facet-clear" onclick="clearFacet(this,'category')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="category" value="Convertible" onchange="onF()"> <span class="opt-lbl">Convertible</span></label><label><input type="checkbox" data-facet="category" value="Coupe" onchange="onF()"> <span class="opt-lbl">Coupe</span></label><label><input type="checkbox" data-facet="category" value="SUV" onchange="onF()"> <span class="opt-lbl">SUV</span></label><label><input type="checkbox" data-facet="category" value="Sedan" onchange="onF()"> <span class="opt-lbl">Sedan</span></label><label><input type="checkbox" data-facet="category" value="Truck" onchange="onF()"> <span class="opt-lbl">Truck</span></label></div></div><div class="fsec" data-facet-group="color"><h4>Cylinders<a class="facet-clear" onclick="clearFacet(this,'color')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="color" value="6-cylinder" onchange="onF()"> <span class="opt-lbl">6-cylinder</span></label><label><input type="checkbox" data-facet="color" value="8-cylinder" onchange="onF()"> <span class="opt-lbl">8-cylinder</span></label></div></div><div class="fsec" data-facet-group="condition"><h4>Condition<a class="facet-clear" onclick="clearFacet(this,'condition')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="condition" value="Certified Pre-Owned" onchange="onF()"> <span class="opt-lbl">Certified Pre-Owned</span></label><label><input type="checkbox" data-facet="condition" value="Used" onchange="onF()"> <span class="opt-lbl">Used</span></label></div></div><div class="fsec" data-facet-group="price"><h4>Price<a class="facet-clear" onclick="clearPrice()">clear</a></h4><div class="opts"><label><input type="radio" name="ptier" data-tier="0-14999" onchange="setPriceTier(this)"> Under $15K</label><label><input type="radio" name="ptier" data-tier="15000-24999" onchange="setPriceTier(this)"> $15K–$25K</label><label><input type="radio" name="ptier" data-tier="25000-50000" onchange="setPriceTier(this)"> $25K–$50K</label><label><input type="radio" name="ptier" data-tier="50000-99999" onchange="setPriceTier(this)"> $50K+</label></div></div><div class="fsec" data-facet-group="rating"><h4>Rating<a class="facet-clear" onclick="clearFacet(this,'rating_min')">clear</a></h4><div class="opts"><label><input type="radio" name="rating_min" data-facet="rating_min" value="4" onchange="onF()"> 4★ &amp; up</label><label><input type="radio" name="rating_min" data-facet="rating_min" value="3" onchange="onF()"> 3★ &amp; up</label></div></div></aside>
+<section class="results">
+  
+  
+  <div class="results-head">
+    <h1>Used Vehicles</h1>
+    <span class="rc-count" id="result-count">18 matches</span>
+    <select class="sort-dd"><option>Sort: Recommended</option><option>Highest Rated</option><option>Price: Low to High</option><option>Newest</option></select>
+  </div>
+  <div class="result-grid" id="result-grid"></div>
+</section></main>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-mark">EchoAuto</div>
+    <nav class="footer-nav">
+      <a>About</a><a>Contact</a><a>Press</a><a>Careers</a><a>Privacy</a><a>Terms</a><a>AdChoices</a>
+    </nav>
+    <div>© 2025 EchoAuto · All rights reserved</div>
+  </div>
+</footer>
+
+<script>
+const ENV_ID = 'W08_E04';
+let filterState = {};
+
+function buildStateFromDom() {
+  const s = {};
+  document.querySelectorAll('input[type=checkbox][data-facet]').forEach(el => {
+    if (el.checked) {
+      const f = el.dataset.facet;
+      (s[f] = s[f] || []).push(el.value);
+    }
+  });
+  document.querySelectorAll('input[type=radio][data-facet]:checked').forEach(el => {
+    s[el.dataset.facet] = el.value;
+  });
+  const tierEl = document.querySelector('input[name="ptier"]:checked');
+  if (tierEl) {
+    const [mn, mx] = (tierEl.dataset.tier || '').split('-').map(Number);
+    if (!isNaN(mn)) s.min_price = mn;
+    if (!isNaN(mx)) s.max_price = mx;
+  }
+  return s;
+}
+
+let _submitChain = Promise.resolve();
+function applyFilters() {
+  filterState = buildStateFromDom();
+  // Render chips synchronously so the agent gets instant visual
+  // confirmation of every pick — the widget mechanic is that the
+  // agent must verify each required chip is present in the bar.
+  renderActiveChips();
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    updateResults(data.results || []);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length + ' matches';
+  }).catch(() => {});
+  // Autosave on every change — chained sequentially via _submitChain
+  // so submits from rapid successive picks arrive at the backend in
+  // click-order. Without this, FastAPI's threadpool can process them
+  // out of order and the CURRENT row may reflect a stale state.
+  const snapshot = JSON.parse(JSON.stringify(filterState));
+  _submitChain = _submitChain.then(() => fetch(
+    '/env/' + ENV_ID + '/api/submit',
+    {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({filter_state: snapshot, task_id: taskId})
+    }
+  ).catch(() => {}));
+}
+
+function onF() { applyFilters(); }
+
+function setPriceTier(el) { onF(); }
+function clearPrice() {
+  document.querySelectorAll('input[name="ptier"]').forEach(e => e.checked = false);
+  onF();
+}
+
+function escapeHtml(s) {
+  return (s == null ? '' : String(s)).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+}
+
+const FACET_LABELS = {"brand": "Make", "category": "Body Style", "color": "Cylinders", "condition": "Condition"};
+
+function chipLabel(facet, value) {
+  if (facet === 'min_price') return 'min ≥ $' + value;
+  if (facet === 'max_price') return 'max ≤ $' + value;
+  if (facet === 'price_range') return 'Price: ' + value;
+  if (facet === 'rating_min') return '★ ≥ ' + value;
+  const lbl = FACET_LABELS[facet] || facet;
+  return lbl + ': ' + value;
+}
+
+function renderActiveChips() {
+  const bars = document.querySelectorAll('.chiprail, #active-chips');
+  if (!bars.length) return;
+  const items = [];
+  const hasMin = 'min_price' in filterState, hasMax = 'max_price' in filterState;
+  if (hasMin || hasMax) {
+    const lo = hasMin ? '$' + filterState.min_price : 'any';
+    const hi = hasMax ? '$' + filterState.max_price : 'any';
+    items.push({facet:'price_range', value: lo + '–' + hi});
+  }
+  for (const [k, v] of Object.entries(filterState)) {
+    if (k === 'min_price' || k === 'max_price') continue;
+    if (Array.isArray(v)) {
+      v.forEach(val => items.push({facet:k, value: val}));
+    } else {
+      items.push({facet:k, value: v});
+    }
+  }
+  const html = items.map(it => {
+    const lbl = escapeHtml(chipLabel(it.facet, it.value));
+    const argF = escapeHtml(JSON.stringify(it.facet));
+    const argV = escapeHtml(JSON.stringify(it.value));
+    return '<span class="fc" data-facet="' + escapeHtml(it.facet) + '" data-value="' + escapeHtml(String(it.value)) + '">'
+      + '<span class="lbl">' + lbl + '</span>'
+      + '<span class="x" role="button" tabindex="0" title="Remove" onclick="removeActiveChip(' + argF + ',' + argV + ')">×</span>'
+      + '</span>';
+  }).join('');
+  bars.forEach(bar => { bar.innerHTML = html; });
+  // Show/hide an optional "anchor" link to chip rail if present
+  const anchorBtn = document.getElementById('chip-anchor-btn');
+  if (anchorBtn) {
+    anchorBtn.style.display = items.length ? 'inline-flex' : 'none';
+    const cnt = anchorBtn.querySelector('.anchor-count');
+    if (cnt) cnt.textContent = items.length;
+  }
+}
+
+function removeActiveChip(facet, value) {
+  const valStr = (value == null) ? '' : String(value);
+  if (facet === 'price_range') {
+    document.querySelectorAll('input[name="ptier"]').forEach(e => e.checked = false);
+    onF();
+    return;
+  }
+  document.querySelectorAll('input[type=checkbox][data-facet="' + facet + '"]').forEach(i => {
+    if (i.value === valStr) i.checked = false;
+  });
+  document.querySelectorAll('input[type=radio][data-facet="' + facet + '"]').forEach(i => {
+    if (i.value === valStr) i.checked = false;
+  });
+  onF();
+}
+
+function lsReset() {
+  document.querySelectorAll('input[data-facet], input[name="ptier"]').forEach(el => {
+    if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+  });
+  onF();
+}
+
+function clearFacet(a, facet) {
+  document.querySelectorAll('input[data-facet="' + facet + '"]').forEach(i => {
+    if (i.type === 'checkbox' || i.type === 'radio') i.checked = false;
+  });
+  onF();
+}
+
+function updateResults(results) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div class="empty-msg">No results match your filters.</div>';
+    return;
+  }
+  grid.innerHTML = results.map(r => renderCard(r)).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  applyFilters();
+});
+</script>
+
+<script>
+function renderCard(r) {
+  const img = escapeHtml(r.image_url || '');
+  const title = escapeHtml(r.title || '?');
+  const brand = escapeHtml(r.brand || '');
+  const cond = escapeHtml(r.condition || '');
+  const cyl = escapeHtml(r.color || '');
+  const cat = escapeHtml(r.category || '');
+  const price = r.price > 0 ? '$' + r.price.toLocaleString() : 'Call for price';
+  const mileage = (10000 + Math.round((r.price||25000)/2.3)).toLocaleString();
+  return `<div class="lt-row">
+    <div class="lt-photo" style="background-image:url('${img}')"></div>
+    <div class="lt-body">
+      <div class="lt-title">${brand} ${title}</div>
+      <div class="lt-meta"><b>${cat}</b> · ${cyl} · ${cond}</div>
+      <div class="lt-meta">${mileage} mi · Automatic · AWD</div>
+      <div class="lt-loc">Houston, TX · 2.3 mi away</div>
+      <div class="lt-stats"><span class="lt-rate"><span class="star">★</span> ${r.rating||0} <span style="color:#9aa3ad;font-weight:400">(${Math.round(28+(r.rating||0)*7)} reviews)</span></span><span class="lt-price">${price}</span></div>
+    </div>
+    <div class="lt-actions"><button class="lt-cta">View Details</button><button class="lt-fav">♥ Save</button></div>
+  </div>`;
+}
+</script>
+
+<style>
+.seo-block{background:#fafafa;border-top:1px solid #e5e5e5;padding:32px 28px;color:#555;font-size:12px;line-height:1.6}
+.seo-inner{max-width:1400px;margin:0 auto}
+.seo-blurb{font-size:13px;color:#666;max-width:920px;margin:0 auto 24px;text-align:center;line-height:1.65}
+.seo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
+.seo-col h6{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#222;margin:0 0 10px;font-weight:700}
+.seo-col ul{list-style:none;margin:0;padding:0}
+.seo-col li{padding:3px 0}
+.seo-col li a{color:#666;font-size:12px;text-decoration:none}
+.seo-col li a:hover{color:#333;text-decoration:underline}
+</style>
+<section class="seo-block"><div class="seo-inner"><div class="seo-blurb">EchoAuto helps shoppers in every market find the right vehicle at the right price. Browse millions of new and used listings from trusted dealers, compare models side-by-side, and lock in financing — all from your phone or laptop.</div><div class="seo-grid"><div class="seo-col"><h6>Shop by Body Style</h6><ul><li><a>Sedans for Sale</a></li><li><a>SUVs for Sale</a></li><li><a>Trucks for Sale</a></li><li><a>Coupes & Convertibles</a></li><li><a>Hatchbacks</a></li><li><a>Wagons</a></li><li><a>Minivans</a></li><li><a>Crossovers</a></li><li><a>Hybrid Cars</a></li><li><a>Electric Vehicles</a></li></ul></div><div class="seo-col"><h6>Popular Makes</h6><ul><li><a>EchoMotor for Sale</a></li><li><a>EchoLuxury</a></li><li><a>EchoMotors</a></li><li><a>EchoDrive</a></li><li><a>EchoRoad</a></li><li><a>EchoCruise</a></li><li><a>EchoEV</a></li><li><a>EchoPremium</a></li><li><a>EchoLuxe</a></li><li><a>EchoTrail</a></li></ul></div><div class="seo-col"><h6>Shop by Price</h6><ul><li><a>Under $10,000</a></li><li><a>Under $20,000</a></li><li><a>$20K – $30K</a></li><li><a>$30K – $50K</a></li><li><a>$50K – $75K</a></li><li><a>$75K – $100K</a></li><li><a>Luxury $100K+</a></li><li><a>Certified Pre-Owned</a></li><li><a>Best Lease Deals</a></li><li><a>Cars With $0 Down</a></li></ul></div><div class="seo-col"><h6>Research & Tools</h6><ul><li><a>Car Reviews & Ratings</a></li><li><a>Build & Price</a></li><li><a>Compare Vehicles</a></li><li><a>Loan Calculator</a></li><li><a>Trade-In Value</a></li><li><a>Vehicle History</a></li><li><a>Dealer Reviews</a></li><li><a>Recall Center</a></li><li><a>MPG Estimator</a></li><li><a>Insurance Quotes</a></li></ul></div></div></div></section>
+<style>
+.related-row{background:#fff;border-top:1px solid #e5e5e5;padding:24px 28px;font-size:12px;color:#444}
+.related-inner{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
+.related-col h6{font-size:12px;font-weight:800;letter-spacing:.4px;margin:0 0 10px;color:#222;text-transform:uppercase}
+.related-col p{margin:0 0 8px;line-height:1.55;color:#555}
+.related-col ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 12px}
+.related-col li{padding:0}
+.related-col li a{display:inline-block;padding:5px 10px;border:1px solid #ddd;border-radius:14px;color:#333;text-decoration:none;font-size:11px;background:#fafafa}
+.related-col li a:hover{background:#fff;border-color:#bbb}
+</style>
+
+<section class="related-row"><div class="related-inner">
+<div class="related-col"><h6>About this EchoMotor search</h6>
+<p>Used EchoMotor vehicles in the 2005–2015 range offer the iconic driving feel at a fraction of the new-car price. V8-equipped models — the EchoSport sedans, E5 and E6 SUVs, the EchoFive Series and EchoSeven Series flagships — give you naturally aspirated muscle that's becoming harder to find as the lineup downsizes to turbocharged sixes.</p>
+<p>EchoAuto lists thousands of used EchoMotor V8s from dealers nationwide. Filter by price, body style, condition, and cylinder count to zero in on the right fit — then connect with the dealer directly or get a free EchoFax report before you commit.</p></div>
+<div class="related-col"><h6>Related searches</h6>
+<ul><li><a>Used EchoMotor V8</a><li><a>EchoMotor E5 4.4i</a><li><a>EchoMotor E5 Sport E60</a><li><a>EchoMotor 550e</a><li><a>EchoMotor 750e</a><li><a>EchoMotor 650e Coupe</a><li><a>Used EchoMotor under 30K</a><li><a>EchoMotor 8-cylinder SUV</a><li><a>Certified Pre-Owned EchoMotor</a><li><a>EchoLuxury V8 alternative</a><li><a>EchoPremium S-Series vs EchoMotor E5 Sport</a><li><a>EchoMotor maintenance cost</a></ul></div>
+<div class="related-col"><h6>Why used vs. CPO?</h6>
+<p><b>Used</b> — best price, sold as-is or with limited dealer warranty.<br><b>Certified Pre-Owned</b> — manufacturer-inspected, factory-backed extended warranty, slightly higher price.<br>For an 8-cylinder EchoMotor with 50K+ miles, CPO is often worth the premium for the powertrain warranty alone.</p></div>
+</div></section>
+</body></html>

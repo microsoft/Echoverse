@@ -1,0 +1,49 @@
+{
+  "env_id": "W07_E04",
+  "widget_id": "W07_more_filters_modal",
+  "widget_name": "Hidden filter inside More-filters modal",
+  "widget_category": "modal_workflow",
+  "widget_mechanic": "Required filter (new-to-market tag, remote-job toggle, advanced salary band) lives inside a collapsible 'More filters' modal. Agent must click 'More filters', possibly scroll inside the modal, apply the toggle, then click 'Apply' or 'Show results' before the filter takes effect.",
+  "archetype": "realestate_listings",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W07_more_filters_modal"
+  ],
+  "site_imitates": "realtor.com Tacoma WA homes under $500k",
+  "product_type": "Tacoma homes",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_tacoma__wa_12334",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "I'm looking for homes for sale in Tacoma, WA that have 3 bedrooms, 2 or more bathrooms, and are under $500k. Can you show me some options?",
+      "first_failure_summary": "[2.1] Output contradiction: The agent stated it would enable \u201cUse exact match\u201d because results were broader than requested, but at that time the UI evidence indicates the bedroom setting was still \u201c3+\u201d."
+    }
+  ],
+  "theme_key": "realtor.com",
+  "theme_logo": "realtor.com",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "trigger_style": "sidebar_collapse_arrow",
+  "modal_layout": "accordion_grouped_checkboxes",
+  "variant_idx": 3,
+  "n_seed_items": 20,
+  "modal_facets": [
+    "modal_exact_match_only",
+    "modal_price_reduced",
+    "modal_open_house",
+    "modal_garage_attached",
+    "modal_basement_finished",
+    "modal_central_ac",
+    "modal_fenced_yard",
+    "modal_walk_to_transit",
+    "modal_view_water",
+    "modal_new_listing_24h"
+  ],
+  "filter_spec": {
+    "type": "flag_match",
+    "fields": [
+      "modal_*"
+    ]
+  }
+}

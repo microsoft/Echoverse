@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>EchoAir — Search flights</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#F4F1F5;color:#1F1233;font-family:'Helvetica Neue','Inter','Segoe UI',Arial,sans-serif;}
+a{color:inherit;text-decoration:none}
+.topbar{background:#FFFFFF;color:#1F1233;padding:0 24px;display:flex;align-items:center;justify-content:space-between;font-size:14px;letter-spacing:.01em;border-bottom:1px solid #ECE6F0;min-height:64px;box-shadow:0 1px 0 rgba(31,18,51,.02)}
+.topbar .nav{display:flex;gap:6px;align-items:center;font-weight:600}
+.topbar .nav a{padding:22px 12px;color:#1F1233;font-size:13px;position:relative}
+.topbar .nav a:hover{color:#C6007E}
+.topbar .nav a.active{color:#C6007E;box-shadow:inset 0 -3px 0 #C6007E}
+.topbar .right{display:flex;gap:10px;align-items:center;font-size:13px;color:#1F1233;font-weight:600}
+.topbar .right .pill{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid #ECE6F0;border-radius:999px;color:#1F1233;background:#fff}
+.topbar .right .pill:hover{border-color:#C6007E;color:#C6007E}
+.topbar .right .pill.signin{background:#1F1233;color:#fff;border-color:#1F1233}
+.logo{display:flex;align-items:flex-end;gap:0;font-weight:900;font-size:24px;letter-spacing:-.02em;color:#1F1233;text-transform:none;line-height:1}
+.logo .wizz{color:#C6007E}
+.logo .air{color:#1F1233}
+.logo .mark{display:inline-flex;width:22px;height:22px;background:#C6007E;border-radius:5px;margin-right:6px;transform:translateY(-1px);align-items:center;justify-content:center;color:#fff;font-size:15px;font-weight:900;line-height:1}
+.hero{background:linear-gradient(135deg,#1F1233 0%,#3A1F5C 55%,#5B1E72 100%);color:#fff;padding:34px 24px 110px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-80px;top:-40px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,#C6007E55 0%,transparent 60%)}
+.hero::before{content:"";position:absolute;left:-60px;bottom:-100px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,#C6007E33 0%,transparent 60%)}
+.hero-inner{max-width:1180px;margin:0 auto;position:relative;z-index:1}
+.hero .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.18em;color:#F8C8DC;font-weight:700;margin-bottom:8px}
+.hero h1{margin:0 0 6px;color:#fff;font-size:34px;font-weight:900;letter-spacing:-.01em;line-height:1.1}
+.hero .lede{color:#E9D9F4;font-size:14px;max-width:560px;margin-top:6px}
+main{max-width:1180px;margin:-90px auto 0;padding:0 24px 60px;position:relative;z-index:2}
+.searchcard{background:#FFFFFF;border:1px solid #ECE6F0;border-radius:14px;padding:22px;margin:0 0 24px;box-shadow:0 18px 50px rgba(31,18,51,.12);position:relative}
+.tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap;border-bottom:1px solid #ECE6F0;padding-bottom:0}
+.tabs .tab{padding:10px 16px;border-radius:0;background:transparent;color:#6B5A7A;font-size:13px;font-weight:700;cursor:pointer;border:none;border-bottom:3px solid transparent;margin-bottom:-1px}
+.tabs .tab.active{color:#C6007E;border-bottom-color:#C6007E}
+.fields{display:grid;grid-template-columns:1.25fr 1.25fr .9fr .9fr .9fr;gap:8px;position:relative}
+.field{position:relative;display:flex;flex-direction:column;background:#fff;border:1.5px solid #E0E4EA;border-radius:10px;padding:10px 14px;min-height:68px;justify-content:center}
+.field:hover,.field:focus-within{border-color:#C6007E;box-shadow:0 0 0 3px rgba(198,0,126,.08)}
+.field label{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#8A7896;font-weight:800}
+.field input{border:none;outline:none;background:transparent;font-size:15px;font-weight:700;color:#1F1233;padding:4px 0;width:100%;font-family:inherit}
+.field input::placeholder{color:#AFB6C1;font-weight:500}
+.swap-btn{position:absolute;left:calc(40% - 4px);top:50%;transform:translate(-50%,-50%);background:#fff;color:#C6007E;border:1.5px solid #E0E4EA;border-radius:999px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;z-index:3;box-shadow:0 2px 6px rgba(31,18,51,.08);font-weight:700}
+.swap-btn:hover{border-color:#C6007E;background:#FFF0F8}
+.actions{display:flex;align-items:center;justify-content:space-between;margin-top:16px;gap:14px;flex-wrap:wrap}
+.promo-note{font-size:12px;color:#8A7896;display:flex;align-items:center;gap:6px}
+.promo-note::before{content:"✓";color:#0A8A4D;font-weight:900}
+.search-btn{background:#C6007E;color:#fff;border:none;border-radius:999px;padding:13px 34px;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:.01em;box-shadow:0 4px 14px rgba(198,0,126,.32);font-family:inherit;text-transform:uppercase}
+.search-btn:hover{background:#A50069}
+.options-row{display:flex;gap:18px;margin-top:14px;flex-wrap:wrap;font-size:13px;color:#1F1233}
+.options-row label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.options-row .chip{padding:6px 12px;border:1px solid #ECE6F0;border-radius:999px;background:#FFF;font-weight:600;color:#1F1233}
+.result-shell{margin-top:8px}
+.result-shell-head{display:flex;align-items:baseline;justify-content:space-between;margin:18px 0 12px}
+.rs-title{margin:0;font-size:20px;font-weight:800;color:#1F1233;letter-spacing:-.01em}
+.rs-count{font-size:13px;color:#8A7896;font-weight:600}
+.results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.result-card{background:#FFFFFF;border:1px solid #ECE6F0;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px;transition:transform .12s, box-shadow .12s;position:relative;overflow:hidden}
+.result-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#C6007E}
+.result-card:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(31,18,51,.10);border-color:#C6007E}
+.rc-img{width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:6px}
+.rc-route{font-size:18px;font-weight:800;color:#1F1233;letter-spacing:-.01em}
+.rc-iata{color:#C6007E}
+.rc-meta{font-size:13px;color:#6B5A7A;font-weight:600}
+.rc-extra{font-size:12px;color:#8A7896}
+.rc-price{font-size:20px;font-weight:900;color:#C6007E;margin-top:6px;letter-spacing:-.02em}
+.empty{padding:36px;text-align:center;color:#8A7896;border:1.5px dashed #ECE6F0;border-radius:12px;grid-column:1/-1;font-size:14px;background:#fff}
+.footer{background:#1F1233;color:#E9D9F4;font-size:12px;margin-top:40px;padding:28px 24px;border-top:4px solid #C6007E}
+.footer-inner{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:center}
+.footer .badge{display:inline-flex;align-items:center;gap:6px;background:#C6007E;color:#fff;padding:6px 12px;border-radius:999px;font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.1em}
+/* ----- popup-below autocomplete ----- */
+.ac-list{position:absolute;left:0;right:0;top:100%;margin-top:6px;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:10px;box-shadow:0 12px 32px rgba(0,0,0,.12);max-height:320px;overflow-y:auto;z-index:50;list-style:none;padding:6px 0;display:none}
+.ac-list.show{display:block}
+.ac-list li{padding:9px 14px;cursor:pointer;font-size:14px;display:flex;align-items:center;gap:6px;color:#1F1233}
+.ac-list li:hover{background:rgba(0,0,0,.04)}
+.ac-list li .iata{display:inline-block;min-width:42px;font-weight:700;color:#C6007E}
+.ac-list li .ac-flag{font-size:14px}
+.ac-list li .ac-name{color:#1F1233;font-weight:500}
+.ac-list li .ac-country{margin-left:auto;font-size:12px;color:#8A7896}
+@media (max-width:780px){.fields{grid-template-columns:1fr 1fr}}
+
+.ac-overlay{position:absolute;left:0;right:0;top:100%;margin-top:8px;background:#FFFFFF;border:1px solid rgba(0,0,0,.10);border-radius:12px;box-shadow:0 24px 60px rgba(0,0,0,.16);padding:18px;z-index:60;display:none;color:#1F1233}
+.ac-overlay.show{display:block}
+.ac-overlay-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px;color:#8A7896;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.ac-overlay-tabs{display:flex;gap:8px;margin-bottom:10px}
+.ac-overlay-tabs button{background:transparent;border:1px solid rgba(255,255,255,.1);color:#1F1233;padding:6px 12px;border-radius:999px;font-size:12px;cursor:pointer;font-weight:600}
+.ac-overlay-tabs button.active{background:#C6007E;color:#fff;border-color:#C6007E}
+.ac-overlay ul{list-style:none;margin:0;padding:0;max-height:340px;overflow-y:auto}
+.ac-overlay ul.show{display:block}
+.ac-overlay li{padding:10px 12px;cursor:pointer;font-size:14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(127,127,127,.08)}
+.ac-overlay li:hover{background:rgba(127,127,127,.08)}
+.ac-overlay li .iata{min-width:46px;font-weight:800;color:#C6007E}
+.ac-overlay li .ac-flag{font-size:14px}
+.ac-overlay li .ac-name{font-weight:500}
+.ac-overlay li .ac-country{margin-left:auto;font-size:12px;color:#8A7896}
+.searchcard {position:relative}
+.w-section{max-width:1180px;margin:30px auto 0;padding:0 24px}
+.w-h{font-size:18px;font-weight:800;color:#1F1233;margin:0 0 10px;letter-spacing:-.01em}
+.w-deals{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.w-deal{background:#FFFFFF;border-radius:10px;padding:14px;border:1px solid rgba(127,127,127,.12);display:flex;flex-direction:column;gap:4px;box-shadow:0 4px 12px rgba(198,0,126,.05);transition:transform .15s,box-shadow .15s}
+.w-deal:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(198,0,126,.12);border-color:#C6007E}
+.w-deal .tag{display:inline-block;font-size:10px;font-weight:800;color:#C6007E;background:#FCE5F2;padding:2px 8px;border-radius:999px;align-self:flex-start;letter-spacing:.06em;text-transform:uppercase}
+.w-deal .route{font-size:14px;font-weight:800;color:#1F1233;margin-top:2px}
+.w-deal .sub{font-size:12px;color:#7E6F87}
+.w-deal .price{font-size:18px;font-weight:900;color:#C6007E;margin-top:6px}
+.w-pop{margin-top:18px;background:#FCE5F2;border-radius:10px;padding:14px}
+.w-pop h4{margin:0 0 8px;font-size:12px;font-weight:800;color:#C6007E;letter-spacing:.06em;text-transform:uppercase}
+.w-pop .pills{display:flex;flex-wrap:wrap;gap:6px}
+.w-pop .pill2{background:#FFFFFF;border:1px solid rgba(198,0,126,.18);border-radius:999px;padding:5px 10px;font-size:12px;font-weight:700;color:#1F1233}
+.w-pop .pill2 .iata{color:#C6007E;font-weight:800;margin:0 3px}
+.w-values{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.w-val{background:#FFFFFF;border-radius:10px;padding:14px;border:1px solid rgba(127,127,127,.1);display:flex;flex-direction:column;gap:4px}
+.w-val .ic{font-size:22px;color:#C6007E}
+.w-val .h{font-size:14px;font-weight:800;color:#1F1233}
+.w-val .p{font-size:12px;color:#7E6F87;line-height:1.5}
+.footer.fbig{padding:30px 24px 18px}
+.footer .fcols{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:24px}
+.footer .fcols h5{color:#FFFFFF;font-size:12px;font-weight:800;letter-spacing:.05em;margin:0 0 8px;text-transform:uppercase}
+.footer .fcols a{display:block;color:#B89BC8;padding:2px 0;font-size:12px}
+.footer .fcols a:hover{color:#FFFFFF}
+.footer .fcols .brand-blurb{font-size:12px;color:#B89BC8;margin:8px 0;line-height:1.5}
+.footer .fpay{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.footer .fpay span{background:rgba(255,255,255,.1);color:#fff;padding:3px 7px;border-radius:3px;font-size:10px;font-weight:800;letter-spacing:.04em}
+.footer .fbot{max-width:1180px;margin:18px auto 0;padding-top:12px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:#8A7896}
+</style>
+</head>
+<body>
+<div class="topbar"><a class="logo" href="#"><span class="mark">E</span><span class="wizz">EchoAir</span><span class="air"></span></a><div class="nav"><a class="active">Book</a><a>Check-in</a><a>Manage booking</a><a>EchoAir Discount Club</a><a>Travel info</a><a>Help</a></div><div class="right"><span class="pill">EN · €</span><span class="pill signin">Sign in</span></div></div>
+<div class="hero"><div class="hero-inner"><div class="eyebrow">EchoAir · Europe's greenest airline</div><h1>It's time to take off.</h1><div class="lede">Search hundreds of routes across Europe, North Africa and the Middle East. Fares from €19.99.</div></div></div>
+<main><div class="searchcard"><div class="tabs"><div class="tab active">Round trip</div><div class="tab">One way</div><div class="tab">Multi-city</div></div><div class="fields"><div class="field ac-inp"><label>From</label><input type="text" data-facet="from" placeholder="City or airport" autocomplete="off" oninput="acShow(this,'from'); onF();" onfocus="acShow(this,'from'); openOverlay('from')"></div><button class="swap-btn" type="button" onclick="swapAirports()" title="Swap origin and destination" aria-label="Swap">⇄</button><div class="field ac-inp"><label>To</label><input type="text" data-facet="to" placeholder="City or airport" autocomplete="off" oninput="acShow(this,'to'); onF();" onfocus="acShow(this,'to'); openOverlay('to')"></div><div class="field"><label>Depart</label><input type="date" data-facet="depart" oninput="onF()" value=""></div><div class="field"><label>Return</label><input type="date" data-facet="return" oninput="onF()" value=""></div><div class="field"><label>Travellers</label><input type="text" value="1 Adult · Economy" readonly></div></div><div class="options-row"><span class="chip">Direct flights only</span><label><input type="checkbox"> EchoAir Discount Club price</label><label><input type="checkbox"> Use EchoAir credits</label></div><div class="actions"><span class="promo-note">Results update instantly as you choose — no Apply button needed.</span><button class="search-btn" type="button" onclick="onF()">Search</button></div><div class="ac-overlay" id="ac-overlay"><div class="ac-overlay-head"><span id="ac-overlay-title">Select origin</span><button onclick="closeOverlay()" style="background:transparent;border:none;color:inherit;font-size:18px;cursor:pointer">×</button></div><div class="ac-overlay-tabs"><button class="active" id="ac-tab-from" onclick="openOverlay('from')">From</button><button id="ac-tab-to" onclick="openOverlay('to')">To</button></div><ul class="ac-list" id="ac-from"></ul><ul class="ac-list" id="ac-to"></ul></div></div><section class="result-shell"><div class="result-shell-head"><h2 class="rs-title">Available flights</h2><span class="rs-count" id="result-count">— results</span></div><div id="results-list" class="results-grid"></div></section>
+<section class="w-section">
+  <h3 class="w-h">Cheap fares from across Europe</h3>
+  <div class="w-deals">
+    <div class="w-deal"><span class="tag">From €19.99</span><div class="route">Budapest → Larnaca</div><div class="sub">EchoAir · 3h 35m direct</div><div class="price">€34.99</div></div>
+    <div class="w-deal"><span class="tag">Hot deal</span><div class="route">London Luton → Tirana</div><div class="sub">EchoAir · 3h 10m direct</div><div class="price">€29.99</div></div>
+    <div class="w-deal"><span class="tag">New route</span><div class="route">Warsaw → Reykjavík</div><div class="sub">EchoAir · 4h 20m direct</div><div class="price">€59.99</div></div>
+    <div class="w-deal"><span class="tag">Discount Club</span><div class="route">Larnaca → Athens</div><div class="sub">EchoAir · 1h 25m direct</div><div class="price">€24.99</div></div>
+  </div>
+  <div class="w-pop">
+    <h4>Popular EchoAir routes</h4>
+    <div class="pills">
+      <span class="pill2">Budapest <span class="iata">BUD</span>→<span class="iata">LCA</span> Larnaca</span>
+      <span class="pill2">Larnaca <span class="iata">LCA</span>→<span class="iata">ATH</span> Athens</span>
+      <span class="pill2">London Luton <span class="iata">LTN</span>→<span class="iata">BUD</span> Budapest</span>
+      <span class="pill2">Warsaw <span class="iata">WAW</span>→<span class="iata">LIS</span> Lisbon</span>
+      <span class="pill2">Vienna <span class="iata">VIE</span>→<span class="iata">SKP</span> Skopje</span>
+      <span class="pill2">Sofia <span class="iata">SOF</span>→<span class="iata">CDG</span> Paris</span>
+      <span class="pill2">Bucharest <span class="iata">OTP</span>→<span class="iata">ROM</span> Rome FCO</span>
+      <span class="pill2">Catania <span class="iata">CTA</span>→<span class="iata">BUD</span> Budapest</span>
+      <span class="pill2">Tirana <span class="iata">TIA</span>→<span class="iata">MXP</span> Milan</span>
+      <span class="pill2">Krakow <span class="iata">KRK</span>→<span class="iata">LTN</span> London</span>
+    </div>
+  </div>
+  <div class="w-values">
+    <div class="w-val"><div class="ic">💸</div><div class="h">Europe's lowest fares</div><div class="p">EchoAir consistently offers the cheapest fares across CEE. Browse seat-only fares and bundle bags when you book.</div></div>
+    <div class="w-val"><div class="ic">🌱</div><div class="h">Greenest in Europe</div><div class="p">Lowest CO₂ per passenger-km of any airline in Europe — A321neo fleet operating at 95% load factor.</div></div>
+    <div class="w-val"><div class="ic">⭐</div><div class="h">EchoAir Discount Club</div><div class="p">Members save €10 on every fare plus €5 per checked bag. Annual fee pays itself back in 2-3 flights.</div></div>
+  </div>
+</section>
+</main>
+<div class="footer fbig">
+  <div class="fcols">
+    <div>
+      <div><span class="badge">EchoAir</span></div>
+      <p class="brand-blurb">EchoAir Hungary Ltd. · Operates Europe's largest A321neo fleet · Bases in Budapest, Köln-Bonn, London Luton, Larnaca and 38 others.</p>
+      <div class="fpay"><span>VISA</span><span>MASTERCARD</span><span>AMEX</span><span>MAESTRO</span><span>PAYPAL</span><span>SOFORT</span><span>IDEAL</span></div>
+    </div>
+    <div>
+      <h5>Book</h5>
+      <a>Search flights</a><a>EchoAir Multipass</a><a>EchoAir Discount Club</a><a>Group bookings</a><a>Travel money</a><a>Hotel + flight</a>
+    </div>
+    <div>
+      <h5>Manage</h5>
+      <a>My booking</a><a>Online check-in</a><a>Add bags</a><a>Add seats</a><a>EchoAir Priority</a><a>EchoAir Flex</a>
+    </div>
+    <div>
+      <h5>About</h5>
+      <a>About EchoAir</a><a>Investor centre</a><a>Press releases</a><a>Sustainability</a><a>Careers</a><a>Privacy notice</a>
+    </div>
+  </div>
+  <div class="fbot">
+    <div>© 2025 EchoAir Hungary Ltd. · Lurdy Ház, Könyves Kálmán krt. 12-14, 1097 Budapest · Reg. 01-10-140174</div>
+    <div>EchoSocial · EchoLens · EchoPost · EchoLink · EchoTube</div>
+  </div>
+</div>
+<script>
+const ENV_ID = "W03_E02";
+const AC_SUGS = [{"iata": "LCA", "name": "Larnaca International Airport", "country": "Cyprus", "flag": "🇨🇾", "type": "airport", "icon": "✈"}, {"iata": "LRN", "name": "Larne (Northern Ireland)", "country": "United Kingdom", "flag": "🇬🇧", "type": "airport", "icon": "✈", "decoy": "not Larnaca"}, {"iata": "PFO", "name": "Paphos International Airport", "country": "Cyprus", "flag": "🇨🇾", "type": "airport", "icon": "✈"}, {"iata": "ATH", "name": "Athens Eleftherios Venizelos", "country": "Greece", "flag": "🇬🇷", "type": "airport", "icon": "✈"}, {"iata": "SKG", "name": "Thessaloniki Macedonia Airport", "country": "Greece", "flag": "🇬🇷", "type": "airport", "icon": "✈", "decoy": "not Athens"}, {"iata": "HER", "name": "Heraklion N. Kazantzakis Airport", "country": "Greece", "flag": "🇬🇷", "type": "airport", "icon": "✈"}, {"iata": "BUD", "name": "Budapest Liszt Ferenc", "country": "Hungary", "flag": "🇭🇺", "type": "airport", "icon": "✈"}, {"iata": "WAW", "name": "Warsaw Chopin Airport", "country": "Poland", "flag": "🇵🇱", "type": "airport", "icon": "✈"}, {"iata": "WMI", "name": "Warsaw Modlin Airport", "country": "Poland", "flag": "🇵🇱", "type": "airport", "icon": "✈", "decoy": "alt Warsaw"}, {"iata": "OTP", "name": "Bucharest Henri Coandă", "country": "Romania", "flag": "🇷🇴", "type": "airport", "icon": "✈"}, {"iata": "SOF", "name": "Sofia Airport", "country": "Bulgaria", "flag": "🇧🇬", "type": "airport", "icon": "✈"}, {"iata": "TIA", "name": "Tirana Mother Teresa", "country": "Albania", "flag": "🇦🇱", "type": "airport", "icon": "✈"}, {"iata": "EVN", "name": "Yerevan Zvartnots Airport", "country": "Armenia", "flag": "🇦🇲", "type": "airport", "icon": "✈"}, {"iata": "TBS", "name": "Tbilisi Shota Rustaveli", "country": "Georgia", "flag": "🇬🇪", "type": "airport", "icon": "✈"}, {"iata": "VIE", "name": "Vienna International Airport", "country": "Austria", "flag": "🇦🇹", "type": "airport", "icon": "✈"}, {"iata": "LTN", "name": "London Luton Airport", "country": "United Kingdom", "flag": "🇬🇧", "type": "airport", "icon": "✈"}, {"iata": "ALC", "name": "Alicante-Elche Airport", "country": "Spain", "flag": "🇪🇸", "type": "airport", "icon": "✈"}];
+const EMPTY_HTML = `<div class="empty">No results match those airports. Try a different search.</div>`;
+
+function renderCard(it){return '<div class="result-card">'+(it.image_url?'<img class="rc-img" src="'+it.image_url+'" alt="" loading="lazy">':'')+'<div class="rc-route"><span class="rc-iata">'+it.from_code+'</span> → <span class="rc-iata">'+it.to_code+'</span></div>'+'<div class="rc-meta">'+(it.airline||'EchoAir')+' · '+(it.flight_no||'')+'</div>'+'<div class="rc-extra">'+(it.depart_time||'')+' · '+(it.duration||'')+' · '+(it.stops||'Direct')+'</div>'+'<div class="rc-price">'+('€' + it.price)+'</div>'+'</div>';}
+
+let filterState = {};
+
+function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s) {
+  return String(s || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\r/g, '\\r').replace(/\n/g, '\\n');
+}
+function acShow(inp, which) {
+  const ul = document.getElementById('ac-' + which);
+  if (!ul) return;
+  ul.__inp = inp;
+  const norm = (x) => (x || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const q = norm((inp.value || '').trim());
+  let matches = AC_SUGS;
+  if (q.length) {
+    matches = AC_SUGS.filter(s =>
+      norm(s.iata).includes(q) ||
+      norm(s.name).includes(q) ||
+      norm(s.country).includes(q) ||
+      (s.search_extra ? norm(s.search_extra).includes(q) : false));
+  }
+  matches = matches.slice(0, 8);
+  if (matches.length === 0) { ul.classList.remove('show'); ul.innerHTML = ''; closeOverlay(); return; }
+  ul.classList.add('show');
+  ;
+  ul.innerHTML = matches.map(s => {
+    const escName = escapeHtmlText(s.name);
+    const filledRaw = s.iata;  // store only IATA code (matches ref_state_change format)
+    const filled = escapeJsSingleQuoted(filledRaw);
+    const choose = "acPick(this,'" + which + "','" + filled + "')";
+    const country = escapeHtmlText(s.country);
+    return '<li onclick="' + escapeHtmlText(choose) + '"><span class="iata">' + escapeHtmlText(s.iata) + '</span>' +
+           (s.flag ? '<span class="ac-flag">' + escapeHtmlText(s.flag) + '</span>' : '') +
+           ' <span class="ac-name">' + escName + '</span>' +
+           ' <span class="ac-country">' + country + '</span>' + '</li>';
+  }).join('');
+}
+
+function acPick(li, which, val) {
+  const ul = document.getElementById('ac-' + which);
+  if (!ul) return;
+  const inp = ul.__inp;
+  if (inp) inp.value = val;
+  ul.classList.remove('show');
+  ul.innerHTML = '';
+  closeOverlay();
+  if (typeof onF === 'function') onF();
+}
+
+function acPickGrid(which, val) {
+  const inp = document.querySelector('[data-facet="' + which + '"]');
+  if (inp) inp.value = val;
+  if (typeof onF === 'function') onF();
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.ac-inp') && !e.target.closest('.ac-list') && !e.target.closest('.ac-modal') && !e.target.closest('.ac-sidepanel') && !e.target.closest('.ac-overlay')) {
+    document.querySelectorAll('.ac-list').forEach(u => u.classList.remove('show'));
+    closeOverlay();
+  }
+});
+
+function onF() { applyFilters(); }
+
+function applyFilters() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) {
+        if (!newState[f]) newState[f] = [];
+        if (Array.isArray(newState[f])) newState[f].push(el.value || el.dataset.val || true);
+      }
+    } else if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.value) newState[f] = el.value;
+    } else {
+      if (el.value) newState[f] = el.value;
+    }
+  });
+  filterState = newState;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    renderResults(data.results || []);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length + ' results';
+  }).catch(() => {});
+
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: '', task_id: taskId})
+  }).then(r => r.json()).then(data => {}).catch(() => {});
+}
+
+function renderResults(items) {
+  const host = document.getElementById('results-list');
+  if (!host) return;
+  if (!items.length) { host.innerHTML = EMPTY_HTML; return; }
+  host.innerHTML = items.map(it => renderCard(it)).join('');
+}
+
+function swapAirports() {
+  const fromEl = document.querySelector('[data-facet="from"]');
+  const toEl = document.querySelector('[data-facet="to"]');
+  if (!fromEl || !toEl) return;
+  const a = fromEl.value; fromEl.value = toEl.value; toEl.value = a;
+  onF();
+}
+
+
+function openOverlay(which){
+  document.getElementById('ac-overlay').classList.add('show');
+  document.getElementById('ac-overlay-title').textContent = which==='from' ? 'Select origin' : 'Select destination';
+  document.getElementById('ac-tab-from').classList.toggle('active', which==='from');
+  document.getElementById('ac-tab-to').classList.toggle('active', which==='to');
+  document.getElementById('ac-from').style.display = which==='from' ? 'block' : 'none';
+  document.getElementById('ac-to').style.display = which==='to' ? 'block' : 'none';
+  const inp = document.querySelector('[data-facet="'+which+'"]');
+  if (inp) acShow(inp, which);
+}
+function closeOverlay(){document.getElementById('ac-overlay').classList.remove('show');}
+function openModal(){} function openSide(){}
+
+
+document.addEventListener('DOMContentLoaded', () => { applyFilters();  });
+</script>
+</body>
+</html>

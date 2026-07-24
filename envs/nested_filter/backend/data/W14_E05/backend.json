@@ -1,0 +1,99 @@
+{
+  "env_id": "W14_E05",
+  "widget_id": "W14_this_month_preset",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "preset",
+    "fields": [
+      "date_preset"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T0501",
+      "task_index_in_env": 1,
+      "instruction_text": "Help me find a list of events happening next month in Los Angeles on Eventbrite. Click the 'next month' quick-date button \u2014 quick-date buttons row, not Custom.",
+      "expected_filter_state": {
+        "date_preset": "Next Month"
+      }
+    },
+    {
+      "task_id": "T0502",
+      "task_index_in_env": 2,
+      "instruction_text": "Same LA Eventbrite page \u2014 switch to this month only. Click the 'this month' quick-date button.",
+      "expected_filter_state": {
+        "date_preset": "This Month"
+      }
+    },
+    {
+      "task_id": "T0503",
+      "task_index_in_env": 3,
+      "instruction_text": "On the Eventbrite LA events page, I just want to see what's happening tonight. Click the 'today' quick-date button.",
+      "expected_filter_state": {
+        "date_preset": "Today"
+      }
+    },
+    {
+      "task_id": "T0504",
+      "task_index_in_env": 4,
+      "instruction_text": "Looking at the past 7 days of LA event listings on Eventbrite. Click the 'past 7 days' quick-date button.",
+      "expected_filter_state": {
+        "date_preset": "Past 7 Days"
+      }
+    },
+    {
+      "task_id": "T0505",
+      "task_index_in_env": 5,
+      "instruction_text": "On the default Eventbrite LA events page, how many total events is the page listing?",
+      "expected_filter_state": {
+        "constraint": "(read-only)"
+      },
+      "reference_answer": "18 events total"
+    },
+    {
+      "task_id": "T0506",
+      "task_index_in_env": 6,
+      "instruction_text": "Without changing date filter \u2014 which LA Eventbrite event has the highest rating? Title + stars.",
+      "expected_filter_state": {
+        "constraint": "(read-only)"
+      },
+      "reference_answer": "'Hollywood Bowl: Classical Under the Stars' at 4.9 stars"
+    },
+    {
+      "task_id": "T0507",
+      "task_index_in_env": 7,
+      "instruction_text": "On the default Eventbrite LA events page, are there more 'Comedy' or 'Food & Drink' events? Counts + difference.",
+      "expected_filter_state": {
+        "constraint": "(read-only)"
+      },
+      "reference_answer": "'Comedy' wins; counts: Comedy=3, Food & Drink=3; difference 0"
+    },
+    {
+      "task_id": "T0508",
+      "task_index_in_env": 8,
+      "instruction_text": "Help me find events happening next month in LA on Eventbrite \u2014 click the 'Next Month' quick-date button \u2014 and tell me how many qualify.",
+      "expected_filter_state": {
+        "date_preset": "Next Month"
+      },
+      "reference_answer": "4 LA events next month"
+    },
+    {
+      "task_id": "T0509",
+      "task_index_in_env": 9,
+      "instruction_text": "On Eventbrite LA, switch to this weekend (click the 'This Weekend' quick-date button). Then tell me the cheapest paid event (skip free) \u2014 title + price.",
+      "expected_filter_state": {
+        "date_preset": "This Weekend"
+      },
+      "reference_answer": "cheapest paid in 'This Weekend' is 'Salsa Dancing at Mama Juana's' at $15"
+    },
+    {
+      "task_id": "T0510",
+      "task_index_in_env": 10,
+      "instruction_text": "Last one \u2014 on Eventbrite LA, narrow to past 30 days (click the 'Past 30 Days' quick-date button) and tell me (1) how many events remain and (2) the average rating.",
+      "expected_filter_state": {
+        "date_preset": "Past 30 Days"
+      },
+      "reference_answer": "12 items in 'Past 30 Days'; avg rating 4.53"
+    }
+  ]
+}

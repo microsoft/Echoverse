@@ -1,0 +1,35 @@
+{
+  "env_id": "W18_E06",
+  "widget_id": "W18_property_type_exclusive_filter",
+  "widget_name": "Single-page property/listing-type filter",
+  "widget_category": "exclusive_select",
+  "widget_mechanic": "Property-Type filter has Condo / Townhouse / Single-Family / Multi-Family options. User wants ONLY one \u2014 agent must apply the filter to restrict the result set, not open the first listing without filtering.",
+  "archetype": "realestate_listings",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W18_property_type_exclusive_filter"
+  ],
+  "site_imitates": "Zillow \u2014 Aiken, SC homes for sale",
+  "product_type": "Aiken SC single-family homes (Zillow)",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_aiken__sc_20679",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "I'm interested in buying a home on Equinox Loop in Aiken, SC with 4+ bedrooms, 2.5+ bathrooms, a large lot, and central AC. Can you find a listing that meets these criteria?",
+      "first_failure_summary": "[3.5] Incomplete task execution: The click was on the correct listing link text, but the post-action screenshot shows no navigation or UI change, so the action did not advance the task."
+    }
+  ],
+  "theme_key": "realtor",
+  "theme_logo": "Zillow",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "exclusive",
+    "fields": [
+      "property_type"
+    ]
+  }
+}

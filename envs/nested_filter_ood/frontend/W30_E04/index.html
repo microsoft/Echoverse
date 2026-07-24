@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Virtual machines pricing | EchoCloud Calculator</title>
+<style>
+
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+:root {
+  --az-blue: #0078d4;
+  --az-blue-dk: #106ebe;
+  --az-cyan: #50e6ff;
+  --az-ink: #1f1f1f;
+  --az-ink-2: #323130;
+  --az-muted: #605e5c;
+  --az-line: #e1dfdd;
+  --az-line-2: #edebe9;
+  --az-bg: #faf9f8;
+  --az-hero: #050a30;
+  --az-accent: #0078d4;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; background: var(--az-bg); color: var(--az-ink); font-size: 14px; line-height: 1.5; }
+a { color: var(--az-blue-dk); text-decoration: none; }
+
+.site-header { background: #fff; color: #161616; border-bottom: 1px solid var(--az-line); padding: 0 24px; height: 54px; display: flex; align-items: center; gap: 22px; }
+.logo-block { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.ms-logo { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background: var(--az-blue); border-radius: 4px; color: #fff; font-weight: 800; font-size: 14px; line-height: 1; }
+.ms-logo i { display: none; }
+.ms-logo i:nth-child(1){ background:#f25022; }
+.ms-logo i:nth-child(2){ background:#7fba00; }
+.ms-logo i:nth-child(3){ background:#00a4ef; }
+.ms-logo i:nth-child(4){ background:#ffb900; }
+.logo-text { font-weight: 400; font-size: 14px; color: #161616; letter-spacing: .01em; }
+.logo-sub { font-size: 14px; color: #161616; padding-left: 12px; border-left: 1px solid #c8c6c4; margin-left: 8px; font-weight: 600; }
+.site-nav { display: flex; gap: 18px; align-items: center; }
+.site-nav a { color: #161616; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+.site-nav a .chev { font-size: 9px; color: #605e5c; }
+.site-nav a:hover { color: var(--az-blue-dk); }
+.header-spacer { flex: 1; }
+.header-right { display: flex; align-items: center; gap: 18px; }
+.header-right a { color: #161616; font-size: 13px; }
+.header-right a:hover { color: var(--az-blue-dk); }
+.search-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer; color: #161616; padding-right: 6px; border-right: 1px solid #c8c6c4; padding-left: 2px; }
+.cta-cyan { background: #50e6ff; color: #161616; border: 1px solid #50e6ff; padding: 6px 14px; border-radius: 2px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.cta-cyan:hover { background: #4ad8ef; }
+.cta-signin { background: #fff; color: #161616; border: 1px solid #161616; padding: 6px 14px; border-radius: 2px; font-size: 13px; cursor: pointer; }
+.cta-signin:hover { background: #f3f2f1; }
+
+.wizard-bar { background:
+  radial-gradient(circle at 88% 30%, rgba(0,164,239,0.18) 0%, rgba(0,164,239,0) 38%),
+  radial-gradient(circle at 8% 80%, rgba(80,230,255,0.10) 0%, rgba(80,230,255,0) 36%),
+  linear-gradient(135deg, #050a30 0%, #0b1a4a 55%, #0b3a7a 100%);
+  color: #fff; padding: 30px 36px 28px; position: relative; overflow: hidden; }
+.wizard-bar::after {
+  content: ""; position: absolute; right: 28px; top: 18px; width: 80px; height: 80px;
+  background:
+    linear-gradient(135deg, #f25022 0%, #f25022 50%, transparent 50%) top left / 36px 36px no-repeat,
+    linear-gradient(135deg, #7fba00 0%, #7fba00 50%, transparent 50%) top right / 36px 36px no-repeat,
+    linear-gradient(135deg, #00a4ef 0%, #00a4ef 50%, transparent 50%) bottom left / 36px 36px no-repeat,
+    linear-gradient(135deg, #ffb900 0%, #ffb900 50%, transparent 50%) bottom right / 36px 36px no-repeat;
+  opacity: .35; transform: rotate(8deg);
+}
+.wizard-bar .wb-kicker { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; opacity: .9; color: #50e6ff; margin-bottom: 6px; }
+.wizard-bar h1 { margin: 0 0 6px; font-size: 28px; font-weight: 600; letter-spacing: -.01em; }
+.wizard-bar .wb-sub { font-size: 14px; opacity: .92; max-width: 720px; }
+.wizard-bar .wb-cost { display: inline-block; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.25); padding: 8px 16px; border-radius: 4px; margin-top: 14px; font-size: 13px; }
+.wizard-bar .wb-cost b { font-size: 17px; margin-left: 8px; color: #50e6ff; }
+
+.subnav { background: #fff; border-bottom: 1px solid var(--az-line); padding: 0 36px; display: flex; align-items: center; gap: 28px; height: 44px; font-size: 13px; }
+.subnav a { color: var(--az-ink-2); position: relative; padding: 12px 0; }
+.subnav a.active { color: var(--az-blue-dk); font-weight: 600; }
+.subnav a.active::after { content:""; position:absolute; left:0; right:0; bottom:-1px; height:3px; background: var(--az-blue-dk); border-radius: 2px 2px 0 0; }
+.subnav .sn-cta { margin-left: auto; background: var(--az-blue); color:#fff; padding: 6px 14px; border-radius: 2px; font-weight: 600; }
+.subnav .sn-cta:hover { background: var(--az-blue-dk); }
+
+.layout { display: grid; grid-template-columns: 260px 1fr 320px; gap: 24px; padding: 24px 28px 80px; }
+
+.stepper { background: #fff; border: 1px solid var(--az-line); border-radius: 4px; padding: 16px; }
+.stepper h4 { margin: 0 0 12px; font-size: 11px; text-transform: uppercase; color: var(--az-muted); letter-spacing: .08em; font-weight: 700; }
+.step { display: flex; align-items: flex-start; gap: 10px; padding: 10px 8px; cursor: pointer; border-radius: 2px; }
+.step:hover { background: #f3f2f1; }
+.step.active { background: #f0f6fc; border-left: 3px solid var(--az-blue); padding-left: 5px; }
+.step-num { width: 24px; height: 24px; border-radius: 50%; background: #edebe9; color: var(--az-muted); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; }
+.step.done .step-num { background: #107c10; color: #fff; }
+.step.active .step-num { background: var(--az-blue); color: #fff; }
+.step-name { font-size: 13px; font-weight: 600; color: var(--az-ink); }
+.step-desc { font-size: 11px; color: var(--az-muted); margin-top: 2px; }
+
+.main-form { background: #fff; border: 1px solid var(--az-line); border-radius: 4px; padding: 26px 30px; }
+.section-h { font-size: 20px; font-weight: 600; color: var(--az-ink); margin: 0 0 4px; }
+.section-sub { font-size: 13px; color: var(--az-muted); margin-bottom: 18px; }
+.section-divider { border-top: 1px solid var(--az-line-2); margin: 22px 0; }
+
+.svc-card { background: linear-gradient(135deg, #f0f6fc 0%, #dbeefb 100%); border-left: 4px solid var(--az-blue); padding: 14px 18px; border-radius: 2px; margin-bottom: 18px; }
+.svc-card .sc-title { font-size: 11px; color: var(--az-blue-dk); text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
+.svc-card .sc-name { font-size: 16px; font-weight: 600; color: var(--az-ink); margin-top: 2px; }
+
+.fld { margin-bottom: 16px; }
+.fld-label { display: block; font-size: 13px; font-weight: 600; color: var(--az-ink); margin-bottom: 6px; }
+.fld-hint { font-size: 12px; color: var(--az-muted); margin-top: 4px; }
+.big-sel, .big-inp { width: 100%; padding: 8px 12px; border: 1px solid #8a8886; border-radius: 2px; font-size: 14px; background: #fff; font-family: inherit; }
+.big-sel:focus, .big-inp:focus { outline: 2px solid var(--az-blue); outline-offset: -1px; border-color: var(--az-blue); }
+
+/* search-autocomplete region */
+.reg-sa-wrap { position: relative; }
+.reg-sa-input { width: 100%; padding: 10px 14px 10px 38px; border: 1px solid #8a8886; border-radius: 2px; font-size: 14px; background: #fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23605e5c' width='18' height='18'><path d='M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z'/></svg>") no-repeat 10px center; font-family: inherit; }
+.reg-sa-input:focus { outline: 2px solid var(--az-blue); outline-offset: -1px; border-color: var(--az-blue); }
+.reg-sa-list { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid var(--az-line-2); border-radius: 0 0 2px 2px; max-height: 280px; overflow-y: auto; z-index: 50; box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+.reg-sa-header { padding: 6px 14px; background: #faf9f8; font-size: 11px; text-transform: uppercase; color: var(--az-blue-dk); letter-spacing: .06em; font-weight: 700; }
+.reg-sa-item { padding: 10px 14px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #faf9f8; }
+.reg-sa-item:hover { background: #f0f6fc; color: var(--az-blue-dk); }
+.reg-sa-flag { font-size: 16px; }
+
+.usage-block { background: #faf9f8; border: 1px solid var(--az-line-2); border-radius: 2px; padding: 14px 18px; margin-bottom: 16px; }
+.usage-block h3 { margin: 0 0 10px; font-size: 14px; color: var(--az-ink); }
+.usage-row { display: grid; grid-template-columns: 1.4fr 28px 1.2fr 28px 1fr; align-items: center; gap: 8px; padding: 6px 0; border-top: 1px dashed var(--az-line-2); }
+.usage-row:first-child { border-top: 0; }
+.ur-input { padding: 8px 12px; border: 1px solid #8a8886; border-radius: 2px; font-size: 14px; width: 100%; font-family: inherit; }
+.ur-input:focus { outline: 2px solid var(--az-blue); outline-offset: -1px; }
+.ur-unit-lbl { font-size: 11px; color: var(--az-muted); margin-top: 4px; display: block; }
+.ur-op { text-align: center; color: var(--az-muted); font-weight: 700; }
+.ur-result { font-weight: 700; color: var(--az-blue-dk); text-align: right; }
+
+.rad-tier { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid var(--az-line-2); border-radius: 2px; margin-bottom: 4px; cursor: pointer; font-size: 13px; }
+.rad-tier:hover { border-color: var(--az-blue); background: #f0f6fc; }
+.rad-tier input { accent-color: var(--az-blue); }
+.tier-name { flex: 1; }
+.tier-fee { color: var(--az-muted); font-size: 12px; }
+
+.btn-reset { padding: 8px 18px; border: 1px solid #8a8886; background: #fff; border-radius: 2px; font-size: 13px; cursor: pointer; font-family: inherit; }
+.btn-reset:hover { background: #f3f2f1; }
+.estimate-row { display: flex; align-items: center; gap: 10px; padding: 14px 0 4px; }
+
+.summary-rail { position: sticky; top: 16px; align-self: start; }
+.sr-card { background: linear-gradient(160deg, #050a30 0%, #0b2a64 100%); color: #fff; border-radius: 4px; padding: 20px; margin-bottom: 12px; position: relative; overflow: hidden; }
+.sr-card::after { content:""; position:absolute; right:-20px; bottom:-20px; width:90px; height:90px; background: radial-gradient(circle, rgba(80,230,255,0.35) 0%, rgba(80,230,255,0) 70%); }
+.sr-card .label { font-size: 11px; opacity: .85; text-transform: uppercase; letter-spacing: .08em; color: #50e6ff; font-weight: 700; }
+.sr-card .cost { font-size: 30px; font-weight: 600; margin: 8px 0 4px; letter-spacing: -.01em; }
+.sr-card .sub { font-size: 12px; opacity: .85; }
+.sr-spec { background: #fff; border: 1px solid var(--az-line-2); border-radius: 4px; padding: 14px; font-size: 12px; }
+.sr-spec h5 { margin: 0 0 10px; font-size: 11px; text-transform: uppercase; color: var(--az-blue-dk); letter-spacing: .06em; font-weight: 700; }
+.sr-spec .row { display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px dashed var(--az-line-2); }
+.sr-spec .row:first-of-type { border-top: 0; padding-top: 0; }
+.sr-spec .row span:last-child { font-weight: 600; color: var(--az-ink); }
+
+.result-card { background: #fff; border: 1px solid var(--az-line-2); border-radius: 4px; padding: 18px 20px; margin-top: 18px; border-top: 3px solid var(--az-blue); }
+.res-label { font-size: 12px; color: var(--az-muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
+.res-value { font-size: 30px; font-weight: 600; color: var(--az-blue-dk); margin: 4px 0 6px; letter-spacing: -.01em; }
+.res-sub { font-size: 12px; color: var(--az-muted); }
+.res-detail { display: grid; grid-template-columns: 100px 1fr; row-gap: 4px; margin-top: 12px; font-size: 13px; }
+.res-detail .k { color: var(--az-muted); }
+.res-detail .v { color: var(--az-ink); font-weight: 600; }
+.res-breakdown-h { margin: 16px 0 6px; font-size: 11px; text-transform: uppercase; color: var(--az-muted); letter-spacing: .08em; font-weight: 700; }
+.res-breakdown { width: 100%; border-collapse: collapse; font-size: 13px; }
+.res-breakdown td { padding: 6px 0; border-bottom: 1px dashed var(--az-line-2); }
+.res-breakdown td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+.res-breakdown tr.tot td { border-bottom: 0; padding-top: 10px; }
+
+.site-footer { background: #f3f2f1; border-top: 1px solid var(--az-line); padding: 28px 36px 22px; color: var(--az-muted); font-size: 12px; margin-top: 30px; }
+.footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; max-width: 1280px; }
+.footer-col h6 { color: var(--az-ink); font-size: 13px; margin: 0 0 10px; font-weight: 600; }
+.footer-col a { display: block; color: var(--az-muted); font-size: 12px; padding: 3px 0; }
+.footer-col a:hover { color: var(--az-blue-dk); }
+.footer-bottom { border-top: 1px solid var(--az-line); margin-top: 22px; padding-top: 14px; display: flex; gap: 20px; align-items: center; font-size: 11px; color: var(--az-muted); }
+.footer-bottom .ms-logo { transform: scale(0.85); }
+
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo-block">
+    <span class="ms-logo" aria-label="EchoCloud">E</span>
+    <span class="logo-text">EchoCloud</span>
+    <span class="logo-sub"></span>
+  </div>
+  <nav class="site-nav">
+    <a>Explore</a>
+    <a>Products <span class="chev">▾</span></a>
+    <a>Solutions <span class="chev">▾</span></a>
+    <a>Pricing <span class="chev">▾</span></a>
+    <a>Partners <span class="chev">▾</span></a>
+    <a>Resources <span class="chev">▾</span></a>
+  </nav>
+  <div class="header-spacer"></div>
+  <div class="header-right">
+    <span class="search-pill">Search 🔍</span>
+    <a>Learn</a>
+    <a>Support</a>
+    <a>Contact Sales</a>
+    <button class="cta-cyan" type="button">Get started with EchoCloud</button>
+    <button class="cta-signin" type="button">Sign in</button>
+  </div>
+</header>
+
+<nav class="subnav">
+  <a>Overview</a>
+  <a>Solutions</a>
+  <a>Products</a>
+  <a>Pricing</a>
+  <a class="active">VM pricing calculator</a>
+  <a>Documentation</a>
+  <a class="sn-cta">Get started free</a>
+</nav>
+
+<div class="wizard-bar">
+  <div class="wb-kicker">EchoCloud · Pricing calculator · Virtual machines</div>
+  <h1>Virtual Machines — Sizing Wizard</h1>
+  <div class="wb-sub">Pick a VM family, choose your EchoCloud region, override the default usage and support tier — we'll estimate your monthly bill.</div>
+  <div class="wb-cost">Estimated monthly cost: <b id="monthly-cost">$0.00</b></div>
+</div>
+
+<div class="layout">
+  <aside class="stepper">
+    <h4>Wizard steps</h4>
+    <div class="step done"><div class="step-num">1</div><div><div class="step-name">Workload basics</div><div class="step-desc">OS, environment</div></div></div>
+    <div class="step active"><div class="step-num">2</div><div><div class="step-name">Sizing & region</div><div class="step-desc">VM family + location</div></div></div>
+    <div class="step"><div class="step-num">3</div><div><div class="step-name">Usage hours</div><div class="step-desc">Override default</div></div></div>
+    <div class="step"><div class="step-num">4</div><div><div class="step-name">Support tier</div><div class="step-desc">SLA & response</div></div></div>
+    <div class="step"><div class="step-num">5</div><div><div class="step-name">Review & export</div><div class="step-desc">Save estimate</div></div></div>
+  </aside>
+
+  <main class="main-form">
+    <h2 class="section-h">Step 2 — Sizing & region</h2>
+    <div class="section-sub">Choose the VM family and the EchoCloud region where this VM will run.</div>
+
+    <div class="svc-card">
+      <div class="sc-title">Selected VM family</div>
+      <div class="sc-name" id="service-card-name">B-series Bs (Burstable — B2s)</div>
+    </div>
+
+    <div class="fld"><label class="fld-label">VM family / size</label><select id="fld-service" class="big-sel" data-facet="service" onchange="onServiceChange()"><option selected>B-series Bs (Burstable — B2s)</option><option>D-series v5 (General Purpose — D2s_v5)</option><option>D-series v5 (General Purpose — D4s_v5)</option><option>F-series v2 (Compute Optimized — F4s_v2)</option><option>E-series v5 (Memory Optimized — E4s_v5)</option><option>M-series (Memory Optimized — M64s)</option><option>NC-series (GPU — NC6s_v3)</option></select></div>
+    <div class="fld"><label class="fld-label">Region</label><div class="reg-sa-wrap"><input type="text" id="region-search-input" class="reg-sa-input" placeholder="Search for a region (e.g. Tokyo, eu-west)…" oninput="regionSearchFilter()" onfocus="regionSearchFocus()" autocomplete="off"><div id="region-search-list" class="reg-sa-list" data-always-open="0" style="display:none;"><div class="reg-sa-header">Americas</div><div class="reg-sa-item" data-region-item="East US" onclick="regionSearchPick('East US', 'East US')"><span class="reg-sa-flag">🇺🇸</span> East US</div><div class="reg-sa-item" data-region-item="East US 2" onclick="regionSearchPick('East US 2', 'East US 2')"><span class="reg-sa-flag">🇺🇸</span> East US 2</div><div class="reg-sa-item" data-region-item="Central US" onclick="regionSearchPick('Central US', 'Central US')"><span class="reg-sa-flag">🇺🇸</span> Central US</div><div class="reg-sa-item" data-region-item="West US 2" onclick="regionSearchPick('West US 2', 'West US 2')"><span class="reg-sa-flag">🇺🇸</span> West US 2</div><div class="reg-sa-item" data-region-item="West US 3" onclick="regionSearchPick('West US 3', 'West US 3')"><span class="reg-sa-flag">🇺🇸</span> West US 3</div><div class="reg-sa-item" data-region-item="Brazil South" onclick="regionSearchPick('Brazil South', 'Brazil South')"><span class="reg-sa-flag">🇧🇷</span> Brazil South</div><div class="reg-sa-item" data-region-item="Canada Central" onclick="regionSearchPick('Canada Central', 'Canada Central')"><span class="reg-sa-flag">🇨🇦</span> Canada Central</div><div class="reg-sa-header">Europe</div><div class="reg-sa-item" data-region-item="West Europe" onclick="regionSearchPick('West Europe', 'West Europe')"><span class="reg-sa-flag">📍</span> West Europe</div><div class="reg-sa-item" data-region-item="North Europe" onclick="regionSearchPick('North Europe', 'North Europe')"><span class="reg-sa-flag">📍</span> North Europe</div><div class="reg-sa-item" data-region-item="UK South" onclick="regionSearchPick('UK South', 'UK South')"><span class="reg-sa-flag">🇬🇧</span> UK South</div><div class="reg-sa-item" data-region-item="Germany West Central" onclick="regionSearchPick('Germany West Central', 'Germany West Central')"><span class="reg-sa-flag">🇩🇪</span> Germany West Central</div><div class="reg-sa-header">Asia / Pacific</div><div class="reg-sa-item" data-region-item="Japan East" onclick="regionSearchPick('Japan East', 'Japan East')"><span class="reg-sa-flag">🇯🇵</span> Japan East</div><div class="reg-sa-item" data-region-item="Southeast Asia" onclick="regionSearchPick('Southeast Asia', 'Southeast Asia')"><span class="reg-sa-flag">📍</span> Southeast Asia</div><div class="reg-sa-item" data-region-item="Australia East" onclick="regionSearchPick('Australia East', 'Australia East')"><span class="reg-sa-flag">🇦🇺</span> Australia East</div><div class="reg-sa-item" data-region-item="Korea Central" onclick="regionSearchPick('Korea Central', 'Korea Central')"><span class="reg-sa-flag">🇰🇷</span> Korea Central</div></div></div><select id="fld-region" data-facet="region" onchange="onF()" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><option>(Choose region)</option><option>East US</option><option>East US 2</option><option>Central US</option><option>West US 2</option><option>West US 3</option><option>Brazil South</option><option>Canada Central</option><option>West Europe</option><option>North Europe</option><option>UK South</option><option>Germany West Central</option><option>Japan East</option><option>Southeast Asia</option><option>Australia East</option><option>Korea Central</option></select><div class="fld-hint">Start typing a city or region name (e.g. "East US", "Tokyo").</div></div>
+
+    <div class="section-divider"></div>
+    <h2 class="section-h">Step 3 — Usage hours (override)</h2>
+    <div class="section-sub">Default is on-demand. Override with a preset or your own monthly hours.</div>
+    <div class="usage-block"><h3 id="usage-block-title">Estimated monthly usage</h3><div class="usage-row"><div class="ur-input-wrap"><input id="fld-volume" class="ur-input" type="number" data-facet="volume" value="0" placeholder="0" oninput="onF()"><span class="ur-unit-lbl" id="vol-unit-lbl">VM-hour</span></div><div class="ur-op">×</div><div><div class="ur-rate" id="vol-rate">$0.04200</div><div class="ur-rate-sub" id="vol-rate-sub">per VM-hour</div></div><div class="ur-op">=</div><div class="ur-result" id="vol-result">$0.00</div></div><div class="usage-row" id="secondary-usage-row" style="display:none"><div class="ur-input-wrap"><input id="fld-volume-out" class="ur-input" type="number" data-facet="volume_out" value="0" placeholder="0" oninput="onF()"><span class="ur-unit-lbl" id="vol-out-unit-lbl">Output units</span></div><div class="ur-op">×</div><div><div class="ur-rate" id="vol-out-rate">$0.00000</div><div class="ur-rate-sub" id="vol-out-rate-sub">per unit</div></div><div class="ur-op">=</div><div class="ur-result" id="vol-out-result">$0.00</div></div></div>
+    <div class="fld"><label class="fld-label">Override usage</label><select id="fld-override" class="big-sel" data-facet="override" onchange="onOverrideChange()"><option selected>(default usage)</option><option>730 VM-hours (1 month always-on)</option><option>168 VM-hours (1 week always-on)</option><option>200 VM-hours (work-hours only)</option><option>360 VM-hours (half-month)</option><option>1460 VM-hours (2 VMs always-on)</option><option>8760 VM-hours (1 year always-on)</option><option>100 instance-hours</option><option>Custom… (type below)</option></select><input id="fld-override-custom" class="big-inp" type="text" data-facet="override_custom" placeholder="Type your custom monthly usage…" oninput="onCustomOverride()" style="margin-top:8px; display:none"><div class="fld-hint">Choose a preset like "730 VM-hours (1 month always-on)" or type a custom value.</div></div>
+
+    <div class="section-divider"></div>
+    <h2 class="section-h">Step 4 — Support tier</h2>
+    <div class="section-sub">Pick the EchoCloud support plan.</div>
+    <label class="rad-tier"><input type="radio" name="support" value="none" data-facet="support_tier" onchange="onF()" > <span class="tier-name">None</span> <span class="tier-fee">free</span></label>
+<label class="rad-tier"><input type="radio" name="support" value="basic" data-facet="support_tier" onchange="onF()" checked> <span class="tier-name">Basic</span> <span class="tier-fee">$29/mo</span></label>
+<label class="rad-tier"><input type="radio" name="support" value="developer" data-facet="support_tier" onchange="onF()" > <span class="tier-name">Developer</span> <span class="tier-fee">$89/mo</span></label>
+<label class="rad-tier"><input type="radio" name="support" value="standard" data-facet="support_tier" onchange="onF()" > <span class="tier-name">Standard</span> <span class="tier-fee">$299/mo</span></label>
+
+    <div class="estimate-row">
+      <button class="btn-reset" type="button" onclick="lsReset(event)">Start over</button>
+      <span style="margin-left:auto;color:#605e5c;font-size:12px">Auto-saves as you progress</span>
+    </div>
+
+    <div class="result-card" id="result-card"><div class="res-label">Estimated monthly bill</div><div class="res-value" id="res-value">$0.00</div><div class="res-sub" id="res-sub">Your estimate updates automatically as you configure the form.</div><div class="res-detail"><div class="k">Region</div><div class="v" id="res-region">—</div><div class="k">Override</div><div class="v" id="res-override">—</div><div class="k">Service</div><div class="v" id="res-service">—</div><div class="k">Support</div><div class="v" id="res-support">—</div></div><h5 class="res-breakdown-h">Breakdown</h5><table class="res-breakdown"><tbody id="breakdown-table"></tbody></table></div>
+  </main>
+
+  <aside class="summary-rail">
+    <div class="sr-card">
+      <div class="label">Estimate so far</div>
+      <div class="cost" id="monthly-cost-sub">$0.00</div>
+      <div class="sub">/ month with chosen support tier</div>
+    </div>
+    <div class="sr-spec">
+      <h5>VM specifications</h5>
+      <div class="row"><span>Family</span><span id="spec-family">D-series v5</span></div>
+      <div class="row"><span>vCPU</span><span>2</span></div>
+      <div class="row"><span>RAM</span><span>8 GiB</span></div>
+      <div class="row"><span>Storage</span><span>30 GB Premium SSD</span></div>
+      <div class="row"><span>Network</span><span>Up to 12 Gbps</span></div>
+    </div>
+  </aside>
+</div>
+
+<div id="task-banner" style="display:none"></div>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h6>Explore EchoCloud</h6>
+      <a>What is EchoCloud?</a><a>Get started with EchoCloud</a><a>Global infrastructure</a><a>Trusted cloud</a>
+    </div>
+    <div class="footer-col">
+      <h6>Products and pricing</h6>
+      <a>Products</a><a>EchoCloud pricing</a><a>Free EchoCloud services</a><a>Flexible purchase options</a>
+    </div>
+    <div class="footer-col">
+      <h6>Solutions and support</h6>
+      <a>Solutions</a><a>Resources for accelerating growth</a><a>Project Migration Program</a><a>Conversation with an EchoCloud expert</a>
+    </div>
+    <div class="footer-col">
+      <h6>Community</h6>
+      <a>EchoCloud Community Support</a><a>EchoCloud Blog &amp; Updates</a><a>EchoCloud Learn</a><a>Tech Community</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="ms-logo">E</span>
+    <span>© EchoCloud 2025</span>
+    <a>Privacy &amp; cookies</a>
+    <a>Consumer Health Privacy</a>
+    <a>Manage cookies</a>
+    <a>Terms of use</a>
+    <a>Trademarks</a>
+    <a>Contact EchoCloud</a>
+  </div>
+</footer>
+
+<script>
+const ENV_ID = "W30_E04";
+const SERVICES = {"B-series Bs (Burstable \u2014 B2s)": {"label": "B-series Bs (Burstable \u2014 B2s)", "rate": 0.042, "unit": "VM-hour"}, "D-series v5 (General Purpose \u2014 D2s_v5)": {"label": "D-series v5 (General Purpose \u2014 D2s_v5)", "rate": 0.096, "unit": "VM-hour"}, "D-series v5 (General Purpose \u2014 D4s_v5)": {"label": "D-series v5 (General Purpose \u2014 D4s_v5)", "rate": 0.192, "unit": "VM-hour"}, "F-series v2 (Compute Optimized \u2014 F4s_v2)": {"label": "F-series v2 (Compute Optimized \u2014 F4s_v2)", "rate": 0.169, "unit": "VM-hour"}, "E-series v5 (Memory Optimized \u2014 E4s_v5)": {"label": "E-series v5 (Memory Optimized \u2014 E4s_v5)", "rate": 0.252, "unit": "VM-hour"}, "M-series (Memory Optimized \u2014 M64s)": {"label": "M-series (Memory Optimized \u2014 M64s)", "rate": 6.669, "unit": "VM-hour"}, "NC-series (GPU \u2014 NC6s_v3)": {"label": "NC-series (GPU \u2014 NC6s_v3)", "rate": 3.06, "unit": "VM-hour"}};
+const REGION_MULT = {"(Choose region)": 1.0, "East US": 1.0, "East US 2": 1.0, "Central US": 1.02, "West US 2": 1.03, "West US 3": 1.03, "Brazil South": 1.22, "Canada Central": 1.04, "West Europe": 1.08, "North Europe": 1.07, "UK South": 1.1, "Germany West Central": 1.12, "Japan East": 1.15, "Southeast Asia": 1.14, "Australia East": 1.16, "Korea Central": 1.13};
+const SUPPORT_FEE = {"none": 0, "basic": 29, "developer": 89, "standard": 299};
+const REGION_DEFAULT = "(Choose region)";
+const SUPPORT_DEFAULT = "basic";
+let filterState = {};
+
+function onF() { collectAndAutoSave(); computeEstimate(false); }
+
+function onServiceChange() {
+  const sel = document.getElementById('fld-service');
+  if (!sel) return;
+  const svc = SERVICES[sel.value];
+  const nameEl = document.getElementById('service-card-name');
+  if (nameEl) nameEl.textContent = sel.value;
+  const rateEl = document.getElementById('vol-rate');
+  if (rateEl && svc) rateEl.textContent = '$' + Number(svc.rate).toFixed(5);
+  const rateSub = document.getElementById('vol-rate-sub');
+  if (rateSub && svc) rateSub.textContent = 'per ' + svc.unit;
+  const unitLbl = document.getElementById('vol-unit-lbl');
+  if (unitLbl && svc) unitLbl.textContent = svc.unit;
+  // visually toggle service cards if present
+  document.querySelectorAll('[data-service-card]').forEach(c => {
+    c.classList.toggle('selected', c.dataset.serviceCard === sel.value);
+  });
+  onF();
+}
+
+function onOverrideChange() {
+  const sel = document.getElementById('fld-override');
+  const cust = document.getElementById('fld-override-custom');
+  if (!sel || !cust) { onF(); return; }
+  if (sel.value === 'Custom… (type below)') {
+    cust.style.display = 'block'; cust.focus();
+  } else {
+    cust.style.display = 'none'; cust.value = '';
+    _syncVolumeFromOverride(sel.value);
+  }
+  onF();
+}
+
+function _syncVolumeFromOverride(overrideStr) {
+  if (!overrideStr) return;
+  if (overrideStr === '(default usage)' || overrideStr === '(none)' || overrideStr === 'Custom… (type below)') return;
+  const parsed = _parseOverride(overrideStr);
+  if (parsed === null) return;
+  const volIn = document.getElementById('fld-volume');
+  const volOut = document.getElementById('fld-volume-out');
+  if (/input.*output/i.test(overrideStr)) {
+    const m = overrideStr.match(/(\d+(?:\.\d+)?)\s*M[^0-9]*?(\d+(?:\.\d+)?)\s*M/i);
+    if (m) {
+      if (volIn) volIn.value = String(Math.round(parseFloat(m[1]) * 1e6));
+      if (volOut) volOut.value = String(Math.round(parseFloat(m[2]) * 1e6));
+      return;
+    }
+  }
+  if (volIn) volIn.value = String(parsed);
+}
+
+function onCustomOverride() { collectAndAutoSave(); computeEstimate(false); }
+
+function collectAndAutoSave() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.value) newState[f] = el.value;
+    } else if (el.type === 'number' || el.type === 'text') {
+      if (el.value !== '' && el.value !== null) newState[f] = el.value;
+    } else if (el.type === 'hidden') {
+      if (el.value !== '' && el.value !== null) newState[f] = el.value;
+    }
+  });
+  const custom = newState.override_custom || '';
+  if (custom.trim()) {
+    newState.override = custom.trim();
+  } else if (newState.override === '(default usage)' || newState.override === 'Custom… (type below)' || newState.override === '(none)') {
+    delete newState.override;
+  }
+  delete newState.override_custom;
+  filterState = newState;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : (document.getElementById('res-value')?.textContent || '');
+
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(updateLiveStatus).catch(() => {});
+}
+
+function _parseOverride(str) {
+  if (!str) return null;
+  const tbMatch = str.match(/(\d+(?:\.\d+)?)\s*TB\b/i);
+  const pbMatch = str.match(/(\d+(?:\.\d+)?)\s*PB\b/i);
+  const gbMatch = str.match(/(\d+(?:\.\d+)?)\s*GB\b/i);
+  const mMatch  = str.match(/(\d+(?:\.\d+)?)\s*M\b/i);
+  const kMatch  = str.match(/(\d+(?:\.\d+)?)\s*K\b/i);
+  const numMatch = str.match(/(\d[\d,]*(?:\.\d+)?)/);
+  if (pbMatch) return parseFloat(pbMatch[1]) * 1e6;
+  if (tbMatch) return parseFloat(tbMatch[1]) * 1000;
+  if (mMatch)  return parseFloat(mMatch[1]) * 1e6;
+  if (gbMatch) return parseFloat(gbMatch[1]);
+  if (kMatch)  return parseFloat(kMatch[1]) * 1000;
+  if (numMatch) return parseFloat(numMatch[1].replace(/,/g,''));
+  return null;
+}
+
+function computeEstimate() {
+  const svcLabel = filterState.service || Object.keys(SERVICES)[0];
+  const svc = SERVICES[svcLabel] || SERVICES[Object.keys(SERVICES)[0]];
+  const region = filterState.region || REGION_DEFAULT;
+  const support = filterState.support_tier || SUPPORT_DEFAULT;
+  const rate = svc ? svc.rate : 0;
+  const mult = (REGION_MULT[region] !== undefined) ? REGION_MULT[region] : 1.10;
+  const supportFee = SUPPORT_FEE[support] || 0;
+
+  let volume = parseFloat(filterState.volume || '0');
+  let volumeOut = parseFloat(filterState.volume_out || '0');
+  const overrideStr = filterState.override || '';
+  const parsedOverride = _parseOverride(overrideStr);
+  if (parsedOverride !== null) {
+    if (/input.*output/i.test(overrideStr)) {
+      const m = overrideStr.match(/(\d+(?:\.\d+)?)\s*M.*?(\d+(?:\.\d+)?)\s*M/i);
+      if (m) { volume = parseFloat(m[1]) * 1e6; volumeOut = parseFloat(m[2]) * 1e6; }
+      else { volume = parsedOverride; volumeOut = parsedOverride; }
+    } else { volume = parsedOverride; }
+  }
+  if (!volume) volume = parseFloat(filterState.volume || '0') || 0;
+
+  let primaryCost = 0;
+  if (svc && svc.unit && svc.unit.indexOf('1K tokens') >= 0) {
+    primaryCost = (volume / 1000) * rate;
+  } else {
+    primaryCost = volume * rate;
+  }
+  let secondaryCost = 0;
+  if (svc && svc.secondary && volumeOut > 0) {
+    secondaryCost = (volumeOut / 1000) * svc.secondary.rate;
+  }
+  const baseCost = primaryCost + secondaryCost;
+  const regionUplift = baseCost * (mult - 1.0);
+  const total = baseCost + regionUplift + supportFee;
+
+  function money(n) { return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+  const monEl = document.getElementById('monthly-cost'); if (monEl) monEl.textContent = money(total);
+  const volRes = document.getElementById('vol-result'); if (volRes) volRes.textContent = money(primaryCost);
+  const rv = document.getElementById('res-value'); if (rv) rv.textContent = money(total);
+  const rs = document.getElementById('res-sub');
+  if (rs) rs.textContent = 'Computed for ' + (svc ? svc.label : svcLabel) + ' · ' + region +
+    (overrideStr ? ' · override: ' + overrideStr : '') +
+    ' · ' + volume.toLocaleString() + ' units' + (volumeOut > 0 ? ' (+ ' + volumeOut.toLocaleString() + ' out)' : '');
+  const rr = document.getElementById('res-region'); if (rr) rr.textContent = region;
+  const ro = document.getElementById('res-override'); if (ro) ro.textContent = overrideStr || '(default)';
+  const rsv = document.getElementById('res-service'); if (rsv) rsv.textContent = svc ? svc.label : svcLabel;
+  const rsp = document.getElementById('res-support'); if (rsp) rsp.textContent = support + ' (' + money(supportFee) + '/mo)';
+
+  const tbl = document.getElementById('breakdown-table');
+  if (tbl) {
+    tbl.replaceChildren();
+    const addRow = (label, value, isTotal) => {
+      const tr = document.createElement('tr');
+      if (isTotal) tr.className = 'tot';
+      const labelCell = document.createElement('td');
+      const valueCell = document.createElement('td');
+      if (isTotal) {
+        const labelBold = document.createElement('b');
+        labelBold.textContent = label;
+        labelCell.appendChild(labelBold);
+        const valueBold = document.createElement('b');
+        valueBold.textContent = value;
+        valueCell.appendChild(valueBold);
+      } else {
+        labelCell.textContent = label;
+        valueCell.textContent = value;
+      }
+      tr.appendChild(labelCell);
+      tr.appendChild(valueCell);
+      tbl.appendChild(tr);
+    };
+    addRow('Base ' + (svc ? svc.label : svcLabel) + ' (' + volume.toLocaleString() + ' units × $' + rate.toFixed(5) + ')', money(primaryCost));
+    if (secondaryCost > 0) addRow('Output usage (' + volumeOut.toLocaleString() + ' units)', money(secondaryCost));
+    addRow('Region uplift (' + region + ', ×' + mult.toFixed(2) + ')', money(regionUplift));
+    addRow('Support tier (' + support + ')', money(supportFee));
+    addRow('Estimated total', money(total), true);
+  }
+
+  const ansEl = document.getElementById('task-answer-input');
+  if (ansEl && !ansEl.value) ansEl.value = 'estimated cost: ' + money(total);
+}
+
+function updateLiveStatus() { /* badge hidden by CSS */ }
+
+function selectRegionCard(cardEl, value) {
+  document.querySelectorAll('[data-region-card]').forEach(c => c.classList.remove('selected'));
+  if (cardEl) cardEl.classList.add('selected');
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  onF();
+}
+
+function selectServiceCard(cardEl, value) {
+  document.querySelectorAll('[data-service-card]').forEach(c => c.classList.remove('selected'));
+  if (cardEl) cardEl.classList.add('selected');
+  const sel = document.getElementById('fld-service');
+  if (sel) sel.value = value;
+  onServiceChange();
+}
+
+function regionPickerOpen() {
+  const m = document.getElementById('region-picker-modal');
+  if (m) m.style.display = 'flex';
+}
+function regionPickerClose() {
+  const m = document.getElementById('region-picker-modal');
+  if (m) m.style.display = 'none';
+}
+function regionPickerSelect(value) {
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  const lbl = document.getElementById('region-picker-label');
+  if (lbl) lbl.textContent = value;
+  regionPickerClose();
+  onF();
+}
+function regionTabSwitch(tabKey, tabEl) {
+  document.querySelectorAll('[data-region-tab]').forEach(t => t.classList.toggle('active', t.dataset.regionTab === tabKey));
+  document.querySelectorAll('[data-region-panel]').forEach(p => p.classList.toggle('active', p.dataset.regionPanel === tabKey));
+}
+function regionSearchFilter() {
+  const input = document.getElementById('region-search-input');
+  if (!input) return;
+  const q = input.value.toLowerCase().trim();
+  const list = document.getElementById('region-search-list');
+  if (!list) return;
+  let firstShown = null;
+  list.querySelectorAll('[data-region-item]').forEach(it => {
+    const v = (it.dataset.regionItem || '').toLowerCase();
+    const show = !q || v.indexOf(q) >= 0;
+    it.style.display = show ? '' : 'none';
+    if (show && !firstShown) firstShown = it;
+  });
+  list.style.display = q ? 'block' : list.dataset.alwaysOpen === '1' ? 'block' : 'none';
+}
+function regionSearchPick(value, label) {
+  const input = document.getElementById('region-search-input');
+  if (input) input.value = label || value;
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  const list = document.getElementById('region-search-list');
+  if (list && list.dataset.alwaysOpen !== '1') list.style.display = 'none';
+  onF();
+}
+function regionSearchFocus() {
+  const list = document.getElementById('region-search-list');
+  if (list) list.style.display = 'block';
+}
+
+function lsReset(ev) {
+  if (ev && ev.preventDefault) { ev.preventDefault(); ev.stopPropagation(); }
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    if (el.type === 'radio') { el.checked = (el.value === SUPPORT_DEFAULT); }
+    else if (el.tagName === 'SELECT') { el.selectedIndex = 0; }
+    else if (el.tagName === 'INPUT') { el.value = ''; }
+  });
+  const cust = document.getElementById('fld-override-custom');
+  if (cust) cust.style.display = 'none';
+  document.querySelectorAll('[data-region-card]').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('[data-service-card]').forEach(c => c.classList.remove('selected'));
+  const volIn = document.getElementById('fld-volume'); if (volIn) volIn.value = '0';
+  const volOut = document.getElementById('fld-volume-out'); if (volOut) volOut.value = '0';
+  onF();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Catch all radio clicks (even when state doesn't change) for autosave.
+  document.addEventListener('click', (ev) => {
+    const t = ev.target;
+    if (t && t.tagName === 'INPUT' && t.type === 'radio' && t.dataset && t.dataset.facet) {
+      setTimeout(onF, 5);
+    }
+  }, true);
+  onServiceChange();
+  computeEstimate();
+  collectAndAutoSave();
+});
+</script>
+
+</body></html>

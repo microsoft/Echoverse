@@ -1,0 +1,37 @@
+{
+  "env_id": "W25_E04",
+  "widget_id": "W25_plus_chip_plus_property_type",
+  "widget_name": "Plus-chip bedrooms + property-type exclusive filter",
+  "widget_category": "combo_realestate_filters",
+  "widget_mechanic": "Compose: \u2265N-bedroom plus-chip AND single-family-only property-type filter.",
+  "archetype": "realestate_listings",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W05_plus_chips_at_least",
+    "W18_property_type_exclusive_filter"
+  ],
+  "site_imitates": "Apartments.com \u2014 Houston, TX (Rentals)",
+  "product_type": "rentals",
+  "source_inspiration": [
+    {
+      "task_id": "367d843c640637745e8fafa741cca13b",
+      "benchmark": "OM2W",
+      "site": "apartments.com",
+      "instruction": "Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income of $8000. The condo should have a minimum area of 600 square feet, and the move-in date is the 1st of next month.",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: Selected the $2,400 option in a way that applied a minimum price filter ($2,400+) rather than a maximum rent cap (\u2264$2,400)."
+    }
+  ],
+  "theme_key": "apartments",
+  "theme_logo": "Apartments.com",
+  "theme_card": "tile",
+  "theme_layout": "sticky-pills-top",
+  "variant_idx": 3,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "bed_ui": "chips",
+  "ptype_ui": "cards",
+  "city": "Houston, TX"
+}

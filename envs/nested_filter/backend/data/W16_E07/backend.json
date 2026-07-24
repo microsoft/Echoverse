@@ -1,0 +1,96 @@
+{
+  "env_id": "W16_E07",
+  "widget_id": "W16_compounding_frequency_dropdown",
+  "archetype": "calculator_form",
+  "filter_spec": {
+    "type": "calc_compute",
+    "fields": [
+      "principal",
+      "rate",
+      "years",
+      "frequency"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T1561",
+      "task_index_in_env": 1,
+      "instruction_text": "Help me compute retirement growth projections on Vanguard retirement calculator with these inputs: $10,000 principal, 5% rate, quarterly compounding, 10-year horizon.",
+      "expected_filter_state": {
+        "freq": "quarterly"
+      }
+    },
+    {
+      "task_id": "T1562",
+      "task_index_in_env": 2,
+      "instruction_text": "Help me compute retirement growth projections on Vanguard retirement calculator with these inputs: $10,000 principal, 5% rate, monthly compounding, 10-year horizon.",
+      "expected_filter_state": {
+        "freq": "monthly"
+      }
+    },
+    {
+      "task_id": "T1563",
+      "task_index_in_env": 3,
+      "instruction_text": "Use Vanguard retirement calculator to compute retirement growth projections starting with $10,000 at 5% compounded daily over 10 years.",
+      "expected_filter_state": {
+        "freq": "daily"
+      }
+    },
+    {
+      "task_id": "T1564",
+      "task_index_in_env": 4,
+      "instruction_text": "Use Vanguard retirement calculator to compute retirement growth projections starting with $10,000 at 5% compounded semi-annually over 10 years.",
+      "expected_filter_state": {
+        "freq": "semi-annually"
+      }
+    },
+    {
+      "task_id": "T1565",
+      "task_index_in_env": 5,
+      "instruction_text": "On Vanguard retirement calculator, run the numbers on retirement growth projections: $10K principal, 5% rate, compounded bi-weekly (loan amortisation), 10 years.",
+      "expected_filter_state": {
+        "freq": "bi-weekly (loan amortisation)"
+      }
+    },
+    {
+      "task_id": "T1566",
+      "task_index_in_env": 6,
+      "instruction_text": "Help me compute retirement growth projections on Vanguard retirement calculator with these inputs: $10,000 principal, 5% rate, quarterly compounding, 10-year horizon.",
+      "expected_filter_state": {
+        "freq": "quarterly"
+      }
+    },
+    {
+      "task_id": "T1567",
+      "task_index_in_env": 7,
+      "instruction_text": "On Vanguard retirement calculator, run the numbers on retirement growth projections: $10K principal, 5% rate, compounded monthly, 10 years.",
+      "expected_filter_state": {
+        "freq": "monthly"
+      }
+    },
+    {
+      "task_id": "T1568",
+      "task_index_in_env": 8,
+      "instruction_text": "On Vanguard retirement calculator, run the numbers on retirement growth projections: $10K principal, 5% rate, compounded quarterly (Period field), 10 years.",
+      "expected_filter_state": {
+        "freq": "quarterly (Period field)"
+      }
+    },
+    {
+      "task_id": "T1569",
+      "task_index_in_env": 9,
+      "instruction_text": "Help me compute retirement growth projections on Vanguard retirement calculator with these inputs: $10,000 principal, 5% rate, continuously compounding, 10-year horizon.",
+      "expected_filter_state": {
+        "freq": "continuously"
+      }
+    },
+    {
+      "task_id": "T1570",
+      "task_index_in_env": 10,
+      "instruction_text": "Use Vanguard retirement calculator to compute retirement growth projections starting with $10,000 at 5% compounded quarterly (verify result differs from annual) over 10 years.",
+      "expected_filter_state": {
+        "freq": "quarterly (verify result differs from annual)"
+      }
+    }
+  ]
+}

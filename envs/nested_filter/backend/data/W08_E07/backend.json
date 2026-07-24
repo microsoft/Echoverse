@@ -1,0 +1,95 @@
+{
+  "env_id": "W08_E07",
+  "widget_id": "W08_filter_chip_confirmation",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "brand",
+      "condition",
+      "color"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "W08_E07_T001",
+      "task_index_in_env": 1,
+      "instruction_text": "Show me **Negative** reviews from players with **Over 100 hours** of playtime. Apply both filter chips and verify they sit in the floating Filters tag-rail on the right.",
+      "expected_filter_state": {
+        "constraint": "brand=[Negative], condition=[Over 100 hours]"
+      }
+    },
+    {
+      "task_id": "W08_E07_T002",
+      "task_index_in_env": 2,
+      "instruction_text": "Mirror the Steam request: latest **Negative** reviews from players with **Over 100 hours** of playtime in **English**. Apply all three chips and verify the tag-rail shows Negative + Over 100 hours + English.",
+      "expected_filter_state": {
+        "constraint": "brand=[Negative], condition=[Over 100 hours], category=[English]"
+      }
+    },
+    {
+      "task_id": "W08_E07_T003",
+      "task_index_in_env": 3,
+      "instruction_text": "Apply **Negative** (review type) + **Over 1 hour** (playtime) + **English** (language). Then realize you wanted the >100hr bucket \u2014 \u00d7 off the Over-1-hour chip and replace with **Over 100 hours**. Final tag-rail: Negative + Over 100 hours + English.",
+      "expected_filter_state": {
+        "constraint": "brand=[Negative], condition=[Over 100 hours], category=[English]"
+      }
+    },
+    {
+      "task_id": "W08_E07_T004",
+      "task_index_in_env": 4,
+      "instruction_text": "Cross-compare review types: apply **Negative** AND **Positive** under review type, plus **Over 100 hours** playtime. Then \u00d7 off the Positive chip so it's only Negative + Over 100 hours.",
+      "expected_filter_state": {
+        "constraint": "brand=[Negative], condition=[Over 100 hours]"
+      }
+    },
+    {
+      "task_id": "W08_E07_T005",
+      "task_index_in_env": 5,
+      "instruction_text": "No filters \u2014 how many reviews total are listed on PixelGate right now?",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E07_T006",
+      "task_index_in_env": 6,
+      "instruction_text": "Without filtering, which review has the highest helpful rating?",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E07_T007",
+      "task_index_in_env": 7,
+      "instruction_text": "No filters \u2014 count reviews from players with Over 100 hours playtime vs everyone else (you can read the playtime column).",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E07_T008",
+      "task_index_in_env": 8,
+      "instruction_text": "Apply the **Negative** (review type) chip AND the **Over 100 hours** (playtime) chip. After both pills sit in the tag-rail, tell me how many reviews match.",
+      "expected_filter_state": {
+        "constraint": "brand=[Negative], condition=[Over 100 hours]"
+      }
+    },
+    {
+      "task_id": "W08_E07_T009",
+      "task_index_in_env": 9,
+      "instruction_text": "Multi-step Fara replay: apply **Negative** + **Over 1 hour** + **English**. Then remove the Over-1-hour chip via \u00d7 and add **Over 100 hours**. Final tag-rail: Negative + Over 100 hours + English. Tell me how many reviews remain.",
+      "expected_filter_state": {
+        "constraint": "brand=[Negative], condition=[Over 100 hours], category=[English]"
+      }
+    },
+    {
+      "task_id": "W08_E07_T010",
+      "task_index_in_env": 10,
+      "instruction_text": "Apply **Negative** + **Over 100 hours** + the 4\u2605-and-up helpful-rating chip. Once all three pills sit in the tag-rail, name the most-helpful negative review from a 100+ hour player.",
+      "expected_filter_state": {
+        "constraint": "brand=[Negative], condition=[Over 100 hours], rating_min=4"
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "env_id": "W04_E07",
+  "widget_id": "W04_min_max_slider",
+  "widget_name": "Min/max range slider \u2014 direction-sensitive",
+  "widget_category": "range_input",
+  "widget_mechanic": "Two-thumb slider where one thumb is min and the other is max. Agent must set the value on the correct thumb (max cap vs min floor). Especially error-prone when the UI shows the same $ value in both thumbs' input boxes.",
+  "archetype": "faceted_catalog",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W04_min_max_slider"
+  ],
+  "site_imitates": "Steam \u2014 Asgard's Wrath 2 customer reviews (Playtime filter)",
+  "product_type": "Steam customer reviews",
+  "source_inspiration": [],
+  "theme_key": "steam",
+  "theme_logo": "Steam",
+  "theme_card": "review-row",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 1,
+  "n_seed_items": 18,
+  "filter_spec": {
+    "type": "range",
+    "fields": [
+      "min_price",
+      "max_price"
+    ],
+    "item_field": "price"
+  },
+  "primary_inspiration": {
+    "task_id": "c801d1c951f59297f526bab84fa86c6e",
+    "benchmark": "OM2W",
+    "site": "store.steampowered.com",
+    "instruction": "Browse the latest negative reviews from players with over 100 hours of playtime for the game that won the 2023 VR Game of the Year Award.",
+    "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent selected the Playtime filter \u201cOver 1 hour\u201d while the task required reviews from players with over 100 hours (or the closest available high-playtime bucket).",
+    "fara_actions": 23,
+    "gpt54_actions": 27
+  }
+}

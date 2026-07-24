@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoCloud Cost Estimator | EchoCloud</title>
+<style>
+
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: 'Oracle Sans', 'Helvetica Neue', Arial, sans-serif; background: #fff; color: #1d1d1d; font-size: 14px; line-height: 1.5; }
+a { color: #c74634; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.site-header { background: #000; color: #fff; padding: 0 28px; height: 50px; display: flex; align-items: center; gap: 24px; }
+.logo-block { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+.logo-text { color: #c74634; font-weight: 900; font-size: 22px; letter-spacing: -1px; }
+.logo-product { font-size: 13px; color: #fff; padding-left: 14px; border-left: 1px solid #444; margin-left: 6px; }
+.site-nav { display: flex; gap: 22px; flex: 1; }
+.site-nav a { color: #fff; opacity: .9; font-size: 13px; }
+.btn-trial { padding: 6px 16px; background: #c74634; color: #fff; border: 0; font-size: 13px; cursor: pointer; }
+.btn-signin { padding: 6px 16px; background: #fff; color: #000; border: 0; font-size: 13px; cursor: pointer; }
+
+.subnav { background: #312d2a; color: #fff; padding: 0 28px; height: 38px; display: flex; align-items: center; gap: 20px; font-size: 13px; }
+.subnav a { color: #fff; opacity: .85; }
+.subnav .active { color: #c74634; }
+
+.page-head { background: #fafafa; padding: 24px 28px 20px; border-bottom: 1px solid #e5e5e5; }
+.page-head h1 { margin: 0 0 6px; font-size: 26px; color: #1d1d1d; font-weight: 600; }
+.page-head .sub { font-size: 14px; color: #555; max-width: 760px; }
+
+.cost-strip { background: #c74634; color: #fff; padding: 12px 28px; display: flex; align-items: center; gap: 28px; }
+.cost-strip .label { font-size: 13px; opacity: .9; }
+.cost-strip .val { font-size: 22px; font-weight: 700; }
+.cost-strip .meta { margin-left: auto; font-size: 12px; opacity: .85; }
+
+.layout { max-width: 1200px; margin: 0 auto; padding: 24px 28px 80px; }
+
+/* Oracle table form */
+.oc-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #d1d3d8; margin-bottom: 18px; }
+.oc-table caption { background: #312d2a; color: #fff; padding: 10px 16px; font-weight: 700; text-align: left; font-size: 14px; }
+.oc-table th { background: #fafafa; padding: 10px 14px; font-size: 12px; text-align: left; color: #312d2a; border-bottom: 2px solid #c74634; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; width: 30%; }
+.oc-table td { padding: 10px 14px; border-bottom: 1px solid #e5e5e5; font-size: 14px; vertical-align: top; }
+.oc-table tr:last-child td { border-bottom: 0; }
+
+.big-sel, .big-inp { width: 100%; padding: 8px 12px; border: 1px solid #b1b3b8; border-radius: 0; font-size: 14px; background: #fff; color: #1d1d1d; }
+.big-sel:focus, .big-inp:focus { outline: 2px solid #c74634; outline-offset: -1px; border-color: #c74634; }
+.fld-hint { color: #555; font-size: 12px; margin-top: 4px; }
+
+/* search-autocomplete (type-ahead) */
+.reg-sa-wrap { position: relative; }
+.reg-sa-input { width: 100%; padding: 9px 14px 9px 36px; border: 1px solid #b1b3b8; font-size: 14px; background: #fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23555' width='16' height='16'><path d='M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z'/></svg>") no-repeat 10px center; color: #1d1d1d; }
+.reg-sa-input:focus { outline: 2px solid #c74634; outline-offset: -1px; border-color: #c74634; }
+.reg-sa-list { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #b1b3b8; max-height: 320px; overflow-y: auto; z-index: 50; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+.reg-sa-header { padding: 6px 14px; background: #312d2a; color: #fff; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
+.reg-sa-item { padding: 10px 14px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #fafafa; color: #1d1d1d; }
+.reg-sa-item:hover { background: #c74634; color: #fff; }
+.reg-sa-flag { font-size: 16px; }
+
+.usage-block { background: #fafafa; border: 1px solid #e5e5e5; padding: 14px 18px; margin-bottom: 14px; }
+.usage-block h3 { margin: 0 0 10px; font-size: 14px; color: #312d2a; }
+.usage-row { display: grid; grid-template-columns: 1.4fr 28px 1.2fr 28px 1fr; align-items: center; gap: 8px; padding: 6px 0; border-top: 1px dashed #e5e5e5; }
+.usage-row:first-child { border-top: 0; }
+.ur-input { padding: 8px 12px; border: 1px solid #b1b3b8; font-size: 14px; }
+.ur-unit-lbl { font-size: 11px; color: #555; margin-top: 4px; display: block; }
+.ur-op { text-align: center; color: #555; font-weight: 700; }
+.ur-rate { font-size: 14px; color: #312d2a; }
+.ur-rate-sub { font-size: 11px; color: #555; }
+.ur-result { font-weight: 700; color: #c74634; text-align: right; }
+
+.rad-tier { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid #e5e5e5; margin-bottom: 4px; cursor: pointer; font-size: 13px; background: #fff; }
+.rad-tier:hover { border-color: #c74634; background: #fff5f3; }
+.rad-tier input { accent-color: #c74634; }
+.tier-name { flex: 1; }
+.tier-fee { color: #555; font-size: 12px; }
+
+.btn-reset { padding: 8px 18px; border: 1px solid #b1b3b8; background: #fff; font-size: 13px; cursor: pointer; }
+.btn-primary { padding: 8px 18px; border: 1px solid #c74634; background: #c74634; color: #fff; font-size: 13px; cursor: pointer; font-weight: 700; }
+.estimate-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
+
+.result-card { background: #fafafa; border-top: 4px solid #c74634; border-left: 1px solid #e5e5e5; border-right: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; padding: 22px; }
+.res-label { font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: .04em; }
+.res-value { font-size: 32px; font-weight: 700; color: #c74634; margin: 4px 0 6px; }
+.res-sub { font-size: 12px; color: #555; }
+.res-detail { display: grid; grid-template-columns: 110px 1fr; row-gap: 4px; margin-top: 12px; font-size: 13px; }
+.res-detail .k { color: #555; }
+.res-breakdown-h { margin: 14px 0 6px; font-size: 11px; text-transform: uppercase; color: #312d2a; letter-spacing: .06em; font-weight: 700; }
+.res-breakdown { width: 100%; border-collapse: collapse; font-size: 13px; }
+.res-breakdown td { padding: 4px 0; border-bottom: 1px dashed #e5e5e5; }
+.res-breakdown td:last-child { text-align: right; }
+
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo-block"><span class="logo-text">EchoCloud</span><span class="logo-product">Cost Estimator</span></div>
+  <nav class="site-nav"><a>Products</a><a>Industries</a><a>Resources</a><a>Customers</a><a>Partners</a></nav>
+  <button class="btn-signin">View Accounts</button>
+  <button class="btn-trial">Try EchoCloud Free</button>
+</header>
+<div class="subnav">
+  <a>EchoCloud</a><a>Pricing</a><a class="active">Cost Estimator</a><a>Documentation</a><a>Support</a>
+</div>
+
+<div class="page-head">
+  <h1>EchoCloud Cost Estimator</h1>
+  <div class="sub">Configure your workload — choose a service shape, region, usage volume, and support level. We estimate monthly EchoCloud charges based on universal credits list pricing.</div>
+</div>
+
+<div class="cost-strip">
+  <div><div class="label">Estimated monthly cost</div><div class="val" id="monthly-cost">$0.00</div></div>
+  <div style="font-size:12px;opacity:.85">Annual: <b id="annual-est">$0.00</b></div>
+  <div class="meta">Pricing in USD. Region uplift may apply.</div>
+</div>
+
+<div class="layout">
+
+  <table class="oc-table">
+    <caption>Configure EchoCloud workload</caption>
+    <tr><th>Service shape</th><td><select id="fld-service" class="big-sel" data-facet="service" onchange="onServiceChange()"><option selected>Compute (VM.Standard.E4.Flex — 1 OCPU)</option><option>Compute (VM.Standard.E4.Flex — 4 OCPU)</option><option>Compute (BM.Standard.E4.128 — 128 OCPU)</option><option>Block Volume (Balanced)</option><option>Object Storage (Standard)</option><option>Autonomous Database (1 OCPU)</option><option>EchoCloud Database (Standard Edition — 1 OCPU)</option></select><div class="fld-hint">EchoCloud shape; per-OCPU/per-GB list pricing applies.</div></td></tr>
+    <tr><th>Region</th><td><div class="reg-sa-wrap"><input type="text" id="region-search-input" class="reg-sa-input" placeholder="Search for a region (e.g. Tokyo, eu-west)…" oninput="regionSearchFilter()" onfocus="regionSearchFocus()" autocomplete="off"><div id="region-search-list" class="reg-sa-list" data-always-open="0" style="display:none;"><div class="reg-sa-header">Americas</div><div class="reg-sa-item" data-region-item="us-ashburn-1 (Ashburn — VA)" onclick="regionSearchPick('us-ashburn-1 (Ashburn — VA)', 'us-ashburn-1 (Ashburn — VA)')"><span class="reg-sa-flag">🇺🇸</span> us-ashburn-1 (Ashburn — VA)</div><div class="reg-sa-item" data-region-item="us-phoenix-1 (Phoenix — AZ)" onclick="regionSearchPick('us-phoenix-1 (Phoenix — AZ)', 'us-phoenix-1 (Phoenix — AZ)')"><span class="reg-sa-flag">🇺🇸</span> us-phoenix-1 (Phoenix — AZ)</div><div class="reg-sa-item" data-region-item="us-sanjose-1 (San Jose — CA)" onclick="regionSearchPick('us-sanjose-1 (San Jose — CA)', 'us-sanjose-1 (San Jose — CA)')"><span class="reg-sa-flag">🇺🇸</span> us-sanjose-1 (San Jose — CA)</div><div class="reg-sa-item" data-region-item="us-chicago-1 (Chicago — IL)" onclick="regionSearchPick('us-chicago-1 (Chicago — IL)', 'us-chicago-1 (Chicago — IL)')"><span class="reg-sa-flag">🇺🇸</span> us-chicago-1 (Chicago — IL)</div><div class="reg-sa-item" data-region-item="ca-toronto-1 (Toronto — ON)" onclick="regionSearchPick('ca-toronto-1 (Toronto — ON)', 'ca-toronto-1 (Toronto — ON)')"><span class="reg-sa-flag">🇨🇦</span> ca-toronto-1 (Toronto — ON)</div><div class="reg-sa-item" data-region-item="sa-saopaulo-1 (São Paulo — BR)" onclick="regionSearchPick('sa-saopaulo-1 (São Paulo — BR)', 'sa-saopaulo-1 (São Paulo — BR)')"><span class="reg-sa-flag">🇧🇷</span> sa-saopaulo-1 (São Paulo — BR)</div><div class="reg-sa-header">Europe</div><div class="reg-sa-item" data-region-item="eu-frankfurt-1 (Frankfurt — DE)" onclick="regionSearchPick('eu-frankfurt-1 (Frankfurt — DE)', 'eu-frankfurt-1 (Frankfurt — DE)')"><span class="reg-sa-flag">🇩🇪</span> eu-frankfurt-1 (Frankfurt — DE)</div><div class="reg-sa-item" data-region-item="eu-amsterdam-1 (Amsterdam — NL)" onclick="regionSearchPick('eu-amsterdam-1 (Amsterdam — NL)', 'eu-amsterdam-1 (Amsterdam — NL)')"><span class="reg-sa-flag">🇳🇱</span> eu-amsterdam-1 (Amsterdam — NL)</div><div class="reg-sa-item" data-region-item="uk-london-1 (London — UK)" onclick="regionSearchPick('uk-london-1 (London — UK)', 'uk-london-1 (London — UK)')"><span class="reg-sa-flag">🇬🇧</span> uk-london-1 (London — UK)</div><div class="reg-sa-item" data-region-item="eu-zurich-1 (Zürich — CH)" onclick="regionSearchPick('eu-zurich-1 (Zürich — CH)', 'eu-zurich-1 (Zürich — CH)')"><span class="reg-sa-flag">🇨🇭</span> eu-zurich-1 (Zürich — CH)</div><div class="reg-sa-header">Asia / Pacific</div><div class="reg-sa-item" data-region-item="ap-tokyo-1 (Tokyo — JP)" onclick="regionSearchPick('ap-tokyo-1 (Tokyo — JP)', 'ap-tokyo-1 (Tokyo — JP)')"><span class="reg-sa-flag">🇯🇵</span> ap-tokyo-1 (Tokyo — JP)</div><div class="reg-sa-item" data-region-item="ap-seoul-1 (Seoul — KR)" onclick="regionSearchPick('ap-seoul-1 (Seoul — KR)', 'ap-seoul-1 (Seoul — KR)')"><span class="reg-sa-flag">🇰🇷</span> ap-seoul-1 (Seoul — KR)</div><div class="reg-sa-item" data-region-item="ap-singapore-1 (Singapore)" onclick="regionSearchPick('ap-singapore-1 (Singapore)', 'ap-singapore-1 (Singapore)')"><span class="reg-sa-flag">🇸🇬</span> ap-singapore-1 (Singapore)</div><div class="reg-sa-item" data-region-item="ap-sydney-1 (Sydney — AU)" onclick="regionSearchPick('ap-sydney-1 (Sydney — AU)', 'ap-sydney-1 (Sydney — AU)')"><span class="reg-sa-flag">🇦🇺</span> ap-sydney-1 (Sydney — AU)</div><div class="reg-sa-item" data-region-item="ap-mumbai-1 (Mumbai — IN)" onclick="regionSearchPick('ap-mumbai-1 (Mumbai — IN)', 'ap-mumbai-1 (Mumbai — IN)')"><span class="reg-sa-flag">🇮🇳</span> ap-mumbai-1 (Mumbai — IN)</div></div></div><select id="fld-region" data-facet="region" onchange="onF()" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><option>(Choose region)</option><option>us-ashburn-1 (Ashburn — VA)</option><option>us-phoenix-1 (Phoenix — AZ)</option><option>us-sanjose-1 (San Jose — CA)</option><option>us-chicago-1 (Chicago — IL)</option><option>ca-toronto-1 (Toronto — ON)</option><option>sa-saopaulo-1 (São Paulo — BR)</option><option>eu-frankfurt-1 (Frankfurt — DE)</option><option>eu-amsterdam-1 (Amsterdam — NL)</option><option>uk-london-1 (London — UK)</option><option>eu-zurich-1 (Zürich — CH)</option><option>ap-tokyo-1 (Tokyo — JP)</option><option>ap-seoul-1 (Seoul — KR)</option><option>ap-singapore-1 (Singapore)</option><option>ap-sydney-1 (Sydney — AU)</option><option>ap-mumbai-1 (Mumbai — IN)</option></select><div class="fld-hint">Type a city or region (e.g. "Ashburn", "Frankfurt").</div></td></tr>
+    <tr><th>Override default usage</th><td><select id="fld-override" class="big-sel" data-facet="override" onchange="onOverrideChange()"><option selected>(default usage)</option><option>730 OCPU-hours (1 month always-on)</option><option>256 OCPU-hours</option><option>100 OCPU-hours</option><option>1 TB Object Storage</option><option>500 GB Block Volume</option><option>8760 OCPU-hours (1 year always-on)</option><option>1460 VM-hours (2 VMs always-on)</option><option>500 GB storage</option><option>Custom… (type below)</option></select><input id="fld-override-custom" class="big-inp" type="text" data-facet="override_custom" placeholder="Type your custom monthly usage…" oninput="onCustomOverride()" style="margin-top:8px; display:none"><div class="fld-hint">Choose a preset OCPU/GB volume or type a custom value.</div></td></tr>
+  </table>
+
+  <table class="oc-table">
+    <caption>Monthly volume</caption>
+    <tr><th>Usage</th><td><div class="usage-block"><h3 id="usage-block-title">Estimated monthly usage</h3><div class="usage-row"><div class="ur-input-wrap"><input id="fld-volume" class="ur-input" type="number" data-facet="volume" value="0" placeholder="0" oninput="onF()"><span class="ur-unit-lbl" id="vol-unit-lbl">OCPU-hour</span></div><div class="ur-op">×</div><div><div class="ur-rate" id="vol-rate">$0.02500</div><div class="ur-rate-sub" id="vol-rate-sub">per OCPU-hour</div></div><div class="ur-op">=</div><div class="ur-result" id="vol-result">$0.00</div></div><div class="usage-row" id="secondary-usage-row" style="display:none"><div class="ur-input-wrap"><input id="fld-volume-out" class="ur-input" type="number" data-facet="volume_out" value="0" placeholder="0" oninput="onF()"><span class="ur-unit-lbl" id="vol-out-unit-lbl">Output units</span></div><div class="ur-op">×</div><div><div class="ur-rate" id="vol-out-rate">$0.00000</div><div class="ur-rate-sub" id="vol-out-rate-sub">per unit</div></div><div class="ur-op">=</div><div class="ur-result" id="vol-out-result">$0.00</div></div></div></td></tr>
+  </table>
+
+  <table class="oc-table">
+    <caption>Support plan</caption>
+    <tr><th>Tier</th><td><label class="rad-tier"><input type="radio" name="support" value="none" data-facet="support_tier" onchange="onF()" checked> <span class="tier-name">None</span> <span class="tier-fee">free</span></label>
+<label class="rad-tier"><input type="radio" name="support" value="premier" data-facet="support_tier" onchange="onF()" > <span class="tier-name">Premier</span> <span class="tier-fee">$219/mo</span></label>
+<label class="rad-tier"><input type="radio" name="support" value="advanced" data-facet="support_tier" onchange="onF()" > <span class="tier-name">Advanced</span> <span class="tier-fee">$2,000/mo</span></label></td></tr>
+  </table>
+
+  <div class="estimate-row">
+    <button class="btn-reset" type="button" onclick="lsReset(event)">Clear form</button>
+    <button class="btn-primary" type="button" onclick="document.getElementById('result-card').scrollIntoView({behavior:'smooth'})">View estimate</button>
+    <span style="margin-left:auto;color:#555;font-size:12px">Auto-saves as you type</span>
+  </div>
+
+  <div class="result-card" id="result-card"><div class="res-label">Estimated monthly bill</div><div class="res-value" id="res-value">$0.00</div><div class="res-sub" id="res-sub">Your estimate updates automatically as you configure the form.</div><div class="res-detail"><div class="k">Region</div><div class="v" id="res-region">—</div><div class="k">Override</div><div class="v" id="res-override">—</div><div class="k">Service</div><div class="v" id="res-service">—</div><div class="k">Support</div><div class="v" id="res-support">—</div></div><h5 class="res-breakdown-h">Breakdown</h5><table class="res-breakdown"><tbody id="breakdown-table"></tbody></table></div>
+</div>
+
+<div id="task-banner" style="display:none"></div>
+
+<script>
+const ENV_ID = "W30_E09";
+const SERVICES = {"Compute (VM.Standard.E4.Flex \u2014 1 OCPU)": {"label": "Compute (VM.Standard.E4.Flex \u2014 1 OCPU)", "rate": 0.025, "unit": "OCPU-hour"}, "Compute (VM.Standard.E4.Flex \u2014 4 OCPU)": {"label": "Compute (VM.Standard.E4.Flex \u2014 4 OCPU)", "rate": 0.1, "unit": "OCPU-hour"}, "Compute (BM.Standard.E4.128 \u2014 128 OCPU)": {"label": "Compute (BM.Standard.E4.128 \u2014 128 OCPU)", "rate": 3.2, "unit": "OCPU-hour"}, "Block Volume (Balanced)": {"label": "Block Volume (Balanced)", "rate": 0.0425, "unit": "GB-month"}, "Object Storage (Standard)": {"label": "Object Storage (Standard)", "rate": 0.0255, "unit": "GB-month"}, "Autonomous Database (1 OCPU)": {"label": "Autonomous Database (1 OCPU)", "rate": 1.3441, "unit": "OCPU-hour"}, "Oracle Database (Standard Edition \u2014 1 OCPU)": {"label": "Oracle Database (Standard Edition \u2014 1 OCPU)", "rate": 0.0672, "unit": "OCPU-hour"}};
+const REGION_MULT = {"(Choose region)": 1.0, "us-ashburn-1 (Ashburn \u2014 VA)": 1.0, "us-phoenix-1 (Phoenix \u2014 AZ)": 1.0, "us-sanjose-1 (San Jose \u2014 CA)": 1.05, "us-chicago-1 (Chicago \u2014 IL)": 1.02, "ca-toronto-1 (Toronto \u2014 ON)": 1.05, "sa-saopaulo-1 (S\u00e3o Paulo \u2014 BR)": 1.25, "eu-frankfurt-1 (Frankfurt \u2014 DE)": 1.1, "eu-amsterdam-1 (Amsterdam \u2014 NL)": 1.1, "uk-london-1 (London \u2014 UK)": 1.12, "eu-zurich-1 (Z\u00fcrich \u2014 CH)": 1.13, "ap-tokyo-1 (Tokyo \u2014 JP)": 1.18, "ap-seoul-1 (Seoul \u2014 KR)": 1.15, "ap-singapore-1 (Singapore)": 1.16, "ap-sydney-1 (Sydney \u2014 AU)": 1.18, "ap-mumbai-1 (Mumbai \u2014 IN)": 1.08};
+const SUPPORT_FEE = {"none": 0, "premier": 219, "advanced": 2000};
+const REGION_DEFAULT = "(Choose region)";
+const SUPPORT_DEFAULT = "none";
+let filterState = {};
+
+function onF() { collectAndAutoSave(); computeEstimate(false); }
+
+function onServiceChange() {
+  const sel = document.getElementById('fld-service');
+  if (!sel) return;
+  const svc = SERVICES[sel.value];
+  const nameEl = document.getElementById('service-card-name');
+  if (nameEl) nameEl.textContent = sel.value;
+  const rateEl = document.getElementById('vol-rate');
+  if (rateEl && svc) rateEl.textContent = '$' + Number(svc.rate).toFixed(5);
+  const rateSub = document.getElementById('vol-rate-sub');
+  if (rateSub && svc) rateSub.textContent = 'per ' + svc.unit;
+  const unitLbl = document.getElementById('vol-unit-lbl');
+  if (unitLbl && svc) unitLbl.textContent = svc.unit;
+  // visually toggle service cards if present
+  document.querySelectorAll('[data-service-card]').forEach(c => {
+    c.classList.toggle('selected', c.dataset.serviceCard === sel.value);
+  });
+  onF();
+}
+
+function onOverrideChange() {
+  const sel = document.getElementById('fld-override');
+  const cust = document.getElementById('fld-override-custom');
+  if (!sel || !cust) { onF(); return; }
+  if (sel.value === 'Custom… (type below)') {
+    cust.style.display = 'block'; cust.focus();
+  } else {
+    cust.style.display = 'none'; cust.value = '';
+    _syncVolumeFromOverride(sel.value);
+  }
+  onF();
+}
+
+function _syncVolumeFromOverride(overrideStr) {
+  if (!overrideStr) return;
+  if (overrideStr === '(default usage)' || overrideStr === '(none)' || overrideStr === 'Custom… (type below)') return;
+  const parsed = _parseOverride(overrideStr);
+  if (parsed === null) return;
+  const volIn = document.getElementById('fld-volume');
+  const volOut = document.getElementById('fld-volume-out');
+  if (/input.*output/i.test(overrideStr)) {
+    const m = overrideStr.match(/(\d+(?:\.\d+)?)\s*M[^0-9]*?(\d+(?:\.\d+)?)\s*M/i);
+    if (m) {
+      if (volIn) volIn.value = String(Math.round(parseFloat(m[1]) * 1e6));
+      if (volOut) volOut.value = String(Math.round(parseFloat(m[2]) * 1e6));
+      return;
+    }
+  }
+  if (volIn) volIn.value = String(parsed);
+}
+
+function onCustomOverride() { collectAndAutoSave(); computeEstimate(false); }
+
+function collectAndAutoSave() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.value) newState[f] = el.value;
+    } else if (el.type === 'number' || el.type === 'text') {
+      if (el.value !== '' && el.value !== null) newState[f] = el.value;
+    } else if (el.type === 'hidden') {
+      if (el.value !== '' && el.value !== null) newState[f] = el.value;
+    }
+  });
+  const custom = newState.override_custom || '';
+  if (custom.trim()) {
+    newState.override = custom.trim();
+  } else if (newState.override === '(default usage)' || newState.override === 'Custom… (type below)' || newState.override === '(none)') {
+    delete newState.override;
+  }
+  delete newState.override_custom;
+  filterState = newState;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : (document.getElementById('res-value')?.textContent || '');
+
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(updateLiveStatus).catch(() => {});
+}
+
+function _parseOverride(str) {
+  if (!str) return null;
+  const tbMatch = str.match(/(\d+(?:\.\d+)?)\s*TB\b/i);
+  const pbMatch = str.match(/(\d+(?:\.\d+)?)\s*PB\b/i);
+  const gbMatch = str.match(/(\d+(?:\.\d+)?)\s*GB\b/i);
+  const mMatch  = str.match(/(\d+(?:\.\d+)?)\s*M\b/i);
+  const kMatch  = str.match(/(\d+(?:\.\d+)?)\s*K\b/i);
+  const numMatch = str.match(/(\d[\d,]*(?:\.\d+)?)/);
+  if (pbMatch) return parseFloat(pbMatch[1]) * 1e6;
+  if (tbMatch) return parseFloat(tbMatch[1]) * 1000;
+  if (mMatch)  return parseFloat(mMatch[1]) * 1e6;
+  if (gbMatch) return parseFloat(gbMatch[1]);
+  if (kMatch)  return parseFloat(kMatch[1]) * 1000;
+  if (numMatch) return parseFloat(numMatch[1].replace(/,/g,''));
+  return null;
+}
+
+function computeEstimate() {
+  const svcLabel = filterState.service || Object.keys(SERVICES)[0];
+  const svc = SERVICES[svcLabel] || SERVICES[Object.keys(SERVICES)[0]];
+  const region = filterState.region || REGION_DEFAULT;
+  const support = filterState.support_tier || SUPPORT_DEFAULT;
+  const rate = svc ? svc.rate : 0;
+  const mult = (REGION_MULT[region] !== undefined) ? REGION_MULT[region] : 1.10;
+  const supportFee = SUPPORT_FEE[support] || 0;
+
+  let volume = parseFloat(filterState.volume || '0');
+  let volumeOut = parseFloat(filterState.volume_out || '0');
+  const overrideStr = filterState.override || '';
+  const parsedOverride = _parseOverride(overrideStr);
+  if (parsedOverride !== null) {
+    if (/input.*output/i.test(overrideStr)) {
+      const m = overrideStr.match(/(\d+(?:\.\d+)?)\s*M.*?(\d+(?:\.\d+)?)\s*M/i);
+      if (m) { volume = parseFloat(m[1]) * 1e6; volumeOut = parseFloat(m[2]) * 1e6; }
+      else { volume = parsedOverride; volumeOut = parsedOverride; }
+    } else { volume = parsedOverride; }
+  }
+  if (!volume) volume = parseFloat(filterState.volume || '0') || 0;
+
+  let primaryCost = 0;
+  if (svc && svc.unit && svc.unit.indexOf('1K tokens') >= 0) {
+    primaryCost = (volume / 1000) * rate;
+  } else {
+    primaryCost = volume * rate;
+  }
+  let secondaryCost = 0;
+  if (svc && svc.secondary && volumeOut > 0) {
+    secondaryCost = (volumeOut / 1000) * svc.secondary.rate;
+  }
+  const baseCost = primaryCost + secondaryCost;
+  const regionUplift = baseCost * (mult - 1.0);
+  const total = baseCost + regionUplift + supportFee;
+
+  function money(n) { return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+  const monEl = document.getElementById('monthly-cost'); if (monEl) monEl.textContent = money(total);
+  const volRes = document.getElementById('vol-result'); if (volRes) volRes.textContent = money(primaryCost);
+  const rv = document.getElementById('res-value'); if (rv) rv.textContent = money(total);
+  const rs = document.getElementById('res-sub');
+  if (rs) rs.textContent = 'Computed for ' + (svc ? svc.label : svcLabel) + ' · ' + region +
+    (overrideStr ? ' · override: ' + overrideStr : '') +
+    ' · ' + volume.toLocaleString() + ' units' + (volumeOut > 0 ? ' (+ ' + volumeOut.toLocaleString() + ' out)' : '');
+  const rr = document.getElementById('res-region'); if (rr) rr.textContent = region;
+  const ro = document.getElementById('res-override'); if (ro) ro.textContent = overrideStr || '(default)';
+  const rsv = document.getElementById('res-service'); if (rsv) rsv.textContent = svc ? svc.label : svcLabel;
+  const rsp = document.getElementById('res-support'); if (rsp) rsp.textContent = support + ' (' + money(supportFee) + '/mo)';
+
+  const tbl = document.getElementById('breakdown-table');
+  if (tbl) {
+    tbl.replaceChildren();
+    const addRow = (label, value, isTotal) => {
+      const tr = document.createElement('tr');
+      if (isTotal) tr.className = 'tot';
+      const labelCell = document.createElement('td');
+      const valueCell = document.createElement('td');
+      if (isTotal) {
+        const labelBold = document.createElement('b');
+        labelBold.textContent = label;
+        labelCell.appendChild(labelBold);
+        const valueBold = document.createElement('b');
+        valueBold.textContent = value;
+        valueCell.appendChild(valueBold);
+      } else {
+        labelCell.textContent = label;
+        valueCell.textContent = value;
+      }
+      tr.appendChild(labelCell);
+      tr.appendChild(valueCell);
+      tbl.appendChild(tr);
+    };
+    addRow('Base ' + (svc ? svc.label : svcLabel) + ' (' + volume.toLocaleString() + ' units × $' + rate.toFixed(5) + ')', money(primaryCost));
+    if (secondaryCost > 0) addRow('Output usage (' + volumeOut.toLocaleString() + ' units)', money(secondaryCost));
+    addRow('Region uplift (' + region + ', ×' + mult.toFixed(2) + ')', money(regionUplift));
+    addRow('Support tier (' + support + ')', money(supportFee));
+    addRow('Estimated total', money(total), true);
+  }
+
+  const ansEl = document.getElementById('task-answer-input');
+  if (ansEl && !ansEl.value) ansEl.value = 'estimated cost: ' + money(total);
+}
+
+function updateLiveStatus() { /* badge hidden by CSS */ }
+
+function selectRegionCard(cardEl, value) {
+  document.querySelectorAll('[data-region-card]').forEach(c => c.classList.remove('selected'));
+  if (cardEl) cardEl.classList.add('selected');
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  onF();
+}
+
+function selectServiceCard(cardEl, value) {
+  document.querySelectorAll('[data-service-card]').forEach(c => c.classList.remove('selected'));
+  if (cardEl) cardEl.classList.add('selected');
+  const sel = document.getElementById('fld-service');
+  if (sel) sel.value = value;
+  onServiceChange();
+}
+
+function regionPickerOpen() {
+  const m = document.getElementById('region-picker-modal');
+  if (m) m.style.display = 'flex';
+}
+function regionPickerClose() {
+  const m = document.getElementById('region-picker-modal');
+  if (m) m.style.display = 'none';
+}
+function regionPickerSelect(value) {
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  const lbl = document.getElementById('region-picker-label');
+  if (lbl) lbl.textContent = value;
+  regionPickerClose();
+  onF();
+}
+function regionTabSwitch(tabKey, tabEl) {
+  document.querySelectorAll('[data-region-tab]').forEach(t => t.classList.toggle('active', t.dataset.regionTab === tabKey));
+  document.querySelectorAll('[data-region-panel]').forEach(p => p.classList.toggle('active', p.dataset.regionPanel === tabKey));
+}
+function regionSearchFilter() {
+  const input = document.getElementById('region-search-input');
+  if (!input) return;
+  const q = input.value.toLowerCase().trim();
+  const list = document.getElementById('region-search-list');
+  if (!list) return;
+  let firstShown = null;
+  list.querySelectorAll('[data-region-item]').forEach(it => {
+    const v = (it.dataset.regionItem || '').toLowerCase();
+    const show = !q || v.indexOf(q) >= 0;
+    it.style.display = show ? '' : 'none';
+    if (show && !firstShown) firstShown = it;
+  });
+  list.style.display = q ? 'block' : list.dataset.alwaysOpen === '1' ? 'block' : 'none';
+}
+function regionSearchPick(value, label) {
+  const input = document.getElementById('region-search-input');
+  if (input) input.value = label || value;
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  const list = document.getElementById('region-search-list');
+  if (list && list.dataset.alwaysOpen !== '1') list.style.display = 'none';
+  onF();
+}
+function regionSearchFocus() {
+  const list = document.getElementById('region-search-list');
+  if (list) list.style.display = 'block';
+}
+
+function lsReset(ev) {
+  if (ev && ev.preventDefault) { ev.preventDefault(); ev.stopPropagation(); }
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    if (el.type === 'radio') { el.checked = (el.value === SUPPORT_DEFAULT); }
+    else if (el.tagName === 'SELECT') { el.selectedIndex = 0; }
+    else if (el.tagName === 'INPUT') { el.value = ''; }
+  });
+  const cust = document.getElementById('fld-override-custom');
+  if (cust) cust.style.display = 'none';
+  document.querySelectorAll('[data-region-card]').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('[data-service-card]').forEach(c => c.classList.remove('selected'));
+  const volIn = document.getElementById('fld-volume'); if (volIn) volIn.value = '0';
+  const volOut = document.getElementById('fld-volume-out'); if (volOut) volOut.value = '0';
+  onF();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Catch all radio clicks (even when state doesn't change) for autosave.
+  document.addEventListener('click', (ev) => {
+    const t = ev.target;
+    if (t && t.tagName === 'INPUT' && t.type === 'radio' && t.dataset && t.dataset.facet) {
+      setTimeout(onF, 5);
+    }
+  }, true);
+  onServiceChange();
+  computeEstimate();
+  collectAndAutoSave();
+});
+</script>
+
+</body></html>

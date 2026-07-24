@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoCloud Pricing Calculator</title>
+<style>
+
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: 'Google Sans', 'Roboto', Arial, sans-serif; background: #fff; color: #202124; font-size: 14px; line-height: 1.5; }
+a { color: #1a73e8; text-decoration: none; }
+
+.site-header { background: #fff; color: #202124; padding: 0 28px; height: 64px; display: flex; align-items: center; gap: 18px; border-bottom: 1px solid #dadce0; }
+.logo-block { display: flex; align-items: center; gap: 12px; }
+.logo-glyph { font-size: 22px; letter-spacing: -3px; }
+.logo-text { font-size: 18px; color: #5f6368; font-weight: 500; }
+.logo-product { font-size: 14px; color: #202124; font-weight: 500; padding-left: 12px; border-left: 1px solid #dadce0; margin-left: 4px; }
+.site-nav { display: flex; gap: 22px; }
+.site-nav a { color: #5f6368; font-size: 13px; font-weight: 500; cursor: pointer; }
+.site-nav a:hover { color: #1a73e8; }
+.header-search { flex: 1; max-width: 420px; margin-left: auto; position: relative; }
+.header-search input { width: 100%; padding: 8px 14px 8px 36px; border: 1px solid #dadce0; border-radius: 999px; font-size: 13px; background: #f1f3f4; color: #202124; }
+.header-search input:focus { background: #fff; outline: none; border-color: #1a73e8; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.header-search::before { content: '🔍'; position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 13px; opacity: .55; pointer-events: none; }
+.btn-console { padding: 7px 18px; border: 1px solid #1a73e8; background: #fff; color: #1a73e8; border-radius: 4px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.btn-console.primary { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+
+.crumb-bar { padding: 12px 28px; font-size: 12px; color: #5f6368; }
+.crumb-bar a { color: #5f6368; }
+
+.page-head { padding: 16px 28px 0; }
+.page-head h1 { margin: 0 0 8px; font-size: 28px; font-weight: 400; color: #202124; }
+.page-head .ph-sub { color: #5f6368; font-size: 14px; max-width: 720px; }
+
+.gc-bar { display: flex; gap: 6px; padding: 16px 28px 12px; border-bottom: 1px solid #dadce0; }
+.gc-bar .tab { padding: 8px 18px; border-radius: 0; color: #5f6368; font-size: 13px; cursor: pointer; border-bottom: 3px solid transparent; }
+.gc-bar .tab.active { color: #1a73e8; border-bottom-color: #1a73e8; font-weight: 500; }
+
+.layout { display: grid; grid-template-columns: 1fr 360px; gap: 28px; padding: 24px 28px 80px; max-width: 1400px; margin: 0 auto; }
+
+.gc-card { background: #fff; border: 1px solid #dadce0; border-radius: 8px; padding: 24px; margin-bottom: 18px; }
+.gc-card h2 { margin: 0 0 6px; font-size: 18px; font-weight: 500; color: #202124; }
+.gc-card .h-sub { color: #5f6368; font-size: 13px; margin-bottom: 18px; }
+
+.svc-card { background: linear-gradient(90deg, #e8f0fe 0%, #fce8e6 50%, #fef7e0 100%); padding: 14px 18px; border-radius: 8px; margin-bottom: 18px; display: flex; align-items: center; gap: 12px; }
+.svc-card .sc-icon { font-size: 22px; }
+.svc-card .sc-title { font-size: 11px; text-transform: uppercase; color: #5f6368; letter-spacing: .06em; }
+.svc-card .sc-name { font-size: 16px; font-weight: 500; color: #202124; }
+
+.fld { margin-bottom: 16px; }
+.fld-label { display: block; font-size: 12px; font-weight: 500; color: #5f6368; margin-bottom: 4px; }
+.fld-hint { color: #5f6368; font-size: 12px; margin-top: 4px; }
+.big-sel, .big-inp { width: 100%; padding: 9px 12px; border: 1px solid #dadce0; border-radius: 4px; font-size: 14px; background: #fff; color: #202124; }
+.big-sel:focus, .big-inp:focus { outline: 2px solid #1a73e8; outline-offset: -1px; border-color: #1a73e8; }
+
+/* tabs region */
+.reg-tabs-bar { display: flex; gap: 0; border-bottom: 1px solid #dadce0; margin-bottom: 12px; }
+.reg-tab { padding: 10px 18px; background: none; border: 0; border-bottom: 3px solid transparent; color: #5f6368; font-size: 13px; cursor: pointer; font-weight: 500; }
+.reg-tab.active { color: #1a73e8; border-bottom-color: #1a73e8; }
+.reg-tab:hover { background: #f1f3f4; }
+.reg-tabs-body { min-height: 120px; }
+.reg-panel { display: none; }
+.reg-panel.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+.reg-chip { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 1px solid #dadce0; border-radius: 999px; background: #fff; cursor: pointer; font-size: 13px; transition: all .12s; }
+.reg-chip:hover { background: #e8f0fe; border-color: #1a73e8; }
+.reg-chip.selected { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+.reg-flag { font-size: 16px; }
+.reg-name { font-weight: 500; }
+
+.usage-block { background: #f8f9fa; border: 1px solid #dadce0; border-radius: 8px; padding: 16px 18px; margin-bottom: 16px; }
+.usage-block h3 { margin: 0 0 12px; font-size: 14px; color: #202124; font-weight: 500; }
+.usage-row { display: grid; grid-template-columns: 1.4fr 28px 1.2fr 28px 1fr; align-items: center; gap: 8px; padding: 6px 0; border-top: 1px dashed #dadce0; }
+.usage-row:first-child { border-top: 0; }
+.ur-input { padding: 8px 12px; border: 1px solid #dadce0; border-radius: 4px; font-size: 14px; }
+.ur-unit-lbl { font-size: 11px; color: #5f6368; margin-top: 4px; display: block; }
+.ur-op { text-align: center; color: #5f6368; }
+.ur-rate { font-size: 14px; color: #202124; }
+.ur-rate-sub { font-size: 11px; color: #5f6368; }
+.ur-result { font-weight: 500; color: #1a73e8; text-align: right; }
+
+.rad-tier { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid #dadce0; border-radius: 4px; margin-bottom: 6px; cursor: pointer; font-size: 13px; background: #fff; }
+.rad-tier:hover { background: #f1f3f4; border-color: #1a73e8; }
+.rad-tier input { accent-color: #1a73e8; }
+.tier-name { flex: 1; }
+.tier-fee { color: #5f6368; font-size: 12px; }
+
+.btn-reset { padding: 8px 18px; border: 1px solid #dadce0; background: #fff; border-radius: 4px; font-size: 13px; cursor: pointer; color: #1a73e8; }
+
+.summary { position: sticky; top: 12px; align-self: start; }
+.sum-card { background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%); color: #fff; border-radius: 12px; padding: 22px; }
+.sum-card .sc-label { font-size: 12px; opacity: .9; }
+.sum-card .sc-cost { font-size: 36px; font-weight: 500; margin: 6px 0 12px; }
+.sum-card .sc-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; opacity: .92; border-top: 1px solid rgba(255,255,255,0.18); }
+.sum-card .sc-row:first-of-type { border-top: 0; }
+
+.result-card { margin-top: 18px; background: #fff; border: 1px solid #dadce0; border-radius: 8px; padding: 18px; }
+.res-label { font-size: 12px; color: #5f6368; }
+.res-value { font-size: 28px; font-weight: 500; color: #1a73e8; margin: 4px 0 6px; }
+.res-sub { font-size: 12px; color: #5f6368; }
+.res-detail { display: grid; grid-template-columns: 90px 1fr; row-gap: 4px; margin-top: 12px; font-size: 13px; }
+.res-detail .k { color: #5f6368; }
+.res-breakdown-h { margin: 14px 0 6px; font-size: 11px; text-transform: uppercase; color: #5f6368; letter-spacing: .06em; }
+.res-breakdown { width: 100%; border-collapse: collapse; font-size: 13px; }
+.res-breakdown td { padding: 4px 0; border-bottom: 1px dashed #dadce0; }
+.res-breakdown td:last-child { text-align: right; }
+
+.estimate-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+
+/* Footer */
+.site-footer { background: #f8f9fa; border-top: 1px solid #dadce0; padding: 32px 28px 24px; margin-top: 40px; }
+.footer-inner { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr; gap: 28px; font-size: 13px; }
+.footer-brand .fb-logo { font-size: 22px; letter-spacing: -3px; margin-bottom: 6px; }
+.footer-brand .fb-tag { color: #5f6368; font-size: 12px; max-width: 260px; line-height: 1.5; }
+.footer-col h6 { margin: 0 0 10px; font-size: 12px; font-weight: 500; color: #202124; text-transform: uppercase; letter-spacing: .04em; }
+.footer-col a { display: block; color: #5f6368; font-size: 13px; padding: 3px 0; cursor: pointer; }
+.footer-col a:hover { color: #1a73e8; }
+.footer-bottom { max-width: 1400px; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid #dadce0; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #5f6368; }
+.footer-bottom .fb-meta { display: flex; gap: 16px; }
+.footer-bottom .fb-meta a { color: #5f6368; cursor: pointer; }
+.footer-region { display: flex; align-items: center; gap: 6px; }
+
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo-block">
+    <span class="logo-glyph">EchoCloud</span>
+    <span class="logo-product"></span>
+  </div>
+  <nav class="site-nav"><a>Why EchoCloud</a><a>Solutions</a><a>Products</a><a>Pricing</a><a>Resources</a></nav>
+  <div class="header-search"><input type="search" placeholder="Search" aria-label="Search EchoCloud"></div>
+  <button class="btn-console">Contact sales</button>
+  <button class="btn-console primary">Start free</button>
+</header>
+<div class="crumb-bar">
+  <a>EchoCloud</a> › <a>Pricing</a> › <span>Pricing calculator</span>
+</div>
+<div class="page-head">
+  <h1>EchoCloud Pricing Calculator</h1>
+  <div class="ph-sub">Estimate the cost of your monthly EchoCloud usage. Add services, configure a region, and override defaults as needed.</div>
+</div>
+<div class="gc-bar">
+  <div class="tab">Add to estimate</div>
+  <div class="tab active">Service configuration</div>
+  <div class="tab">Estimate summary</div>
+  <div class="tab">Share estimate</div>
+</div>
+
+<div class="layout">
+  <main>
+    <div class="gc-card">
+      <h2>Service & region</h2>
+      <div class="h-sub">Choose an EchoCloud service and the region where it should run.</div>
+      <div class="svc-card">
+        <span class="sc-icon">☁️</span>
+        <div>
+          <div class="sc-title">Selected service</div>
+          <div class="sc-name" id="service-card-name">Compute Engine (n2-standard-4)</div>
+        </div>
+      </div>
+      <div class="fld"><label class="fld-label">Service</label><select id="fld-service" class="big-sel" data-facet="service" onchange="onServiceChange()"><option selected>Compute Engine (n2-standard-4)</option><option>Cloud Storage (Standard)</option><option>BigQuery (On-Demand)</option><option>Cloud Functions (2nd gen)</option><option>Vertex AI — Gemini 1.5 Pro</option><option>Cloud SQL (db-n1-standard-2)</option><option>Cloud Spanner (1 node)</option></select></div>
+      <div class="fld"><label class="fld-label">Region</label>
+        <div class="reg-tabs-bar"><button type="button" class="reg-tab active" data-region-tab="Americas" onclick="regionTabSwitch('Americas', this)">Americas</button><button type="button" class="reg-tab " data-region-tab="Europe" onclick="regionTabSwitch('Europe', this)">Europe</button><button type="button" class="reg-tab " data-region-tab="Asia / Pacific" onclick="regionTabSwitch('Asia / Pacific', this)">Asia / Pacific</button></div><div class="reg-tabs-body"><div class="reg-panel active" data-region-panel="Americas"><div class="reg-chip" data-region-card data-region-name="us-central1 (Iowa)" onclick="selectRegionCard(this, 'us-central1 (Iowa)')"><span class="reg-flag">🇺🇸</span><span class="reg-name">us-central1 (Iowa)</span></div><div class="reg-chip" data-region-card data-region-name="us-east1 (S. Carolina)" onclick="selectRegionCard(this, 'us-east1 (S. Carolina)')"><span class="reg-flag">🇺🇸</span><span class="reg-name">us-east1 (S. Carolina)</span></div><div class="reg-chip" data-region-card data-region-name="us-east4 (N. Virginia)" onclick="selectRegionCard(this, 'us-east4 (N. Virginia)')"><span class="reg-flag">🇺🇸</span><span class="reg-name">us-east4 (N. Virginia)</span></div><div class="reg-chip" data-region-card data-region-name="us-west1 (Oregon)" onclick="selectRegionCard(this, 'us-west1 (Oregon)')"><span class="reg-flag">🇺🇸</span><span class="reg-name">us-west1 (Oregon)</span></div><div class="reg-chip" data-region-card data-region-name="us-west4 (Las Vegas)" onclick="selectRegionCard(this, 'us-west4 (Las Vegas)')"><span class="reg-flag">🇺🇸</span><span class="reg-name">us-west4 (Las Vegas)</span></div><div class="reg-chip" data-region-card data-region-name="northamerica-northeast1 (Montréal)" onclick="selectRegionCard(this, 'northamerica-northeast1 (Montréal)')"><span class="reg-flag">🇨🇦</span><span class="reg-name">northamerica-northeast1 (Montréal)</span></div><div class="reg-chip" data-region-card data-region-name="southamerica-east1 (São Paulo)" onclick="selectRegionCard(this, 'southamerica-east1 (São Paulo)')"><span class="reg-flag">🇧🇷</span><span class="reg-name">southamerica-east1 (São Paulo)</span></div></div><div class="reg-panel " data-region-panel="Europe"><div class="reg-chip" data-region-card data-region-name="europe-west1 (Belgium)" onclick="selectRegionCard(this, 'europe-west1 (Belgium)')"><span class="reg-flag">🇧🇪</span><span class="reg-name">europe-west1 (Belgium)</span></div><div class="reg-chip" data-region-card data-region-name="europe-west2 (London)" onclick="selectRegionCard(this, 'europe-west2 (London)')"><span class="reg-flag">🇬🇧</span><span class="reg-name">europe-west2 (London)</span></div><div class="reg-chip" data-region-card data-region-name="europe-west3 (Frankfurt)" onclick="selectRegionCard(this, 'europe-west3 (Frankfurt)')"><span class="reg-flag">🇩🇪</span><span class="reg-name">europe-west3 (Frankfurt)</span></div><div class="reg-chip" data-region-card data-region-name="europe-west4 (Netherlands)" onclick="selectRegionCard(this, 'europe-west4 (Netherlands)')"><span class="reg-flag">🇳🇱</span><span class="reg-name">europe-west4 (Netherlands)</span></div><div class="reg-chip" data-region-card data-region-name="europe-north1 (Finland)" onclick="selectRegionCard(this, 'europe-north1 (Finland)')"><span class="reg-flag">🇫🇮</span><span class="reg-name">europe-north1 (Finland)</span></div></div><div class="reg-panel " data-region-panel="Asia / Pacific"><div class="reg-chip" data-region-card data-region-name="asia-east1 (Taiwan)" onclick="selectRegionCard(this, 'asia-east1 (Taiwan)')"><span class="reg-flag">🇹🇼</span><span class="reg-name">asia-east1 (Taiwan)</span></div><div class="reg-chip" data-region-card data-region-name="asia-northeast1 (Tokyo)" onclick="selectRegionCard(this, 'asia-northeast1 (Tokyo)')"><span class="reg-flag">🇯🇵</span><span class="reg-name">asia-northeast1 (Tokyo)</span></div><div class="reg-chip" data-region-card data-region-name="asia-southeast1 (Singapore)" onclick="selectRegionCard(this, 'asia-southeast1 (Singapore)')"><span class="reg-flag">🇸🇬</span><span class="reg-name">asia-southeast1 (Singapore)</span></div><div class="reg-chip" data-region-card data-region-name="asia-south1 (Mumbai)" onclick="selectRegionCard(this, 'asia-south1 (Mumbai)')"><span class="reg-flag">🇮🇳</span><span class="reg-name">asia-south1 (Mumbai)</span></div><div class="reg-chip" data-region-card data-region-name="australia-southeast1 (Sydney)" onclick="selectRegionCard(this, 'australia-southeast1 (Sydney)')"><span class="reg-flag">🇦🇺</span><span class="reg-name">australia-southeast1 (Sydney)</span></div></div></div><select id="fld-region" data-facet="region" onchange="onF()" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><option>(Choose region)</option><option>us-central1 (Iowa)</option><option>us-east1 (S. Carolina)</option><option>us-east4 (N. Virginia)</option><option>us-west1 (Oregon)</option><option>us-west4 (Las Vegas)</option><option>northamerica-northeast1 (Montréal)</option><option>southamerica-east1 (São Paulo)</option><option>europe-west1 (Belgium)</option><option>europe-west2 (London)</option><option>europe-west3 (Frankfurt)</option><option>europe-west4 (Netherlands)</option><option>europe-north1 (Finland)</option><option>asia-east1 (Taiwan)</option><option>asia-northeast1 (Tokyo)</option><option>asia-southeast1 (Singapore)</option><option>asia-south1 (Mumbai)</option><option>australia-southeast1 (Sydney)</option></select>
+        <div class="fld-hint">Choose the EchoCloud region. Use the tabs to filter by continent. Pricing varies across regions.</div>
+      </div>
+    </div>
+
+    <div class="gc-card">
+      <h2>Usage & overrides</h2>
+      <div class="h-sub">Default usage is shown — override to model your real workload.</div>
+      <div class="usage-block"><h3 id="usage-block-title">Estimated monthly usage</h3><div class="usage-row"><div class="ur-input-wrap"><input id="fld-volume" class="ur-input" type="number" data-facet="volume" value="0" placeholder="0" oninput="onF()"><span class="ur-unit-lbl" id="vol-unit-lbl">instance-hour</span></div><div class="ur-op">×</div><div><div class="ur-rate" id="vol-rate">$0.19400</div><div class="ur-rate-sub" id="vol-rate-sub">per instance-hour</div></div><div class="ur-op">=</div><div class="ur-result" id="vol-result">$0.00</div></div><div class="usage-row" id="secondary-usage-row" style="display:none"><div class="ur-input-wrap"><input id="fld-volume-out" class="ur-input" type="number" data-facet="volume_out" value="0" placeholder="0" oninput="onF()"><span class="ur-unit-lbl" id="vol-out-unit-lbl">Output units</span></div><div class="ur-op">×</div><div><div class="ur-rate" id="vol-out-rate">$0.00000</div><div class="ur-rate-sub" id="vol-out-rate-sub">per unit</div></div><div class="ur-op">=</div><div class="ur-result" id="vol-out-result">$0.00</div></div></div>
+      <div class="fld"><label class="fld-label">Override default usage</label><select id="fld-override" class="big-sel" data-facet="override" onchange="onOverrideChange()"><option selected>(default usage)</option><option>730 instance-hours (n2-standard-4, 1 month)</option><option>1 TB Cloud Storage Standard</option><option>5 TB BigQuery scanned</option><option>5M input + 5M output Gemini tokens</option><option>10M Cloud Functions invocations</option><option>100 GB Cloud Storage</option><option>730 node-hours (Spanner)</option><option>1460 VM-hours (2 VMs always-on)</option><option>730 VM-hours (1 month always-on)</option><option>5M function executions</option><option>10M input + 2M output tokens</option><option>730 DB-hours (1 month always-on)</option><option>Custom… (type below)</option></select><input id="fld-override-custom" class="big-inp" type="text" data-facet="override_custom" placeholder="Type your custom monthly usage…" oninput="onCustomOverride()" style="margin-top:8px; display:none">
+        <div class="fld-hint">Select a usage preset or enter a custom monthly volume.</div>
+      </div>
+    </div>
+
+    <div class="gc-card">
+      <h2>Support plan</h2>
+      <div class="h-sub">Choose the EchoCloud support tier for this estimate.</div>
+      <label class="rad-tier"><input type="radio" name="support" value="basic" data-facet="support_tier" onchange="onF()" checked> <span class="tier-name">Basic</span> <span class="tier-fee">free</span></label>
+<label class="rad-tier"><input type="radio" name="support" value="standard" data-facet="support_tier" onchange="onF()" > <span class="tier-name">Standard</span> <span class="tier-fee">$29/mo</span></label>
+<label class="rad-tier"><input type="radio" name="support" value="enhanced" data-facet="support_tier" onchange="onF()" > <span class="tier-name">Enhanced</span> <span class="tier-fee">$500/mo</span></label>
+<label class="rad-tier"><input type="radio" name="support" value="premium" data-facet="support_tier" onchange="onF()" > <span class="tier-name">Premium</span> <span class="tier-fee">$12,500/mo</span></label>
+      <div class="estimate-row">
+        <button class="btn-reset" type="button" onclick="lsReset(event)">Reset</button>
+        <span style="margin-left:auto;color:#5f6368;font-size:12px">Auto-saves on every change</span>
+      </div>
+    </div>
+
+    <div class="result-card" id="result-card"><div class="res-label">Estimated monthly bill</div><div class="res-value" id="res-value">$0.00</div><div class="res-sub" id="res-sub">Your estimate updates automatically as you configure the form.</div><div class="res-detail"><div class="k">Region</div><div class="v" id="res-region">—</div><div class="k">Override</div><div class="v" id="res-override">—</div><div class="k">Service</div><div class="v" id="res-service">—</div><div class="k">Support</div><div class="v" id="res-support">—</div></div><h5 class="res-breakdown-h">Breakdown</h5><table class="res-breakdown"><tbody id="breakdown-table"></tbody></table></div>
+  </main>
+
+  <aside class="summary">
+    <div class="sum-card">
+      <div class="sc-label">ESTIMATED MONTHLY COST</div>
+      <div class="sc-cost" id="monthly-cost">$0.00</div>
+      <div class="sc-row"><span>Subtotal</span><span id="monthly-cost-sub">$0.00</span></div>
+      <div class="sc-row"><span>Support plan</span><span>—</span></div>
+      <div class="sc-row"><span>Total monthly</span><span>$0.00</span></div>
+    </div>
+  </aside>
+</div>
+
+<div id="task-banner" style="display:none"></div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="fb-logo">EchoCloud</div>
+      <div class="fb-tag">Build, deploy, and scale applications, websites, and services on the same infrastructure as EchoCloud.</div>
+    </div>
+    <div class="footer-col">
+      <h6>EchoCloud</h6>
+      <a>Pricing</a><a>Documentation</a><a>Free trial</a><a>Get started</a><a>Customers</a>
+    </div>
+    <div class="footer-col">
+      <h6>Products & solutions</h6>
+      <a>Compute</a><a>Storage</a><a>Networking</a><a>Databases</a><a>AI & Machine Learning</a>
+    </div>
+    <div class="footer-col">
+      <h6>Resources</h6>
+      <a>Tutorials</a><a>Architecture Center</a><a>Quickstarts</a><a>Cloud blog</a><a>Solutions library</a>
+    </div>
+    <div class="footer-col">
+      <h6>Engage</h6>
+      <a>Contact sales</a><a>Find a partner</a><a>Cloud community</a><a>Become a partner</a><a>Events</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-region">🌐 <span>Language: English</span></div>
+    <div class="fb-meta">
+      <a>Help</a><a>Privacy</a><a>Terms</a><a>Cookies management</a><a>Manage cookies</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const ENV_ID = "W30_E03";
+const SERVICES = {"Compute Engine (n2-standard-4)": {"label": "Compute Engine (n2-standard-4)", "rate": 0.194, "unit": "instance-hour"}, "Cloud Storage (Standard)": {"label": "Cloud Storage (Standard)", "rate": 0.02, "unit": "GB-month"}, "BigQuery (On-Demand)": {"label": "BigQuery (On-Demand)", "rate": 6.25, "unit": "TB scanned"}, "Cloud Functions (2nd gen)": {"label": "Cloud Functions (2nd gen)", "rate": 4e-07, "unit": "invocation"}, "Vertex AI \u2014 Gemini 1.5 Pro": {"label": "Vertex AI \u2014 Gemini 1.5 Pro", "rate": 0.00125, "unit": "1K tokens"}, "Cloud SQL (db-n1-standard-2)": {"label": "Cloud SQL (db-n1-standard-2)", "rate": 0.0966, "unit": "DB-hour"}, "Cloud Spanner (1 node)": {"label": "Cloud Spanner (1 node)", "rate": 0.9, "unit": "node-hour"}};
+const REGION_MULT = {"(Choose region)": 1.0, "us-central1 (Iowa)": 1.0, "us-east1 (S. Carolina)": 1.0, "us-east4 (N. Virginia)": 1.01, "us-west1 (Oregon)": 1.0, "us-west4 (Las Vegas)": 1.04, "northamerica-northeast1 (Montr\u00e9al)": 1.04, "southamerica-east1 (S\u00e3o Paulo)": 1.28, "europe-west1 (Belgium)": 1.08, "europe-west2 (London)": 1.1, "europe-west3 (Frankfurt)": 1.1, "europe-west4 (Netherlands)": 1.07, "europe-north1 (Finland)": 1.04, "asia-east1 (Taiwan)": 1.13, "asia-northeast1 (Tokyo)": 1.18, "asia-southeast1 (Singapore)": 1.14, "asia-south1 (Mumbai)": 1.06, "australia-southeast1 (Sydney)": 1.16};
+const SUPPORT_FEE = {"basic": 0, "standard": 29, "enhanced": 500, "premium": 12500};
+const REGION_DEFAULT = "(Choose region)";
+const SUPPORT_DEFAULT = "basic";
+let filterState = {};
+
+function onF() { collectAndAutoSave(); computeEstimate(false); }
+
+function onServiceChange() {
+  const sel = document.getElementById('fld-service');
+  if (!sel) return;
+  const svc = SERVICES[sel.value];
+  const nameEl = document.getElementById('service-card-name');
+  if (nameEl) nameEl.textContent = sel.value;
+  const rateEl = document.getElementById('vol-rate');
+  if (rateEl && svc) rateEl.textContent = '$' + Number(svc.rate).toFixed(5);
+  const rateSub = document.getElementById('vol-rate-sub');
+  if (rateSub && svc) rateSub.textContent = 'per ' + svc.unit;
+  const unitLbl = document.getElementById('vol-unit-lbl');
+  if (unitLbl && svc) unitLbl.textContent = svc.unit;
+  // visually toggle service cards if present
+  document.querySelectorAll('[data-service-card]').forEach(c => {
+    c.classList.toggle('selected', c.dataset.serviceCard === sel.value);
+  });
+  onF();
+}
+
+function onOverrideChange() {
+  const sel = document.getElementById('fld-override');
+  const cust = document.getElementById('fld-override-custom');
+  if (!sel || !cust) { onF(); return; }
+  if (sel.value === 'Custom… (type below)') {
+    cust.style.display = 'block'; cust.focus();
+  } else {
+    cust.style.display = 'none'; cust.value = '';
+    _syncVolumeFromOverride(sel.value);
+  }
+  onF();
+}
+
+function _syncVolumeFromOverride(overrideStr) {
+  if (!overrideStr) return;
+  if (overrideStr === '(default usage)' || overrideStr === '(none)' || overrideStr === 'Custom… (type below)') return;
+  const parsed = _parseOverride(overrideStr);
+  if (parsed === null) return;
+  const volIn = document.getElementById('fld-volume');
+  const volOut = document.getElementById('fld-volume-out');
+  if (/input.*output/i.test(overrideStr)) {
+    const m = overrideStr.match(/(\d+(?:\.\d+)?)\s*M[^0-9]*?(\d+(?:\.\d+)?)\s*M/i);
+    if (m) {
+      if (volIn) volIn.value = String(Math.round(parseFloat(m[1]) * 1e6));
+      if (volOut) volOut.value = String(Math.round(parseFloat(m[2]) * 1e6));
+      return;
+    }
+  }
+  if (volIn) volIn.value = String(parsed);
+}
+
+function onCustomOverride() { collectAndAutoSave(); computeEstimate(false); }
+
+function collectAndAutoSave() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.value) newState[f] = el.value;
+    } else if (el.type === 'number' || el.type === 'text') {
+      if (el.value !== '' && el.value !== null) newState[f] = el.value;
+    } else if (el.type === 'hidden') {
+      if (el.value !== '' && el.value !== null) newState[f] = el.value;
+    }
+  });
+  const custom = newState.override_custom || '';
+  if (custom.trim()) {
+    newState.override = custom.trim();
+  } else if (newState.override === '(default usage)' || newState.override === 'Custom… (type below)' || newState.override === '(none)') {
+    delete newState.override;
+  }
+  delete newState.override_custom;
+  filterState = newState;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : (document.getElementById('res-value')?.textContent || '');
+
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(updateLiveStatus).catch(() => {});
+}
+
+function _parseOverride(str) {
+  if (!str) return null;
+  const tbMatch = str.match(/(\d+(?:\.\d+)?)\s*TB\b/i);
+  const pbMatch = str.match(/(\d+(?:\.\d+)?)\s*PB\b/i);
+  const gbMatch = str.match(/(\d+(?:\.\d+)?)\s*GB\b/i);
+  const mMatch  = str.match(/(\d+(?:\.\d+)?)\s*M\b/i);
+  const kMatch  = str.match(/(\d+(?:\.\d+)?)\s*K\b/i);
+  const numMatch = str.match(/(\d[\d,]*(?:\.\d+)?)/);
+  if (pbMatch) return parseFloat(pbMatch[1]) * 1e6;
+  if (tbMatch) return parseFloat(tbMatch[1]) * 1000;
+  if (mMatch)  return parseFloat(mMatch[1]) * 1e6;
+  if (gbMatch) return parseFloat(gbMatch[1]);
+  if (kMatch)  return parseFloat(kMatch[1]) * 1000;
+  if (numMatch) return parseFloat(numMatch[1].replace(/,/g,''));
+  return null;
+}
+
+function computeEstimate() {
+  const svcLabel = filterState.service || Object.keys(SERVICES)[0];
+  const svc = SERVICES[svcLabel] || SERVICES[Object.keys(SERVICES)[0]];
+  const region = filterState.region || REGION_DEFAULT;
+  const support = filterState.support_tier || SUPPORT_DEFAULT;
+  const rate = svc ? svc.rate : 0;
+  const mult = (REGION_MULT[region] !== undefined) ? REGION_MULT[region] : 1.10;
+  const supportFee = SUPPORT_FEE[support] || 0;
+
+  let volume = parseFloat(filterState.volume || '0');
+  let volumeOut = parseFloat(filterState.volume_out || '0');
+  const overrideStr = filterState.override || '';
+  const parsedOverride = _parseOverride(overrideStr);
+  if (parsedOverride !== null) {
+    if (/input.*output/i.test(overrideStr)) {
+      const m = overrideStr.match(/(\d+(?:\.\d+)?)\s*M.*?(\d+(?:\.\d+)?)\s*M/i);
+      if (m) { volume = parseFloat(m[1]) * 1e6; volumeOut = parseFloat(m[2]) * 1e6; }
+      else { volume = parsedOverride; volumeOut = parsedOverride; }
+    } else { volume = parsedOverride; }
+  }
+  if (!volume) volume = parseFloat(filterState.volume || '0') || 0;
+
+  let primaryCost = 0;
+  if (svc && svc.unit && svc.unit.indexOf('1K tokens') >= 0) {
+    primaryCost = (volume / 1000) * rate;
+  } else {
+    primaryCost = volume * rate;
+  }
+  let secondaryCost = 0;
+  if (svc && svc.secondary && volumeOut > 0) {
+    secondaryCost = (volumeOut / 1000) * svc.secondary.rate;
+  }
+  const baseCost = primaryCost + secondaryCost;
+  const regionUplift = baseCost * (mult - 1.0);
+  const total = baseCost + regionUplift + supportFee;
+
+  function money(n) { return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+  const monEl = document.getElementById('monthly-cost'); if (monEl) monEl.textContent = money(total);
+  const volRes = document.getElementById('vol-result'); if (volRes) volRes.textContent = money(primaryCost);
+  const rv = document.getElementById('res-value'); if (rv) rv.textContent = money(total);
+  const rs = document.getElementById('res-sub');
+  if (rs) rs.textContent = 'Computed for ' + (svc ? svc.label : svcLabel) + ' · ' + region +
+    (overrideStr ? ' · override: ' + overrideStr : '') +
+    ' · ' + volume.toLocaleString() + ' units' + (volumeOut > 0 ? ' (+ ' + volumeOut.toLocaleString() + ' out)' : '');
+  const rr = document.getElementById('res-region'); if (rr) rr.textContent = region;
+  const ro = document.getElementById('res-override'); if (ro) ro.textContent = overrideStr || '(default)';
+  const rsv = document.getElementById('res-service'); if (rsv) rsv.textContent = svc ? svc.label : svcLabel;
+  const rsp = document.getElementById('res-support'); if (rsp) rsp.textContent = support + ' (' + money(supportFee) + '/mo)';
+
+  const tbl = document.getElementById('breakdown-table');
+  if (tbl) {
+    tbl.replaceChildren();
+    const addRow = (label, value, isTotal) => {
+      const tr = document.createElement('tr');
+      if (isTotal) tr.className = 'tot';
+      const labelCell = document.createElement('td');
+      const valueCell = document.createElement('td');
+      if (isTotal) {
+        const labelBold = document.createElement('b');
+        labelBold.textContent = label;
+        labelCell.appendChild(labelBold);
+        const valueBold = document.createElement('b');
+        valueBold.textContent = value;
+        valueCell.appendChild(valueBold);
+      } else {
+        labelCell.textContent = label;
+        valueCell.textContent = value;
+      }
+      tr.appendChild(labelCell);
+      tr.appendChild(valueCell);
+      tbl.appendChild(tr);
+    };
+    addRow('Base ' + (svc ? svc.label : svcLabel) + ' (' + volume.toLocaleString() + ' units × $' + rate.toFixed(5) + ')', money(primaryCost));
+    if (secondaryCost > 0) addRow('Output usage (' + volumeOut.toLocaleString() + ' units)', money(secondaryCost));
+    addRow('Region uplift (' + region + ', ×' + mult.toFixed(2) + ')', money(regionUplift));
+    addRow('Support tier (' + support + ')', money(supportFee));
+    addRow('Estimated total', money(total), true);
+  }
+
+  const ansEl = document.getElementById('task-answer-input');
+  if (ansEl && !ansEl.value) ansEl.value = 'estimated cost: ' + money(total);
+}
+
+function updateLiveStatus() { /* badge hidden by CSS */ }
+
+function selectRegionCard(cardEl, value) {
+  document.querySelectorAll('[data-region-card]').forEach(c => c.classList.remove('selected'));
+  if (cardEl) cardEl.classList.add('selected');
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  onF();
+}
+
+function selectServiceCard(cardEl, value) {
+  document.querySelectorAll('[data-service-card]').forEach(c => c.classList.remove('selected'));
+  if (cardEl) cardEl.classList.add('selected');
+  const sel = document.getElementById('fld-service');
+  if (sel) sel.value = value;
+  onServiceChange();
+}
+
+function regionPickerOpen() {
+  const m = document.getElementById('region-picker-modal');
+  if (m) m.style.display = 'flex';
+}
+function regionPickerClose() {
+  const m = document.getElementById('region-picker-modal');
+  if (m) m.style.display = 'none';
+}
+function regionPickerSelect(value) {
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  const lbl = document.getElementById('region-picker-label');
+  if (lbl) lbl.textContent = value;
+  regionPickerClose();
+  onF();
+}
+function regionTabSwitch(tabKey, tabEl) {
+  document.querySelectorAll('[data-region-tab]').forEach(t => t.classList.toggle('active', t.dataset.regionTab === tabKey));
+  document.querySelectorAll('[data-region-panel]').forEach(p => p.classList.toggle('active', p.dataset.regionPanel === tabKey));
+}
+function regionSearchFilter() {
+  const input = document.getElementById('region-search-input');
+  if (!input) return;
+  const q = input.value.toLowerCase().trim();
+  const list = document.getElementById('region-search-list');
+  if (!list) return;
+  let firstShown = null;
+  list.querySelectorAll('[data-region-item]').forEach(it => {
+    const v = (it.dataset.regionItem || '').toLowerCase();
+    const show = !q || v.indexOf(q) >= 0;
+    it.style.display = show ? '' : 'none';
+    if (show && !firstShown) firstShown = it;
+  });
+  list.style.display = q ? 'block' : list.dataset.alwaysOpen === '1' ? 'block' : 'none';
+}
+function regionSearchPick(value, label) {
+  const input = document.getElementById('region-search-input');
+  if (input) input.value = label || value;
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  const list = document.getElementById('region-search-list');
+  if (list && list.dataset.alwaysOpen !== '1') list.style.display = 'none';
+  onF();
+}
+function regionSearchFocus() {
+  const list = document.getElementById('region-search-list');
+  if (list) list.style.display = 'block';
+}
+
+function lsReset(ev) {
+  if (ev && ev.preventDefault) { ev.preventDefault(); ev.stopPropagation(); }
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    if (el.type === 'radio') { el.checked = (el.value === SUPPORT_DEFAULT); }
+    else if (el.tagName === 'SELECT') { el.selectedIndex = 0; }
+    else if (el.tagName === 'INPUT') { el.value = ''; }
+  });
+  const cust = document.getElementById('fld-override-custom');
+  if (cust) cust.style.display = 'none';
+  document.querySelectorAll('[data-region-card]').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('[data-service-card]').forEach(c => c.classList.remove('selected'));
+  const volIn = document.getElementById('fld-volume'); if (volIn) volIn.value = '0';
+  const volOut = document.getElementById('fld-volume-out'); if (volOut) volOut.value = '0';
+  onF();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Catch all radio clicks (even when state doesn't change) for autosave.
+  document.addEventListener('click', (ev) => {
+    const t = ev.target;
+    if (t && t.tagName === 'INPUT' && t.type === 'radio' && t.dataset && t.dataset.facet) {
+      setTimeout(onF, 5);
+    }
+  }, true);
+  onServiceChange();
+  computeEstimate();
+  collectAndAutoSave();
+});
+</script>
+
+</body></html>

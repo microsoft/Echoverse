@@ -1,0 +1,96 @@
+{
+  "env_id": "W01_E05",
+  "widget_id": "W01_multi_checkbox_facet",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "brand",
+      "condition",
+      "color",
+      "category"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T0041",
+      "task_index_in_env": 1,
+      "instruction_text": "I'm browsing Petfinder adoption. Can you help me find shelter cats that are open-box (not refurbished)?",
+      "expected_filter_state": {
+        "constraint": "that are open-box (not refurbished)"
+      }
+    },
+    {
+      "task_id": "T0042",
+      "task_index_in_env": 2,
+      "instruction_text": "I'm browsing Petfinder adoption. Can you help me find shelter cats in black, size M?",
+      "expected_filter_state": {
+        "constraint": "in black, size M"
+      }
+    },
+    {
+      "task_id": "T0043",
+      "task_index_in_env": 3,
+      "instruction_text": "I'm browsing Petfinder adoption. Can you help me find shelter cats that run on Linux and macOS?",
+      "expected_filter_state": {
+        "constraint": "that run on Linux and macOS"
+      }
+    },
+    {
+      "task_id": "T0044",
+      "task_index_in_env": 4,
+      "instruction_text": "I'm browsing Petfinder adoption. Can you help me find shelter cats that are young, spayed, and male?",
+      "expected_filter_state": {
+        "constraint": "that are young, spayed, and male"
+      }
+    },
+    {
+      "task_id": "T0045",
+      "task_index_in_env": 5,
+      "instruction_text": "Help me narrow down to shelter cats with a 5-star rating and Prime eligibility. I'm on Petfinder adoption.",
+      "expected_filter_state": {
+        "constraint": "with a 5-star rating and Prime eligibility"
+      }
+    },
+    {
+      "task_id": "T0046",
+      "task_index_in_env": 6,
+      "instruction_text": "Help me narrow down to shelter cats with remote and full-time tags. I'm on Petfinder adoption.",
+      "expected_filter_state": {
+        "constraint": "with remote and full-time tags"
+      }
+    },
+    {
+      "task_id": "T0047",
+      "task_index_in_env": 7,
+      "instruction_text": "Looking through Petfinder adoption \u2014 show me shelter cats in vegan and organic categories.",
+      "expected_filter_state": {
+        "constraint": "in vegan and organic categories"
+      }
+    },
+    {
+      "task_id": "T0048",
+      "task_index_in_env": 8,
+      "instruction_text": "On Petfinder adoption, what shelter cats with MIT license and active maintenance are in stock right now?",
+      "expected_filter_state": {
+        "constraint": "with MIT license and active maintenance"
+      }
+    },
+    {
+      "task_id": "T0049",
+      "task_index_in_env": 9,
+      "instruction_text": "Looking through Petfinder adoption \u2014 show me shelter cats in red, size S, with mini length.",
+      "expected_filter_state": {
+        "constraint": "in red, size S, with mini length"
+      }
+    },
+    {
+      "task_id": "T0050",
+      "task_index_in_env": 10,
+      "instruction_text": "I'm browsing Petfinder adoption. Can you help me find shelter cats as refurbished, unlocked, 256GB?",
+      "expected_filter_state": {
+        "constraint": "as refurbished, unlocked, 256GB"
+      }
+    }
+  ]
+}

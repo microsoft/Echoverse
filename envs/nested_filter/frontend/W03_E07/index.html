@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>EchoStay — Discover things to do</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{
+  --ta-green:#00AA6C;
+  --ta-green-dark:#004F32;
+  --ta-ink:#000000;
+  --ta-text:#222222;
+  --ta-muted:#71757A;
+  --ta-border:#E0E4E8;
+  --ta-bg:#FAF9F6;
+  --ta-bubble:#000;
+  --ta-yellow:#F2B203;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--ta-bg);color:var(--ta-text);font-family:'Trip Sans VF','Trip Sans','Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+/* ===== TOP HEADER ===== */
+.topbar{background:#FFFFFF;color:var(--ta-ink);padding:8px 28px;display:flex;align-items:center;gap:20px;border-bottom:1px solid #EAECEE}
+.logo{display:flex;align-items:center;gap:6px;font-weight:800;font-size:24px;color:var(--ta-ink);letter-spacing:-.02em}
+.logo .owl{position:relative;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--ta-green);margin-right:4px;color:#fff;font-weight:900;font-size:22px;line-height:1}
+.logo .owl::before,.logo .owl::after{content:none;display:none}
+.logo .owl::before{left:7px;box-shadow:inset 0 0 0 2px var(--ta-ink)}
+.logo .owl::after{right:7px;box-shadow:inset 0 0 0 2px var(--ta-ink)}
+.logo .word{font-family:'Trip Sans VF','Trip Sans',Arial,sans-serif;font-weight:800;font-size:22px;color:var(--ta-ink)}
+.topbar .glob-search{flex:1;max-width:520px;background:#F2F3F4;border-radius:999px;padding:9px 18px;display:flex;align-items:center;gap:10px;color:var(--ta-muted);font-size:14px;border:1px solid transparent}
+.topbar .glob-search:hover{border-color:#D7D9DC;background:#fff}
+.topbar .glob-search svg{flex:none}
+.topbar .nav-right{margin-left:auto;display:flex;align-items:center;gap:18px;font-size:14px;font-weight:600}
+.topbar .nav-right a{padding:6px 4px}
+.topbar .nav-right .currency{display:flex;align-items:center;gap:4px;color:var(--ta-ink)}
+.topbar .nav-right .signin{background:var(--ta-ink);color:#fff;padding:8px 16px;border-radius:999px;font-weight:700}
+
+/* ===== TAB ROW (icons + labels) ===== */
+.tab-row{background:#FFFFFF;border-bottom:1px solid #EAECEE;padding:0 28px}
+.tab-row-inner{max-width:1180px;margin:0 auto;display:flex;gap:6px;align-items:center;overflow-x:auto}
+.tab-row .tab{flex:none;display:flex;align-items:center;gap:8px;padding:18px 14px;color:var(--ta-text);font-size:14px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tab-row .tab .ico{font-size:18px;line-height:1}
+.tab-row .tab:hover{color:var(--ta-ink)}
+.tab-row .tab.active{color:var(--ta-ink);border-bottom-color:var(--ta-ink)}
+
+/* ===== HERO ===== */
+.hero{background:var(--ta-bg);padding:36px 28px 8px;text-align:center}
+.hero h1{margin:0 auto 8px;color:var(--ta-ink);font-size:38px;font-weight:800;letter-spacing:-.02em;max-width:900px;font-family:'Trip Serif VF','Trip Serif',Georgia,serif}
+.hero .sub{color:var(--ta-muted);font-size:15px;margin:0 auto;max-width:680px}
+
+main{max-width:1180px;margin:0 auto;padding:0 28px 60px}
+
+/* ===== SEARCH CARD ===== */
+.searchcard{background:#FFFFFF;border:1px solid var(--ta-border);border-radius:16px;padding:18px;margin:22px 0 6px;box-shadow:0 2px 12px rgba(0,0,0,.04);position:relative}
+.sc-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.sc-tabs .tab{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:#F4F4F5;color:var(--ta-text);font-size:13px;font-weight:700;cursor:pointer;border:1px solid transparent}
+.sc-tabs .tab.active{background:var(--ta-ink);color:#fff;border-color:var(--ta-ink)}
+
+.fields{display:grid;grid-template-columns:1.3fr 1.3fr .9fr .9fr;gap:8px;align-items:stretch}
+.field{position:relative;display:flex;flex-direction:column;background:#fff;border:1.5px solid var(--ta-border);border-radius:12px;padding:10px 14px;min-height:64px}
+.field:hover,.field:focus-within{border-color:var(--ta-ink);box-shadow:0 0 0 3px rgba(0,0,0,.05)}
+.field label{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--ta-muted);font-weight:800}
+.field input{border:none;outline:none;background:transparent;font-size:16px;font-weight:600;color:var(--ta-ink);padding:4px 0;width:100%;font-family:inherit}
+.field input::placeholder{color:#A5A8AC;font-weight:500}
+.actions{display:flex;align-items:center;justify-content:space-between;margin-top:14px;gap:14px;flex-wrap:wrap}
+.promo-note{font-size:12px;color:var(--ta-muted)}
+.search-btn{background:var(--ta-green);color:#fff;border:none;border-radius:999px;padding:12px 26px;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit}
+.search-btn:hover{background:var(--ta-green-dark)}
+
+/* ===== AUTOCOMPLETE LIST ===== */
+.ac-list{position:absolute;left:-8px;right:-8px;top:calc(100% + 8px);background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:14px;box-shadow:0 16px 40px rgba(0,0,0,.18);max-height:360px;overflow-y:auto;z-index:50;list-style:none;padding:8px 0;display:none}
+.ac-list.show{display:block}
+.ac-list li{padding:10px 18px;cursor:pointer;font-size:14px;display:flex;align-items:flex-start;gap:12px;color:var(--ta-ink)}
+.ac-list li:hover{background:#F4F4F5}
+.ac-list li .ac-ico{flex:none;width:36px;height:36px;border-radius:50%;background:#F4F4F5;display:flex;align-items:center;justify-content:center;font-size:16px}
+.ac-list li .ac-text{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.3}
+.ac-list li .ac-name{color:var(--ta-ink);font-weight:700;font-size:14px}
+.ac-list li .ac-country{font-size:12px;color:var(--ta-muted)}
+.ac-list li .ac-tag{margin-left:auto;font-size:11px;color:var(--ta-muted);background:#F4F4F5;border-radius:6px;padding:3px 7px;align-self:center;flex:none}
+.ac-list li .ac-tag.warn{color:#8C5800;background:#FFF1CB}
+
+/* ===== POPULAR DESTINATIONS ===== */
+.popular-section{margin:18px 0 26px}
+.popular-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.popular-head h3{margin:0;font-size:18px;font-weight:800;color:var(--ta-ink);font-family:'Trip Serif VF','Trip Serif',Georgia,serif}
+.popular-head .subtle{font-size:13px;color:var(--ta-muted)}
+.pop-which-tabs{display:flex;gap:6px;margin-bottom:12px}
+.pop-which-tabs button{padding:7px 14px;background:#fff;border:1.5px solid var(--ta-border);border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;color:var(--ta-text);font-family:inherit}
+.pop-which-tabs button.active{background:var(--ta-ink);color:#fff;border-color:var(--ta-ink)}
+.popular-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.pop-tile{background:#FFFFFF;border:1px solid var(--ta-border);border-radius:12px;padding:14px;cursor:pointer;display:flex;flex-direction:column;gap:4px;transition:transform .12s,box-shadow .12s;position:relative}
+.pop-tile:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.08);border-color:var(--ta-ink)}
+.pop-tile .pin{font-size:16px;color:var(--ta-green)}
+.pop-tile .iata{display:none}
+.pop-tile .ac-name{font-size:14px;color:var(--ta-ink);font-weight:700;line-height:1.3}
+.pop-tile .ac-country{font-size:12px;color:var(--ta-muted)}
+.pop-tile .pop-side{position:absolute;top:10px;right:12px;font-size:16px}
+
+/* ===== RESULTS (HOTEL CARDS) ===== */
+.result-shell{margin-top:18px}
+.result-shell-head{display:flex;align-items:baseline;justify-content:space-between;margin:18px 0 14px}
+.rs-title{margin:0;font-size:24px;font-weight:800;color:var(--ta-ink);font-family:'Trip Serif VF','Trip Serif',Georgia,serif}
+.rs-count{font-size:13px;color:var(--ta-muted)}
+.results-grid{display:flex;flex-direction:column;gap:14px}
+.result-card{background:#FFFFFF;border:1px solid var(--ta-border);border-radius:14px;padding:14px;display:grid;grid-template-columns:220px 1fr auto;gap:18px;align-items:stretch;transition:box-shadow .12s,transform .12s}
+.result-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-1px)}
+.rc-img{width:220px;height:170px;object-fit:cover;border-radius:10px}
+.rc-body{display:flex;flex-direction:column;gap:6px;min-width:0}
+.rc-route{font-size:18px;font-weight:800;color:var(--ta-ink);line-height:1.25}
+.rc-route a{color:var(--ta-ink);text-decoration:none}
+.rc-route a:hover{text-decoration:underline}
+.rc-rating{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ta-muted)}
+.rc-bubbles{display:inline-flex;gap:2px}
+.rc-bubbles span{width:12px;height:12px;border-radius:50%;background:var(--ta-bubble);display:inline-block}
+.rc-bubbles span.dim{background:#D7D9DC}
+.rc-reviews{color:var(--ta-text);font-weight:600}
+.rc-meta{font-size:13px;color:var(--ta-muted)}
+.rc-extra{font-size:13px;color:var(--ta-text);line-height:1.4}
+.rc-tag{display:inline-block;background:#FFF1CB;color:#8C5800;font-size:11px;font-weight:800;padding:3px 8px;border-radius:6px;margin-top:4px}
+.rc-side{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:6px;min-width:140px}
+.rc-side .label{font-size:11px;color:var(--ta-muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.rc-price{font-size:24px;font-weight:800;color:var(--ta-ink)}
+.rc-pernight{font-size:12px;color:var(--ta-muted)}
+.rc-view{background:var(--ta-green);color:#fff;border:none;border-radius:999px;padding:8px 18px;font-size:13px;font-weight:800;cursor:pointer;margin-top:auto;font-family:inherit}
+.rc-view:hover{background:var(--ta-green-dark)}
+
+.empty{padding:28px;text-align:center;color:var(--ta-muted);border:1px dashed var(--ta-border);border-radius:12px;background:#fff}
+
+/* ===== FOOTER ===== */
+.footer{background:#FFFFFF;border-top:1px solid #EAECEE;padding:28px 28px 18px;margin-top:30px}
+.footer-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;font-size:13px}
+.footer-col h4{margin:0 0 10px;font-size:13px;color:var(--ta-ink);font-weight:800}
+.footer-col a{display:block;color:var(--ta-muted);padding:3px 0}
+.footer-col a:hover{color:var(--ta-ink);text-decoration:underline}
+.footer-bottom{max-width:1180px;margin:18px auto 0;padding-top:16px;border-top:1px solid #EAECEE;font-size:12px;color:var(--ta-muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.footer-bottom .ftr-logo{display:flex;align-items:center;gap:6px;font-weight:800;color:var(--ta-ink)}
+
+@media (max-width:880px){
+  .fields{grid-template-columns:1fr 1fr}
+  .result-card{grid-template-columns:140px 1fr;grid-template-rows:auto auto}
+  .rc-img{width:140px;height:120px}
+  .rc-side{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between;border-top:1px solid var(--ta-border);padding-top:8px}
+  .footer-inner{grid-template-columns:repeat(2,1fr)}
+  .topbar .glob-search{display:none}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="logo"><span class="owl">E</span><span class="word">EchoStay</span></div>
+  <div class="glob-search">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <span>Places to go, things to do, hotels…</span>
+  </div>
+  <div class="nav-right">
+    <a class="currency">USD</a>
+    <a>Trips</a>
+    <a>Review</a>
+    <a class="signin">Sign in</a>
+  </div>
+</header>
+<nav class="tab-row"><div class="tab-row-inner">
+  <div class="tab"><span class="ico">🔍</span>Discover</div>
+  <div class="tab"><span class="ico">🧭</span>Trips</div>
+  <div class="tab"><span class="ico">🔔</span>Review</div>
+  <div class="tab"><span class="ico">📚</span>More</div>
+  <div class="tab active"><span class="ico">🛏️</span>Hotels</div>
+  <div class="tab"><span class="ico">🎟️</span>Things to Do</div>
+  <div class="tab"><span class="ico">🍽️</span>Restaurants</div>
+  <div class="tab"><span class="ico">✈️</span>Flights</div>
+  <div class="tab"><span class="ico">🏖️</span>Vacation Rentals</div>
+  <div class="tab"><span class="ico">🚢</span>Cruises</div>
+</div></nav>
+<section class="hero">
+  <h1>Where to?</h1>
+  <div class="sub">Plan your trip with help from real travelers like you · Find hotels, things to do, and more</div>
+</section>
+<main>
+  <div class="searchcard">
+    <div class="sc-tabs">
+      <div class="tab active">🛏️ Hotels</div>
+      <div class="tab">🎟️ Things to Do</div>
+      <div class="tab">🍽️ Restaurants</div>
+      <div class="tab">🏖️ Vacation Rentals</div>
+    </div>
+    <div class="fields">
+      <div class="field ac-inp">
+        <label>Where</label>
+        <input type="text" data-facet="from" placeholder="City, region, or attraction" autocomplete="off" oninput="acShow(this,'from'); onF();" onfocus="acShow(this,'from')">
+        <ul class="ac-list" id="ac-from"></ul>
+      </div>
+      <div class="field ac-inp">
+        <label>Going to</label>
+        <input type="text" data-facet="to" placeholder="Destination, park, or city" autocomplete="off" oninput="acShow(this,'to'); onF();" onfocus="acShow(this,'to')">
+        <ul class="ac-list" id="ac-to"></ul>
+      </div>
+      <div class="field">
+        <label>Check-in</label>
+        <input type="date" data-facet="depart" oninput="onF()" value="">
+      </div>
+      <div class="field">
+        <label>Guests</label>
+        <input type="text" value="2 Adults, 1 Room" readonly>
+      </div>
+    </div>
+    <div class="actions">
+      <span class="promo-note">Results update automatically as you choose · Reviews you can trust</span>
+      <button class="search-btn" onclick="onF()">Search</button>
+    </div>
+
+    <section class="popular-section">
+      <div class="popular-head">
+        <h3>Popular destinations</h3>
+        <span class="subtle">Quick-pick a place to fill the search</span>
+      </div>
+      <div class="pop-which-tabs">
+        <button class="active" id="pop-tab-from" onclick="setPopWhich('from')">Set as origin</button>
+        <button id="pop-tab-to" onclick="setPopWhich('to')">Set as destination</button>
+      </div>
+      <div class="popular-grid" id="popular-grid"></div>
+    </section>
+  </div>
+
+  <section class="result-shell">
+    <div class="result-shell-head">
+      <h2 class="rs-title">Top-rated hotels near you</h2>
+      <span class="rs-count" id="result-count">— results</span>
+    </div>
+    <div id="results-list" class="results-grid"></div>
+  </section>
+  <section style="margin:36px 0 0">
+    <h3 style="font-size:20px;font-weight:800;color:#000;margin:0 0 14px;font-family:Trirong,Georgia,serif;letter-spacing:-.01em">More ways to plan your trip</h3>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+      <div style="background:#FFFFFF;border-radius:14px;padding:16px;border:1px solid #EAECEE;display:flex;flex-direction:column;gap:6px"><div style="font-size:26px">🛏</div><div style="font-size:14px;font-weight:800;color:#000">Hotels &amp; B&amp;Bs</div><div style="font-size:12px;color:#5A6471;line-height:1.5">Read 1+ billion reviews from real travelers. Filter by Echo Picks, Echo Green or family-friendly.</div></div>
+      <div style="background:#FFFFFF;border-radius:14px;padding:16px;border:1px solid #EAECEE;display:flex;flex-direction:column;gap:6px"><div style="font-size:26px">🍴</div><div style="font-size:14px;font-weight:800;color:#000">Restaurants</div><div style="font-size:12px;color:#5A6471;line-height:1.5">Reserve a table at 8 million restaurants worldwide. See dietary tags, dress code and signature dishes.</div></div>
+      <div style="background:#FFFFFF;border-radius:14px;padding:16px;border:1px solid #EAECEE;display:flex;flex-direction:column;gap:6px"><div style="font-size:26px">🎟</div><div style="font-size:14px;font-weight:800;color:#000">Things to do</div><div style="font-size:12px;color:#5A6471;line-height:1.5">Book skip-the-line tours, day trips and experiences with free cancellation up to 24 hours before.</div></div>
+      <div style="background:#FFFFFF;border-radius:14px;padding:16px;border:1px solid #EAECEE;display:flex;flex-direction:column;gap:6px"><div style="font-size:26px">✈</div><div style="font-size:14px;font-weight:800;color:#000">Flights</div><div style="font-size:12px;color:#5A6471;line-height:1.5">Compare 200+ booking sites in seconds. See real traveler photos of seats, lounges and meals.</div></div>
+    </div>
+    <div style="margin-top:20px;background:#F2F4F6;border-radius:14px;padding:18px">
+      <h4 style="margin:0 0 10px;font-size:13px;font-weight:800;color:#000;letter-spacing:.04em;text-transform:uppercase">Echo Picks 2024 winners</h4>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        <span style="background:#FFFFFF;border:1px solid #EAECEE;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;color:#000">🏝 Best Beach · Praia da Falésia</span>
+        <span style="background:#FFFFFF;border:1px solid #EAECEE;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;color:#000">🗽 Best City · Dubai</span>
+        <span style="background:#FFFFFF;border:1px solid #EAECEE;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;color:#000">🏛 Cultural · Hanoi</span>
+        <span style="background:#FFFFFF;border:1px solid #EAECEE;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;color:#000">🎢 Family · Orlando</span>
+        <span style="background:#FFFFFF;border:1px solid #EAECEE;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;color:#000">🍷 Food · Rome</span>
+        <span style="background:#FFFFFF;border:1px solid #EAECEE;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;color:#000">🌋 Nature · Kotor</span>
+        <span style="background:#FFFFFF;border:1px solid #EAECEE;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;color:#000">🌃 Nightlife · Las Vegas</span>
+        <span style="background:#FFFFFF;border:1px solid #EAECEE;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;color:#000">⛷ Winter · Whistler</span>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-col"><h4>About EchoStay</h4><a>About Us</a><a>Press</a><a>Resources and Policies</a><a>Careers</a><a>Trust &amp; Safety</a><a>Contact us</a></div>
+    <div class="footer-col"><h4>Explore</h4><a>Write a review</a><a>Add a Place</a><a>Join</a><a>Echo Picks</a><a>Echo Green</a></div>
+    <div class="footer-col"><h4>Do Business With Us</h4><a>Owners</a><a>Business Advantage</a><a>Sponsored Placements</a><a>Advertise with us</a><a>Access our Content API</a></div>
+    <div class="footer-col"><h4>Get The App</h4><a>iPhone App</a><a>Android App</a><a>Subscribe to Newsletter</a></div>
+  </div>
+  <div class="footer-bottom">
+    <div class="ftr-logo"><span class="owl" style="display:inline-flex;width:18px;height:18px;border-radius:50%;background:var(--ta-green);position:relative;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:12px;line-height:1">E</span> © 2024 EchoStay LLC. All rights reserved.</div>
+    <div>Terms of Use · Privacy and Cookies Statement · Cookie consent · Site Map · How the site works</div>
+  </div>
+</footer>
+<script>
+const ENV_ID = "W03_E07";
+const AC_SUGS = [{"iata": "GCN-AZ", "name": "Grand Canyon National Park", "country": "Arizona, USA", "flag": "🇺🇸", "type": "destination", "icon": "🏞", "search_extra": "Grand Canyon NP"}, {"iata": "GCN-LV", "name": "EchoRotor Grand Canyon Helicopter Tour (departs Las Vegas)", "country": "Nevada, USA", "flag": "🇺🇸", "type": "tour", "icon": "🚁", "decoy": "Las Vegas tour, not the park", "search_extra": "Grand Canyon tour Las Vegas"}, {"iata": "LAS-NV", "name": "Las Vegas Strip Hotels", "country": "Nevada, USA", "flag": "🇺🇸", "type": "destination", "icon": "🎰", "search_extra": "Las Vegas Nevada"}, {"iata": "LVS-NM", "name": "Las Vegas, New Mexico (small town)", "country": "New Mexico, USA", "flag": "🇺🇸", "type": "destination", "icon": "🏜", "decoy": "not Vegas Strip", "search_extra": "Las Vegas New Mexico"}, {"iata": "ZIO-UT", "name": "Zion National Park", "country": "Utah, USA", "flag": "🇺🇸", "type": "destination", "icon": "🏔", "search_extra": "Zion Utah"}, {"iata": "BCE-UT", "name": "Bryce Canyon National Park", "country": "Utah, USA", "flag": "🇺🇸", "type": "destination", "icon": "🏔"}, {"iata": "FLG-AZ", "name": "Flagstaff, Arizona", "country": "Arizona, USA", "flag": "🇺🇸", "type": "destination", "icon": "🌲"}, {"iata": "SED-AZ", "name": "Sedona, Arizona", "country": "Arizona, USA", "flag": "🇺🇸", "type": "destination", "icon": "🌄"}, {"iata": "PHX-AZ", "name": "Phoenix, Arizona", "country": "Arizona, USA", "flag": "🇺🇸", "type": "destination", "icon": "🌵"}, {"iata": "LAX-CA", "name": "Los Angeles, California", "country": "California, USA", "flag": "🇺🇸", "type": "destination", "icon": "🌴"}, {"iata": "PSP-CA", "name": "Palm Springs, California", "country": "California, USA", "flag": "🇺🇸", "type": "destination", "icon": "🌴"}, {"iata": "ABQ-NM", "name": "Albuquerque, New Mexico", "country": "New Mexico, USA", "flag": "🇺🇸", "type": "destination", "icon": "🌶"}, {"iata": "SAF-NM", "name": "Santa Fe, New Mexico", "country": "New Mexico, USA", "flag": "🇺🇸", "type": "destination", "icon": "🏛"}];
+const EMPTY_HTML = `<div class="empty">No results match those airports. Try a different search.</div>`;
+
+function renderCard(it){
+  var r = it.rating||0;
+  var bubbles = '';
+  for (var i=0;i<5;i++) bubbles += '<span class="'+(i<r?'':'dim')+'"></span>';
+  var reviewN = (it.rating ? (180 + (it.price||0)*3) : 0);
+  var routeName = escapeHtmlText(it.name || ((it.from_code||'') + ' \u2192 ' + (it.to_code||'')));
+  var location = escapeHtmlText(it.location || '');
+  var stops = escapeHtmlText(it.stops || '');
+  var duration = escapeHtmlText(it.duration || '');
+  var price = escapeHtmlText(it.price || '');
+  return '<div class="result-card">'+
+    (it.image_url?'<img class="rc-img" src="'+escapeHtmlText(it.image_url)+'" alt="" loading="lazy">':'<div class="rc-img" style="background:#F4F4F5"></div>')+
+    '<div class="rc-body">'+
+      '<div class="rc-route"><a>'+routeName+'</a></div>'+
+      '<div class="rc-rating"><span class="rc-bubbles">'+bubbles+'</span><span class="rc-reviews">'+escapeHtmlText(r.toFixed(1))+'</span><span>('+escapeHtmlText(reviewN.toLocaleString())+' reviews)</span></div>'+
+      '<div class="rc-meta">📍 '+location+'</div>'+
+      '<div class="rc-extra">'+stops+(it.duration?' · '+duration:'')+'</div>'+
+      (r>=4?'<span class="rc-tag">★ Echo Picks</span>':'')+
+    '</div>'+
+    '<div class="rc-side">'+
+      '<div><div class="label">From</div><div class="rc-price">$'+price+'</div><div class="rc-pernight">per night</div></div>'+
+      '<button class="rc-view">View deal</button>'+
+    '</div>'+
+  '</div>';
+}
+
+let filterState = {};
+
+function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s) {
+  return String(s || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\r/g, '\\r').replace(/\n/g, '\\n');
+}
+function acShow(inp, which) {
+  const ul = document.getElementById('ac-' + which);
+  if (!ul) return;
+  ul.__inp = inp;
+  const norm = (x) => (x || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const q = norm((inp.value || '').trim());
+  let matches = AC_SUGS;
+  if (q.length) {
+    matches = AC_SUGS.filter(s =>
+      norm(s.iata).includes(q) ||
+      norm(s.name).includes(q) ||
+      norm(s.country).includes(q) ||
+      (s.search_extra ? norm(s.search_extra).includes(q) : false));
+  }
+  matches = matches.slice(0, 8);
+  if (matches.length === 0) { ul.classList.remove('show'); ul.innerHTML = ''; ; return; }
+  ul.classList.add('show');
+  ;
+  ul.innerHTML = matches.map(s => {
+    const escName = escapeHtmlText(s.name);
+    const filledRaw = s.iata;  // store only IATA code (matches ref_state_change format)
+    const filled = escapeJsSingleQuoted(filledRaw);
+    const choose = "acPick(this,'" + which + "','" + filled + "')";
+    const country = escapeHtmlText(s.country);
+    const icon = escapeHtmlText(s.icon || '📍');
+    const tag = s.decoy ? '<span class="ac-tag warn">⚠ '+escapeHtmlText(s.decoy)+'</span>' : '<span class="ac-tag">'+escapeHtmlText(s.type||'place')+'</span>';
+    return '<li onclick="' + escapeHtmlText(choose) + '">' +
+           '<span class="ac-ico">' + icon + '</span>' +
+           '<span class="ac-text">' +
+             '<span class="ac-name">' + escName + '</span>' +
+             '<span class="ac-country">' + country + '</span>' +
+           '</span>' +
+           tag + '</li>';
+  }).join('');
+}
+
+function acPick(li, which, val) {
+  const ul = document.getElementById('ac-' + which);
+  if (!ul) return;
+  const inp = ul.__inp;
+  if (inp) inp.value = val;
+  ul.classList.remove('show');
+  ul.innerHTML = '';
+  ;
+  if (typeof onF === 'function') onF();
+}
+
+function acPickGrid(which, val) {
+  const inp = document.querySelector('[data-facet="' + which + '"]');
+  if (inp) inp.value = val;
+  if (typeof onF === 'function') onF();
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.ac-inp') && !e.target.closest('.ac-list') && !e.target.closest('.ac-modal') && !e.target.closest('.ac-sidepanel') && !e.target.closest('.ac-overlay')) {
+    document.querySelectorAll('.ac-list').forEach(u => u.classList.remove('show'));
+    ;
+  }
+});
+
+function onF() { applyFilters(); }
+
+function applyFilters() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) {
+        if (!newState[f]) newState[f] = [];
+        if (Array.isArray(newState[f])) newState[f].push(el.value || el.dataset.val || true);
+      }
+    } else if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.value) newState[f] = el.value;
+    } else {
+      if (el.value) newState[f] = el.value;
+    }
+  });
+  filterState = newState;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    renderResults(data.results || []);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length + ' results';
+  }).catch(() => {});
+
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: '', task_id: taskId})
+  }).then(r => r.json()).then(data => {}).catch(() => {});
+}
+
+function renderResults(items) {
+  const host = document.getElementById('results-list');
+  if (!host) return;
+  if (!items.length) { host.innerHTML = EMPTY_HTML; return; }
+  host.innerHTML = items.map(it => renderCard(it)).join('');
+}
+
+function swapAirports() {
+  const fromEl = document.querySelector('[data-facet="from"]');
+  const toEl = document.querySelector('[data-facet="to"]');
+  if (!fromEl || !toEl) return;
+  const a = fromEl.value; fromEl.value = toEl.value; toEl.value = a;
+  onF();
+}
+
+
+let _popWhich = 'from';
+function setPopWhich(w){ _popWhich = w;
+  document.getElementById('pop-tab-from').classList.toggle('active', w==='from');
+  document.getElementById('pop-tab-to').classList.toggle('active', w==='to'); }
+function buildPopularGrid(){
+  const host = document.getElementById('popular-grid'); if (!host) return;
+  host.innerHTML = AC_SUGS.slice(0, 12).map(s => {
+    const filled = s.iata;
+    const ico = s.icon || '📍';
+    const choose = "acPickGrid(_popWhich, '" + escapeJsSingleQuoted(filled) + "')";
+    return '<div class="pop-tile" onclick="'+ escapeHtmlText(choose) +'">' +
+      '<div class="pop-side">'+escapeHtmlText(ico)+'</div>' +
+      '<div class="ac-name">'+escapeHtmlText(s.name)+'</div>' +
+      '<div class="ac-country">'+escapeHtmlText(s.country)+'</div>' +
+      '</div>';
+  }).join('');
+}
+function openOverlay(){} function openModal(){} function openSide(){}
+
+
+document.addEventListener('DOMContentLoaded', () => { applyFilters(); buildPopularGrid(); });
+</script>
+</body>
+</html>

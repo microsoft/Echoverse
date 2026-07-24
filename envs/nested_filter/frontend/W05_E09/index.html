@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoRent — Apartments for Rent in Oviedo, FL</title>
+<style>
+
+:root{
+  --brand:#f37021;          /* RentCafe orange */
+  --brand-dark:#c8541a;
+  --navy:#1a2e44;
+  --navy-soft:#2b4361;
+  --tint:#fff3e9;
+  --tint-deep:#ffe3cc;
+  --line:#e4ddd3;
+  --line-strong:#d5c9b8;
+  --bg:#f7f6f3;
+  --paper:#ffffff;
+  --ink:#1f2937;
+  --muted:#6b7280;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Open Sans','Segoe UI','Helvetica Neue',Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.45;font-size:14px;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.hide-debug{display:none!important;visibility:hidden!important}
+
+/* === RESULT CARDS (shared) === */
+.results-pane{padding:18px 22px;background:var(--bg)}
+.results-head{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.results-head h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-0.3px;color:var(--navy)}
+.results-head .res-cnt{color:var(--muted);font-size:13px}
+.results-head .sort-dd{margin-left:auto;border:1px solid var(--line);border-radius:4px;padding:7px 12px;background:#fff;font-size:12px;color:var(--navy);font-weight:600}
+.active-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;min-height:24px}
+.active-chips:empty:before{content:"No filters applied — pick a bedroom or bathroom chip to narrow your search";color:var(--muted);font-size:11px;font-style:italic}
+.active-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;background:var(--tint);color:var(--brand-dark);font-size:11px;border-radius:3px;font-weight:700;border:1px solid var(--tint-deep);text-transform:uppercase;letter-spacing:.4px}
+.active-chip .x{cursor:pointer;opacity:.6;font-size:13px;line-height:1}
+.active-chip .x:hover{opacity:1}
+.result-grid{display:grid;grid-template-columns:1fr;gap:14px}
+.result-card{display:grid;grid-template-columns:260px 1fr;background:var(--paper);border:1px solid var(--line);border-radius:6px;overflow:hidden;transition:box-shadow .15s,transform .15s;position:relative}
+.result-card:hover{box-shadow:0 6px 18px rgba(26,46,68,.10);transform:translateY(-1px);border-color:var(--brand)}
+.rc-photo{background:linear-gradient(135deg,#fff3e9,#e8ebef);min-height:190px;background-size:cover;background-position:center;position:relative}
+.rc-photo:before{content:"📷 12";position:absolute;left:10px;bottom:10px;background:rgba(26,46,68,.78);color:#fff;font-size:10px;padding:3px 8px;border-radius:3px;font-weight:700}
+.rc-body{padding:14px 18px;display:flex;flex-direction:column;gap:5px}
+.rc-price-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.rc-price{font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.3px}
+.rc-ptype{font-size:10px;padding:3px 9px;background:var(--tint);color:var(--brand-dark);border-radius:3px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;border:1px solid var(--tint-deep)}
+.rc-stats{font-size:13px;font-weight:700;color:var(--navy)}
+.rc-addr{font-size:14px;font-weight:700;color:var(--navy);margin-top:2px}
+.rc-city{font-size:12px;color:var(--muted)}
+.rc-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.lstg-tag{font-size:10px;padding:3px 8px;border-radius:3px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.tag-new{background:#0f7a3a;color:#fff}
+.tag-reduced{background:#fff1d6;color:#8a5300}
+.tag-pet{background:#eaf3ee;color:#1f5a36}
+.tag-gar{background:#eef2ff;color:#293c8a}
+
+/* === LIVE STATUS PILL === */
+.live-status{position:fixed;top:14px;right:14px;z-index:50;background:#fff;border:1px solid var(--line);border-radius:3px;padding:6px 14px;font-size:11px;font-weight:700;color:var(--brand-dark);box-shadow:0 2px 6px rgba(0,0,0,.06);display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.5px}
+.live-status .ls-dot{width:8px;height:8px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 3px var(--tint)}
+
+/* === FOOTER === */
+.site-foot{margin-top:32px;background:var(--navy);color:#cbd5e1;font-size:12px}
+.site-foot .foot-top{padding:28px 32px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1400px;margin:0 auto}
+.site-foot .foot-col h5{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#fff;margin:0 0 10px}
+.site-foot .foot-col a{display:block;padding:3px 0;color:#cbd5e1}
+.site-foot .foot-col a:hover{color:var(--brand)}
+.site-foot .foot-bot{padding:14px 32px;border-top:1px solid #2b4361;display:flex;flex-wrap:wrap;gap:14px;align-items:center;font-size:11px;color:#94a3b8}
+.site-foot .foot-bot .spacer{flex:1}
+.site-foot .foot-brand{font-weight:800;color:#fff;font-size:16px;letter-spacing:-.3px}
+.site-foot .foot-brand .accent{color:var(--brand);font-style:italic}
+
+@media(max-width:880px){
+  .result-card{grid-template-columns:1fr}
+  .rc-photo{min-height:160px}
+  .site-foot .foot-top{grid-template-columns:repeat(2,1fr)}
+}
+
+
+.layout{display:grid;grid-template-columns:290px 1fr;gap:0;max-width:1400px;margin:0 auto;background:var(--bg)}
+.filter-side{padding:20px 18px;background:var(--paper);border-right:1px solid var(--line);min-height:80vh}
+.filter-side h3{margin:0 0 14px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--navy);padding-bottom:10px;border-bottom:2px solid var(--brand)}
+.f-sec{margin-bottom:18px;background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:14px 16px}
+.f-sec h4{font-size:12px;margin:0 0 4px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.7px}
+.f-sec .hint{font-size:11px;color:var(--muted);margin:0 0 10px}
+.stk-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.stk-card{padding:10px 6px;background:#fff;border:1.5px solid var(--line-strong);border-radius:3px;font-size:13px;font-weight:700;color:var(--navy);transition:all .12s;font-family:inherit;text-align:center}
+.stk-card:hover{border-color:var(--brand);color:var(--brand-dark);background:var(--tint)}
+.stk-card.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:inset 0 -2px 0 var(--brand-dark)}
+.f-cb{display:flex;align-items:center;gap:8px;font-size:13px;padding:5px 0;cursor:pointer;color:var(--navy);font-weight:600}
+.f-cb input{accent-color:var(--brand)}
+.brand-pill{display:inline-block;padding:4px 12px;background:var(--brand);color:#fff;border-radius:3px;font-size:10px;text-transform:uppercase;letter-spacing:.7px;font-weight:800;margin-bottom:12px}
+
+/* === HEADER (RentCafe-style) === */
+.utility-bar{background:var(--navy);color:#cbd5e1;padding:6px 24px;font-size:11px;display:flex;gap:18px;align-items:center}
+.utility-bar a{color:#cbd5e1}
+.utility-bar a:hover{color:var(--brand)}
+.utility-bar .ub-spacer{flex:1}
+.main-header{background:#fff;padding:14px 24px;display:flex;align-items:center;gap:28px;border-bottom:1px solid var(--line)}
+.brand-logo{display:flex;align-items:baseline;gap:0;line-height:1}
+.brand-logo .b1{font-weight:800;font-size:28px;color:var(--navy);letter-spacing:-.6px;font-family:'Open Sans',sans-serif}
+.brand-logo .b2{font-weight:400;font-size:28px;color:var(--brand);font-style:italic;letter-spacing:-.5px;font-family:'Georgia','Times New Roman',serif}
+.main-nav{display:flex;gap:22px;font-size:13px;color:var(--navy);font-weight:700}
+.main-nav a{padding:6px 0;border-bottom:2px solid transparent}
+.main-nav a:hover{color:var(--brand);border-bottom-color:var(--brand)}
+.main-nav a.active{color:var(--brand);border-bottom-color:var(--brand)}
+.header-spacer{flex:1}
+.account-btn{padding:8px 14px;border:1.5px solid var(--navy);color:var(--navy);border-radius:3px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;cursor:pointer}
+.list-btn{padding:8px 14px;background:var(--brand);color:#fff;border-radius:3px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;cursor:pointer}
+.list-btn:hover{background:var(--brand-dark)}
+.search-bar{background:var(--tint);padding:14px 24px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center}
+.search-bar .sb-label{font-size:12px;color:var(--navy);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.search-bar .sb-input{flex:1;max-width:420px;padding:10px 14px;border:1px solid var(--line-strong);border-radius:3px;background:#fff;font-size:13px;color:var(--navy);font-family:inherit}
+.search-bar .sb-input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(243,112,33,.15)}
+.search-bar .sb-go{padding:10px 18px;background:var(--brand);color:#fff;border-radius:3px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;cursor:pointer}
+.search-bar .sb-go:hover{background:var(--brand-dark)}
+
+/* === BREADCRUMBS === */
+.breadcrumbs{padding:10px 24px;font-size:11px;color:var(--muted);background:var(--bg);border-bottom:1px solid var(--line)}
+.breadcrumbs a:hover{color:var(--brand)}
+.breadcrumbs .sep{margin:0 6px;color:var(--line-strong)}
+
+</style>
+</head>
+<body>
+<script>window.__RENT_MODE__ = true;</script>
+<div class="live-status hide-debug"><span class="ls-dot"></span><span>Filters auto-save instantly</span></div>
+<header class="site-header h-mag">
+  <div class="utility-bar">
+    <span>📍 Oviedo, FL · Seminole County</span>
+    <a>Renter Hub</a>
+    <a>List your property</a>
+    <span class="ub-spacer"></span>
+    <a>Help</a>
+    <a>Sign in</a>
+  </div>
+  <div class="main-header">
+    <div class="brand-logo"><span class="b1">EchoRent</span><span class="b2"></span></div>
+    <nav class="main-nav">
+      <a class="active">Apartments</a><a>Houses</a><a>Condos</a><a>Townhomes</a><a>Senior Living</a><a>Student</a><a>Saved</a>
+    </nav>
+    <span class="header-spacer"></span>
+    <span class="account-btn">My favorites ♥</span>
+    <span class="list-btn">+ List a Rental</span>
+  </div>
+  <div class="search-bar">
+    <span class="sb-label">I'm looking for</span>
+    <input class="sb-input" type="text" value="Apartments" readonly>
+    <span class="sb-label">in</span>
+    <input class="sb-input" type="text" value="Oviedo, FL 32765" readonly>
+    <button class="sb-go">Search</button>
+  </div>
+  <div class="breadcrumbs">
+    <a>Home</a><span class="sep">›</span><a>Florida</a><span class="sep">›</span><a>Seminole County</a><span class="sep">›</span><a>Oviedo</a><span class="sep">›</span><span>Apartments for Rent</span>
+  </div>
+</header>
+
+<div class="layout">
+
+<aside class="filter-side">
+  <span class="brand-pill">Refine Results</span>
+  <h3>Narrow Your Search</h3>
+  <div class="f-sec">
+    <h4>Bedrooms</h4>
+    <p class="hint">Minimum bedrooms</p>
+    <div class="stk-cards" id="chip-row-beds"><button class="stk-card" data-facet="min_beds" data-val="0" onclick="pickChip(this,'min_beds',0)">Studio</button><button class="stk-card" data-facet="min_beds" data-val="1" onclick="pickChip(this,'min_beds',1)">1+</button><button class="stk-card" data-facet="min_beds" data-val="2" onclick="pickChip(this,'min_beds',2)">2+</button><button class="stk-card" data-facet="min_beds" data-val="3" onclick="pickChip(this,'min_beds',3)">3+</button><button class="stk-card" data-facet="min_beds" data-val="4" onclick="pickChip(this,'min_beds',4)">4+</button><button class="stk-card" data-facet="min_beds" data-val="5" onclick="pickChip(this,'min_beds',5)">5+</button></div>
+  </div>
+  <div class="f-sec">
+    <h4>Bathrooms</h4>
+    <p class="hint">Minimum bathrooms</p>
+    <div class="stk-cards" id="chip-row-baths"><button class="stk-card" data-facet="min_baths" data-val="0" onclick="pickChip(this,'min_baths',0)">Any</button><button class="stk-card" data-facet="min_baths" data-val="1" onclick="pickChip(this,'min_baths',1)">1+</button><button class="stk-card" data-facet="min_baths" data-val="2" onclick="pickChip(this,'min_baths',2)">2+</button><button class="stk-card" data-facet="min_baths" data-val="3" onclick="pickChip(this,'min_baths',3)">3+</button><button class="stk-card" data-facet="min_baths" data-val="4" onclick="pickChip(this,'min_baths',4)">4+</button></div>
+  </div>
+  <div class="f-sec">
+    <h4>Amenities</h4>
+    <label class="f-cb"><input type="checkbox" data-facet="has_garage" value="1" onchange="onF()"> Garage parking</label>
+    <label class="f-cb"><input type="checkbox" data-facet="pet_friendly" value="1" onchange="onF()"> Pet-friendly</label>
+    <label class="f-cb"><input type="checkbox" data-facet="is_new" value="1" onchange="onF()"> Newly listed</label>
+  </div>
+</aside>
+
+<section class="results-pane">
+  <div class="results-head">
+    <h1>Apartments for Rent in Oviedo, FL</h1>
+    <span class="res-cnt" id="result-count">20 rentals</span>
+    <select class="sort-dd"><option>Sort: Best Match</option><option>Price: Low to High</option><option>Price: High to Low</option><option>Newest</option></select>
+  </div>
+  <div class="active-chips" id="active-chips"></div>
+  <div class="result-grid" id="result-grid">
+<article class="result-card" data-beds="2" data-baths="1">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/11018246/pexels-photo-11018246.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$2,759</span><span class="rc-ptype">Studio</span></div>
+    <div class="rc-stats">2 bd · 1 ba · 473 sqft</div>
+    <div class="rc-addr">219 Lockwood Blvd #102</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-pet">🐾 Pet OK</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="1">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/562199/pexels-photo-562199.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$3,686</span><span class="rc-ptype">Studio</span></div>
+    <div class="rc-stats">3 bd · 1 ba · 1,550 sqft</div>
+    <div class="rc-addr">2608 Alafaya Trl #133</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-pet">🐾 Pet OK</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="2" data-baths="1">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/33676857/pexels-photo-33676857.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$2,942</span><span class="rc-ptype">Apartment</span></div>
+    <div class="rc-stats">2 bd · 1 ba · 1,629 sqft</div>
+    <div class="rc-addr">199 Mitchell Hammock Rd #115</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-reduced">↓ PRICE CUT</span><span class="lstg-tag tag-pet">🐾 Pet OK</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="1">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/29174533/pexels-photo-29174533.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$3,262</span><span class="rc-ptype">Apartment</span></div>
+    <div class="rc-stats">3 bd · 1 ba · 2,277 sqft</div>
+    <div class="rc-addr">3500 Lockwood Blvd #359</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="1">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/7031406/pexels-photo-7031406.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$3,432</span><span class="rc-ptype">Single-Family</span></div>
+    <div class="rc-stats">3 bd · 1 ba · 2,336 sqft</div>
+    <div class="rc-addr">5239 Aulin Ave #679</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"></div>
+  </div>
+</article>
+<article class="result-card" data-beds="2" data-baths="1">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/15951714/pexels-photo-15951714.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$2,525</span><span class="rc-ptype">Studio</span></div>
+    <div class="rc-stats">2 bd · 1 ba · 753 sqft</div>
+    <div class="rc-addr">2001 Chapman Rd #107</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-new">NEW</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="2">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/19190343/pexels-photo-19190343.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$3,783</span><span class="rc-ptype">Studio</span></div>
+    <div class="rc-stats">3 bd · 2 ba · 1,309 sqft</div>
+    <div class="rc-addr">948 Chapman Rd #639</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="1">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/6342356/pexels-photo-6342356.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$3,693</span><span class="rc-ptype">Townhouse</span></div>
+    <div class="rc-stats">3 bd · 1 ba · 1,620 sqft</div>
+    <div class="rc-addr">331 King St #784</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="4" data-baths="2.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/35410014/pexels-photo-35410014.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$4,247</span><span class="rc-ptype">Single-Family</span></div>
+    <div class="rc-stats">4 bd · 2.5 ba · 1,340 sqft</div>
+    <div class="rc-addr">4871 Geneva Dr #504</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-reduced">↓ PRICE CUT</span><span class="lstg-tag tag-pet">🐾 Pet OK</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="1" data-baths="1">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/325259/pexels-photo-325259.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$2,136</span><span class="rc-ptype">Townhouse</span></div>
+    <div class="rc-stats">1 bd · 1 ba · 1,629 sqft</div>
+    <div class="rc-addr">7505 Lockwood Blvd #303</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-reduced">↓ PRICE CUT</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="1">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/31656168/pexels-photo-31656168.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$3,560</span><span class="rc-ptype">Single-Family</span></div>
+    <div class="rc-stats">3 bd · 1 ba · 1,399 sqft</div>
+    <div class="rc-addr">5052 Pine Ave #311</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-new">NEW</span><span class="lstg-tag tag-reduced">↓ PRICE CUT</span><span class="lstg-tag tag-pet">🐾 Pet OK</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="2" data-baths="1">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/29750423/pexels-photo-29750423.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$2,740</span><span class="rc-ptype">Single-Family</span></div>
+    <div class="rc-stats">2 bd · 1 ba · 873 sqft</div>
+    <div class="rc-addr">1415 Lake Jesup Ave #302</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-new">NEW</span><span class="lstg-tag tag-pet">🐾 Pet OK</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="0" data-baths="1">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/27953061/pexels-photo-27953061.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$2,178</span><span class="rc-ptype">Townhouse</span></div>
+    <div class="rc-stats">Studio · 1 ba · 1,134 sqft</div>
+    <div class="rc-addr">8744 Lockwood Blvd #451</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-reduced">↓ PRICE CUT</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="2" data-baths="1.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/11557792/pexels-photo-11557792.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$2,826</span><span class="rc-ptype">Single-Family</span></div>
+    <div class="rc-stats">2 bd · 1.5 ba · 1,389 sqft</div>
+    <div class="rc-addr">7714 Alafaya Trl #482</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-reduced">↓ PRICE CUT</span><span class="lstg-tag tag-pet">🐾 Pet OK</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="1">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/7031407/pexels-photo-7031407.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$3,263</span><span class="rc-ptype">Studio</span></div>
+    <div class="rc-stats">3 bd · 1 ba · 1,899 sqft</div>
+    <div class="rc-addr">3193 Geneva Dr #967</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-reduced">↓ PRICE CUT</span><span class="lstg-tag tag-pet">🐾 Pet OK</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="1" data-baths="1.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/7031411/pexels-photo-7031411.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$1,903</span><span class="rc-ptype">Condo</span></div>
+    <div class="rc-stats">1 bd · 1.5 ba · 449 sqft</div>
+    <div class="rc-addr">5501 Geneva Dr #699</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-reduced">↓ PRICE CUT</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="0" data-baths="1">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/16553771/pexels-photo-16553771.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$1,871</span><span class="rc-ptype">Single-Family</span></div>
+    <div class="rc-stats">Studio · 1 ba · 795 sqft</div>
+    <div class="rc-addr">4943 Lake Jesup Ave #280</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-reduced">↓ PRICE CUT</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="1" data-baths="1.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/10417135/pexels-photo-10417135.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$1,624</span><span class="rc-ptype">Single-Family</span></div>
+    <div class="rc-stats">1 bd · 1.5 ba · 1,007 sqft</div>
+    <div class="rc-addr">3756 Chapman Rd #768</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="2">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/9170385/pexels-photo-9170385.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$3,292</span><span class="rc-ptype">Townhouse</span></div>
+    <div class="rc-stats">3 bd · 2 ba · 1,921 sqft</div>
+    <div class="rc-addr">1119 Geneva Dr #664</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-pet">🐾 Pet OK</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="4" data-baths="2.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/9039850/pexels-photo-9039850.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$4,112</span><span class="rc-ptype">Townhouse</span></div>
+    <div class="rc-stats">4 bd · 2.5 ba · 2,335 sqft</div>
+    <div class="rc-addr">2148 Lockwood Blvd #195</div>
+    <div class="rc-city">Oviedo, FL</div>
+    <div class="rc-tags"><span class="lstg-tag tag-pet">🐾 Pet OK</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+  </div>
+</section>
+</div>
+<footer class="site-foot">
+  <div class="foot-top">
+    <div class="foot-col">
+      <h5>Renter Tools</h5>
+      <a>Apartments for Rent</a><a>Houses for Rent</a><a>Cheap Apartments</a><a>Luxury Apartments</a><a>Pet-Friendly Rentals</a><a>Furnished Rentals</a>
+    </div>
+    <div class="foot-col">
+      <h5>Popular Cities</h5>
+      <a>Oviedo, FL</a><a>Orlando, FL</a><a>Winter Park, FL</a><a>Sanford, FL</a><a>Lake Mary, FL</a><a>Casselberry, FL</a>
+    </div>
+    <div class="foot-col">
+      <h5>For Property Owners</h5>
+      <a>List a Rental</a><a>Manager Login</a><a>Property Management</a><a>Advertise with Us</a><a>Resources</a>
+    </div>
+    <div class="foot-col">
+      <h5>About EchoRent</h5>
+      <a>About Us</a><a>Careers</a><a>Press</a><a>Contact</a><a>Sitemap</a><a>Accessibility</a>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span class="foot-brand">EchoRent</span>
+    <span>© 2026 EchoRent, Inc. All rights reserved.</span>
+    <span class="spacer"></span>
+    <a>Privacy</a><a>Terms</a><a>Fair Housing</a><a>Do Not Sell My Info</a>
+  </div>
+</footer>
+<script>
+
+const ENV_ID = "W05_E09";
+let filterState = {};
+
+function readChipState() {
+  const st = {};
+  document.querySelectorAll('[data-facet][data-val]').forEach(el => {
+    if (!el.classList.contains('active')) return;
+    const f = el.dataset.facet;
+    const v = parseInt(el.dataset.val, 10);
+    if (!Number.isNaN(v)) st[f] = v;
+  });
+  document.querySelectorAll('input[type="checkbox"][data-facet]').forEach(el => {
+    if (el.checked) st[el.dataset.facet] = el.value || true;
+  });
+  return st;
+}
+
+function onF() {
+  filterState = readChipState();
+  // Update Zillow-style dropdown labels
+  const lblBeds = document.getElementById('lbl-beds');
+  if (lblBeds) lblBeds.textContent = formatBedLabel(filterState.min_beds);
+  const lblBaths = document.getElementById('lbl-baths');
+  if (lblBaths) lblBaths.textContent = formatBathLabel(filterState.min_baths);
+  // Update dd-btn has-value class (Zillow style)
+  document.querySelectorAll('.dd').forEach(dd => {
+    const id = dd.id;
+    const btn = dd.querySelector('.dd-btn');
+    if (!btn) return;
+    if (id === 'dd-beds') btn.classList.toggle('has-value', filterState.min_beds !== undefined);
+    if (id === 'dd-baths') btn.classList.toggle('has-value', filterState.min_baths !== undefined);
+  });
+  // Trulia E03 summary text
+  const sumT = document.getElementById('chip-summary-text');
+  if (sumT) {
+    const parts = [];
+    if (filterState.min_beds !== undefined) parts.push(formatBedLabel(filterState.min_beds) + ' beds');
+    if (filterState.min_baths !== undefined) parts.push(formatBathLabel(filterState.min_baths) + ' baths');
+    sumT.textContent = parts.length ? parts.join(' · ') : 'none';
+  }
+  renderActiveChips();
+  applyFilters();
+}
+
+function formatBedLabel(v) {
+  if (v === undefined || v === null) return 'Any';
+  if (v === 0) return 'Studio';
+  return v + '+';
+}
+function formatBathLabel(v) {
+  if (v === undefined || v === null || v === 0) return 'Any';
+  return v + '+';
+}
+
+function pickChip(btn, facet, val) {
+  const row = document.getElementById('chip-row-' + (facet === 'min_beds' ? 'beds' : 'baths'));
+  if (row) row.querySelectorAll('[data-facet="' + facet + '"]').forEach(b => b.classList.remove('active'));
+  else btn.parentElement.querySelectorAll('[data-facet="' + facet + '"]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  onF();
+}
+
+function clearChip(facet) {
+  document.querySelectorAll('[data-facet="' + facet + '"]').forEach(b => b.classList.remove('active'));
+  onF();
+}
+
+function renderActiveChips() {
+  const bar = document.getElementById('active-chips');
+  if (!bar) return;
+  bar.replaceChildren();
+  function addChip(label, facet) {
+    const chip = document.createElement('span');
+    chip.className = 'active-chip';
+    chip.appendChild(document.createTextNode(label));
+    if (facet) {
+      chip.appendChild(document.createTextNode(' '));
+      const x = document.createElement('span');
+      x.className = 'x';
+      x.textContent = '×';
+      x.addEventListener('click', () => clearChip(facet));
+      chip.appendChild(x);
+    }
+    bar.appendChild(chip);
+  }
+  if (filterState.min_beds !== undefined) {
+    addChip(formatBedLabel(filterState.min_beds) + ' beds', 'min_beds');
+  }
+  if (filterState.min_baths !== undefined) {
+    addChip(formatBathLabel(filterState.min_baths) + ' baths', 'min_baths');
+  }
+  for (const k of ['has_garage','pet_friendly','is_new']) {
+    if (filterState[k]) {
+      const lbl = {has_garage:'🚗 Garage', pet_friendly:'🐾 Pet OK', is_new:'✨ New listing'}[k];
+      addChip(lbl);
+    }
+  }
+}
+
+function renderResultCard(it) {
+  const beds = it.beds, baths = it.baths;
+  const bedStr = beds === 0 ? 'Studio' : (beds + ' bd');
+  const priceStr = (typeof it.price === 'number')
+    ? (it.price >= 1000 ? '$' + it.price.toLocaleString() : '$' + it.price)
+    : ('$' + it.price);
+  const priceSuffix = (window.__RENT_MODE__) ? '/mo' : '';
+  const sqftStr = it.sqft ? Number(it.sqft).toLocaleString() + ' sqft' : '';
+  const lotStr = (it.lot_acres && !window.__RENT_MODE__) ? (' · ' + it.lot_acres + ' ac lot') : '';
+  const tags = [];
+  if (it.is_new) tags.push('<span class="lstg-tag tag-new">NEW</span>');
+  if (it.price_reduced) tags.push('<span class="lstg-tag tag-reduced">↓ PRICE CUT</span>');
+  if (it.pet_friendly) tags.push('<span class="lstg-tag tag-pet">🐾 Pet OK</span>');
+  if (it.has_garage) tags.push('<span class="lstg-tag tag-gar">🚗 Garage</span>');
+  return `<article class="result-card" data-beds="${beds}" data-baths="${baths}">
+  <div class="rc-photo" style="background-image:url('${it.image_url||''}')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">${priceStr}${priceSuffix}</span><span class="rc-ptype">${escapeHtml(it.property_type||'')}</span></div>
+    <div class="rc-stats">${bedStr} · ${baths} ba · ${sqftStr}${lotStr}</div>
+    <div class="rc-addr">${escapeHtml(it.title||'')}</div>
+    <div class="rc-city">${escapeHtml(it.city||'')}</div>
+    <div class="rc-tags">${tags.join('')}</div>
+  </div>
+</article>`;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function applyFilters() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    const grid = document.getElementById('result-grid');
+    const results = data.results || [];
+    if (grid) {
+      if (results.length === 0) {
+        grid.innerHTML = '<div style="padding:40px 24px;text-align:center;color:#888;background:#fafafa;border:1px dashed #ddd;border-radius:8px">No homes match those filters. Try loosening the chips above.</div>';
+      } else {
+        grid.innerHTML = results.map(renderResultCard).join('');
+      }
+    }
+    const cnt = document.getElementById('result-count');
+    if (cnt) cnt.textContent = results.length + ' results';
+  }).catch(()=>{});
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : '';
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).catch(()=>{});
+}
+
+function toggleDD(id) {
+  document.querySelectorAll('.dd').forEach(d => { if (d.id !== id) d.classList.remove('open'); });
+  document.getElementById(id).classList.toggle('open');
+}
+
+function openModal() { document.getElementById('filters-modal').classList.add('open'); }
+function closeModal() { document.getElementById('filters-modal').classList.remove('open'); }
+
+function loadTaskBanner() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const tid = urlParams.get('task_id');
+  if (!tid) return;
+  fetch('/env/' + ENV_ID + '/api/task/' + encodeURIComponent(tid))
+    .then(r => r.ok ? r.json() : null)
+    .then(task => {
+      if (!task || task.task_type === 'write') return;
+      // For read / read_write tasks, mount a hidden answer input that POSTs on input.
+      let host = document.querySelector('.results-pane');
+      if (!host) host = document.body;
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.id = 'task-answer-input';
+      inp.placeholder = 'Type your finding here';
+      inp.style.cssText = 'display:block;width:100%;max-width:520px;margin:0 0 14px;padding:10px 14px;border:1px solid #ccc;border-radius:6px;font-size:13px;font-family:inherit';
+      inp.addEventListener('input', () => applyFilters());
+      host.insertBefore(inp, host.firstChild);
+    }).catch(()=>{});
+}
+
+// Close dropdowns on outside click
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.dd')) {
+    document.querySelectorAll('.dd.open').forEach(d => d.classList.remove('open'));
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadTaskBanner();
+  applyFilters(); // initial render
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+[
+  {
+    "from_code": "LOS",
+    "to_code": "FRA",
+    "airline": "KLM",
+    "flight_no": "KL 590",
+    "depart_time": "23:45",
+    "duration": "13h 30m",
+    "stops": "1 stop (AMS)",
+    "price": 689,
+    "image_url": "https://images.pexels.com/photos/4571790/pexels-photo-4571790.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LOS",
+    "to_code": "FRA",
+    "airline": "Lufthansa",
+    "flight_no": "LH 569",
+    "depart_time": "23:25",
+    "duration": "6h 50m",
+    "stops": "Direct",
+    "price": 925,
+    "image_url": "https://images.pexels.com/photos/14686866/pexels-photo-14686866.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LOS",
+    "to_code": "FRA",
+    "airline": "Air France",
+    "flight_no": "AF 871",
+    "depart_time": "23:25",
+    "duration": "13h 05m",
+    "stops": "1 stop (CDG)",
+    "price": 712,
+    "image_url": "https://images.pexels.com/photos/16108909/pexels-photo-16108909.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LOS",
+    "to_code": "AMS",
+    "airline": "KLM",
+    "flight_no": "KL 591",
+    "depart_time": "22:25",
+    "duration": "6h 25m",
+    "stops": "Direct",
+    "price": 612,
+    "image_url": "https://images.pexels.com/photos/20068548/pexels-photo-20068548.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LOS",
+    "to_code": "CDG",
+    "airline": "Air France",
+    "flight_no": "AF 873",
+    "depart_time": "23:55",
+    "duration": "6h 40m",
+    "stops": "Direct",
+    "price": 645,
+    "image_url": "https://images.pexels.com/photos/30037153/pexels-photo-30037153.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LOS",
+    "to_code": "BRU",
+    "airline": "Brussels",
+    "flight_no": "SN 287",
+    "depart_time": "22:55",
+    "duration": "6h 45m",
+    "stops": "Direct",
+    "price": 599,
+    "image_url": "https://images.pexels.com/photos/6354991/pexels-photo-6354991.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LOS",
+    "to_code": "LHR",
+    "airline": "British Airways",
+    "flight_no": "BA 074",
+    "depart_time": "23:05",
+    "duration": "6h 50m",
+    "stops": "Direct",
+    "price": 575,
+    "image_url": "https://images.pexels.com/photos/64757/aircraft-fly-propeller-propeller-plane-64757.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LOS",
+    "to_code": "DXB",
+    "airline": "Emirates",
+    "flight_no": "EK 786",
+    "depart_time": "14:30",
+    "duration": "7h 50m",
+    "stops": "Direct",
+    "price": 489,
+    "image_url": "https://images.pexels.com/photos/28645258/pexels-photo-28645258.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LOS",
+    "to_code": "CAI",
+    "airline": "EgyptAir",
+    "flight_no": "MS 876",
+    "depart_time": "15:55",
+    "duration": "5h 40m",
+    "stops": "Direct",
+    "price": 412,
+    "image_url": "https://images.pexels.com/photos/11989285/pexels-photo-11989285.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LOS",
+    "to_code": "ABV",
+    "airline": "Air Peace",
+    "flight_no": "P4 7193",
+    "depart_time": "10:00",
+    "duration": "1h 10m",
+    "stops": "Direct",
+    "price": 89,
+    "image_url": "https://images.pexels.com/photos/33692962/pexels-photo-33692962.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LOS",
+    "to_code": "ACC",
+    "airline": "Asky Airlines",
+    "flight_no": "KP 47",
+    "depart_time": "09:30",
+    "duration": "1h 10m",
+    "stops": "Direct",
+    "price": 159,
+    "image_url": "https://images.pexels.com/photos/33976726/pexels-photo-33976726.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "ABV",
+    "to_code": "FRA",
+    "airline": "Lufthansa",
+    "flight_no": "LH 591",
+    "depart_time": "22:30",
+    "duration": "6h 50m",
+    "stops": "Direct",
+    "price": 945,
+    "image_url": "https://images.pexels.com/photos/16381917/pexels-photo-16381917.png?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LOS",
+    "to_code": "JNB",
+    "airline": "South African",
+    "flight_no": "SA 61",
+    "depart_time": "07:30",
+    "duration": "6h 25m",
+    "stops": "Direct",
+    "price": 612,
+    "image_url": "https://images.pexels.com/photos/23848586/pexels-photo-23848586.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LOS",
+    "to_code": "NBO",
+    "airline": "Kenya Airways",
+    "flight_no": "KQ 533",
+    "depart_time": "13:00",
+    "duration": "5h 10m",
+    "stops": "Direct",
+    "price": 525,
+    "image_url": "https://images.pexels.com/photos/33291268/pexels-photo-33291268.png?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LOS",
+    "to_code": "CPT",
+    "airline": "Airlink",
+    "flight_no": "4Z 411",
+    "depart_time": "09:00",
+    "duration": "8h 35m",
+    "stops": "1 stop",
+    "price": 712,
+    "image_url": "https://images.pexels.com/photos/392265/pexels-photo-392265.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LOS",
+    "to_code": "ATH",
+    "airline": "Aegean",
+    "flight_no": "A3 805",
+    "depart_time": "22:30",
+    "duration": "12h 20m",
+    "stops": "1 stop",
+    "price": 689,
+    "image_url": "https://images.pexels.com/photos/28905870/pexels-photo-28905870.jpeg?auto=compress&cs=tinysrgb&h=130"
+  }
+]

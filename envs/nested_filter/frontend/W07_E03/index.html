@@ -1,0 +1,587 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoHomes — Staten Island, NY 4+ Bedroom Homes for Sale</title>
+<style>
+:root {
+  --primary: #d92228;
+  --primary-dark: #a8161b;
+  --accent: #fdecec;
+  --text: #232a31;
+  --muted: #6a737b;
+  --line: #e5e7e9;
+  --soft: #f6f7f8;
+  --page-bg: #ffffff;
+  --font: 'Lato','Helvetica Neue','Segoe UI',Arial,sans-serif;
+  --serif: 'Tiempos Headline','Georgia',serif;
+  --cta-text: #fff;
+  --radius: 4px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 14px rgba(0,0,0,0.08);
+  --shadow-lg: 0 18px 50px rgba(0,0,0,0.22);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--page-bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+input, select { font-family: inherit; }
+
+/* ---- Hide every hint-leakage / debug surface ---- */
+.task-banner, #task-banner,
+.live-status, #live-status,
+.db-fab,
+.utst-note, .wut-badge, .wut-badge-test,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad,
+.tb-answer-row, .tb-banner,
+.answer-area, .answer-card, .answer-bar, .answer-row,
+.fara-source, .fara-source-card, .fara-banner, .inspiration-banner,
+.task-pill, .autosave-pill, .auto-recompute-pill, .status-pill,
+.debug-pill, .debug-bar, .debug-info, .debug-state,
+[data-task-banner], [data-live-status], [data-debug-pill], [data-fara-source] {
+  display: none !important;
+  visibility: hidden !important;
+}
+[data-debug="1"] { display: none !important; }
+
+.page { display:flex; flex-direction:column; min-height: 100vh; background: var(--page-bg); }
+
+/* ---- Header ---- */
+.site-header { background:#fff; padding:14px 28px; display:flex; align-items:center; gap:34px; border-bottom:1px solid var(--line); position:relative; z-index:20; }
+.site-header .logo-wrap { display:flex; align-items:center; gap:7px; flex-shrink:0; font-weight:900; font-size:22px; color:#1f1f1f; letter-spacing:-0.4px; line-height:1; font-family: var(--font); }
+.site-header .logo-wrap .rt-mark { display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; position:relative; background:var(--primary); border-radius:5px; color:#fff; font-weight:900; font-size:16px; }
+.site-header .logo-wrap .rt-mark::before { content:none; display:none; }
+.site-header .logo-wrap .rt-mark::after { content:none; display:none; }
+.site-header .logo-wrap .brand-name { display:inline-block; }
+.site-header .logo-wrap .brand-name .dot-com { color: var(--primary); }
+.site-header .logo-wrap .reg { font-size:11px; color: var(--muted); margin-left:1px; font-weight:600; vertical-align:top; }
+.site-header .site-nav { display:flex; gap:22px; align-items:center; }
+.site-header .site-nav a { color:#232a31; font-size:14px; font-weight:600; cursor:pointer; padding:6px 2px; position:relative; }
+.site-header .site-nav a.active { color:#000; }
+.site-header .site-nav a.active::after { content:''; position:absolute; left:0; right:0; bottom:-3px; height:3px; background:#000; border-radius:1px; }
+.site-header .site-nav a:hover { color: var(--primary); }
+.site-header .acct { margin-left:auto; display:flex; gap:18px; align-items:center; font-size:13px; }
+.site-header .acct .acct-link { color:#232a31; font-weight:600; cursor:pointer; padding:6px 2px; }
+.site-header .acct .sign-in { background: var(--primary); color: var(--cta-text); border:none; padding:9px 20px; border-radius: var(--radius); font-weight:700; font-size:13px; cursor:pointer; }
+.site-header .acct .sign-in:hover { background: var(--primary-dark); }
+
+/* ---- Search bar (full-width row under header) ---- */
+.search-row { padding:14px 28px 0; background:#fff; }
+.search-row .search-input { width:100%; max-width:1280px; margin:0 auto; display:flex; align-items:center; padding:10px 16px; border:1.5px solid #cdd1d4; border-radius: var(--radius); background:#fff; font-size:14px; color:#888; gap:10px; }
+.search-row .search-input .placeholder { flex:1; }
+.search-row .search-input .si-icon { color: var(--muted); font-size:18px; }
+
+/* ---- Filter pills bar ---- */
+.filter-bar { padding:14px 28px 12px; background:#fff; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:10px; flex-wrap:wrap; max-width:1280px; margin:0 auto; width:100%; }
+.filter-bar .fb-pill { padding:8px 14px; border:1.5px solid #cdd1d4; border-radius: var(--radius); background:#fff; font-size:13.5px; font-weight:600; cursor:pointer; color:#232a31; white-space:nowrap; display:inline-flex; align-items:center; gap:6px; }
+.filter-bar .fb-pill .x { color:#666; font-weight:700; margin-left:4px; }
+.filter-bar .fb-pill:hover { border-color: var(--primary); color: var(--primary); }
+.filter-bar .fb-pill.active { background:#fff; border-color:#232a31; color:#000; }
+.filter-bar .fb-pill.more-pill { font-weight:700; }
+.filter-bar .fb-pill.more-pill .ic { display:inline-block; width:14px; height:10px; background:linear-gradient(#232a31,#232a31) 0 0/100% 2px no-repeat, linear-gradient(#232a31,#232a31) 0 4px/70% 2px no-repeat, linear-gradient(#232a31,#232a31) 0 8px/40% 2px no-repeat; margin-right:2px; }
+.filter-bar .fb-spacer { flex:1; }
+.filter-bar .save-search { padding:8px 14px; color: var(--primary); background:transparent; border:none; font-size:13.5px; font-weight:700; cursor:pointer; text-decoration:underline; }
+
+/* ---- Page title / results header ---- */
+.page-title { padding:18px 28px 6px; max-width:1280px; margin:0 auto; width:100%; }
+.page-title h1 { margin:0; font-size:26px; font-weight:800; color:#1f1f1f; font-family: var(--serif); letter-spacing:-0.4px; }
+.page-title .ptmeta { display:flex; align-items:center; gap:22px; margin-top:10px; font-size:13.5px; color: var(--muted); }
+.page-title .ptmeta .pt-count { color:#232a31; font-weight:700; }
+.page-title .ptmeta .pt-count strong { font-size:15px; }
+.page-title .ptmeta .sortby select { padding:5px 8px; border-radius: var(--radius); border:1px solid var(--line); font-size:13px; background:#fff; color:#232a31; }
+
+/* ---- Side-panel filter modal ---- */
+.modal-overlay { display:none; position:fixed; inset:0; background: rgba(0,0,0,0.45); z-index:999; }
+.modal-overlay.open { display:block; }
+.modal-card { position:absolute; top:0; right:0; height:100vh; width:480px; max-width:96vw; background:#fff; box-shadow: var(--shadow-lg); display:grid; grid-template-rows: auto 1fr auto; overflow:hidden; animation: slideIn .25s ease-out; }
+@keyframes slideIn { from { transform: translateX(40px); opacity: 0.6; } to { transform: translateX(0); opacity:1; } }
+.mc-head { display:flex; justify-content: space-between; align-items:center; padding:18px 24px 12px; }
+.mc-head h3 { margin:0; font-size:22px; font-weight:800; color:#1f1f1f; font-family: var(--serif); }
+.mc-close { background:transparent; border:none; font-size:24px; color:#232a31; cursor:pointer; padding:4px 8px; line-height:1; }
+.mc-mid { overflow-y:auto; padding:0 24px 16px; }
+.mc-section { padding:14px 0 4px; border-top:1px solid var(--line); }
+.mc-section:first-child { border-top:none; }
+.mc-section .sec-head { display:flex; justify-content:space-between; align-items:center; padding:8px 0 12px; }
+.mc-section .sec-head h4 { margin:0; font-size:16px; font-weight:700; color:#1f1f1f; }
+.mc-section .sec-head .chev { color: var(--muted); font-size:14px; }
+.lay-list label.cb { display:flex; align-items:center; gap:12px; padding:10px 0; font-size:14.5px; cursor:pointer; color:#232a31; }
+.lay-list label.cb:hover { color: var(--primary); }
+.lay-list label.cb input[type="checkbox"] { width:18px; height:18px; accent-color: var(--primary); border:1.5px solid #c0c4c7; border-radius:3px; }
+.mc-foot { display:flex; justify-content: space-between; align-items:center; padding:14px 24px; border-top:1px solid var(--line); background:#fff; }
+.mc-foot .ghost { background:transparent; border:none; color:#232a31; font-weight:700; font-size:14px; padding:10px 8px; text-decoration:underline; cursor:pointer; }
+.mc-foot .primary { background: var(--primary); color: var(--cta-text); border:none; padding:12px 28px; border-radius: var(--radius); font-weight:800; font-size:15px; cursor:pointer; }
+.mc-foot .primary:hover { background: var(--primary-dark); }
+
+/* ---- Results ---- */
+.results-wrap { padding:8px 28px 24px; max-width:1280px; margin:0 auto; width:100%; }
+.listing-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:20px; }
+@media (max-width: 900px) { .listing-grid { grid-template-columns: 1fr; } }
+
+/* legacy lcard fallback (used in initial render before filter API responds) */
+.lcard { background:#fff; border:1px solid var(--line); border-radius: var(--radius); overflow:hidden; box-shadow: var(--shadow-sm); display:flex; flex-direction:column; }
+.lcard:hover { box-shadow: var(--shadow-md); }
+.lc-photo { position:relative; background-color:#eaeaea; background-size:cover; background-position:center; height:220px; }
+.lc-heart { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background: rgba(255,255,255,0.9); border:none; cursor:pointer; font-size:16px; color:#444; }
+.lc-body { padding:12px 14px 16px; }
+.lc-price { font-weight:800; font-size:20px; color:#1f1f1f; }
+.lc-stats { font-size:14px; color:#232a31; margin-top:4px; font-weight:500; }
+.lc-addr { font-size:13.5px; color: var(--muted); margin-top:6px; }
+.lc-city { font-size:12.5px; color: var(--muted); margin-top:2px; }
+
+/* lstg-* row cards returned by /api/filter */
+.lstg-row { background:#fff; border:1px solid var(--line); border-radius: var(--radius); overflow:hidden; box-shadow: var(--shadow-sm); display:flex; flex-direction:column; transition: box-shadow .15s; }
+.lstg-row:hover { box-shadow: var(--shadow-md); }
+.lstg-photo-wrap { position:relative; height:220px; background:#eaeaea; }
+.lstg-photo { position:absolute; inset:0; background-size:cover; background-position:center; }
+.lstg-photo-tag { position:absolute; top:10px; left:10px; background:#ffd84d; color:#1f1f1f; font-weight:800; font-size:11px; padding:3px 8px; border-radius:3px; letter-spacing:0.04em; text-transform:uppercase; }
+.lstg-heart { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background: rgba(255,255,255,0.9); border:none; cursor:pointer; font-size:16px; color:#444; box-shadow:0 1px 3px rgba(0,0,0,0.12); }
+.lstg-dom { position:absolute; bottom:10px; right:10px; background: rgba(0,0,0,0.55); color:#fff; font-size:11px; padding:3px 8px; border-radius:3px; font-weight:600; }
+.lstg-body { padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; }
+.lstg-top { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+.lstg-price { font-weight:800; font-size:22px; color:#1f1f1f; letter-spacing:-0.3px; }
+.lstg-stats { font-size:14px; color:#232a31; margin-top:2px; font-weight:500; }
+.lstg-addr { font-size:13.5px; color: var(--muted); margin-top:4px; }
+.lstg-city { font-size:13px; color: var(--muted); margin-top:1px; }
+.lstg-ptype { background: var(--soft); color:#444; font-size:11px; padding:3px 8px; border-radius:3px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; flex-shrink:0; }
+.lstg-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:2px; }
+.lstg-tag { font-size:11px; padding:3px 8px; border-radius:3px; font-weight:700; text-transform:uppercase; letter-spacing:0.03em; }
+.lstg-tag-new { background:#0a8754; color:#fff; }
+.lstg-tag-reduced { background:#fdecec; color: var(--primary); }
+.lstg-tag-pet { background:#fff7df; color:#7a5e00; }
+.lstg-foot { display:flex; justify-content:space-between; align-items:center; margin-top:6px; padding-top:8px; border-top:1px solid #f0f1f2; }
+.lstg-broker { font-size:12px; color: var(--muted); }
+.lstg-broker b { color:#232a31; font-weight:700; }
+.lstg-tour { background:#fff; color:#232a31; border:1.5px solid #cdd1d4; padding:6px 12px; font-size:12.5px; font-weight:700; border-radius: var(--radius); cursor:pointer; }
+.lstg-tour:hover { border-color: var(--primary); color: var(--primary); }
+
+/* ---- Footer ---- */
+.site-footer { background:#1f2228; color:#cbd0d6; padding:36px 28px 18px; margin-top:40px; }
+.site-footer .ft-cols { display:grid; grid-template-columns: repeat(4,1fr); gap:28px; max-width:1280px; margin:0 auto 20px; }
+.site-footer .ft-cols div h5 { font-size:13px; font-weight:800; margin:0 0 12px; color:#fff; letter-spacing:0.04em; text-transform:uppercase; }
+.site-footer .ft-cols div a { display:block; font-size:12.5px; color:#cbd0d6; margin-bottom:6px; }
+.site-footer .ft-cols div a:hover { color:#fff; text-decoration:underline; }
+.site-footer .ft-bot { display:flex; justify-content:space-between; max-width:1280px; margin:0 auto; font-size:11.5px; color:#8b939c; padding-top:16px; border-top:1px solid #2c3137; }
+.site-footer .ft-bot .ft-brand { font-weight:700; color:#fff; }
+</style>
+</head>
+<body data-brand-name="EchoHomes">
+<div class="page">
+<header class="site-header">
+  <span class="logo-wrap"><span class="rt-mark">E</span><span class="brand-name">EchoHomes</span><span class="reg">®</span></span>
+  <nav class="site-nav">
+      <a class="active">Buy</a>
+      <a>Sell</a>
+      <a>Rent</a>
+      <a>Mortgage</a>
+      <a>Find an Agent</a>
+      <a>My Home</a>
+      <a>News &amp; Insights</a>
+  </nav>
+  <div class="acct">
+    <span class="acct-link">Saved homes</span>
+    <span class="acct-link">Help</span>
+    <button class="sign-in">Sign in</button>
+  </div>
+</header>
+<div class="search-row">
+  <div class="search-input"><span class="si-icon">⌕</span><span class="placeholder">Try "4 bedroom homes with a large lot in Staten Island, NY"</span></div>
+</div>
+<div class="filter-bar">
+  <button class="fb-pill more-pill" onclick="W07toggle()" id="w07-trigger"><span class="ic"></span>Filters</button>
+  <button class="fb-pill active">4 beds <span class="x">×</span></button>
+  <button class="fb-pill">Price ▾</button>
+  <button class="fb-pill">Home type ▾</button>
+  <button class="fb-pill">New construction</button>
+  <button class="fb-pill">Hide pending / contingent</button>
+  <div class="fb-spacer"></div>
+  <button class="save-search">Save search</button>
+</div>
+<section class="page-title">
+  <h1>4 bedroom homes for sale in Staten Island, NY</h1>
+  <div class="ptmeta">
+    <span class="pt-count"><strong id="result-count" data-label="Homes">20 Homes</strong></span>
+    <span class="sortby">Sort by: <select><option>Relevant listings</option><option>Price (low to high)</option><option>Price (high to low)</option><option>Newest</option></select></span>
+  </div>
+</section>
+<div class="modal-overlay" id="w07-modal" onclick="if(event.target===this)W07close()">
+  <div class="modal-card">
+    <div class="mc-head"><h3>Filters</h3><button class="mc-close" onclick="W07close()" aria-label="Close">×</button></div>
+    <div class="mc-mid">
+      <div class="mc-section">
+        <div class="sec-head"><h4>Schools &amp; lot</h4><span class="chev">▾</span></div>
+        <div class="lay-list">
+          <label class="cb"><input type="checkbox" data-facet="modal_top_rated_schools" onchange="W07sync()"> <span>Top-rated schools nearby</span></label>
+          <label class="cb"><input type="checkbox" data-facet="modal_large_lot_quarter_plus" onchange="W07sync()"> <span>Large lot (0.25+ acres)</span></label>
+          <label class="cb"><input type="checkbox" data-facet="modal_corner_lot" onchange="W07sync()"> <span>Corner lot</span></label>
+        </div>
+      </div>
+      <div class="mc-section">
+        <div class="sec-head"><h4>Interior features</h4><span class="chev">▾</span></div>
+        <div class="lay-list">
+          <label class="cb"><input type="checkbox" data-facet="modal_finished_basement" onchange="W07sync()"> <span>Finished basement</span></label>
+          <label class="cb"><input type="checkbox" data-facet="modal_renovated_kitchen" onchange="W07sync()"> <span>Renovated kitchen</span></label>
+          <label class="cb"><input type="checkbox" data-facet="modal_master_on_first" onchange="W07sync()"> <span>Master bedroom on first floor</span></label>
+        </div>
+      </div>
+      <div class="mc-section">
+        <div class="sec-head"><h4>Property &amp; systems</h4><span class="chev">▾</span></div>
+        <div class="lay-list">
+          <label class="cb"><input type="checkbox" data-facet="modal_two_car_garage" onchange="W07sync()"> <span>2-car garage</span></label>
+          <label class="cb"><input type="checkbox" data-facet="modal_central_ac" onchange="W07sync()"> <span>Central A/C</span></label>
+          <label class="cb"><input type="checkbox" data-facet="modal_no_flood_zone" onchange="W07sync()"> <span>Outside flood zone</span></label>
+          <label class="cb"><input type="checkbox" data-facet="modal_solar_panels" onchange="W07sync()"> <span>Solar panels</span></label>
+        </div>
+      </div>
+    </div>
+    <div class="mc-foot">
+      <button class="ghost" onclick="W07clearAll()">Clear all</button>
+      <button class="primary" onclick="W07close()">Show <span id="show-count">20</span> homes</button>
+    </div>
+  </div>
+</div>
+<section class="results-wrap">
+  <div class="listing-grid" id="listing-grid"><div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/164558/pexels-photo-164558.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$245,000</div>
+    <div class="lc-stats">3 bd · 3.5 ba · 2,324 sqft</div>
+    <div class="lc-addr">8063 Walnut Blvd</div>
+    <div class="lc-city">Eltingville, Loft</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/210617/pexels-photo-210617.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$407,000</div>
+    <div class="lc-stats">3 bd · 1 ba · 3,004 sqft</div>
+    <div class="lc-addr">3970 Oak Pl</div>
+    <div class="lc-city">Annadale, Townhouse</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/2102587/pexels-photo-2102587.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$965,000</div>
+    <div class="lc-stats">2 bd · 4 ba · 3,962 sqft</div>
+    <div class="lc-addr">1067 Spruce Ln</div>
+    <div class="lc-city">Annadale, Townhouse</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$1,016,000</div>
+    <div class="lc-stats">1 bd · 1 ba · 977 sqft</div>
+    <div class="lc-addr">5256 Elm Ave</div>
+    <div class="lc-city">Staten Island, Condo</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$997,000</div>
+    <div class="lc-stats">5 bd · 1.5 ba · 1,063 sqft</div>
+    <div class="lc-addr">6113 Pine St</div>
+    <div class="lc-city">Annadale, Co-op</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$509,000</div>
+    <div class="lc-stats">5 bd · 4 ba · 654 sqft</div>
+    <div class="lc-addr">3605 Pine Pl</div>
+    <div class="lc-city">Annadale, Multi-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/2079249/pexels-photo-2079249.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$696,000</div>
+    <div class="lc-stats">3 bd · 2 ba · 1,338 sqft</div>
+    <div class="lc-addr">4957 Pine Dr</div>
+    <div class="lc-city">Annadale, Loft</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$942,000</div>
+    <div class="lc-stats">2 bd · 1 ba · 3,955 sqft</div>
+    <div class="lc-addr">2592 Oak Way</div>
+    <div class="lc-city">Tottenville, Loft</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$705,000</div>
+    <div class="lc-stats">4 bd · 2 ba · 3,063 sqft</div>
+    <div class="lc-addr">6554 Maple Blvd</div>
+    <div class="lc-city">Annadale, Loft</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/106349/pexels-photo-106349.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$195,000</div>
+    <div class="lc-stats">2 bd · 2 ba · 2,113 sqft</div>
+    <div class="lc-addr">5359 Birch Rd</div>
+    <div class="lc-city">Annadale, Single-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/259593/pexels-photo-259593.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$459,000</div>
+    <div class="lc-stats">5 bd · 3 ba · 2,013 sqft</div>
+    <div class="lc-addr">1099 Oak Rd</div>
+    <div class="lc-city">Annadale, Townhouse</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1438832/pexels-photo-1438832.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$239,000</div>
+    <div class="lc-stats">3 bd · 3 ba · 2,185 sqft</div>
+    <div class="lc-addr">8767 Spruce St</div>
+    <div class="lc-city">New Dorp, Loft</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/164558/pexels-photo-164558.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$476,000</div>
+    <div class="lc-stats">3 bd · 4 ba · 2,351 sqft</div>
+    <div class="lc-addr">6779 Elm Rd</div>
+    <div class="lc-city">Tottenville, Single-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/210617/pexels-photo-210617.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$436,000</div>
+    <div class="lc-stats">4 bd · 1.5 ba · 3,617 sqft</div>
+    <div class="lc-addr">4495 Elm Way</div>
+    <div class="lc-city">New Dorp, Multi-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/2102587/pexels-photo-2102587.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$464,000</div>
+    <div class="lc-stats">2 bd · 2 ba · 3,235 sqft</div>
+    <div class="lc-addr">7514 Maple Blvd</div>
+    <div class="lc-city">Annadale, Single-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$739,000</div>
+    <div class="lc-stats">4 bd · 1.5 ba · 2,676 sqft</div>
+    <div class="lc-addr">6256 Pine Blvd</div>
+    <div class="lc-city">New Dorp, Multi-Family</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$659,000</div>
+    <div class="lc-stats">4 bd · 2 ba · 3,442 sqft</div>
+    <div class="lc-addr">236 Elm Pl</div>
+    <div class="lc-city">Eltingville, Condo</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$980,000</div>
+    <div class="lc-stats">1 bd · 2 ba · 3,171 sqft</div>
+    <div class="lc-addr">8779 Oak Rd</div>
+    <div class="lc-city">Staten Island, Townhouse</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/2079249/pexels-photo-2079249.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$201,000</div>
+    <div class="lc-stats">4 bd · 4 ba · 4,276 sqft</div>
+    <div class="lc-addr">5958 Pine Ln</div>
+    <div class="lc-city">New Dorp, Townhouse</div>
+  </div>
+</div>
+<div class="lcard">
+  <div class="lc-photo" style="background-image:url('https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&h=150');">
+    
+    <button class="lc-heart" title="Save">♡</button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-price">$667,000</div>
+    <div class="lc-stats">2 bd · 2.5 ba · 2,861 sqft</div>
+    <div class="lc-addr">1564 Maple Ln</div>
+    <div class="lc-city">Annadale, Multi-Family</div>
+  </div>
+</div></div>
+</section>
+<footer class="site-footer">
+  <div class="ft-cols">
+    <div><h5>EchoHomes</h5><a>About us</a><a>Careers</a><a>Newsroom</a><a>Tech blog</a><a>Diversity &amp; inclusion</a></div>
+    <div><h5>For home shoppers</h5><a>Buy a home</a><a>Find an Echo Agent</a><a>Home values</a><a>Mortgage calculator</a><a>Find a builder</a></div>
+    <div><h5>For renters</h5><a>Houses for rent</a><a>Apartments for rent</a><a>Rentals near me</a><a>Rental manager</a></div>
+    <div><h5>Help</h5><a>Contact us</a><a>Help center</a><a>Privacy notice</a><a>Terms of Use</a><a>Equal Housing Opportunity</a></div>
+  </div>
+  <div class="ft-bot">
+    <span><span class="ft-brand">EchoHomes</span> &nbsp;© 2026 EchoHomes, Inc. All rights reserved.</span>
+    <span>Equal Housing Opportunity ⌂</span>
+  </div>
+</footer>
+</div>
+<script>
+const ENV_ID = "W07_E03";
+const FACET_LABELS = {"modal_top_rated_schools": "Top-rated schools nearby", "modal_large_lot_quarter_plus": "Large lot (0.25+ acres)", "modal_corner_lot": "Corner lot", "modal_finished_basement": "Finished basement", "modal_two_car_garage": "2-car garage", "modal_central_ac": "Central A/C", "modal_no_flood_zone": "Outside flood zone", "modal_renovated_kitchen": "Renovated kitchen", "modal_master_on_first": "Master bedroom on first floor", "modal_solar_panels": "Solar panels"};
+const TRIGGER_STYLE = "tab_modal";
+let filterState = {};
+
+function W07toggle() {
+  const m = document.getElementById('w07-modal');
+  if (!m) return;
+  m.classList.toggle('open');
+}
+function W07close() {
+  const m = document.getElementById('w07-modal');
+  if (m) m.classList.remove('open');
+}
+function W07apply() { W07close(); }
+function W07clearAll() {
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    if (el.type === 'checkbox') el.checked = false;
+  });
+  document.querySelectorAll('.lay-pills label.pill.active').forEach(el => el.classList.remove('active'));
+  W07sync();
+}
+
+function W07tab(btn, i) {
+  const root = document.getElementById('w07-modal');
+  root.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  root.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const pane = root.querySelector('.tab-pane[data-pane="'+i+'"]');
+  if (pane) pane.classList.add('active');
+}
+
+function W07sync() {
+  const newState = {};
+  document.querySelectorAll('input[type="checkbox"][data-facet]').forEach(el => {
+    if (el.checked) newState[el.dataset.facet] = 'on';
+  });
+  filterState = newState;
+
+  const live = document.getElementById('w07-live-list');
+  if (live) {
+    const keys = Object.keys(newState);
+    live.innerHTML = keys.length ? keys.map(k => '<li>✓ ' + (FACET_LABELS[k] || k) + '</li>').join('')
+                                 : '<li style="color:#888;">No filters selected yet</li>';
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ filter_state: filterState })
+  }).then(r => r.json()).then(data => {
+    if (data.html_cards) document.getElementById('listing-grid').innerHTML = data.html_cards;
+    const n = (data.results || []).length;
+    const rc = document.getElementById('result-count');
+    if (rc) {
+      const label = rc.dataset.label || 'Homes';
+      rc.textContent = n + ' ' + label;
+    }
+    const sc = document.getElementById('show-count');
+    if (sc) sc.textContent = n;
+    const brandName = document.body.dataset.brandName || '';
+    if (brandName) {
+      document.querySelectorAll('.lstg-dom').forEach(el => {
+        el.textContent = el.textContent.replace(/on Realtor\b/i, 'on ' + brandName);
+      });
+    }
+  }).catch(() => {});
+
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ filter_state: filterState, answer: '', task_id: taskId })
+  }).catch(() => {});
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  W07sync();
+  var __m = document.getElementById('w07-modal');
+  if (__m) __m.classList.add('open');
+});
+</script>
+</body></html>

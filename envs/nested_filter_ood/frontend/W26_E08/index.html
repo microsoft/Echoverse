@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EchoAir — EchoAir flight Hong Kong → Manila</title>
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+
+
+
+
+
+:root { --brand: #007F3D; --accent: #E2231A; }
+
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1a1a1a;background:#fafafa;min-height:100vh;padding-bottom:80px}
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #e0e0e0;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:1000;box-shadow:0 -2px 12px rgba(0,0,0,.08)}
+.live-status{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#555;padding:8px 12px;background:#f4f4f4;border-radius:6px;flex:1;min-width:200px}
+.live-status.working{background:#e7f1ff;color:#0a3b7e}
+.live-status.pass{background:#d4f4d8;color:#175c2c;border:1px solid #5cc274}
+.live-status.fail{background:#fde6e6;color:#7a1f1f;border:1px solid #e07b7b}
+.bar-actions{display:flex;gap:8px;align-items:center}
+.answer-input{padding:8px 12px;border:1px solid #cbd5e0;border-radius:6px;font-size:13px;min-width:240px}
+.btn-apply{padding:9px 18px;background:#222;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer}
+.btn-apply:hover{filter:brightness(1.1)}
+.task-banner{position:fixed;top:0;left:0;right:0;background:#fff8d2;border-bottom:1px solid #e3d18c;padding:8px 16px;font-size:13px;z-index:2000;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.task-banner .tb-id{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#7a661c;margin-bottom:2px}
+.task-banner .tb-text{color:#4a3a00;font-weight:500}
+.ac-list{position:absolute;z-index:1100;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 12px 30px rgba(0,0,0,.14);min-width:320px;max-width:480px;max-height:340px;overflow-y:auto;margin-top:4px;padding:6px 0;display:none}
+.ac-item{padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;border-bottom:1px solid #f3f4f6}
+.ac-item:hover{background:#f6f8fc}
+.ac-item:last-child{border-bottom:none}
+.ac-pin{font-size:14px;color:#888;flex:0 0 16px}
+.ac-text{flex:1;display:flex;flex-direction:column;gap:1px;min-width:0}
+.ac-name{font-size:14px;color:#1a1a1a;font-weight:500;line-height:1.2}
+.ac-city{font-size:12px;color:#7a7a7a;line-height:1.2}
+.ac-code{font-weight:700;font-size:12px;color:#666;letter-spacing:.5px;flex:0 0 auto;padding:2px 8px;border-radius:4px;background:#f0f3f7}
+.ac-no{padding:14px 16px;color:#b34a4a;font-size:13px;font-style:italic}
+/* AirAsia MOVE calendar — always visible, dual-month, red selected */
+.cal-pop{display:block;position:relative;z-index:1;background:#fff;border:1px solid #ececec;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.06);padding:18px 20px 20px;margin-top:18px;min-width:0}
+.cal-pop.open{display:block}
+.cal-pop-title{font-size:12px;font-weight:800;color:#7a7a7a;letter-spacing:.7px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.cal-pop-title::before{content:"📅";font-size:14px}
+.cal-pop-title .cal-pop-sub{font-weight:600;color:#999;letter-spacing:.3px;text-transform:none;margin-left:8px;font-size:11px}
+.cal-dual{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+.cal-side{min-width:0}
+.cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding:0 2px}
+.cal-head .cal-month{font-weight:800;font-size:15px;color:#1a1a1a;flex:1;text-align:center;letter-spacing:.2px}
+.cal-nav{background:#fff;border:1px solid #e4e4e4;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:16px;color:#222;line-height:1;display:inline-flex;align-items:center;justify-content:center;transition:all .15s}
+.cal-nav:hover{background:#E2231A;color:#fff;border-color:#E2231A;box-shadow:0 4px 10px rgba(226,35,26,.25)}
+.cal-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:0;margin-bottom:6px;border-bottom:1px solid #f1f1f1;padding-bottom:6px}
+.cal-dow span{text-align:center;font-size:10px;font-weight:700;color:#888;padding:4px 0;letter-spacing:.6px;text-transform:uppercase}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-day{min-height:44px;padding:6px 0 4px;text-align:center;cursor:pointer;border-radius:8px;font-size:14px;font-weight:600;color:#222;background:transparent;transition:all .12s ease;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
+.cal-day.blank{cursor:default;visibility:hidden}
+.cal-day:not(.blank):hover{background:#fff1f0;color:#E2231A}
+.cal-day .cal-day-num{display:block;line-height:1.15}
+.cal-day .cal-day-price{display:block;font-size:9.5px;font-weight:600;color:#888;letter-spacing:.2px;margin-top:2px;line-height:1}
+.cal-day.today{box-shadow:inset 0 0 0 1.5px #d4d4d4}
+.cal-day.today .cal-day-num{color:#222}
+.cal-day.selected,.cal-day.range-end{background:#E2231A!important;color:#fff!important;font-weight:800;box-shadow:0 4px 12px rgba(226,35,26,.35)}
+.cal-day.selected .cal-day-num,.cal-day.range-end .cal-day-num{color:#fff}
+.cal-day.selected .cal-day-price,.cal-day.range-end .cal-day-price{color:#ffe2e0}
+.cal-day.in-range{background:#fde6e5;color:#9a1a13}
+.cal-day.in-range .cal-day-price{color:#c75951}
+.cal-legend{display:flex;gap:18px;margin-top:14px;padding-top:12px;border-top:1px solid #f1f1f1;font-size:11px;color:#777}
+.cal-legend .leg-item{display:inline-flex;align-items:center;gap:6px}
+.cal-legend .leg-swatch{display:inline-block;width:12px;height:12px;border-radius:50%;background:#E2231A}
+.cal-legend .leg-swatch.leg-today{background:transparent;border:1.5px solid #d4d4d4}
+.result-grid{display:flex;flex-direction:column;gap:10px;padding:16px}
+.flight-row{background:#fff;border:1px solid #e6eaef;border-radius:8px;padding:14px 16px;display:grid;grid-template-columns:140px 1fr 200px 140px;gap:14px;align-items:center;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.flight-row .fr-air{font-weight:700;font-size:14px;color:#222}
+.flight-row .fr-air .fr-sub{font-weight:400;font-size:11px;color:#888;display:block;margin-top:2px}
+.flight-row .fr-route{display:flex;align-items:center;gap:10px;font-size:13px}
+.flight-row .fr-end{text-align:center}
+.flight-row .fr-time{font-weight:700;font-size:16px;color:#222}
+.flight-row .fr-code{font-size:11px;color:#888;letter-spacing:.5px}
+.flight-row .fr-mid{flex:1;text-align:center;color:#888;font-size:11px}
+.flight-row .fr-mid .fr-line{height:1px;background:#cbd5e0;margin:4px 0;position:relative}
+.flight-row .fr-mid .fr-line::after{content:'✈';position:absolute;right:-2px;top:-8px;color:#888;font-size:11px}
+.flight-row .fr-meta{font-size:12px;color:#666}
+.flight-row .fr-meta .fr-when{color:#222;font-weight:600}
+.flight-row .fr-price{text-align:right}
+.flight-row .fr-price .fr-amt{font-weight:800;font-size:20px;color:var(--brand,#0066cc)}
+.flight-row .fr-price .fr-per{font-size:11px;color:#888}
+.flight-row .fr-price button{margin-top:6px;padding:6px 14px;background:var(--brand,#0066cc);color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer;font-size:12px}
+.hotel-row{background:#fff;border:1px solid #e6eaef;border-radius:8px;padding:0;display:grid;grid-template-columns:200px 1fr 160px;gap:0;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.hotel-row .hr-img{height:140px;background-size:cover;background-position:center;background-color:#dde}
+.hotel-row .hr-body{padding:12px 16px}
+.hotel-row .hr-name{font-weight:700;font-size:15px;color:#222;margin-bottom:4px}
+.hotel-row .hr-loc{font-size:12px;color:#777;margin-bottom:6px}
+.hotel-row .hr-rev{font-size:12px;color:#0a8754;font-weight:600;margin-bottom:6px}
+.hotel-row .hr-meta{font-size:12px;color:#555;line-height:1.5}
+.hotel-row .hr-price{padding:14px 12px;text-align:right;background:#fafbfc;border-left:1px solid #eef}
+.hotel-row .hr-price .hr-amt{font-weight:800;font-size:20px;color:#222}
+.hotel-row .hr-price .hr-per{font-size:11px;color:#888}
+.hotel-row .hr-price button{margin-top:8px;padding:6px 12px;background:var(--brand,#0066cc);color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer;font-size:12px}
+.section-head{padding:12px 16px;font-size:14px;color:#666;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eef}
+.section-head h2{margin:0;font-size:16px;color:#222}
+
+
+body { background:#fff }
+.aa-top { background:#fff; border-bottom:1px solid #e8e8e8 }
+.aa-top-row1 { display:flex; align-items:center; gap:24px; padding:10px 32px; font-size:12px; color:#666 }
+.aa-top-row1 a { color:#666; text-decoration:none }
+.aa-top-row1 a:hover { color:#E2231A }
+.aa-top-row1 .spacer { flex:1 }
+.aa-top-row2 { display:flex; align-items:center; padding:14px 32px; gap:32px }
+.aa-logo { font-weight:900; font-size:28px; color:#E2231A; letter-spacing:-1px }
+.aa-logo span { color:#fff; background:#007F3D; padding:2px 8px; border-radius:6px; margin-left:6px; font-size:14px; vertical-align:3px }
+.aa-nav { display:flex; gap:24px; flex:1 }
+.aa-nav a { color:#222; text-decoration:none; font-size:14px; font-weight:500 }
+.aa-nav a.active { color:#E2231A; border-bottom:3px solid #E2231A; padding-bottom:4px }
+.aa-hero { background:linear-gradient(135deg,#007F3D 0%,#005c2c 100%); padding:60px 32px 130px; color:#fff }
+.aa-hero h1 { margin:0; font-size:34px; font-weight:800 }
+.aa-hero .tag { margin-top:8px; color:#cfe9d6; font-size:15px }
+.aa-card { max-width:1100px; margin:-90px auto 0; background:#fff; border-radius:14px; box-shadow:0 14px 50px rgba(0,0,0,.18); padding:24px 28px; position:relative; z-index:5 }
+.aa-tabs { display:flex; gap:8px; margin-bottom:18px }
+.aa-tab { padding:10px 18px; border-radius:30px; font-weight:600; font-size:13px; cursor:pointer; color:#444; background:#f4f4f4 }
+.aa-tab.active { background:#E2231A; color:#fff }
+.aa-pre-row { display:flex; gap:12px; margin-bottom:14px; flex-wrap:wrap }
+.aa-pill { padding:8px 14px; background:#f7f7f7; border:1px solid #e4e4e4; border-radius:8px; font-size:13px; color:#222 }
+.aa-form { display:grid; grid-template-columns:1.2fr 0.4fr 1.2fr 1fr 1fr 160px; gap:8px; align-items:end }
+.aa-field { display:flex; flex-direction:column; gap:4px; position:relative }
+.aa-field label { font-size:11px; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:.5px }
+.aa-field input { padding:14px 12px; border:1px solid #d4d4d4; border-radius:8px; font-size:14px; outline:none; background:#fff }
+.aa-field input:focus { border-color:#007F3D }
+.aa-swap { display:flex; align-items:center; justify-content:center; height:46px }
+.aa-swap button { background:#fff; border:1px solid #d4d4d4; border-radius:50%; width:36px; height:36px; cursor:pointer; font-size:14px }
+.aa-search { background:#E2231A; color:#fff; padding:14px 24px; border:none; border-radius:8px; font-size:15px; font-weight:800; cursor:pointer; height:46px }
+.aa-search:hover { background:#c11a14 }
+.aa-results { max-width:1100px; margin:24px auto 0; padding:0 32px }
+.aa-results .section-head { padding:14px 0; border-bottom:1px solid #eee }
+
+
+/* W26 polish — destination image strip + auto-submit */
+.dest-strip-wrap { max-width:1100px; margin:24px auto 0; padding:0 32px; }
+.dest-strip-head { font-size:13px; font-weight:700; color:#444; margin-bottom:10px; text-transform:uppercase; letter-spacing:.6px; }
+.dest-strip { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; }
+.dest-tile { position:relative; height:120px; border-radius:10px; overflow:hidden; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.08); transition:transform .15s, box-shadow .15s; background:#dde; }
+.dest-tile:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.18); }
+.dest-tile img { width:100%; height:100%; object-fit:cover; display:block; }
+.dest-tile .dest-label { position:absolute; left:0; right:0; bottom:0; padding:8px 10px; background:linear-gradient(to top, rgba(0,0,0,.78), rgba(0,0,0,0)); color:#fff; }
+.dest-tile .dest-name { font-size:13px; font-weight:700; line-height:1.1; }
+.dest-tile .dest-code { font-size:10px; opacity:.85; letter-spacing:.5px; margin-top:2px; }
+.dest-tile.selected { outline:3px solid var(--brand, #007F3D); }
+
+/* Auto-submit affordance: replace search button area with a status pill */
+.aa-search-replaced, .ta-sb-btn-replaced, .kl-search-replaced, .lt-search-replaced,
+.wz-search-replaced, .fa-search-replaced, .dr-search-replaced {
+  display:none !important;
+}
+.live-status.working { background:#e7f1ff; color:#0a3b7e; }
+.live-status.pass { background:#d4f4d8; color:#175c2c; border:1px solid #5cc274; }
+.live-status.fail { background:#fde6e6; color:#7a1f1f; border:1px solid #e07b7b; }
+.answer-input { padding:8px 12px; border:1px solid #cbd5e0; border-radius:6px; font-size:13px; min-width:240px }
+
+/* W26_POLISH_BOTTOM_BAR_HIDE v1 */
+
+/* W26 polish: hide leftover empty bottom-bar (its children were already display:none, but the empty container itself was visible as a 50px white bar with shadow). */
+.bottom-bar, .bar-actions, #live-status, #answer-input, #submit-btn { display:none !important; }
+.task-banner, #task-banner { display:none !important; visibility:hidden !important; }
+body { padding-bottom: 0 !important; }
+
+
+/* W26 variant: modal flyout autocomplete */
+.ac-modal-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,42,.55); z-index:5000; align-items:flex-start; justify-content:center; padding-top:8vh; }
+.ac-modal-overlay.open { display:flex; }
+.ac-modal-card { background:#fff; width:560px; max-width:92vw; border-radius:14px; box-shadow:0 24px 60px rgba(0,0,0,.32); padding:18px 0 12px; max-height:78vh; display:flex; flex-direction:column; }
+.ac-modal-head { display:flex; align-items:center; gap:10px; padding:0 18px 14px; border-bottom:1px solid #eef1f5; }
+.ac-modal-head .ac-modal-title { font-weight:700; font-size:15px; color:#222; flex:1; }
+.ac-modal-head .ac-modal-close { width:32px; height:32px; border-radius:50%; border:none; background:#f1f5f9; cursor:pointer; font-size:16px; color:#475569; }
+.ac-modal-head .ac-modal-input { flex:1; padding:10px 14px; border:1px solid #cbd5e0; border-radius:8px; font-size:14px; outline:none; }
+.ac-modal-head .ac-modal-input:focus { border-color:var(--brand,#00aa6c); box-shadow:0 0 0 3px rgba(0,170,108,.15); }
+.ac-modal-list { position:static; box-shadow:none; border:none; max-height:none; flex:1; min-width:0; max-width:none; overflow-y:auto; display:block; padding:6px 0; }
+
+/* W26 variant: dual-month inline calendar (always visible) */
+.cal-pop.single-style { min-width:0; padding:18px 20px 20px; }
+.cal-pop.single-style .cal-dual { grid-template-columns:1fr 1fr; gap:36px; }
+
+</style>
+</head>
+<body>
+<div id="task-banner" class="task-banner" style="display:none"></div>
+
+<header class="aa-top">
+  <div class="aa-top-row1">
+    <a href="#">App</a><a href="#">Purchases</a><a href="#">Check-in</a><a href="#">FAQ</a>
+    <a href="#">Flight Status</a><a href="#">Support</a><a href="#">Promotions</a>
+    <div class="spacer"></div>
+    <a href="#">EN | SGD</a><a href="#">Login</a>
+  </div>
+  <div class="aa-top-row2">
+    <div class="aa-logo">EchoAir</div>
+    <nav class="aa-nav">
+      <a href="#" class="active">Flights</a>
+      <a href="#">Flight + Hotel</a>
+      <a href="#">Hotels</a>
+      <a href="#">Activities</a>
+      <a href="#">Snap</a>
+      <a href="#">More</a>
+    </nav>
+  </div>
+</header>
+
+<section class="aa-hero">
+  <h1>Now everyone can fly</h1>
+  <div class="tag">Book your next EchoAir journey with up to 25% off select destinations.</div>
+</section>
+
+<div class="aa-card">
+  <div class="aa-tabs">
+    <div class="aa-tab active">Flights</div>
+    <div class="aa-tab">Flight + Hotel</div>
+    <div class="aa-tab">Hotels</div>
+    <div class="aa-tab">Activities</div>
+    <div class="aa-tab">Snap</div>
+  </div>
+  <div class="aa-pre-row">
+    <span class="aa-pill">⚪ Round trip   ⚫ One-way   ⚪ Multi-city</span>
+    <span class="aa-pill">👤 1 Guest, Economy</span>
+    <span class="aa-pill">🏷️ Promo code</span>
+  </div>
+  <div class="aa-form">
+    <div class="aa-field">
+      <label>From</label>
+      <input type="text" value="Hong Kong (HKG)" oninput="focusAc('origin', event)" class="ac-inp" / onclick="openAcModal('origin')" readonly>
+      
+    </div>
+    <div class="aa-swap"><button type="button">⇄</button></div>
+    <div class="aa-field">
+      <label>To</label>
+      <input type="text" placeholder="Where to?" oninput="focusAc('dest', event)" class="ac-inp" / onclick="openAcModal('dest')" readonly>
+      
+    </div>
+    <div class="aa-field">
+      <label>Depart</label>
+      <input type="text" placeholder="Select date" readonly data-facet-input="depart" />
+    </div>
+    <div class="aa-field">
+      <label>Return</label>
+      <input type="text" placeholder="Select date" readonly data-facet-input="return" />
+    </div>
+    <button type="button" class="aa-search" onclick="applyFilters()">Search</button>
+  </div>
+  
+
+<div id="cal-pop" class="cal-pop single-style">
+  <div class="cal-pop-title">Choose your travel dates <span class="cal-pop-sub">Tap once for depart, again for return · use ‹ › to advance months</span></div>
+  <div class="cal-dual">
+    <div class="cal-side">
+      <div class="cal-head">
+        <button type="button" class="cal-nav" onclick="calAdv(-1,'calL','calR')" aria-label="Previous month">‹</button>
+        <div class="cal-month" id="calL-label">May 2026</div>
+        <span style="width:32px"></span>
+      </div>
+      <div data-cal-grid="calL" data-cal-label="calL-label" data-base-month="4" data-base-year="2026" id="calL"></div>
+    </div>
+    <div class="cal-side">
+      <div class="cal-head">
+        <span style="width:32px"></span>
+        <div class="cal-month" id="calR-label">June 2026</div>
+        <button type="button" class="cal-nav" onclick="calAdv(1,'calL','calR')" aria-label="Next month">›</button>
+      </div>
+      <div data-cal-grid="calR" data-cal-label="calR-label" data-base-month="5" data-base-year="2026" id="calR"></div>
+    </div>
+  </div>
+  <div class="cal-legend">
+    <span class="leg-item"><span class="leg-swatch"></span> Selected date</span>
+    <span class="leg-item"><span class="leg-swatch leg-today"></span> Today</span>
+    <span class="leg-item" style="color:#999">Prices in USD · subject to availability</span>
+  </div>
+</div>
+</div>
+
+<!-- W26 polish destination strip -->
+<div class="dest-strip-wrap"><div class="dest-strip-head">Asia getaways</div><div class="dest-strip"><div class="dest-tile" data-code="MNL" data-name="Manila" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/392265/pexels-photo-392265.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Manila"/><div class="dest-label"><div class="dest-name">Manila</div><div class="dest-code">MNL</div></div></div><div class="dest-tile" data-code="CRK" data-name="Angeles City" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/18523641/pexels-photo-18523641.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Angeles City"/><div class="dest-label"><div class="dest-name">Angeles City</div><div class="dest-code">CRK</div></div></div><div class="dest-tile" data-code="MFM" data-name="Macau" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/16573669/pexels-photo-16573669.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Macau"/><div class="dest-label"><div class="dest-name">Macau</div><div class="dest-code">MFM</div></div></div><div class="dest-tile" data-code="MLE" data-name="Malé" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/15827510/pexels-photo-15827510.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Malé"/><div class="dest-label"><div class="dest-name">Malé</div><div class="dest-code">MLE</div></div></div><div class="dest-tile" data-code="HKG" data-name="Hong Kong" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/15273870/pexels-photo-15273870.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Hong Kong"/><div class="dest-label"><div class="dest-name">Hong Kong</div><div class="dest-code">HKG</div></div></div><div class="dest-tile" data-code="BKK" data-name="Bangkok" onclick="pickDest(this)"><img loading="lazy" src="https://images.pexels.com/photos/2527670/pexels-photo-2527670.jpeg?auto=compress&cs=tinysrgb&h=130" alt="Bangkok"/><div class="dest-label"><div class="dest-name">Bangkok</div><div class="dest-code">BKK</div></div></div></div></div>
+<div class="aa-results">
+  <div class="section-head">
+    <h2>Flights on this route</h2>
+    <div id="result-count">16 results</div>
+  </div>
+  <div id="result-grid" class="result-grid"><div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">AK 1571 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">06:55</div><div class="fr-code">HKG · Hong Kong</div></div>
+    <div class="fr-mid"><div class="fr-when">2h 10m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">08:55</div><div class="fr-code">MNL · Manila</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Aug 7, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$175</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">AK 1573 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">14:20</div><div class="fr-code">HKG · Hong Kong</div></div>
+    <div class="fr-mid"><div class="fr-when">2h 10m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">16:20</div><div class="fr-code">MNL · Manila</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Aug 7, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$199</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">AK 1575 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">06:55</div><div class="fr-code">HKG · Hong Kong</div></div>
+    <div class="fr-mid"><div class="fr-when">2h 10m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">08:55</div><div class="fr-code">MNL · Manila</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jul 22, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$165</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">AK 1577 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">06:55</div><div class="fr-code">HKG · Hong Kong</div></div>
+    <div class="fr-mid"><div class="fr-when">2h 10m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">08:55</div><div class="fr-code">MNL · Manila</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Sep 11, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$155</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">AK 1579 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">06:55</div><div class="fr-code">HKG · Hong Kong</div></div>
+    <div class="fr-mid"><div class="fr-when">2h 10m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">08:55</div><div class="fr-code">MNL · Manila</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Oct 23, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$145</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">AK 1581 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">06:55</div><div class="fr-code">HKG · Hong Kong</div></div>
+    <div class="fr-mid"><div class="fr-when">2h 10m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">08:55</div><div class="fr-code">MNL · Manila</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Nov 19, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$169</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">AK 1583 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">06:55</div><div class="fr-code">HKG · Hong Kong</div></div>
+    <div class="fr-mid"><div class="fr-when">2h 10m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">08:55</div><div class="fr-code">MNL · Manila</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Dec 22, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$255</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">AK 1585 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">06:55</div><div class="fr-code">HKG · Hong Kong</div></div>
+    <div class="fr-mid"><div class="fr-when">2h 10m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">08:55</div><div class="fr-code">MNL · Manila</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Jan 14, 2027</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$159</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">AK 1587 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">06:55</div><div class="fr-code">HKG · Hong Kong</div></div>
+    <div class="fr-mid"><div class="fr-when">2h 10m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">08:55</div><div class="fr-code">MNL · Manila</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Feb 24, 2027</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$169</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">AK 1589 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">06:55</div><div class="fr-code">HKG · Hong Kong</div></div>
+    <div class="fr-mid"><div class="fr-when">2h 10m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">08:55</div><div class="fr-code">MNL · Manila</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Apr 8, 2027</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$175</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">Cebu Pacific<span class="fr-sub">5J 111 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">09:25</div><div class="fr-code">HKG · Hong Kong</div></div>
+    <div class="fr-mid"><div class="fr-when">2h 10m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">11:25</div><div class="fr-code">MNL · Manila</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Aug 7, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$189</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">AK 1707 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">11:00</div><div class="fr-code">HKG · Hong Kong</div></div>
+    <div class="fr-mid"><div class="fr-when">2h 50m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">13:00</div><div class="fr-code">CEB · Cebu</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Aug 7, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$219</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">AK 1611 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">08:00</div><div class="fr-code">HKG · Hong Kong</div></div>
+    <div class="fr-mid"><div class="fr-when">0h 50m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">08:00</div><div class="fr-code">MFM · Macau</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Aug 7, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$49</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">AK 1591 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">13:30</div><div class="fr-code">HKG · Hong Kong</div></div>
+    <div class="fr-mid"><div class="fr-when">2h 20m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">15:30</div><div class="fr-code">CRK · Clark</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Aug 7, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$135</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">Charter<span class="fr-sub">CH 401 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">20:00</div><div class="fr-code">HKG · Hong Kong</div></div>
+    <div class="fr-mid"><div class="fr-when">11h 50m</div><div class="fr-line"></div><div>2 stops</div></div>
+    <div class="fr-end"><div class="fr-time">07:00</div><div class="fr-code">MNI · Manilla, NSW (Australia)</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">Aug 7, 2026</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$1855</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div>
+<div class="flight-row">
+  <div class="fr-air">EchoAir<span class="fr-sub">AK 1593 · Economy</span></div>
+  <div class="fr-route">
+    <div class="fr-end"><div class="fr-time">06:55</div><div class="fr-code">HKG · Hong Kong</div></div>
+    <div class="fr-mid"><div class="fr-when">2h 10m</div><div class="fr-line"></div><div>nonstop</div></div>
+    <div class="fr-end"><div class="fr-time">08:55</div><div class="fr-code">MNL · Manila</div></div>
+  </div>
+  <div class="fr-meta"><div class="fr-when">May 12, 2027</div><div>🧳 Carry-on · 1 stop allowed</div></div>
+  <div class="fr-price"><div class="fr-amt">$179</div><div class="fr-per">per passenger</div><button>Select</button></div>
+</div></div>
+</div>
+
+<script>
+function togglePop(id, anchor){
+  const pops = document.querySelectorAll('.cal-pop, .ac-list-wrap');
+  pops.forEach(p => { if (p.id !== id) p.classList.remove('open'); });
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+function focusAc(kind, ev){
+  const inp = ev.target;
+  acShow(inp, kind);
+}
+</script>
+
+
+
+<div class="bottom-bar">
+  <div id="live-status" class="live-status">no filters set</div>
+  <div class="bar-actions">
+    <input id="answer-input" oninput="onAnswerChange()" class="answer-input" placeholder="(answer for read tasks)" />
+    
+  </div>
+</div>
+
+<script>
+window.AC_SUGS = [{"code": "MNL", "name": "Ninoy Aquino International", "city": "Manila", "country": "Philippines"}, {"code": "CRK", "name": "Clark International", "city": "Angeles City", "country": "Philippines"}, {"code": "MFM", "name": "Macau International", "city": "Macau", "country": "China"}, {"code": "MLE", "name": "Mal\u00e9 Velana", "city": "Mal\u00e9", "country": "Maldives"}, {"code": "HKG", "name": "Hong Kong International", "city": "Hong Kong", "country": "China"}, {"code": "CEB", "name": "Mactan-Cebu International", "city": "Cebu", "country": "Philippines"}, {"code": "DVO", "name": "Davao International", "city": "Davao", "country": "Philippines"}, {"code": "KLO", "name": "Kalibo (Boracay)", "city": "Kalibo", "country": "Philippines"}, {"code": "TPE", "name": "Taoyuan International", "city": "Taipei", "country": "Taiwan"}, {"code": "BKK", "name": "Suvarnabhumi", "city": "Bangkok", "country": "Thailand"}, {"code": "SIN", "name": "Singapore Changi", "city": "Singapore", "country": "Singapore"}, {"code": "KUL", "name": "Kuala Lumpur International", "city": "Kuala Lumpur", "country": "Malaysia"}, {"code": "ICN", "name": "Incheon International", "city": "Seoul", "country": "South Korea"}, {"code": "NRT", "name": "Narita International", "city": "Tokyo", "country": "Japan"}, {"code": "HND", "name": "Haneda", "city": "Tokyo", "country": "Japan"}, {"code": "MNI", "name": "Manilla (Western Australia)", "city": "Manilla, NSW", "country": "Australia"}];
+window.SEED_ITEMS = [{"id": 1, "airline": "AirAsia", "flight_no": "AK 1571", "from_code": "HKG", "from_name": "Hong Kong", "to_code": "MNL", "to_name": "Manila", "depart_date": "Aug 7, 2026", "return_date": "Aug 14, 2026", "departure_time": "06:55", "duration": "2h 10m", "stops": "nonstop", "price": 175}, {"id": 2, "airline": "AirAsia", "flight_no": "AK 1573", "from_code": "HKG", "from_name": "Hong Kong", "to_code": "MNL", "to_name": "Manila", "depart_date": "Aug 7, 2026", "return_date": "Aug 14, 2026", "departure_time": "14:20", "duration": "2h 10m", "stops": "nonstop", "price": 199}, {"id": 3, "airline": "AirAsia", "flight_no": "AK 1575", "from_code": "HKG", "from_name": "Hong Kong", "to_code": "MNL", "to_name": "Manila", "depart_date": "Jul 22, 2026", "return_date": "Jul 28, 2026", "departure_time": "06:55", "duration": "2h 10m", "stops": "nonstop", "price": 165}, {"id": 4, "airline": "AirAsia", "flight_no": "AK 1577", "from_code": "HKG", "from_name": "Hong Kong", "to_code": "MNL", "to_name": "Manila", "depart_date": "Sep 11, 2026", "return_date": "Sep 18, 2026", "departure_time": "06:55", "duration": "2h 10m", "stops": "nonstop", "price": 155}, {"id": 5, "airline": "AirAsia", "flight_no": "AK 1579", "from_code": "HKG", "from_name": "Hong Kong", "to_code": "MNL", "to_name": "Manila", "depart_date": "Oct 23, 2026", "return_date": "Oct 30, 2026", "departure_time": "06:55", "duration": "2h 10m", "stops": "nonstop", "price": 145}, {"id": 6, "airline": "AirAsia", "flight_no": "AK 1581", "from_code": "HKG", "from_name": "Hong Kong", "to_code": "MNL", "to_name": "Manila", "depart_date": "Nov 19, 2026", "return_date": "Nov 26, 2026", "departure_time": "06:55", "duration": "2h 10m", "stops": "nonstop", "price": 169}, {"id": 7, "airline": "AirAsia", "flight_no": "AK 1583", "from_code": "HKG", "from_name": "Hong Kong", "to_code": "MNL", "to_name": "Manila", "depart_date": "Dec 22, 2026", "return_date": "Dec 30, 2026", "departure_time": "06:55", "duration": "2h 10m", "stops": "nonstop", "price": 255}, {"id": 8, "airline": "AirAsia", "flight_no": "AK 1585", "from_code": "HKG", "from_name": "Hong Kong", "to_code": "MNL", "to_name": "Manila", "depart_date": "Jan 14, 2027", "return_date": "Jan 21, 2027", "departure_time": "06:55", "duration": "2h 10m", "stops": "nonstop", "price": 159}, {"id": 9, "airline": "AirAsia", "flight_no": "AK 1587", "from_code": "HKG", "from_name": "Hong Kong", "to_code": "MNL", "to_name": "Manila", "depart_date": "Feb 24, 2027", "return_date": "Mar 3, 2027", "departure_time": "06:55", "duration": "2h 10m", "stops": "nonstop", "price": 169}, {"id": 10, "airline": "AirAsia", "flight_no": "AK 1589", "from_code": "HKG", "from_name": "Hong Kong", "to_code": "MNL", "to_name": "Manila", "depart_date": "Apr 8, 2027", "return_date": "Apr 15, 2027", "departure_time": "06:55", "duration": "2h 10m", "stops": "nonstop", "price": 175}, {"id": 11, "airline": "Cebu Pacific", "flight_no": "5J 111", "from_code": "HKG", "from_name": "Hong Kong", "to_code": "MNL", "to_name": "Manila", "depart_date": "Aug 7, 2026", "return_date": "Aug 14, 2026", "departure_time": "09:25", "duration": "2h 10m", "stops": "nonstop", "price": 189}, {"id": 12, "airline": "AirAsia", "flight_no": "AK 1707", "from_code": "HKG", "from_name": "Hong Kong", "to_code": "CEB", "to_name": "Cebu", "depart_date": "Aug 7, 2026", "return_date": "Aug 14, 2026", "departure_time": "11:00", "duration": "2h 50m", "stops": "nonstop", "price": 219}, {"id": 13, "airline": "AirAsia", "flight_no": "AK 1611", "from_code": "HKG", "from_name": "Hong Kong", "to_code": "MFM", "to_name": "Macau", "depart_date": "Aug 7, 2026", "return_date": "Aug 14, 2026", "departure_time": "08:00", "duration": "0h 50m", "stops": "nonstop", "price": 49}, {"id": 14, "airline": "AirAsia", "flight_no": "AK 1591", "from_code": "HKG", "from_name": "Hong Kong", "to_code": "CRK", "to_name": "Clark", "depart_date": "Aug 7, 2026", "return_date": "Aug 14, 2026", "departure_time": "13:30", "duration": "2h 20m", "stops": "nonstop", "price": 135}, {"id": 15, "airline": "Charter", "flight_no": "CH 401", "from_code": "HKG", "from_name": "Hong Kong", "to_code": "MNI", "to_name": "Manilla, NSW (Australia)", "depart_date": "Aug 7, 2026", "return_date": "Aug 14, 2026", "departure_time": "20:00", "duration": "11h 50m", "stops": "2 stops", "price": 1855}, {"id": 16, "airline": "AirAsia", "flight_no": "AK 1593", "from_code": "HKG", "from_name": "Hong Kong", "to_code": "MNL", "to_name": "Manila", "depart_date": "May 12, 2027", "return_date": "May 19, 2027", "departure_time": "06:55", "duration": "2h 10m", "stops": "nonstop", "price": 179}];
+
+const MONTHS_SHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const MONTHS_LONG  = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+const W26_STATE = {};       // {dest, origin, date, return_date}
+const CAL_STATE = {};       // gridId -> offset from base month
+
+function _calMonthYear(gridId){
+  const grid = document.getElementById(gridId);
+  if (!grid) return [0, 2026];
+  const baseM = parseInt(grid.dataset.baseMonth || "4", 10);   // 0=Jan
+  const baseY = parseInt(grid.dataset.baseYear  || "2026", 10);
+  const offset = CAL_STATE[gridId] || 0;
+  let m = baseM + offset;
+  let y = baseY + Math.floor(m / 12);
+  m = ((m % 12) + 12) % 12;
+  return [m, y];
+}
+
+function _renderCal(gridId, labelId){
+  const g = document.getElementById(gridId);
+  if (!g) return;
+  const [m, y] = _calMonthYear(gridId);
+  const first = new Date(y, m, 1);
+  const last  = new Date(y, m+1, 0);
+  const startDow = first.getDay();
+  const days = last.getDate();
+  const today = new Date();
+  const tY = today.getFullYear(), tM = today.getMonth(), tD = today.getDate();
+  // deterministic pseudo-prices per (y,m,d) to imitate AirAsia MOVE price-under-day style
+  const _pseudoPrice = (yy, mm, dd) => {
+    const seed = ((yy * 100 + mm + 1) * 100 + dd);
+    // simple LCG hash → 49..299 USD
+    const h = (seed * 9301 + 49297) % 233280;
+    return 49 + (h % 251);
+  };
+  let html = '<div class="cal-dow">' +
+    ["S","M","T","W","T","F","S"].map(d => `<span>${d}</span>`).join('') +
+    '</div><div class="cal-days">';
+  for (let i=0; i<startDow; i++) html += '<div class="cal-day blank"></div>';
+  for (let d=1; d<=days; d++) {
+    const isToday = (y === tY && m === tM && d === tD);
+    const cls = 'cal-day' + (isToday ? ' today' : '');
+    const price = _pseudoPrice(y, m, d);
+    html += `<div class="${cls}" data-day="${d}" data-month="${m}" data-year="${y}"><span class="cal-day-num">${d}</span><span class="cal-day-price">$${price}</span></div>`;
+  }
+  html += '</div>';
+  g.innerHTML = html;
+  const lab = document.getElementById(labelId);
+  if (lab) lab.textContent = MONTHS_LONG[m] + " " + y;
+  _applySelectedState(gridId);
+}
+
+// Re-apply selected/range state after re-render
+function _applySelectedState(gridId){
+  const g = document.getElementById(gridId);
+  if (!g) return;
+  const dep = W26_STATE.date;
+  const ret = W26_STATE.return_date;
+  const parseTxt = (txt) => {
+    if (!txt) return null;
+    const m = txt.match(/^([A-Za-z]+)\s+(\d+),\s+(\d+)$/);
+    if (!m) return null;
+    const mi = MONTHS_SHORT.indexOf(m[1]);
+    return mi < 0 ? null : { y: parseInt(m[3],10), m: mi, d: parseInt(m[2],10) };
+  };
+  const dP = parseTxt(dep), rP = parseTxt(ret);
+  const toNum = (p) => p ? (p.y * 10000 + p.m * 100 + p.d) : null;
+  const dN = toNum(dP), rN = toNum(rP);
+  g.querySelectorAll('.cal-day:not(.blank)').forEach(node => {
+    const y = parseInt(node.dataset.year,10);
+    const m = parseInt(node.dataset.month,10);
+    const d = parseInt(node.dataset.day,10);
+    const n = y * 10000 + m * 100 + d;
+    node.classList.remove('selected','range-end','in-range');
+    if (dN && n === dN) node.classList.add('selected');
+    if (rN && n === rN) node.classList.add('range-end','selected');
+    if (dN && rN && n > dN && n < rN) node.classList.add('in-range');
+  });
+}
+
+function _renderAllCals(){
+  document.querySelectorAll('[data-cal-grid]').forEach(node => {
+    const gid = node.dataset.calGrid;
+    const lid = node.dataset.calLabel || (gid + '-label');
+    _renderCal(gid, lid);
+  });
+}
+
+function calAdv(delta, gridIdL, gridIdR){
+  // dual-month: advance BOTH calendars in lock-step
+  CAL_STATE[gridIdL] = (CAL_STATE[gridIdL]||0) + delta;
+  if (gridIdR) CAL_STATE[gridIdR] = (CAL_STATE[gridIdR]||0) + delta;
+  _renderAllCals();
+}
+
+// --- Autocomplete ---
+function acShow(inp, kind){
+  const q = (inp.value || "").trim().toLowerCase();
+  let list = document.getElementById('ac-list-' + kind);
+  if (!list) return;
+  if (!q){ list.style.display = 'none'; list.innerHTML = ''; return; }
+  const hits = (window.AC_SUGS || []).filter(s => {
+    return s.code.toLowerCase().startsWith(q) ||
+           s.name.toLowerCase().includes(q) ||
+           s.city.toLowerCase().includes(q);
+  }).slice(0, 8);
+  if (!hits.length){
+    list.style.display = 'block';
+    list.innerHTML = '<div class="ac-no">Oh my, we couldn\u2019t find anything for &ldquo;' + inp.value + '&rdquo;</div>';
+    return;
+  }
+  list.style.display = 'block';
+  list.innerHTML = hits.map(h => `
+    <div class="ac-item" data-code="${h.code}" data-name="${h.name}" data-kind="${kind}">
+      <span class="ac-pin">📍</span>
+      <span class="ac-text">
+        <span class="ac-name">${h.name}</span>
+        <span class="ac-city">${h.city}${h.country ? ', ' + h.country : ''}</span>
+      </span>
+      <span class="ac-code">${h.code}</span>
+    </div>`).join('');
+  list.querySelectorAll('.ac-item').forEach(it => {
+    it.addEventListener('click', () => {
+      inp.value = it.dataset.name + ' (' + it.dataset.code + ')';
+      if (kind === 'dest' || kind === 'to') W26_STATE.dest = it.dataset.code;
+      else if (kind === 'origin' || kind === 'from') W26_STATE.origin = it.dataset.code;
+      list.style.display = 'none';
+      list.innerHTML = '';
+      _syncStatus();
+      applyFilters(); /* W26 polish auto-submit */
+    });
+  });
+}
+
+function _onDayClick(ev){
+  const t = ev.target.closest('.cal-day');
+  if (!t || t.classList.contains('blank')) return;
+  const m = parseInt(t.dataset.month, 10);
+  const y = parseInt(t.dataset.year, 10);
+  const d = parseInt(t.dataset.day, 10);
+  const txt = `${MONTHS_SHORT[m]} ${d}, ${y}`;
+  const nClicked = y * 10000 + m * 100 + d;
+  // parse current depart
+  let depN = null;
+  if (W26_STATE.date){
+    const mm = W26_STATE.date.match(/^([A-Za-z]+)\s+(\d+),\s+(\d+)$/);
+    if (mm){
+      const mi = MONTHS_SHORT.indexOf(mm[1]);
+      if (mi >= 0) depN = parseInt(mm[3],10)*10000 + mi*100 + parseInt(mm[2],10);
+    }
+  }
+  // double-click pattern: 1st click = depart, 2nd click = return (if depart set and click is after depart)
+  if (!W26_STATE.date){
+    W26_STATE.date = txt;
+  } else if (!W26_STATE.return_date && depN !== null && nClicked > depN){
+    W26_STATE.return_date = txt;
+  } else {
+    // reset and start over (also if click is before current depart)
+    W26_STATE.date = txt;
+    W26_STATE.return_date = null;
+  }
+  // re-render both calendars to update selected/range state
+  document.querySelectorAll('[data-cal-grid]').forEach(node => {
+    _applySelectedState(node.dataset.calGrid);
+  });
+  // write to visible inputs if any
+  const depInp = document.querySelector('[data-facet-input="depart"]');
+  if (depInp) depInp.value = W26_STATE.date || '';
+  const retInp = document.querySelector('[data-facet-input="return"]');
+  if (retInp) retInp.value = W26_STATE.return_date || '';
+  _syncStatus();
+  applyFilters(); /* W26 polish day-click submit */
+}
+
+function _syncStatus(){
+  const el = document.getElementById('live-status');
+  if (!el) return;
+  const parts = [];
+  if (W26_STATE.origin) parts.push('origin: ' + W26_STATE.origin);
+  if (W26_STATE.dest) parts.push('dest: ' + W26_STATE.dest);
+  if (W26_STATE.date) parts.push('date: ' + W26_STATE.date);
+  if (W26_STATE.return_date) parts.push('return: ' + W26_STATE.return_date);
+  el.textContent = parts.length ? parts.join(' · ') : 'no filters set';
+  el.className = 'live-status' + (parts.length ? ' working' : '');
+}
+
+// --- task banner + submit ---
+const URL_PARAMS = new URLSearchParams(location.search);
+const CURRENT_TASK_ID = URL_PARAMS.get('task_id');
+window.__ENV_ID = "W26_E08"; const ENV_ID = window.__ENV_ID;
+
+async function loadTaskBanner(){
+  const banner = document.getElementById('task-banner');
+  if (!banner || !CURRENT_TASK_ID) return;
+  try {
+    const r = await fetch(`/env/${ENV_ID}/api/task/${CURRENT_TASK_ID}`);
+    if (!r.ok) return;
+    const t = await r.json();
+    banner.innerHTML = `<div class="tb-id">${t.id} · ${t.task_type}</div><div class="tb-text">${t.task_summary || ''}</div>`;
+    banner.style.display = 'block';
+  } catch(e){}
+}
+
+async function applyFilters(){
+  const answer = (document.getElementById('answer-input') || {}).value || '';
+  const filter_state = Object.assign({}, W26_STATE);
+  try {
+    const r1 = await fetch(`/env/${ENV_ID}/api/filter`, {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({filter_state})
+    });
+    const d1 = await r1.json();
+    const grid = document.getElementById('result-grid');
+    if (grid && d1.html_cards) grid.innerHTML = d1.html_cards;
+    const cnt = document.getElementById('result-count');
+    if (cnt) cnt.textContent = d1.count + ' results';
+  } catch(e){}
+  try {
+    const r2 = await fetch(`/env/${ENV_ID}/api/submit`, {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({filter_state, answer, task_id: CURRENT_TASK_ID || ''})
+    });
+    const d2 = await r2.json();
+    const ls = document.getElementById('live-status');
+    if (ls){
+      ls.textContent = d2.message || '';
+      ls.className = 'live-status ' + (d2.satisfies ? 'pass' : 'fail');
+    }
+  } catch(e){}
+}
+
+
+// W26 polish — destination tile click sets dest + submits
+function pickDest(node){
+  const code = node.dataset.code, name = node.dataset.name;
+  W26_STATE.dest = code;
+  // also reflect in the visible destination input if present
+  const destInp = document.querySelector('[oninput*="\'dest\'"], [oninput*="\'to\'"]');
+  if (destInp) destInp.value = name + ' (' + code + ')';
+  document.querySelectorAll('.dest-tile.selected').forEach(t => t.classList.remove('selected'));
+  node.classList.add('selected');
+  _syncStatus();
+  applyFilters();
+}
+// Debounced answer-input -> submit
+let _ansTimer = null;
+function onAnswerChange(){
+  clearTimeout(_ansTimer);
+  _ansTimer = setTimeout(() => { applyFilters(); }, 350);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  _renderAllCals();
+  document.addEventListener('click', _onDayClick);
+  // hide ac lists on outside click
+  document.body.addEventListener('click', (ev) => {
+    if (!ev.target.closest('.ac-inp') && !ev.target.closest('.ac-list')){
+      document.querySelectorAll('.ac-list').forEach(b => { b.style.display = 'none'; });
+    }
+  });
+  loadTaskBanner();
+  _syncStatus();
+  // initial render
+  const grid = document.getElementById('result-grid');
+  if (grid && grid.dataset.initial){
+    try { grid.innerHTML = JSON.parse(grid.dataset.initial).cards || ''; } catch(e){}
+  }
+});
+
+
+
+function openAcModal(kind){
+  var ov = document.getElementById('ac-modal-overlay');
+  if (!ov) return;
+  ov.querySelectorAll('.ac-modal-section').forEach(function(s){ s.style.display = (s.dataset.section===kind ? 'block':'none'); });
+  ov.classList.add('open');
+  var inp = ov.querySelector('.ac-modal-section[data-section="'+kind+'"] .ac-modal-input');
+  if (inp){ inp.focus(); }
+}
+function closeAcModal(){ var ov = document.getElementById('ac-modal-overlay'); if (ov) ov.classList.remove('open'); }
+
+// W26 polish: dispatch togglePop("ac-modal") / togglePop("ac-sidebar") / togglePop("cal-modal")
+(function(){
+  if (window._w26TogglePopPatched) return;
+  window._w26TogglePopPatched = true;
+  var _origToggle = window.togglePop;
+  window.togglePop = function(id, anchor){
+    if (id === 'ac-modal-origin'){ openAcModal('origin'); return; }
+    if (id === 'ac-modal-dest'){ openAcModal('dest'); return; }
+    if (id === 'ac-sidebar-origin'){ openAcSidebar('origin'); return; }
+    if (id === 'ac-sidebar-dest'){ openAcSidebar('dest'); return; }
+    if (id === 'cal-modal'){ openCalModal(); return; }
+    if (typeof _origToggle === 'function') return _origToggle(id, anchor);
+  };
+})();
+
+
+// W26 polish: when any .ac-item or .recent-card is clicked inside a modal/sidebar, close it after a tick
+(function(){
+  if (window._w26AcPickCloserPatched) return;
+  window._w26AcPickCloserPatched = true;
+  document.addEventListener('click', function(ev){
+    var t = ev.target.closest('.ac-item, .recent-card');
+    if (!t) return;
+    setTimeout(function(){
+      var mov = document.getElementById('ac-modal-overlay');
+      if (mov && mov.classList.contains('open')) mov.classList.remove('open');
+      var sov = document.getElementById('ac-sidebar-overlay');
+      var spn = document.getElementById('ac-sidebar-panel');
+      if (sov && sov.classList.contains('open')) sov.classList.remove('open');
+      if (spn && spn.classList.contains('open')) spn.classList.remove('open');
+    }, 50);
+  });
+})();
+</script>
+
+<div id="ac-modal-overlay" class="ac-modal-overlay" onclick="if(event.target===this)closeAcModal()">
+  <div class="ac-modal-card">
+  <div class="ac-modal-section" data-section="origin">
+    <div class="ac-modal-head"><span class="ac-modal-title">Choose origin</span>
+      <input class="ac-modal-input ac-inp" placeholder="Type a city or airport" oninput="focusAc('origin', event)" />
+      <button type="button" class="ac-modal-close" onclick="closeAcModal()">×</button>
+    </div>
+    <div id="ac-list-origin" class="ac-list ac-modal-list"></div>
+  </div>
+  <div class="ac-modal-section" data-section="dest">
+    <div class="ac-modal-head"><span class="ac-modal-title">Choose destination</span>
+      <input class="ac-modal-input ac-inp" placeholder="Type a city or airport" oninput="focusAc('dest', event)" />
+      <button type="button" class="ac-modal-close" onclick="closeAcModal()">×</button>
+    </div>
+    <div id="ac-list-dest" class="ac-list ac-modal-list"></div>
+  </div></div>
+</div>
+
+<footer style="margin-top:60px;background:#1a1a1a;color:#bbb;padding:32px 32px 20px;font-size:13px">
+  <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px">
+    <div><div style="color:#fff;font-weight:700;margin-bottom:12px">About EchoAir</div>Our story<br>Investor relations<br>Newsroom<br>Careers</div>
+    <div><div style="color:#fff;font-weight:700;margin-bottom:12px">Help & support</div>Help centre<br>Contact us<br>Cancel & refund<br>Travel advisories</div>
+    <div><div style="color:#fff;font-weight:700;margin-bottom:12px">Products</div>Flights<br>Hotels<br>SNAP<br>Activities</div>
+    <div><div style="color:#fff;font-weight:700;margin-bottom:12px">Partners</div>EchoAir Super App<br>EchoAir rewards<br>BigPay<br>Teleport</div>
+  </div>
+  <div style="max-width:1100px;margin:24px auto 0;padding-top:20px;border-top:1px solid #333;display:flex;justify-content:space-between;color:#888;font-size:12px">
+    <span>© 2026 EchoAir. All rights reserved.</span>
+    <span>Terms · Privacy · Cookies</span>
+  </div>
+</footer>
+</body>
+</html>

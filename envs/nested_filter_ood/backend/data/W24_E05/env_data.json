@@ -1,0 +1,35 @@
+{
+  "env_id": "W24_E05",
+  "widget_id": "W24_multi_checkbox_plus_exact_match",
+  "widget_name": "Multi-checkbox facet + exact-match toggle composition",
+  "widget_category": "combo_facet_strict",
+  "widget_mechanic": "Compose: multi-select facet AND enable exact-match (strict) toggle.",
+  "archetype": "faceted_catalog",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W01_multi_checkbox_facet",
+    "W06_exact_match_toggle"
+  ],
+  "site_imitates": "Petfinder.com (pet adoption marketplace)",
+  "product_type": "Adoptable shorthaired dogs (newest additions, 100mi 94587)",
+  "brand_name": "PawMatch",
+  "source_inspiration": [
+    {
+      "task_id": "0b2623e9fa5cea997f76490bcbc5220f",
+      "benchmark": "OM2W",
+      "site": "petfinder.com",
+      "instruction": "Find a list of shorthaired dogs available for adoption within 100 miles of zip code 94587 and show off the newest additions.",
+      "first_failure_summary": "Agent confused short-hair coat with medium-hair, or applied 'puppy' instead of all ages. Strict toggle enforces literal coat-length checkbox(es)."
+    }
+  ],
+  "theme_key": "petfinder",
+  "theme_logo": "PawMatch",
+  "theme_card": "ecommerce",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

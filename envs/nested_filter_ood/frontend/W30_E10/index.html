@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoCloud Cost Estimator</title>
+<style>
+
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif; background: #f4f4f4; color: #161616; font-size: 14px; line-height: 1.5; }
+a { color: #0f62fe; text-decoration: none; }
+
+.site-header { background: #161616; color: #fff; padding: 0 24px; height: 48px; display: flex; align-items: center; gap: 20px; }
+.logo-block { display: flex; align-items: center; gap: 12px; }
+.logo-text { font-weight: 700; font-size: 16px; color: #fff; letter-spacing: -0.5px; }
+.logo-text .lbox { background: #fff; color: #161616; padding: 2px 6px; margin-right: 2px; display: inline-block; font-weight: 900; }
+.logo-product { font-size: 13px; color: #c6c6c6; padding-left: 14px; border-left: 1px solid #393939; margin-left: 4px; }
+.site-nav { display: flex; gap: 22px; flex: 1; }
+.site-nav a { color: #fff; opacity: .92; font-size: 13px; }
+.btn-account { padding: 6px 14px; background: transparent; border: 1px solid #fff; color: #fff; font-size: 12px; cursor: pointer; }
+.btn-trial { padding: 6px 16px; background: #0f62fe; color: #fff; border: 0; font-size: 13px; cursor: pointer; }
+.hdr-icons { display: flex; gap: 6px; align-items: center; margin-right: 4px; }
+.hdr-icons .hi { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; color: #c6c6c6; font-size: 14px; cursor: pointer; border-radius: 2px; }
+.hdr-icons .hi:hover { background: #393939; color: #fff; }
+.hdr-acct-dot { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: #0f62fe; color: #fff; font-size: 12px; font-weight: 700; margin-left: 4px; }
+
+.page-head { background: #fff; padding: 28px 24px 20px; border-bottom: 1px solid #e0e0e0; }
+.page-head .crumb { font-size: 12px; color: #525252; margin-bottom: 8px; }
+.page-head h1 { margin: 0 0 8px; font-size: 28px; font-weight: 400; color: #161616; }
+.page-head .sub { font-size: 14px; color: #525252; max-width: 760px; }
+.page-head .price-pill { display: inline-flex; gap: 8px; padding: 8px 18px; background: #f4f4f4; border: 1px solid #e0e0e0; margin-top: 12px; font-size: 13px; align-items: baseline; }
+.page-head .price-pill b { font-size: 22px; color: #0f62fe; }
+
+.layout { display: grid; grid-template-columns: 280px 1fr; gap: 0; min-height: calc(100vh - 200px); }
+
+/* left-rail region picker */
+.left-rail { background: #fff; border-right: 1px solid #e0e0e0; padding: 18px; }
+.lr-h { font-size: 11px; text-transform: uppercase; color: #0f62fe; letter-spacing: .06em; margin: 0 0 12px; font-weight: 700; }
+.lr-search { width: 100%; padding: 8px 12px; border: 0; border-bottom: 1px solid #161616; font-size: 13px; background: #fff; margin-bottom: 12px; }
+.lr-search:focus { outline: 0; border-bottom-color: #0f62fe; }
+.lr-region-list { max-height: 540px; overflow-y: auto; }
+.lr-cont-h { padding: 8px 6px; font-size: 11px; text-transform: uppercase; color: #525252; letter-spacing: .06em; background: #f4f4f4; margin: 6px 0 0; font-weight: 700; }
+.lr-region { padding: 10px 6px; border-bottom: 1px solid #f4f4f4; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 10px; color: #161616; }
+.lr-region:hover { background: #e5f0ff; color: #0f62fe; }
+.lr-region.selected { background: #0f62fe; color: #fff; border-bottom-color: #0f62fe; }
+.lr-region-flag { font-size: 16px; }
+
+.main-panel { padding: 24px 28px; background: #f4f4f4; }
+.ibm-card { background: #fff; border: 1px solid #e0e0e0; padding: 22px; margin-bottom: 18px; }
+.ibm-card h2 { margin: 0 0 4px; font-size: 18px; font-weight: 400; color: #161616; }
+.ibm-card .h-sub { color: #525252; font-size: 13px; margin-bottom: 14px; }
+
+/* service cards */
+.svc-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.svc-card-tile { padding: 14px; border: 1px solid #e0e0e0; background: #fff; cursor: pointer; transition: all .12s; }
+.svc-card-tile:hover { border-color: #0f62fe; box-shadow: 0 0 0 1px #0f62fe; }
+.svc-card-tile.selected { border-color: #0f62fe; background: #e5f0ff; box-shadow: 0 0 0 1px #0f62fe; }
+.svc-card-tile .sn { font-weight: 600; font-size: 14px; color: #161616; }
+.svc-card-tile .sd { font-size: 12px; color: #525252; margin-top: 4px; }
+.svc-card-tile .sp { font-size: 12px; color: #0f62fe; margin-top: 8px; font-weight: 700; }
+
+.fld { margin-bottom: 14px; }
+.fld-label { display: block; font-size: 13px; font-weight: 600; color: #161616; margin-bottom: 6px; }
+.fld-hint { color: #525252; font-size: 12px; margin-top: 4px; }
+.big-sel, .big-inp { width: 100%; padding: 8px 12px; border: 1px solid #161616; border-radius: 0; font-size: 14px; background: #fff; }
+.big-sel:focus, .big-inp:focus { outline: 2px solid #0f62fe; outline-offset: -2px; border-color: #0f62fe; }
+
+.usage-block { background: #f4f4f4; border: 1px solid #e0e0e0; padding: 14px 18px; margin-bottom: 14px; }
+.usage-block h3 { margin: 0 0 10px; font-size: 14px; color: #161616; font-weight: 600; }
+.usage-row { display: grid; grid-template-columns: 1.4fr 28px 1.2fr 28px 1fr; align-items: center; gap: 8px; padding: 6px 0; border-top: 1px dashed #e0e0e0; }
+.usage-row:first-child { border-top: 0; }
+.ur-input { padding: 8px 12px; border: 1px solid #161616; font-size: 14px; }
+.ur-unit-lbl { font-size: 11px; color: #525252; margin-top: 4px; display: block; }
+.ur-op { text-align: center; color: #525252; font-weight: 700; }
+.ur-rate { font-size: 14px; color: #161616; }
+.ur-rate-sub { font-size: 11px; color: #525252; }
+.ur-result { font-weight: 700; color: #0f62fe; text-align: right; }
+
+.rad-tier { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid #e0e0e0; margin-bottom: 4px; cursor: pointer; font-size: 13px; background: #fff; }
+.rad-tier:hover { border-color: #0f62fe; background: #f4f4f4; }
+.rad-tier input { accent-color: #0f62fe; }
+.tier-name { flex: 1; }
+.tier-fee { color: #525252; font-size: 12px; }
+
+.btn-reset { padding: 8px 18px; border: 1px solid #161616; background: #fff; font-size: 13px; cursor: pointer; }
+.btn-primary { padding: 8px 24px; border: 0; background: #0f62fe; color: #fff; font-size: 13px; cursor: pointer; font-weight: 600; }
+.estimate-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
+
+.result-card { background: #161616; color: #fff; padding: 24px; border-left: 4px solid #0f62fe; }
+.res-label { font-size: 12px; opacity: .8; text-transform: uppercase; letter-spacing: .04em; }
+.res-value { font-size: 36px; font-weight: 400; color: #78a9ff; margin: 4px 0 6px; }
+.res-sub { font-size: 12px; opacity: .85; }
+.res-detail { display: grid; grid-template-columns: 90px 1fr; row-gap: 4px; margin-top: 12px; font-size: 13px; }
+.res-detail .k { opacity: .72; }
+.res-breakdown-h { margin: 14px 0 6px; font-size: 11px; text-transform: uppercase; opacity: .8; letter-spacing: .06em; color: #78a9ff; }
+.res-breakdown { width: 100%; border-collapse: collapse; font-size: 13px; }
+.res-breakdown td { padding: 4px 0; border-bottom: 1px dashed rgba(255,255,255,0.18); }
+.res-breakdown td:last-child { text-align: right; }
+
+/* IBM-style footer */
+.ibm-footer { background: #161616; color: #c6c6c6; padding: 32px 24px 22px; margin-top: 36px; font-size: 12px; }
+.ibm-footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr; gap: 24px; max-width: 1280px; margin: 0 auto; }
+.ibm-foot-col h5 { color: #fff; font-size: 13px; margin: 0 0 12px; font-weight: 600; }
+.ibm-foot-col a { color: #c6c6c6; display: block; padding: 4px 0; text-decoration: none; }
+.ibm-foot-col a:hover { color: #fff; text-decoration: underline; }
+.ibm-foot-brand { font-size: 16px; color: #fff; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.ibm-foot-brand .lbox { background: #fff; color: #161616; padding: 1px 5px; font-weight: 900; font-size: 12px; }
+.ibm-foot-tag { color: #8d8d8d; font-size: 12px; line-height: 1.5; max-width: 240px; }
+.ibm-footer-bar { max-width: 1280px; margin: 24px auto 0; padding-top: 18px; border-top: 1px solid #393939; display: flex; gap: 22px; align-items: center; color: #8d8d8d; font-size: 11px; flex-wrap: wrap; }
+.ibm-footer-bar a { color: #8d8d8d; text-decoration: none; }
+.ibm-footer-bar a:hover { color: #fff; text-decoration: underline; }
+.ibm-footer-bar .copy { margin-right: auto; }
+
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo-block">
+    <span class="logo-text">EchoCloud</span>
+    <span class="logo-product">Cost Estimator</span>
+  </div>
+  <nav class="site-nav"><a>Catalog</a><a>Docs</a><a>Pricing</a><a>Support</a></nav>
+  <div class="hdr-icons">
+    <span class="hi" title="Search">🔍</span>
+    <span class="hi" title="Notifications">🔔</span>
+    <span class="hi" title="Cart">🛒</span>
+  </div>
+  <button class="btn-account">Manage</button>
+  <button class="btn-trial">Create account</button>
+  <span class="hdr-acct-dot" title="Account">SG</span>
+</header>
+
+<div class="page-head">
+  <div class="crumb">EchoCloud › Pricing › Cost Estimator</div>
+  <h1>EchoCloud Cost Estimator</h1>
+  <div class="sub">Estimate your monthly EchoCloud bill. Pick a region from the left rail, choose a service, and override the default usage.</div>
+  <div class="price-pill">Estimated monthly cost: <b id="monthly-cost">$0.00</b></div>
+</div>
+
+<div class="layout">
+  <aside class="left-rail">
+    <h4 class="lr-h">Region</h4>
+    <input class="lr-search" type="text" placeholder="Filter regions…"
+      oninput="(function(q){q=q.toLowerCase();document.querySelectorAll('.lr-region').forEach(r=>{r.style.display=(!q||r.dataset.regionName.toLowerCase().indexOf(q)>=0)?'':'none';});})(this.value)">
+    <div class="lr-region-list"><div class="lr-cont-h">Americas</div><div class="lr-region" data-region-card data-region-name="us-south (Dallas)" onclick="selectRegionCard(this, 'us-south (Dallas)')"><span class="lr-region-flag">🇺🇸</span> <span class="lr-region-name">us-south (Dallas)</span></div><div class="lr-region" data-region-card data-region-name="us-east (Washington DC)" onclick="selectRegionCard(this, 'us-east (Washington DC)')"><span class="lr-region-flag">🇺🇸</span> <span class="lr-region-name">us-east (Washington DC)</span></div><div class="lr-region" data-region-card data-region-name="ca-tor (Toronto)" onclick="selectRegionCard(this, 'ca-tor (Toronto)')"><span class="lr-region-flag">🇨🇦</span> <span class="lr-region-name">ca-tor (Toronto)</span></div><div class="lr-region" data-region-card data-region-name="br-sao (São Paulo)" onclick="selectRegionCard(this, 'br-sao (São Paulo)')"><span class="lr-region-flag">🇧🇷</span> <span class="lr-region-name">br-sao (São Paulo)</span></div><div class="lr-cont-h">Europe</div><div class="lr-region" data-region-card data-region-name="eu-gb (London)" onclick="selectRegionCard(this, 'eu-gb (London)')"><span class="lr-region-flag">🇬🇧</span> <span class="lr-region-name">eu-gb (London)</span></div><div class="lr-region" data-region-card data-region-name="eu-de (Frankfurt)" onclick="selectRegionCard(this, 'eu-de (Frankfurt)')"><span class="lr-region-flag">🇩🇪</span> <span class="lr-region-name">eu-de (Frankfurt)</span></div><div class="lr-region" data-region-card data-region-name="eu-es (Madrid)" onclick="selectRegionCard(this, 'eu-es (Madrid)')"><span class="lr-region-flag">🇪🇸</span> <span class="lr-region-name">eu-es (Madrid)</span></div><div class="lr-cont-h">Asia / Pacific</div><div class="lr-region" data-region-card data-region-name="jp-tok (Tokyo)" onclick="selectRegionCard(this, 'jp-tok (Tokyo)')"><span class="lr-region-flag">🇯🇵</span> <span class="lr-region-name">jp-tok (Tokyo)</span></div><div class="lr-region" data-region-card data-region-name="jp-osa (Osaka)" onclick="selectRegionCard(this, 'jp-osa (Osaka)')"><span class="lr-region-flag">🇯🇵</span> <span class="lr-region-name">jp-osa (Osaka)</span></div><div class="lr-region" data-region-card data-region-name="au-syd (Sydney)" onclick="selectRegionCard(this, 'au-syd (Sydney)')"><span class="lr-region-flag">🇦🇺</span> <span class="lr-region-name">au-syd (Sydney)</span></div></div><select id="fld-region" data-facet="region" onchange="onF()" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><option>(Choose region)</option><option>us-south (Dallas)</option><option>us-east (Washington DC)</option><option>ca-tor (Toronto)</option><option>br-sao (São Paulo)</option><option>eu-gb (London)</option><option>eu-de (Frankfurt)</option><option>eu-es (Madrid)</option><option>jp-tok (Tokyo)</option><option>jp-osa (Osaka)</option><option>au-syd (Sydney)</option></select>
+  </aside>
+
+  <main class="main-panel">
+    <div class="ibm-card">
+      <h2>Service</h2>
+      <div class="h-sub">Pick the EchoCloud service to include in this estimate.</div>
+      <div class="svc-card-grid"><div class="svc-card-tile selected" data-service-card="Virtual Server (Balanced — bx2-2x8)" onclick="document.getElementById('fld-service').value='Virtual Server (Balanced — bx2-2x8)'; onServiceChange();"><div class="sn">Virtual Server (Balanced — bx2-2x8)</div><div class="sd">Unit: instance-hour</div><div class="sp">$0.1160 / instance-hour</div></div><div class="svc-card-tile" data-service-card="Virtual Server (Compute — cx2-2x4)" onclick="document.getElementById('fld-service').value='Virtual Server (Compute — cx2-2x4)'; onServiceChange();"><div class="sn">Virtual Server (Compute — cx2-2x4)</div><div class="sd">Unit: instance-hour</div><div class="sp">$0.0990 / instance-hour</div></div><div class="svc-card-tile" data-service-card="Cloud Object Storage (Smart Tier)" onclick="document.getElementById('fld-service').value='Cloud Object Storage (Smart Tier)'; onServiceChange();"><div class="sn">Cloud Object Storage (Smart Tier)</div><div class="sd">Unit: GB-month</div><div class="sp">$0.0220 / GB-month</div></div><div class="svc-card-tile" data-service-card="Cloud Object Storage (Vault)" onclick="document.getElementById('fld-service').value='Cloud Object Storage (Vault)'; onServiceChange();"><div class="sn">Cloud Object Storage (Vault)</div><div class="sd">Unit: GB-month</div><div class="sp">$0.0110 / GB-month</div></div><div class="svc-card-tile" data-service-card="Cloud Object Storage (Cold Vault)" onclick="document.getElementById('fld-service').value='Cloud Object Storage (Cold Vault)'; onServiceChange();"><div class="sn">Cloud Object Storage (Cold Vault)</div><div class="sd">Unit: GB-month</div><div class="sp">$0.0070 / GB-month</div></div><div class="svc-card-tile" data-service-card="Watsonx.ai — Granite-13B" onclick="document.getElementById('fld-service').value='Watsonx.ai — Granite-13B'; onServiceChange();"><div class="sn">EchoAI — Granite-13B</div><div class="sd">Unit: 1K tokens</div><div class="sp">$0.0006 / 1K tokens</div></div><div class="svc-card-tile" data-service-card="Watsonx.ai — Llama-3-70B" onclick="document.getElementById('fld-service').value='Watsonx.ai — Llama-3-70B'; onServiceChange();"><div class="sn">EchoAI — Llama-3-70B</div><div class="sd">Unit: 1K tokens</div><div class="sp">$0.0018 / 1K tokens</div></div><div class="svc-card-tile" data-service-card="Db2 on Cloud (Standard)" onclick="document.getElementById('fld-service').value='Db2 on Cloud (Standard)'; onServiceChange();"><div class="sn">EchoDB on Cloud (Standard)</div><div class="sd">Unit: instance-hour</div><div class="sp">$0.9460 / instance-hour</div></div></div>
+      <select id="fld-service" data-facet="service" onchange="onServiceChange()" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><option selected>Virtual Server (Balanced — bx2-2x8)</option><option>Virtual Server (Compute — cx2-2x4)</option><option>Cloud Object Storage (Smart Tier)</option><option>Cloud Object Storage (Vault)</option><option>Cloud Object Storage (Cold Vault)</option><option>EchoAI — Granite-13B</option><option>EchoAI — Llama-3-70B</option><option>EchoDB on Cloud (Standard)</option></select>
+    </div>
+
+    <div class="ibm-card">
+      <h2>Usage</h2>
+      <div class="h-sub">Override default usage with a preset or type a custom monthly volume.</div>
+      <div class="usage-block"><h3 id="usage-block-title">Estimated monthly usage</h3><div class="usage-row"><div class="ur-input-wrap"><input id="fld-volume" class="ur-input" type="number" data-facet="volume" value="0" placeholder="0" oninput="onF()"><span class="ur-unit-lbl" id="vol-unit-lbl">instance-hour</span></div><div class="ur-op">×</div><div><div class="ur-rate" id="vol-rate">$0.11600</div><div class="ur-rate-sub" id="vol-rate-sub">per instance-hour</div></div><div class="ur-op">=</div><div class="ur-result" id="vol-result">$0.00</div></div><div class="usage-row" id="secondary-usage-row" style="display:none"><div class="ur-input-wrap"><input id="fld-volume-out" class="ur-input" type="number" data-facet="volume_out" value="0" placeholder="0" oninput="onF()"><span class="ur-unit-lbl" id="vol-out-unit-lbl">Output units</span></div><div class="ur-op">×</div><div><div class="ur-rate" id="vol-out-rate">$0.00000</div><div class="ur-rate-sub" id="vol-out-rate-sub">per unit</div></div><div class="ur-op">=</div><div class="ur-result" id="vol-out-result">$0.00</div></div></div>
+      <div class="fld"><label class="fld-label">Override usage</label><select id="fld-override" class="big-sel" data-facet="override" onchange="onOverrideChange()"><option selected>(default usage)</option><option>730 instance-hours (1 month always-on)</option><option>1 TB Cloud Object Storage</option><option>5M input + 5M output EchoAI tokens</option><option>500 GB Cold Vault storage</option><option>100 GB EchoCloud Object Storage Smart Tier</option><option>8760 instance-hours (1 year always-on)</option><option>1460 VM-hours (2 VMs always-on)</option><option>1 TB storage</option><option>500 GB storage</option><option>10M input + 2M output tokens</option><option>5M input + 5M output tokens</option><option>Custom… (type below)</option></select><input id="fld-override-custom" class="big-inp" type="text" data-facet="override_custom" placeholder="Type your custom monthly usage…" oninput="onCustomOverride()" style="margin-top:8px; display:none"></div>
+    </div>
+
+    <div class="ibm-card">
+      <h2>Support tier</h2>
+      <div class="h-sub">Optional support plan; adds a flat monthly fee.</div>
+      <label class="rad-tier"><input type="radio" name="support" value="basic" data-facet="support_tier" onchange="onF()" checked> <span class="tier-name">Basic</span> <span class="tier-fee">free</span></label>
+<label class="rad-tier"><input type="radio" name="support" value="advanced" data-facet="support_tier" onchange="onF()" > <span class="tier-name">Advanced</span> <span class="tier-fee">$200/mo</span></label>
+<label class="rad-tier"><input type="radio" name="support" value="premium" data-facet="support_tier" onchange="onF()" > <span class="tier-name">Premium</span> <span class="tier-fee">$10,000/mo</span></label>
+      <div class="estimate-row">
+        <button class="btn-reset" type="button" onclick="lsReset(event)">Reset</button>
+        <button class="btn-primary" type="button" onclick="document.getElementById('result-card').scrollIntoView({behavior:'smooth'})">View estimate</button>
+        <span style="margin-left:auto;color:#525252;font-size:12px">Auto-saves on every change</span>
+      </div>
+    </div>
+
+    <div class="result-card" id="result-card"><div class="res-label">Estimated monthly bill</div><div class="res-value" id="res-value">$0.00</div><div class="res-sub" id="res-sub">Your estimate updates automatically as you configure the form.</div><div class="res-detail"><div class="k">Region</div><div class="v" id="res-region">—</div><div class="k">Override</div><div class="v" id="res-override">—</div><div class="k">Service</div><div class="v" id="res-service">—</div><div class="k">Support</div><div class="v" id="res-support">—</div></div><h5 class="res-breakdown-h">Breakdown</h5><table class="res-breakdown"><tbody id="breakdown-table"></tbody></table></div>
+  </main>
+</div>
+
+<div id="task-banner" style="display:none"></div>
+
+<footer class="ibm-footer">
+  <div class="ibm-footer-grid">
+    <div class="ibm-foot-col">
+      <div class="ibm-foot-brand">EchoCloud</div>
+      <div class="ibm-foot-tag">Build, deploy, and manage AI-ready workloads with enterprise-grade security across 60+ data centers worldwide.</div>
+    </div>
+    <div class="ibm-foot-col">
+      <h5>Products</h5>
+      <a>Virtual servers</a><a>Kubernetes Service</a><a>Cloud Object Storage</a><a>EchoAI</a><a>EchoDB on Cloud</a>
+    </div>
+    <div class="ibm-foot-col">
+      <h5>Pricing</h5>
+      <a>Cost Estimator</a><a>Free tier</a><a>Reserved capacity</a><a>Volume discounts</a><a>FinOps</a>
+    </div>
+    <div class="ibm-foot-col">
+      <h5>Solutions</h5>
+      <a>AI &amp; Machine Learning</a><a>Data &amp; Analytics</a><a>Hybrid cloud</a><a>Industries</a>
+    </div>
+    <div class="ibm-foot-col">
+      <h5>Resources</h5>
+      <a>Documentation</a><a>Architecture Center</a><a>Trainings</a><a>Community</a><a>Support</a>
+    </div>
+  </div>
+  <div class="ibm-footer-bar">
+    <span class="copy">© 2025 EchoCloud Corporation</span>
+    <a>Contact EchoCloud</a><a>Privacy</a><a>Terms of use</a><a>Accessibility</a><a>Cookie preferences</a>
+  </div>
+</footer>
+
+<script>
+const ENV_ID = "W30_E10";
+const SERVICES = {"Virtual Server (Balanced \u2014 bx2-2x8)": {"label": "Virtual Server (Balanced \u2014 bx2-2x8)", "rate": 0.116, "unit": "instance-hour"}, "Virtual Server (Compute \u2014 cx2-2x4)": {"label": "Virtual Server (Compute \u2014 cx2-2x4)", "rate": 0.099, "unit": "instance-hour"}, "Cloud Object Storage (Smart Tier)": {"label": "Cloud Object Storage (Smart Tier)", "rate": 0.022, "unit": "GB-month"}, "Cloud Object Storage (Vault)": {"label": "Cloud Object Storage (Vault)", "rate": 0.011, "unit": "GB-month"}, "Cloud Object Storage (Cold Vault)": {"label": "Cloud Object Storage (Cold Vault)", "rate": 0.007, "unit": "GB-month"}, "Watsonx.ai \u2014 Granite-13B": {"label": "Watsonx.ai \u2014 Granite-13B", "rate": 0.0006, "unit": "1K tokens"}, "Watsonx.ai \u2014 Llama-3-70B": {"label": "Watsonx.ai \u2014 Llama-3-70B", "rate": 0.0018, "unit": "1K tokens"}, "Db2 on Cloud (Standard)": {"label": "Db2 on Cloud (Standard)", "rate": 0.946, "unit": "instance-hour"}};
+const REGION_MULT = {"(Choose region)": 1.0, "us-south (Dallas)": 1.0, "us-east (Washington DC)": 1.0, "ca-tor (Toronto)": 1.05, "br-sao (S\u00e3o Paulo)": 1.22, "eu-gb (London)": 1.1, "eu-de (Frankfurt)": 1.1, "eu-es (Madrid)": 1.1, "jp-tok (Tokyo)": 1.18, "jp-osa (Osaka)": 1.18, "au-syd (Sydney)": 1.18};
+const SUPPORT_FEE = {"basic": 0, "advanced": 200, "premium": 10000};
+const REGION_DEFAULT = "(Choose region)";
+const SUPPORT_DEFAULT = "basic";
+let filterState = {};
+
+function onF() { collectAndAutoSave(); computeEstimate(false); }
+
+function onServiceChange() {
+  const sel = document.getElementById('fld-service');
+  if (!sel) return;
+  const svc = SERVICES[sel.value];
+  const nameEl = document.getElementById('service-card-name');
+  if (nameEl) nameEl.textContent = sel.value;
+  const rateEl = document.getElementById('vol-rate');
+  if (rateEl && svc) rateEl.textContent = '$' + Number(svc.rate).toFixed(5);
+  const rateSub = document.getElementById('vol-rate-sub');
+  if (rateSub && svc) rateSub.textContent = 'per ' + svc.unit;
+  const unitLbl = document.getElementById('vol-unit-lbl');
+  if (unitLbl && svc) unitLbl.textContent = svc.unit;
+  // visually toggle service cards if present
+  document.querySelectorAll('[data-service-card]').forEach(c => {
+    c.classList.toggle('selected', c.dataset.serviceCard === sel.value);
+  });
+  onF();
+}
+
+function onOverrideChange() {
+  const sel = document.getElementById('fld-override');
+  const cust = document.getElementById('fld-override-custom');
+  if (!sel || !cust) { onF(); return; }
+  if (sel.value === 'Custom… (type below)') {
+    cust.style.display = 'block'; cust.focus();
+  } else {
+    cust.style.display = 'none'; cust.value = '';
+    _syncVolumeFromOverride(sel.value);
+  }
+  onF();
+}
+
+function _syncVolumeFromOverride(overrideStr) {
+  if (!overrideStr) return;
+  if (overrideStr === '(default usage)' || overrideStr === '(none)' || overrideStr === 'Custom… (type below)') return;
+  const parsed = _parseOverride(overrideStr);
+  if (parsed === null) return;
+  const volIn = document.getElementById('fld-volume');
+  const volOut = document.getElementById('fld-volume-out');
+  if (/input.*output/i.test(overrideStr)) {
+    const m = overrideStr.match(/(\d+(?:\.\d+)?)\s*M[^0-9]*?(\d+(?:\.\d+)?)\s*M/i);
+    if (m) {
+      if (volIn) volIn.value = String(Math.round(parseFloat(m[1]) * 1e6));
+      if (volOut) volOut.value = String(Math.round(parseFloat(m[2]) * 1e6));
+      return;
+    }
+  }
+  if (volIn) volIn.value = String(parsed);
+}
+
+function onCustomOverride() { collectAndAutoSave(); computeEstimate(false); }
+
+function collectAndAutoSave() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.value) newState[f] = el.value;
+    } else if (el.type === 'number' || el.type === 'text') {
+      if (el.value !== '' && el.value !== null) newState[f] = el.value;
+    } else if (el.type === 'hidden') {
+      if (el.value !== '' && el.value !== null) newState[f] = el.value;
+    }
+  });
+  const custom = newState.override_custom || '';
+  if (custom.trim()) {
+    newState.override = custom.trim();
+  } else if (newState.override === '(default usage)' || newState.override === 'Custom… (type below)' || newState.override === '(none)') {
+    delete newState.override;
+  }
+  delete newState.override_custom;
+  filterState = newState;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : (document.getElementById('res-value')?.textContent || '');
+
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(updateLiveStatus).catch(() => {});
+}
+
+function _parseOverride(str) {
+  if (!str) return null;
+  const tbMatch = str.match(/(\d+(?:\.\d+)?)\s*TB\b/i);
+  const pbMatch = str.match(/(\d+(?:\.\d+)?)\s*PB\b/i);
+  const gbMatch = str.match(/(\d+(?:\.\d+)?)\s*GB\b/i);
+  const mMatch  = str.match(/(\d+(?:\.\d+)?)\s*M\b/i);
+  const kMatch  = str.match(/(\d+(?:\.\d+)?)\s*K\b/i);
+  const numMatch = str.match(/(\d[\d,]*(?:\.\d+)?)/);
+  if (pbMatch) return parseFloat(pbMatch[1]) * 1e6;
+  if (tbMatch) return parseFloat(tbMatch[1]) * 1000;
+  if (mMatch)  return parseFloat(mMatch[1]) * 1e6;
+  if (gbMatch) return parseFloat(gbMatch[1]);
+  if (kMatch)  return parseFloat(kMatch[1]) * 1000;
+  if (numMatch) return parseFloat(numMatch[1].replace(/,/g,''));
+  return null;
+}
+
+function computeEstimate() {
+  const svcLabel = filterState.service || Object.keys(SERVICES)[0];
+  const svc = SERVICES[svcLabel] || SERVICES[Object.keys(SERVICES)[0]];
+  const region = filterState.region || REGION_DEFAULT;
+  const support = filterState.support_tier || SUPPORT_DEFAULT;
+  const rate = svc ? svc.rate : 0;
+  const mult = (REGION_MULT[region] !== undefined) ? REGION_MULT[region] : 1.10;
+  const supportFee = SUPPORT_FEE[support] || 0;
+
+  let volume = parseFloat(filterState.volume || '0');
+  let volumeOut = parseFloat(filterState.volume_out || '0');
+  const overrideStr = filterState.override || '';
+  const parsedOverride = _parseOverride(overrideStr);
+  if (parsedOverride !== null) {
+    if (/input.*output/i.test(overrideStr)) {
+      const m = overrideStr.match(/(\d+(?:\.\d+)?)\s*M.*?(\d+(?:\.\d+)?)\s*M/i);
+      if (m) { volume = parseFloat(m[1]) * 1e6; volumeOut = parseFloat(m[2]) * 1e6; }
+      else { volume = parsedOverride; volumeOut = parsedOverride; }
+    } else { volume = parsedOverride; }
+  }
+  if (!volume) volume = parseFloat(filterState.volume || '0') || 0;
+
+  let primaryCost = 0;
+  if (svc && svc.unit && svc.unit.indexOf('1K tokens') >= 0) {
+    primaryCost = (volume / 1000) * rate;
+  } else {
+    primaryCost = volume * rate;
+  }
+  let secondaryCost = 0;
+  if (svc && svc.secondary && volumeOut > 0) {
+    secondaryCost = (volumeOut / 1000) * svc.secondary.rate;
+  }
+  const baseCost = primaryCost + secondaryCost;
+  const regionUplift = baseCost * (mult - 1.0);
+  const total = baseCost + regionUplift + supportFee;
+
+  function money(n) { return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+  const monEl = document.getElementById('monthly-cost'); if (monEl) monEl.textContent = money(total);
+  const volRes = document.getElementById('vol-result'); if (volRes) volRes.textContent = money(primaryCost);
+  const rv = document.getElementById('res-value'); if (rv) rv.textContent = money(total);
+  const rs = document.getElementById('res-sub');
+  if (rs) rs.textContent = 'Computed for ' + (svc ? svc.label : svcLabel) + ' · ' + region +
+    (overrideStr ? ' · override: ' + overrideStr : '') +
+    ' · ' + volume.toLocaleString() + ' units' + (volumeOut > 0 ? ' (+ ' + volumeOut.toLocaleString() + ' out)' : '');
+  const rr = document.getElementById('res-region'); if (rr) rr.textContent = region;
+  const ro = document.getElementById('res-override'); if (ro) ro.textContent = overrideStr || '(default)';
+  const rsv = document.getElementById('res-service'); if (rsv) rsv.textContent = svc ? svc.label : svcLabel;
+  const rsp = document.getElementById('res-support'); if (rsp) rsp.textContent = support + ' (' + money(supportFee) + '/mo)';
+
+  const tbl = document.getElementById('breakdown-table');
+  if (tbl) {
+    tbl.replaceChildren();
+    const addRow = (label, value, isTotal) => {
+      const tr = document.createElement('tr');
+      if (isTotal) tr.className = 'tot';
+      const labelCell = document.createElement('td');
+      const valueCell = document.createElement('td');
+      if (isTotal) {
+        const labelBold = document.createElement('b');
+        labelBold.textContent = label;
+        labelCell.appendChild(labelBold);
+        const valueBold = document.createElement('b');
+        valueBold.textContent = value;
+        valueCell.appendChild(valueBold);
+      } else {
+        labelCell.textContent = label;
+        valueCell.textContent = value;
+      }
+      tr.appendChild(labelCell);
+      tr.appendChild(valueCell);
+      tbl.appendChild(tr);
+    };
+    addRow('Base ' + (svc ? svc.label : svcLabel) + ' (' + volume.toLocaleString() + ' units × $' + rate.toFixed(5) + ')', money(primaryCost));
+    if (secondaryCost > 0) addRow('Output usage (' + volumeOut.toLocaleString() + ' units)', money(secondaryCost));
+    addRow('Region uplift (' + region + ', ×' + mult.toFixed(2) + ')', money(regionUplift));
+    addRow('Support tier (' + support + ')', money(supportFee));
+    addRow('Estimated total', money(total), true);
+  }
+
+  const ansEl = document.getElementById('task-answer-input');
+  if (ansEl && !ansEl.value) ansEl.value = 'estimated cost: ' + money(total);
+}
+
+function updateLiveStatus() { /* badge hidden by CSS */ }
+
+function selectRegionCard(cardEl, value) {
+  document.querySelectorAll('[data-region-card]').forEach(c => c.classList.remove('selected'));
+  if (cardEl) cardEl.classList.add('selected');
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  onF();
+}
+
+function selectServiceCard(cardEl, value) {
+  document.querySelectorAll('[data-service-card]').forEach(c => c.classList.remove('selected'));
+  if (cardEl) cardEl.classList.add('selected');
+  const sel = document.getElementById('fld-service');
+  if (sel) sel.value = value;
+  onServiceChange();
+}
+
+function regionPickerOpen() {
+  const m = document.getElementById('region-picker-modal');
+  if (m) m.style.display = 'flex';
+}
+function regionPickerClose() {
+  const m = document.getElementById('region-picker-modal');
+  if (m) m.style.display = 'none';
+}
+function regionPickerSelect(value) {
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  const lbl = document.getElementById('region-picker-label');
+  if (lbl) lbl.textContent = value;
+  regionPickerClose();
+  onF();
+}
+function regionTabSwitch(tabKey, tabEl) {
+  document.querySelectorAll('[data-region-tab]').forEach(t => t.classList.toggle('active', t.dataset.regionTab === tabKey));
+  document.querySelectorAll('[data-region-panel]').forEach(p => p.classList.toggle('active', p.dataset.regionPanel === tabKey));
+}
+function regionSearchFilter() {
+  const input = document.getElementById('region-search-input');
+  if (!input) return;
+  const q = input.value.toLowerCase().trim();
+  const list = document.getElementById('region-search-list');
+  if (!list) return;
+  let firstShown = null;
+  list.querySelectorAll('[data-region-item]').forEach(it => {
+    const v = (it.dataset.regionItem || '').toLowerCase();
+    const show = !q || v.indexOf(q) >= 0;
+    it.style.display = show ? '' : 'none';
+    if (show && !firstShown) firstShown = it;
+  });
+  list.style.display = q ? 'block' : list.dataset.alwaysOpen === '1' ? 'block' : 'none';
+}
+function regionSearchPick(value, label) {
+  const input = document.getElementById('region-search-input');
+  if (input) input.value = label || value;
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  const list = document.getElementById('region-search-list');
+  if (list && list.dataset.alwaysOpen !== '1') list.style.display = 'none';
+  onF();
+}
+function regionSearchFocus() {
+  const list = document.getElementById('region-search-list');
+  if (list) list.style.display = 'block';
+}
+
+function lsReset(ev) {
+  if (ev && ev.preventDefault) { ev.preventDefault(); ev.stopPropagation(); }
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    if (el.type === 'radio') { el.checked = (el.value === SUPPORT_DEFAULT); }
+    else if (el.tagName === 'SELECT') { el.selectedIndex = 0; }
+    else if (el.tagName === 'INPUT') { el.value = ''; }
+  });
+  const cust = document.getElementById('fld-override-custom');
+  if (cust) cust.style.display = 'none';
+  document.querySelectorAll('[data-region-card]').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('[data-service-card]').forEach(c => c.classList.remove('selected'));
+  const volIn = document.getElementById('fld-volume'); if (volIn) volIn.value = '0';
+  const volOut = document.getElementById('fld-volume-out'); if (volOut) volOut.value = '0';
+  onF();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Catch all radio clicks (even when state doesn't change) for autosave.
+  document.addEventListener('click', (ev) => {
+    const t = ev.target;
+    if (t && t.tagName === 'INPUT' && t.type === 'radio' && t.dataset && t.dataset.facet) {
+      setTimeout(onF, 5);
+    }
+  }, true);
+  onServiceChange();
+  computeEstimate();
+  collectAndAutoSave();
+});
+</script>
+
+</body></html>

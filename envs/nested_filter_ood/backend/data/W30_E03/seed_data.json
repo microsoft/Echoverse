@@ -1,0 +1,113 @@
+[
+  {
+    "id": 1,
+    "calc_type": "Google Cloud pricing",
+    "vendor": "gcp",
+    "brand": "Google Cloud Pricing Calculator",
+    "default_inputs": {
+      "region": "(Choose region)",
+      "override": "(none)",
+      "volume": 0,
+      "service": "Compute Engine (n2-standard-4)",
+      "unit": "instance-hour",
+      "support_tier": "basic"
+    },
+    "regions": [
+      "(Choose region)",
+      "us-central1 (Iowa)",
+      "us-east1 (S. Carolina)",
+      "us-east4 (N. Virginia)",
+      "us-west1 (Oregon)",
+      "us-west4 (Las Vegas)",
+      "northamerica-northeast1 (Montr\u00e9al)",
+      "southamerica-east1 (S\u00e3o Paulo)",
+      "europe-west1 (Belgium)",
+      "europe-west2 (London)",
+      "europe-west3 (Frankfurt)",
+      "europe-west4 (Netherlands)",
+      "europe-north1 (Finland)",
+      "asia-east1 (Taiwan)",
+      "asia-northeast1 (Tokyo)",
+      "asia-southeast1 (Singapore)",
+      "asia-south1 (Mumbai)",
+      "australia-southeast1 (Sydney)"
+    ],
+    "services": [
+      {
+        "label": "Compute Engine (n2-standard-4)",
+        "rate": 0.194,
+        "unit": "instance-hour"
+      },
+      {
+        "label": "Cloud Storage (Standard)",
+        "rate": 0.02,
+        "unit": "GB-month"
+      },
+      {
+        "label": "BigQuery (On-Demand)",
+        "rate": 6.25,
+        "unit": "TB scanned"
+      },
+      {
+        "label": "Cloud Functions (2nd gen)",
+        "rate": 4e-07,
+        "unit": "invocation"
+      },
+      {
+        "label": "Vertex AI \u2014 Gemini 1.5 Pro",
+        "rate": 0.00125,
+        "unit": "1K tokens"
+      },
+      {
+        "label": "Cloud SQL (db-n1-standard-2)",
+        "rate": 0.0966,
+        "unit": "DB-hour"
+      },
+      {
+        "label": "Cloud Spanner (1 node)",
+        "rate": 0.9,
+        "unit": "node-hour"
+      }
+    ],
+    "region_mult": {
+      "(Choose region)": 1.0,
+      "us-central1 (Iowa)": 1.0,
+      "us-east1 (S. Carolina)": 1.0,
+      "us-east4 (N. Virginia)": 1.01,
+      "us-west1 (Oregon)": 1.0,
+      "us-west4 (Las Vegas)": 1.04,
+      "northamerica-northeast1 (Montr\u00e9al)": 1.04,
+      "southamerica-east1 (S\u00e3o Paulo)": 1.28,
+      "europe-west1 (Belgium)": 1.08,
+      "europe-west2 (London)": 1.1,
+      "europe-west3 (Frankfurt)": 1.1,
+      "europe-west4 (Netherlands)": 1.07,
+      "europe-north1 (Finland)": 1.04,
+      "asia-east1 (Taiwan)": 1.13,
+      "asia-northeast1 (Tokyo)": 1.18,
+      "asia-southeast1 (Singapore)": 1.14,
+      "asia-south1 (Mumbai)": 1.06,
+      "australia-southeast1 (Sydney)": 1.16
+    },
+    "override_presets": [
+      "730 instance-hours (n2-standard-4, 1 month)",
+      "1 TB Cloud Storage Standard",
+      "5 TB BigQuery scanned",
+      "5M input + 5M output Gemini tokens",
+      "10M Cloud Functions invocations",
+      "100 GB Cloud Storage",
+      "730 node-hours (Spanner)",
+      "1460 VM-hours (2 VMs always-on)",
+      "730 VM-hours (1 month always-on)",
+      "5M function executions",
+      "10M input + 2M output tokens",
+      "730 DB-hours (1 month always-on)"
+    ],
+    "support_fees": {
+      "basic": 0,
+      "standard": 29,
+      "enhanced": 500,
+      "premium": 12500
+    }
+  }
+]

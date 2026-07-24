@@ -1,0 +1,34 @@
+{
+  "env_id": "W26_E08",
+  "widget_id": "W26_autocomplete_plus_calendar_advance",
+  "widget_name": "Autocomplete disambiguation + calendar multi-month advance",
+  "widget_category": "combo_booking_destination_date",
+  "widget_mechanic": "Compose: disambiguate destination autocomplete AND advance calendar to future month.",
+  "archetype": "booking_form",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W03_autocomplete_disambig",
+    "W09_calendar_multi_month_advance"
+  ],
+  "site_imitates": "AirAsia MOVE (airasia.com) flight booking \u2014 HK\u2192MNL route",
+  "product_type": "AirAsia flight Hong Kong \u2192 Manila",
+  "source_inspiration": [
+    {
+      "task_id": "flights_airasia_50",
+      "benchmark": "WTB",
+      "site": "airasia",
+      "instruction": "Book a flight with AirAsia from Hong Kong to Manila leaving August 7 and coming back August 14. If there are no available flights for those dates, please show evidence and indicate this in your answer.",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent never set the required dates (Aug 7 depart, Aug 14 return). The form remained on different prefilled dates (shown in evidence as May 17\u201320, 2026)."
+    }
+  ],
+  "theme_key": "airasia",
+  "theme_logo": "AIRASIA",
+  "theme_card": "flight-row",
+  "theme_layout": "horizontal-form",
+  "variant_idx": 0,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

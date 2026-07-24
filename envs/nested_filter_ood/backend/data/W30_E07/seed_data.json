@@ -1,0 +1,108 @@
+[
+  {
+    "id": 1,
+    "calc_type": "Azure SQL DB pricing",
+    "vendor": "azure",
+    "brand": "AzureCalc \u2014 SQL Database",
+    "default_inputs": {
+      "region": "(Choose region)",
+      "override": "(none)",
+      "volume": 0,
+      "service": "Basic (DTU \u2014 5 DTU)",
+      "unit": "DTU-hour",
+      "support_tier": "basic"
+    },
+    "regions": [
+      "(Choose region)",
+      "East US",
+      "East US 2",
+      "Central US",
+      "West US 2",
+      "South Central US",
+      "Brazil South",
+      "Canada Central",
+      "West Europe",
+      "North Europe",
+      "UK South",
+      "Germany West Central",
+      "France Central",
+      "Japan East",
+      "Southeast Asia",
+      "Australia East",
+      "Korea Central"
+    ],
+    "services": [
+      {
+        "label": "Basic (DTU \u2014 5 DTU)",
+        "rate": 0.0068,
+        "unit": "DTU-hour"
+      },
+      {
+        "label": "Standard S2 (DTU \u2014 50 DTU)",
+        "rate": 0.0973,
+        "unit": "DTU-hour"
+      },
+      {
+        "label": "Premium P2 (DTU \u2014 250 DTU)",
+        "rate": 1.555,
+        "unit": "DTU-hour"
+      },
+      {
+        "label": "General Purpose (vCore \u2014 2 vCore)",
+        "rate": 0.494,
+        "unit": "vCore-hour"
+      },
+      {
+        "label": "Business Critical (vCore \u2014 2 vCore)",
+        "rate": 1.328,
+        "unit": "vCore-hour"
+      },
+      {
+        "label": "Hyperscale (vCore \u2014 2 vCore)",
+        "rate": 0.5905,
+        "unit": "vCore-hour"
+      },
+      {
+        "label": "Serverless (vCore \u2014 1 vCore)",
+        "rate": 0.5218,
+        "unit": "vCore-hour"
+      }
+    ],
+    "region_mult": {
+      "(Choose region)": 1.0,
+      "East US": 1.0,
+      "East US 2": 1.0,
+      "Central US": 1.02,
+      "West US 2": 1.03,
+      "South Central US": 1.05,
+      "Brazil South": 1.22,
+      "Canada Central": 1.04,
+      "West Europe": 1.08,
+      "North Europe": 1.07,
+      "UK South": 1.1,
+      "Germany West Central": 1.12,
+      "France Central": 1.09,
+      "Japan East": 1.15,
+      "Southeast Asia": 1.14,
+      "Australia East": 1.16,
+      "Korea Central": 1.13
+    },
+    "override_presets": [
+      "730 DTU-hours (S2 always-on)",
+      "1460 vCore-hours (2 vCore always-on)",
+      "100 DTU-hours",
+      "200 vCore-hours",
+      "730 vCore-hours (Hyperscale always-on)",
+      "8760 vCore-hours (1 year)",
+      "1460 VM-hours (2 VMs always-on)",
+      "100 vCore-hours"
+    ],
+    "support_fees": {
+      "none": 0,
+      "basic": 29,
+      "developer": 89,
+      "standard": 299,
+      "pro": 1000
+    }
+  }
+]

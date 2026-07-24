@@ -1,0 +1,45 @@
+{
+  "env_id": "W01_E01",
+  "widget_id": "W01_multi_checkbox_facet",
+  "widget_name": "Multi-checkbox attribute facet",
+  "widget_category": "facet_selection",
+  "widget_mechanic": "User must select K-of-N checkboxes inside one facet group, where the facet contains similar-looking decoys (e.g. Open-Box vs Refurbished, Linux vs Linux Lite). Agent must pick the exact subset and exclude lookalikes.",
+  "archetype": "faceted_catalog",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W01_multi_checkbox_facet"
+  ],
+  "site_imitates": "Adopt a Pet \u00b7 amazon left sidebar",
+  "product_type": "adoptable shelter pets",
+  "source_inspiration": [
+    {
+      "task_id": "e4e097222d13a2560db6f6892612dab6",
+      "benchmark": "OM2W",
+      "site": "adoptapet.com",
+      "instruction": "Search for a young spayed male dog cared for by a private owner within 50 miles of zip 33109.",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: Agent confused the Spayed/Neutered/Intact decoys when applying the multi-checkbox status facet."
+    }
+  ],
+  "theme_key": "adopt_a_pet",
+  "theme_logo": "Adopt a Pet",
+  "theme_card": "pet-card",
+  "theme_layout": "amazon_left_sidebar",
+  "variant_idx": 0,
+  "n_seed_items": 18,
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "category",
+      "condition",
+      "brand",
+      "color"
+    ]
+  },
+  "primary_inspiration": {
+    "task_id": "e4e097222d13a2560db6f6892612dab6",
+    "benchmark": "OM2W",
+    "site": "adoptapet.com",
+    "instruction": "Search for a young spayed male dog cared for by a private owner within 50 miles of zip 33109.",
+    "first_failure_summary": "[1.4] Wrong values or constraint violation: Agent confused the Spayed/Neutered/Intact decoys when applying the multi-checkbox status facet."
+  }
+}

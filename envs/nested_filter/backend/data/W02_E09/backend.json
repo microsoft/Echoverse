@@ -1,0 +1,69 @@
+{
+  "env_id": "W02_E09",
+  "widget_id": "W02_bucketed_dropdown",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "bucket_match",
+    "fields": [
+      "bucket"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T0901",
+      "task_index_in_env": 1,
+      "instruction_text": "I want to browse Netflix titles longer than two hours. Use the Runtime filter and pick the 'Over 120 min' bucket.",
+      "expected_filter_state": {
+        "bucket": "Over 120 min"
+      }
+    },
+    {
+      "task_id": "T0902",
+      "task_index_in_env": 2,
+      "instruction_text": "Filter Netflix's catalog to the '30-60 min' Runtime bucket \u2014 typical episode length for prestige drama.",
+      "expected_filter_state": {
+        "bucket": "30-60 min"
+      }
+    },
+    {
+      "task_id": "T0903",
+      "task_index_in_env": 3,
+      "instruction_text": "Set the Runtime filter to the '60-90 min' bucket \u2014 short documentaries and movies. Don't pick the '30-60 min' or '90-120 min' tier.",
+      "expected_filter_state": {
+        "bucket": "60-90 min"
+      }
+    },
+    {
+      "task_id": "T0904",
+      "task_index_in_env": 4,
+      "instruction_text": "Apply the 'Under 30 min' Runtime bucket so I see only short animated series and shorts.",
+      "expected_filter_state": {
+        "bucket": "Under 30 min"
+      }
+    },
+    {
+      "task_id": "T0908",
+      "task_index_in_env": 8,
+      "instruction_text": "Apply the 'Over 120 min' Runtime bucket. From the visible titles in that bucket, how many are there?",
+      "expected_filter_state": {
+        "bucket": "Over 120 min"
+      }
+    },
+    {
+      "task_id": "T0909",
+      "task_index_in_env": 9,
+      "instruction_text": "Filter to the '30-60 min' Runtime bucket. Which title in that bucket is from 2022 \u2014 give the title and its runtime in minutes.",
+      "expected_filter_state": {
+        "bucket": "30-60 min"
+      }
+    },
+    {
+      "task_id": "T0910",
+      "task_index_in_env": 10,
+      "instruction_text": "Set Runtime to '60-90 min'. Within that bucket, which title is a 2020 documentary about an octopus? Give the title and runtime.",
+      "expected_filter_state": {
+        "bucket": "60-90 min"
+      }
+    }
+  ]
+}

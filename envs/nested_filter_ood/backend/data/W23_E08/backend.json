@@ -1,0 +1,91 @@
+{
+  "env_id": "W23_E08",
+  "widget_id": "W23_more_filters_modal_plus_chip_bar",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "W23_E08_T001",
+      "task_index_in_env": 1,
+      "instruction_text": "On Zillow Montesano WA, Can you help me find houses for sale in Montesano, WA with 3 or more bedrooms, at least 2 bathrooms, on over 0.5 acres, and that are new to the market. Specifically (task 1/10): Hi! I'm searching on Zillow Montesano WA: I want homes matching 3+ bedrooms, 2+ bathrooms, over 0.5 acres, new to market. Please open the More Filters modal from the chip-bar above, check ONLY these: 3+ Bedrooms, 2+ Bathrooms, hit Apply, an",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_2plus_bathrooms=on"
+      }
+    },
+    {
+      "task_id": "W23_E08_T002",
+      "task_index_in_env": 2,
+      "instruction_text": "On Zillow Montesano WA, Can you help me find houses for sale in Montesano, WA with 3 or more bedrooms, at least 2 bathrooms, on over 0.5 acres, and that are new to the market. Specifically (task 2/10): Quick \u2014 on Zillow Montesano WA, open the More Filters modal and tick all three: 3+ Bedrooms, 2+ Bathrooms, Large Lot (\u00bc acre+), apply. Then on the active-filter chip bar above the results, dismiss the \u201cLarge Lot (\u00bc acre+)\u201d chip \u2014 I changed ",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_2plus_bathrooms=on"
+      }
+    },
+    {
+      "task_id": "W23_E08_T003",
+      "task_index_in_env": 3,
+      "instruction_text": "On Zillow Montesano WA, Can you help me find houses for sale in Montesano, WA with 3 or more bedrooms, at least 2 bathrooms, on over 0.5 acres, and that are new to the market. Specifically (task 3/10): ok partner just weighed in \u2014 on Zillow Montesano WA pls open the More Filters modal and check ALL of these: 3+ Bedrooms, 2+ Bathrooms, Large Lot (\u00bc acre+), New to Market. apply. then from the active-filter chip bar above the results pop off",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_2plus_bathrooms=on"
+      }
+    },
+    {
+      "task_id": "W23_E08_T004",
+      "task_index_in_env": 4,
+      "instruction_text": "On Zillow Montesano WA, Can you help me find houses for sale in Montesano, WA with 3 or more bedrooms, at least 2 bathrooms, on over 0.5 acres, and that are new to the market. Specifically (task 4/10): hey can u set up a search on Zillow Montesano WA like this: in the More Filters modal apply 3+ Bedrooms, Pet-friendly, Has Garage. then remove the \u201cPet-friendly\u201d chip and the \u201cHas Garage\u201d chip from the active-filter chip bar above the resul",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on"
+      }
+    },
+    {
+      "task_id": "W23_E08_T005",
+      "task_index_in_env": 5,
+      "instruction_text": "On Zillow Montesano WA, Can you help me find houses for sale in Montesano, WA with 3 or more bedrooms, at least 2 bathrooms, on over 0.5 acres, and that are new to the market. Specifically (task 5/10): Quick one \u2014 how many homes are showing on this Zillow Montesano WA page right now, before any filtering?",
+      "expected_filter_state": {
+        "constraint": "20 homes"
+      }
+    },
+    {
+      "task_id": "W23_E08_T006",
+      "task_index_in_env": 6,
+      "instruction_text": "On Zillow Montesano WA, Can you help me find houses for sale in Montesano, WA with 3 or more bedrooms, at least 2 bathrooms, on over 0.5 acres, and that are new to the market. Specifically (task 6/10): On Zillow Montesano WA, what is the address of the cheapest home listed? Just give me the street address.",
+      "expected_filter_state": {
+        "constraint": "4556 Devonshire Rd"
+      }
+    },
+    {
+      "task_id": "W23_E08_T007",
+      "task_index_in_env": 7,
+      "instruction_text": "On Zillow Montesano WA, Can you help me find houses for sale in Montesano, WA with 3 or more bedrooms, at least 2 bathrooms, on over 0.5 acres, and that are new to the market. Specifically (task 7/10): On Zillow Montesano WA, how many listings show a Pet-Friendly badge in their card right now (no filters applied)? And how many show a Price Reduced badge?",
+      "expected_filter_state": {
+        "constraint": "11 pet-friendly and 4 price reduced"
+      }
+    },
+    {
+      "task_id": "W23_E08_T008",
+      "task_index_in_env": 8,
+      "instruction_text": "On Zillow Montesano WA, Can you help me find houses for sale in Montesano, WA with 3 or more bedrooms, at least 2 bathrooms, on over 0.5 acres, and that are new to the market. Specifically (task 8/10): On Zillow Montesano WA, open the More Filters modal and apply both \u201c3+ Bedrooms\u201d and \u201c2+ Bathrooms\u201d, then verify both chips show up in the active-filter chip bar above the results. After that, tell me how many results remain.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_2plus_bathrooms=on"
+      }
+    },
+    {
+      "task_id": "W23_E08_T009",
+      "task_index_in_env": 9,
+      "instruction_text": "On Zillow Montesano WA, Can you help me find houses for sale in Montesano, WA with 3 or more bedrooms, at least 2 bathrooms, on over 0.5 acres, and that are new to the market. Specifically (task 9/10): On Zillow Montesano WA, in the More Filters modal turn on these three: 3+ Bedrooms, 2+ Bathrooms, Large Lot (\u00bc acre+). Apply, verify all three chips appear in the active-filter chip bar, then read back to me the price of the most expensive ",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_2plus_bathrooms=on, modal_large_lot=on"
+      }
+    },
+    {
+      "task_id": "W23_E08_T010",
+      "task_index_in_env": 10,
+      "instruction_text": "On Zillow Montesano WA, Can you help me find houses for sale in Montesano, WA with 3 or more bedrooms, at least 2 bathrooms, on over 0.5 acres, and that are new to the market. Specifically (task 10/10): On Zillow Montesano WA, open the More Filters modal and tick 3+ Bedrooms, 2+ Bathrooms, Large Lot (\u00bc acre+), apply, then on the active-filter chip bar above the results dismiss the \u201cLarge Lot (\u00bc acre+)\u201d chip. Once you're down to just 3+ Bed",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_2plus_bathrooms=on"
+      }
+    }
+  ]
+}

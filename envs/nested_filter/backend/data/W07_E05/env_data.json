@@ -1,0 +1,49 @@
+{
+  "env_id": "W07_E05",
+  "widget_id": "W07_more_filters_modal",
+  "widget_name": "Hidden filter inside More-filters modal",
+  "widget_category": "modal_workflow",
+  "widget_mechanic": "Required filter (new-to-market tag, remote-job toggle, advanced salary band) lives inside a collapsible 'More filters' modal. Agent must click 'More filters', possibly scroll inside the modal, apply the toggle, then click 'Apply' or 'Show results' before the filter takes effect.",
+  "archetype": "realestate_listings",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W07_more_filters_modal"
+  ],
+  "site_imitates": "Apartments.com Houston TX condo rentals",
+  "product_type": "Houston condo rentals",
+  "source_inspiration": [
+    {
+      "task_id": "367d843c640637745e8fafa741cca13b",
+      "benchmark": "OM2W",
+      "site": "apartments.com",
+      "instruction": "Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income of $8000. The condo should have a minimum area of 600 square feet, and the move-in date is the 1st of next month.",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: Selected the $2,400 option in a way that applied a minimum price filter ($2,400+) rather than a maximum rent cap (\u2264$2,400)."
+    }
+  ],
+  "theme_key": "apartments.com",
+  "theme_logo": "Apartments.com",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "trigger_style": "classic_button",
+  "modal_layout": "two_column_grouped_amenities",
+  "variant_idx": 4,
+  "n_seed_items": 20,
+  "modal_facets": [
+    "modal_max_rent_30pct_income",
+    "modal_move_in_first_of_month",
+    "modal_min_area_600sqft",
+    "modal_concierge",
+    "modal_rooftop_pool",
+    "modal_pet_friendly",
+    "modal_in_unit_laundry",
+    "modal_garage_parking",
+    "modal_floor_to_ceiling_windows",
+    "modal_smart_lock_entry"
+  ],
+  "filter_spec": {
+    "type": "flag_match",
+    "fields": [
+      "modal_*"
+    ]
+  }
+}

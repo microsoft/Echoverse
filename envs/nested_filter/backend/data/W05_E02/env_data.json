@@ -1,0 +1,40 @@
+{
+  "env_id": "W05_E02",
+  "widget_id": "W05_plus_chips_at_least",
+  "widget_name": "Plus-chip (\u2265 N) selector",
+  "widget_category": "chip_selector",
+  "widget_mechanic": "Row of clickable chips labelled 1+, 2+, 3+, 4+, etc. for bedroom/bathroom-style attributes. Agent must click the chip matching '\u2265 N', not the chip for N-1 or N+1.",
+  "archetype": "realestate_listings",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W05_plus_chips_at_least"
+  ],
+  "site_imitates": "Realtor.com Omaha NE",
+  "product_type": "homes for sale in Omaha, NE",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_omaha__ne_11006",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "I'm looking to buy a house in Omaha, NE with 4 or more bedrooms, a large lot, and near top-rated schools. Can you find a listing that meets these criteria?",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent concluded the listing\u2019s lot size (7,405.2 sq ft) \u201csatisfies the large-lot requirement,\u201d even though this is not convincingly a large lot and is inconsistent with the agent\u2019s earlier stated minimum lot filter of 1/4 acre (10,890 sq ft)."
+    }
+  ],
+  "theme_key": "realtor",
+  "theme_logo": "Realtor Pro",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 1,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "gte",
+    "fields": [
+      "min_beds",
+      "min_baths"
+    ],
+    "item_fields": [
+      "beds",
+      "baths"
+    ]
+  }
+}

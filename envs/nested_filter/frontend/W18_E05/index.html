@@ -1,0 +1,747 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Houston TX Mobile & Manufactured Homes For Sale - 142 Homes | EchoHomes</title>
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+
+
+
+
+
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  background:#fff6f5; color:#2a0d0e; line-height:1.45; font-size:14px; }
+a { color:inherit; text-decoration:none; }
+
+/* ---------- HEADER ---------- */
+.site-header { padding:14px 28px; display:flex; align-items:center; gap:20px;
+  position:relative; z-index:5; }
+.site-header.h-flat { background:#ffffff; color:#fff;
+  box-shadow:0 1px 2px rgba(0,0,0,0.08); }
+.site-header.h-slim { background:#fff; color:#2a0d0e; padding:8px 22px;
+  border-bottom:1px solid #f0d8d8; }
+.site-header.h-slim-dark { background:#0a0a0a; color:#fff; padding:8px 18px; }
+.site-header.h-banner { background:#ffffff;
+  color:#fff; padding:22px 30px; }
+.site-header.h-minimal { background:#fff; color:#2a0d0e; padding:14px 32px;
+  border-bottom:1px solid #f0d8d8; }
+
+.site-header .logo { font-size:22px; font-weight:800; letter-spacing:-0.3px;
+  color:inherit; flex-shrink:0; }
+.site-header.h-banner .logo { font-size:26px; }
+.site-header.h-minimal .logo { color:#c01c28; }
+.site-header .nav { display:flex; gap:18px; flex:1; font-size:13px; opacity:0.9; }
+.site-header .nav span { cursor:pointer; padding:4px 2px; transition:opacity 0.1s ease; }
+.site-header .nav span:hover { opacity:1; text-decoration:underline; text-underline-offset:4px; }
+.site-header .sub { font-size:11px; opacity:0.65; margin-left:6px; }
+.site-header .acct { display:flex; gap:10px; align-items:center; flex-shrink:0; font-size:13px; }
+.site-header .acct .pill { padding:5px 12px; background:rgba(255,255,255,0.18);
+  border-radius:14px; cursor:pointer; }
+.site-header.h-minimal .acct .pill { background:transparent; border:1px solid #f0d8d8; }
+
+/* ---------- TASK BANNER (shared with env_server.py task loader) ---------- */
+.task-banner { margin:14px 22px 0 22px; padding:14px 18px; background:#fff;
+  border:1px solid #f0d8d8; border-left:5px solid #ffb000;
+  border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.task-banner .tb-head { display:flex; gap:10px; align-items:center;
+  font-size:11px; margin-bottom:8px; }
+.task-banner .tb-id { background:#fff6f5; padding:2px 8px; border-radius:4px;
+  font-family:monospace; color:#7a4d4f; }
+.task-banner .tb-type { padding:2px 8px; border-radius:4px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.05em; }
+.task-banner .tb-type-write { background:#d1f5e0; color:#0d6e36; }
+.task-banner .tb-type-read { background:#fee2c2; color:#a05a00; }
+.task-banner .tb-type-read_write { background:#dce9ff; color:#0d4a8c; }
+.task-banner .tb-diff { padding:2px 8px; border-radius:4px; color:#7a4d4f;
+  background:#f0f0f3; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+.task-banner .tb-summary { font-size:14px; line-height:1.5; color:#2a0d0e; }
+.task-banner .tb-answer-row { margin-top:10px; display:flex; gap:8px; align-items:center; }
+.task-banner .tb-answer-label { font-size:12px; color:#7a4d4f; font-weight:600; }
+.task-banner .tb-answer-input { flex:1; padding:7px 12px; font-size:13px;
+  border:1px solid #f0d8d8; border-radius:6px; outline:none; }
+.task-banner .tb-answer-input:focus { border-color:#c01c28;
+  box-shadow:0 0 0 3px #c01c2822; }
+.task-banner .tb-meta { margin-top:8px; font-size:11px; color:#7a4d4f; }
+.task-banner .tb-meta code { background:#fff6f5; padding:1px 6px; border-radius:3px;
+  font-family:monospace; }
+
+/* ---------- MAIN LAYOUT ---------- */
+.layout-2col { display:grid; grid-template-columns:280px 1fr; gap:22px;
+  padding:20px 22px; max-width:1400px; margin:0 auto; }
+.layout-top { padding:18px 22px 0 22px; max-width:1400px; margin:0 auto; }
+.layout-top .layout-sub { display:grid; grid-template-columns:240px 1fr;
+  gap:22px; padding-top:14px; padding-bottom:24px; }
+.layout-1col { padding:18px 22px 0 22px; max-width:1400px; margin:0 auto; }
+.layout-1col .layout-sub { display:grid; grid-template-columns:240px 1fr;
+  gap:22px; padding-top:14px; padding-bottom:24px; }
+
+/* ---------- WIDGET CSS ---------- */
+
+.pt-card { background:#ffffff; border:1px solid #f0d8d8; border-radius:10px;
+  padding:16px 18px; box-shadow:0 1px 2px rgba(0,0,0,0.04); margin-bottom:14px; }
+.pt-card h3, .pt-card .pp-label, .pt-card .pd-label, .pt-card .pc-lbl,
+.pt-card .pmt-lbl, .pt-card .pst-lbl, .pt-card .pl-h, .pt-card .pic-h,
+.pt-card .ps-h {
+  margin:0 0 10px 0; font-size:13px; font-weight:700; color:#2a0d0e;
+  text-transform:uppercase; letter-spacing:0.04em; }
+.pt-card .pt-sub { margin:-6px 0 10px 0; color:#7a4d4f; font-size:12px; }
+
+.pt-chiprow { padding:14px 16px; }
+.pt-chiprow .pc-row { display:flex; flex-wrap:wrap; gap:8px; }
+.pt-chiprow .pc-chip { background:#fff; border:1.5px solid #f0d8d8;
+  border-radius:999px; padding:8px 16px; font-size:13px; font-weight:500;
+  color:#2a0d0e; cursor:pointer; transition:all 0.12s ease; white-space:nowrap; }
+.pt-chiprow .pc-chip:hover { border-color:#c01c28; background:#c01c2808; }
+.pt-chiprow .pc-chip.is-active { background:#c01c28; border-color:#c01c28;
+  color:#fff; box-shadow:0 2px 6px #c01c2855; }
+
+
+/* ---------- SECONDARY FILTERS PANEL ---------- */
+.sec-panel { background:#ffffff; border:1px solid #f0d8d8;
+  border-radius:10px; padding:14px 16px;
+  box-shadow:0 1px 2px rgba(0,0,0,0.04); }
+.sec-panel .sec-h { margin:0 0 12px 0; font-size:13px; font-weight:700;
+  color:#2a0d0e; text-transform:uppercase; letter-spacing:0.04em; }
+.sec-panel .sec-grp { margin-bottom:14px; }
+.sec-panel .sec-grp:last-of-type { margin-bottom:8px; }
+.sec-panel .sec-lbl { display:block; font-size:11px; font-weight:600;
+  color:#54667a; text-transform:uppercase; letter-spacing:0.04em;
+  margin-bottom:5px; }
+.sec-panel .sec-sel { width:100%; padding:7px 10px; font-size:13px;
+  border:1px solid #f0d8d8; border-radius:6px; background:#fff;
+  color:#2a0d0e; cursor:pointer; outline:none; }
+.sec-panel .sec-sel:focus { border-color:#c01c28; }
+.sec-panel .sec-bedrow { display:flex; gap:4px; flex-wrap:wrap; }
+.sec-panel .sec-bed { flex:1; min-width:36px; padding:6px 6px; font-size:11px;
+  font-weight:600; background:#fff; border:1px solid #f0d8d8;
+  border-radius:5px; color:#2a0d0e; cursor:pointer; transition:all 0.1s ease; }
+.sec-panel .sec-bed:hover { border-color:#c01c28; }
+.sec-panel .sec-bed.is-active { background:#c01c28; color:#fff;
+  border-color:#c01c28; }
+.sec-panel .sec-toggle { display:flex; align-items:center; gap:8px;
+  padding:5px 0; font-size:13px; cursor:pointer; color:#2a0d0e; }
+.sec-panel .sec-toggle input { accent-color:#c01c28; width:15px; height:15px; }
+.sec-panel .sec-reset { width:100%; padding:8px; background:transparent;
+  border:1px dashed #f0d8d8; border-radius:6px; color:#7a4d4f;
+  font-size:12px; cursor:pointer; margin-top:6px; }
+.sec-panel .sec-reset:hover { background:#fff6f5; color:#2a0d0e; }
+
+/* ---------- RESULTS ---------- */
+.rcol { min-width:0; }
+.results-head { display:flex; align-items:baseline; justify-content:space-between;
+  margin-bottom:14px; gap:12px; flex-wrap:wrap; }
+.results-head .rh-title { margin:0; font-size:18px; color:#2a0d0e;
+  font-weight:700; }
+.results-head .results-count { font-size:13px; color:#7a4d4f; }
+.active-chips { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+.active-chips .active-chip { font-size:11px; padding:3px 9px; border-radius:999px;
+  background:#c01c28; color:#fff; font-weight:600; }
+.result-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:16px; }
+.result-grid .rg-empty { grid-column:1/-1; text-align:center; padding:60px 0;
+  color:#7a4d4f; font-size:14px; }
+
+/* Common card styles (used when the server returns plain html_cards) */
+.lstg-row, .apt-card { background:#fff; border:1px solid #f0d8d8;
+  border-radius:10px; overflow:hidden; transition:box-shadow 0.15s ease; }
+.lstg-row:hover, .apt-card:hover { box-shadow:0 6px 16px rgba(0,0,0,0.10); }
+.lstg-photo-wrap, .apt-photo-wrap { position:relative; height:170px;
+  background:#fff6f5; overflow:hidden; }
+.lstg-photo, .apt-photo { height:100%; width:100%; background-size:cover;
+  background-position:center; }
+.lstg-body, .apt-body { padding:12px 14px; }
+.lstg-price, .apt-rent { font-size:18px; font-weight:800; color:#2a0d0e; }
+.apt-mo { font-size:12px; font-weight:400; color:#7a4d4f; }
+.lstg-stats, .apt-meta { font-size:12px; color:#7a4d4f; margin-top:2px; }
+.lstg-addr, .apt-name { font-size:13px; color:#2a0d0e; margin-top:4px;
+  font-weight:600; }
+.lstg-city, .apt-loc { font-size:12px; color:#7a4d4f; margin-top:2px; }
+.lstg-top { display:flex; justify-content:space-between; align-items:flex-start;
+  gap:10px; }
+.lstg-ptype, .apt-ptype { font-size:10px; padding:3px 7px; background:#fff6f5;
+  color:#7a4d4f; border-radius:4px; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.04em; white-space:nowrap; }
+.lstg-tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:8px; }
+.lstg-tag { font-size:10px; padding:2px 6px; border-radius:3px;
+  background:#fff6f5; color:#7a4d4f; }
+.lstg-tag-new { background:#d1f5e0; color:#0d6e36; }
+.lstg-tag-reduced { background:#fee2c2; color:#a05a00; }
+.lstg-tag-pet { background:#dce9ff; color:#0d4a8c; }
+.lstg-foot { display:flex; justify-content:space-between; align-items:center;
+  margin-top:10px; padding-top:8px; border-top:1px solid #f0d8d8;
+  font-size:11px; color:#7a4d4f; gap:8px; }
+.lstg-tour, .apt-tour { background:#c01c28; color:#fff; border:none;
+  padding:6px 12px; border-radius:5px; font-size:11px; font-weight:600;
+  cursor:pointer; }
+.lstg-tour:hover, .apt-tour:hover { background:#8a1219; }
+.lstg-heart, .lstg-dom, .lstg-photo-tag { position:absolute; }
+.lstg-heart { top:8px; right:8px; background:rgba(255,255,255,0.95); border:none;
+  width:30px; height:30px; border-radius:50%; cursor:pointer; font-size:14px;
+  color:#ffb000; }
+.lstg-dom { bottom:8px; left:8px; background:rgba(0,0,0,0.65); color:#fff;
+  font-size:10px; padding:3px 7px; border-radius:4px; }
+.lstg-photo-tag { top:8px; left:8px; background:#ffb000; color:#fff;
+  font-size:10px; padding:3px 7px; border-radius:4px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.04em; }
+.lstg-broker { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.apt-avail { position:absolute; top:8px; left:8px; font-size:10px; padding:3px 7px;
+  border-radius:4px; font-weight:700; }
+.apt-avail-now { background:#d1f5e0; color:#0d6e36; }
+.apt-avail-soon { background:#fee2c2; color:#a05a00; }
+.apt-rent-row { display:flex; justify-content:space-between; align-items:baseline;
+  gap:8px; }
+.apt-amens { display:flex; gap:8px; margin-top:8px; }
+.apt-amen { font-size:14px; }
+
+/* ---------- LIVE STATUS ---------- */
+body.debug-mode .live-status { display:flex; position:fixed; top:18px; right:18px;
+  padding:9px 14px; align-items:center; gap:10px; background:#fff;
+  border:1px solid #f0d8d8; border-radius:8px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.10); cursor:pointer; z-index:9000;
+  font-size:12px; font-weight:600; min-width:260px; max-width:420px;
+  transition:box-shadow 0.15s ease; }
+.live-status { display:none; }
+.live-status .ls-dot { width:9px; height:9px; border-radius:50%; background:#999;
+  flex-shrink:0; }
+.live-status.neutral { color:#444; }
+.live-status.neutral .ls-dot { background:#7a8794; }
+.live-status.pending { background:#fff7e6; color:#8a5500; border-color:#f0c060; }
+.live-status.pending .ls-dot { background:#e6a23c; }
+.live-status.good { background:#e6f7ec; color:#1a6d36; border-color:#4a9b5e; }
+.live-status.good .ls-dot { background:#4a9b5e; }
+.live-status .ls-msg { white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  flex:1; }
+.live-status .ls-toggle { font-size:11px; opacity:0.7; cursor:pointer;
+  user-select:none; padding:0 4px; }
+.live-status .ls-panel { display:none; position:absolute; top:calc(100% + 8px);
+  right:0; background:#fff; border:1px solid #f0d8d8; border-radius:8px;
+  padding:12px 14px; min-width:280px; box-shadow:0 8px 22px rgba(0,0,0,0.18); }
+.live-status.open .ls-panel { display:block; }
+.live-status .ls-panel h6 { margin:0 0 6px 0; font-size:11px; color:#7a4d4f;
+  text-transform:uppercase; letter-spacing:0.05em; }
+.live-status .ls-panel pre { margin:0; font-size:11px; max-height:220px;
+  overflow:auto; background:#fff6f5; padding:8px; border-radius:4px;
+  font-family:monospace; white-space:pre-wrap; word-break:break-all; }
+.live-status .ls-reset { display:inline-block; margin-top:8px; padding:5px 10px;
+  background:#fff6f5; border-radius:4px; color:#7a4d4f; font-size:11px;
+  text-decoration:none; }
+.live-status .ls-reset:hover { background:#f0d8d8; color:#2a0d0e; }
+
+.db-fab { position:fixed; bottom:14px; right:14px; background:#8a1219;
+  color:#fff; padding:6px 12px; border-radius:14px; font-size:11px;
+  text-decoration:none; opacity:0.75; z-index:50; }
+.db-fab:hover { opacity:1; }
+
+footer { margin-top:30px; padding:24px 22px; background:#fff;
+  border-top:1px solid #f0d8d8; font-size:12px; color:#7a4d4f; }
+footer .ft-row { max-width:1400px; margin:0 auto; display:flex;
+  justify-content:space-between; gap:20px; flex-wrap:wrap; }
+
+/* ============= Zillow brand chrome ============= */
+body { background:#ffffff; color:#1a1a1a;
+  font-family:-apple-system,'Open Sans','Segoe UI',Roboto,Arial,sans-serif; }
+.zl-header { background:#ffffff; border-bottom:1px solid #e6e6e6; }
+.zl-top { display:flex; align-items:center; gap:22px; padding:14px 24px;
+  max-width:100%; }
+.zl-logo { display:flex; align-items:center; gap:2px; color:#006AFF; font-weight:800;
+  font-size:24px; letter-spacing:-0.6px; text-decoration:none; flex-shrink:0;
+  font-family:-apple-system,'Open Sans','Segoe UI',Roboto,sans-serif; }
+.zl-logo .zl-house { display:inline-flex; width:24px; height:24px; margin-right:2px;
+  align-items:center; justify-content:center; color:#006AFF; font-size:20px; }
+.zl-nav { display:flex; align-items:center; gap:22px; flex:1; font-size:14px;
+  color:#1a1a1a; }
+.zl-nav .zl-link { cursor:pointer; padding:4px 0; font-weight:600;
+  display:inline-flex; align-items:center; gap:4px; }
+.zl-nav .zl-link:hover { color:#006AFF; }
+.zl-nav .zl-link.is-on { color:#006AFF; }
+.zl-nav .zl-link .zl-cv { font-size:9px; opacity:0.7; }
+.zl-right { display:flex; align-items:center; gap:18px; flex-shrink:0;
+  font-size:14px; color:#1a1a1a; font-weight:600; }
+.zl-right .zl-link2 { cursor:pointer; }
+.zl-right .zl-link2:hover { color:#006AFF; }
+.zl-right .zl-cta { padding:8px 18px; background:#fff; border:1px solid #1a1a1a;
+  border-radius:4px; color:#1a1a1a; cursor:pointer; font-weight:700; font-size:14px;
+  font-family:inherit; }
+
+/* sub-bar: search + filter pills (Zillow layout) */
+.zl-subbar { background:#ffffff; padding:10px 24px; border-bottom:1px solid #e6e6e6;
+  position:sticky; top:0; z-index:4; }
+.zl-sub-inner { display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  max-width:100%; }
+.zl-search { display:flex; align-items:center; gap:8px; background:#fff;
+  border:1px solid #d2d2d2; border-radius:4px; padding:0 12px;
+  flex:0 0 360px; height:40px; }
+.zl-search:focus-within { border-color:#006AFF; box-shadow:0 0 0 2px #006AFF33; }
+.zl-search-input { border:none; outline:none; flex:1; font-size:14px; color:#1a1a1a;
+  font-family:inherit; font-weight:400; }
+.zl-search-icon { color:#006AFF; font-size:14px; }
+.zl-tab { padding:0 14px; height:40px; background:#fff; border:1px solid #d2d2d2;
+  color:#1a1a1a; font-size:13px; font-weight:700; cursor:pointer; border-radius:4px;
+  display:inline-flex; align-items:center; gap:6px; font-family:inherit;
+  white-space:nowrap; }
+.zl-tab:hover { border-color:#006AFF; }
+.zl-tab.is-on { color:#006AFF; border-color:#006AFF; background:#f0f7ff; }
+.zl-tab .zl-num { background:#006AFF; color:#fff; padding:1px 7px; border-radius:10px;
+  font-size:11px; font-weight:700; }
+.zl-caret { font-size:10px; opacity:0.8; }
+.zl-save-pill { margin-left:auto; padding:0 14px; height:40px; background:#006AFF;
+  border:1px solid #006AFF; color:#fff; font-size:13px; font-weight:700;
+  cursor:pointer; border-radius:4px; font-family:inherit; }
+.zl-save-pill:hover { background:#0058d6; }
+
+/* layout & cards */
+.layout-top, .layout-2col { padding:18px 24px; max-width:1480px; }
+.pt-card, .sec-panel { border-radius:6px; border:1px solid #e6e6e6;
+  box-shadow:none; background:#fff; }
+.pt-card .pt-h, .pt-card .pp-label, .pt-card .pd-label, .pt-card .pc-lbl,
+.pt-card .pmt-lbl, .pt-card .pst-lbl, .pt-card .pl-h, .pt-card .pic-h, .pt-card .ps-h,
+.sec-panel .sec-h {
+  color:#1a1a1a; text-transform:none; font-size:14px; letter-spacing:0; font-weight:700;
+  font-family:inherit;
+}
+.pt-chiprow .pc-chip { background:#fff; border:1.5px solid #d2d2d2; color:#1a1a1a;
+  font-weight:600; font-size:13px; border-radius:18px; }
+.pt-chiprow .pc-chip:hover { border-color:#006AFF; color:#006AFF; background:#fff; }
+.pt-chiprow .pc-chip.is-active { background:#006AFF; border-color:#006AFF;
+  color:#fff; box-shadow:0 1px 3px #006AFF55; }
+.sec-panel .sec-bed:hover { border-color:#006AFF; color:#006AFF; }
+.sec-panel .sec-bed.is-active { background:#006AFF; border-color:#006AFF; color:#fff; }
+.sec-panel .sec-sel:focus { border-color:#006AFF; box-shadow:0 0 0 2px #006AFF33; }
+.sec-panel .sec-toggle input { accent-color:#006AFF; }
+.sec-panel .sec-reset { color:#006AFF; border-color:#d2d2d2; }
+.sec-panel .sec-reset:hover { background:#f0f7ff; color:#006AFF; }
+.results-head .rh-title { font-size:20px; font-weight:700; color:#1a1a1a;
+  font-family:inherit; letter-spacing:-0.2px; }
+.results-head .rh-sub { font-size:13px; color:#54667a; }
+.results-head .rh-sort { font-size:13px; color:#006AFF; font-weight:700;
+  cursor:pointer; }
+.lstg-row, .apt-card { border-radius:6px; border:1px solid #e6e6e6; background:#fff;
+  overflow:hidden; }
+.lstg-row:hover, .apt-card:hover { box-shadow:0 4px 12px rgba(0,0,0,0.10);
+  border-color:#c8c8c8; }
+.lstg-price, .apt-price { color:#1a1a1a; font-weight:800; font-size:20px;
+  letter-spacing:-0.2px; }
+.lstg-tour, .apt-tour { background:#006AFF; color:#fff; }
+.lstg-tour:hover, .apt-tour:hover { background:#0058d6; }
+.lstg-photo-tag { background:#1a1a1a; color:#fff; }
+.lstg-photo-tag.is-new { background:#1a1a1a; }
+.apt-avail-now { background:#dff5e3; color:#0d6e36; }
+.active-chips .active-chip { background:#f0f7ff; color:#006AFF;
+  border:1px solid #c7dcfa; font-weight:700; }
+.lstg-heart { background:rgba(255,255,255,0.95); color:#1a1a1a; }
+.lstg-heart:hover { color:#006AFF; }
+.lstg-stats { color:#54667a; }
+.lstg-stats b { color:#1a1a1a; font-weight:700; }
+.lstg-addr { color:#1a1a1a; }
+
+/* Zillow footer */
+.zl-footer { background:#f7f7f7; color:#54667a; padding:28px 24px 20px 24px;
+  margin-top:30px; border-top:1px solid #e6e6e6; }
+.zl-footer .zl-f-cols { display:grid; grid-template-columns:repeat(5,1fr); gap:24px;
+  max-width:1480px; margin:0 auto; font-size:13px; }
+.zl-footer .zl-f-cols b { color:#1a1a1a; font-size:13px; font-weight:700;
+  display:block; margin-bottom:8px; }
+.zl-footer .zl-f-cols div span { display:block; padding:3px 0; cursor:pointer;
+  color:#54667a; }
+.zl-footer .zl-f-cols div span:hover { color:#006AFF; text-decoration:underline; }
+.zl-footer .zl-f-base { max-width:1480px; margin:20px auto 0 auto; padding-top:14px;
+  border-top:1px solid #e1e1e1; font-size:11px; color:#7a8794;
+  display:flex; gap:14px; flex-wrap:wrap; justify-content:space-between; }
+.zl-footer .zl-f-base .zl-f-mark { color:#006AFF; font-weight:800; }
+.zl-footer .zl-f-base .zl-f-eho { display:inline-flex; align-items:center; gap:6px; }
+.zl-footer .zl-f-base .zl-f-eho .zl-eho-icon {
+  display:inline-flex; width:14px; height:14px; align-items:center;
+  justify-content:center; border:1px solid #54667a; font-size:9px; }
+</style>
+</head><body>
+
+<header class="site-header zl-header">
+  <div class="zl-top">
+    <a class="zl-logo" href="#" aria-label="EchoHomes">
+      <span class="zl-house">E</span>
+      <span>EchoHomes</span>
+    </a>
+    <nav class="zl-nav">
+      <span class="zl-link is-on">Buy <span class="zl-cv">▾</span></span>
+      <span class="zl-link">Rent <span class="zl-cv">▾</span></span>
+      <span class="zl-link">Sell <span class="zl-cv">▾</span></span>
+      <span class="zl-link">Home Loans <span class="zl-cv">▾</span></span>
+      <span class="zl-link">Agent finder <span class="zl-cv">▾</span></span>
+      <span class="zl-link">Manage Rentals <span class="zl-cv">▾</span></span>
+      <span class="zl-link">Advertise</span>
+      <span class="zl-link">Help</span>
+    </nav>
+    <div class="zl-right">
+      <span class="zl-link2">Sign In</span>
+      <button class="zl-cta" type="button">Join</button>
+    </div>
+  </div>
+</header>
+<div class="zl-subbar">
+  <div class="zl-sub-inner">
+    <div class="zl-search">
+      <span class="zl-search-icon">🔍</span>
+      <input class="zl-search-input" type="text" value="Houston, TX" aria-label="Address, neighborhood, city, ZIP">
+    </div>
+    <button class="zl-tab is-on" type="button">For Sale <span class="zl-caret">▾</span></button>
+    <button class="zl-tab" type="button">Price <span class="zl-caret">▾</span></button>
+    <button class="zl-tab" type="button">Beds &amp; Baths <span class="zl-caret">▾</span></button>
+    <button class="zl-tab is-on" type="button">Home Type <span class="zl-num">1</span> <span class="zl-caret">▾</span></button>
+    <button class="zl-tab" type="button">More <span class="zl-caret">▾</span></button>
+    <button class="zl-save-pill" type="button">Save search</button>
+  </div>
+</div>
+
+<div id="task-banner" class="task-banner" style="display:none"></div>
+
+
+
+<div class="layout-top">
+  <div class="pt-card pt-chiprow"><div class="pc-lbl">Home Type</div><div class="pc-row"><button class="pc-chip" data-pt="Single-Family" onclick="__pickType('Single-Family')">🏠&nbsp;Single-Family</button><button class="pc-chip" data-pt="Condo" onclick="__pickType('Condo')">🏢&nbsp;Condo</button><button class="pc-chip" data-pt="Townhouse" onclick="__pickType('Townhouse')">🏘️&nbsp;Townhouse</button><button class="pc-chip" data-pt="Multi-Family" onclick="__pickType('Multi-Family')">🏬&nbsp;Multi-Family</button><button class="pc-chip" data-pt="Studio Apartment" onclick="__pickType('Studio Apartment')">🛏️&nbsp;Studio</button></div></div>
+  <div class="layout-sub">
+    
+<aside class="sec-panel">
+  <h3 class="sec-h">Refine</h3>
+
+  <div class="sec-grp">
+    <label class="sec-lbl">Max price</label>
+    <select class="sec-sel" id="sec-max-price" onchange="__setPrice(this.value)">
+      <option value="">Any</option>
+      <option value="200000">$200,000</option>
+      <option value="300000">$300,000</option>
+      <option value="400000">$400,000</option>
+      <option value="500000">$500,000</option>
+      <option value="600000">$600,000</option>
+      <option value="800000">$800,000</option>
+      <option value="1000000">$1,000,000</option>
+    </select>
+  </div>
+
+  <div class="sec-grp">
+    <label class="sec-lbl">Min bedrooms</label>
+    <div class="sec-bedrow">
+      <button class="sec-bed" data-bed="0" onclick="__setBeds(0)">Any</button>
+      <button class="sec-bed" data-bed="1" onclick="__setBeds(1)">1+</button>
+      <button class="sec-bed" data-bed="2" onclick="__setBeds(2)">2+</button>
+      <button class="sec-bed" data-bed="3" onclick="__setBeds(3)">3+</button>
+      <button class="sec-bed" data-bed="4" onclick="__setBeds(4)">4+</button>
+      <button class="sec-bed" data-bed="5" onclick="__setBeds(5)">5+</button>
+    </div>
+  </div>
+
+  <div class="sec-grp">
+    <label class="sec-toggle">
+      <input type="checkbox" id="sec-garage" onchange="__setFlag('has_garage',this.checked)"> Garage
+    </label>
+    <label class="sec-toggle">
+      <input type="checkbox" id="sec-pet" onchange="__setFlag('pet_friendly',this.checked)"> Pet-friendly
+    </label>
+    <label class="sec-toggle">
+      <input type="checkbox" id="sec-new" onchange="__setFlag('is_new',this.checked)"> New listings
+    </label>
+    <label class="sec-toggle">
+      <input type="checkbox" id="sec-reduced" onchange="__setFlag('price_reduced',this.checked)"> Price reduced
+    </label>
+  </div>
+
+  <button class="sec-reset" onclick="__resetAll()">↺ Reset all filters</button>
+</aside>
+    <main class="rcol">
+      <div class="results-head">
+      <div><h2 class="rh-title">Houston TX Mobile Homes for Sale</h2>
+      <div class="rh-sub" id="result-count">142 results</div></div>
+      <div class="rh-sort">Sort: Homes for You ▾</div>
+    </div>
+      <div class="active-chips" id="active-chips"></div>
+      <div class="result-grid" id="result-grid"><div class="rg-empty">Loading…</div></div>
+    </main>
+  </div>
+</div>
+
+<footer class="zl-footer">
+  <div class="zl-f-cols">
+    <div><b>Real Estate</b><span>Houston Homes for Sale</span><span>Houston Open Houses</span><span>Houston New Construction</span><span>Houston Mobile Homes</span><span>Houston Foreclosures</span></div>
+    <div><b>Rentals</b><span>Houston Apartments for Rent</span><span>Houston Houses for Rent</span><span>All Rental Listings</span><span>List Your Rental</span></div>
+    <div><b>Mortgage Rates</b><span>Current Mortgage Rates</span><span>Affordability Calculator</span><span>Refinance Calculator</span><span>Get pre-qualified</span></div>
+    <div><b>Browse Homes</b><span>Texas</span><span>Harris County</span><span>Houston</span><span>By ZIP Code</span><span>By neighborhood</span></div>
+    <div><b>About</b><span>EchoHomes Group</span><span>Careers</span><span>Investors</span><span>Press Room</span><span>Help</span><span>Privacy</span><span>Terms of Use</span></div>
+  </div>
+  <div class="zl-f-base">
+    <span>Follow us: <b>f</b> · <b>X</b> · <b>in</b> · <b>YT</b> · <b>IG</b> · <b>TT</b></span>
+    <span class="zl-f-eho"><span class="zl-eho-icon">=</span>Equal Housing Opportunity</span>
+    <span>© <span class="zl-f-mark">EchoHomes</span>, Inc. 2026. Use is subject to the Terms of Use</span>
+  </div>
+</footer>
+
+<div class="live-status neutral" id="live-status">
+  <span class="ls-dot"></span>
+  <span class="ls-msg">💾 Auto-saves on every filter change</span>
+  <span class="ls-toggle" onclick="lsTogglePanel(event)">⌄</span>
+  <div class="ls-panel" onclick="event.stopPropagation()">
+    <h6>Live filter_state (auto-saved)</h6>
+    <pre>{}</pre>
+    <a class="ls-reset" href="#" onclick="lsReset(event)">↺ Reset all filters</a>
+  </div>
+</div>
+
+
+
+<script>
+function escapeHtmlText(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+const ENV_ID = 'W18_E05';
+const VARIANT = 'chiprow';
+const TYPES_PRESENT = ["Single-Family", "Condo", "Townhouse", "Multi-Family", "Studio Apartment"];
+
+let filterState = {};
+
+function __pickType(t) {
+  if (t === null || t === undefined || t === '') {
+    delete filterState.property_type;
+  } else {
+    filterState.property_type = t;
+  }
+  __syncWidgetUI();
+  __apply();
+}
+
+function __setPrice(v) {
+  if (!v) delete filterState.max_price;
+  else filterState.max_price = parseInt(v, 10);
+  __apply();
+}
+function __setBeds(n) {
+  n = parseInt(n, 10) || 0;
+  if (!n) delete filterState.min_beds;
+  else filterState.min_beds = n;
+  document.querySelectorAll('.sec-bed').forEach(b => {
+    b.classList.toggle('is-active', parseInt(b.dataset.bed, 10) === n);
+  });
+  __apply();
+}
+function __setFlag(key, on) {
+  if (on) filterState[key] = true;
+  else delete filterState[key];
+  __apply();
+}
+function __resetAll() {
+  filterState = {};
+  document.querySelectorAll('input[type=checkbox]').forEach(c => c.checked = false);
+  document.querySelectorAll('input[type=radio]').forEach(r => r.checked = false);
+  document.querySelectorAll('.sec-bed').forEach(b => b.classList.remove('is-active'));
+  const sel = document.getElementById('sec-max-price');
+  if (sel) sel.value = '';
+  const psel = document.getElementById('pd-select');
+  if (psel) psel.value = '';
+  const pst = document.getElementById('pst-input');
+  if (pst) pst.value = '';
+  __syncWidgetUI();
+  __apply();
+}
+
+function __syncWidgetUI() {
+  const t = filterState.property_type || null;
+  // For radio variants
+  document.querySelectorAll('input[name=ptype]').forEach(r => {
+    r.checked = (r.value === t);
+  });
+  // For dropdown
+  const psel = document.getElementById('pd-select');
+  if (psel) psel.value = t || '';
+  // For pillbar, chiprow, tabbar, largebtn, iconcards
+  document.querySelectorAll('[data-pt]').forEach(el => {
+    el.classList.toggle('is-active', el.dataset.pt === t);
+  });
+  // For sidelist
+  document.querySelectorAll('.ps-row').forEach(row => {
+    row.classList.toggle('is-active', row.dataset.pt === t);
+    row.setAttribute('aria-selected', String(row.dataset.pt === t));
+  });
+  // For modal trigger label
+  const cur = document.getElementById('pmt-current');
+  if (cur) {
+    cur.textContent = t || 'All home types';
+    cur.classList.toggle('is-empty', !t);
+  }
+  // For searchtype current label
+  const sc = document.getElementById('pst-current');
+  if (sc) {
+    sc.textContent = t ? (t) : 'All home types';
+    sc.classList.toggle('is-active', !!t);
+  }
+  // Hide search dropdown after pick
+  const sl = document.getElementById('pst-list');
+  if (sl) sl.hidden = true;
+}
+
+function __apply() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    __renderResults(data.results || [], data.html_cards);
+    document.getElementById('result-count').textContent =
+      (data.results || []).length + ' results';
+    __renderChips();
+  }).catch(() => {});
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : '';
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(__updateLiveStatus).catch(() => {});
+}
+
+function __renderResults(results, htmlCards) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div class="rg-empty">No results match your filters.<br>'
+      + '<span style="font-size:12px">Try removing some filters.</span></div>';
+    return;
+  }
+  if (htmlCards) { grid.innerHTML = htmlCards; return; }
+    grid.innerHTML = results.map(r => {
+    const beds = escapeHtmlText(r.beds || '?'), baths = escapeHtmlText(r.baths || '?'), sqft = escapeHtmlText((r.sqft||0).toLocaleString());
+    const price = escapeHtmlText(r.price ? ('$' + r.price.toLocaleString()) : '');
+    const imageUrl = escapeHtmlText(r.image_url || '');
+    const title = escapeHtmlText(r.title || '');
+    const city = escapeHtmlText(r.city || '');
+    const isNew = r.is_new, isReduced = r.price_reduced;
+    const tag = isNew ? '<span class="lstg-photo-tag">NEW - 2 HRS AGO</span>'
+              : (isReduced ? '<span class="lstg-photo-tag" style="background:#0058d6;">PRICE CUT</span>' : '');
+    const status = isNew ? 'New' : (isReduced ? 'Price Reduced' : 'Active');
+    return `<div class="lstg-row">
+      <div class="lstg-photo-wrap">
+        <div class="lstg-photo" style="background-image:url('${imageUrl}')"></div>
+        ${tag}
+        <button class="lstg-heart" type="button" title="Save">♡</button>
+      </div>
+      <div class="lstg-body">
+        <div class="lstg-price">${price}</div>
+        <div class="lstg-stats"><b>${beds}</b> bds | <b>${baths}</b> ba | <b>${sqft}</b> sqft - ${escapeHtmlText(status)}</div>
+        <div class="lstg-addr">${title}, ${city}</div>
+        <div class="lstg-city" style="font-size:11px;color:#54667a;text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;">Listing provided by HAR MLS</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function __renderChips() {
+  const bar = document.getElementById('active-chips');
+  if (!bar) return;
+  const chips = [];
+  for (const [k, v] of Object.entries(filterState)) {
+    chips.push(k + ': ' + v);
+  }
+  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+escapeHtmlText(c)+'</span>').join('');
+}
+
+function __updateLiveStatus(d) {
+  const bar = document.getElementById('live-status');
+  if (!bar || !d) return;
+  let msg = '', cls = 'neutral';
+  if (d.task_id) {
+    if (d.satisfies) { msg = '✅ Satisfies task ' + d.task_id; cls = 'good'; }
+    else { msg = '⏳ Not yet — ' + (d.message || ''); cls = 'pending'; }
+  } else {
+    msg = '💾 Auto-saved · ' + (d.results_count || 0) + ' results';
+  }
+  bar.className = 'live-status ' + cls + (bar.classList.contains('open') ? ' open' : '');
+  const m = bar.querySelector('.ls-msg'); if (m) m.textContent = msg;
+  const pre = bar.querySelector('.ls-panel pre');
+  if (pre) pre.textContent = JSON.stringify(filterState, null, 2);
+}
+
+function lsTogglePanel(ev) {
+  if (ev) ev.stopPropagation();
+  document.getElementById('live-status').classList.toggle('open');
+}
+function lsReset(ev) {
+  if (ev) { ev.stopPropagation(); ev.preventDefault(); }
+  __resetAll();
+}
+
+function loadTaskBanner() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const tid = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/task/' + encodeURIComponent(tid))
+    .then(r => r.ok ? r.json() : null)
+    .then(task => {
+      if (!task) return;
+      const b = document.getElementById('task-banner');
+      if (!b) return;
+      b.style.display = 'block';
+      b.innerHTML = `
+        <div class="tb-head">
+          <span class="tb-id">${escapeHtmlText(task.id)}</span>
+          <span class="tb-type tb-type-${escapeHtmlText(task.task_type)}">${escapeHtmlText(task.task_type.toUpperCase())}</span>
+          <span class="tb-diff">${escapeHtmlText(task.task_difficulty)}</span>
+        </div>
+        <div class="tb-summary">${__esc(task.task_summary)}</div>
+        ${task.task_type !== 'write' ? `
+          <div class="tb-answer-row">
+            <label class="tb-answer-label">Your answer:</label>
+            <input type="text" id="task-answer-input" class="tb-answer-input"
+              placeholder="Type your finding here…" oninput="__apply()">
+          </div>` : ''}
+        ${task.reference_state_change ? `<div class="tb-meta">Expected state:
+          <code>${__esc(task.reference_state_change)}</code></div>` : ''}
+      `;
+    })
+    .catch(() => {});
+}
+function __esc(s) { return (s||'').replace(/[&<>"]/g, c =>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadTaskBanner();
+  __apply();  // initial load
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('debug') === '1') document.body.classList.add('debug-mode');
+});
+</script>
+</body></html>

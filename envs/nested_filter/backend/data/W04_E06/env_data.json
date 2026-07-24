@@ -1,0 +1,38 @@
+{
+  "env_id": "W04_E06",
+  "widget_id": "W04_min_max_slider",
+  "widget_name": "Min/max range slider \u2014 direction-sensitive",
+  "widget_category": "range_input",
+  "widget_mechanic": "Two-thumb slider where one thumb is min and the other is max. Agent must set the value on the correct thumb (max cap vs min floor). Especially error-prone when the UI shows the same $ value in both thumbs' input boxes.",
+  "archetype": "faceted_catalog",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W04_min_max_slider"
+  ],
+  "site_imitates": "BestBuy.com \u2014 Samsung 970 EVO PLUS SSD",
+  "product_type": "Samsung 970 EVO PLUS SSDs",
+  "source_inspiration": [],
+  "theme_key": "bigbox",
+  "theme_logo": "Best Buy",
+  "theme_card": "ecommerce",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 0,
+  "n_seed_items": 18,
+  "filter_spec": {
+    "type": "range",
+    "fields": [
+      "min_price",
+      "max_price"
+    ],
+    "item_field": "price"
+  },
+  "primary_inspiration": {
+    "task_id": "515f2e5811cfdd5e0e669e40f17886d8",
+    "benchmark": "OM2W",
+    "site": "bestbuy.com",
+    "instruction": "Search for a new internal M2 Samsung SSD drive between $25 and $200.",
+    "first_failure_summary": "[3.5] Incomplete task execution: Agent issued a `type` action without focusing a valid text input (coordinates are on non-input UI), so no text entry/effect is observed in the post-action screenshot.",
+    "fara_actions": 13,
+    "gpt54_actions": 13
+  }
+}

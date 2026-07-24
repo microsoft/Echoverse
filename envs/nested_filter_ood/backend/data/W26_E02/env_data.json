@@ -1,0 +1,34 @@
+{
+  "env_id": "W26_E02",
+  "widget_id": "W26_autocomplete_plus_calendar_advance",
+  "widget_name": "Autocomplete disambiguation + calendar multi-month advance",
+  "widget_category": "combo_booking_destination_date",
+  "widget_mechanic": "Compose: disambiguate destination autocomplete AND advance calendar to future month.",
+  "archetype": "booking_form",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W03_autocomplete_disambig",
+    "W09_calendar_multi_month_advance"
+  ],
+  "site_imitates": "TripAdvisor (tripadvisor.com) hotel search",
+  "product_type": "Hotels near Grand Canyon in Las Vegas, Nevada",
+  "source_inspiration": [
+    {
+      "task_id": "hotels_head_tripadvisor_347",
+      "benchmark": "WTB",
+      "site": "tripadvisor",
+      "instruction": "How many hotels are available near the Grand Canyon in Las Vegas, Nevada through tripadvisor.com July 21 checking out July 27? If the hotel doesn't take reservations, just indicate that.",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent selected \u201cGrand Canyon National Park, Arizona, United States\u201d as the destination, abandoning the required Las Vegas, Nevada constraint."
+    }
+  ],
+  "theme_key": "tripadvisor",
+  "theme_logo": "TRIPADVISOR",
+  "theme_card": "hotel-row",
+  "theme_layout": "horizontal-form",
+  "variant_idx": 0,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

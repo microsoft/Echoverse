@@ -1,0 +1,1120 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoAir — Book a flight</title>
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill, .autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write, .tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+[data-debug="1"] { display: none !important; }
+
+/* ─── KLM brand tokens ─── */
+:root {
+  --klm-blue:#00A1DE;
+  --klm-blue-d:#005c8b;
+  --klm-navy:#003a5d;
+  --klm-text:#1a1a1a;
+  --klm-muted:#5a6675;
+  --klm-line:#e3e6ea;
+  --klm-bg:#ffffff;
+  --klm-soft:#f2f6f9;
+  --klm-alert:#fbeed5;
+  --klm-alert-bd:#f1d899;
+  --klm-error:#cc002b;
+  --w09-pri:#00A1DE;
+  --w09-pri-d:#005c8b;
+  --w09-card:#ffffff;
+  --w09-text:#1a1a1a;
+  --w09-muted:#5a6675;
+}
+
+* { box-sizing:border-box; }
+html, body { margin:0; padding:0; }
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color:var(--klm-text);
+  background:#ffffff;
+  font-size:14px;
+  line-height:1.45;
+}
+a { color:var(--klm-blue); text-decoration:none; }
+a:hover { text-decoration:underline; }
+button { font-family:inherit; }
+
+/* ─── HEADER ─── */
+.klm-topbar {
+  display:flex; align-items:center; gap:18px;
+  padding:14px 36px 10px;
+  background:#ffffff;
+}
+.klm-logo {
+  display:inline-flex; align-items:center; gap:10px;
+  text-decoration:none;
+}
+.klm-logo .klm-mark {
+  display:inline-flex; flex-direction:column; align-items:center; line-height:1;
+}
+.klm-logo .klm-crown {
+  width:34px; height:18px; margin-bottom:2px;
+  position:relative; display:inline-flex; align-items:center; justify-content:center;
+  background:var(--klm-blue); color:#fff; border-radius:5px; font-size:13px; font-weight:900;
+}
+.klm-logo .klm-crown::before {
+  content:none; display:none;
+}
+.klm-logo .klm-crown::after {
+  content:none; display:none;
+}
+.klm-logo .klm-word {
+  font-family:'Helvetica Neue', Arial, sans-serif;
+  font-weight:900; font-size:30px; color:var(--klm-blue);
+  letter-spacing:-1px; line-height:1;
+}
+.klm-logo .klm-brand-tag {
+  color:var(--klm-blue); font-size:17px; font-weight:500; letter-spacing:-0.2px;
+  margin-left:2px;
+  background:transparent !important; padding:0 !important; border-radius:0 !important;
+}
+.klm-topbar .klm-spacer { flex:1; }
+.klm-topbar .klm-tools {
+  display:flex; align-items:center; gap:22px;
+  color:var(--klm-text); font-size:13.5px;
+}
+.klm-topbar .klm-tool { display:inline-flex; align-items:center; gap:6px; cursor:pointer; }
+.klm-topbar .klm-tool:hover { color:var(--klm-blue); }
+.klm-topbar .klm-flag {
+  width:20px; height:14px;
+  background:
+    linear-gradient(#b22234 0, #b22234 1.07px, #ffffff 1.07px, #ffffff 2.14px) 0 0 / 100% 2.14px,
+    linear-gradient(#3c3b6e, #3c3b6e) 0 0 / 8px 7.5px no-repeat,
+    #ffffff;
+  border:1px solid #ccc; border-radius:2px;
+}
+.klm-topbar .klm-login-icon {
+  display:inline-block; width:22px; height:22px; border-radius:50%;
+  background:#fff; border:1.5px solid var(--klm-text);
+  position:relative;
+}
+.klm-topbar .klm-login-icon::before {
+  content:""; position:absolute; top:3px; left:6px; width:8px; height:8px;
+  background:transparent; border:1.5px solid var(--klm-text); border-radius:50%;
+}
+.klm-topbar .klm-login-icon::after {
+  content:""; position:absolute; bottom:-1px; left:1px; width:16px; height:9px;
+  background:transparent; border:1.5px solid var(--klm-text); border-radius:50% 50% 0 0 / 100% 100% 0 0;
+  border-bottom:0;
+}
+.klm-topbar .klm-login-icon .klm-x {
+  position:absolute; top:-3px; right:-4px; width:9px; height:9px;
+  background:var(--klm-error); border-radius:50%; color:#fff; font-size:8px; font-weight:900;
+  display:flex; align-items:center; justify-content:center; line-height:1;
+}
+.klm-topbar .klm-search-icon::before {
+  content:""; display:inline-block; width:13px; height:13px; border:2px solid var(--klm-text);
+  border-radius:50%; vertical-align:-3px;
+}
+.klm-topbar .klm-search-icon::after {
+  content:""; display:inline-block; width:6px; height:2px; background:var(--klm-text);
+  transform:rotate(45deg); position:relative; left:-2px; top:5px;
+}
+
+.klm-nav {
+  display:flex; gap:34px; padding:0 36px;
+  border-bottom:1px solid var(--klm-line);
+  font-size:17px;
+}
+.klm-nav a {
+  color:var(--klm-text); padding:14px 0 16px; cursor:pointer;
+  font-weight:500; position:relative; text-decoration:none;
+  display:inline-flex; align-items:center; gap:6px;
+}
+.klm-nav a:hover { color:var(--klm-blue); text-decoration:none; }
+.klm-nav a.active {
+  color:var(--klm-blue); font-weight:600;
+}
+.klm-nav a.active::after {
+  content:""; position:absolute; left:0; right:0; bottom:-1px; height:3px;
+  background:var(--klm-blue);
+}
+.klm-nav .caret { font-size:10px; opacity:0.8; }
+
+/* ─── Travel alert banner ─── */
+.klm-alert {
+  background:var(--klm-alert);
+  border:1px solid var(--klm-alert-bd);
+  border-radius:4px;
+  margin:18px 36px 0;
+  padding:12px 18px;
+  display:flex; align-items:center; gap:12px;
+  font-size:13.5px; color:var(--klm-text);
+}
+.klm-alert .klm-alert-ico {
+  width:18px; height:18px; border-radius:50%; background:#1a1a1a; color:#fff;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-size:12px; font-weight:900; line-height:1; flex-shrink:0;
+}
+.klm-alert .klm-alert-text { flex:1; }
+.klm-alert .klm-alert-text u { text-decoration:underline; cursor:pointer; }
+.klm-alert .klm-alert-close { cursor:pointer; color:#666; font-size:14px; padding:0 4px; }
+
+/* ─── Hero ─── */
+.klm-hero {
+  position:relative; margin:18px 36px 0;
+  height:320px; border-radius:0; overflow:hidden;
+  background-image: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.15)),
+    url('https://images.pexels.com/photos/1366919/pexels-photo-1366919.jpeg?auto=compress&cs=tinysrgb&w=1600');
+  background-size:cover; background-position:center 35%;
+}
+.klm-hero-card {
+  position:absolute; right:36px; top:50%; transform:translateY(-50%);
+  background:var(--klm-navy); color:#fff;
+  padding:24px 28px; border-radius:6px; max-width:420px;
+  box-shadow:0 10px 32px rgba(0,0,0,0.18);
+}
+.klm-hero-card h3 {
+  margin:0 0 10px; font-size:24px; font-weight:700; letter-spacing:-0.3px;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.klm-hero-card p { margin:0 0 14px; font-size:14px; line-height:1.5; color:#dde7f0; }
+.klm-hero-card .klm-promo-cta {
+  color:#fff; font-weight:700; font-size:14px;
+  display:inline-flex; align-items:center; gap:6px;
+}
+.klm-feedback {
+  position:absolute; right:0; top:60px;
+  background:var(--klm-blue); color:#fff;
+  padding:14px 6px; writing-mode:vertical-rl; text-orientation:mixed;
+  font-weight:600; font-size:13px; letter-spacing:0.4px;
+  border-radius:4px 0 0 4px;
+  transform:rotate(180deg);
+}
+
+/* ─── Booking card ─── */
+.klm-booking {
+  margin:-58px 36px 0;
+  position:relative; z-index:5;
+}
+.klm-tabs {
+  display:flex; gap:0;
+  background:transparent;
+}
+.klm-tab {
+  background:#f4f6f8;
+  color:#5a6675;
+  border:0;
+  padding:14px 24px;
+  font-size:14.5px; font-weight:500;
+  display:inline-flex; align-items:center; gap:8px;
+  border-radius:8px 8px 0 0;
+  cursor:pointer;
+}
+.klm-tab.active {
+  background:#ffffff;
+  color:var(--klm-blue);
+  font-weight:600;
+  box-shadow:0 -2px 6px rgba(0,0,0,0.05);
+}
+.klm-tab .ico-plane,
+.klm-tab .ico-miles {
+  font-size:16px;
+  color:inherit;
+}
+
+.klm-form-card {
+  background:#ffffff;
+  border-radius:0 8px 8px 8px;
+  box-shadow:0 4px 18px rgba(0,0,0,0.08);
+  padding:18px 22px 22px;
+}
+.klm-form-row1 {
+  display:flex; gap:14px; padding-bottom:14px;
+  border-bottom:1px solid #f3f4f6;
+}
+.klm-dd {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:7px 14px;
+  background:#f4f6f8; border-radius:18px;
+  font-size:14px; font-weight:600; color:var(--klm-text);
+  cursor:pointer;
+}
+.klm-dd .caret { font-size:10px; opacity:0.7; }
+
+.klm-form-row2 {
+  display:grid;
+  grid-template-columns: 1fr 36px 1fr 1fr 1fr;
+  gap:14px; align-items:stretch;
+  margin-top:18px;
+}
+.klm-field {
+  position:relative;
+  border:1px solid #cfd6de;
+  border-radius:4px;
+  padding:9px 14px 8px;
+  background:#fff;
+  cursor:pointer;
+  display:flex; flex-direction:column; justify-content:center;
+  min-height:60px;
+}
+.klm-field:hover { border-color:#94a3b1; }
+.klm-field.is-active {
+  border-color:var(--klm-blue);
+  box-shadow:inset 0 0 0 1px var(--klm-blue);
+}
+.klm-field .klm-flabel {
+  position:absolute; top:-8px; left:10px;
+  background:#fff; padding:0 6px;
+  font-size:11px; color:var(--klm-muted); font-weight:500;
+}
+.klm-field.is-active .klm-flabel { color:var(--klm-blue); }
+.klm-field .klm-fval {
+  font-size:15.5px; font-weight:700; color:var(--klm-text); letter-spacing:-0.2px;
+}
+.klm-field .klm-fval .klm-fcode {
+  margin-left:8px; font-weight:500; color:var(--klm-muted); font-size:13px;
+}
+.klm-field .klm-ficon {
+  position:absolute; right:12px; top:50%; transform:translateY(-50%);
+  color:var(--klm-blue); font-size:16px;
+}
+.klm-field-swap {
+  display:flex; align-items:center; justify-content:center;
+}
+.klm-swap-btn {
+  width:34px; height:34px; border-radius:50%;
+  background:#f2f6f9; border:1px solid #cfd6de;
+  color:var(--klm-blue); cursor:pointer; font-size:16px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+}
+.klm-form-row3 {
+  display:flex; align-items:center; gap:16px;
+  margin-top:18px;
+}
+.klm-bluebiz {
+  display:inline-flex; align-items:center; gap:10px;
+  color:var(--klm-text); font-size:13.5px;
+}
+.klm-bluebiz .klm-switch {
+  width:34px; height:18px; background:#cfd6de; border-radius:10px; position:relative;
+}
+.klm-bluebiz .klm-switch::after {
+  content:""; position:absolute; top:2px; left:2px; width:14px; height:14px;
+  background:#fff; border-radius:50%; box-shadow:0 1px 2px rgba(0,0,0,0.2);
+}
+.klm-search-btn {
+  margin-left:auto;
+  background:var(--klm-blue); color:#fff; border:0;
+  padding:13px 28px; border-radius:4px;
+  font-size:15px; font-weight:700; cursor:pointer;
+  letter-spacing:0.1px;
+}
+.klm-search-btn:hover { background:var(--klm-blue-d); }
+
+/* ─── Calendar (KLM dual-month inline panel) ─── */
+.klm-cal-anchor { position:relative; }
+.klm-cal-overlay {
+  position:static;
+  background:#ffffff;
+  border-radius:8px;
+  padding:18px 8px 16px;
+  margin:18px -10px 0;
+  width:auto;
+  max-width:none;
+  border-top:1px solid #ebecef;
+  display:block;
+}
+.klm-cal-overlay.open { display:block; }
+
+/* DEPART/RETURN pills above calendar — KLM style */
+.klm-cal-trip-tabs {
+  display:flex; gap:8px; margin-bottom:18px;
+  border-bottom:1px solid #ebecef; padding-bottom:0;
+}
+.klm-cal-trip-tab {
+  background:transparent; border:0;
+  padding:10px 22px 14px;
+  font-size:13px; font-weight:700; letter-spacing:0.6px;
+  text-transform:uppercase; color:var(--klm-muted);
+  cursor:pointer; border-bottom:3px solid transparent;
+  margin-bottom:-1px;
+}
+.klm-cal-trip-tab.active {
+  color:var(--klm-blue); border-bottom-color:var(--klm-blue);
+}
+.klm-cal-trip-tab .klm-cal-trip-date {
+  display:block; font-size:11px; font-weight:500;
+  color:var(--klm-muted); letter-spacing:0;
+  text-transform:none; margin-top:2px;
+}
+.klm-cal-trip-tab.active .klm-cal-trip-date { color:var(--klm-text); }
+
+.klm-cal-title {
+  display:none;
+}
+.klm-cal-twin {
+  display:grid; grid-template-columns:1fr 1fr; gap:48px;
+  position:relative;
+  padding:0 8px;
+}
+.klm-cal-twin-nav {
+  position:absolute; top:0; height:34px;
+  display:flex; align-items:center;
+  pointer-events:none;
+  z-index:2;
+}
+.klm-cal-twin-nav.left { left:-4px; }
+.klm-cal-twin-nav.right { right:-4px; }
+.klm-cal-arrow {
+  pointer-events:auto;
+  width:34px; height:34px; border-radius:50%;
+  background:#fff; border:1px solid #d1d5db;
+  color:var(--klm-navy); font-size:18px; font-weight:600;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  line-height:1;
+  transition:background 0.12s, border-color 0.12s, color 0.12s, box-shadow 0.12s;
+}
+.klm-cal-arrow:hover {
+  background:var(--klm-blue); border-color:var(--klm-blue); color:#fff;
+  box-shadow:0 2px 8px rgba(0,161,222,0.32);
+}
+.klm-cal-month {
+  display:flex; flex-direction:column;
+}
+.klm-cal-mlabel {
+  text-align:center; font-size:17px; font-weight:700; color:var(--klm-text);
+  margin:0 0 16px; height:34px; line-height:34px; letter-spacing:0.1px;
+}
+.klm-cal-dow {
+  display:grid; grid-template-columns:repeat(7, 1fr);
+  font-size:12px; color:var(--klm-muted); font-weight:700;
+  text-align:center; margin-bottom:6px;
+  text-transform:uppercase; letter-spacing:0.4px;
+}
+.klm-cal-dow span { padding:6px 0; }
+.klm-cal-grid, .w09-grid {
+  display:grid; grid-template-columns:repeat(7, 1fr);
+  row-gap:4px; column-gap:2px;
+}
+.klm-cal-day, .w09-day {
+  height:42px; width:100%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14.5px; color:var(--klm-text);
+  cursor:pointer; user-select:none;
+  border-radius:50%;
+  font-weight:500;
+  transition:background 0.12s, color 0.12s, box-shadow 0.12s;
+  position:relative;
+}
+.klm-cal-day:hover, .w09-day:hover {
+  background:#e8f4fb; color:var(--klm-blue-d);
+}
+.klm-cal-day.past, .w09-day.past {
+  color:#c5cdd6; cursor:default;
+}
+.klm-cal-day.past:hover, .w09-day.past:hover { background:transparent; color:#c5cdd6; }
+.klm-cal-day.today, .w09-day.today {
+  box-shadow:inset 0 0 0 1.5px var(--klm-blue);
+  color:var(--klm-blue); font-weight:700;
+}
+.klm-cal-day.sel, .w09-day.sel {
+  background:var(--klm-blue); color:#fff; font-weight:700;
+  box-shadow:0 2px 6px rgba(0,161,222,0.35);
+}
+.klm-cal-day.sel:hover, .w09-day.sel:hover {
+  background:var(--klm-blue-d); color:#fff;
+}
+.klm-cal-day.empty, .w09-day.empty { cursor:default; pointer-events:none; }
+.klm-cal-day.empty:hover, .w09-day.empty:hover { background:transparent; }
+.w09-dow { text-align:center; font-size:12px; color:var(--klm-muted); font-weight:700; padding:6px 0; }
+.klm-cal-divider {
+  border-top:1px solid #ebecef;
+  margin:18px -8px 12px;
+}
+.klm-cal-footer {
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  margin-top:8px; padding:0 4px;
+}
+.klm-cal-hint {
+  font-size:13px; color:var(--klm-muted);
+}
+.klm-cal-footer-btns { display:flex; gap:10px; }
+.klm-cal-clear {
+  background:#f4f6f8; color:var(--klm-text); border:0;
+  padding:11px 22px; border-radius:4px;
+  font-weight:600; font-size:14px; cursor:pointer;
+}
+.klm-cal-clear:hover { background:#e6eaee; }
+.klm-cal-confirm {
+  background:var(--klm-blue); color:#fff; border:0;
+  padding:11px 22px; border-radius:4px;
+  font-weight:700; font-size:14px; cursor:pointer;
+}
+.klm-cal-confirm:hover { background:var(--klm-blue-d); }
+.w09-selected-display { font-size:15.5px; color:var(--klm-text); font-weight:700; }
+.w09-selected-display:empty::before { content:"Select dates"; color:var(--klm-muted); font-weight:600; }
+
+/* ─── Results section ─── */
+.klm-results-wrap {
+  background:var(--klm-soft);
+  padding:34px 36px 48px;
+  margin-top:30px;
+}
+.klm-results-inner { max-width:1280px; margin:0 auto; }
+.klm-crumb {
+  font-size:12.5px; color:var(--klm-muted); margin-bottom:6px;
+}
+.klm-crumb a { color:var(--klm-muted); }
+.klm-crumb b { color:var(--klm-text); }
+.klm-results-h {
+  font-size:24px; font-weight:700; color:var(--klm-text);
+  margin:6px 0 4px; letter-spacing:-0.3px;
+}
+.klm-results-meta {
+  display:flex; align-items:center; justify-content:space-between;
+  margin:6px 0 18px;
+}
+.klm-results-count { font-size:13.5px; color:var(--klm-muted); }
+.klm-sort {
+  font-size:13px; color:var(--klm-text);
+  padding:8px 14px; border:1px solid #cfd6de; border-radius:4px;
+  background:#fff; cursor:pointer; font-weight:600;
+}
+
+.klm-results-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(255px, 1fr));
+  gap:18px;
+}
+.klm-card {
+  background:#ffffff;
+  border:1px solid #ebeef2;
+  border-radius:8px;
+  overflow:hidden;
+  display:flex; flex-direction:column;
+  transition:transform 0.12s, box-shadow 0.12s;
+}
+.klm-card:hover {
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(0,90,140,0.10);
+}
+.klm-card-thumb {
+  height:138px;
+  background-size:cover; background-position:center;
+  background-color:#dfe6ec;
+  position:relative;
+}
+.klm-card-thumb::after {
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg, transparent 60%, rgba(0,58,93,0.18));
+}
+.klm-card-body {
+  padding:14px 16px 14px;
+  display:flex; flex-direction:column; gap:6px; flex:1;
+}
+.klm-card-airline {
+  font-size:11px; color:var(--klm-blue);
+  text-transform:uppercase; letter-spacing:0.5px; font-weight:800;
+}
+.klm-card-title {
+  font-size:16px; font-weight:700; color:var(--klm-text);
+  letter-spacing:-0.2px;
+}
+.klm-card-sub {
+  font-size:12.5px; color:var(--klm-muted);
+}
+.klm-card-meta {
+  display:flex; flex-wrap:wrap; gap:6px; margin-top:6px;
+}
+.klm-tag {
+  font-size:11px; padding:3px 8px;
+  background:#eef4f8; color:var(--klm-text);
+  border-radius:10px;
+}
+.klm-card-foot {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-top:auto; padding-top:10px;
+}
+.klm-card-price {
+  font-size:19px; font-weight:800; color:var(--klm-text); letter-spacing:-0.4px;
+}
+.klm-card-price .klm-from { font-size:10px; color:var(--klm-muted); font-weight:600; margin-right:4px; text-transform:uppercase; }
+.klm-card-btn {
+  background:var(--klm-blue); color:#fff; border:0;
+  padding:8px 16px; border-radius:4px; font-weight:700; font-size:13px;
+  cursor:pointer;
+}
+.klm-card-btn:hover { background:var(--klm-blue-d); }
+
+/* ─── Footer ─── */
+.klm-footer {
+  background:var(--klm-navy); color:#cbd9e6;
+  padding:34px 36px 22px;
+}
+.klm-footer-inner { max-width:1280px; margin:0 auto; }
+.klm-footer-cols {
+  display:grid; grid-template-columns:repeat(4, 1fr); gap:28px;
+}
+.klm-footer h5 {
+  margin:0 0 10px; color:#fff;
+  font-size:13px; font-weight:700; letter-spacing:0.3px;
+  text-transform:uppercase;
+}
+.klm-footer a {
+  display:block; padding:3px 0; color:#cbd9e6; font-size:13px;
+  cursor:pointer;
+}
+.klm-footer a:hover { color:#fff; text-decoration:underline; }
+.klm-footer .klm-copy {
+  margin-top:24px; padding-top:14px;
+  border-top:1px solid rgba(255,255,255,0.08);
+  font-size:12px; color:#9bb1c5;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.klm-footer .klm-copy .klm-foot-logo {
+  color:#fff; font-weight:900; letter-spacing:-0.5px; font-size:18px;
+}
+
+/* live-status retained for parity but hidden by PATCH above */
+.live-status { position:fixed; bottom:12px; right:12px; z-index:200;
+  padding:10px 14px; border-radius:8px; font-size:12px; font-weight:700;
+  background:#fff; border-left:4px solid #ccc; min-width:200px; }
+
+@media (max-width:900px) {
+  .klm-form-row2 { grid-template-columns:1fr; }
+  .klm-field-swap { display:none; }
+  .klm-cal-overlay { width:calc(100vw - 56px); }
+  .klm-cal-twin { grid-template-columns:1fr; gap:18px; }
+  .klm-hero { height:auto; padding-bottom:80px; }
+  .klm-hero-card { position:static; transform:none; margin:60px auto 0; max-width:none; }
+  .klm-footer-cols { grid-template-columns:repeat(2,1fr); }
+}
+</style>
+</head><body>
+
+<header>
+  <div class="klm-topbar">
+    <a class="klm-logo" href="#">
+      <span class="klm-mark"><span class="klm-crown" aria-hidden="true">E</span><span class="klm-word">EchoAir</span></span>
+    </a>
+    <span class="klm-spacer"></span>
+    <div class="klm-tools">
+      <span class="klm-tool klm-search-icon" aria-label="Search"></span>
+      <span class="klm-tool"><span class="klm-flag" aria-hidden="true"></span>United States - EN</span>
+      <span class="klm-tool"><span class="klm-login-icon"><span class="klm-x">×</span></span>Log in</span>
+    </div>
+  </div>
+  <nav class="klm-nav" aria-label="Main">
+    <a class="active">Book</a>
+    <a>My Trip</a>
+    <a>Check-in</a>
+    <a>Information <span class="caret">▾</span></a>
+  </nav>
+</header>
+
+<div class="klm-alert">
+  <span class="klm-alert-ico">!</span>
+  <span class="klm-alert-text"><u>Due to the current situation, flights to, from, via the Middle East are canceled or adjusted. Please check the Travel Alert for the latest information.</u></span>
+  <span class="klm-alert-close">✕</span>
+</div>
+
+<section class="klm-hero">
+  <div class="klm-feedback">Feedback</div>
+  <div class="klm-hero-card">
+    <h3>$50 off for Mother's Day! <span style="color:#5cb6ff;">💙</span></h3>
+    <p>Enjoy $50 off now and surprise your mother figure with a trip to create new memories together!</p>
+    <a class="klm-promo-cta" href="#">Get your discount →</a>
+  </div>
+</section>
+
+<div id="task-banner"></div>
+
+<section class="klm-booking">
+  <div class="klm-tabs">
+    <button type="button" class="klm-tab active"><span class="ico-plane">✈️</span> Book a flight</button>
+    <button type="button" class="klm-tab"><span class="ico-miles">🎫</span> Book with Miles</button>
+  </div>
+  <div class="klm-form-card klm-cal-anchor">
+    <div class="klm-form-row1">
+      <span class="klm-dd">Round trip <span class="caret">▾</span></span>
+      <span class="klm-dd">Economy <span class="caret">▾</span></span>
+    </div>
+    <div class="klm-form-row2">
+      <div class="klm-field" data-fld="from">
+        <span class="klm-flabel">From</span>
+        <span class="klm-fval">Lagos <span class="klm-fcode">LOS</span></span>
+      </div>
+      <div class="klm-field-swap">
+        <button type="button" class="klm-swap-btn" aria-label="Swap origin and destination">⇄</button>
+      </div>
+      <div class="klm-field" data-fld="to">
+        <span class="klm-flabel">To</span>
+        <span class="klm-fval">Frankfurt/Main <span class="klm-fcode">FRA</span></span>
+      </div>
+      <div class="klm-field" id="w09-trigger-field" data-fld="dates">
+        <span class="klm-flabel">Travel dates</span>
+        <span class="klm-fval w09-selected-display"></span>
+        <span class="klm-ficon" aria-hidden="true">📅</span>
+      </div>
+      <div class="klm-field" data-fld="pax">
+        <span class="klm-flabel">Passengers</span>
+        <span class="klm-fval">1 adult</span>
+        <span class="klm-ficon" aria-hidden="true">👤</span>
+      </div>
+    </div>
+    <div class="klm-form-row3">
+      <span class="klm-bluebiz">
+        <span class="klm-switch" aria-hidden="true"></span>
+        I want to book with a bluebiz or corporate contract
+      </span>
+      <button type="button" class="klm-search-btn" id="w09-trigger-btn">Search flights</button>
+    </div>
+
+    <!-- KLM dual-month calendar (inline panel) -->
+    <div class="klm-cal-overlay" id="w09-overlay">
+      <div class="klm-cal-trip-tabs" role="tablist">
+        <button type="button" class="klm-cal-trip-tab active" id="w09-tab-depart" role="tab">
+          Depart
+          <span class="klm-cal-trip-date" id="w09-tab-depart-date">Select date</span>
+        </button>
+        <button type="button" class="klm-cal-trip-tab" id="w09-tab-return" role="tab">
+          Return
+          <span class="klm-cal-trip-date">Select date</span>
+        </button>
+      </div>
+      <h2 class="klm-cal-title">Departure Date</h2>
+      <div class="klm-cal-twin">
+        <div class="klm-cal-twin-nav left">
+          <button type="button" class="klm-cal-arrow" id="w09-prev" aria-label="Previous month">‹</button>
+        </div>
+        <div class="klm-cal-month">
+          <div class="klm-cal-mlabel" id="w09-label">June 2026</div>
+          <div class="klm-cal-dow"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+          <div class="klm-cal-grid w09-grid" id="w09-grid"></div>
+        </div>
+        <div class="klm-cal-month">
+          <div class="klm-cal-mlabel" id="w09-label2">July 2026</div>
+          <div class="klm-cal-dow"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+          <div class="klm-cal-grid w09-grid" id="w09-grid2"></div>
+        </div>
+        <div class="klm-cal-twin-nav right">
+          <button type="button" class="klm-cal-arrow" id="w09-next" aria-label="Next month">›</button>
+        </div>
+      </div>
+      <div class="klm-cal-divider"></div>
+      <div class="klm-cal-footer">
+        <span class="klm-cal-hint">Use the arrows to advance to your travel month, then click a date.</span>
+        <div class="klm-cal-footer-btns">
+          <button type="button" class="klm-cal-clear" id="w09-clear">Clear dates</button>
+          <button type="button" class="klm-cal-confirm" id="w09-confirm">Confirm dates</button>
+        </div>
+      </div>
+      <input type="hidden" id="cal-date-state" data-facet="date" value="">
+    </div>
+  </div>
+</section>
+
+<section class="klm-results-wrap">
+  <div class="klm-results-inner">
+    <div class="klm-crumb"><a>Home</a> &rsaquo; <a>EchoAir</a> &rsaquo; <b>EchoAir flights · Lagos → Frankfurt</b></div>
+    <h2 class="klm-results-h">EchoAir flights · Lagos → Frankfurt</h2>
+    <div class="klm-results-meta">
+      <span class="klm-results-count">Out 07/17/2026 · Return 07/25/2026 · 1 adult · Economy</span>
+      <button class="klm-sort">Sort: Recommended ▾</button>
+    </div>
+    <div class="klm-results-grid">
+      <article class="klm-card">
+        <div class="klm-card-thumb" style="background-image:url('https://images.pexels.com/photos/64757/aircraft-fly-propeller-propeller-plane-64757.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=180')"></div>
+        <div class="klm-card-body">
+          <div class="klm-card-airline">EchoAir · KL 588</div>
+          <div class="klm-card-title">LOS → FRA</div>
+          <div class="klm-card-sub">Lagos → Frankfurt · via AMS</div>
+          <div class="klm-card-meta"><span class="klm-tag">📅 Jul 17, 2026</span><span class="klm-tag">⏱ 11h 25m</span><span class="klm-tag">1 stop</span></div>
+          <div class="klm-card-foot"><span class="klm-card-price"><span class="klm-from">From</span>€685</span><button class="klm-card-btn">Select</button></div>
+        </div>
+      </article>
+      <article class="klm-card">
+        <div class="klm-card-thumb" style="background-image:url('https://images.pexels.com/photos/13716228/pexels-photo-13716228.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=180')"></div>
+        <div class="klm-card-body">
+          <div class="klm-card-airline">EchoAir · KL 1771</div>
+          <div class="klm-card-title">LOS → FRA</div>
+          <div class="klm-card-sub">Lagos → Frankfurt · nonstop</div>
+          <div class="klm-card-meta"><span class="klm-tag">📅 Jul 17, 2026</span><span class="klm-tag">⏱ 9h 30m</span><span class="klm-tag">Nonstop</span></div>
+          <div class="klm-card-foot"><span class="klm-card-price"><span class="klm-from">From</span>€920</span><button class="klm-card-btn">Select</button></div>
+        </div>
+      </article>
+      <article class="klm-card">
+        <div class="klm-card-thumb" style="background-image:url('https://images.pexels.com/photos/30628796/pexels-photo-30628796.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=180')"></div>
+        <div class="klm-card-body">
+          <div class="klm-card-airline">EchoAir · KL 588</div>
+          <div class="klm-card-title">LOS → AMS</div>
+          <div class="klm-card-sub">Lagos → Amsterdam · nonstop</div>
+          <div class="klm-card-meta"><span class="klm-tag">📅 Jul 17, 2026</span><span class="klm-tag">⏱ 6h 40m</span><span class="klm-tag">Nonstop</span></div>
+          <div class="klm-card-foot"><span class="klm-card-price"><span class="klm-from">From</span>€645</span><button class="klm-card-btn">Select</button></div>
+        </div>
+      </article>
+      <article class="klm-card">
+        <div class="klm-card-thumb" style="background-image:url('https://images.pexels.com/photos/14547139/pexels-photo-14547139.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=180')"></div>
+        <div class="klm-card-body">
+          <div class="klm-card-airline">EchoAir · KL 588</div>
+          <div class="klm-card-title">LOS → FRA</div>
+          <div class="klm-card-sub">Lagos → Frankfurt · via AMS</div>
+          <div class="klm-card-meta"><span class="klm-tag">📅 Jul 18, 2026</span><span class="klm-tag">⏱ 11h 25m</span><span class="klm-tag">1 stop</span></div>
+          <div class="klm-card-foot"><span class="klm-card-price"><span class="klm-from">From</span>€715</span><button class="klm-card-btn">Select</button></div>
+        </div>
+      </article>
+      <article class="klm-card">
+        <div class="klm-card-thumb" style="background-image:url('https://images.pexels.com/photos/33327971/pexels-photo-33327971.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=180')"></div>
+        <div class="klm-card-body">
+          <div class="klm-card-airline">EchoAir · KL 1206</div>
+          <div class="klm-card-title">LOS → CDG</div>
+          <div class="klm-card-sub">Lagos → Paris · via AMS</div>
+          <div class="klm-card-meta"><span class="klm-tag">📅 Jul 17, 2026</span><span class="klm-tag">⏱ 7h 10m</span><span class="klm-tag">1 stop</span></div>
+          <div class="klm-card-foot"><span class="klm-card-price"><span class="klm-from">From</span>€595</span><button class="klm-card-btn">Select</button></div>
+        </div>
+      </article>
+      <article class="klm-card">
+        <div class="klm-card-thumb" style="background-image:url('https://images.pexels.com/photos/1381416/pexels-photo-1381416.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=180')"></div>
+        <div class="klm-card-body">
+          <div class="klm-card-airline">EchoAir · KL 588</div>
+          <div class="klm-card-title">LOS → FRA</div>
+          <div class="klm-card-sub">Lagos → Frankfurt · via AMS</div>
+          <div class="klm-card-meta"><span class="klm-tag">📅 Jul 20, 2026</span><span class="klm-tag">⏱ 13h 5m</span><span class="klm-tag">1 stop</span></div>
+          <div class="klm-card-foot"><span class="klm-card-price"><span class="klm-from">From</span>€755</span><button class="klm-card-btn">Select</button></div>
+        </div>
+      </article>
+      <article class="klm-card">
+        <div class="klm-card-thumb" style="background-image:url('https://images.pexels.com/photos/30767897/pexels-photo-30767897.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=180')"></div>
+        <div class="klm-card-body">
+          <div class="klm-card-airline">EchoAir · KL 1771</div>
+          <div class="klm-card-title">FRA → LOS</div>
+          <div class="klm-card-sub">Frankfurt → Lagos · nonstop</div>
+          <div class="klm-card-meta"><span class="klm-tag">📅 Jul 25, 2026</span><span class="klm-tag">⏱ 9h 50m</span><span class="klm-tag">Nonstop</span></div>
+          <div class="klm-card-foot"><span class="klm-card-price"><span class="klm-from">From</span>€695</span><button class="klm-card-btn">Select</button></div>
+        </div>
+      </article>
+      <article class="klm-card">
+        <div class="klm-card-thumb" style="background-image:url('https://images.pexels.com/photos/7507131/pexels-photo-7507131.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=180')"></div>
+        <div class="klm-card-body">
+          <div class="klm-card-airline">EchoAir · Skyteam</div>
+          <div class="klm-card-title">LOS → LHR</div>
+          <div class="klm-card-sub">Lagos → London · via AMS</div>
+          <div class="klm-card-meta"><span class="klm-tag">📅 Jul 17, 2026</span><span class="klm-tag">⏱ 8h 15m</span><span class="klm-tag">1 stop</span></div>
+          <div class="klm-card-foot"><span class="klm-card-price"><span class="klm-from">From</span>€525</span><button class="klm-card-btn">Select</button></div>
+        </div>
+      </article>
+      <article class="klm-card">
+        <div class="klm-card-thumb" style="background-image:url('https://images.pexels.com/photos/1928072/pexels-photo-1928072.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=180')"></div>
+        <div class="klm-card-body">
+          <div class="klm-card-airline">EchoAir · Deal of the week</div>
+          <div class="klm-card-title">LOS → FRA</div>
+          <div class="klm-card-sub">Lagos → Frankfurt · via AMS</div>
+          <div class="klm-card-meta"><span class="klm-tag">📅 Aug 5, 2026</span><span class="klm-tag">⏱ 11h 25m</span><span class="klm-tag">1 stop</span></div>
+          <div class="klm-card-foot"><span class="klm-card-price"><span class="klm-from">From</span>€489</span><button class="klm-card-btn">Select</button></div>
+        </div>
+      </article>
+      <article class="klm-card">
+        <div class="klm-card-thumb" style="background-image:url('https://images.pexels.com/photos/29587915/pexels-photo-29587915.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=180')"></div>
+        <div class="klm-card-body">
+          <div class="klm-card-airline">EchoAir · KL 1717</div>
+          <div class="klm-card-title">LOS → BRU</div>
+          <div class="klm-card-sub">Lagos → Brussels · via AMS</div>
+          <div class="klm-card-meta"><span class="klm-tag">📅 Jul 17, 2026</span><span class="klm-tag">⏱ 9h 5m</span><span class="klm-tag">1 stop</span></div>
+          <div class="klm-card-foot"><span class="klm-card-price"><span class="klm-from">From</span>€615</span><button class="klm-card-btn">Select</button></div>
+        </div>
+      </article>
+      <article class="klm-card">
+        <div class="klm-card-thumb" style="background-image:url('https://images.pexels.com/photos/30767898/pexels-photo-30767898.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=180')"></div>
+        <div class="klm-card-body">
+          <div class="klm-card-airline">EchoAir · KL 588</div>
+          <div class="klm-card-title">LOS → FRA</div>
+          <div class="klm-card-sub">Lagos → Frankfurt · via AMS, MUC</div>
+          <div class="klm-card-meta"><span class="klm-tag">📅 Jul 17, 2026</span><span class="klm-tag">⏱ 14h 20m</span><span class="klm-tag">2 stops</span></div>
+          <div class="klm-card-foot"><span class="klm-card-price"><span class="klm-from">From</span>€815</span><button class="klm-card-btn">Select</button></div>
+        </div>
+      </article>
+      <article class="klm-card">
+        <div class="klm-card-thumb" style="background-image:url('https://images.pexels.com/photos/24461266/pexels-photo-24461266.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=180')"></div>
+        <div class="klm-card-body">
+          <div class="klm-card-airline">EchoAir · KL 1923</div>
+          <div class="klm-card-title">LOS → ZRH</div>
+          <div class="klm-card-sub">Lagos → Zurich · via AMS</div>
+          <div class="klm-card-meta"><span class="klm-tag">📅 Jul 17, 2026</span><span class="klm-tag">⏱ 10h 5m</span><span class="klm-tag">1 stop</span></div>
+          <div class="klm-card-foot"><span class="klm-card-price"><span class="klm-from">From</span>€875</span><button class="klm-card-btn">Select</button></div>
+        </div>
+      </article>
+      <article class="klm-card">
+        <div class="klm-card-thumb" style="background-image:url('https://images.pexels.com/photos/14400667/pexels-photo-14400667.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=180')"></div>
+        <div class="klm-card-body">
+          <div class="klm-card-airline">EchoAir · KL 1773</div>
+          <div class="klm-card-title">AMS → FRA</div>
+          <div class="klm-card-sub">Amsterdam → Frankfurt · nonstop</div>
+          <div class="klm-card-meta"><span class="klm-tag">📅 Jul 17, 2026</span><span class="klm-tag">⏱ 1h 25m</span><span class="klm-tag">Nonstop</span></div>
+          <div class="klm-card-foot"><span class="klm-card-price"><span class="klm-from">From</span>€215</span><button class="klm-card-btn">Select</button></div>
+        </div>
+      </article>
+      <article class="klm-card">
+        <div class="klm-card-thumb" style="background-image:url('https://images.pexels.com/photos/16737433/pexels-photo-16737433.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=180')"></div>
+        <div class="klm-card-body">
+          <div class="klm-card-airline">EchoAir · KL 1843</div>
+          <div class="klm-card-title">LOS → VIE</div>
+          <div class="klm-card-sub">Lagos → Vienna · via AMS</div>
+          <div class="klm-card-meta"><span class="klm-tag">📅 Jul 17, 2026</span><span class="klm-tag">⏱ 11h 50m</span><span class="klm-tag">1 stop</span></div>
+          <div class="klm-card-foot"><span class="klm-card-price"><span class="klm-from">From</span>€745</span><button class="klm-card-btn">Select</button></div>
+        </div>
+      </article>
+      <article class="klm-card">
+        <div class="klm-card-thumb" style="background-image:url('https://images.pexels.com/photos/33259929/pexels-photo-33259929.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=180')"></div>
+        <div class="klm-card-body">
+          <div class="klm-card-airline">EchoAir · KL 1791</div>
+          <div class="klm-card-title">LOS → MUC</div>
+          <div class="klm-card-sub">Lagos → Munich · via AMS</div>
+          <div class="klm-card-meta"><span class="klm-tag">📅 Jul 17, 2026</span><span class="klm-tag">⏱ 10h 25m</span><span class="klm-tag">1 stop</span></div>
+          <div class="klm-card-foot"><span class="klm-card-price"><span class="klm-from">From</span>€705</span><button class="klm-card-btn">Select</button></div>
+        </div>
+      </article>
+      <article class="klm-card">
+        <div class="klm-card-thumb" style="background-image:url('https://images.pexels.com/photos/271639/pexels-photo-271639.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=180')"></div>
+        <div class="klm-card-body">
+          <div class="klm-card-airline">EchoAir · Best price</div>
+          <div class="klm-card-title">LOS → FRA</div>
+          <div class="klm-card-sub">Lagos → Frankfurt · via AMS</div>
+          <div class="klm-card-meta"><span class="klm-tag">📅 Sep 3, 2026</span><span class="klm-tag">⏱ 11h 25m</span><span class="klm-tag">1 stop</span></div>
+          <div class="klm-card-foot"><span class="klm-card-price"><span class="klm-from">From</span>€549</span><button class="klm-card-btn">Select</button></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<footer class="klm-footer">
+  <div class="klm-footer-inner">
+    <div class="klm-footer-cols">
+      <div><h5>About EchoAir</h5><a>Our story</a><a>Newsroom</a><a>Careers</a><a>Investor relations</a><a>Sustainability</a></div>
+      <div><h5>Customer service</h5><a>Manage trip</a><a>Online check-in</a><a>Baggage</a><a>Travel updates</a><a>Contact us</a></div>
+      <div><h5>Discover</h5><a>Destinations</a><a>Deals</a><a>Flying Blue loyalty</a><a>Hotels & cars</a><a>Travel Guide</a></div>
+      <div><h5>Legal</h5><a>Conditions of carriage</a><a>Privacy policy</a><a>Cookie statement</a><a>Accessibility</a><a>Sitemap</a></div>
+    </div>
+    <div class="klm-copy">
+      <span class="klm-foot-logo">EchoAir</span>
+      <span>© 2026 EchoAir · All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="live-status neutral" id="live-status"><span class="ls-msg">💾 Auto-saved</span></div>
+
+<script>
+const ENV_ID = 'W09_E04';
+
+let filterState = {};
+function onF(){ applyFilters(); }
+function applyFilters(){
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) { if (!newState[f]) newState[f] = []; newState[f].push(el.value || true); }
+    } else if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.value) newState[f] = el.value;
+    } else {
+      if (el.value) newState[f] = el.value;
+    }
+  });
+  filterState = newState;
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).catch(()=>{});
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : '';
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(data => { updateLiveStatus(data); }).catch(()=>{});
+}
+function escapeHtml(s){ return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function updateLiveStatus(d){
+  const bar = document.getElementById('live-status'); if (!bar) return;
+  let msg='', cls='neutral';
+  if (d && d.task_id) {
+    if (d.satisfies) { msg = '✅ Satisfies task ' + d.task_id; cls='good'; }
+    else { msg = '⏳ Not yet matching ' + d.task_id; cls='pending'; }
+  } else { msg = '💾 Auto-saved'; cls='neutral'; }
+  bar.className = 'live-status ' + cls;
+  const m = bar.querySelector('.ls-msg'); if (m) m.textContent = msg;
+}
+function loadTaskBanner(){
+  const urlParams = new URLSearchParams(window.location.search);
+  const tid = urlParams.get('task_id'); if (!tid) return;
+  fetch('/env/' + ENV_ID + '/api/task/' + encodeURIComponent(tid))
+    .then(r => r.ok ? r.json() : null)
+    .then(task => {
+      if (!task) return;
+      const banner = document.getElementById('task-banner'); if (!banner) return;
+      banner.style.display = 'block';
+      banner.innerHTML = `<div class="tb-summary">${escapeHtml(task.task_summary||'')}</div>`;
+    }).catch(()=>{});
+}
+document.addEventListener('DOMContentLoaded', loadTaskBanner);
+
+/* ───── KLM dual-month calendar ───── */
+const W09_MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+function w09DaysIn(y,m){ return new Date(y, m+1, 0).getDate(); }
+/* Monday-first week: convert JS getDay (Sun=0…Sat=6) to (Mon=0…Sun=6) */
+function w09FirstDowMon(y,m){ const d = new Date(y, m, 1).getDay(); return (d + 6) % 7; }
+
+function w09SetDate(y,m,d){
+  const v = W09_MONTHS[m] + " " + d + ", " + y;
+  const inp = document.getElementById("cal-date-state");
+  if (inp) inp.value = v;
+  document.querySelectorAll(".w09-selected-display").forEach(el => el.textContent = v);
+  const tabDate = document.getElementById("w09-tab-depart-date");
+  if (tabDate) tabDate.textContent = v;
+  if (typeof onF === "function") onF();
+}
+
+function w09RenderGrid(y, m, gridId, todayY, todayM, todayD){
+  const g = document.getElementById(gridId); if (!g) return;
+  let h = "";
+  const n = w09DaysIn(y,m), first = w09FirstDowMon(y,m);
+  for (let i=0;i<first;i++) h += `<div class="klm-cal-day empty w09-day empty"></div>`;
+  const cur = (document.getElementById("cal-date-state")||{}).value || "";
+  for (let d=1; d<=n; d++) {
+    const cand = W09_MONTHS[m] + " " + d + ", " + y;
+    const sel = (cur === cand) ? " sel" : "";
+    const isPast = (y < todayY) || (y === todayY && m < todayM) || (y === todayY && m === todayM && d < todayD);
+    const isToday = (y === todayY && m === todayM && d === todayD);
+    let cls = "klm-cal-day w09-day";
+    if (sel) cls += " sel";
+    else if (isPast) cls += " past";
+    if (isToday) cls += " today";
+    h += `<div class="${cls}" data-d="${d}" data-y="${y}" data-m="${m}">${d}</div>`;
+  }
+  g.innerHTML = h;
+  g.querySelectorAll(".w09-day[data-d]").forEach(el => {
+    if (el.classList.contains("past")) return;
+    el.addEventListener("click", () => w09SetDate(
+      parseInt(el.dataset.y,10), parseInt(el.dataset.m,10), parseInt(el.dataset.d,10)
+    ));
+  });
+}
+
+(function(){
+  /* Default: current month (today is May 2026 for this env's narrative); left panel = current, right panel = next */
+  let _y = 2026, _m = 4;   // May 2026 left, June 2026 right — matches inspiration's "today" of May 11
+  const TODAY = { y: 2026, m: 4, d: 11 };
+
+  function nextMonth(y, m) {
+    return m === 11 ? { y: y+1, m: 0 } : { y: y, m: m+1 };
+  }
+  function render(){
+    const lbl1 = document.getElementById("w09-label");
+    if (lbl1) lbl1.textContent = W09_MONTHS[_m] + " " + _y;
+    const nm = nextMonth(_y, _m);
+    const lbl2 = document.getElementById("w09-label2");
+    if (lbl2) lbl2.textContent = W09_MONTHS[nm.m] + " " + nm.y;
+    w09RenderGrid(_y, _m, "w09-grid", TODAY.y, TODAY.m, TODAY.d);
+    w09RenderGrid(nm.y, nm.m, "w09-grid2", TODAY.y, TODAY.m, TODAY.d);
+  }
+  window.w09Next = function(){
+    const nm = nextMonth(_y, _m);
+    _y = nm.y; _m = nm.m;
+    render();
+    if(typeof onF==='function') onF();
+  };
+  window.w09Prev = function(){
+    _m--; if(_m<0){_m=11;_y--;}
+    render();
+    if(typeof onF==='function') onF();
+  };
+
+  document.addEventListener("DOMContentLoaded", function(){
+    render();
+    document.getElementById("w09-prev").addEventListener("click", w09Prev);
+    document.getElementById("w09-next").addEventListener("click", w09Next);
+
+    const trig = document.getElementById("w09-trigger-field");
+    const btn  = document.getElementById("w09-trigger-btn");
+    const ov   = document.getElementById("w09-overlay");
+    const fld  = document.getElementById("w09-trigger-field");
+
+    function open(e){
+      if (ov) ov.classList.add("open");
+      if (fld) fld.classList.add("is-active");
+      if (e) e.stopPropagation();
+    }
+    function close(){
+      if (ov) ov.classList.remove("open");
+      if (fld) fld.classList.remove("is-active");
+    }
+    if (trig) trig.addEventListener("click", open);
+    if (btn)  btn.addEventListener("click", open);
+
+    const clearBtn = document.getElementById("w09-clear");
+    if (clearBtn) clearBtn.addEventListener("click", function(e){
+      e.stopPropagation();
+      const inp = document.getElementById("cal-date-state");
+      if (inp) inp.value = "";
+      document.querySelectorAll(".w09-selected-display").forEach(el => el.textContent = "");
+      const tabDate = document.getElementById("w09-tab-depart-date");
+      if (tabDate) tabDate.textContent = "Select date";
+      render();
+      if (typeof onF === "function") onF();
+    });
+    const confirmBtn = document.getElementById("w09-confirm");
+    if (confirmBtn) confirmBtn.addEventListener("click", function(e){
+      e.stopPropagation();
+      close();
+    });
+
+    /* close on outside click */
+    document.addEventListener("click", function(e){
+      if (!ov) return;
+      if (ov.classList.contains("open") &&
+          !ov.contains(e.target) &&
+          !(trig && trig.contains(e.target)) &&
+          !(btn && btn.contains(e.target))) {
+        close();
+      }
+    });
+
+    /* open by default so cells are discoverable */
+    open();
+  });
+})();
+</script>
+</body></html>

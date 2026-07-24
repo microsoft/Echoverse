@@ -1,0 +1,41 @@
+{
+  "env_id": "W06_E07",
+  "widget_id": "W06_exact_match_toggle",
+  "widget_name": "Exact-match toggle paired with plus-chip",
+  "widget_category": "toggle",
+  "widget_mechanic": "When a plus-chip filter is set (e.g. '3+ bedrooms'), results include all N \u2265 3. To require EXACTLY N, agent must locate and enable the 'use exact match' toggle \u2014 usually below the plus-chip row or inside an advanced filters panel.",
+  "archetype": "realestate_listings",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W06_exact_match_toggle"
+  ],
+  "site_imitates": "Apartments.com Houston TX",
+  "product_type": "rental homes in Houston, TX",
+  "source_inspiration": [
+    {
+      "task_id": "aafd1fddea1558466ac6133934d35156",
+      "benchmark": "OM2W",
+      "site": "apartments.com",
+      "instruction": "Find a Single-Family House for Rent in Houston, TX with 1 bed.",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent chose to open the first visible listing (\u201cPreserve at Woodridge\u201d) without verifying it is located in Houston, TX, violating the task\u2019s hard city constraint."
+    }
+  ],
+  "theme_key": "rentals",
+  "theme_logo": "RentSpot",
+  "theme_card": "apt-card",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 1,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "gte_or_eq",
+    "fields": [
+      "min_beds",
+      "min_baths",
+      "exact_match"
+    ],
+    "item_fields": [
+      "beds",
+      "baths"
+    ]
+  }
+}

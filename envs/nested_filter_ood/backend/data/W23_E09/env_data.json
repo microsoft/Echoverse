@@ -1,0 +1,43 @@
+{
+  "env_id": "W23_E09",
+  "widget_id": "W23_more_filters_modal_plus_chip_bar",
+  "widget_name": "More-filters modal + filter-chip confirmation bar",
+  "widget_category": "combo_modal_workflow",
+  "widget_mechanic": "Compose: apply hidden-modal filter AND verify it appears in the active-filter chip bar.",
+  "archetype": "realestate_listings",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W07_more_filters_modal",
+    "W08_filter_chip_confirmation"
+  ],
+  "site_imitates": "Realtor.com Jackson TN",
+  "product_type": "Jackson homes",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_jackson__tn_2638",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "I'm looking to buy a move-in ready home with 3 bedrooms and central AC in Jackson, TN, priced between $300k and $600k. Can you help me find one that meets these criteria?",
+      "first_failure_summary": "[3.5] Incomplete task execution: The double-click was on the correct Realtor.com result link, but the post-action screenshot shows no navigation or observable change, so the action did not advance the task."
+    }
+  ],
+  "primary_inspiration": {
+    "task_id": "realestate_complex_buy_house_jackson__tn_2638",
+    "benchmark": "WTB",
+    "site": "buy",
+    "site_label": "Realtor.com",
+    "city": "Jackson, TN",
+    "instruction": "I'm looking to buy a move-in ready home with 3 bedrooms and central AC in Jackson, TN, priced between $300k and $600k. Can you help me find one that meets these criteria?",
+    "first_failure_summary": "[3.5] Incomplete task execution: The double-click was on the correct Realtor.com result link, but the post-action screenshot shows no navigation or observable change, so the action did not advance the task."
+  },
+  "theme_key": "realtor",
+  "theme_logo": "Realtor.com",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

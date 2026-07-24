@@ -1,0 +1,1094 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>EchoAir | Book direct, cheap flights with EchoAir</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+#submit-status,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+
+
+
+
+
+:root {
+  --wz-navy: #0e1f53;
+  --wz-navy-deep: #091640;
+  --wz-pink: #c6007e;
+  --wz-pink-hover: #9b0061;
+  --wz-pink-soft: #fde2f1;
+  --wz-bg: #f5f7fc;
+  --wz-text: #1a1f33;
+  --wz-muted: #6a708a;
+  --wz-border: #dfe1ec;
+  --wz-purple: #4a1d6b;
+}
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; font-family: 'Inter','Helvetica Neue',Arial,sans-serif; background:var(--wz-bg); color:var(--wz-text); }
+a { color: inherit; text-decoration: none; }
+
+/* ===== Top bar ===== */
+.topbar { background:var(--wz-navy); color:#fff; padding:0 28px; display:flex; align-items:center; gap:0; height:64px; }
+.topbar .brand { display:flex; align-items:center; margin-right:32px; }
+.wordmark {
+  font-family: 'Arial Black','Helvetica Neue',sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  font-size: 34px;
+  letter-spacing: -1px;
+  color: #fff;
+  background: linear-gradient(180deg,#fff 0%, #fff 55%, transparent 56%, transparent 60%, #fff 61%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-stroke: 1.5px #fff;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  padding-right:2px;
+  transform: skewX(-6deg);
+}
+.topnav { display:flex; align-items:center; gap:22px; font-size:14px; font-weight:600; }
+.topnav a { display:inline-flex; align-items:center; gap:4px; padding:8px 2px; cursor:pointer; opacity:.95; }
+.topnav a:hover { opacity:1; text-decoration:underline; }
+.topnav .caret { font-size:10px; opacity:.8; margin-left:2px; }
+.topnav .ada { font-size:18px; opacity:.9; margin-left:6px; }
+.header-right { margin-left:auto; display:flex; align-items:center; gap:14px; }
+.signin-btn { background:transparent; color:#fff; border:1px solid #fff; padding:7px 18px; border-radius:4px; font-size:13px; font-weight:600; cursor:pointer; }
+.signin-btn:hover { background:#fff; color:var(--wz-navy); }
+.flag { width:30px; height:24px; border-radius:50%; background:
+  radial-gradient(circle, #fff 0 35%, transparent 36%),
+  linear-gradient(45deg, #012169 25%, transparent 26%, transparent 74%, #012169 75%),
+  linear-gradient(-45deg, #012169 25%, transparent 26%, transparent 74%, #012169 75%),
+  #c8102e;
+  display:inline-block; border:1px solid rgba(255,255,255,.5); position:relative; overflow:hidden;
+}
+.flag::before { content:'🇬🇧'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:18px; background:#012169; }
+
+/* ===== Hero ===== */
+.hero { position:relative; overflow:hidden; padding:0; background:#5e1474; min-height:300px; }
+.hero::before {
+  content:''; position:absolute; inset:0; z-index:0;
+  background:
+    linear-gradient(95deg, rgba(94,20,116,.96) 0%, rgba(168,32,135,.85) 38%, rgba(198,0,126,.4) 65%, rgba(80,40,140,.25) 100%),
+    radial-gradient(circle at 85% 50%, rgba(40,30,90,.4), transparent 60%),
+    repeating-linear-gradient(90deg, rgba(80,140,200,.18) 0 2px, transparent 2px 8px),
+    linear-gradient(180deg, #1c2548 0%, #2c2a55 60%, #4a1d6b 100%);
+  background-size: cover, cover, 24px 100%, cover;
+}
+.hero-inner { position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:48px 28px 90px; display:flex; align-items:flex-start; }
+.hero-text { color:#fff; max-width:560px; }
+.hero-text h1 {
+  margin:0 0 14px; font-size:46px; line-height:1; letter-spacing:-1px;
+  font-style: italic; font-weight: 900; text-transform: uppercase;
+  font-family: 'Arial Black','Helvetica Neue',sans-serif;
+  text-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+.hero-text .sub { margin:0 0 18px; font-size:15px; font-weight:500; opacity:.95; }
+.book-now { background:#fff; color:var(--wz-navy); border:0; padding:9px 18px; border-radius:6px; font-size:13px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow: 0 2px 6px rgba(0,0,0,.18); }
+.book-now:hover { background:var(--wz-pink-soft); }
+.hero-terms { margin-top:16px; font-size:11px; opacity:.9; }
+.hero-terms u { cursor:pointer; }
+
+/* ===== Shell + picker card ===== */
+.shell { max-width:1180px; margin:0 auto; padding:0 18px 60px; }
+.picker-card { background:transparent; margin-top:-60px; position:relative; z-index:2; }
+
+/* Tab strip */
+.bk-tabs { display:flex; gap:0; padding-left:4px; }
+.bk-tab { background:#f6f7fb; color:var(--wz-text); padding:11px 22px 12px; border-radius:10px 10px 0 0; font-size:14px; font-weight:600; display:inline-flex; align-items:center; gap:8px; cursor:pointer; opacity:.7; border:1px solid transparent; border-bottom:0; }
+.bk-tab.active { background:#fff; opacity:1; box-shadow:0 -2px 6px rgba(0,0,0,.05); }
+.bk-tab .ic { font-size:16px; }
+.bk-tab .badge-pct {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:18px; height:18px; border-radius:50%; background:#26c4ff; color:#fff;
+  font-size:10px; font-weight:700;
+}
+
+/* Booking form body */
+.bk-body { background:#fff; border-radius:0 14px 14px 14px; padding:20px 22px 22px; box-shadow:0 14px 28px rgba(0,0,0,.18); }
+
+/* Return / One way radios */
+.trip-type { display:flex; gap:30px; margin:2px 0 14px; }
+.tt-radio { display:inline-flex; align-items:center; gap:9px; cursor:pointer; font-size:14px; font-weight:600; color:var(--wz-text); }
+.tt-radio .dot { width:20px; height:20px; border-radius:50%; border:2px solid #b8bccc; background:#fff; display:inline-flex; align-items:center; justify-content:center; }
+.tt-radio.on { color:var(--wz-pink); }
+.tt-radio.on .dot { border-color:var(--wz-pink); }
+.tt-radio.on .dot::after { content:''; width:10px; height:10px; border-radius:50%; background:var(--wz-pink); }
+
+/* Field row */
+.bk-row { display:flex; gap:0; align-items:stretch; flex-wrap:wrap; }
+.bk-field { flex:1 1 0; min-width:140px; padding:10px 14px; border:1px solid var(--wz-border); border-right:0; background:#fff; cursor:pointer; min-height:62px; position:relative; transition: background .15s; }
+.bk-field:first-of-type { border-radius:6px 0 0 6px; }
+.bk-field:last-of-type { border-right:1px solid var(--wz-border); }
+.bk-field.cal-anchor { flex:1.1 1 0; }
+.bk-field:hover { background:#f9f8fd; }
+.bk-field.active { background:#f6f1fc; border-color:#9b8fc7; box-shadow: inset 0 0 0 1px #9b8fc7; }
+.bk-lbl { display:block; font-size:11px; color:var(--wz-muted); letter-spacing:.2px; margin-bottom:4px; font-weight:500; }
+.bk-val { display:block; font-size:15px; font-weight:700; color:var(--wz-text); min-height:18px; }
+.bk-field.empty .bk-val { color:#9aa0b8; font-weight:400; }
+.bk-divider { width:1px; background:linear-gradient(180deg, transparent 10%, var(--wz-border) 30%, var(--wz-border) 70%, transparent 90%); margin:0; }
+.bk-pass-row { display:flex; align-items:baseline; gap:6px; }
+.bk-pass-row b { font-size:18px; }
+.bk-pass-row .sm { font-size:12px; color:var(--wz-muted); }
+.search-btn { background:var(--wz-pink); color:#fff; border:0; padding:0 30px; border-radius:6px; font-size:16px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:8px; margin-left:12px; min-height:62px; }
+.search-btn:hover { background:var(--wz-pink-hover); }
+.reset-link { background:transparent; color:var(--wz-pink); border:0; cursor:pointer; font-size:12px; font-weight:600; padding:6px 4px; margin-left:8px; text-decoration:underline; }
+
+/* Self-transfer + below row */
+.bk-sub { margin-top:10px; font-size:12px; color:var(--wz-muted); display:flex; align-items:center; gap:8px; }
+.bk-sub .box { width:14px; height:14px; border:1.5px solid #b8bccc; border-radius:3px; display:inline-block; }
+.bk-sub .i { color:#888; font-style:italic; }
+
+/* Calendar panel under fields — Wizz Air dual-month style */
+.cal-card {
+  max-width:760px; margin-top:18px;
+  border:1px solid var(--wz-border);
+  padding:20px 22px 22px;
+  border-radius:14px;
+  background:#fff;
+  box-shadow:0 12px 36px rgba(14,31,83,.16), 0 2px 6px rgba(14,31,83,.06);
+  position:relative;
+}
+.cal-card::before {
+  content:''; position:absolute; top:-9px; left:60px;
+  width:16px; height:16px; background:#fff;
+  border-left:1px solid var(--wz-border); border-top:1px solid var(--wz-border);
+  transform:rotate(45deg);
+}
+
+/* Depart / Return mode pills above calendar */
+.cal-pills {
+  display:flex; gap:10px; margin-bottom:14px; padding-bottom:14px;
+  border-bottom:1px solid #eef0f7;
+}
+.cal-pill {
+  flex:0 0 auto; padding:8px 16px; border-radius:999px;
+  border:1.5px solid var(--wz-border); background:#fff;
+  font-size:12px; font-weight:700; color:var(--wz-muted);
+  display:inline-flex; align-items:center; gap:8px;
+  cursor:pointer; transition: all .15s;
+  text-transform:uppercase; letter-spacing:.4px;
+}
+.cal-pill .pill-date {
+  font-size:13px; font-weight:700; color:var(--wz-text);
+  text-transform:none; letter-spacing:0;
+}
+.cal-pill.empty .pill-date { color:#a0a6bf; font-weight:500; }
+.cal-pill.active {
+  border-color:var(--wz-pink); background:var(--wz-pink-soft); color:var(--wz-pink);
+  box-shadow:0 0 0 3px rgba(198,0,126,.10);
+}
+.cal-pill.active .pill-date { color:var(--wz-pink); }
+.cal-pill:hover:not(.active) { border-color:#a8aec6; background:#fafbff; }
+.cal-pill .dot-mark {
+  width:8px; height:8px; border-radius:50%; background:#cfd4e3;
+}
+.cal-pill.active .dot-mark { background:var(--wz-pink); }
+
+.cal-months-row {
+  display:flex; gap:28px; align-items:flex-start;
+}
+.cal-month-pane { flex:1 1 0; min-width:0; }
+
+/* Section labels & live state */
+#submit-status { font-size:12px; color:#666; margin-top:10px; }
+.live-state { font-family:'Courier New',monospace; font-size:12px; background:#f6f6f4; border:1px dashed var(--wz-border); border-radius:6px; padding:8px 10px; margin-top:12px; color:#444; }
+.live-state b { color:var(--wz-pink); }
+
+/* ===== Task banner / results ===== */
+.task-banner { background:#fff8db; border:1px solid #ecd56b; border-radius:10px; padding:14px 18px; margin:18px 0 4px; font-size:13.5px; color:#523c00; display:none; }
+.task-banner.visible { display:block; }
+.task-banner .ttitle { font-weight:700; margin-bottom:4px; }
+.task-banner .tprop { white-space:pre-wrap; }
+.task-banner .ansbox { margin-top:10px; }
+.task-banner .ansbox input { padding:8px 10px; border:1px solid #d3b842; border-radius:6px; min-width:280px; font-size:13px; }
+.results { margin-top:30px; }
+.results h2 { font-size:20px; margin:6px 0 14px; color:var(--wz-navy); font-weight:700; }
+.results .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:14px; }
+.results .grid > * { background:#fff; border:1px solid var(--wz-border); border-radius:10px; padding:14px; }
+.results .empty { color:#666; font-size:14px; padding:18px; background:#fff; border:1px dashed var(--wz-border); border-radius:10px; }
+
+/* ===== Footer ===== */
+footer { background:var(--wz-navy-deep); color:#cdd2e3; padding:36px 22px 22px; font-size:13px; }
+.foot-inner { max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(4, 1fr); gap:28px; }
+.foot-col h5 { font-size:13px; font-weight:700; color:#fff; margin:0 0 12px; text-transform:uppercase; letter-spacing:.5px; }
+.foot-col a { display:block; padding:4px 0; font-size:12.5px; opacity:.85; }
+.foot-col a:hover { opacity:1; text-decoration:underline; }
+.foot-bottom { max-width:1180px; margin:24px auto 0; padding-top:18px; border-top:1px solid rgba(255,255,255,.1); display:flex; justify-content:space-between; font-size:11.5px; color:#9097b5; flex-wrap:wrap; gap:12px; }
+
+/* ===== Calendar primitives — Wizz Air dual-month, circular cells ===== */
+.cal { font-size:13px; }
+.cal .cal-head {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:2px 4px 14px;
+}
+.cal .cal-head .nav {
+  background:#fff; border:1.5px solid var(--wz-border); border-radius:50%;
+  width:34px; height:34px; padding:0; cursor:pointer;
+  font-size:18px; color:var(--wz-navy); line-height:1; font-weight:700;
+  display:inline-flex; align-items:center; justify-content:center;
+  transition: all .15s;
+}
+.cal .cal-head .nav:hover {
+  background:var(--wz-pink); border-color:var(--wz-pink); color:#fff;
+  box-shadow:0 4px 10px rgba(198,0,126,.30);
+}
+.cal .cal-head .nav-spacer { width:34px; height:34px; visibility:hidden; }
+.cal .cal-head .title {
+  font-weight:800; color:var(--wz-navy); font-size:16px;
+  letter-spacing:.2px;
+}
+.cal .dow {
+  display:grid; grid-template-columns:repeat(7,1fr); gap:2px;
+  color:#9aa0b8; font-size:11px; text-align:center; padding:4px 0 8px;
+  font-weight:700; text-transform:uppercase; letter-spacing:.6px;
+}
+.cal .days {
+  display:grid; grid-template-columns:repeat(7,1fr);
+  gap:2px 0; row-gap:4px;
+}
+.cal .day {
+  height:40px; min-height:40px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:13.5px; color:var(--wz-text);
+  user-select:none; background:transparent;
+  font-weight:500; position:relative;
+  transition: color .12s;
+}
+.cal .day::before {
+  content:''; position:absolute; inset:3px;
+  border-radius:50%; background:transparent;
+  transition: background .12s, box-shadow .12s;
+  z-index:0;
+}
+.cal .day > span.dnum {
+  position:relative; z-index:1;
+}
+.cal .day:hover::before {
+  background:var(--wz-pink-soft);
+}
+.cal .day:hover { color:var(--wz-pink); font-weight:700; }
+.cal .day.muted { color:transparent; cursor:default; pointer-events:none; }
+.cal .day.muted::before { display:none; }
+.cal .day.disabled {
+  color:#cfd2e0; cursor:not-allowed; text-decoration:line-through;
+  font-weight:400;
+}
+.cal .day.disabled:hover { color:#cfd2e0; font-weight:400; }
+.cal .day.disabled:hover::before { background:transparent; }
+.cal .day.today::before {
+  background:#fff;
+  box-shadow: inset 0 0 0 1.5px #b8bccc;
+}
+.cal .day.today { font-weight:700; color:var(--wz-navy); }
+.cal .day.dep::before, .cal .day.ret::before {
+  background:var(--wz-pink);
+  box-shadow:0 4px 10px rgba(198,0,126,.35);
+}
+.cal .day.dep, .cal .day.ret {
+  color:#fff !important; font-weight:800;
+}
+.cal .day.dep:hover::before, .cal .day.ret:hover::before { background:var(--wz-pink-hover); }
+.cal .day.in-range {
+  color:var(--wz-pink-hover); font-weight:700;
+}
+.cal .day.in-range::before {
+  background:var(--wz-pink-soft);
+  border-radius:0;
+  inset:3px 0;
+}
+.cal .day.range-start::before {
+  border-radius:50% 0 0 50%;
+}
+.cal .day.range-end::before {
+  border-radius:0 50% 50% 0;
+}
+/* Connector pill behind dep/ret when in range */
+.cal .day.dep.has-range::after, .cal .day.ret.has-range-left::after {
+  content:''; position:absolute; top:3px; bottom:3px;
+  background:var(--wz-pink-soft); z-index:-1;
+}
+.cal .day.dep.has-range::after { right:0; left:50%; }
+.cal .day.ret.has-range-left::after { left:0; right:50%; }
+
+/* Section title under booking */
+.wz-section-title { font-size:22px; font-weight:700; color:var(--wz-navy); margin:28px 0 4px; }
+
+@media (max-width: 900px) {
+  .bk-row { flex-direction: column; }
+  .bk-field { border-right:1px solid var(--wz-border) !important; border-radius:6px !important; margin-bottom:6px; }
+  .search-btn { margin-left:0; margin-top:8px; min-height:54px; }
+  .foot-inner { grid-template-columns: repeat(2,1fr); }
+  .hero-text h1 { font-size:32px; }
+}
+</style>
+</head><body>
+<header class="topbar">
+  <div class="brand"><span class="wordmark">EchoAir</span></div>
+  <nav class="topnav">
+    <a>Plan <span class="caret">▾</span></a>
+    <a>Hotels</a>
+    <a>Cars</a>
+    <a>EchoAir &amp; services <span class="caret">▾</span></a>
+    <a>Help Centre <span class="caret">▾</span></a>
+    <a>Find Booking</a>
+    <span class="ada" title="Accessibility">♿</span>
+  </nav>
+  <div class="header-right">
+    <button class="signin-btn">Sign in</button>
+    <span class="flag" aria-label="English"></span>
+  </div>
+</header>
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <h1>BE PREPARED<br>FOR ANYTHING</h1>
+      <p class="sub">Add Disruption Assistance and protect your travel plans.</p>
+      <button class="book-now">Book now! <span>›</span></button>
+      <div class="hero-terms">Restrictions apply, for further information read the <u>Terms and Conditions</u>.</div>
+    </div>
+  </div>
+</section>
+<main class="shell">
+  <div class="picker-card">
+    <div class="bk-tabs">
+      <div class="bk-tab active"><span class="ic">✈</span> Flights</div>
+      <div class="bk-tab"><span class="ic">🛏</span> Hotels <span class="badge-pct">%</span></div>
+      <div class="bk-tab"><span class="ic">🚗</span> Cars <span class="badge-pct">%</span></div>
+    </div>
+    <div class="bk-body">
+      <div class="trip-type">
+        <label class="tt-radio on"><span class="dot"></span> Return</label>
+        <label class="tt-radio"><span class="dot"></span> One way</label>
+      </div>
+      <div class="bk-row">
+        <div class="bk-field">
+          <span class="bk-lbl">Origin</span>
+          <span class="bk-val">Larnaca <span style="color:#9aa0b8;font-weight:500;font-size:12px">(LCA)</span></span>
+        </div>
+        <div class="bk-field">
+          <span class="bk-lbl">Destination</span>
+          <span class="bk-val">Athens <span style="color:#9aa0b8;font-weight:500;font-size:12px">(ATH)</span></span>
+        </div>
+        <div class="bk-field cal-anchor active" id="fld-dep">
+          <span class="bk-lbl">Departure</span>
+          <span class="bk-val" id="val-dep">Choose date</span>
+        </div>
+        <div class="bk-field cal-anchor" id="fld-ret">
+          <span class="bk-lbl">Return</span>
+          <span class="bk-val" id="val-ret">Choose date</span>
+        </div>
+        <div class="bk-field" style="flex:0.8 1 0;">
+          <span class="bk-lbl">Passengers</span>
+          <span class="bk-val bk-pass-row"><b>1</b><span class="sm">adult</span></span>
+        </div>
+        <button class="search-btn"><span>🔍</span> Search</button>
+      </div>
+      <div class="bk-sub">
+        <span class="box"></span> Self-transfer flights <span class="i" title="info">ⓘ</span>
+        <button class="reset-link" id="btn-reset" onclick="W21_reset()">Reset dates</button>
+      </div>
+
+      <div id="single-host" class="cal-card">
+        <div class="cal-pills">
+          <div class="cal-pill active empty" id="pill-dep">
+            <span class="dot-mark"></span>
+            <span>Depart</span>
+            <span class="pill-date" id="pill-date-dep">Choose date</span>
+          </div>
+          <div class="cal-pill empty" id="pill-ret">
+            <span class="dot-mark"></span>
+            <span>Return</span>
+            <span class="pill-date" id="pill-date-ret">Choose date</span>
+          </div>
+        </div>
+        <div class="cal-months-row">
+          <div class="cal-month-pane" id="cal-pane-left"></div>
+          <div class="cal-month-pane" id="cal-pane-right"></div>
+        </div>
+      </div>
+
+      <div id="submit-status"></div>
+      <div id="live-state" class="live-state"><b>filterState</b> = {}</div>
+    </div>
+  </div>
+
+  <div id="task-banner" class="task-banner">
+    <div class="ttitle"></div>
+    <div class="tprop"></div>
+    <div class="ansbox" style="display:none;">
+      <label style="display:block;font-size:12px;margin-bottom:4px;">Your answer:</label>
+      <input id="task-answer-input" type="text" oninput="queueSubmit()" placeholder="Type your answer..." />
+    </div>
+  </div>
+
+  <section class="results">
+    <h2 id="result-count">Book direct and cheap flights with EchoAir</h2>
+    <div id="result-grid" class="grid"><div class="empty">Pick dates to see flight results.</div></div>
+  </section>
+</main>
+<footer>
+  <div class="foot-inner">
+    <div class="foot-col">
+      <h5>About EchoAir</h5>
+      <a>About us</a><a>Investor relations</a><a>Press</a><a>Careers</a><a>Sustainability</a>
+    </div>
+    <div class="foot-col">
+      <h5>Plan &amp; book</h5>
+      <a>Book a flight</a><a>EchoAir Multipass</a><a>Travel insurance</a><a>Discount Club</a><a>Group bookings</a>
+    </div>
+    <div class="foot-col">
+      <h5>Information</h5>
+      <a>Travel requirements</a><a>Baggage</a><a>Check-in</a><a>Airports</a><a>Special assistance</a>
+    </div>
+    <div class="foot-col">
+      <h5>Help</h5>
+      <a>Contact us</a><a>Help Centre</a><a>Manage booking</a><a>Refund &amp; cancellation</a><a>Feedback</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <div>© EchoAir Hungary Ltd. — All rights reserved.</div>
+    <div>Terms &amp; Conditions · Privacy Policy · Cookies · Modern Slavery Act</div>
+  </div>
+</footer>
+<script>
+
+window.__ENV_ID = "W21_E02"; const ENV_ID = window.__ENV_ID;
+const TASK_ID = new URLSearchParams(location.search).get('task_id') || '';
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DOW    = ['S','M','T','W','T','F','S'];
+function fmt(y,m,d){ return MONTHS[m] + ' ' + d + ', ' + y; }
+function isoY(y,m,d){ const s=(n)=>String(n).padStart(2,'0'); return y+'-'+s(m+1)+'-'+s(d); }
+function parseISO(s){ if(!s) return null; const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s); if(!m) return null; return [+m[1],+m[2]-1,+m[3]]; }
+function daysInMonth(y,m){ return new Date(y,m+1,0).getDate(); }
+function before(a,b){ // a,b = [y,m,d]
+  if(!a||!b) return false;
+  if(a[0]!==b[0]) return a[0]<b[0];
+  if(a[1]!==b[1]) return a[1]<b[1];
+  return a[2]<b[2];
+}
+function sameDay(a,b){ return a&&b&&a[0]===b[0]&&a[1]===b[1]&&a[2]===b[2]; }
+
+const filterState = { depart_date: '', return_date: '' };
+let __dep = null, __ret = null;          // [y,m,d] tuples
+let __submitTimer = null;
+
+async function submitState(){
+  if (!ENV_ID) return;
+  const payload = { filter_state: { ...filterState } };
+  if (TASK_ID) payload.task_id = TASK_ID;
+  const ans = document.getElementById('task-answer-input');
+  if (ans && ans.value.trim()) payload.answer = ans.value.trim();
+  try {
+    const r = await fetch('/env/'+ENV_ID+'/api/submit', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload),
+    });
+    const j = await r.json().catch(()=>({}));
+    const el = document.getElementById('submit-status');
+    if (el && j) {
+      el.textContent = 'submit: state='+(j.satisfies_state?'\u2713':'\u2717')
+                     + ' answer='+(j.satisfies_answer?'\u2713':'\u2717')
+                     + (j.message?(' \u2014 '+j.message):'');
+    }
+  } catch(e) {}
+}
+function queueSubmit(){ if (__submitTimer) clearTimeout(__submitTimer); __submitTimer=setTimeout(submitState, 120); }
+
+async function refreshResults(){
+  if (!ENV_ID) return;
+  try {
+    const r = await fetch('/env/'+ENV_ID+'/api/filter', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ filter_state: { ...filterState } }),
+    });
+    const j = await r.json();
+    const grid = document.getElementById('result-grid');
+    const count = document.getElementById('result-count');
+    if (!grid) return;
+    if (j && j.html_cards && j.html_cards.length) {
+      grid.innerHTML = (Array.isArray(j.html_cards) ? j.html_cards.join('') : j.html_cards);
+      if (count) count.textContent = j.count + ' result' + (j.count===1?'':'s');
+    } else {
+      grid.innerHTML = '<div class="empty">No matches \u2014 try widening your dates.</div>';
+      if (count) count.textContent = '0 results';
+    }
+  } catch(e) {}
+}
+
+function liveStateUpdate(){
+  const el = document.getElementById('live-state');
+  if (el) el.innerHTML = '<b>filterState</b> = ' + JSON.stringify(filterState);
+}
+
+function applyDepart(y,m,d){
+  __dep = [y,m,d];
+  filterState.depart_date = fmt(y,m,d);
+  if (__ret && before(__ret, __dep)) { __ret = null; filterState.return_date = ''; }
+  window.__W21_pickMode = 'return';
+  if (typeof window.W21_renderAll === 'function') window.W21_renderAll();
+  liveStateUpdate();
+  submitState();
+  refreshResults();
+}
+function applyReturn(y,m,d){
+  if (!__dep) { applyDepart(y,m,d); return; }
+  if (before([y,m,d], __dep)) { submitState(); return; }
+  __ret = [y,m,d];
+  filterState.return_date = fmt(y,m,d);
+  window.__W21_pickMode = 'return';
+  if (typeof window.W21_renderAll === 'function') window.W21_renderAll();
+  liveStateUpdate();
+  submitState();
+  refreshResults();
+}
+function getDep(){ return __dep ? [...__dep] : null; }
+function getRet(){ return __ret ? [...__ret] : null; }
+
+async function loadTaskBanner(){
+  if (!TASK_ID) return;
+  try {
+    const r = await fetch('/env/'+ENV_ID+'/api/task/'+TASK_ID);
+    if (!r.ok) return;
+    const t = await r.json();
+    const banner = document.getElementById('task-banner');
+    if (!banner) return;
+    banner.classList.add('visible');
+    banner.querySelector('.ttitle').textContent = 'Task ' + (t.id||TASK_ID) + ' \u00b7 ' + (t.task_type||'') + ' \u00b7 ' + (t.task_difficulty||'');
+    banner.querySelector('.tprop').textContent  = t.task_proposal || t.task_summary || '';
+    const ab = banner.querySelector('.ansbox');
+    if (t.task_type === 'read' || t.task_type === 'read_write') {
+      ab.style.display='block';
+    } else {
+      ab.style.display='none';
+    }
+  } catch(e) {}
+}
+
+window.W21 = {
+  set: function(depISO, retISO){
+    const a = parseISO(depISO); const b = parseISO(retISO);
+    if (a) applyDepart(a[0],a[1],a[2]);
+    if (b) applyReturn(b[0],b[1],b[2]);
+  },
+  setAnswer: function(s){
+    const el = document.getElementById('task-answer-input');
+    if (el) { el.value = s||''; el.dispatchEvent(new Event('input',{bubbles:true})); }
+  },
+  getState: function(){ return { ...filterState }; },
+  applyDepart, applyReturn, getDep, getRet,
+};
+
+function W21_renderMonth(host, y, m, opts){
+  opts = opts || {};
+  const dep = getDep(), ret = getRet();
+  const today = new Date();
+  const todayTuple = [today.getFullYear(), today.getMonth(), today.getDate()];
+  host.classList.add('cal');
+  let html = '';
+  html += '<div class="cal-head">';
+  if (opts.showPrev) html += '<button class="nav" data-nav="prev" aria-label="Previous month">\u2039</button>'; else html += '<span class="nav-spacer"></span>';
+  html += '<div class="title">' + MONTHS[m] + ' ' + y + '</div>';
+  if (opts.showNext) html += '<button class="nav" data-nav="next" aria-label="Next month">\u203a</button>'; else html += '<span class="nav-spacer"></span>';
+  html += '</div>';
+  html += '<div class="dow">' + DOW.map(d=>'<div>'+d+'</div>').join('') + '</div>';
+  html += '<div class="days">';
+  const first = new Date(y,m,1).getDay();
+  for (let i=0;i<first;i++) html += '<div class="day muted"></div>';
+  const last = daysInMonth(y,m);
+  for (let d=1; d<=last; d++) {
+    const cur=[y,m,d];
+    let cls='day';
+    if (sameDay(cur,dep)) {
+      cls += ' dep';
+      if (ret && before(dep, ret)) cls += ' has-range';
+    } else if (sameDay(cur,ret)) {
+      cls += ' ret';
+      if (dep && before(dep, ret)) cls += ' has-range-left';
+    } else if (dep && ret && before(dep,cur) && before(cur,ret)) {
+      cls += ' in-range';
+    }
+    if (sameDay(cur, todayTuple)) cls += ' today';
+    if (opts.disableBefore && before(cur, opts.disableBefore) && !sameDay(cur,opts.disableBefore)) cls += ' disabled';
+    html += '<div class="'+cls+'" data-d="'+d+'" data-m="'+m+'" data-y="'+y+'"><span class="dnum">'+d+'</span></div>';
+  }
+  html += '</div>';
+  host.innerHTML = html;
+
+  host.querySelectorAll('.day').forEach(el => {
+    el.addEventListener('click', () => {
+      if (el.classList.contains('muted') || el.classList.contains('disabled')) return;
+      const yy=+el.dataset.y, mm=+el.dataset.m, dd=+el.dataset.d;
+      if (opts.role === 'depart') applyDepart(yy,mm,dd);
+      else if (opts.role === 'return') applyReturn(yy,mm,dd);
+      else {
+        const dep=getDep(), ret=getRet();
+        // Honour the currently-active pill (depart vs return) for routing.
+        const mode = window.__W21_pickMode || (!dep ? 'depart' : (dep && ret ? 'depart' : 'return'));
+        if (mode === 'return') {
+          if (!dep) { applyDepart(yy,mm,dd); window.__W21_pickMode='return'; }
+          else applyReturn(yy,mm,dd);
+        } else {
+          // depart mode: reset both if dep already set, else set dep
+          __ret=null; filterState.return_date='';
+          applyDepart(yy,mm,dd);
+          window.__W21_pickMode='return';
+        }
+      }
+    });
+  });
+  host.querySelectorAll('.nav').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const dir = btn.dataset.nav === 'next' ? 1 : -1;
+      if (opts.onNav) opts.onNav(dir);
+    });
+  });
+}
+
+let __ym=null;
+function W21_initPattern(defaultY){
+  // Anchor to June 2026 — task target month (Wizz Air task asks for Jun 13 / Jul 1).
+  __ym = [defaultY, 5];
+  window.W21_renderAll = render;
+  window.__W21_pickMode = 'depart';
+  render();
+  wirePills();
+}
+function wirePills(){
+  const pd = document.getElementById('pill-dep');
+  const pr = document.getElementById('pill-ret');
+  if (pd) pd.addEventListener('click', () => { window.__W21_pickMode='depart'; render(); });
+  if (pr) pr.addEventListener('click', () => { window.__W21_pickMode='return'; render(); });
+  const fd = document.getElementById('fld-dep');
+  const fr = document.getElementById('fld-ret');
+  if (fd) fd.addEventListener('click', () => { window.__W21_pickMode='depart'; render(); });
+  if (fr) fr.addEventListener('click', () => { window.__W21_pickMode='return'; render(); });
+}
+function render(){
+  const leftHost  = document.getElementById('cal-pane-left');
+  const rightHost = document.getElementById('cal-pane-right');
+  const [y,m]=__ym;
+  // Right month = next month after left.
+  let ry = y, rm = m+1; if (rm>11) { rm=0; ry=y+1; }
+  if (leftHost)  W21_renderMonth(leftHost,  y, m, { showPrev:true, showNext:false, onNav:(d)=>{ shift(d); } });
+  if (rightHost) W21_renderMonth(rightHost, ry, rm, { showPrev:false, showNext:true, onNav:(d)=>{ shift(d); } });
+  const dep=getDep(), ret=getRet();
+  document.getElementById('fld-dep').classList.toggle('empty', !dep);
+  document.getElementById('fld-ret').classList.toggle('empty', !ret);
+  document.getElementById('val-dep').textContent = dep? fmt(dep[0],dep[1],dep[2]) : 'Choose date';
+  document.getElementById('val-ret').textContent = ret? fmt(ret[0],ret[1],ret[2]) : 'Choose date';
+  // Pill date + active state
+  const pdDate = document.getElementById('pill-date-dep');
+  const prDate = document.getElementById('pill-date-ret');
+  if (pdDate) pdDate.textContent = dep? fmt(dep[0],dep[1],dep[2]) : 'Choose date';
+  if (prDate) prDate.textContent = ret? fmt(ret[0],ret[1],ret[2]) : 'Choose date';
+  const pd = document.getElementById('pill-dep');
+  const pr = document.getElementById('pill-ret');
+  if (pd) { pd.classList.toggle('empty', !dep); pd.classList.toggle('active', window.__W21_pickMode==='depart'); }
+  if (pr) { pr.classList.toggle('empty', !ret); pr.classList.toggle('active', window.__W21_pickMode==='return'); }
+  // Mirror to bk-field active highlight
+  document.getElementById('fld-dep').classList.toggle('active', window.__W21_pickMode==='depart');
+  document.getElementById('fld-ret').classList.toggle('active', window.__W21_pickMode==='return');
+}
+function shift(dir){
+  let [y,m]=__ym; m+=dir;
+  while(m<0){m+=12;y--;} while(m>11){m-=12;y++;}
+  __ym=[y,m]; render();
+}
+function W21_reset(){
+  __dep=null; __ret=null;
+  filterState.depart_date=''; filterState.return_date='';
+  window.__W21_pickMode='depart';
+  render(); liveStateUpdate(); queueSubmit(); refreshResults();
+}
+
+
+// Pattern bootstrap
+document.addEventListener('DOMContentLoaded', () => {
+  loadTaskBanner();
+  liveStateUpdate();
+  if (typeof window.W21_initPattern === 'function') window.W21_initPattern(2026);
+});
+
+
+/* ----------------------------- W21 PATCH (begin) -----------------------------
+   Overrides buggy renderCal/calAdv from the baked template with:
+   * a correct calendar grid (real days-in-month + first-day-of-week)
+   * canonical "Month D, YYYY" mirrors written to hidden depart/return inputs
+   * a hard depart-before-return lock that snaps invalid returns back
+   ----------------------------------------------------------------------------- */
+(function () {
+  const MONTHS = ['January','February','March','April','May','June','July',
+                  'August','September','October','November','December'];
+
+  // Base anchor: June 2026 == calIdx 0 (matches the original template labels).
+  const BASE_YEAR = 2026, BASE_MONTH = 5; // June (0-indexed)
+
+  // Per-grid state.
+  window.calIdx = window.calIdx || {};
+  window.calSel = window.calSel || {}; // {gridId: {y, m, d}}
+
+  function ymOf(gridId) {
+    const idx = (window.calIdx[gridId] || 0);
+    const total = BASE_MONTH + idx;
+    const m = ((total % 12) + 12) % 12;
+    const y = BASE_YEAR + Math.floor(total / 12);
+    return {y, m};
+  }
+
+  function daysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
+
+  function gridFacet(gridId) {
+    // Hidden mirror facet for this grid.
+    if (gridId === 'cal-grid-d') return 'depart_date';
+    if (gridId === 'cal-grid-r') return 'return_date';
+    // Solo `cal-grid` (W09 single-cal variants V0/V2/V3/V4): treat as depart.
+    return 'depart_date';
+  }
+
+  function ensureMirror(facet) {
+    let host = document.getElementById('w21-mirror-host');
+    if (!host) {
+      host = document.createElement('div');
+      host.id = 'w21-mirror-host';
+      host.setAttribute('aria-hidden', 'true');
+      host.style.cssText = 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden';
+      document.body.appendChild(host);
+    }
+    let inp = host.querySelector('input[data-facet="' + facet + '"][data-w21-mirror="1"]');
+    if (!inp) {
+      inp = document.createElement('input');
+      inp.type = 'text';
+      inp.setAttribute('data-facet', facet);
+      inp.setAttribute('data-w21-mirror', '1');
+      inp.id = 'w21-mirror-' + facet;
+      const syncFromMirror = () => {
+        try {
+          if (typeof filterState === 'object' && filterState) {
+            filterState[facet] = inp.value || '';
+          }
+          if (typeof liveStateUpdate === 'function') liveStateUpdate();
+        } catch (e) {}
+        if (typeof submitState === 'function') submitState();
+      };
+      inp.addEventListener('input', syncFromMirror);
+      inp.addEventListener('change', syncFromMirror);
+      host.appendChild(inp);
+    }
+    return inp;
+  }
+
+  function setMirror(facet, value) {
+    const inp = ensureMirror(facet);
+    inp.value = value;
+    try { inp.dispatchEvent(new Event('input', {bubbles:true})); } catch(e) {}
+    try { inp.dispatchEvent(new Event('change', {bubbles:true})); } catch(e) {}
+    // Also fill any native <input type="date" data-facet="..."> with an
+    // ISO-formatted version so the visible widget reflects the click.
+    document.querySelectorAll('input[type="date"][data-facet="' + facet + '"]').forEach(d => {
+      try {
+        const parsed = new Date(value);
+        if (!isNaN(parsed)) {
+          const iso = parsed.toISOString().slice(0, 10);
+          d.value = iso;
+        }
+      } catch (e) { /* ignore */ }
+    });
+  }
+
+  function clearMirror(facet) {
+    const inp = document.querySelector('#w21-mirror-host input[data-facet="' + facet + '"]');
+    if (inp) inp.value = '';
+    document.querySelectorAll('input[type="date"][data-facet="' + facet + '"]').forEach(d => { d.value = ''; });
+  }
+
+  function returnLocked() {
+    const rg = document.getElementById('cal-grid-r');
+    if (!rg) return false;
+    if (rg.classList.contains('disabled')) return true;
+    if (rg.dataset.returnLocked === '1') return true;
+    return false;
+  }
+
+  function lockReturnIfNeeded() {
+    const rg = document.getElementById('cal-grid-r');
+    if (!rg) return;
+    // Only lock when no depart has been picked yet.
+    const departSet = !!(window.calSel['cal-grid-d'] || window.calSel['cal-grid']);
+    if (departSet) return;
+    rg.classList.add('disabled');
+    rg.dataset.returnLocked = '1';
+    const parent = rg.parentElement;
+    if (parent) {
+      parent.querySelectorAll('.cal-head').forEach(h => { h.classList.add('cal-disabled'); h.style.opacity = '0.4'; });
+      parent.querySelectorAll('.cal-nav').forEach(b => b.setAttribute('disabled', 'disabled'));
+      const head = parent.querySelector('.cal-disabled-h, h4, h5');
+      if (head && !parent.querySelector('.w21-lock-icon')) {
+        const lock = document.createElement('span');
+        lock.className = 'w21-lock-icon';
+        lock.textContent = ' 🔒';
+        lock.style.cssText = 'margin-left:6px;font-size:11px';
+        head.appendChild(lock);
+      }
+      if (!parent.querySelector('.w21-lock-hint')) {
+        const hint = document.createElement('div');
+        hint.className = 'w21-lock-hint';
+        hint.textContent = 'Pick a departure date to unlock return.';
+        hint.style.cssText = 'font-size:11px;color:#777;margin:4px 0 8px 0;font-style:italic';
+        rg.parentElement.insertBefore(hint, rg);
+      }
+    }
+  }
+
+  function unlockReturnCalendar() {
+    const rg = document.getElementById('cal-grid-r');
+    if (!rg) return;
+    rg.classList.remove('disabled');
+    rg.dataset.returnLocked = '';
+    const parent = rg.parentElement;
+    if (parent) {
+      parent.querySelectorAll('.cal-head').forEach(h => { h.classList.remove('cal-disabled'); h.style.opacity = ''; });
+      parent.querySelectorAll('.cal-nav').forEach(b => b.removeAttribute('disabled'));
+      parent.querySelectorAll('.w21-lock-icon, .w21-lock-hint').forEach(e => e.remove());
+    }
+  }
+
+  function refreshLabel(gridId) {
+    const {y, m} = ymOf(gridId);
+    const text = MONTHS[m] + ' ' + y;
+    let lid;
+    if (gridId === 'cal-grid') lid = 'cal-label';
+    else if (gridId === 'cal-grid-d') lid = 'cal-label-d';
+    else if (gridId === 'cal-grid-r') lid = 'cal-label-r';
+    if (lid) {
+      const el = document.getElementById(lid);
+      if (el) el.textContent = text;
+    }
+  }
+
+  function renderCalImpl(gridId) {
+    const grid = document.getElementById(gridId);
+    if (!grid) return;
+    const {y, m} = ymOf(gridId);
+    refreshLabel(gridId);
+
+    const isLocked = grid.classList.contains('disabled') || grid.dataset.returnLocked === '1';
+    grid.innerHTML = '';
+
+    ['S','M','T','W','T','F','S'].forEach(d => {
+      const h = document.createElement('div');
+      h.className = 'cal-day-h';
+      h.textContent = d;
+      grid.appendChild(h);
+    });
+
+    const firstDow = new Date(y, m, 1).getDay();
+    for (let p = 0; p < firstDow; p++) {
+      const b = document.createElement('div');
+      b.className = 'cal-day blank';
+      grid.appendChild(b);
+    }
+
+    const dim = daysInMonth(y, m);
+    const sel = window.calSel[gridId];
+    for (let i = 1; i <= dim; i++) {
+      const c = document.createElement('div');
+      c.className = 'cal-day';
+      c.textContent = i;
+      if (sel && sel.y === y && sel.m === m && sel.d === i) c.classList.add('sel');
+      if (isLocked) c.classList.add('locked');
+      c.onclick = () => {
+        if (grid.classList.contains('disabled') || grid.dataset.returnLocked === '1') return;
+
+        // Return-after-depart validation.
+        if (gridId === 'cal-grid-r') {
+          const dep = window.calSel['cal-grid-d'] || window.calSel['cal-grid'];
+          if (!dep) {
+            return; // safety — shouldn't be reachable while locked
+          }
+          const dDep = new Date(dep.y, dep.m, dep.d);
+          const dCand = new Date(y, m, i);
+          if (dCand < dDep) {
+            // Reject: flash the cell briefly and bail.
+            c.style.transition = 'background 0.15s';
+            const prev = c.style.background;
+            c.style.background = '#fee';
+            c.style.outline = '2px solid #c00';
+            setTimeout(() => { c.style.background = prev; c.style.outline = ''; }, 400);
+            const parent = grid.parentElement;
+            if (parent && !parent.querySelector('.w21-err')) {
+              const err = document.createElement('div');
+              err.className = 'w21-err';
+              err.textContent = 'Return date must be on or after the departure date.';
+              err.style.cssText = 'color:#c00;font-size:11px;margin:4px 0;font-weight:600';
+              parent.insertBefore(err, grid);
+              setTimeout(() => err.remove(), 2500);
+            }
+            return;
+          }
+        }
+
+        document.querySelectorAll('#' + gridId + ' .cal-day').forEach(x => x.classList.remove('sel'));
+        c.classList.add('sel');
+        window.calSel[gridId] = {y, m, d: i};
+
+        const canonical = MONTHS[m] + ' ' + i + ', ' + y;
+        const facet = gridFacet(gridId);
+        setMirror(facet, canonical);
+
+        if (gridId === 'cal-grid-d' || gridId === 'cal-grid') {
+          // Depart picked — unlock return calendar.
+          unlockReturnCalendar();
+          // If a return was previously chosen and is now invalid, clear it.
+          const ret = window.calSel['cal-grid-r'];
+          if (ret) {
+            const dDep = new Date(y, m, i);
+            const dRet = new Date(ret.y, ret.m, ret.d);
+            if (dRet < dDep) {
+              window.calSel['cal-grid-r'] = null;
+              clearMirror('return_date');
+              renderCalImpl('cal-grid-r');
+            }
+          }
+        }
+
+        if (typeof applyFilters === 'function') applyFilters();
+      };
+      grid.appendChild(c);
+    }
+  }
+
+  function calAdvImpl(delta, gridId) {
+    gridId = gridId || 'cal-grid';
+    if (!document.getElementById(gridId)) return;
+    // Don't allow navigating a locked return calendar.
+    const grid = document.getElementById(gridId);
+    if (grid && (grid.classList.contains('disabled') || grid.dataset.returnLocked === '1')) return;
+    window.calIdx[gridId] = (window.calIdx[gridId] || 0) + delta;
+    renderCalImpl(gridId);
+  }
+
+  // Override the buggy globals.
+  window.renderCal = renderCalImpl;
+  window.calAdv = calAdvImpl;
+
+  // Initialize on DOM ready (handles both pre- and post-DOMContentLoaded
+  // ordering since the original DOMContentLoaded handler may have run already
+  // with the buggy renderer).
+  function wireNativeDateInputs() {
+    // Native <input type="date" data-facet="depart_date|return_date"> emits
+    // ISO-format values (YYYY-MM-DD). Mirror those into our canonical
+    // "Month D, YYYY" facet so server-side _match_state can substring-match
+    // against the expected "Month D, YYYY" or "Month D" references.
+    document.querySelectorAll('input[type="date"][data-facet="depart_date"], input[type="date"][data-facet="return_date"]').forEach(d => {
+      if (d.dataset.w21Wired === '1') return;
+      d.dataset.w21Wired = '1';
+      const facet = d.dataset.facet;
+      const sync = () => {
+        const v = d.value; // YYYY-MM-DD or ''
+        if (!v) { clearMirror(facet); return; }
+        const parts = v.split('-');
+        if (parts.length !== 3) return;
+        const y = parseInt(parts[0], 10);
+        const m = parseInt(parts[1], 10) - 1;
+        const day = parseInt(parts[2], 10);
+        if (isNaN(y) || isNaN(m) || isNaN(day) || m < 0 || m > 11) return;
+        // Return-after-depart validation for native inputs.
+        if (facet === 'return_date') {
+          const depEl = document.querySelector('#w21-mirror-host input[data-facet="depart_date"]')
+                     || document.querySelector('input[type="date"][data-facet="depart_date"]');
+          const depVal = depEl ? depEl.value : '';
+          if (depVal) {
+            const depDate = new Date(depVal);
+            const candDate = new Date(y, m, day);
+            if (!isNaN(depDate) && candDate < depDate) {
+              d.value = '';
+              clearMirror(facet);
+              const parent = d.parentElement;
+              if (parent && !parent.querySelector('.w21-err')) {
+                const err = document.createElement('div');
+                err.className = 'w21-err';
+                err.textContent = 'Return date must be on or after the departure date.';
+                err.style.cssText = 'color:#c00;font-size:11px;margin:4px 0;font-weight:600';
+                parent.appendChild(err);
+                setTimeout(() => err.remove(), 2500);
+              }
+              return;
+            }
+          }
+        }
+        const canonical = MONTHS[m] + ' ' + day + ', ' + y;
+        // Write directly to the mirror without recursing through setMirror's
+        // native-input back-fill (which would clobber the user-visible value).
+        const mirror = ensureMirror(facet);
+        mirror.value = canonical;
+      };
+      d.addEventListener('input', sync);
+      d.addEventListener('change', sync);
+      // Initial sync in case the input already has a value.
+      sync();
+    });
+  }
+
+  function init() {
+    ensureMirror('depart_date');
+    ensureMirror('return_date');
+    ['cal-grid', 'cal-grid-d', 'cal-grid-r'].forEach(id => {
+      if (document.getElementById(id)) renderCalImpl(id);
+    });
+    lockReturnIfNeeded();
+    wireNativeDateInputs();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // Expose helpers for tests.
+  window.lockReturnIfNeeded = lockReturnIfNeeded;
+  window.unlockReturnCalendar = unlockReturnCalendar;
+})();
+/* ------------------------------ W21 PATCH (end) ------------------------------ */
+
+<!-- W21-PATCHED:v4 -->
+</script>
+<!-- W21-POLISH:v1 -->
+</body></html>

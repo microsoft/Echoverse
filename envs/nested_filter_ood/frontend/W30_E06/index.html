@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cloud Storage pricing | EchoCloud</title>
+<style>
+
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+:root {
+  --gc-blue: #1a73e8;
+  --gc-blue-dark: #1557b0;
+  --gc-blue-soft: #e8f0fe;
+  --gc-blue-tint: #d2e3fc;
+  --gc-red: #ea4335;
+  --gc-yellow: #fbbc04;
+  --gc-green: #34a853;
+  --gc-text: #202124;
+  --gc-text-soft: #3c4043;
+  --gc-muted: #5f6368;
+  --gc-border: #dadce0;
+  --gc-bg: #f8f9fa;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: 'Google Sans', 'Roboto', Arial, sans-serif; background: var(--gc-bg); color: var(--gc-text); font-size: 14px; line-height: 1.5; }
+a { color: var(--gc-blue); text-decoration: none; }
+
+.gc-topstrip { background: #f1f3f4; height: 32px; display: flex; align-items: center; justify-content: flex-end; padding: 0 28px; gap: 18px; font-size: 12px; color: var(--gc-muted); border-bottom: 1px solid #e8eaed; }
+.gc-topstrip a { color: var(--gc-muted); }
+.gc-topstrip .sep { color: #c4c7c5; }
+
+.site-header { background: #fff; color: var(--gc-text); padding: 0 28px; height: 64px; display: flex; align-items: center; gap: 22px; border-bottom: 1px solid var(--gc-border); }
+.logo-block { display: flex; align-items: center; gap: 10px; }
+.logo-glyph { font-size: 22px; letter-spacing: -3px; font-weight: 500; }
+.logo-product { font-size: 18px; color: var(--gc-text); font-weight: 400; padding-left: 14px; border-left: 1px solid var(--gc-border); margin-left: 6px; }
+.logo-sub { padding-left: 12px; color: var(--gc-blue); font-weight: 500; font-size: 13px; letter-spacing: .02em; }
+.site-nav { display: flex; gap: 26px; flex: 1; margin-left: 12px; }
+.site-nav a { color: var(--gc-text-soft); font-size: 14px; font-weight: 500; padding: 4px 0; cursor: pointer; }
+.site-nav a:hover { color: var(--gc-blue); }
+.btn-trial { padding: 8px 18px; background: var(--gc-blue); color: #fff; border: 0; border-radius: 4px; font-size: 13px; font-weight: 500; cursor: pointer; box-shadow: 0 1px 2px rgba(60,64,67,0.15); }
+.btn-trial:hover { background: var(--gc-blue-dark); }
+.btn-console { padding: 7px 14px; background: #fff; color: var(--gc-blue); border: 1px solid var(--gc-border); border-radius: 4px; font-size: 13px; font-weight: 500; cursor: pointer; margin-left: 6px; }
+.btn-console:hover { background: var(--gc-blue-soft); border-color: var(--gc-blue); }
+
+.breadcrumb { background: #fff; padding: 10px 28px; font-size: 12px; color: var(--gc-muted); border-bottom: 1px solid #f1f3f4; }
+.breadcrumb a { color: var(--gc-muted); }
+.breadcrumb .crumb-sep { margin: 0 6px; color: #c4c7c5; }
+.breadcrumb .crumb-current { color: var(--gc-text); }
+
+.gcs-hero { background: linear-gradient(115deg, #e8f0fe 0%, #f8f9fa 60%, #fef7e0 100%); padding: 36px 28px 30px; border-bottom: 1px solid var(--gc-border); position: relative; overflow: hidden; }
+.gcs-hero::after { content: ""; position: absolute; right: -40px; top: -40px; width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle, rgba(26,115,232,0.10) 0%, rgba(26,115,232,0) 70%); }
+.gcs-hero .eyebrow { font-size: 12px; color: var(--gc-blue); text-transform: uppercase; letter-spacing: .08em; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.gcs-hero .eyebrow .dot { width: 6px; height: 6px; background: var(--gc-blue); border-radius: 50%; }
+.gcs-hero h1 { margin: 0 0 8px; font-size: 32px; color: var(--gc-text); font-weight: 400; letter-spacing: -.01em; }
+.gcs-hero .sub { font-size: 14px; color: var(--gc-muted); max-width: 760px; }
+.gcs-hero .price-card { display: inline-flex; align-items: baseline; gap: 10px; background: #fff; border: 1px solid var(--gc-border); padding: 12px 22px; border-radius: 999px; margin-top: 18px; box-shadow: 0 1px 3px rgba(60,64,67,0.10); }
+.gcs-hero .price-card .lbl { font-size: 12px; color: var(--gc-muted); text-transform: uppercase; letter-spacing: .04em; font-weight: 500; }
+.gcs-hero .price-card .val { font-size: 24px; font-weight: 500; color: var(--gc-blue); }
+
+.top-tabs { background: #fff; border-bottom: 1px solid var(--gc-border); padding: 0 28px; display: flex; gap: 0; }
+.top-tabs .t { padding: 14px 22px; color: var(--gc-muted); font-size: 14px; cursor: pointer; border-bottom: 3px solid transparent; font-weight: 500; }
+.top-tabs .t:hover { color: var(--gc-text); background: var(--gc-bg); }
+.top-tabs .t.active { color: var(--gc-blue); border-bottom-color: var(--gc-blue); }
+
+.layout { max-width: 1280px; margin: 0 auto; padding: 24px 28px 60px; display: grid; grid-template-columns: 1fr 340px; gap: 22px; }
+.layout-main { display: flex; flex-direction: column; }
+.layout-side { display: flex; flex-direction: column; gap: 18px; }
+.gc-card { background: #fff; border: 1px solid var(--gc-border); border-radius: 12px; padding: 22px 26px; margin-bottom: 18px; box-shadow: 0 1px 2px rgba(60,64,67,0.06); transition: box-shadow .15s; }
+.gc-card:hover { box-shadow: 0 1px 3px rgba(60,64,67,0.10); }
+.gc-card h2 { margin: 0 0 4px; font-size: 17px; font-weight: 500; color: var(--gc-text); display: flex; align-items: center; gap: 10px; }
+.gc-card h2 .step { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--gc-blue-soft); color: var(--gc-blue); font-size: 12px; font-weight: 600; }
+.gc-card .h-sub { color: var(--gc-muted); font-size: 13px; margin-bottom: 16px; }
+
+/* storage class pills (services) */
+.svc-pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+.svc-pill { padding: 10px 18px; border: 1px solid var(--gc-border); background: #fff; border-radius: 999px; cursor: pointer; font-size: 13px; color: var(--gc-text); transition: all .14s; font-weight: 500; }
+.svc-pill:hover { background: var(--gc-blue-soft); border-color: var(--gc-blue); color: var(--gc-blue-dark); }
+.svc-pill.selected { background: var(--gc-blue); color: #fff; border-color: var(--gc-blue); box-shadow: 0 1px 2px rgba(26,115,232,0.30); }
+.svc-pill .tag { font-size: 11px; opacity: .72; margin-left: 4px; }
+
+.fld { margin-bottom: 16px; }
+.fld-label { display: block; font-size: 12px; font-weight: 500; color: var(--gc-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .04em; }
+.fld-hint { color: var(--gc-muted); font-size: 12px; margin-top: 4px; }
+.big-sel, .big-inp { width: 100%; padding: 10px 12px; border: 1px solid var(--gc-border); border-radius: 4px; font-size: 14px; background: #fff; font-family: inherit; color: var(--gc-text); }
+.big-sel:focus, .big-inp:focus { outline: 2px solid var(--gc-blue); outline-offset: -1px; border-color: var(--gc-blue); }
+
+/* pill cloud region */
+.pill-region-section { margin-bottom: 14px; }
+.pill-region-h { font-size: 11px; text-transform: uppercase; color: var(--gc-blue); letter-spacing: .08em; margin-bottom: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.pill-region-h::after { content: ""; flex: 1; height: 1px; background: var(--gc-border); }
+.pill-region-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill-region { padding: 8px 14px; background: var(--gc-bg); color: var(--gc-text); border: 1px solid transparent; border-radius: 999px; cursor: pointer; font-size: 12px; transition: all .12s; font-family: inherit; }
+.pill-region:hover { background: var(--gc-blue-soft); color: var(--gc-blue-dark); }
+.pill-region.selected { background: var(--gc-blue); color: #fff; border-color: var(--gc-blue); box-shadow: 0 1px 2px rgba(26,115,232,0.25); }
+.pill-flag { margin-right: 4px; font-size: 14px; }
+
+.usage-block { background: var(--gc-bg); border: 1px solid var(--gc-border); border-radius: 8px; padding: 14px 18px; margin-bottom: 14px; }
+.usage-block h3 { margin: 0 0 10px; font-size: 13px; color: var(--gc-text); font-weight: 500; text-transform: uppercase; letter-spacing: .04em; }
+.usage-row { display: grid; grid-template-columns: 1.4fr 28px 1.2fr 28px 1fr; align-items: center; gap: 8px; padding: 8px 0; border-top: 1px dashed var(--gc-border); }
+.usage-row:first-child { border-top: 0; }
+.ur-input { padding: 9px 12px; border: 1px solid var(--gc-border); border-radius: 4px; font-size: 14px; width: 100%; font-family: inherit; background: #fff; }
+.ur-input:focus { outline: 2px solid var(--gc-blue); outline-offset: -1px; border-color: var(--gc-blue); }
+.ur-unit-lbl { font-size: 11px; color: var(--gc-muted); margin-top: 4px; display: block; }
+.ur-op { text-align: center; color: var(--gc-muted); font-size: 16px; }
+.ur-rate { font-size: 14px; color: var(--gc-text); font-weight: 500; }
+.ur-rate-sub { font-size: 11px; color: var(--gc-muted); }
+.ur-result { font-weight: 600; color: var(--gc-blue); text-align: right; font-size: 14px; }
+
+.rad-tier { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid var(--gc-border); border-radius: 8px; margin-bottom: 6px; cursor: pointer; font-size: 13px; background: #fff; transition: all .12s; }
+.rad-tier:hover { background: var(--gc-blue-soft); border-color: var(--gc-blue); }
+.rad-tier input { accent-color: var(--gc-blue); }
+.rad-tier:has(input:checked) { background: var(--gc-blue-soft); border-color: var(--gc-blue); }
+.tier-name { flex: 1; font-weight: 500; }
+.tier-fee { color: var(--gc-muted); font-size: 12px; }
+
+.btn-reset { padding: 8px 18px; border: 1px solid var(--gc-border); background: #fff; border-radius: 4px; font-size: 13px; cursor: pointer; color: var(--gc-blue); font-weight: 500; font-family: inherit; }
+.btn-reset:hover { background: var(--gc-blue-soft); border-color: var(--gc-blue); }
+.estimate-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
+
+.result-card { background: #fff; border: 1px solid var(--gc-border); border-radius: 12px; padding: 22px; position: sticky; top: 18px; box-shadow: 0 1px 3px rgba(60,64,67,0.10); }
+.result-card .res-header { display: flex; align-items: center; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--gc-border); margin-bottom: 14px; }
+.result-card .res-header .res-glyph { width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, var(--gc-blue) 0%, #4285f4 100%); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.result-card .res-header .res-title { font-size: 14px; font-weight: 500; color: var(--gc-text); }
+.result-card .res-header .res-title-sub { font-size: 11px; color: var(--gc-muted); }
+.res-label { font-size: 12px; color: var(--gc-muted); text-transform: uppercase; letter-spacing: .04em; }
+.res-value { font-size: 34px; font-weight: 500; color: var(--gc-blue); margin: 4px 0 6px; letter-spacing: -.01em; }
+.res-sub { font-size: 12px; color: var(--gc-muted); line-height: 1.5; }
+.res-detail { display: grid; grid-template-columns: 90px 1fr; row-gap: 6px; margin-top: 14px; font-size: 13px; padding-top: 14px; border-top: 1px solid var(--gc-border); }
+.res-detail .k { color: var(--gc-muted); }
+.res-detail .v { color: var(--gc-text); font-weight: 500; word-break: break-word; }
+.res-breakdown-h { margin: 14px 0 6px; font-size: 11px; text-transform: uppercase; color: var(--gc-muted); letter-spacing: .06em; }
+.res-breakdown { width: 100%; border-collapse: collapse; font-size: 12px; }
+.res-breakdown td { padding: 5px 0; border-bottom: 1px dashed var(--gc-border); color: var(--gc-text-soft); }
+.res-breakdown td:last-child { text-align: right; font-weight: 500; }
+.res-breakdown tr.tot td { border-bottom: 0; padding-top: 10px; color: var(--gc-text); font-size: 13px; }
+.res-cta { display: flex; gap: 8px; margin-top: 16px; }
+.res-cta .btn-share { flex: 1; padding: 9px 14px; background: var(--gc-blue); color: #fff; border: 0; border-radius: 4px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.res-cta .btn-share:hover { background: var(--gc-blue-dark); }
+.res-cta .btn-export { flex: 1; padding: 9px 14px; background: #fff; color: var(--gc-blue); border: 1px solid var(--gc-border); border-radius: 4px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.res-cta .btn-export:hover { background: var(--gc-blue-soft); border-color: var(--gc-blue); }
+
+.gc-footer { background: #f1f3f4; border-top: 1px solid var(--gc-border); padding: 36px 28px 24px; color: var(--gc-muted); font-size: 13px; }
+.gc-footer .foot-grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr; gap: 28px; }
+.gc-footer .foot-col h5 { margin: 0 0 10px; font-size: 12px; font-weight: 600; color: var(--gc-text); text-transform: uppercase; letter-spacing: .04em; }
+.gc-footer .foot-col a { display: block; padding: 4px 0; color: var(--gc-muted); font-size: 12px; cursor: pointer; }
+.gc-footer .foot-col a:hover { color: var(--gc-blue); }
+.gc-footer .foot-brand { font-size: 18px; color: var(--gc-text); margin-bottom: 6px; }
+.gc-footer .foot-tagline { font-size: 12px; color: var(--gc-muted); margin-bottom: 14px; max-width: 240px; }
+.gc-footer .foot-bottom { max-width: 1280px; margin: 24px auto 0; padding-top: 16px; border-top: 1px solid var(--gc-border); display: flex; justify-content: space-between; font-size: 11px; color: var(--gc-muted); }
+.gc-footer .foot-bottom .locale { display: flex; align-items: center; gap: 6px; }
+
+@media (max-width: 1100px) { .layout { grid-template-columns: 1fr; } .result-card { position: static; } }
+
+</style>
+</head>
+<body>
+
+<div class="gc-topstrip">
+  <a>Contact sales</a><span class="sep">·</span>
+  <a>English</a><span class="sep">·</span>
+  <a>USD</a><span class="sep">·</span>
+  <a>Console</a>
+</div>
+
+<header class="site-header">
+  <div class="logo-block">
+    <span class="logo-glyph">EchoCloud</span>
+    <span class="logo-product"></span>
+    <span class="logo-sub">Cloud Storage</span>
+  </div>
+  <nav class="site-nav"><a>Overview</a><a>Solutions</a><a>Products</a><a>Pricing</a><a>Resources</a><a>Docs</a></nav>
+  <button class="btn-console" type="button">Go to console</button>
+  <button class="btn-trial" type="button">Start free</button>
+</header>
+
+<div class="breadcrumb">
+  <a>Home</a><span class="crumb-sep">›</span>
+  <a>Products</a><span class="crumb-sep">›</span>
+  <a>Cloud Storage</a><span class="crumb-sep">›</span>
+  <span class="crumb-current">Pricing calculator</span>
+</div>
+
+<div class="gcs-hero">
+  <div class="eyebrow"><span class="dot"></span> EchoCloud Cloud Storage · Pricing calculator</div>
+  <h1>Estimate your Cloud Storage monthly bill</h1>
+  <div class="sub">Configure a storage class, select a region, and override the default monthly volume to model your workload. Add a Customer Care support plan to see the all-in monthly figure. The estimate updates live as you change values — no sign-in required.</div>
+  <div class="price-card"><span class="lbl">Estimated monthly</span><span class="val" id="monthly-cost">$0.00</span></div>
+</div>
+
+<div class="top-tabs">
+  <div class="t">Free tier</div>
+  <div class="t active">Pricing estimator</div>
+  <div class="t">Network egress</div>
+  <div class="t">Multi-region</div>
+  <div class="t">Operations</div>
+  <div class="t">FAQ</div>
+</div>
+
+<div class="layout">
+  <div class="layout-main">
+  <div class="gc-card">
+    <h2><span class="step">1</span>Storage class</h2>
+    <div class="h-sub">Pick the class that matches your access pattern. Lower access frequency = lower per-GB cost.</div>
+    <div class="svc-pill-row"><div class="svc-pill selected" data-service-card="Standard storage" onclick="document.getElementById('fld-service').value='Standard storage'; onServiceChange();">Standard storage</div><div class="svc-pill" data-service-card="Nearline storage" onclick="document.getElementById('fld-service').value='Nearline storage'; onServiceChange();">Nearline storage</div><div class="svc-pill" data-service-card="Coldline storage" onclick="document.getElementById('fld-service').value='Coldline storage'; onServiceChange();">Coldline storage</div><div class="svc-pill" data-service-card="Archive storage" onclick="document.getElementById('fld-service').value='Archive storage'; onServiceChange();">Archive storage</div><div class="svc-pill" data-service-card="Autoclass (Standard tier)" onclick="document.getElementById('fld-service').value='Autoclass (Standard tier)'; onServiceChange();">Autoclass (Standard tier)</div></div>
+    <select id="fld-service" data-facet="service" onchange="onServiceChange()" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><option selected>Standard storage</option><option>Nearline storage</option><option>Coldline storage</option><option>Archive storage</option><option>Autoclass (Standard tier)</option></select>
+  </div>
+
+  <div class="gc-card">
+    <h2><span class="step">2</span>Region</h2>
+    <div class="h-sub">Choose where your bucket lives. Multi-region buckets are highly available across a continent.</div>
+    <div class="pill-region-section"><div class="pill-region-h">Americas</div><div class="pill-region-grid"><button type="button" class="pill-region" data-region-card data-region-name="us-central1 (Iowa)" onclick="selectRegionCard(this, 'us-central1 (Iowa)')"><span class="pill-flag">🇺🇸</span> us-central1 (Iowa)</button><button type="button" class="pill-region" data-region-card data-region-name="us-east1 (S. Carolina)" onclick="selectRegionCard(this, 'us-east1 (S. Carolina)')"><span class="pill-flag">🇺🇸</span> us-east1 (S. Carolina)</button><button type="button" class="pill-region" data-region-card data-region-name="us-east4 (N. Virginia)" onclick="selectRegionCard(this, 'us-east4 (N. Virginia)')"><span class="pill-flag">🇺🇸</span> us-east4 (N. Virginia)</button><button type="button" class="pill-region" data-region-card data-region-name="us-west1 (Oregon)" onclick="selectRegionCard(this, 'us-west1 (Oregon)')"><span class="pill-flag">🇺🇸</span> us-west1 (Oregon)</button><button type="button" class="pill-region" data-region-card data-region-name="us-west2 (Los Angeles)" onclick="selectRegionCard(this, 'us-west2 (Los Angeles)')"><span class="pill-flag">🇺🇸</span> us-west2 (Los Angeles)</button><button type="button" class="pill-region" data-region-card data-region-name="northamerica-northeast1 (Montréal)" onclick="selectRegionCard(this, 'northamerica-northeast1 (Montréal)')"><span class="pill-flag">🇨🇦</span> northamerica-northeast1 (Montréal)</button><button type="button" class="pill-region" data-region-card data-region-name="southamerica-east1 (São Paulo)" onclick="selectRegionCard(this, 'southamerica-east1 (São Paulo)')"><span class="pill-flag">🇨🇦</span> southamerica-east1 (São Paulo)</button></div></div><div class="pill-region-section"><div class="pill-region-h">Europe</div><div class="pill-region-grid"><button type="button" class="pill-region" data-region-card data-region-name="europe-west1 (Belgium)" onclick="selectRegionCard(this, 'europe-west1 (Belgium)')"><span class="pill-flag">🇧🇪</span> europe-west1 (Belgium)</button><button type="button" class="pill-region" data-region-card data-region-name="europe-west2 (London)" onclick="selectRegionCard(this, 'europe-west2 (London)')"><span class="pill-flag">🇬🇧</span> europe-west2 (London)</button><button type="button" class="pill-region" data-region-card data-region-name="europe-west4 (Netherlands)" onclick="selectRegionCard(this, 'europe-west4 (Netherlands)')"><span class="pill-flag">🇳🇱</span> europe-west4 (Netherlands)</button><button type="button" class="pill-region" data-region-card data-region-name="europe-north1 (Finland)" onclick="selectRegionCard(this, 'europe-north1 (Finland)')"><span class="pill-flag">🇫🇮</span> europe-north1 (Finland)</button></div></div><div class="pill-region-section"><div class="pill-region-h">Asia / Pacific</div><div class="pill-region-grid"><button type="button" class="pill-region" data-region-card data-region-name="asia-east1 (Taiwan)" onclick="selectRegionCard(this, 'asia-east1 (Taiwan)')"><span class="pill-flag">🇹🇼</span> asia-east1 (Taiwan)</button><button type="button" class="pill-region" data-region-card data-region-name="asia-northeast1 (Tokyo)" onclick="selectRegionCard(this, 'asia-northeast1 (Tokyo)')"><span class="pill-flag">🇯🇵</span> asia-northeast1 (Tokyo)</button><button type="button" class="pill-region" data-region-card data-region-name="asia-southeast1 (Singapore)" onclick="selectRegionCard(this, 'asia-southeast1 (Singapore)')"><span class="pill-flag">🇸🇬</span> asia-southeast1 (Singapore)</button><button type="button" class="pill-region" data-region-card data-region-name="australia-southeast1 (Sydney)" onclick="selectRegionCard(this, 'australia-southeast1 (Sydney)')"><span class="pill-flag">🇦🇺</span> australia-southeast1 (Sydney)</button></div></div><div class="pill-region-section"><div class="pill-region-h">Multi-region</div><div class="pill-region-grid"><button type="button" class="pill-region" data-region-card data-region-name="Multi-region: us" onclick="selectRegionCard(this, 'Multi-region: us')"><span class="pill-flag">🌎</span> Multi-region: us</button><button type="button" class="pill-region" data-region-card data-region-name="Multi-region: eu" onclick="selectRegionCard(this, 'Multi-region: eu')"><span class="pill-flag">🌍</span> Multi-region: eu</button><button type="button" class="pill-region" data-region-card data-region-name="Multi-region: asia" onclick="selectRegionCard(this, 'Multi-region: asia')"><span class="pill-flag">🌏</span> Multi-region: asia</button></div></div><select id="fld-region" data-facet="region" onchange="onF()" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><option>(Choose region)</option><option>us-central1 (Iowa)</option><option>us-east1 (S. Carolina)</option><option>us-east4 (N. Virginia)</option><option>us-west1 (Oregon)</option><option>us-west2 (Los Angeles)</option><option>northamerica-northeast1 (Montréal)</option><option>southamerica-east1 (São Paulo)</option><option>europe-west1 (Belgium)</option><option>europe-west2 (London)</option><option>europe-west4 (Netherlands)</option><option>europe-north1 (Finland)</option><option>asia-east1 (Taiwan)</option><option>asia-northeast1 (Tokyo)</option><option>asia-southeast1 (Singapore)</option><option>australia-southeast1 (Sydney)</option><option>Multi-region: us</option><option>Multi-region: eu</option><option>Multi-region: asia</option></select>
+  </div>
+
+  <div class="gc-card">
+    <h2><span class="step">3</span>Monthly usage</h2>
+    <div class="h-sub">Enter your monthly GB volume, or select a preset to override the default.</div>
+    <div class="usage-block"><h3 id="usage-block-title">Estimated monthly usage</h3><div class="usage-row"><div class="ur-input-wrap"><input id="fld-volume" class="ur-input" type="number" data-facet="volume" value="0" placeholder="0" oninput="onF()"><span class="ur-unit-lbl" id="vol-unit-lbl">GB-month</span></div><div class="ur-op">×</div><div><div class="ur-rate" id="vol-rate">$0.02000</div><div class="ur-rate-sub" id="vol-rate-sub">per GB-month</div></div><div class="ur-op">=</div><div class="ur-result" id="vol-result">$0.00</div></div><div class="usage-row" id="secondary-usage-row" style="display:none"><div class="ur-input-wrap"><input id="fld-volume-out" class="ur-input" type="number" data-facet="volume_out" value="0" placeholder="0" oninput="onF()"><span class="ur-unit-lbl" id="vol-out-unit-lbl">Output units</span></div><div class="ur-op">×</div><div><div class="ur-rate" id="vol-out-rate">$0.00000</div><div class="ur-rate-sub" id="vol-out-rate-sub">per unit</div></div><div class="ur-op">=</div><div class="ur-result" id="vol-out-result">$0.00</div></div></div>
+    <div class="fld"><label class="fld-label">Override usage</label><select id="fld-override" class="big-sel" data-facet="override" onchange="onOverrideChange()"><option selected>(default usage)</option><option>1 TB EchoCloud Storage Standard storage</option><option>10 TB EchoCloud Storage Coldline storage</option><option>500 GB EchoCloud Storage Nearline</option><option>100 GB EchoCloud Storage Standard</option><option>5 PB Archive storage</option><option>50 TB Coldline archive</option><option>10 TB storage</option><option>1 TB storage</option><option>500 GB storage</option><option>Custom… (type below)</option></select><input id="fld-override-custom" class="big-inp" type="text" data-facet="override_custom" placeholder="Type your custom monthly usage…" oninput="onCustomOverride()" style="margin-top:8px; display:none"><div class="fld-hint">e.g. "1 TB stored", "10 TB stored" — overrides the default.</div></div>
+  </div>
+
+  <div class="gc-card">
+    <h2><span class="step">4</span>Customer Care support</h2>
+    <div class="h-sub">Optional support tier — adds a flat monthly fee.</div>
+    <label class="rad-tier"><input type="radio" name="support" value="basic" data-facet="support_tier" onchange="onF()" checked> <span class="tier-name">Basic</span> <span class="tier-fee">free</span></label>
+<label class="rad-tier"><input type="radio" name="support" value="standard" data-facet="support_tier" onchange="onF()" > <span class="tier-name">Standard</span> <span class="tier-fee">$29/mo</span></label>
+<label class="rad-tier"><input type="radio" name="support" value="enhanced" data-facet="support_tier" onchange="onF()" > <span class="tier-name">Enhanced</span> <span class="tier-fee">$500/mo</span></label>
+<label class="rad-tier"><input type="radio" name="support" value="premium" data-facet="support_tier" onchange="onF()" > <span class="tier-name">Premium</span> <span class="tier-fee">$12,500/mo</span></label>
+    <div class="estimate-row">
+      <button class="btn-reset" type="button" onclick="lsReset(event)">Reset</button>
+      <span style="margin-left:auto;color:var(--gc-muted);font-size:12px">Auto-saves on every change</span>
+    </div>
+  </div>
+  </div>
+
+  <div class="layout-side">
+  <div class="result-card" id="result-card">
+    <div class="res-header">
+      <div class="res-glyph">☁</div>
+      <div><div class="res-title">Your estimate</div><div class="res-title-sub">Cloud Storage · monthly</div></div>
+    </div>
+    <div class="res-label">Estimated monthly bill</div>
+    <div class="res-value" id="res-value">$0.00</div>
+    <div class="res-sub" id="res-sub">Your estimate updates automatically as you configure the form.</div>
+    <div class="res-detail">
+      <div class="k">Region</div><div class="v" id="res-region">—</div>
+      <div class="k">Override</div><div class="v" id="res-override">—</div>
+      <div class="k">Service</div><div class="v" id="res-service">—</div>
+      <div class="k">Support</div><div class="v" id="res-support">—</div>
+    </div>
+    <h5 class="res-breakdown-h">Breakdown</h5>
+    <table class="res-breakdown"><tbody id="breakdown-table"></tbody></table>
+    <div class="res-cta">
+      <button class="btn-share" type="button">Share estimate</button>
+      <button class="btn-export" type="button">Export CSV</button>
+    </div>
+  </div>
+  </div>
+</div>
+
+<footer class="gc-footer">
+  <div class="foot-grid">
+    <div class="foot-col">
+      <div class="foot-brand">EchoCloud</div>
+      <div class="foot-tagline">Build, modernize, and scale apps with a global cloud platform — and pay only for what you use.</div>
+      <a>Try Cloud Storage free for 90 days</a>
+    </div>
+    <div class="foot-col"><h5>Products</h5><a>Cloud Storage</a><a>BigQuery</a><a>Compute Engine</a><a>Cloud Run</a><a>GKE</a></div>
+    <div class="foot-col"><h5>Pricing</h5><a>Pricing overview</a><a>Pricing calculator</a><a>Storage pricing</a><a>Egress pricing</a><a>Free tier</a></div>
+    <div class="foot-col"><h5>Resources</h5><a>Documentation</a><a>Release notes</a><a>Status dashboard</a><a>Architecture center</a><a>Solutions</a></div>
+    <div class="foot-col"><h5>Engage</h5><a>Contact sales</a><a>Find a partner</a><a>Community</a><a>Become a partner</a><a>Events</a></div>
+  </div>
+  <div class="foot-bottom">
+    <div>EchoCloud · ©2025 EchoCloud LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043</div>
+    <div class="locale"><span>🌐</span><span>English</span><span class="sep">·</span><span>USD</span></div>
+  </div>
+</footer>
+
+<div id="task-banner" style="display:none"></div>
+
+<script>
+const ENV_ID = "W30_E06";
+const SERVICES = {"Standard storage": {"label": "Standard storage", "rate": 0.02, "unit": "GB-month"}, "Nearline storage": {"label": "Nearline storage", "rate": 0.01, "unit": "GB-month"}, "Coldline storage": {"label": "Coldline storage", "rate": 0.004, "unit": "GB-month"}, "Archive storage": {"label": "Archive storage", "rate": 0.0012, "unit": "GB-month"}, "Autoclass (Standard tier)": {"label": "Autoclass (Standard tier)", "rate": 0.02, "unit": "GB-month"}};
+const REGION_MULT = {"(Choose region)": 1.0, "us-central1 (Iowa)": 1.0, "us-east1 (S. Carolina)": 1.0, "us-east4 (N. Virginia)": 1.05, "us-west1 (Oregon)": 1.0, "us-west2 (Los Angeles)": 1.08, "northamerica-northeast1 (Montr\u00e9al)": 1.05, "southamerica-east1 (S\u00e3o Paulo)": 1.4, "europe-west1 (Belgium)": 1.1, "europe-west2 (London)": 1.15, "europe-west4 (Netherlands)": 1.1, "europe-north1 (Finland)": 1.07, "asia-east1 (Taiwan)": 1.15, "asia-northeast1 (Tokyo)": 1.2, "asia-southeast1 (Singapore)": 1.16, "australia-southeast1 (Sydney)": 1.18, "Multi-region: us": 1.15, "Multi-region: eu": 1.2, "Multi-region: asia": 1.25};
+const SUPPORT_FEE = {"basic": 0, "standard": 29, "enhanced": 500, "premium": 12500};
+const REGION_DEFAULT = "(Choose region)";
+const SUPPORT_DEFAULT = "basic";
+let filterState = {};
+
+function onF() { collectAndAutoSave(); computeEstimate(false); }
+
+function onServiceChange() {
+  const sel = document.getElementById('fld-service');
+  if (!sel) return;
+  const svc = SERVICES[sel.value];
+  const nameEl = document.getElementById('service-card-name');
+  if (nameEl) nameEl.textContent = sel.value;
+  const rateEl = document.getElementById('vol-rate');
+  if (rateEl && svc) rateEl.textContent = '$' + Number(svc.rate).toFixed(5);
+  const rateSub = document.getElementById('vol-rate-sub');
+  if (rateSub && svc) rateSub.textContent = 'per ' + svc.unit;
+  const unitLbl = document.getElementById('vol-unit-lbl');
+  if (unitLbl && svc) unitLbl.textContent = svc.unit;
+  // visually toggle service cards if present
+  document.querySelectorAll('[data-service-card]').forEach(c => {
+    c.classList.toggle('selected', c.dataset.serviceCard === sel.value);
+  });
+  onF();
+}
+
+function onOverrideChange() {
+  const sel = document.getElementById('fld-override');
+  const cust = document.getElementById('fld-override-custom');
+  if (!sel || !cust) { onF(); return; }
+  if (sel.value === 'Custom… (type below)') {
+    cust.style.display = 'block'; cust.focus();
+  } else {
+    cust.style.display = 'none'; cust.value = '';
+    _syncVolumeFromOverride(sel.value);
+  }
+  onF();
+}
+
+function _syncVolumeFromOverride(overrideStr) {
+  if (!overrideStr) return;
+  if (overrideStr === '(default usage)' || overrideStr === '(none)' || overrideStr === 'Custom… (type below)') return;
+  const parsed = _parseOverride(overrideStr);
+  if (parsed === null) return;
+  const volIn = document.getElementById('fld-volume');
+  const volOut = document.getElementById('fld-volume-out');
+  if (/input.*output/i.test(overrideStr)) {
+    const m = overrideStr.match(/(\d+(?:\.\d+)?)\s*M[^0-9]*?(\d+(?:\.\d+)?)\s*M/i);
+    if (m) {
+      if (volIn) volIn.value = String(Math.round(parseFloat(m[1]) * 1e6));
+      if (volOut) volOut.value = String(Math.round(parseFloat(m[2]) * 1e6));
+      return;
+    }
+  }
+  if (volIn) volIn.value = String(parsed);
+}
+
+function onCustomOverride() { collectAndAutoSave(); computeEstimate(false); }
+
+function collectAndAutoSave() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.value) newState[f] = el.value;
+    } else if (el.type === 'number' || el.type === 'text') {
+      if (el.value !== '' && el.value !== null) newState[f] = el.value;
+    } else if (el.type === 'hidden') {
+      if (el.value !== '' && el.value !== null) newState[f] = el.value;
+    }
+  });
+  const custom = newState.override_custom || '';
+  if (custom.trim()) {
+    newState.override = custom.trim();
+  } else if (newState.override === '(default usage)' || newState.override === 'Custom… (type below)' || newState.override === '(none)') {
+    delete newState.override;
+  }
+  delete newState.override_custom;
+  filterState = newState;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : (document.getElementById('res-value')?.textContent || '');
+
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(updateLiveStatus).catch(() => {});
+}
+
+function _parseOverride(str) {
+  if (!str) return null;
+  const tbMatch = str.match(/(\d+(?:\.\d+)?)\s*TB\b/i);
+  const pbMatch = str.match(/(\d+(?:\.\d+)?)\s*PB\b/i);
+  const gbMatch = str.match(/(\d+(?:\.\d+)?)\s*GB\b/i);
+  const mMatch  = str.match(/(\d+(?:\.\d+)?)\s*M\b/i);
+  const kMatch  = str.match(/(\d+(?:\.\d+)?)\s*K\b/i);
+  const numMatch = str.match(/(\d[\d,]*(?:\.\d+)?)/);
+  if (pbMatch) return parseFloat(pbMatch[1]) * 1e6;
+  if (tbMatch) return parseFloat(tbMatch[1]) * 1000;
+  if (mMatch)  return parseFloat(mMatch[1]) * 1e6;
+  if (gbMatch) return parseFloat(gbMatch[1]);
+  if (kMatch)  return parseFloat(kMatch[1]) * 1000;
+  if (numMatch) return parseFloat(numMatch[1].replace(/,/g,''));
+  return null;
+}
+
+function computeEstimate() {
+  const svcLabel = filterState.service || Object.keys(SERVICES)[0];
+  const svc = SERVICES[svcLabel] || SERVICES[Object.keys(SERVICES)[0]];
+  const region = filterState.region || REGION_DEFAULT;
+  const support = filterState.support_tier || SUPPORT_DEFAULT;
+  const rate = svc ? svc.rate : 0;
+  const mult = (REGION_MULT[region] !== undefined) ? REGION_MULT[region] : 1.10;
+  const supportFee = SUPPORT_FEE[support] || 0;
+
+  let volume = parseFloat(filterState.volume || '0');
+  let volumeOut = parseFloat(filterState.volume_out || '0');
+  const overrideStr = filterState.override || '';
+  const parsedOverride = _parseOverride(overrideStr);
+  if (parsedOverride !== null) {
+    if (/input.*output/i.test(overrideStr)) {
+      const m = overrideStr.match(/(\d+(?:\.\d+)?)\s*M.*?(\d+(?:\.\d+)?)\s*M/i);
+      if (m) { volume = parseFloat(m[1]) * 1e6; volumeOut = parseFloat(m[2]) * 1e6; }
+      else { volume = parsedOverride; volumeOut = parsedOverride; }
+    } else { volume = parsedOverride; }
+  }
+  if (!volume) volume = parseFloat(filterState.volume || '0') || 0;
+
+  let primaryCost = 0;
+  if (svc && svc.unit && svc.unit.indexOf('1K tokens') >= 0) {
+    primaryCost = (volume / 1000) * rate;
+  } else {
+    primaryCost = volume * rate;
+  }
+  let secondaryCost = 0;
+  if (svc && svc.secondary && volumeOut > 0) {
+    secondaryCost = (volumeOut / 1000) * svc.secondary.rate;
+  }
+  const baseCost = primaryCost + secondaryCost;
+  const regionUplift = baseCost * (mult - 1.0);
+  const total = baseCost + regionUplift + supportFee;
+
+  function money(n) { return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+  const monEl = document.getElementById('monthly-cost'); if (monEl) monEl.textContent = money(total);
+  const volRes = document.getElementById('vol-result'); if (volRes) volRes.textContent = money(primaryCost);
+  const rv = document.getElementById('res-value'); if (rv) rv.textContent = money(total);
+  const rs = document.getElementById('res-sub');
+  if (rs) rs.textContent = 'Computed for ' + (svc ? svc.label : svcLabel) + ' · ' + region +
+    (overrideStr ? ' · override: ' + overrideStr : '') +
+    ' · ' + volume.toLocaleString() + ' units' + (volumeOut > 0 ? ' (+ ' + volumeOut.toLocaleString() + ' out)' : '');
+  const rr = document.getElementById('res-region'); if (rr) rr.textContent = region;
+  const ro = document.getElementById('res-override'); if (ro) ro.textContent = overrideStr || '(default)';
+  const rsv = document.getElementById('res-service'); if (rsv) rsv.textContent = svc ? svc.label : svcLabel;
+  const rsp = document.getElementById('res-support'); if (rsp) rsp.textContent = support + ' (' + money(supportFee) + '/mo)';
+
+  const tbl = document.getElementById('breakdown-table');
+  if (tbl) {
+    tbl.replaceChildren();
+    const addRow = (label, value, isTotal) => {
+      const tr = document.createElement('tr');
+      if (isTotal) tr.className = 'tot';
+      const labelCell = document.createElement('td');
+      const valueCell = document.createElement('td');
+      if (isTotal) {
+        const labelBold = document.createElement('b');
+        labelBold.textContent = label;
+        labelCell.appendChild(labelBold);
+        const valueBold = document.createElement('b');
+        valueBold.textContent = value;
+        valueCell.appendChild(valueBold);
+      } else {
+        labelCell.textContent = label;
+        valueCell.textContent = value;
+      }
+      tr.appendChild(labelCell);
+      tr.appendChild(valueCell);
+      tbl.appendChild(tr);
+    };
+    addRow('Base ' + (svc ? svc.label : svcLabel) + ' (' + volume.toLocaleString() + ' units × $' + rate.toFixed(5) + ')', money(primaryCost));
+    if (secondaryCost > 0) addRow('Output usage (' + volumeOut.toLocaleString() + ' units)', money(secondaryCost));
+    addRow('Region uplift (' + region + ', ×' + mult.toFixed(2) + ')', money(regionUplift));
+    addRow('Support tier (' + support + ')', money(supportFee));
+    addRow('Estimated total', money(total), true);
+  }
+
+  const ansEl = document.getElementById('task-answer-input');
+  if (ansEl && !ansEl.value) ansEl.value = 'estimated cost: ' + money(total);
+}
+
+function updateLiveStatus() { /* badge hidden by CSS */ }
+
+function selectRegionCard(cardEl, value) {
+  document.querySelectorAll('[data-region-card]').forEach(c => c.classList.remove('selected'));
+  if (cardEl) cardEl.classList.add('selected');
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  onF();
+}
+
+function selectServiceCard(cardEl, value) {
+  document.querySelectorAll('[data-service-card]').forEach(c => c.classList.remove('selected'));
+  if (cardEl) cardEl.classList.add('selected');
+  const sel = document.getElementById('fld-service');
+  if (sel) sel.value = value;
+  onServiceChange();
+}
+
+function regionPickerOpen() {
+  const m = document.getElementById('region-picker-modal');
+  if (m) m.style.display = 'flex';
+}
+function regionPickerClose() {
+  const m = document.getElementById('region-picker-modal');
+  if (m) m.style.display = 'none';
+}
+function regionPickerSelect(value) {
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  const lbl = document.getElementById('region-picker-label');
+  if (lbl) lbl.textContent = value;
+  regionPickerClose();
+  onF();
+}
+function regionTabSwitch(tabKey, tabEl) {
+  document.querySelectorAll('[data-region-tab]').forEach(t => t.classList.toggle('active', t.dataset.regionTab === tabKey));
+  document.querySelectorAll('[data-region-panel]').forEach(p => p.classList.toggle('active', p.dataset.regionPanel === tabKey));
+}
+function regionSearchFilter() {
+  const input = document.getElementById('region-search-input');
+  if (!input) return;
+  const q = input.value.toLowerCase().trim();
+  const list = document.getElementById('region-search-list');
+  if (!list) return;
+  let firstShown = null;
+  list.querySelectorAll('[data-region-item]').forEach(it => {
+    const v = (it.dataset.regionItem || '').toLowerCase();
+    const show = !q || v.indexOf(q) >= 0;
+    it.style.display = show ? '' : 'none';
+    if (show && !firstShown) firstShown = it;
+  });
+  list.style.display = q ? 'block' : list.dataset.alwaysOpen === '1' ? 'block' : 'none';
+}
+function regionSearchPick(value, label) {
+  const input = document.getElementById('region-search-input');
+  if (input) input.value = label || value;
+  const sel = document.getElementById('fld-region');
+  if (sel) sel.value = value;
+  const list = document.getElementById('region-search-list');
+  if (list && list.dataset.alwaysOpen !== '1') list.style.display = 'none';
+  onF();
+}
+function regionSearchFocus() {
+  const list = document.getElementById('region-search-list');
+  if (list) list.style.display = 'block';
+}
+
+function lsReset(ev) {
+  if (ev && ev.preventDefault) { ev.preventDefault(); ev.stopPropagation(); }
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    if (el.type === 'radio') { el.checked = (el.value === SUPPORT_DEFAULT); }
+    else if (el.tagName === 'SELECT') { el.selectedIndex = 0; }
+    else if (el.tagName === 'INPUT') { el.value = ''; }
+  });
+  const cust = document.getElementById('fld-override-custom');
+  if (cust) cust.style.display = 'none';
+  document.querySelectorAll('[data-region-card]').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('[data-service-card]').forEach(c => c.classList.remove('selected'));
+  const volIn = document.getElementById('fld-volume'); if (volIn) volIn.value = '0';
+  const volOut = document.getElementById('fld-volume-out'); if (volOut) volOut.value = '0';
+  onF();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Catch all radio clicks (even when state doesn't change) for autosave.
+  document.addEventListener('click', (ev) => {
+    const t = ev.target;
+    if (t && t.tagName === 'INPUT' && t.type === 'radio' && t.dataset && t.dataset.facet) {
+      setTimeout(onF, 5);
+    }
+  }, true);
+  onServiceChange();
+  computeEstimate();
+  collectAndAutoSave();
+});
+</script>
+
+</body></html>

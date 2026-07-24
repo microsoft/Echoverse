@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oviedo, FL Real Estate &amp; Homes For Sale | EchoHomes</title>
+<style>
+  :root{
+    --rdc-red:#BC2B22;
+    --rdc-red-dark:#9E1D17;
+    --rdc-red-soft:#F8E7E6;
+    --rdc-ink:#15171B;
+    --rdc-ink-2:#2F3338;
+    --rdc-muted:#6D7278;
+    --rdc-line:#E3E6EA;
+    --rdc-line-2:#DADEE3;
+    --rdc-bg:#F4F5F7;
+    --rdc-bg-2:#FAFBFC;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--rdc-bg);color:var(--rdc-ink);font-family:'Libre Franklin','Helvetica Neue',Arial,sans-serif;font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;cursor:pointer;}
+  a:hover{text-decoration:underline;}
+  button{font-family:inherit;}
+
+  /* ============ HEADER ============ */
+  .rdc-topnav{background:#FFFFFF;border-bottom:1px solid var(--rdc-line);position:sticky;top:0;z-index:140;}
+  .rdc-topnav-inner{display:flex;align-items:center;gap:0;padding:0 24px;height:62px;max-width:1480px;margin:0 auto;}
+  .rdc-logo{display:flex;align-items:center;gap:8px;margin-right:30px;}
+  .rdc-logo-mark{width:34px;height:34px;background:var(--rdc-red);border-radius:4px;position:relative;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:22px;line-height:1;}
+  .rdc-logo-mark::before{content:none;display:none;}
+  .rdc-logo-mark::after{content:none;display:none;}
+  .rdc-logo-text{font-weight:800;font-size:21px;color:var(--rdc-ink);letter-spacing:-0.4px;}
+  .rdc-logo-text sup{font-size:10px;color:var(--rdc-muted);font-weight:600;letter-spacing:0;margin-left:1px;top:-7px;}
+  .rdc-nav{display:flex;align-items:center;gap:0;flex:1;}
+  .rdc-nav a{padding:0 14px;height:62px;display:flex;align-items:center;font-size:14px;font-weight:600;color:var(--rdc-ink-2);border-bottom:3px solid transparent;margin-bottom:-1px;}
+  .rdc-nav a:hover{color:var(--rdc-red);text-decoration:none;}
+  .rdc-nav a.active{color:var(--rdc-ink);border-bottom-color:var(--rdc-red);}
+  .rdc-utility{display:flex;align-items:center;gap:18px;font-size:13px;font-weight:600;color:var(--rdc-ink-2);}
+  .rdc-utility a:hover{color:var(--rdc-red);text-decoration:none;}
+  .rdc-signin{padding:8px 18px;border:1.5px solid var(--rdc-ink);color:var(--rdc-ink);border-radius:3px;font-weight:700;font-size:13px;}
+  .rdc-signin:hover{background:var(--rdc-ink);color:#fff;text-decoration:none;}
+
+  /* ============ SEARCH STRIP ============ */
+  .rdc-searchbar{background:#FFFFFF;border-bottom:1px solid var(--rdc-line);padding:14px 24px;}
+  .rdc-searchbar-inner{max-width:1480px;margin:0 auto;display:flex;gap:10px;align-items:center;}
+  .rdc-searchfield{flex:1;max-width:760px;display:flex;align-items:center;gap:0;border:1.5px solid var(--rdc-ink);border-radius:3px;background:#fff;overflow:hidden;}
+  .rdc-searchfield .icon{padding:0 12px;color:var(--rdc-ink);font-size:16px;}
+  .rdc-searchfield input{flex:1;padding:11px 4px;border:none;outline:none;font-size:15px;font-weight:600;color:var(--rdc-ink);font-family:inherit;background:transparent;}
+  .rdc-searchfield .for-sale-tag{background:#fff;color:var(--rdc-ink-2);font-weight:700;padding:0 14px;height:42px;display:flex;align-items:center;border-left:1px solid var(--rdc-line);font-size:13px;}
+  .rdc-search-go{padding:11px 18px;background:var(--rdc-red);color:#fff;border:none;border-radius:3px;font-weight:700;font-size:14px;cursor:pointer;letter-spacing:.2px;}
+  .rdc-search-go:hover{background:var(--rdc-red-dark);}
+
+  /* ============ BREADCRUMBS + TITLE ============ */
+  .rdc-crumb{max-width:1480px;margin:0 auto;padding:14px 24px 0;font-size:12px;color:var(--rdc-muted);font-weight:600;}
+  .rdc-crumb a{color:var(--rdc-red);}
+  .rdc-titlewrap{max-width:1480px;margin:0 auto;padding:10px 24px 6px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+  .page-title{font-size:26px;font-weight:800;color:var(--rdc-ink);margin:0;letter-spacing:-0.5px;font-family:'Libre Franklin',Arial,sans-serif;}
+  .page-sub{font-size:13px;color:var(--rdc-muted);margin:4px 0 0;font-weight:600;}
+  #result-count{font-weight:800;color:var(--rdc-ink);}
+  .rdc-sort{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--rdc-ink-2);font-weight:600;}
+  .rdc-sort select{padding:7px 28px 7px 10px;border:1px solid var(--rdc-line-2);border-radius:3px;font-size:13px;font-weight:700;background:#fff;font-family:inherit;color:var(--rdc-ink);}
+
+  /* ============ LAYOUT ============ */
+  .page-wrap{display:grid;grid-template-columns:288px 1fr;gap:22px;max-width:1480px;margin:0 auto;padding:14px 24px 32px;}
+  .filters-rail h2{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--rdc-ink-2);margin:4px 0 12px;display:flex;justify-content:space-between;align-items:center;}
+  .filters-rail h2 a{font-size:11px;color:var(--rdc-red);font-weight:700;text-transform:none;letter-spacing:0;}
+
+  .side-section{background:#fff;border:1px solid var(--rdc-line);border-radius:6px;padding:16px 18px;margin-bottom:12px;}
+  .side-section-title{font-size:13px;font-weight:800;color:var(--rdc-ink);margin-bottom:12px;letter-spacing:.2px;}
+  .side-clear{font-size:12px;color:var(--rdc-red);cursor:pointer;font-weight:700;display:inline-block;margin-top:10px;text-decoration:underline;}
+  .side-radio-row,.side-check-row{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:14px;cursor:pointer;color:var(--rdc-ink-2);font-weight:500;}
+  .side-radio-row input,.side-check-row input{display:none;}
+  .radio-dot{width:18px;height:18px;border:2px solid #B7BBC1;border-radius:50%;display:inline-block;position:relative;flex-shrink:0;}
+  .side-radio-row input:checked + .radio-dot{border-color:var(--rdc-red);}
+  .side-radio-row input:checked + .radio-dot::after{content:'';position:absolute;top:3px;left:3px;width:8px;height:8px;background:var(--rdc-red);border-radius:50%;}
+  .side-radio-row:hover{color:var(--rdc-ink);}
+
+  /* Plus-chip bedrooms */
+  .w25-chip-row{display:flex;gap:0;flex-wrap:wrap;}
+  .w25-chip{padding:9px 0;flex:1;min-width:42px;border:1px solid var(--rdc-line-2);background:#fff;cursor:pointer;font-size:13px;font-weight:700;color:var(--rdc-ink-2);border-right:none;text-align:center;}
+  .w25-chip:first-child{border-radius:4px 0 0 4px;}
+  .w25-chip:last-child{border-radius:0 4px 4px 0;border-right:1px solid var(--rdc-line-2);}
+  .w25-chip:hover{background:var(--rdc-bg-2);color:var(--rdc-ink);}
+  .w25-chip.active{background:var(--rdc-red);color:#fff;border-color:var(--rdc-red);}
+  .w25-chip.active + .w25-chip{border-left-color:var(--rdc-red);}
+
+  /* Active filter chips */
+  .active-bar{display:flex;flex-wrap:wrap;gap:8px;padding:6px 0 14px;min-height:20px;}
+  .active-chip{background:#fff;border:1px solid var(--rdc-line-2);color:var(--rdc-ink-2);padding:6px 12px;border-radius:18px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:8px;}
+  .ac-x{color:var(--rdc-muted);cursor:pointer;font-weight:700;font-size:14px;line-height:1;}
+  .ac-x:hover{color:var(--rdc-red);}
+
+  /* ============ RESULT GRID — Realtor row card ============ */
+  #result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px;}
+  .empty{padding:36px;text-align:center;color:var(--rdc-muted);background:#fff;border:1px dashed var(--rdc-line-2);border-radius:6px;font-size:14px;grid-column:1/-1;}
+  .listing-card{background:#fff;border-radius:6px;overflow:hidden;border:1px solid var(--rdc-line);cursor:pointer;transition:transform .12s,box-shadow .12s;display:flex;flex-direction:column;}
+  .listing-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(20,28,40,.10);}
+  .lc-img{height:200px;background:linear-gradient(135deg,#E9E5DD,#F4EFE6);display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--rdc-red);font-weight:800;position:relative;overflow:hidden;}
+  .lc-img img{width:100%;height:100%;object-fit:cover;display:block;}
+  .lc-badge{position:absolute;top:10px;left:10px;background:#fff;color:var(--rdc-ink);font-size:10px;font-weight:800;padding:5px 9px;border-radius:3px;letter-spacing:.6px;text-transform:uppercase;box-shadow:0 1px 3px rgba(0,0,0,.18);}
+  .lc-badge.new{background:var(--rdc-red);color:#fff;}
+  .lc-fav{position:absolute;top:8px;right:8px;width:32px;height:32px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--rdc-ink-2);font-size:15px;border:1px solid rgba(0,0,0,.06);}
+  .lc-photo-count{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:3px;display:flex;align-items:center;gap:5px;}
+  .lc-body{padding:12px 14px 14px;}
+  .lc-price{font-size:22px;font-weight:800;color:var(--rdc-ink);letter-spacing:-0.5px;}
+  .lc-meta{font-size:13px;color:var(--rdc-ink-2);margin-top:5px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+  .lc-meta b{font-weight:800;color:var(--rdc-ink);}
+  .lc-meta .sep{color:var(--rdc-line-2);}
+  .lc-addr{font-size:13px;color:var(--rdc-ink-2);margin-top:6px;line-height:1.35;}
+  .lc-addr .city{color:var(--rdc-muted);}
+  .lc-ptype{font-size:11px;color:var(--rdc-muted);margin-top:8px;text-transform:uppercase;letter-spacing:.5px;font-weight:700;}
+  .lc-broker{font-size:11px;color:var(--rdc-muted);margin-top:8px;padding-top:8px;border-top:1px solid var(--rdc-line);font-weight:600;}
+
+  /* ============ FOOTER ============ */
+  .rdc-footer{background:#FFFFFF;border-top:1px solid var(--rdc-line);margin-top:30px;}
+  .rdc-footer-cols{max-width:1480px;margin:0 auto;padding:32px 24px;display:grid;grid-template-columns:repeat(5,1fr);gap:32px;}
+  .rdc-footer-col h4{font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--rdc-ink);margin:0 0 12px;}
+  .rdc-footer-col ul{list-style:none;padding:0;margin:0;}
+  .rdc-footer-col li{font-size:13px;color:var(--rdc-ink-2);margin-bottom:8px;font-weight:500;}
+  .rdc-footer-col a:hover{color:var(--rdc-red);text-decoration:none;}
+  .rdc-footer-bottom{background:#15171B;color:#C7CACE;padding:18px 24px;font-size:11px;}
+  .rdc-footer-bottom-inner{max-width:1480px;margin:0 auto;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center;}
+  .rdc-footer-legal a{color:#C7CACE;margin-right:14px;}
+  .rdc-footer-logo{font-weight:800;color:#fff;font-size:15px;}
+
+  /* Responsive trim */
+  @media (max-width:980px){
+    .page-wrap{grid-template-columns:1fr;}
+    .rdc-nav a:nth-child(n+5){display:none;}
+    .rdc-footer-cols{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ TOP NAV ============ -->
+<header class="rdc-topnav">
+  <div class="rdc-topnav-inner">
+    <a class="rdc-logo" aria-label="EchoHomes">
+      <span class="rdc-logo-mark" aria-hidden="true">E</span>
+      <span class="rdc-logo-text">EchoHomes<sup>®</sup></span>
+    </a>
+    <nav class="rdc-nav">
+      <a class="active">Buy</a>
+      <a>Rent</a>
+      <a>Sell</a>
+      <a>Mortgage</a>
+      <a>Find Echo Agent<sup style="font-size:9px;">®</sup></a>
+      <a>My Home</a>
+      <a>News &amp; Insights</a>
+    </nav>
+    <div class="rdc-utility">
+      <a>Manage Rentals</a>
+      <a>Advertise</a>
+      <a class="rdc-signin">Sign In</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ SEARCH BAR ============ -->
+<div class="rdc-searchbar">
+  <div class="rdc-searchbar-inner">
+    <div class="rdc-searchfield">
+      <span class="icon">🔍</span>
+      <input type="text" aria-label="Search homes" placeholder="City, ZIP, neighborhood, address" value="Oviedo, FL">
+      <span class="for-sale-tag">For Sale ▾</span>
+    </div>
+    <button class="rdc-search-go">Search</button>
+  </div>
+</div>
+
+<!-- ============ BREADCRUMBS + TITLE ============ -->
+<div class="rdc-crumb">
+  <a>Real Estate</a> &nbsp;›&nbsp; <a>Florida</a> &nbsp;›&nbsp; <a>Seminole County</a> &nbsp;›&nbsp; <span style="color:var(--rdc-ink-2);">Oviedo</span>
+</div>
+<div class="rdc-titlewrap">
+  <div>
+    <h1 class="page-title">Oviedo, FL Real Estate &amp; Homes For Sale</h1>
+    <div class="page-sub"><span id="result-count">— homes</span> &middot; Updated 1 min ago</div>
+  </div>
+  <div class="rdc-sort">
+    <span>Sort by:</span>
+    <select aria-label="Sort listings">
+      <option>Newest</option>
+      <option>Price (Low to High)</option>
+      <option>Price (High to Low)</option>
+      <option>Largest Sqft</option>
+    </select>
+  </div>
+</div>
+
+<!-- ============ MAIN PAGE ============ -->
+<div class="page-wrap">
+
+  <!-- ===== LEFT SIDEBAR FILTERS ===== -->
+  <aside class="filters-rail">
+    <h2>Filters <a>Reset all</a></h2>
+
+    <div class="side-section">
+      <div class="side-section-title">Home Type</div>
+      <div class="side-radio-list">
+        <label class="side-radio-row"><input type="radio" class="w25-rad" name="ptype_Echo" data-facet="property_type" value="Single-Family" onchange="onRadChange(this)"> <span class="radio-dot"></span><span>Single-Family Home</span></label>
+        <label class="side-radio-row"><input type="radio" class="w25-rad" name="ptype_Echo" data-facet="property_type" value="Condo" onchange="onRadChange(this)"> <span class="radio-dot"></span><span>Condo / Co-op</span></label>
+        <label class="side-radio-row"><input type="radio" class="w25-rad" name="ptype_Echo" data-facet="property_type" value="Townhouse" onchange="onRadChange(this)"> <span class="radio-dot"></span><span>Townhouse</span></label>
+        <label class="side-radio-row"><input type="radio" class="w25-rad" name="ptype_Echo" data-facet="property_type" value="Multi-Family" onchange="onRadChange(this)"> <span class="radio-dot"></span><span>Multi-Family</span></label>
+        <label class="side-radio-row"><input type="radio" class="w25-rad" name="ptype_Echo" data-facet="property_type" value="Studio Apartment" onchange="onRadChange(this)"> <span class="radio-dot"></span><span>Studio Apartment</span></label>
+      </div>
+      <a class="side-clear" onclick="clearFacet('property_type')">Clear</a>
+    </div>
+
+    <div class="side-section">
+      <div class="side-section-title">Bedrooms</div>
+      <div class="w25-chip-row">
+        <button type="button" class="w25-chip" data-facet="min_beds" data-val="0" onclick="pickChip(this,'min_beds')">Any</button>
+        <button type="button" class="w25-chip" data-facet="min_beds" data-val="1" onclick="pickChip(this,'min_beds')">1+</button>
+        <button type="button" class="w25-chip" data-facet="min_beds" data-val="2" onclick="pickChip(this,'min_beds')">2+</button>
+        <button type="button" class="w25-chip" data-facet="min_beds" data-val="3" onclick="pickChip(this,'min_beds')">3+</button>
+        <button type="button" class="w25-chip" data-facet="min_beds" data-val="4" onclick="pickChip(this,'min_beds')">4+</button>
+        <button type="button" class="w25-chip" data-facet="min_beds" data-val="5" onclick="pickChip(this,'min_beds')">5+</button>
+      </div>
+      <a class="side-clear" onclick="clearFacet('min_beds')">Clear</a>
+    </div>
+
+    <div class="side-section" style="font-size:12px;color:var(--rdc-muted);line-height:1.55;">
+      <div class="side-section-title" style="margin-bottom:6px;">More Filters</div>
+      Price &middot; Bathrooms &middot; Square Feet &middot; Lot Size &middot; Year Built &middot; HOA Fee &middot; Days on EchoHomes &middot; Garage &middot; School Rating
+    </div>
+  </aside>
+
+  <!-- ===== RESULTS COLUMN ===== -->
+  <main class="results-col">
+    <div class="active-bar" id="active-chips"></div>
+    <div id="result-grid"></div>
+  </main>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer class="rdc-footer">
+  <div class="rdc-footer-cols">
+    <div class="rdc-footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a>About Us</a></li>
+        <li><a>Careers</a></li>
+        <li><a>Press Room</a></li>
+        <li><a>Tech Blog</a></li>
+        <li><a>News &amp; Insights</a></li>
+      </ul>
+    </div>
+    <div class="rdc-footer-col">
+      <h4>For Professionals</h4>
+      <ul>
+        <li><a>Advertise</a></li>
+        <li><a>Agent Resource Center</a></li>
+        <li><a>Builders</a></li>
+        <li><a>Real Estate Brokers</a></li>
+        <li><a>Property Managers</a></li>
+      </ul>
+    </div>
+    <div class="rdc-footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a>Mortgage Calculator</a></li>
+        <li><a>Affordability Calculator</a></li>
+        <li><a>Home Value Estimator</a></li>
+        <li><a>School Ratings</a></li>
+        <li><a>Local Market Reports</a></li>
+      </ul>
+    </div>
+    <div class="rdc-footer-col">
+      <h4>Get the App</h4>
+      <ul>
+        <li><a>iOS App</a></li>
+        <li><a>Android App</a></li>
+        <li><a>Real Estate News</a></li>
+        <li><a>Saved Searches</a></li>
+      </ul>
+    </div>
+    <div class="rdc-footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a>Facebook</a></li>
+        <li><a>Twitter</a></li>
+        <li><a>Instagram</a></li>
+        <li><a>YouTube</a></li>
+        <li><a>Pinterest</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="rdc-footer-bottom">
+    <div class="rdc-footer-bottom-inner">
+      <div class="rdc-footer-legal">
+        <a>Terms of Use</a><a>Privacy Notice</a><a>Cookie Preference</a><a>Do Not Sell My Personal Information</a><a>Accessibility</a>
+      </div>
+      <div class="rdc-footer-logo">EchoHomes® &nbsp; © EchoHomes, Inc. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+function escapeHtmlText(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
+const ENV_ID = 'W25_E06';
+let filterState = {};
+
+function _toInt(v){ const n=Number(v); return Number.isNaN(n)?v:n; }
+
+function collectState(){
+  const fs={};
+  document.querySelectorAll('.w25-chip.active').forEach(b=>{
+    const f=b.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(b.dataset.val); else fs[f]=b.dataset.val;
+  });
+  document.querySelectorAll('input[type=radio].w25-rad:checked').forEach(el=>{
+    const f=el.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(el.value); else fs[f]=el.value;
+  });
+  document.querySelectorAll('select.w25-sel').forEach(s=>{
+    const f=s.dataset.facet; if(!f) return;
+    const v=s.value;
+    if(v){ if(f==='min_beds') fs[f]=_toInt(v); else fs[f]=v; }
+  });
+  document.querySelectorAll('.w25-card.active').forEach(b=>{
+    const f=b.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(b.dataset.val); else fs[f]=b.dataset.val;
+  });
+  document.querySelectorAll('.w25-tab.active').forEach(b=>{
+    const f=b.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(b.dataset.val); else fs[f]=b.dataset.val;
+  });
+  return fs;
+}
+
+function pickChip(btn,facet){
+  const cur=btn.classList.contains('active');
+  document.querySelectorAll('.w25-chip[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  if(!cur) btn.classList.add('active');
+  onF();
+}
+function pickCard(btn,facet){
+  const cur=btn.classList.contains('active');
+  document.querySelectorAll('.w25-card[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  if(!cur) btn.classList.add('active');
+  onF();
+}
+function pickTab(btn,facet){
+  const cur=btn.classList.contains('active');
+  document.querySelectorAll('.w25-tab[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  if(!cur) btn.classList.add('active');
+  onF();
+}
+function onSelChange(_el){ onF(); }
+function onRadChange(_el){ onF(); }
+
+function onF(){
+  filterState=collectState();
+  const urlParams=new URLSearchParams(window.location.search);
+  const taskId=urlParams.get('task_id');
+
+  fetch('/env/'+ENV_ID+'/api/filter',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({filter_state:filterState})
+  }).then(r=>r.json()).then(data=>{
+    renderResults(data.results||[]);
+    const rc=document.getElementById('result-count');
+    if(rc) rc.textContent=(data.results||[]).length+' homes';
+    renderActive();
+  }).catch(()=>{});
+
+  fetch('/env/'+ENV_ID+'/api/submit',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({filter_state:filterState,answer:'',task_id:taskId})
+  }).catch(()=>{});
+}
+
+function renderResults(results){
+  const grid=document.getElementById('result-grid'); if(!grid) return;
+  if(!results.length){ grid.innerHTML='<div class="empty">No homes match the current filters.</div>'; return; }
+  grid.innerHTML=results.map((r,i)=>{
+    const price=escapeHtmlText('$'+(r.price||0).toLocaleString());
+    const beds=escapeHtmlText(r.beds!=null?r.beds:'?');
+    const baths=escapeHtmlText(r.baths!=null?r.baths:'?');
+    const sqft=escapeHtmlText(r.sqft!=null?r.sqft.toLocaleString():'');
+    const lot=escapeHtmlText(r.lot_sqft!=null?(r.lot_sqft>=10000?(r.lot_sqft/43560).toFixed(2)+' acre lot':r.lot_sqft.toLocaleString()+' sqft lot'):'');
+    const addr=escapeHtmlText(r.title||'');
+    const cityFull=escapeHtmlText(r.city_full||r.city||'');
+    const ptype=escapeHtmlText(r.property_type||'');
+    const img=r.image_url||'';
+    const photoN=(((i*7)%18)+12);
+    return `
+          <div class="listing-card">
+            <div class="lc-img">${img?`<img src="${escapeHtmlText(img)}" alt="">`:`<div>${(addr.split(',')[0]||addr).split(' ').slice(0,2).join(' ')}</div>`}
+              ${r.is_new?'<div class="lc-badge new">NEW - 1 DAY AGO</div>':(r.price_reduced?'<div class="lc-badge" style="color:var(--rdc-red);">PRICE REDUCED</div>':'')}
+              <div class="lc-fav">♡</div>
+              <div class="lc-photo-count">📷 ${photoN}</div>
+            </div>
+            <div class="lc-body">
+              <div class="lc-price">${price}</div>
+              <div class="lc-meta"><b>${beds}</b> bed <span class="sep">|</span> <b>${baths}</b> bath${sqft?` <span class="sep">|</span> <b>${sqft}</b> sqft`:''}${lot?` <span class="sep">|</span> ${lot}`:''}</div>
+              <div class="lc-addr">${addr}<br><span class="city">${cityFull}</span></div>
+              <div class="lc-ptype">${ptype}</div>
+              <div class="lc-broker">Brokered by ${['Echo Partners','Echo Max Realty','Echo Realty','Echo Watson Realty','Echo Signature Realty'][i%5]}</div>
+            </div>
+          </div>`;
+  }).join('');
+}
+
+function renderActive(){
+  const bar=document.getElementById('active-chips'); if(!bar) return;
+  const labelMap={'min_beds':'Beds','property_type':'Home Type'};
+  const valueMap=(k,v)=>{ if(k==='min_beds') return (v===0||v==='0')?'Any':(v+'+'); return v; };
+  const chips=[];
+  for(const [k,v] of Object.entries(filterState)){
+    const lbl=labelMap[k]||k;
+    chips.push('<span class="active-chip">'+escapeHtmlText(lbl)+': '+escapeHtmlText(valueMap(k,v))+' <span class="ac-x" onclick="clearFacet(\''+escapeHtmlText(escapeJsSingleQuoted(k))+'\')">×</span></span>');
+  }
+  bar.innerHTML=chips.join('');
+}
+
+function clearFacet(facet){
+  document.querySelectorAll('.w25-chip[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.w25-card[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.w25-tab[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('input[type=radio].w25-rad[data-facet="'+facet+'"]').forEach(i=>{i.checked=false;});
+  document.querySelectorAll('select.w25-sel[data-facet="'+facet+'"]').forEach(s=>{s.selectedIndex=0;});
+  onF();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{ onF(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{
+  "env_id": "W10_E01",
+  "widget_id": "W10_calendar_year_explicit",
+  "widget_name": "Calendar \u2014 year-explicit (cross-year)",
+  "widget_category": "calendar",
+  "widget_mechanic": "Trip dates span the calendar year boundary (e.g. Jan 2027). Agent must verify the year in the calendar header matches the user's requested year before clicking, not just match the month.",
+  "archetype": "booking_form",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W10_calendar_year_explicit"
+  ],
+  "site_imitates": "LOT Polish Airlines (flights)",
+  "product_type": "LOT flight options",
+  "source_inspiration": [
+    {
+      "task_id": "flights_lot_5",
+      "benchmark": "WTB",
+      "site": "lot",
+      "instruction": "Book the cheapest economy flight with LOT Polish Airlines from Warsaw, Poland to New York City, USA January 21 - February 21 round trip. If there are no available flights for those dates, please show evidence and indicate this in your answer. Any other blocker is considered a failure.",
+      "first_failure_summary": "[6.4] Fine-grained grounding error: The click landed on empty whitespace in the date-picker (left of the weekday labels) instead of on an interactive calendar element (date cell/control), producing no change."
+    }
+  ],
+  "primary_inspiration": {
+    "task_id": "flights_lot_5",
+    "benchmark": "WTB",
+    "site": "lot",
+    "instruction": "Book the cheapest economy flight with LOT Polish Airlines from Warsaw, Poland to New York City, USA January 21 - February 21 round trip. If there are no available flights for those dates, please show evidence and indicate this in your answer. Any other blocker is considered a failure.",
+    "first_failure_summary": "[6.4] Fine-grained grounding error: The click landed on empty whitespace in the date-picker (left of the weekday labels) instead of on an interactive calendar element (date cell/control), producing no change."
+  },
+  "theme_key": "flights",
+  "theme_logo": "LOT",
+  "theme_card": "flights-card",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 0,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "date_pick_year",
+    "fields": [
+      "date"
+    ]
+  },
+  "fara_screenshot_root": "/screenshot/wtb_fara15/flights_lot_5/"
+}

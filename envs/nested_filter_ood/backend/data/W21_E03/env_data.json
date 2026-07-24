@@ -1,0 +1,57 @@
+{
+  "env_id": "W21_E03",
+  "widget_id": "W21_calendar_advance_plus_return_validation",
+  "widget_name": "Calendar multi-month advance + return-after-depart validation",
+  "widget_category": "combo_calendar",
+  "widget_mechanic": "Compose: calendar must advance to depart-target month AND return must be set \u2265 depart in correct order.",
+  "archetype": "booking_form",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W09_calendar_multi_month_advance",
+    "W11_return_after_depart_validation"
+  ],
+  "site_imitates": "Drury stay booking on druryhotels.com",
+  "product_type": "Drury stay",
+  "source_inspiration": [
+    {
+      "task_id": "hotels_head_druryhotels_224",
+      "benchmark": "WTB",
+      "site": "druryhotels",
+      "instruction": "Book a room at Drury Inn and Suites Columbus Polaris in Columbus, Ohio at druryhotels.com from January 25 through January 28.. If the hotel doesn't take reservations for that date or there are no available rooms for that time, please indicate that in your answer",
+      "first_failure_summary": "[3.5] Incomplete task execution: The agent attempted to navigate the calendar months but failed to make verifiable progress toward reaching January 25\u201328 (no demonstrated month change, no alternate method like typing dates, resetting dates, or proceeding to search to confirm constraints)."
+    }
+  ],
+  "theme_key": "hotels",
+  "theme_logo": "BookEasy",
+  "theme_card": "hotel-card",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 2,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "primary_inspiration": "hotels_head_druryhotels_224",
+  "brand_colors": {
+    "header_bg": "#7a1124",
+    "header_fg": "#fff",
+    "primary": "#7a1124",
+    "primary_hover": "#5b0b1b",
+    "accent": "#f1d18e",
+    "background": "#fbf6ef",
+    "accent_fg": "#3d0710",
+    "accent_bg": "#f7e4e8"
+  },
+  "ui_pattern": "modal_trip",
+  "ui_pattern_description": "Modal trip planner with two stacked months and explicit check-in / check-out steps",
+  "fara_grounded_dates": {
+    "depart": "2027-01-25",
+    "return": "2027-01-28"
+  },
+  "fara_grounded_route": {
+    "from_city": "Columbus",
+    "from_code": "CMH",
+    "to_city": "Drury Inn & Suites Columbus Polaris",
+    "to_code": "Polaris"
+  }
+}

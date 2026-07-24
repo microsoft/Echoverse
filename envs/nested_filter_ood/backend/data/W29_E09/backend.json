@@ -1,0 +1,101 @@
+{
+  "env_id": "W29_E09",
+  "widget_id": "W29_override_defaults_plus_frequency",
+  "archetype": "calculator_form",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2881",
+      "task_index_in_env": 1,
+      "instruction_text": "Help me run savings projection at custom balance+monthly on Mint savings with custom principal $50,000 and quarterly compounding (not the prefilled defaults).",
+      "expected_filter_state": {
+        "override": "custom principal $50,000",
+        "freq": "quarterly"
+      }
+    },
+    {
+      "task_id": "T2882",
+      "task_index_in_env": 2,
+      "instruction_text": "Use Mint savings to compute savings projection at custom balance+monthly \u2014 override the defaults with custom tuition $45,000 and switch the frequency to monthly.",
+      "expected_filter_state": {
+        "override": "custom tuition $45,000",
+        "freq": "monthly"
+      }
+    },
+    {
+      "task_id": "T2883",
+      "task_index_in_env": 3,
+      "instruction_text": "Help me run savings projection at custom balance+monthly on Mint savings with custom principal $25,000 and monthly compounding (not the prefilled defaults).",
+      "expected_filter_state": {
+        "override": "custom principal $25,000",
+        "freq": "monthly"
+      }
+    },
+    {
+      "task_id": "T2884",
+      "task_index_in_env": 4,
+      "instruction_text": "Use Mint savings to compute savings projection at custom balance+monthly \u2014 override the defaults with custom rate 6% and switch the frequency to daily.",
+      "expected_filter_state": {
+        "override": "custom rate 6%",
+        "freq": "daily"
+      }
+    },
+    {
+      "task_id": "T2885",
+      "task_index_in_env": 5,
+      "instruction_text": "Help me run savings projection at custom balance+monthly on Mint savings with custom income $120,000 and annually compounding (not the prefilled defaults).",
+      "expected_filter_state": {
+        "override": "custom income $120,000",
+        "freq": "annually"
+      }
+    },
+    {
+      "task_id": "T2886",
+      "task_index_in_env": 6,
+      "instruction_text": "Help me run savings projection at custom balance+monthly on Mint savings with custom loan amount $250,000 and bi-weekly compounding (not the prefilled defaults).",
+      "expected_filter_state": {
+        "override": "custom loan amount $250,000",
+        "freq": "bi-weekly"
+      }
+    },
+    {
+      "task_id": "T2887",
+      "task_index_in_env": 7,
+      "instruction_text": "Help me run savings projection at custom balance+monthly on Mint savings with custom contributions $1000/mo and monthly compounding (not the prefilled defaults).",
+      "expected_filter_state": {
+        "override": "custom contributions $1000/mo",
+        "freq": "monthly"
+      }
+    },
+    {
+      "task_id": "T2888",
+      "task_index_in_env": 8,
+      "instruction_text": "Use Mint savings to compute savings projection at custom balance+monthly \u2014 override the defaults with custom goal $1M and switch the frequency to quarterly.",
+      "expected_filter_state": {
+        "override": "custom goal $1M",
+        "freq": "quarterly"
+      }
+    },
+    {
+      "task_id": "T2889",
+      "task_index_in_env": 9,
+      "instruction_text": "Help me run savings projection at custom balance+monthly on Mint savings with custom balance $15,000 and monthly compounding (not the prefilled defaults).",
+      "expected_filter_state": {
+        "override": "custom balance $15,000",
+        "freq": "monthly"
+      }
+    },
+    {
+      "task_id": "T2890",
+      "task_index_in_env": 10,
+      "instruction_text": "Help me run savings projection at custom balance+monthly on Mint savings with custom rate 7.5% and continuously compounding (not the prefilled defaults).",
+      "expected_filter_state": {
+        "override": "custom rate 7.5%",
+        "freq": "continuously"
+      }
+    }
+  ]
+}

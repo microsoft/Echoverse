@@ -1,0 +1,473 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Samsung 8K TVs — EchoTech</title><style>
+*{box-sizing:border-box}
+:root{
+  --c-primary:#0046be;--c-accent:#ffe000;--c-bg:#ffffff;--c-panel:#f5f6f8;
+  --c-text:#1a1a1a;--c-muted:#6b7280;--c-border:#e0e3e8;--c-heading:#1a1a1a;
+}
+html,body{margin:0;padding:0}
+body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Arial,sans-serif;background:#ffffff;color:var(--c-text);line-height:1.5;font-size:14px}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+
+/* hide any verifier hooks (no visible debug ui) */
+.live-status,.task-banner,.fara-source,.fara-banner{display:none!important}
+[data-debug="1"]{display:none!important}
+
+/* ====== Page chrome ====== */
+.crumb{padding:10px 28px;font-size:12px;color:var(--c-muted);background:#fff}
+.crumb a{color:var(--c-muted)}
+.crumb a:hover{color:var(--c-primary);text-decoration:underline}
+.crumb .crumb-sep{margin:0 8px;opacity:.6}
+.crumb b{color:var(--c-text);font-weight:600}
+
+.main-grid{display:grid;grid-template-columns:268px 1fr;gap:24px;padding:18px 28px 32px;max-width:1320px;margin:0 auto}
+
+/* sidebar */
+.filter-aside{background:#fff;padding:14px 16px;border:1px solid var(--c-border);border-radius:8px;height:fit-content;position:sticky;top:12px}
+.filter-aside .fa-title{display:flex;justify-content:space-between;align-items:center;margin:0 0 10px}
+.filter-aside .fa-title h3{margin:0;font-size:15px;color:var(--c-heading)}
+.filter-aside .fa-title a{font-size:12px;color:var(--c-primary);cursor:pointer}
+.f-section{margin:0 -4px;padding:12px 4px;border-top:1px solid var(--c-border)}
+.f-section:first-of-type{border-top:none;padding-top:4px}
+.facet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.facet-head h4{margin:0;font-size:13px;font-weight:700;color:var(--c-heading);letter-spacing:.01em;text-transform:uppercase}
+.facet-head .facet-clear{font-size:11px;color:var(--c-primary);cursor:pointer}
+.cb{display:flex;align-items:center;gap:8px;font-size:13px;padding:4px 0;cursor:pointer;color:var(--c-text)}
+.cb-row{display:flex;justify-content:space-between;padding:3px 0}
+.cb-row .cnt{color:var(--c-muted);font-size:11px}
+.cb-row span:first-child{display:flex;gap:8px;align-items:center}
+.cb input[type=checkbox]{accent-color:var(--c-primary);width:14px;height:14px;margin:0}
+.cb:hover{color:var(--c-primary)}
+
+/* strict-match toggle — themed, never labelled as a test widget */
+.strict-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0;cursor:pointer}
+.strict-row .strict-lbl{font-size:13px;color:var(--c-text);font-weight:600}
+.strict-row input[type=checkbox]{appearance:none;position:relative;width:34px;height:18px;background:#cfd4dd;border-radius:9px;cursor:pointer;outline:none;flex-shrink:0;transition:background .15s}
+.strict-row input[type=checkbox]:before{content:"";position:absolute;left:2px;top:2px;width:14px;height:14px;background:#fff;border-radius:50%;transition:left .15s;box-shadow:0 1px 2px rgba(0,0,0,.18)}
+.strict-row input[type=checkbox]:checked{background:var(--c-primary)}
+.strict-row input[type=checkbox]:checked:before{left:18px}
+.strict-help{font-size:11px;color:var(--c-muted);margin-top:4px;line-height:1.4}
+
+/* results */
+.results-area{background:#fff;padding:18px 22px;border:1px solid var(--c-border);border-radius:8px}
+.results-header{display:flex;align-items:flex-end;flex-wrap:wrap;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--c-border);margin-bottom:14px}
+.results-header h1{margin:0;font-size:22px;color:var(--c-heading);font-weight:700;letter-spacing:-.01em}
+.results-sub{display:block;width:100%;color:var(--c-muted);font-size:13px;margin-top:4px}
+.results-tools{margin-left:auto;display:flex;gap:8px;align-items:center}
+.sort-dd{padding:7px 12px;border:1px solid var(--c-border);border-radius:6px;font-size:13px;background:#fff;color:var(--c-text)}
+.view-toggle{display:inline-flex;border:1px solid var(--c-border);border-radius:6px;overflow:hidden}
+.view-toggle button{padding:6px 12px;background:#fff;border:none;cursor:pointer;font-size:12px;color:var(--c-text)}
+.view-toggle button.active{background:var(--c-primary);color:#fff}
+.active-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.active-chip{background:#fff;color:var(--c-primary);border:1px solid var(--c-primary);padding:3px 10px;border-radius:14px;font-size:11px;font-weight:600}
+.result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.result-card{border:1px solid var(--c-border);border-radius:8px;padding:12px;background:#fff;transition:box-shadow .15s,transform .12s;display:flex;flex-direction:column}
+.result-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.07);transform:translateY(-2px)}
+.result-thumb-img{width:100%;height:140px;object-fit:cover;border-radius:6px;background:#f0f0f0;display:block;margin-bottom:10px}
+.result-thumb{width:100%;height:140px;background:#f0f0f0;border-radius:6px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;font-size:36px;color:#bbb}
+.result-brand{font-size:11px;color:var(--c-muted);text-transform:uppercase;letter-spacing:.05em}
+.result-name{font-size:13px;font-weight:600;margin:4px 0 4px;min-height:34px;line-height:1.28;color:var(--c-text)}
+.result-meta{font-size:11px;color:var(--c-muted);margin-bottom:4px}
+.result-rating-row{font-size:12px;color:#f5a623;margin-top:2px}
+.result-price-row{margin-top:auto;padding-top:6px}
+.result-price{font-weight:800;font-size:16px;color:var(--c-text)}
+.result-cta{margin-top:10px;padding:8px;background:var(--c-primary);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-weight:700;letter-spacing:.02em}
+.result-cta:hover{filter:brightness(.94)}
+.pagination{display:flex;gap:6px;justify-content:center;margin-top:20px}
+.pagination button{padding:6px 12px;background:#fff;border:1px solid var(--c-border);border-radius:6px;cursor:pointer;font-size:12px;color:var(--c-text)}
+.pagination button.active{background:var(--c-primary);color:#fff;border-color:var(--c-primary)}
+
+/* footer */
+.site-footer{margin-top:30px;padding:36px 28px 22px;background:var(--c-panel);color:var(--c-muted);font-size:12px}
+.site-footer-row{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1240px;margin:0 auto}
+.site-footer-col h5{margin:0 0 10px;color:var(--c-text);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.site-footer-col a{display:block;color:var(--c-muted);padding:3px 0;font-size:11px;cursor:pointer}
+.site-footer-col a:hover{color:var(--c-primary)}
+.site-footer-bottom{max-width:1240px;margin:22px auto 0;padding-top:16px;border-top:1px solid var(--c-border);display:flex;gap:14px;align-items:center;font-size:11px;flex-wrap:wrap}
+.sf-spacer{flex:1}
+.sf-social a{display:inline-block;width:24px;height:24px;line-height:24px;text-align:center;background:#fff;border-radius:50%;margin-left:4px;color:var(--c-text);border:1px solid var(--c-border);font-size:11px}
+
+.bp-top-strip{background:#003087;color:#fff;font-size:12px;padding:6px 28px;display:flex;gap:22px;align-items:center}
+.bp-top-strip a{cursor:pointer;opacity:.95}
+.bp-top-strip a:hover{text-decoration:underline}
+.bp-top-strip .bp-loc{margin-left:auto;display:inline-flex;align-items:center;gap:6px;opacity:.95}
+.bp-header{background:var(--c-primary);color:#fff;padding:12px 28px;display:flex;align-items:center;gap:18px}
+.bp-logo{position:relative;display:inline-block;color:#fff;font-weight:900;font-family:Arial,Helvetica,sans-serif;font-size:18px;letter-spacing:-.02em;line-height:.95;cursor:pointer;padding:2px 12px 8px 2px}
+.bp-logo .bp-logo-text{display:block;text-align:left}
+.bp-logo .bp-logo-tag{position:absolute;right:-2px;bottom:0;width:18px;height:9px;background:var(--c-accent);border-radius:1px;box-shadow:0 0 0 1px rgba(0,0,0,.06)}
+.bp-menu{color:#fff;display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;cursor:pointer;padding:6px 8px}
+.bp-menu .bp-burger{display:inline-flex;flex-direction:column;gap:3px}
+.bp-menu .bp-burger span{display:block;width:18px;height:2px;background:#fff;border-radius:1px}
+.bp-search{flex:1;max-width:none;display:flex;align-items:center;background:#fff;border-radius:4px;padding:0 6px 0 14px;height:42px;box-shadow:0 0 0 1px rgba(0,0,0,.04)}
+.bp-search input{flex:1;border:none;outline:none;font-size:14px;color:#1a1a1a;background:transparent}
+.bp-search button{border:none;background:transparent;color:#1a1a1a;cursor:pointer;font-size:0;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:3px}
+.bp-search button svg{width:18px;height:18px}
+.bp-search button:hover{background:#f1f2f4}
+.bp-util{display:flex;gap:18px;align-items:center;color:#fff;font-size:13px;font-weight:700}
+.bp-util a{cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.bp-util a:hover{text-decoration:underline}
+.bp-util .bp-cart{position:relative}
+.bp-util .bp-cart .bp-cart-dot{position:absolute;top:-6px;right:-8px;background:var(--c-accent);color:#1a1a1a;font-size:10px;min-width:14px;height:14px;line-height:14px;text-align:center;border-radius:8px;padding:0 3px;font-weight:800}
+.bp-subnav{background:var(--c-primary);border-top:1px solid #003a98;color:#fff;display:flex;gap:28px;padding:10px 28px;font-size:13px;font-weight:600}
+.bp-subnav a{cursor:pointer;opacity:.95}
+.bp-subnav a:hover{text-decoration:underline}
+.bp-subnav .bp-spacer{flex:1}
+.bp-subnav .bp-subnav-right{display:flex;gap:26px}
+
+/* Open-Box ribbon on cards — Best Buy outlet motif */
+.result-card{position:relative}
+.result-ribbon{position:absolute;top:10px;left:10px;background:var(--c-accent);color:#1a1a1a;font-size:10px;font-weight:800;letter-spacing:.04em;padding:3px 7px;border-radius:2px;text-transform:uppercase;z-index:2;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.result-was{color:var(--c-muted);font-size:12px;text-decoration:line-through;margin-right:6px}
+.result-save{color:#0a8a3a;font-size:11px;font-weight:700;margin-left:6px}
+
+.result-thumb{width:100%;height:140px;background:#f0f0f0;border-radius:6px;margin-bottom:10px;display:block}
+.result-body{display:flex;flex-direction:column;flex:1}
+.result-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.result-tag{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--c-panel);color:var(--c-muted);font-weight:600;letter-spacing:.02em}
+.result-tag.ship{background:#e6f7ed;color:#136f31}
+.result-tag.stock{background:#eef3ff;color:var(--c-primary)}
+</style></head><body><div class="bp-top-strip"><a>EchoYard</a><a>EchoTech Outlet</a><a>EchoTech Business</a><a>EchoTech Health</a><span class="bp-loc">📍 St. Cloud, MN · 55301</span></div><div class="bp-header"><div class="bp-logo"><span class="bp-logo-text">EchoTech</span><span class="bp-logo-tag"></span></div><div class="bp-menu"><span class="bp-burger"><span></span><span></span><span></span></span>Menu</div><div class="bp-search"><input placeholder="Search EchoTech"><button aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="20" y1="20" x2="16.5" y2="16.5"></line></svg></button></div><div class="bp-util"><a>Recently Viewed</a><a>Order Status</a><a>Saved Items</a><a class="bp-cart" title="Cart">🛒 Cart<span class="bp-cart-dot">0</span></a></div></div><div class="bp-subnav"><a>Gift Ideas</a><a>Top Deals</a><a>Deal of the Day</a><a>My EchoTech Memberships</a><a>Credit Cards</a><a>Gift Cards</a><span class="bp-spacer"></span><div class="bp-subnav-right"><a>Outlet Deals</a><a>Help</a></div></div><div class="crumb"><a>EchoTech</a><span class="crumb-sep">›</span><a>TV &amp; Home Theater</a><span class="crumb-sep">›</span><a>Televisions</a><span class="crumb-sep">›</span><a>Samsung TVs</a><span class="crumb-sep">›</span><b>Samsung 8K TVs</b></div><div class="main-grid"><aside class="filter-aside"><div class="fa-title"><h3>Filter results</h3><a onclick="lsReset(event)">Clear all</a></div><div class="f-section"><div class="facet-head"><h4>Brand</h4><a class="facet-clear" onclick="clearFacet(this,'brand')">Clear</a></div><label class="cb cb-row"><span><input type="checkbox" data-facet="brand" value="Samsung" onchange="onF()"> Samsung</span><span class="cnt">(8)</span></label><label class="cb cb-row"><span><input type="checkbox" data-facet="brand" value="LG" onchange="onF()"> LG</span><span class="cnt">(3)</span></label><label class="cb cb-row"><span><input type="checkbox" data-facet="brand" value="Sony" onchange="onF()"> Sony</span><span class="cnt">(3)</span></label><label class="cb cb-row"><span><input type="checkbox" data-facet="brand" value="TCL" onchange="onF()"> TCL</span><span class="cnt">(2)</span></label><label class="cb cb-row"><span><input type="checkbox" data-facet="brand" value="Vizio" onchange="onF()"> Vizio</span><span class="cnt">(2)</span></label><label class="cb cb-row"><span><input type="checkbox" data-facet="brand" value="Hisense" onchange="onF()"> Hisense</span><span class="cnt">(2)</span></label></div><div class="f-section"><div class="facet-head"><h4>Condition</h4><a class="facet-clear" onclick="clearFacet(this,'condition')">Clear</a></div><label class="cb cb-row"><span><input type="checkbox" data-facet="condition" value="New" onchange="onF()"> New</span><span class="cnt">(5)</span></label><label class="cb cb-row"><span><input type="checkbox" data-facet="condition" value="Open-Box" onchange="onF()"> Open-Box</span><span class="cnt">(10)</span></label><label class="cb cb-row"><span><input type="checkbox" data-facet="condition" value="Refurbished" onchange="onF()"> Refurbished</span><span class="cnt">(3)</span></label><label class="cb cb-row"><span><input type="checkbox" data-facet="condition" value="Pre-Owned" onchange="onF()"> Pre-Owned</span><span class="cnt">(2)</span></label></div><div class="f-section"><div class="facet-head"><h4>Resolution</h4><a class="facet-clear" onclick="clearFacet(this,'color')">Clear</a></div><label class="cb cb-row"><span><input type="checkbox" data-facet="color" value="8K" onchange="onF()"> 8K</span><span class="cnt">(6)</span></label><label class="cb cb-row"><span><input type="checkbox" data-facet="color" value="4K" onchange="onF()"> 4K</span><span class="cnt">(13)</span></label><label class="cb cb-row"><span><input type="checkbox" data-facet="color" value="1080p" onchange="onF()"> 1080p</span><span class="cnt">(1)</span></label></div><div class="f-section"><div class="facet-head"><h4>Screen Size</h4><a class="facet-clear" onclick="clearFacet(this,'category')">Clear</a></div><label class="cb cb-row"><span><input type="checkbox" data-facet="category" value="55-64&quot;" onchange="onF()"> 55-64&quot;</span><span class="cnt">(2)</span></label><label class="cb cb-row"><span><input type="checkbox" data-facet="category" value="65-74&quot;" onchange="onF()"> 65-74&quot;</span><span class="cnt">(5)</span></label><label class="cb cb-row"><span><input type="checkbox" data-facet="category" value="75-84&quot;" onchange="onF()"> 75-84&quot;</span><span class="cnt">(8)</span></label><label class="cb cb-row"><span><input type="checkbox" data-facet="category" value="85&quot;+" onchange="onF()"> 85&quot;+</span><span class="cnt">(5)</span></label></div><div class="f-section"><label class="strict-row"><span class="strict-lbl">Match condition exactly</span><input type="checkbox" data-facet="exact_match" value="1" onchange="onF()"></label><div class="strict-help">Show only items whose condition is exactly one of the checked values (e.g. Open-Box ≠ Refurbished).</div></div></aside><section class="results-area"><div class="results-header"><h1>Samsung 8K TVs</h1><span class="results-sub">Showing 20 results · Open-Box, Refurbished, and New</span><div class="results-tools"><select class="sort-dd"><option>Sort: Best match</option><option>Price: Low to High</option><option>Price: High to Low</option><option>Newest</option><option>Top rated</option></select><div class="view-toggle"><button class="active">Grid</button><button>List</button></div></div></div><span class="results-count" id="result-count" style="display:none">20 results</span><div class="active-chips" id="active-chips"></div><div class="result-grid" id="result-grid"><div class="result-card"><span class="result-ribbon" style="background:#ffe000;color:#1a1a1a">Open-Box</span>
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/7214174/pexels-photo-7214174.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">Samsung</div>
+        <div class="result-name">Samsung QN900F 75&quot; Neo QLED 8K</div>
+        <div class="result-meta">75-84&quot;</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★⯨</span> <span>4.8</span> <span class="result-reviews">(184)</span></div>
+        <div class="result-price-row"><span class="result-was">$4,209</span><span class="result-price">$3,999</span><span class="result-save">Save $210</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card"><span class="result-ribbon" style="background:#ffe000;color:#1a1a1a">Open-Box</span>
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/5207508/pexels-photo-5207508.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">Samsung</div>
+        <div class="result-name">Samsung QN990F 85&quot; Neo QLED 8K</div>
+        <div class="result-meta">85&quot;+</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★⯨</span> <span>4.7</span> <span class="result-reviews">(321)</span></div>
+        <div class="result-price-row"><span class="result-was">$6,110</span><span class="result-price">$5,499</span><span class="result-save">Save $611</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card"><span class="result-ribbon" style="background:#ffe000;color:#1a1a1a">Open-Box</span>
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/5207514/pexels-photo-5207514.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">Samsung</div>
+        <div class="result-name">Samsung QN800D 65&quot; 8K AI Upscale</div>
+        <div class="result-meta">65-74&quot;</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★⯨</span> <span>4.6</span> <span class="result-reviews">(458)</span></div>
+        <div class="result-price-row"><span class="result-was">$3,292</span><span class="result-price">$2,799</span><span class="result-save">Save $493</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag ">Prime</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card"><span class="result-ribbon" style="background:#1a1a1a;color:#fff">Refurbished</span>
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/14715808/pexels-photo-14715808.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">Samsung</div>
+        <div class="result-name">Samsung QN900D 75&quot; 8K (refurb)</div>
+        <div class="result-meta">75-84&quot;</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★☆</span> <span>4.4</span> <span class="result-reviews">(595)</span></div>
+        <div class="result-price-row"><span class="result-price">$3,299</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card"><span class="result-ribbon" style="background:#ffe000;color:#1a1a1a">Open-Box</span>
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/7587735/pexels-photo-7587735.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">Samsung</div>
+        <div class="result-name">Samsung Q80C 85&quot; Neo QLED 4K</div>
+        <div class="result-meta">85&quot;+</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★⯨</span> <span>4.5</span> <span class="result-reviews">(732)</span></div>
+        <div class="result-price-row"><span class="result-was">$2,420</span><span class="result-price">$2,299</span><span class="result-save">Save $121</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card">
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/7587777/pexels-photo-7587777.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">Samsung</div>
+        <div class="result-name">Samsung QN95B 65&quot; Neo QLED 4K New</div>
+        <div class="result-meta">65-74&quot;</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★⯨</span> <span>4.7</span> <span class="result-reviews">(869)</span></div>
+        <div class="result-price-row"><span class="result-was">$2,110</span><span class="result-price">$1,899</span><span class="result-save">Save $211</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag ">Prime</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card"><span class="result-ribbon" style="background:#ffe000;color:#1a1a1a">Open-Box</span>
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/5202925/pexels-photo-5202925.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">LG</div>
+        <div class="result-name">LG OLED77G3 77&quot; Gallery OLED 4K</div>
+        <div class="result-meta">75-84&quot;</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★⯨</span> <span>4.8</span> <span class="result-reviews">(1,006)</span></div>
+        <div class="result-price-row"><span class="result-was">$3,292</span><span class="result-price">$2,799</span><span class="result-save">Save $493</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card"><span class="result-ribbon" style="background:#1a1a1a;color:#fff">Refurbished</span>
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/5202917/pexels-photo-5202917.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">LG</div>
+        <div class="result-name">LG QNED 85&quot; 8K Mini-LED</div>
+        <div class="result-meta">85&quot;+</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★☆</span> <span>4.3</span> <span class="result-reviews">(1,143)</span></div>
+        <div class="result-price-row"><span class="result-price">$3,199</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card"><span class="result-ribbon" style="background:#ffe000;color:#1a1a1a">Open-Box</span>
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/7511701/pexels-photo-7511701.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">Sony</div>
+        <div class="result-name">Sony Bravia XR-75Z9K 75&quot; 8K</div>
+        <div class="result-meta">75-84&quot;</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★⯨</span> <span>4.5</span> <span class="result-reviews">(1,280)</span></div>
+        <div class="result-price-row"><span class="result-was">$4,735</span><span class="result-price">$4,499</span><span class="result-save">Save $236</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag ">Prime</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card">
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/6487954/pexels-photo-6487954.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">Sony</div>
+        <div class="result-name">Sony Bravia 65&quot; 4K New</div>
+        <div class="result-meta">65-74&quot;</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★⯨</span> <span>4.7</span> <span class="result-reviews">(1,417)</span></div>
+        <div class="result-price-row"><span class="result-was">$1,665</span><span class="result-price">$1,499</span><span class="result-save">Save $166</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card"><span class="result-ribbon" style="background:#ffe000;color:#1a1a1a">Open-Box</span>
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/14715808/pexels-photo-14715808.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">TCL</div>
+        <div class="result-name">TCL QM851 75&quot; 4K Mini-LED</div>
+        <div class="result-meta">75-84&quot;</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★☆</span> <span>4.2</span> <span class="result-reviews">(1,554)</span></div>
+        <div class="result-price-row"><span class="result-was">$1,410</span><span class="result-price">$1,199</span><span class="result-save">Save $211</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card"><span class="result-ribbon" style="background:#6b7280;color:#fff">Pre-Owned</span>
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/28850990/pexels-photo-28850990.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">TCL</div>
+        <div class="result-name">TCL 55-S5 55&quot; 4K Roku TV</div>
+        <div class="result-meta">55-64&quot;</div>
+        <div class="result-rating-row"><span class="result-stars">★★★⯨☆</span> <span>3.9</span> <span class="result-reviews">(1,691)</span></div>
+        <div class="result-price-row"><span class="result-price">$299</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag ">Prime</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card"><span class="result-ribbon" style="background:#ffe000;color:#1a1a1a">Open-Box</span>
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/10486182/pexels-photo-10486182.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">Vizio</div>
+        <div class="result-name">Vizio M-Series 65&quot; 4K Smart TV</div>
+        <div class="result-meta">65-74&quot;</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★☆</span> <span>4.1</span> <span class="result-reviews">(1,828)</span></div>
+        <div class="result-price-row"><span class="result-was">$577</span><span class="result-price">$549</span><span class="result-save">Save $28</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card">
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/6020432/pexels-photo-6020432.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">Vizio</div>
+        <div class="result-name">Vizio P-Series 75&quot; 4K QLED</div>
+        <div class="result-meta">75-84&quot;</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★☆</span> <span>4.4</span> <span class="result-reviews">(1,965)</span></div>
+        <div class="result-price-row"><span class="result-was">$1,332</span><span class="result-price">$1,199</span><span class="result-save">Save $133</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card"><span class="result-ribbon" style="background:#ffe000;color:#1a1a1a">Open-Box</span>
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/6487954/pexels-photo-6487954.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">Hisense</div>
+        <div class="result-name">Hisense U8K 85&quot; Mini-LED 4K</div>
+        <div class="result-meta">85&quot;+</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★⯨</span> <span>4.5</span> <span class="result-reviews">(2,102)</span></div>
+        <div class="result-price-row"><span class="result-was">$2,116</span><span class="result-price">$1,799</span><span class="result-save">Save $317</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag ">Prime</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card">
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/7546602/pexels-photo-7546602.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">Hisense</div>
+        <div class="result-name">Hisense 110UX 110&quot; ULED 4K</div>
+        <div class="result-meta">85&quot;+</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★⯨</span> <span>4.6</span> <span class="result-reviews">(2,239)</span></div>
+        <div class="result-price-row"><span class="result-price">$14,999</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card"><span class="result-ribbon" style="background:#1a1a1a;color:#fff">Refurbished</span>
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/4009409/pexels-photo-4009409.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">Samsung</div>
+        <div class="result-name">Samsung Crystal 55&quot; 1080p</div>
+        <div class="result-meta">55-64&quot;</div>
+        <div class="result-rating-row"><span class="result-stars">★★★⯨☆</span> <span>3.8</span> <span class="result-reviews">(2,376)</span></div>
+        <div class="result-price-row"><span class="result-was">$262</span><span class="result-price">$249</span><span class="result-save">Save $13</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card">
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/12718842/pexels-photo-12718842.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">LG</div>
+        <div class="result-name">LG NanoCell 75&quot; 4K</div>
+        <div class="result-meta">75-84&quot;</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★☆</span> <span>4.3</span> <span class="result-reviews">(2,513)</span></div>
+        <div class="result-price-row"><span class="result-was">$1,221</span><span class="result-price">$1,099</span><span class="result-save">Save $122</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag ">Prime</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card"><span class="result-ribbon" style="background:#6b7280;color:#fff">Pre-Owned</span>
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/6987728/pexels-photo-6987728.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">Sony</div>
+        <div class="result-name">Sony X90L 65&quot; 4K Bravia</div>
+        <div class="result-meta">65-74&quot;</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★☆</span> <span>4.0</span> <span class="result-reviews">(2,650)</span></div>
+        <div class="result-price-row"><span class="result-was">$940</span><span class="result-price">$799</span><span class="result-save">Save $141</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div><div class="result-card"><span class="result-ribbon" style="background:#ffe000;color:#1a1a1a">Open-Box</span>
+      <div class="result-thumb" style="background-image:url('https://images.pexels.com/photos/13806260/pexels-photo-13806260.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+      <div class="result-body">
+        <div class="result-brand">Samsung</div>
+        <div class="result-name">Samsung S95C 77&quot; QD-OLED 4K</div>
+        <div class="result-meta">75-84&quot;</div>
+        <div class="result-rating-row"><span class="result-stars">★★★★⯨</span> <span>4.9</span> <span class="result-reviews">(2,787)</span></div>
+        <div class="result-price-row"><span class="result-price">$2,999</span></div>
+        <div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag stock">In Stock</span></div>
+        <button class="result-cta">Add to Cart</button>
+      </div>
+    </div></div><nav class="pagination"><button>‹ Prev</button><button class="active">1</button><button>2</button><button>3</button><button>Next ›</button></nav></section></div><footer class="site-footer"><div class="site-footer-row"><div class="site-footer-col"><h5>About EchoTech</h5><a>Company info</a><a>Careers</a><a>Investor relations</a><a>Sustainability</a></div><div class="site-footer-col"><h5>Customer Service</h5><a>Help Center</a><a>Track Orders</a><a>Returns & Exchanges</a><a>Contact Us</a></div><div class="site-footer-col"><h5>EchoTech Stores</h5><a>Find a store</a><a>Store events</a><a>In-store services</a><a>Recycling</a></div><div class="site-footer-col"><h5>Account</h5><a>Sign in</a><a>Order status</a><a>My EchoTech Memberships</a><a>Credit cards</a></div></div><div class="site-footer-bottom"><span>© 2026 EchoTech. All rights reserved.</span><span class="sf-spacer"></span><span>Privacy · Terms · Cookie Preferences</span><div class="sf-social"><a>f</a><a>𝕏</a><a>◉</a><a>▶</a></div></div></footer><script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
+const ENV_ID = 'W24_E01';
+let filterState = {};
+
+function onF() { applyFilters(); }
+
+function applyFilters() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) {
+        if (!newState[f]) newState[f] = [];
+        newState[f].push(el.value || el.dataset.val || '1');
+      }
+    }
+  });
+  filterState = newState;
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    updateResults(data.results || [], data.html_cards);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length + ' results';
+    renderActiveChips();
+  }).catch(()=>{});
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: '', task_id: taskId})
+  }).catch(()=>{});
+}
+
+function lsReset(ev) {
+  if (ev) { ev.stopPropagation(); ev.preventDefault(); }
+  document.querySelectorAll('[data-facet]').forEach(el => { if (el.type === 'checkbox') el.checked = false; });
+  applyFilters();
+}
+
+function updateResults(results, htmlCards) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:48px;color:#999">No results match your filters.</div>';
+    return;
+  }
+  if (htmlCards) {
+    grid.innerHTML = htmlCards;
+    attachConditionRibbons(results);
+    return;
+  }
+  grid.innerHTML = results.map(r => {
+    const initial = (r.title || '?').charAt(0);
+    const priceLine = (r.price && r.price > 0) ? ('$' + r.price.toLocaleString()) : '';
+    const thumb = r.image_url
+      ? '<img class="result-thumb-img" loading="lazy" src="' + escapeHtmlText(r.image_url) + '" alt="' + (escapeHtmlText(r.image_alt || r.title || '')) + '">'
+      : '<div class="result-thumb">' + escapeHtmlText(initial) + '</div>';
+    const cond = (r.condition || '').toLowerCase();
+    let ribbon = '';
+    if (cond === 'open-box') ribbon = '<span class="result-ribbon" style="background:#ffe000;color:#1a1a1a">Open-Box</span>';
+    else if (cond === 'refurbished') ribbon = '<span class="result-ribbon" style="background:#1a1a1a;color:#fff">Refurbished</span>';
+    else if (cond === 'pre-owned') ribbon = '<span class="result-ribbon" style="background:#6b7280;color:#fff">Pre-Owned</span>';
+    return '<div class="result-card">' + ribbon + thumb +
+      '<div class="result-body">' +
+      '<div class="result-brand">' + escapeHtmlText(r.brand || '') + '</div>' +
+      '<div class="result-name">' + escapeHtmlText(r.title || '') + '</div>' +
+      '<div class="result-meta">' + escapeHtmlText(r.category || '') + ' · ' + escapeHtmlText(r.condition || '') + '</div>' +
+      '<div class="result-rating-row">★ ' + escapeHtmlText(r.rating || '—') + '</div>' +
+      '<div class="result-price-row"><span class="result-price">' + escapeHtmlText(priceLine) + '</span></div>' +
+      '<div class="result-tags"><span class="result-tag ship">FREE Shipping</span><span class="result-tag stock">In Stock</span></div>' +
+      '<button class="result-cta">Add to Cart</button>' +
+      '</div></div>';
+  }).join('');
+}
+
+function attachConditionRibbons(results) {
+  const cards = document.querySelectorAll('#result-grid .result-card');
+  cards.forEach((card, i) => {
+    const r = results[i];
+    if (!r) return;
+    const cond = (r.condition || '').toLowerCase();
+    let bg = '', fg = '', label = '';
+    if (cond === 'open-box')      { bg = '#ffe000'; fg = '#1a1a1a'; label = 'Open-Box'; }
+    else if (cond === 'refurbished') { bg = '#1a1a1a'; fg = '#fff'; label = 'Refurbished'; }
+    else if (cond === 'pre-owned')   { bg = '#6b7280'; fg = '#fff'; label = 'Pre-Owned'; }
+    else return;
+    const existing = card.querySelector('.result-ribbon');
+    if (existing) existing.remove();
+    const span = document.createElement('span');
+    span.className = 'result-ribbon';
+    span.style.background = bg;
+    span.style.color = fg;
+    span.textContent = label;
+    card.insertBefore(span, card.firstChild);
+  });
+}
+
+function renderActiveChips() {
+  const bar = document.getElementById('active-chips');
+  if (!bar) return;
+  const chips = [];
+  for (const [k, v] of Object.entries(filterState)) {
+    if (Array.isArray(v)) v.forEach(val => chips.push(val));
+    else chips.push(v);
+  }
+  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+escapeHtmlText(c)+'</span>').join('');
+}
+
+function clearFacet(a, facet) {
+  const sec = a.closest('.f-section');
+  if (!sec) return;
+  sec.querySelectorAll('input[type=checkbox][data-facet="' + facet + '"]').forEach(i => i.checked = false);
+  onF();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  applyFilters();
+});
+</script></body></html>

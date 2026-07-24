@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "calc_type": "college savings \u2014 newborn, just-opened 529 plan targeting a state flagship",
+    "scenario": "newborn, just-opened 529 plan targeting a state flagship",
+    "child_age_default": 0,
+    "start_age_default": 18,
+    "default_inputs": {
+      "tuition": 25000,
+      "room_board": 13000,
+      "years": 18,
+      "income": 80000,
+      "inflation": 5,
+      "current_savings": 0,
+      "monthly_contributions": 100,
+      "rate_of_return": 7
+    },
+    "site": "Office of Financial Readiness (finred.usalearning.gov) College Savings Calculator"
+  }
+]

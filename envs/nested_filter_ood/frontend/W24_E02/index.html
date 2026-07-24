@@ -1,0 +1,255 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Men's Blazers — EchoWear</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{font-family:'Helvetica Neue','Hiragino Kaku Gothic Pro',Arial,sans-serif;background:#fff;color:#1a1a1a;font-size:13px;line-height:1.45}
+a{color:inherit;text-decoration:none;cursor:pointer}button{font-family:inherit}
+.live-status,.task-banner,.fara-source,.fara-banner,[data-debug="1"]{display:none!important}
+
+/* ==== Uniqlo-style top bar ==== */
+.uq-utility{background:#000;color:#fff;font-size:11px;padding:6px 24px;display:flex;gap:18px;align-items:center;letter-spacing:.02em}
+.uq-utility a{opacity:.85;cursor:pointer}.uq-utility a:hover{opacity:1;text-decoration:underline}
+.uq-utility .uq-util-spacer{flex:1}
+.uq-header{background:#fff;padding:10px 24px;display:flex;align-items:center;gap:22px;border-bottom:1px solid #f1f1f1}
+.uq-logo{display:inline-flex;flex-direction:column;justify-content:center;align-items:center;width:52px;height:52px;background:#ff0000;color:#fff;font-family:'Helvetica Neue',Arial Black,sans-serif;font-weight:900;font-size:13px;line-height:1.05;letter-spacing:.04em;border-radius:2px;text-align:center;padding:6px 0}
+.uq-logo b{display:block;font-weight:900}
+.uq-nav{display:flex;gap:26px;font-size:14px;font-weight:700;letter-spacing:.02em}
+.uq-nav a{position:relative;padding:6px 2px;color:#1a1a1a}
+.uq-nav a:hover{color:#ff0000}
+.uq-nav a.active{color:#1a1a1a}
+.uq-nav a.active:after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;background:#1a1a1a}
+.uq-search{margin-left:auto;display:flex;align-items:center;border:1px solid #e3e3e3;border-radius:28px;padding:8px 18px;background:#f5f5f5;min-width:360px}
+.uq-search .mg{font-size:14px;color:#888;margin-right:8px}
+.uq-search input{border:none;outline:none;background:transparent;flex:1;font-size:13px;color:#1a1a1a}
+.uq-icons{display:flex;gap:16px;font-size:18px;color:#1a1a1a;align-items:center}
+.uq-icons a{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;transition:background .1s}
+.uq-icons a:hover{color:#ff0000;background:#f5f5f5}
+.uq-redbar{background:#ff0000;color:#fff;padding:8px 32px;font-size:12px;display:flex;align-items:center;justify-content:center;gap:30px;font-weight:600}
+
+/* breadcrumb */
+.crumb{padding:14px 32px;font-size:11px;color:#666;background:#fff;border-bottom:1px solid #f0f0f0}
+.crumb a:hover{color:#ff0000;text-decoration:underline}.crumb .sep{margin:0 6px;color:#bbb}
+.crumb b{color:#000;font-weight:600}
+
+/* sticky exact-match banner — styled like a Uniqlo filter tip */
+.strict-banner{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #ececec;padding:9px 32px;display:flex;align-items:center;gap:14px;font-size:12px;box-shadow:0 1px 0 rgba(0,0,0,.02)}
+.strict-banner .sb-icon{width:20px;height:20px;background:#ff0000;color:#fff;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:11px}
+.strict-banner .sb-text{font-weight:700;color:#1a1a1a;letter-spacing:.01em}
+.strict-banner .sb-help{color:#777;font-size:11px}
+.strict-banner .sb-toggle{margin-left:auto;display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:700;color:#1a1a1a;cursor:pointer}
+.strict-banner .sb-toggle input{appearance:none;position:relative;width:36px;height:20px;background:#dadada;border-radius:10px;cursor:pointer;outline:none;transition:background .15s}
+.strict-banner .sb-toggle input:before{content:"";position:absolute;left:2px;top:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:left .15s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.strict-banner .sb-toggle input:checked{background:#ff0000}
+.strict-banner .sb-toggle input:checked:before{left:18px}
+.strict-indicator{padding:3px 9px;border:1px solid #ddd;border-radius:10px;font-size:10px;color:#999;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.strict-indicator.on{background:#ff0000;color:#fff;border-color:#ff0000}
+
+/* layout */
+.main-grid{display:grid;grid-template-columns:240px 1fr;gap:28px;padding:24px 32px 40px;max-width:1400px;margin:0 auto}
+
+/* sidebar w/ two-column checkbox grid */
+.filter-aside{}
+.fa-title{display:flex;justify-content:space-between;align-items:center;margin:0 0 16px;padding-bottom:10px;border-bottom:2px solid #1a1a1a}
+.fa-title h3{margin:0;font-size:14px;font-weight:800;letter-spacing:.02em;text-transform:uppercase}
+.fa-title a{font-size:11px;color:#ff0000;font-weight:600}
+.uq-facet{margin-bottom:22px}
+.uq-facet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+.uq-facet-head h4{margin:0;font-size:12px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;color:#1a1a1a}
+.uq-clear{font-size:10px;color:#ff0000;font-weight:600;text-decoration:underline;cursor:pointer}
+.uq-cb-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 8px}
+.uq-cb{display:flex;align-items:center;gap:6px;padding:5px 7px;border:1px solid #e6e6e6;border-radius:3px;cursor:pointer;font-size:12px;background:#fff;transition:border-color .12s}
+.uq-cb:hover{border-color:#ff0000}
+.uq-cb input[type=checkbox]{accent-color:#ff0000;width:13px;height:13px;margin:0;flex-shrink:0}
+.uq-cb input[type=checkbox]:checked + .uq-cb-lbl{font-weight:700;color:#ff0000}
+.uq-cb-lbl{flex:1}
+
+/* results */
+.results-area{}
+.results-header{display:flex;align-items:flex-end;flex-wrap:wrap;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #e6e6e6}
+.results-header h1{margin:0;font-size:28px;font-weight:800;letter-spacing:-.01em;line-height:1.1}
+.results-sub{display:block;width:100%;color:#777;font-size:12px;margin-top:6px}
+.results-tools{margin-left:auto;display:flex;gap:10px;align-items:center}
+.sort-dd{padding:7px 14px;border:1px solid #ddd;border-radius:3px;font-size:12px;background:#fff;font-weight:600}
+.view-toggle{display:inline-flex;border:1px solid #ddd;border-radius:3px;overflow:hidden}
+.view-toggle button{padding:6px 10px;background:#fff;border:none;cursor:pointer;font-size:12px}
+.view-toggle button.active{background:#1a1a1a;color:#fff}
+.active-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.active-chip{background:#fff;color:#ff0000;border:1px solid #ff0000;padding:3px 10px;border-radius:2px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:24px 14px}
+.result-card{background:#fff;display:flex;flex-direction:column;cursor:pointer;transition:transform .12s}
+.result-card:hover{transform:translateY(-2px)}
+.result-card:hover .result-thumb-img{filter:brightness(.97)}
+.result-thumb-img,.result-thumb{width:100%;height:260px;object-fit:cover;background:#f4f4f4;display:block;border-radius:1px}
+.result-thumb{display:flex;align-items:center;justify-content:center;font-size:48px;color:#bbb}
+.result-body{padding:10px 2px 0}
+.result-brand{font-size:10px;color:#999;text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.result-name{font-size:13px;font-weight:500;margin:5px 0 5px;line-height:1.3;min-height:34px;color:#1a1a1a}
+.result-meta{font-size:11px;color:#888;margin-bottom:4px}
+.result-rating-row{font-size:11px;color:#ff0000;margin-bottom:2px}
+.result-price-row{margin-top:6px}
+.result-price{font-weight:800;font-size:15px;color:#1a1a1a}
+.no-results{grid-column:1/-1;text-align:center;padding:64px;color:#999;font-size:14px}
+.pagination{display:flex;gap:6px;justify-content:center;margin-top:32px}
+.pagination button{padding:6px 14px;background:#fff;border:1px solid #ddd;cursor:pointer;font-size:12px;font-weight:600}
+.pagination button.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+
+/* footer */
+.uq-footer{background:#fafafa;color:#666;font-size:11px;margin-top:48px;padding:36px 32px 24px;border-top:1px solid #eee}
+.uq-footer-row{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;max-width:1400px;margin:0 auto}
+.uq-footer-col h5{margin:0 0 10px;color:#1a1a1a;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.uq-footer-col a{display:block;padding:3px 0;color:#666}
+.uq-footer-col a:hover{color:#ff0000}
+.uq-footer-bottom{max-width:1400px;margin:24px auto 0;padding-top:16px;border-top:1px solid #ddd;display:flex;gap:12px;font-size:10px;color:#999}
+</style></head><body>
+<div class="uq-utility"><a>STORE LOCATOR</a><a>MEMBERSHIP</a><a>HELP</a><span class="uq-util-spacer"></span><a>EN | JP</a><a>Sign In</a></div>
+<header class="uq-header">
+  <div class="uq-logo"><b>EchoWear</b></div>
+  <nav class="uq-nav"><a>WOMEN</a><a class="active">MEN</a><a>KIDS</a><a>BABY</a><a>SPORT</a><a>HOME</a><a>SALE</a></nav>
+  <div class="uq-search"><span class="mg">🔍</span><input placeholder="Search products, styles, items…"></div>
+  <div class="uq-icons"><a title="Wishlist">♡</a><a title="Account">👤</a><a title="Bag">🛍</a><a title="Menu">☰</a></div>
+</header>
+<div class="uq-redbar">FREE SHIPPING ON ORDERS $99+ · NEW SEASON DROPPING WEEKLY · MEMBERS GET EARLY ACCESS</div>
+
+<div class="strict-banner">
+  <span class="sb-icon">!</span>
+  <span class="sb-text">Strict match mode</span>
+  <span class="sb-help">Tap to keep results literal — selected size/color won't broaden.</span>
+  <label class="sb-toggle">
+    <span class="strict-indicator">Exact match: off</span>
+    <input type="checkbox" data-facet="exact_match" value="1" onchange="onF()">
+  </label>
+</div>
+
+<div class="crumb"><a>EchoWear</a><span class="sep">›</span><a>Men</a><span class="sep">›</span><a>Outerwear</a><span class="sep">›</span><b>Blazers</b></div>
+
+<div class="main-grid">
+  <aside class="filter-aside">
+    <div class="fa-title"><h3>Refine</h3><a onclick="lsReset(event)">Reset all</a></div>
+    <div class="f-section uq-facet"><div class="uq-facet-head"><h4>Gender</h4><a class="uq-clear" onclick="clearFacet(this,'brand')">Clear</a></div><div class="uq-cb-grid"><label class="uq-cb"><input type="checkbox" data-facet="brand" value="Men" onchange="onF()"><span class="uq-cb-lbl">Men</span></label><label class="uq-cb"><input type="checkbox" data-facet="brand" value="Women" onchange="onF()"><span class="uq-cb-lbl">Women</span></label><label class="uq-cb"><input type="checkbox" data-facet="brand" value="Kids" onchange="onF()"><span class="uq-cb-lbl">Kids</span></label><label class="uq-cb"><input type="checkbox" data-facet="brand" value="Baby" onchange="onF()"><span class="uq-cb-lbl">Baby</span></label></div></div><div class="f-section uq-facet"><div class="uq-facet-head"><h4>Category</h4><a class="uq-clear" onclick="clearFacet(this,'category')">Clear</a></div><div class="uq-cb-grid"><label class="uq-cb"><input type="checkbox" data-facet="category" value="Blazers" onchange="onF()"><span class="uq-cb-lbl">Blazers</span></label><label class="uq-cb"><input type="checkbox" data-facet="category" value="Sweaters &amp; Cardigans" onchange="onF()"><span class="uq-cb-lbl">Sweaters &amp; Cardigans</span></label><label class="uq-cb"><input type="checkbox" data-facet="category" value="Outerwear" onchange="onF()"><span class="uq-cb-lbl">Outerwear</span></label><label class="uq-cb"><input type="checkbox" data-facet="category" value="Special Collaborations" onchange="onF()"><span class="uq-cb-lbl">Special Collaborations</span></label></div></div><div class="f-section uq-facet"><div class="uq-facet-head"><h4>Color</h4><a class="uq-clear" onclick="clearFacet(this,'color')">Clear</a></div><div class="uq-cb-grid"><label class="uq-cb"><input type="checkbox" data-facet="color" value="Black" onchange="onF()"><span class="uq-cb-lbl">Black</span></label><label class="uq-cb"><input type="checkbox" data-facet="color" value="Navy" onchange="onF()"><span class="uq-cb-lbl">Navy</span></label><label class="uq-cb"><input type="checkbox" data-facet="color" value="Beige" onchange="onF()"><span class="uq-cb-lbl">Beige</span></label><label class="uq-cb"><input type="checkbox" data-facet="color" value="Gray" onchange="onF()"><span class="uq-cb-lbl">Gray</span></label><label class="uq-cb"><input type="checkbox" data-facet="color" value="White" onchange="onF()"><span class="uq-cb-lbl">White</span></label><label class="uq-cb"><input type="checkbox" data-facet="color" value="Brown" onchange="onF()"><span class="uq-cb-lbl">Brown</span></label></div></div><div class="f-section uq-facet"><div class="uq-facet-head"><h4>Size</h4><a class="uq-clear" onclick="clearFacet(this,'condition')">Clear</a></div><div class="uq-cb-grid"><label class="uq-cb"><input type="checkbox" data-facet="condition" value="XS" onchange="onF()"><span class="uq-cb-lbl">XS</span></label><label class="uq-cb"><input type="checkbox" data-facet="condition" value="S" onchange="onF()"><span class="uq-cb-lbl">S</span></label><label class="uq-cb"><input type="checkbox" data-facet="condition" value="M" onchange="onF()"><span class="uq-cb-lbl">M</span></label><label class="uq-cb"><input type="checkbox" data-facet="condition" value="L" onchange="onF()"><span class="uq-cb-lbl">L</span></label><label class="uq-cb"><input type="checkbox" data-facet="condition" value="XL" onchange="onF()"><span class="uq-cb-lbl">XL</span></label><label class="uq-cb"><input type="checkbox" data-facet="condition" value="XXL" onchange="onF()"><span class="uq-cb-lbl">XXL</span></label></div></div>
+  </aside>
+  <section class="results-area">
+    <div class="results-header">
+      <h1>Men's Blazers</h1>
+      <span class="results-sub">Tailored fit · Slim · Modern essentials</span>
+      <div class="results-tools">
+        <select class="sort-dd"><option>Newest</option><option>Price: Low–High</option><option>Price: High–Low</option><option>Popular</option></select>
+        <div class="view-toggle"><button class="active">▦</button><button>≡</button></div>
+      </div>
+    </div>
+    <span id="result-count" style="display:none">20 results</span>
+    <div class="active-chips" id="active-chips"></div>
+    <div class="result-grid" id="result-grid"><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/3344787/pexels-photo-3344787.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="AirSense Blazer | Wool-Like"><div class="result-body"><div class="result-brand">Men</div><div class="result-name">AirSense Blazer | Wool-Like</div><div class="result-meta">Blazers · M</div><div class="result-rating-row">★ 4.4</div><div class="result-price-row"><span class="result-price">$79</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/8581033/pexels-photo-8581033.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="AirSense Blazer"><div class="result-body"><div class="result-brand">Men</div><div class="result-name">AirSense Blazer</div><div class="result-meta">Blazers · M</div><div class="result-rating-row">★ 4.7</div><div class="result-price-row"><span class="result-price">$99</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/36730422/pexels-photo-36730422.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="AirSense Houndstooth Blazer"><div class="result-body"><div class="result-brand">Men</div><div class="result-name">AirSense Houndstooth Blazer</div><div class="result-meta">Blazers · M</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price">$79</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/16390576/pexels-photo-16390576.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Relaxed Fit Tailored Jacket"><div class="result-body"><div class="result-brand">Men</div><div class="result-name">Relaxed Fit Tailored Jacket</div><div class="result-meta">Blazers · M</div><div class="result-rating-row">★ 4.3</div><div class="result-price-row"><span class="result-price">$49</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/8386641/pexels-photo-8386641.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Two-Way Stretch Blazer Slim"><div class="result-body"><div class="result-brand">Men</div><div class="result-name">Two-Way Stretch Blazer Slim</div><div class="result-meta">Blazers · M</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price">$89</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/29359867/pexels-photo-29359867.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Smart Ankle Suit Blazer"><div class="result-body"><div class="result-brand">Men</div><div class="result-name">Smart Ankle Suit Blazer</div><div class="result-meta">Blazers · L</div><div class="result-rating-row">★ 4.4</div><div class="result-price-row"><span class="result-price">$79</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/29359867/pexels-photo-29359867.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Smart Ankle Suit Blazer"><div class="result-body"><div class="result-brand">Men</div><div class="result-name">Smart Ankle Suit Blazer</div><div class="result-meta">Blazers · S</div><div class="result-rating-row">★ 4.4</div><div class="result-price-row"><span class="result-price">$79</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/5864245/pexels-photo-5864245.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Cotton Travel Blazer"><div class="result-body"><div class="result-brand">Men</div><div class="result-name">Cotton Travel Blazer</div><div class="result-meta">Blazers · M</div><div class="result-rating-row">★ 4.2</div><div class="result-price-row"><span class="result-price">$69</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/10112437/pexels-photo-10112437.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Wool Single Blazer (Men)"><div class="result-body"><div class="result-brand">Men</div><div class="result-name">Wool Single Blazer (Men)</div><div class="result-meta">Blazers · M</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price">$129</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/36395697/pexels-photo-36395697.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Linen Blend Blazer"><div class="result-body"><div class="result-brand">Men</div><div class="result-name">Linen Blend Blazer</div><div class="result-meta">Blazers · M</div><div class="result-rating-row">★ 4.0</div><div class="result-price-row"><span class="result-price">$59</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/9393922/pexels-photo-9393922.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Cropped Womens Blazer"><div class="result-body"><div class="result-brand">Women</div><div class="result-name">Cropped Womens Blazer</div><div class="result-meta">Blazers · M</div><div class="result-rating-row">★ 4.3</div><div class="result-price-row"><span class="result-price">$89</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/1488467/pexels-photo-1488467.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Soft Touch Womens Blazer"><div class="result-body"><div class="result-brand">Women</div><div class="result-name">Soft Touch Womens Blazer</div><div class="result-meta">Blazers · S</div><div class="result-rating-row">★ 4.2</div><div class="result-price-row"><span class="result-price">$79</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/30324804/pexels-photo-30324804.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Knit Blazer (Womens)"><div class="result-body"><div class="result-brand">Women</div><div class="result-name">Knit Blazer (Womens)</div><div class="result-meta">Blazers · M</div><div class="result-rating-row">★ 4.4</div><div class="result-price-row"><span class="result-price">$69</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/36395697/pexels-photo-36395697.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Pleated Wool Blazer (Womens)"><div class="result-body"><div class="result-brand">Women</div><div class="result-name">Pleated Wool Blazer (Womens)</div><div class="result-meta">Blazers · L</div><div class="result-rating-row">★ 4.5</div><div class="result-price-row"><span class="result-price">$99</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/30324804/pexels-photo-30324804.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Kids Soft Stretch Blazer"><div class="result-body"><div class="result-brand">Kids</div><div class="result-name">Kids Soft Stretch Blazer</div><div class="result-meta">Blazers · M</div><div class="result-rating-row">★ 4.1</div><div class="result-price-row"><span class="result-price">$39</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/30324804/pexels-photo-30324804.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Mens Wool Cardigan"><div class="result-body"><div class="result-brand">Men</div><div class="result-name">Mens Wool Cardigan</div><div class="result-meta">Sweaters &amp; Cardigans · M</div><div class="result-rating-row">★ 4.3</div><div class="result-price-row"><span class="result-price">$49</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/5264909/pexels-photo-5264909.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Mens Heattech Coat"><div class="result-body"><div class="result-brand">Men</div><div class="result-name">Mens Heattech Coat</div><div class="result-meta">Outerwear · M</div><div class="result-rating-row">★ 4.6</div><div class="result-price-row"><span class="result-price">$129</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/8581033/pexels-photo-8581033.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Mens Hybrid Down Parka"><div class="result-body"><div class="result-brand">Men</div><div class="result-name">Mens Hybrid Down Parka</div><div class="result-meta">Outerwear · L</div><div class="result-rating-row">★ 4.7</div><div class="result-price-row"><span class="result-price">$199</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/6293362/pexels-photo-6293362.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Special Edition Mens Blazer"><div class="result-body"><div class="result-brand">Men</div><div class="result-name">Special Edition Mens Blazer</div><div class="result-meta">Special Collaborations · M</div><div class="result-rating-row">★ 4.8</div><div class="result-price-row"><span class="result-price">$149</span></div></div></div><div class="result-card"><img class="result-thumb-img" loading="lazy" src="https://images.pexels.com/photos/36812594/pexels-photo-36812594.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130" alt="Womens Wool Blend Blazer"><div class="result-body"><div class="result-brand">Women</div><div class="result-name">Womens Wool Blend Blazer</div><div class="result-meta">Blazers · M</div><div class="result-rating-row">★ 4.4</div><div class="result-price-row"><span class="result-price">$99</span></div></div></div></div>
+    <nav class="pagination"><button>‹</button><button class="active">1</button><button>2</button><button>3</button><button>›</button></nav>
+  </section>
+</div>
+
+<footer class="uq-footer">
+  <div class="uq-footer-row">
+    <div class="uq-footer-col"><h5>Customer Service</h5><a>Order tracking</a><a>Returns &amp; exchanges</a><a>Shipping info</a><a>Size guide</a></div>
+    <div class="uq-footer-col"><h5>Company</h5><a>About EchoWear</a><a>Sustainability</a><a>Careers</a><a>Press</a></div>
+    <div class="uq-footer-col"><h5>Stores</h5><a>Store locator</a><a>Store events</a><a>Tailoring services</a></div>
+    <div class="uq-footer-col"><h5>Membership</h5><a>Join now</a><a>Member benefits</a><a>App download</a></div>
+    <div class="uq-footer-col"><h5>Follow</h5><a>Instagram</a><a>TikTok</a><a>YouTube</a></div>
+  </div>
+  <div class="uq-footer-bottom"><span>© 2026 EchoWear Co., Ltd.</span><span>·</span><span>Privacy</span><span>·</span><span>Terms</span><span>·</span><span>Cookies</span></div>
+</footer>
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
+const ENV_ID = 'W24_E02';
+let filterState = {};
+
+function onF() { applyFilters(); }
+
+function applyFilters() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) {
+        if (!newState[f]) newState[f] = [];
+        newState[f].push(el.value || el.dataset.val || '1');
+      }
+    }
+  });
+  filterState = newState;
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    updateResults(data.results || [], data.html_cards);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length + ' results';
+    renderActiveChips();
+    syncStrictBadge();
+  }).catch(()=>{});
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: '', task_id: taskId})
+  }).catch(()=>{});
+}
+
+function lsReset(ev) {
+  if (ev) { ev.stopPropagation(); ev.preventDefault(); }
+  document.querySelectorAll('[data-facet]').forEach(el => { if (el.type === 'checkbox') el.checked = false; });
+  applyFilters();
+}
+
+function updateResults(results, htmlCards) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div class="no-results">No results match your filters.</div>';
+    return;
+  }
+  if (htmlCards) { grid.innerHTML = htmlCards; return; }
+  grid.innerHTML = results.map(r => {
+    const initial = (r.title || '?').charAt(0);
+    const priceLine = (r.price && r.price > 0) ? ('$' + r.price.toLocaleString()) : '';
+    const thumb = r.image_url
+      ? '<img class="result-thumb-img" loading="lazy" src="' + escapeHtmlText(r.image_url) + '" alt="' + (escapeHtmlText(r.image_alt || r.title || '')) + '">'
+      : '<div class="result-thumb">' + escapeHtmlText(initial) + '</div>';
+    return '<div class="result-card">' + thumb +
+      '<div class="result-body"><div class="result-brand">' + escapeHtmlText(r.brand || '') + '</div>' +
+      '<div class="result-name">' + escapeHtmlText(r.title || '') + '</div>' +
+      '<div class="result-meta">' + escapeHtmlText(r.category || '') + ' · ' + escapeHtmlText(r.condition || '') + '</div>' +
+      '<div class="result-rating-row">★ ' + escapeHtmlText(r.rating || '—') + '</div>' +
+      '<div class="result-price-row"><span class="result-price">' + escapeHtmlText(priceLine) + '</span></div></div></div>';
+  }).join('');
+}
+
+function renderActiveChips() {
+  const bar = document.getElementById('active-chips');
+  if (!bar) return;
+  const chips = [];
+  for (const [k, v] of Object.entries(filterState)) {
+    if (k === 'exact_match') continue;
+    if (Array.isArray(v)) v.forEach(val => chips.push(val));
+    else chips.push(v);
+  }
+  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+escapeHtmlText(c)+'</span>').join('');
+}
+
+function clearFacet(a, facet) {
+  document.querySelectorAll('input[type=checkbox][data-facet="' + facet + '"]').forEach(i => i.checked = false);
+  onF();
+}
+
+function syncStrictBadge() {
+  const on = !!(filterState.exact_match && filterState.exact_match.length);
+  document.querySelectorAll('.strict-indicator').forEach(el => {
+    el.classList.toggle('on', on);
+    el.textContent = on ? 'Exact match: ON' : 'Exact match: off';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  applyFilters();
+});
+</script>
+</body></html>

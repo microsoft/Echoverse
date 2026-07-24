@@ -1,0 +1,562 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoTech 970 EVO PLUS SSD - EchoTech</title>
+<style>
+.wut-badge, .wut-badge-test, .utst-note,
+.f-section.widget-utst > h4,
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok, .live-status.good, .live-status.pending, .live-status.neutral,
+.ls-msg, .ls-dot, .ls-toggle, .ls-panel, .ls-reset,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source],
+[data-debug="1"]
+{ display: none !important; visibility: hidden !important; }
+
+* { box-sizing: border-box; }
+body { margin:0; line-height:1.5; }
+.empty-state { grid-column:1/-1; text-align:center; padding:40px; color:#999; font-size:14px; }
+.empty-state span { display:block; font-size:12px; margin-top:4px; }
+
+/* Dual-thumb slider (base) — colors overridden per brand */
+.dual-slider { position:relative; height:32px; margin:14px 0 6px; }
+.dual-slider .dual-track { position:absolute; top:14px; left:0; right:0; height:4px; border-radius:2px; }
+.dual-slider .dual-active { position:absolute; top:14px; height:4px; border-radius:2px; }
+.dual-slider input[type=range] { position:absolute; top:8px; left:0; width:100%; height:18px; background:transparent; pointer-events:none; appearance:none; -webkit-appearance:none; }
+.dual-slider input[type=range]::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; pointer-events:auto; width:18px; height:18px; border-radius:50%; background:#fff; border:2px solid #333; cursor:grab; box-shadow:0 1px 3px rgba(0,0,0,0.25); }
+.dual-slider input[type=range]::-moz-range-thumb { pointer-events:auto; width:18px; height:18px; border-radius:50%; background:#fff; border:2px solid #333; cursor:grab; box-shadow:0 1px 3px rgba(0,0,0,0.25); }
+.dual-slider .dt-tip { position:absolute; top:-22px; transform:translateX(-50%); font-size:10px; padding:2px 6px; background:#333; color:white; border-radius:2px; white-space:nowrap; pointer-events:none; }
+.dual-slider input.dt-min::-webkit-slider-thumb { background:#1c8b3a; border-color:#0e5e25; box-shadow:0 0 0 2px rgba(28,139,58,0.18); }
+.dual-slider input.dt-max::-webkit-slider-thumb { background:#c8232c; border-color:#7a1217; box-shadow:0 0 0 2px rgba(200,35,44,0.18); }
+.dual-slider input.dt-min::-moz-range-thumb { background:#1c8b3a; border-color:#0e5e25; }
+.dual-slider input.dt-max::-moz-range-thumb { background:#c8232c; border-color:#7a1217; }
+.dual-slider .dt-tip-min { background:#1c8b3a; }
+.dual-slider .dt-tip-max { background:#c8232c; }
+
+.result-thumb { background-size:cover !important; background-position:center !important; overflow:hidden; }
+.result-thumb img, .review-thumb img, .job-logo img, .stay-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+.review-thumb { padding:0 !important; overflow:hidden; }
+.job-logo { padding:0 !important; overflow:hidden; }
+.stay-photo img { position:absolute; inset:0; }
+
+
+:root {
+  --bb-blue:#0046be;
+  --bb-blue-dark:#003fa6;
+  --bb-yellow:#fff200;
+  --bb-text:#1d252c;
+  --bb-muted:#54616e;
+  --bb-line:#d8d8d8;
+  --bb-line-soft:#e6e8eb;
+  --bb-link:#0046be;
+}
+body { font-family:'Human BBy Web','Open Sans','Segoe UI',Arial,sans-serif; background:#ffffff; color:var(--bb-text); font-size:13px; }
+/* --- Top header (blue) --- */
+.bb-header { background:var(--bb-blue); padding:14px 28px 12px; display:flex; gap:18px; align-items:center; }
+.bb-logo { display:flex; flex-direction:column; align-items:flex-start; line-height:0.85; font-weight:900; color:#fff; font-size:18px; letter-spacing:-0.5px; padding-right:4px; }
+.bb-logo .ln { display:block; }
+.bb-logo .tag { display:inline-block; width:18px; height:9px; background:var(--bb-yellow); margin-top:3px; margin-left:36px; }
+.bb-search { flex:1; max-width:1020px; position:relative; display:flex; align-items:center; }
+.bb-search input { flex:1; border:none; padding:11px 80px 11px 18px; font-size:15px; border-radius:24px; background:#fff; color:#1d252c; box-shadow:0 1px 0 rgba(0,0,0,.06); }
+.bb-search input:focus { outline:2px solid var(--bb-yellow); }
+.bb-search .clr-x { position:absolute; right:60px; color:#1d252c; font-size:16px; cursor:pointer; opacity:.7; }
+.bb-search .mag { position:absolute; right:0; top:0; bottom:0; width:54px; background:#f0f2f4; border-radius:0 24px 24px 0; display:flex; align-items:center; justify-content:center; cursor:pointer; border-left:1px solid #d8d8d8; }
+.bb-search .mag svg { width:18px; height:18px; }
+.bb-util { display:flex; align-items:center; gap:18px; color:#fff; font-size:12px; }
+.bb-util .item { display:flex; align-items:center; gap:8px; cursor:pointer; }
+.bb-util .item .icn { font-size:22px; line-height:1; }
+.bb-util .item .lbl { display:flex; flex-direction:column; line-height:1.15; }
+.bb-util .item .lbl b { font-size:13px; font-weight:700; }
+.bb-util .div { width:1px; height:28px; background:rgba(255,255,255,.35); }
+.bb-util .cart { font-size:24px; cursor:pointer; }
+
+/* --- Pill nav bar --- */
+.bb-nav { background:var(--bb-blue); padding:0 28px 12px; display:flex; align-items:center; gap:10px; }
+.bb-nav .pill { display:inline-flex; align-items:center; gap:6px; padding:6px 16px; border:1px solid #fff; border-radius:20px; color:#fff; font-size:13px; font-weight:600; cursor:pointer; }
+.bb-nav .pill .car { font-size:9px; }
+.bb-nav .pill:hover { background:#fff; color:var(--bb-blue); }
+.bb-nav .spacer { flex:1; }
+.bb-nav .lnk { color:#fff; font-size:13px; font-weight:600; cursor:pointer; padding:6px 4px; }
+.bb-nav .lnk:hover { text-decoration:underline; }
+.bb-nav .lnk.gift::before { content:"🎁"; margin-right:6px; color:var(--bb-yellow); }
+
+/* --- Promo strip --- */
+.bb-promo { background:#fff; border-bottom:1px solid var(--bb-line); padding:14px 28px; display:flex; align-items:center; gap:24px; font-size:13px; color:var(--bb-text); }
+.bb-promo .pp-title { font-weight:700; font-size:15px; }
+.bb-promo .pp-cta { background:#1d252c; color:#fff; padding:6px 14px; border-radius:18px; font-weight:600; font-size:12px; cursor:pointer; }
+.bb-promo .pp-fine { color:#54616e; font-size:11px; margin-left:auto; }
+
+/* --- Page layout --- */
+.bb-page { display:grid; grid-template-columns:248px 1fr; gap:28px; padding:14px 28px 40px; background:#fff; }
+.bb-aside { background:#fff; padding:0; border-right:1px solid var(--bb-line-soft); padding-right:14px; }
+.bb-fac { padding:14px 4px; border-bottom:1px solid var(--bb-line-soft); }
+.bb-fac h4 { font-size:14px; margin:0 0 10px 0; font-weight:700; color:var(--bb-text); display:flex; justify-content:space-between; align-items:center; }
+.bb-fac h4 .clr { font-size:11px; color:var(--bb-link); cursor:pointer; font-weight:600; text-decoration:underline; }
+.bb-cb { display:flex; align-items:center; gap:8px; padding:5px 0; font-size:13px; cursor:pointer; color:var(--bb-text); }
+.bb-cb input[type=checkbox] { accent-color:var(--bb-blue); width:16px; height:16px; }
+.bb-cb .cnt { color:var(--bb-muted); margin-left:auto; font-size:12px; }
+.bb-sub-link { font-size:13px; color:var(--bb-link); padding:3px 0 3px 16px; cursor:pointer; }
+.bb-sub-link.top { padding-left:0; font-weight:600; }
+.bb-sub-link:hover { text-decoration:underline; }
+.bb-show-all { font-size:13px; color:var(--bb-link); cursor:pointer; padding:4px 0 0; text-decoration:underline; }
+.bb-zip-link { font-size:13px; color:var(--bb-link); display:block; cursor:pointer; padding-left:24px; text-decoration:underline; margin-top:2px; }
+
+/* --- Price box (Echo style) --- */
+.bb-price-row { display:flex; align-items:center; gap:8px; margin-top:6px; padding-left:24px; }
+.bb-price-row .box { display:flex; align-items:stretch; border:1px solid #54616e; border-radius:4px; background:#fff; overflow:hidden; }
+.bb-price-row .box input { width:78px; padding:8px 10px; border:none; font:inherit; font-size:13px; color:var(--bb-text); font-feature-settings:"tnum"; background:transparent; }
+.bb-price-row .box input::placeholder { color:#54616e; }
+.bb-price-row .box input:focus { outline:none; background:#f0f6ff; }
+.bb-price-row .to { font-size:13px; color:var(--bb-text); }
+.bb-set { background:#fff; color:var(--bb-text); border:1px solid #54616e; padding:7px 14px; border-radius:18px; font:inherit; font-size:13px; font-weight:600; cursor:pointer; }
+.bb-set:hover { background:#0046be; color:#fff; border-color:#0046be; }
+
+/* --- Dual slider override --- */
+.dual-slider { margin-left:24px; margin-right:8px; }
+.dual-slider .dual-track { background:#e6e8eb; height:4px; top:14px; border-radius:2px; }
+.dual-slider .dual-active { background:var(--bb-blue); height:4px; top:14px; border-radius:2px; }
+.dual-slider input.dt-min::-webkit-slider-thumb { background:#fff; border-color:var(--bb-blue); box-shadow:0 1px 4px rgba(0,70,190,.35); }
+.dual-slider input.dt-max::-webkit-slider-thumb { background:var(--bb-blue); border-color:var(--bb-blue); box-shadow:0 1px 4px rgba(0,70,190,.35); }
+.dual-slider input.dt-min::-moz-range-thumb { background:#fff; border-color:var(--bb-blue); }
+.dual-slider input.dt-max::-moz-range-thumb { background:var(--bb-blue); border-color:var(--bb-blue); }
+.dual-slider .dt-tip { background:var(--bb-blue); color:#fff; font-weight:700; border-radius:3px; }
+.dual-slider .dt-tip-min { background:#54616e; }
+.dual-slider .dt-tip-max { background:var(--bb-blue); }
+
+/* --- Main column --- */
+.bb-main { background:#fff; padding:6px 0 0 6px; }
+.bb-main h1 { font-size:20px; margin:0; color:var(--bb-text); font-weight:700; }
+.bb-main h1 .ct { font-size:14px; color:var(--bb-text); font-weight:400; margin-left:4px; }
+.bb-search-all { display:block; font-size:13px; color:var(--bb-link); text-decoration:underline; margin:4px 0 0; cursor:pointer; }
+.bb-toolbar { display:flex; justify-content:space-between; align-items:flex-start; margin:6px 0 16px; }
+.bb-sort { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--bb-text); }
+.bb-sort select { padding:7px 28px 7px 12px; font:inherit; font-size:13px; border:1px solid #54616e; border-radius:4px; background:#fff; appearance:none; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'><path fill='%231d252c' d='M0 0l5 6 5-6z'/></svg>"); background-repeat:no-repeat; background-position:right 10px center; background-size:9px; cursor:pointer; }
+
+/* --- Grid of product cards --- */
+.result-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; }
+.result-card { display:flex; flex-direction:column; padding:0; background:#fff; border:none; position:relative; }
+.result-card:hover .heart-btn { box-shadow:0 0 0 2px rgba(0,70,190,.2); }
+.heart-btn { position:absolute; top:10px; right:10px; width:34px; height:34px; border-radius:50%; background:#fff; border:1px solid var(--bb-line); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:2; font-size:14px; color:#54616e; }
+.top-rated-badge { position:absolute; top:10px; left:0; background:var(--bb-blue); color:#fff; font-size:11px; font-weight:600; padding:3px 10px 3px 12px; z-index:2; border-radius:0 3px 3px 0; }
+.result-thumb { width:100%; aspect-ratio:1/1; background:#f0f2f4; border-radius:6px; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-bottom:10px; }
+.result-thumb img { max-width:80%; max-height:80%; object-fit:contain; }
+.result-name { font-size:14px; color:var(--bb-text); font-weight:400; line-height:1.35; margin-bottom:8px; min-height:56px; }
+.result-name b { font-weight:700; }
+.cap-row { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; }
+.cap-pill { padding:5px 11px; border:1px solid #54616e; border-radius:14px; font-size:12px; font-weight:600; color:var(--bb-text); cursor:pointer; background:#fff; }
+.cap-pill.sel { border:2px solid var(--bb-blue); color:var(--bb-blue); padding:4px 10px; }
+.result-rating { font-size:12px; color:var(--bb-link); display:flex; align-items:center; gap:6px; margin-bottom:6px; cursor:pointer; }
+.result-rating .stars { color:#ffb000; letter-spacing:-1px; }
+.result-rating b { color:var(--bb-link); font-weight:700; }
+.result-rating .rev { color:var(--bb-link); text-decoration:underline; }
+.result-price { font-size:22px; font-weight:700; color:var(--bb-text); font-feature-settings:"tnum"; margin-bottom:4px; }
+.result-save { font-size:13px; color:#cd040c; font-weight:700; margin-bottom:4px; }
+.result-comp { font-size:12px; color:var(--bb-muted); margin-bottom:6px; }
+.result-buy-more { font-size:12px; color:var(--bb-text); margin-bottom:8px; }
+.result-buy-more a { color:var(--bb-link); text-decoration:underline; }
+.result-offer { background:#fff7c2; color:var(--bb-text); font-size:12px; padding:5px 10px; border-radius:2px; margin-bottom:8px; font-weight:600; }
+.result-ship { font-size:12px; color:var(--bb-text); margin-bottom:4px; display:flex; align-items:center; gap:6px; }
+.result-ship .pkg { color:#54616e; }
+.result-ship .free { color:#1f8a3f; font-weight:700; }
+.result-card-actions { margin-top:auto; padding-top:10px; display:flex; align-items:center; gap:10px; }
+.bb-add { background:var(--bb-yellow); color:var(--bb-text); border:1px solid #cabb00; padding:9px 14px; border-radius:18px; cursor:pointer; font:inherit; font-size:14px; font-weight:700; flex:1; }
+.bb-add:hover { background:#ffe800; }
+.bb-add.sold { background:#f0f2f4; color:#54616e; border-color:#d8d8d8; cursor:not-allowed; }
+.compare-lab { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--bb-text); cursor:pointer; }
+.compare-lab input { accent-color:var(--bb-blue); }
+
+/* --- Footer --- */
+.bb-footer { background:#1d252c; color:#fff; padding:28px; margin-top:30px; font-size:12px; }
+.bb-footer .cols { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; max-width:1280px; margin:0 auto; }
+.bb-footer h5 { font-size:13px; margin:0 0 10px; font-weight:700; }
+.bb-footer ul { list-style:none; padding:0; margin:0; }
+.bb-footer ul li { padding:3px 0; color:#c4c9cf; cursor:pointer; }
+.bb-footer ul li:hover { color:#fff; text-decoration:underline; }
+.bb-footer .legal { max-width:1280px; margin:18px auto 0; padding-top:14px; border-top:1px solid #3a444d; color:#94a0ac; font-size:11px; }
+</style></head><body>
+<header class="bb-header">
+  <div class="bb-logo"><span class="ln">EchoTech</span></div>
+  <div class="bb-search">
+    <input value="EchoTech 970 EVO PLUS SSD" aria-label="Search EchoTech">
+    <span class="clr-x">✕</span>
+    <span class="mag"><svg viewBox="0 0 24 24" fill="none" stroke="#1d252c" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
+  </div>
+  <div class="bb-util">
+    <div class="item"><span class="icn">📍</span><span class="lbl"><span>Your store</span><b>Find a store</b></span></div>
+    <div class="div"></div>
+    <div class="item"><span class="icn">👤</span><span class="lbl"><span>Account</span><b>Sign in</b></span></div>
+    <div class="div"></div>
+    <div class="cart">🛒</div>
+  </div>
+</header>
+<nav class="bb-nav">
+  <span class="pill">Shop <span class="car">▾</span></span>
+  <span class="pill">Deals <span class="car">▾</span></span>
+  <span class="pill">Support &amp; Services <span class="car">▾</span></span>
+  <span class="pill">Discover <span class="car">▾</span></span>
+  <span class="spacer"></span>
+  <span class="lnk gift">Gift Ideas</span>
+  <span class="lnk">Top Deals</span>
+  <span class="lnk">Deal of the Day</span>
+  <span class="lnk">My EchoTech Memberships</span>
+  <span class="lnk">Credit Cards</span>
+</nav>
+<div class="bb-promo">
+  <span class="pp-title">Echo Squad® Total Tech Support: Get help with all your tech.</span>
+  <span class="pp-cta">Learn more</span>
+  <span class="pp-fine">Member benefits available with select My EchoTech plans.</span>
+</div>
+<div class="bb-page">
+  <aside class="bb-aside">
+    <div class="bb-fac">
+      <h4>Get it fast</h4>
+      <label class="bb-cb"><input type="checkbox"> Pickup · Ready today</label>
+      <div class="bb-zip-link">Select a Store</div>
+      <label class="bb-cb"><input type="checkbox"> Shipping · Get it today</label>
+      <div class="bb-zip-link">55423</div>
+    </div>
+    <div class="bb-fac">
+      <h4>Category</h4>
+      <div class="bb-sub-link top">Computer Accessories &amp; Peripherals</div>
+      <div class="bb-sub-link">Hard Drives, SSD &amp; Storage</div>
+      <div class="bb-sub-link top">Gaming</div>
+      <div class="bb-show-all">Show all (6)</div>
+    </div>
+    <div class="bb-fac slider-block">
+      <h4>Price <span class="clr" onclick="lsReset(event)">Clear</span></h4>
+      <label class="bb-cb" style="padding-left:0"><input type="checkbox"> Custom range</label>
+      <div class="bb-price-row">
+        <div class="box">
+          <input type="text" class="dual-num-min" placeholder="Min Price" oninput="numBoxSet(this)" onchange="numBoxSet(this)">
+        </div>
+        <span class="to">to</span>
+        <div class="box">
+          <input type="text" class="dual-num-max" placeholder="Max Price" oninput="numBoxSet(this)" onchange="numBoxSet(this)">
+        </div>
+        <button class="bb-set" onclick="applyFilters()">Set</button>
+      </div>
+      <div class="dual-slider" data-fmt="dollar">
+        <div class="dual-track"></div><div class="dual-active"></div>
+        <div class="dt-tip dt-tip-min">$0</div>
+        <div class="dt-tip dt-tip-max">$1,000</div>
+        <input type="range" min="0" max="1000" value="0" step="1" class="dt-min" data-facet="min_price" oninput="dualUpd()">
+        <input type="range" min="0" max="1000" value="1000" step="1" class="dt-max" data-facet="max_price" oninput="dualUpd()">
+      </div>
+      <label class="bb-cb" style="padding-left:24px"><input type="checkbox"> $25 - $49.99 <span class="cnt">(2)</span></label>
+      <label class="bb-cb" style="padding-left:24px"><input type="checkbox"> $50 - $99.99 <span class="cnt">(4)</span></label>
+      <label class="bb-cb" style="padding-left:24px"><input type="checkbox"> $100 - $149.99 <span class="cnt">(5)</span></label>
+      <label class="bb-cb" style="padding-left:24px"><input type="checkbox"> $150 - $199.99 <span class="cnt">(4)</span></label>
+      <label class="bb-cb" style="padding-left:24px"><input type="checkbox"> $200 - $499.99 <span class="cnt">(3)</span></label>
+    </div>
+    <div class="bb-fac">
+      <h4>Customer Rating</h4>
+      <label class="bb-cb"><input type="checkbox" data-facet="rating_min" value="4" onchange="onF()"> ★★★★ &amp; Up <span class="cnt">(14)</span></label>
+      <label class="bb-cb"><input type="checkbox" data-facet="rating_min" value="3" onchange="onF()"> ★★★ &amp; Up <span class="cnt">(18)</span></label>
+    </div>
+    <div class="bb-fac">
+      <h4>Features</h4>
+      <label class="bb-cb"><input type="checkbox"> Data Encryption</label>
+      <label class="bb-cb"><input type="checkbox" data-facet="has_heatsink" value="1" onchange="onF()"> Heatsink</label>
+    </div>
+    <div class="bb-fac">
+      <h4>Availability</h4>
+      <label class="bb-cb"><input type="checkbox" data-facet="in_stock" value="1" onchange="onF()"> In Stock <span class="cnt">(15)</span></label>
+      <label class="bb-cb"><input type="checkbox" data-facet="free_shipping" value="1" onchange="onF()"> Free Shipping <span class="cnt">(12)</span></label>
+    </div>
+    <div class="bb-fac">
+      <h4>Condition</h4>
+      <label class="bb-cb"><input type="checkbox" data-facet="condition" value="New" onchange="onF()"> Brand New <span class="cnt">(16)</span></label>
+      <label class="bb-cb"><input type="checkbox" data-facet="condition" value="Refurbished" onchange="onF()"> Refurbished <span class="cnt">(2)</span></label>
+    </div>
+    <div class="bb-fac">
+      <h4>Brand</h4>
+      <label class="bb-cb"><input type="checkbox" data-facet="brand" value="Samsung" onchange="onF()"> EchoTech <span class="cnt">(18)</span></label>
+    </div>
+  </aside>
+  <section class="bb-main">
+    <h1>“EchoTech 970 EVO PLUS SSD” <span class="ct">in Computers &amp; Tablets (<span id="result-count">18</span>)</span></h1>
+    <a class="bb-search-all">Search all categories</a>
+    <div class="bb-toolbar">
+      <div></div>
+      <div class="bb-sort">Sort by: <select><option>Best Match</option><option>Price: Low to High</option><option>Price: High to Low</option><option>Top Rated</option></select></div>
+    </div>
+    <div class="result-grid" id="result-grid"></div>
+  </section>
+</div>
+<footer class="bb-footer">
+  <div class="cols">
+    <div><h5>About EchoTech</h5><ul><li>Corporate Information</li><li>Careers</li><li>Sustainability</li><li>Investor Relations</li></ul></div>
+    <div><h5>Customer Service</h5><ul><li>Order Status</li><li>Shipping, Delivery &amp; Pickup</li><li>Returns &amp; Exchanges</li><li>Product Recalls</li></ul></div>
+    <div><h5>My EchoTech</h5><ul><li>My EchoTech Memberships</li><li>Credit Cards</li><li>Gift Cards</li><li>Member Offers</li></ul></div>
+    <div><h5>Stores</h5><ul><li>Find a Store</li><li>Outlet Stores</li><li>EchoTech Business</li><li>EchoTech Health</li></ul></div>
+  </div>
+  <div class="legal">© EchoTech Co., Inc. All rights reserved · Privacy · Terms · Accessibility · Interest-Based Ads</div>
+</footer><script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+const ENV_ID = "W04_E06";
+let filterState = {};
+
+function onF() { applyFilters(); }
+
+function applyFilters() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) { if (!newState[f]) newState[f] = []; newState[f].push(el.value || '1'); }
+    } else if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.multiple) {
+        const vals = Array.from(el.selectedOptions).map(o => o.value);
+        if (vals.length) newState[f] = vals;
+      } else if (el.value) newState[f] = el.value;
+    } else if (el.type === 'number' || el.type === 'range' || el.type === 'text' || el.type === 'hidden') {
+      if (el.dataset.always === '1' || (el.value !== '' && el.value !== el.defaultValue)) {
+        newState[f] = el.value;
+      }
+    }
+  });
+  document.querySelectorAll('.bucket-btn.active, .chip-btn.active, .pill.active').forEach(b => {
+    const f = b.dataset.facet;
+    if (!f) return;
+    if (!newState[f]) newState[f] = [];
+    if (Array.isArray(newState[f])) newState[f].push(b.dataset.val || b.textContent.trim());
+    else newState[f] = b.dataset.val || b.textContent.trim();
+  });
+  filterState = newState;
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    updateResults(data.results || []);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length + ' results';
+    const rc2 = document.getElementById('result-count-2');
+    if (rc2) rc2.textContent = (data.results || []).length;
+  }).catch(e => console.error('filter fail', e));
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : '';
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(() => {});
+}
+
+function escapeHtml(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function lsReset(ev) {
+  if (ev) { ev.stopPropagation(); ev.preventDefault(); }
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+    else if (el.tagName === 'SELECT') el.selectedIndex = 0;
+    else if (el.tagName === 'INPUT' && el.type !== 'range') el.value = '';
+  });
+  document.querySelectorAll('.dt-min').forEach(el => { el.value = el.min; });
+  document.querySelectorAll('.dt-max').forEach(el => { el.value = el.max; });
+  document.querySelectorAll('.bucket-btn.active, .chip-btn.active, .pill.active')
+    .forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.dual-num-min, .dual-num-max').forEach(el => { el.value = ''; });
+  document.querySelectorAll('.amen-pill.active').forEach(el => el.classList.remove('active'));
+  dualUpd();
+  applyFilters();
+}
+
+// Dual-thumb slider sync — runs after every drag/numeric-input change
+function dualUpd() {
+  document.querySelectorAll('.dual-slider').forEach(slider => {
+    const mn = slider.querySelector('.dt-min'), mx = slider.querySelector('.dt-max');
+    if (!mn || !mx) return;
+    const lo = +mn.min, hi = +mx.max;
+    let mnV = +mn.value, mxV = +mx.value;
+    if (mnV > mxV) { mn.value = mxV; mnV = mxV; }
+    const range = hi - lo || 1;
+    const minPct = ((mnV - lo) / range) * 100;
+    const maxPct = ((mxV - lo) / range) * 100;
+    const dt = slider.querySelector('.dual-active');
+    if (dt) { dt.style.left = minPct + '%'; dt.style.width = (maxPct - minPct) + '%'; }
+    const tipMin = slider.querySelector('.dt-tip-min'), tipMax = slider.querySelector('.dt-tip-max');
+    const fmt = slider.dataset.fmt || 'dollar';
+    const fmtVal = (v) => {
+      if (fmt === 'hours') return v + ' hrs';
+      if (fmt === 'salary') return '$' + (+v/1000) + 'K';
+      return '$' + (+v).toLocaleString();
+    };
+    if (tipMin) { tipMin.style.left = minPct + '%'; tipMin.textContent = 'MIN ' + fmtVal(mnV); }
+    if (tipMax) { tipMax.style.left = maxPct + '%'; tipMax.textContent = 'MAX ' + fmtVal(mxV); }
+    const minV = slider.parentElement.querySelector('.minv'),
+          maxV = slider.parentElement.querySelector('.maxv');
+    if (minV) minV.textContent = fmtVal(mnV);
+    if (maxV) maxV.textContent = fmtVal(mxV);
+    // Sync paired numeric input boxes (any input with .dual-num-min / .dual-num-max in the slider's container)
+    const container = slider.closest('.slider-block') || slider.parentElement;
+    const minBox = container.querySelector('.dual-num-min'),
+          maxBox = container.querySelector('.dual-num-max');
+    if (minBox && minBox !== document.activeElement) minBox.value = (mnV > lo) ? mnV : '';
+    if (maxBox && maxBox !== document.activeElement) maxBox.value = (mxV < hi) ? mxV : '';
+  });
+  onF();
+}
+
+// Generic min/max numeric box -> slider sync
+function numBoxSet(box) {
+  const container = box.closest('.slider-block') || box.parentElement.parentElement || box.parentElement;
+  const slider = container.querySelector('.dual-slider');
+  if (!slider) return;
+  const mn = slider.querySelector('.dt-min'), mx = slider.querySelector('.dt-max');
+  const lo = +mn.min, hi = +mx.max;
+  const minBox = container.querySelector('.dual-num-min');
+  const maxBox = container.querySelector('.dual-num-max');
+  if (minBox && minBox.value !== '') mn.value = Math.max(lo, Math.min(hi, parseInt(minBox.value.replace(/[^0-9]/g,'')) || lo));
+  else mn.value = lo;
+  if (maxBox && maxBox.value !== '') mx.value = Math.max(lo, Math.min(hi, parseInt(maxBox.value.replace(/[^0-9]/g,'')) || hi));
+  else mx.value = hi;
+  dualUpd();
+}
+
+function pickBucket(btn) {
+  const wasActive = btn.classList.contains('active');
+  btn.parentElement.querySelectorAll('.bucket-btn').forEach(b => b.classList.remove('active'));
+  if (!wasActive) {
+    btn.classList.add('active');
+    const slider = document.querySelector('.dual-slider');
+    if (slider) {
+      slider.querySelector('.dt-min').value = +btn.dataset.min;
+      slider.querySelector('.dt-max').value = +btn.dataset.max;
+      dualUpd();
+      return;
+    }
+  }
+  applyFilters();
+}
+
+function pickChip(btn) {
+  // Mutually-exclusive preset chips: set both thumbs and persist
+  const wasActive = btn.classList.contains('active');
+  btn.parentElement.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+  const slider = document.querySelector('.dual-slider');
+  if (!wasActive) {
+    btn.classList.add('active');
+    if (slider) {
+      if (btn.dataset.min !== undefined) slider.querySelector('.dt-min').value = +btn.dataset.min;
+      if (btn.dataset.max !== undefined) slider.querySelector('.dt-max').value = +btn.dataset.max;
+      dualUpd();
+      return;
+    }
+  }
+  if (slider) {
+    slider.querySelector('.dt-min').value = +slider.querySelector('.dt-min').min;
+    slider.querySelector('.dt-max').value = +slider.querySelector('.dt-max').max;
+    dualUpd();
+  } else {
+    applyFilters();
+  }
+}
+
+function togAmen(el) {
+  const cb = el.querySelector('input[type=checkbox]');
+  if (cb) {
+    cb.checked = !cb.checked;
+    el.classList.toggle('active', cb.checked);
+  }
+  onF();
+}
+
+function onAmenCh(input) {
+  const pill = input.closest('.amen-pill, .abnb-amen-pill');
+  if (pill) pill.classList.toggle('active', input.checked);
+  onF();
+}
+
+function updateResults(results) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div class="empty-state">No results match your filters.<br><span>Try removing some filters.</span></div>';
+    return;
+  }
+  const tpl = (typeof window.cardTemplate === 'function') ? window.cardTemplate :
+    (r) => `<div class="result-card"><div class="result-name">${escapeHtml(r.title)}</div><div class="result-price">$${(r.price||0).toLocaleString()}</div></div>`;
+  grid.innerHTML = results.map(tpl).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  dualUpd();
+  applyFilters();
+});
+
+</script>
+<script>
+window.cardTemplate = function(r) {
+  const cap = r.capacity_gb;
+  const capStr = cap ? (cap < 1000 ? cap + 'GB' : (cap/1000) + 'TB') : '';
+  const altCaps = [capStr, '2TB', '4TB'].filter((v,i,a)=>a.indexOf(v)===i).slice(0,3);
+  const topBadge = r.is_top_rated ? '<div class="top-rated-badge">Top Rated</div>' : '';
+  const refBadge = r.condition === 'Refurbished' ? '<div class="top-rated-badge" style="background:#54616e">Echo Squad Certified</div>' : '';
+  const img = r.image_url ? `<img src="${r.image_url}" alt="${escapeHtml(r.title||'')}" loading="lazy">` : '';
+  const wasPrice = (r.price||0) * 1.18;
+  const save = Math.round(wasPrice - (r.price||0));
+  const titleParts = (r.title||'').split(' ');
+  const brandPart = titleParts[0] || 'Samsung';
+  const rest = titleParts.slice(1).join(' ');
+  const reviews = Math.max(1, Math.round((r.rating||0)*48));
+  const isSold = !r.in_stock;
+  return `<div class="result-card">
+    ${topBadge}${refBadge}
+    <button class="heart-btn" aria-label="Save">♡</button>
+    <div class="result-thumb">${img}</div>
+    <div class="result-name"><b>${escapeHtml(brandPart)}</b> - ${escapeHtml(rest)}, PCIe Gen 4.0 ×4 NVMe</div>
+    <div class="cap-row">
+      ${altCaps.map((c,i) => `<span class="cap-pill${i===0?' sel':''}">${c}</span>`).join('')}
+    </div>
+    <div class="result-rating">
+      <span class="stars">★★★★★</span>
+      <b>${(r.rating||0).toFixed(1)}</b>
+      <span class="rev">(${reviews} reviews)</span>
+    </div>
+    <div class="result-price">$${(r.price||0).toFixed(2)}</div>
+    ${save > 5 ? `<div class="result-save">Save $${save}</div>` : ''}
+    <div class="result-comp">Comp. Value: $${wasPrice.toFixed(2)} ⓘ</div>
+    ${r.is_top_rated ? `<div class="result-offer">+1 offer for you ›</div>` : ''}
+    <div class="result-buy-more">More Buying Options <a href="#">from $${(r.price||0).toFixed(2)}</a></div>
+    <div class="result-ship"><span class="pkg">📦</span> Get it tomorrow · <span class="free">FREE</span></div>
+    <div class="result-ship" style="color:${r.in_stock?'#1f8a3f':'#cd040c'};font-weight:600">${r.in_stock?'✓ Pick up in 1 hour':'Sold Out at nearby stores'}</div>
+    <div class="result-card-actions">
+      <button class="bb-add${isSold?' sold':''}">${isSold ? 'Sold Out' : 'Add to cart'}</button>
+      <label class="compare-lab"><input type="checkbox"> Compare</label>
+    </div>
+  </div>`;
+};
+
+</script>
+</body></html>

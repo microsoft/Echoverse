@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rentals in Houston, TX</title>
+<style>
+  :root{
+    --apt-green:#007a33;
+    --apt-green-dark:#005f28;
+    --apt-green-light:#e6f3ec;
+    --apt-text:#0a1f17;
+    --apt-muted:#5a6b62;
+    --apt-bg:#f4f6f5;
+    --apt-line:#dbe2dd;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--apt-bg);color:var(--apt-text);font-family:'Lato','Helvetica Neue',Arial,sans-serif;font-size:14px;line-height:1.4;}
+  a{color:inherit;text-decoration:none;cursor:pointer;}
+  a:hover{text-decoration:underline;}
+  button{font-family:inherit;}
+  /* Plus-chip bedrooms (mostly identical across brands so verifier behavior is stable) */
+  .w25-chip-row{display:flex;gap:0;flex-wrap:nowrap;}
+  .w25-chip{padding:9px 14px;border:1px solid #c8ccd1;background:#fff;cursor:pointer;font-size:14px;font-weight:600;color:var(--apt-text);border-right:none;}
+  .w25-chip:first-child{border-radius:4px 0 0 4px;}
+  .w25-chip:last-child{border-radius:0 4px 4px 0;border-right:1px solid #c8ccd1;}
+  .w25-chip:hover{background:var(--apt-green-light);}
+  .w25-chip.active{background:var(--apt-green);color:#fff;border-color:var(--apt-green);}
+  /* Active chips bar */
+  .active-bar{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;min-height:32px;}
+  .active-chip{background:#f2f3f5;color:#1a1a1a;padding:6px 12px;border-radius:16px;font-size:13px;display:inline-flex;align-items:center;gap:8px;}
+  .ac-x{color:#5a5e63;cursor:pointer;font-weight:700;}
+  /* Result grid */
+  #result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;}
+  .empty{padding:28px;text-align:center;color:var(--apt-muted);background:#fff;border:1px dashed var(--apt-line);border-radius:8px;}
+  .listing-card{background:#fff;border-radius:6px;overflow:hidden;border:1px solid var(--apt-line);cursor:pointer;transition:transform .12s,box-shadow .14s;display:flex;flex-direction:column;}
+  .listing-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,90,40,.16);border-color:#bcd7c6;}
+  .lc-img{height:200px;background:linear-gradient(135deg,#e6f3ec,#cfe6d8);display:flex;align-items:center;justify-content:center;font-size:38px;color:var(--apt-green);font-weight:700;position:relative;overflow:hidden;}
+  .lc-img img{width:100%;height:100%;object-fit:cover;display:block;}
+  .lc-badge{position:absolute;top:10px;left:10px;background:#fff;color:var(--apt-green-dark);font-size:10px;font-weight:800;padding:4px 9px;border-radius:3px;letter-spacing:.5px;text-transform:uppercase;box-shadow:0 1px 4px rgba(0,0,0,.15);}
+  .lc-fav{position:absolute;top:10px;right:10px;width:32px;height:32px;background:rgba(255,255,255,.92);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--apt-green);font-size:15px;box-shadow:0 1px 4px rgba(0,0,0,.18);}
+  .lc-body{padding:12px 14px 14px;}
+  .lc-price{font-size:20px;font-weight:800;color:var(--apt-text);letter-spacing:-.2px;}
+  .lc-meta{font-size:13px;color:#2c3a32;margin-top:4px;display:flex;gap:6px;flex-wrap:wrap;}
+  .lc-meta b{font-weight:700;}
+  .lc-name{font-size:14px;font-weight:700;color:var(--apt-text);margin-top:6px;}
+  .lc-addr{font-size:13px;color:var(--apt-muted);margin-top:2px;line-height:1.3;}
+  .lc-ptype{display:inline-block;font-size:10px;color:#fff;background:var(--apt-green);margin-top:8px;padding:3px 8px;border-radius:3px;text-transform:uppercase;letter-spacing:.5px;font-weight:700;}
+  .lc-cta{display:flex;gap:6px;margin-top:10px;}
+  .lc-cta button{flex:1;padding:8px 0;border-radius:3px;border:1px solid var(--apt-green);background:#fff;color:var(--apt-green);font-weight:800;font-size:12px;cursor:pointer;letter-spacing:.3px;}
+  .lc-cta button.primary{background:var(--apt-green);color:#fff;}
+  /* Dropdowns */
+  .w25-dropdown{position:relative;display:inline-block;}
+  .w25-pill-trigger,.w25-dd-trigger{padding:8px 14px;border:1px solid #c8ccd1;background:#fff;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;color:#1a1a1a;}
+  .w25-pill-trigger:hover,.w25-dd-trigger:hover{border-color:#9aa0a6;}
+  .w25-dropdown.open .w25-pill-trigger,.w25-dropdown.open .w25-dd-trigger{border-color:#1c8a3a;color:#1c8a3a;}
+  .w25-dropdown-panel{display:none;position:absolute;top:calc(100% + 6px);left:0;background:#fff;border:1px solid #d8dbe0;border-radius:8px;box-shadow:0 6px 22px rgba(0,0,0,.12);padding:14px 16px;min-width:260px;z-index:130;}
+  .w25-dropdown.open .w25-dropdown-panel{display:block;}
+  .dd-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#5a5e63;margin-bottom:8px;}
+  .dd-radio-row{display:flex;align-items:center;gap:9px;padding:6px 4px;font-size:14px;cursor:pointer;border-radius:4px;}
+  .dd-radio-row:hover{background:#f1f4f7;}
+  .dd-icon{display:inline-block;width:22px;text-align:center;}
+  .dd-actions{margin-top:10px;text-align:right;}
+  .dd-clear{font-size:12px;color:#1c8a3a;cursor:pointer;font-weight:700;}
+  /* Sidebar shared */
+  .side-section{background:#fff;border:1px solid var(--apt-line);border-radius:6px;padding:14px 16px;margin-bottom:12px;}
+  .side-section-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:var(--apt-text);margin-bottom:10px;}
+  .side-clear{font-size:12px;color:var(--apt-green);cursor:pointer;font-weight:700;display:inline-block;margin-top:8px;text-decoration:underline;}
+  .side-radio-row,.side-check-row{display:flex;align-items:center;gap:9px;padding:6px 0;font-size:14px;cursor:pointer;}
+  .side-radio-row input,.side-check-row input{display:none;}
+  .radio-dot{width:16px;height:16px;border:2px solid #999;border-radius:50%;display:inline-block;position:relative;}
+  .side-radio-row input:checked + .radio-dot{border-color:var(--apt-green);}
+  .side-radio-row input:checked + .radio-dot::after{content:'';position:absolute;top:2px;left:2px;width:8px;height:8px;background:var(--apt-green);border-radius:50%;}
+  .check-box{width:16px;height:16px;border:2px solid #999;border-radius:3px;display:inline-block;position:relative;}
+  .side-check-row input:checked + .check-box{background:var(--apt-green);border-color:var(--apt-green);}
+  .side-check-row input:checked + .check-box::after{content:'✓';position:absolute;top:-4px;left:2px;color:#fff;font-size:14px;font-weight:900;}
+  /* PT card grid (Trulia) */
+  .pt-card-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .w25-card.pt-card{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 6px;background:#fff;border:2px solid #d8dbe0;border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;color:#1a1a1a;text-align:center;line-height:1.2;min-height:78px;}
+  .w25-card.pt-card:hover{border-color:#1c8a3a;}
+  .w25-card.pt-card.active{border-color:#1c8a3a;background:rgba(0,122,85,.06);color:#1c8a3a;}
+  .pt-card-icon{font-size:22px;margin-bottom:5px;line-height:1;}
+  .pt-card-label{font-weight:700;font-size:11px;}
+  /* PT tab strip (Zillow Tacoma / HotPads) */
+  .pt-tab-strip{display:flex;gap:0;background:#fff;border:1px solid #d8dbe0;border-radius:6px;overflow:hidden;flex-wrap:nowrap;align-items:stretch;}
+  .w25-tab.pt-tab{flex:1;padding:11px 8px;background:transparent;border:none;cursor:pointer;font-size:13px;font-weight:700;color:#3a3e44;border-right:1px solid #ebedf0;white-space:nowrap;}
+  .w25-tab.pt-tab:last-child{border-right:none;}
+  .w25-tab.pt-tab:hover{background:#f6f8fa;}
+  .w25-tab.pt-tab.active{background:#1c8a3a;color:#fff;}
+  .pt-tab-clear{padding:11px 14px;background:#fff;color:#5a5e63;border:none;border-left:1px solid #ebedf0;cursor:pointer;font-size:12px;font-weight:700;}
+  /* PT pill row (Movoto) */
+  .pt-pill-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:6px 0;}
+  .pt-pill-label{font-size:13px;font-weight:800;color:#3a3e44;margin-right:4px;}
+  .w25-card.pt-pill{padding:8px 16px;background:#fff;border:1.5px solid #d8c5d6;border-radius:18px;font-size:13px;font-weight:700;color:#5a4256;cursor:pointer;}
+  .w25-card.pt-pill:hover{border-color:#1c8a3a;color:#1c8a3a;}
+  .w25-card.pt-pill.active{background:#1c8a3a;color:#fff;border-color:#1c8a3a;}
+  .pt-pill-clear{background:transparent;border:none;color:#999;font-size:16px;font-weight:700;cursor:pointer;padding:4px 8px;}
+  /* Native select (Compass / Realtor variant) */
+  .select-wrap{display:flex;flex-direction:column;gap:4px;}
+  .select-label{font-size:12px;font-weight:700;color:#3a3e44;letter-spacing:.4px;text-transform:uppercase;}
+  .pt-select{padding:9px 12px;border:1px solid #c8ccd1;border-radius:4px;font-size:14px;font-weight:600;background:#fff;min-width:190px;cursor:pointer;font-family:inherit;}
+  .pt-select:focus{outline:none;border-color:#1c8a3a;box-shadow:0 0 0 2px rgba(0,0,0,.08);}
+  /* Page chrome */
+  .page-title{font-size:24px;font-weight:800;margin:14px 0 4px;color:var(--apt-text);letter-spacing:-.3px;}
+  .page-sub{font-size:13px;color:var(--apt-muted);margin-bottom:12px;}
+  #result-count{font-size:14px;font-weight:700;color:var(--apt-text);}
+
+  /* Apartments.com top filter pill bar */
+  .apt-filter-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 0 14px;border-bottom:1px solid var(--apt-line);margin-bottom:14px;}
+  .apt-filter-pill{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--apt-line);background:#fff;border-radius:18px;font-size:13px;font-weight:700;color:var(--apt-text);cursor:pointer;}
+  .apt-filter-pill:hover{border-color:var(--apt-green);color:var(--apt-green);}
+  .apt-filter-pill .caret{font-size:9px;opacity:.6;}
+  .apt-filter-pill.solid{background:var(--apt-green);color:#fff;border-color:var(--apt-green);}
+  .apt-save-row{margin-left:auto;display:flex;gap:14px;align-items:center;font-size:13px;font-weight:700;color:var(--apt-text);}
+  .apt-save-row .sort-link{color:var(--apt-green);text-decoration:underline;}
+
+  .lc-img{background:linear-gradient(135deg,#e6f3ec,#cfe6d8);color:var(--apt-green);}
+  .listing-card{border-radius:6px;border:1px solid var(--apt-line);}
+  .listing-card:hover{box-shadow:0 6px 18px rgba(0,90,40,.16);}
+  .lc-price{color:var(--apt-text);}
+</style>
+</head>
+<body>
+
+<header class="site-header" style="background:#fff;border-bottom:1px solid #e2e7e4;padding:0 28px;height:62px;display:flex;align-items:center;gap:28px;position:sticky;top:0;z-index:140;box-shadow:0 1px 0 rgba(0,0,0,.04);">
+  <a style="display:flex;align-items:center;gap:8px;font-weight:600;font-size:11px;color:#1a1a1a;letter-spacing:.4px;text-transform:uppercase;">
+    <span style="font-size:18px;">☰</span> Menu
+  </a>
+  <a style="display:flex;align-items:center;gap:6px;font-size:13px;color:#3a3e44;font-weight:600;">
+    <span style="font-size:14px;">🌐</span> English
+  </a>
+  <a class="site-logo" style="display:flex;align-items:center;gap:9px;font-weight:900;font-size:22px;color:#0a1f17;letter-spacing:-0.3px;margin:0 auto;">
+    <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
+      <rect x="3" y="3" width="26" height="26" rx="6" fill="#007a33"/>
+      <text x="16" y="23" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="800" fill="#fff">E</text>
+    </svg>
+    EchoRent<sup style="font-size:10px;font-weight:600;color:#5a6b62;">™</sup>
+  </a>
+  <div style="display:flex;gap:18px;align-items:center;font-size:13px;font-weight:600;color:#3a3e44;">
+    <a>Manage Rentals</a>
+    <span style="display:flex;gap:4px;"><a>Sign Up</a><span style="color:#9aa0a6;">/</span><a>Sign In</a></span>
+    <a style="padding:18px 16px;background:#3a3e44;color:#fff;height:62px;display:flex;align-items:center;font-weight:700;margin:0 -28px 0 0;">Add a Property</a>
+  </div>
+</header>
+<div class="search-row" style="background:#fff;border-bottom:1px solid #e2e7e4;padding:14px 28px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+  <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--apt-green-light);border-radius:18px;font-size:13px;font-weight:700;color:var(--apt-green-dark);">
+    <span>📍</span> Houston, TX <span style="margin-left:6px;color:var(--apt-green);">×</span>
+  </div>
+  <div style="flex:1;display:flex;align-items:center;background:#fff;border:1.5px solid #c8d3cd;border-radius:24px;padding:6px 8px 6px 18px;max-width:520px;">
+    <input style="flex:1;border:none;outline:none;font-size:14px;color:var(--apt-text);background:transparent;" placeholder="Add another location, neighborhood, ZIP">
+    <span style="display:flex;align-items:center;gap:6px;padding:0 10px;font-size:12px;color:var(--apt-green);font-weight:700;border-left:1px solid #e2e7e4;">✦ Ai</span>
+    <span style="padding:0 8px;color:var(--apt-muted);">🎤</span>
+    <button style="width:34px;height:34px;border-radius:50%;background:var(--apt-green);color:#fff;border:none;font-size:14px;cursor:pointer;">🔍</button>
+  </div>
+</div>
+
+
+<div class="page-wrap" style="display:grid;grid-template-columns:280px 1fr;gap:22px;max-width:1380px;margin:0 auto;padding:18px 28px 28px;">
+  <aside class="filters-rail">
+    <h2 style="font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#3a3e44;margin:6px 0 12px;">Filters</h2>
+    
+<div class="side-section">
+  <div class="side-section-title">Property Type</div>
+  <div class="side-check-list"><label class="side-check-row"><input type="radio" class="w25-rad" name="ptype_Echo" data-facet="property_type" value="Single-Family" onchange="onRadChange(this)"> <span class="check-box"></span><span>Single-Family</span></label><label class="side-check-row"><input type="radio" class="w25-rad" name="ptype_Echo" data-facet="property_type" value="Condo" onchange="onRadChange(this)"> <span class="check-box"></span><span>Condo</span></label><label class="side-check-row"><input type="radio" class="w25-rad" name="ptype_Echo" data-facet="property_type" value="Townhouse" onchange="onRadChange(this)"> <span class="check-box"></span><span>Townhouse</span></label><label class="side-check-row"><input type="radio" class="w25-rad" name="ptype_Echo" data-facet="property_type" value="Multi-Family" onchange="onRadChange(this)"> <span class="check-box"></span><span>Multi-Family</span></label><label class="side-check-row"><input type="radio" class="w25-rad" name="ptype_Echo" data-facet="property_type" value="Studio Apartment" onchange="onRadChange(this)"> <span class="check-box"></span><span>Studio Apartment</span></label></div>
+  <a class="side-clear" onclick="clearFacet('property_type')">Reset Property Type</a>
+</div>
+
+    <div class="side-section">
+      <div class="side-section-title">Bedrooms</div>
+      <div class="w25-chip-row" style="flex-wrap:wrap;gap:0;"><button type="button" class="w25-chip" data-facet="min_beds" data-val="0" onclick="pickChip(this,'min_beds')">Any</button>
+<button type="button" class="w25-chip" data-facet="min_beds" data-val="1" onclick="pickChip(this,'min_beds')">1+</button>
+<button type="button" class="w25-chip" data-facet="min_beds" data-val="2" onclick="pickChip(this,'min_beds')">2+</button>
+<button type="button" class="w25-chip" data-facet="min_beds" data-val="3" onclick="pickChip(this,'min_beds')">3+</button>
+<button type="button" class="w25-chip" data-facet="min_beds" data-val="4" onclick="pickChip(this,'min_beds')">4+</button>
+<button type="button" class="w25-chip" data-facet="min_beds" data-val="5" onclick="pickChip(this,'min_beds')">5+</button></div>
+      <a class="side-clear" onclick="clearFacet('min_beds')">Clear</a>
+    </div>
+    <div class="side-section" style="font-size:12px;color:#5a5e63;line-height:1.5;">
+      <div class="side-section-title">More Filters</div>
+      Price · Square Feet · Lot Size · Year Built · HOA · Days on Market · Garage · Pets · School Rating
+    </div>
+  </aside>
+  <main class="results-col">
+    <div class="page-title">Houses for Rent in Houston, TX</div>
+    <div class="page-sub"><span id="result-count">— rentals</span> · Updated daily · Trusted by 49+ million renters</div>
+    <div class="apt-filter-bar">
+      <button class="apt-filter-pill">Price <span class="caret">▼</span></button>
+      <button class="apt-filter-pill">Beds/Bath <span class="caret">▼</span></button>
+      <button class="apt-filter-pill solid">Home Type <span class="caret">▼</span></button>
+      <button class="apt-filter-pill">Specialty Housing <span class="caret">▼</span></button>
+      <button class="apt-filter-pill">All Filters</button>
+      <div class="apt-save-row">
+        <a class="sort-link">Save Search</a>
+        <span>Sort: <a class="sort-link">Newest ▾</a></span>
+      </div>
+    </div>
+    <div class="active-bar" id="active-chips"></div>
+    <div id="result-grid"></div>
+  </main>
+</div>
+
+<footer style="background:#0a1f17;color:#cfd9d3;padding:28px 28px 24px;font-size:12px;margin-top:36px;">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;font-size:14px;font-weight:800;color:#fff;">
+    <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true">
+      <rect x="3" y="3" width="26" height="26" rx="6" fill="#4cc97c"/>
+      <text x="16" y="23" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="800" fill="#fff">E</text>
+    </svg>
+    EchoRent<sup style="font-size:9px;font-weight:600;opacity:.7;">™</sup>
+  </div>
+  <div style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:14px;">
+    <a style="color:#cfd9d3;">About Us</a><a style="color:#cfd9d3;">Contact Us</a><a style="color:#cfd9d3;">Site Map</a>
+    <a style="color:#cfd9d3;">Help</a><a style="color:#cfd9d3;">Advertise with Us</a><a style="color:#cfd9d3;">Terms of Use</a>
+    <a style="color:#cfd9d3;">Privacy Notice</a><a style="color:#cfd9d3;">Press</a><a style="color:#cfd9d3;">Careers</a><a style="color:#cfd9d3;">Fair Housing Guide</a>
+  </div>
+  <div style="opacity:.65;line-height:1.6;max-width:920px;">© 2024 EchoRent, Inc. EchoRent<sup>™</sup> is a registered trademark of EchoRent, Inc. EchoRent is committed to digital accessibility and equal housing opportunity.</div>
+</footer>
+<script>
+function escapeHtmlText(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function escapeJsSingleQuoted(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n');}
+
+const ENV_ID = 'W25_E02';
+let filterState = {};
+
+function _toInt(v){ const n=Number(v); return Number.isNaN(n)?v:n; }
+
+function collectState(){
+  const fs={};
+  document.querySelectorAll('.w25-chip.active').forEach(b=>{
+    const f=b.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(b.dataset.val); else fs[f]=b.dataset.val;
+  });
+  document.querySelectorAll('input[type=radio].w25-rad:checked').forEach(el=>{
+    const f=el.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(el.value); else fs[f]=el.value;
+  });
+  document.querySelectorAll('select.w25-sel').forEach(s=>{
+    const f=s.dataset.facet; if(!f) return;
+    const v=s.value;
+    if(v){ if(f==='min_beds') fs[f]=_toInt(v); else fs[f]=v; }
+  });
+  document.querySelectorAll('.w25-card.active').forEach(b=>{
+    const f=b.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(b.dataset.val); else fs[f]=b.dataset.val;
+  });
+  document.querySelectorAll('.w25-tab.active').forEach(b=>{
+    const f=b.dataset.facet; if(!f) return;
+    if(f==='min_beds') fs[f]=_toInt(b.dataset.val); else fs[f]=b.dataset.val;
+  });
+  return fs;
+}
+
+function pickChip(btn,facet){
+  const cur=btn.classList.contains('active');
+  document.querySelectorAll('.w25-chip[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  if(!cur) btn.classList.add('active');
+  onF();
+}
+function pickCard(btn,facet){
+  const cur=btn.classList.contains('active');
+  document.querySelectorAll('.w25-card[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  if(!cur) btn.classList.add('active');
+  onF();
+}
+function pickTab(btn,facet){
+  const cur=btn.classList.contains('active');
+  document.querySelectorAll('.w25-tab[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  if(!cur) btn.classList.add('active');
+  onF();
+}
+function onSelChange(_el){ onF(); }
+function onRadChange(_el){ onF(); }
+
+function onF(){
+  filterState=collectState();
+  const urlParams=new URLSearchParams(window.location.search);
+  const taskId=urlParams.get('task_id');
+
+  fetch('/env/'+ENV_ID+'/api/filter',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({filter_state:filterState})
+  }).then(r=>r.json()).then(data=>{
+    renderResults(data.results||[]);
+    const rc=document.getElementById('result-count');
+    if(rc) rc.textContent=(data.results||[]).length+' rentals';
+    renderActive();
+  }).catch(()=>{});
+
+  fetch('/env/'+ENV_ID+'/api/submit',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({filter_state:filterState,answer:'',task_id:taskId})
+  }).catch(()=>{});
+}
+
+function renderResults(results){
+  const grid=document.getElementById('result-grid'); if(!grid) return;
+  if(!results.length){ grid.innerHTML='<div class="empty">No rentals match the current filters.</div>'; return; }
+  const isRentEnv=true;
+  grid.innerHTML=results.map(r=>{
+    const isRent=(r.product_type==='rentals')||isRentEnv;
+    const price=escapeHtmlText('$'+(r.price||0).toLocaleString()+(isRent?'/mo':''));
+    const beds=escapeHtmlText(r.beds!=null?r.beds:'?');
+    const baths=escapeHtmlText(r.baths!=null?r.baths:'?');
+    const sqft=escapeHtmlText(r.sqft!=null?r.sqft.toLocaleString():'');
+    const addr=escapeHtmlText(r.title||'');
+    const cityFull=escapeHtmlText(r.city_full||r.city||'');
+    const ptype=escapeHtmlText(r.property_type||'');
+    const img=r.image_url||'';
+    const name=(addr.split(',')[0]||addr).trim();
+    return `
+          <div class="listing-card">
+            <div class="lc-img">${img?`<img src="${escapeHtmlText(img)}" alt="">`:`<div>${name.split(' ').slice(0,2).join(' ')}</div>`}
+              ${r.is_new?'<div class="lc-badge">New • Hot Deal</div>':''}
+              <div class="lc-fav">♥</div>
+            </div>
+            <div class="lc-body">
+              <div class="lc-price">${price}</div>
+              <div class="lc-meta"><b>${beds}</b> Bed${beds==1?'':'s'} · <b>${baths}</b> Bath${baths==1?'':'s'}${sqft?` · ${sqft} sq ft`:''}</div>
+              <div class="lc-name">${name}</div>
+              <div class="lc-addr">${cityFull}</div>
+              ${ptype?`<span class="lc-ptype">${ptype}</span>`:''}
+              <div class="lc-cta">
+                <button>Call</button>
+                <button class="primary">Email</button>
+              </div>
+            </div>
+          </div>`;
+  }).join('');
+}
+
+function renderActive(){
+  const bar=document.getElementById('active-chips'); if(!bar) return;
+  const labelMap={'min_beds':'Beds','property_type':'Home Type'};
+  const valueMap=(k,v)=>{ if(k==='min_beds') return (v===0||v==='0')?'Any':(v+'+'); return v; };
+  const chips=[];
+  for(const [k,v] of Object.entries(filterState)){
+    const lbl=labelMap[k]||k;
+    chips.push('<span class="active-chip">'+escapeHtmlText(lbl)+': '+escapeHtmlText(valueMap(k,v))+' <span class="ac-x" onclick="clearFacet(\''+escapeHtmlText(escapeJsSingleQuoted(k))+'\')">×</span></span>');
+  }
+  bar.innerHTML=chips.join('');
+}
+
+function clearFacet(facet){
+  document.querySelectorAll('.w25-chip[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.w25-card[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.w25-tab[data-facet="'+facet+'"]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('input[type=radio].w25-rad[data-facet="'+facet+'"]').forEach(i=>{i.checked=false;});
+  document.querySelectorAll('select.w25-sel[data-facet="'+facet+'"]').forEach(s=>{s.selectedIndex=0;});
+  onF();
+}
+
+function toggleDropdown(id){
+  const el=document.getElementById(id); if(!el) return;
+  const parent=el.parentElement;
+  const wasOpen=parent&&parent.classList.contains('open');
+  document.querySelectorAll('.w25-dropdown').forEach(d=>d.classList.remove('open'));
+  document.querySelectorAll('.w25-dropdown-panel').forEach(p=>p.classList.remove('open'));
+  if(!wasOpen&&parent) parent.classList.add('open');
+}
+document.addEventListener('click',(e)=>{
+  if(!e.target.closest('.w25-dropdown')&&!e.target.closest('.w25-pill-trigger')&&!e.target.closest('.w25-dd-trigger')){
+    document.querySelectorAll('.w25-dropdown').forEach(d=>d.classList.remove('open'));
+  }
+});
+document.addEventListener('DOMContentLoaded',()=>{ onF(); });
+</script>
+</body>
+</html>

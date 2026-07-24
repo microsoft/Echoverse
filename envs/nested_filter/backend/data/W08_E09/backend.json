@@ -1,0 +1,95 @@
+{
+  "env_id": "W08_E09",
+  "widget_id": "W08_filter_chip_confirmation",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "brand",
+      "condition",
+      "color"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "W08_E09_T001",
+      "task_index_in_env": 1,
+      "instruction_text": "Find **Educational** events that are **Free** \u2014 apply the Topic (Educational) and Price (Free) chips in the hero pill cluster.",
+      "expected_filter_state": {
+        "constraint": "category=[Educational], color=[Free]"
+      }
+    },
+    {
+      "task_id": "W08_E09_T002",
+      "task_index_in_env": 2,
+      "instruction_text": "Mirror the Eventbrite request: **school-activity events in New York for this month**. Apply Topic chip (Educational) + Date chip (This month) + Price chip (Free). Verify all three pills sit in the hero pill cluster before reading off the list.",
+      "expected_filter_state": {
+        "constraint": "category=[Educational], condition=[This month], color=[Free]"
+      }
+    },
+    {
+      "task_id": "W08_E09_T003",
+      "task_index_in_env": 3,
+      "instruction_text": "Apply **Educational** + **This month** + **Free** + **NYC DOE** (host). After all four pills are in the hero cluster, \u00d7 off the NYC DOE host chip so the host is unconstrained.",
+      "expected_filter_state": {
+        "constraint": "category=[Educational], condition=[This month], color=[Free]"
+      }
+    },
+    {
+      "task_id": "W08_E09_T004",
+      "task_index_in_env": 4,
+      "instruction_text": "Cross-compare two topics: apply **Educational** AND **Family** under Topic, plus **This weekend** date. Then \u00d7 off the Family chip so the cluster shows Educational + This weekend only.",
+      "expected_filter_state": {
+        "constraint": "category=[Educational], condition=[This weekend]"
+      }
+    },
+    {
+      "task_id": "W08_E09_T005",
+      "task_index_in_env": 5,
+      "instruction_text": "No filters \u2014 how many events total are listed on EventStream?",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E09_T006",
+      "task_index_in_env": 6,
+      "instruction_text": "Without filtering, which event has the highest rating, and what's the rating?",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E09_T007",
+      "task_index_in_env": 7,
+      "instruction_text": "No filters \u2014 count free events versus paid events.",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E09_T008",
+      "task_index_in_env": 8,
+      "instruction_text": "Apply the **STEM** (topic) chip AND the **Paid** (price) chip. After both pills sit in the pill cluster, tell me how many paid STEM events are listed.",
+      "expected_filter_state": {
+        "constraint": "category=[STEM], color=[Paid]"
+      }
+    },
+    {
+      "task_id": "W08_E09_T009",
+      "task_index_in_env": 9,
+      "instruction_text": "Multi-step replay: apply **Educational** + **This month** + **Paid** + **NYC DOE** (host). Then \u00d7 off the Paid chip so price is unconstrained. Tell me how many NYC-DOE Educational events this month remain.",
+      "expected_filter_state": {
+        "constraint": "brand=[NYC DOE], category=[Educational], condition=[This month]"
+      }
+    },
+    {
+      "task_id": "W08_E09_T010",
+      "task_index_in_env": 10,
+      "instruction_text": "Apply **Family** (topic) + **Free** (price) + **This weekend** (date). Once all three pills are in the hero cluster, name the highest-rated free family event this weekend (title + rating).",
+      "expected_filter_state": {
+        "constraint": "category=[Family], color=[Free], condition=[This weekend]"
+      }
+    }
+  ]
+}

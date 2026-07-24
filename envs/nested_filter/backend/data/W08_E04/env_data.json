@@ -1,0 +1,38 @@
+{
+  "env_id": "W08_E04",
+  "widget_id": "W08_filter_chip_confirmation",
+  "widget_name": "Filter-chip confirmation bar",
+  "widget_category": "active_filter_bar",
+  "widget_mechanic": "After applying \u22652 filters, an active-chip bar shows what is currently applied. Agent must verify each required chip is present (and no extras) before treating the result set as the answer.",
+  "archetype": "faceted_catalog",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W08_filter_chip_confirmation"
+  ],
+  "site_imitates": "Cars.com vehicle search",
+  "product_type": "used cars (BMW, 8-cylinder)",
+  "source_inspiration": [
+    {
+      "task_id": "fcf4952d2a1d80ea505c555c3c3b54e7",
+      "benchmark": "OM2W",
+      "site": "cars.com",
+      "instruction": "Find the cheapest used 8-cylinder BMW made between 2005-2015 and priced from 25,000 to 50,000.",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: Agent narrowed by make/price but never confirmed the 8-cylinder filter chip was present and removable from the applied-filter rail before reporting the cheapest result."
+    }
+  ],
+  "theme_key": "sourceforge",
+  "theme_logo": "OpenForge",
+  "theme_card": "game-row",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 3,
+  "n_seed_items": 18,
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "brand",
+      "category",
+      "color",
+      "condition"
+    ]
+  }
+}

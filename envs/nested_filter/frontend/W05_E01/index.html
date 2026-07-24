@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoHomes — Homes for sale in Aiken, SC</title>
+<style>
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Avenir Next','Helvetica Neue','Inter',Arial,sans-serif;color:#1a1a1a;background:#fff;line-height:1.45;font-size:14px;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.hide-debug{display:none!important;visibility:hidden!important}
+:root{--rdc-red:#a40d2c;--rdc-red-deep:#7a0922;--rdc-cream:#fef9f5;--rdc-ink:#1a1a1a;--rdc-mute:#6b7280;--rdc-line:#e6e6e6}
+
+/* === REALTOR.COM HEADER === */
+.rdc-top{background:#fff;border-bottom:1px solid #ececec;padding:10px 24px;display:flex;align-items:center;gap:22px;position:sticky;top:0;z-index:30}
+.rdc-logo{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.rdc-logo .mark{width:28px;height:28px;background:var(--rdc-red);border-radius:5px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:18px;font-family:Georgia,serif;line-height:1;box-shadow:inset 0 -3px 0 rgba(0,0,0,.12)}
+.rdc-logo .word{font-weight:800;font-size:18px;letter-spacing:-.4px;color:#1a1a1a}
+.rdc-logo .word .dot{color:var(--rdc-red)}
+.rdc-nav{display:flex;gap:22px;font-size:13px;font-weight:600;color:#2b2b2b}
+.rdc-nav a{padding:6px 0;border-bottom:2px solid transparent;transition:border-color .15s}
+.rdc-nav a:hover,.rdc-nav a.on{border-bottom-color:var(--rdc-red);color:var(--rdc-red)}
+.rdc-search{flex:1;max-width:520px;display:flex;align-items:center;gap:8px;background:#f5f5f5;border:1px solid #e0e0e0;border-radius:6px;padding:8px 12px;transition:border-color .15s}
+.rdc-search:focus-within{border-color:var(--rdc-red);background:#fff}
+.rdc-search svg{flex-shrink:0;opacity:.55}
+.rdc-search input{flex:1;border:none;background:transparent;font:inherit;font-size:13px;outline:none;color:#1a1a1a}
+.rdc-acct{display:flex;gap:12px;align-items:center;font-size:13px;font-weight:600}
+.rdc-acct .ic{font-size:15px}
+.rdc-acct a:hover{color:var(--rdc-red)}
+.rdc-acct .join{padding:7px 14px;border:1.5px solid var(--rdc-red);color:var(--rdc-red);border-radius:4px;font-weight:700;font-size:12px}
+.rdc-acct .join:hover{background:var(--rdc-red);color:#fff}
+
+/* === STICKY FILTER BAR (Realtor.com pattern) === */
+.rdc-fbar{display:flex;align-items:center;gap:8px;padding:10px 24px;border-bottom:1px solid #ececec;background:#fff;flex-wrap:wrap;position:sticky;top:49px;z-index:25;font-size:12px}
+.rdc-fbar .fb-tabs{display:flex;border:1px solid #d4d4d4;border-radius:4px;overflow:hidden;margin-right:6px}
+.rdc-fbar .fb-tabs span{padding:7px 12px;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#555;cursor:pointer;background:#fff}
+.rdc-fbar .fb-tabs span.on{background:var(--rdc-red);color:#fff}
+.rdc-fbar .fb-pill{padding:7px 11px;border:1px solid #d4d4d4;border-radius:4px;font-weight:600;color:#1a1a1a;background:#fff;display:inline-flex;align-items:center;gap:6px;cursor:default}
+.rdc-fbar .fb-pill.on{border-color:var(--rdc-red);color:var(--rdc-red);background:#fdf3f5}
+.rdc-fbar .fb-pill .caret{font-size:9px;opacity:.6}
+.rdc-fbar .fb-spacer{flex:1}
+.rdc-fbar .fb-save{padding:7px 14px;background:var(--rdc-red);color:#fff;border-radius:4px;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+
+/* === BREADCRUMB / PAGE HEAD === */
+.rdc-crumb{padding:14px 24px 6px;font-size:11px;color:#6b7280}
+.rdc-crumb a{color:#6b7280}
+.rdc-crumb a:hover{color:var(--rdc-red)}
+.rdc-crumb .sep{margin:0 6px;opacity:.5}
+
+/* === MAP PANE === */
+.map-pane{position:sticky;top:97px;align-self:start;background:#dde5e8;border-left:1px solid #e6e6e6;height:calc(100vh - 97px);overflow:hidden}
+.map-pane .map-bg{position:absolute;inset:0;background:
+  radial-gradient(circle at 28% 32%, rgba(255,255,255,.6) 0, transparent 12%),
+  radial-gradient(circle at 70% 60%, rgba(255,255,255,.5) 0, transparent 18%),
+  linear-gradient(180deg,#d8e6e3 0,#c8dad6 40%,#bcd1cc 100%)}
+.map-pane .map-grid{position:absolute;inset:0;background-image:
+  linear-gradient(rgba(255,255,255,.18) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(255,255,255,.18) 1px, transparent 1px);
+  background-size:40px 40px}
+.map-pane .road{position:absolute;background:#fff;opacity:.85}
+.map-pane .r1{top:18%;left:0;right:0;height:5px;transform:rotate(-3deg)}
+.map-pane .r2{top:54%;left:0;right:0;height:7px;transform:rotate(2deg)}
+.map-pane .r3{top:0;bottom:0;left:38%;width:4px}
+.map-pane .r4{top:0;bottom:0;left:72%;width:6px;transform:rotate(4deg);transform-origin:top}
+.map-pane .water{position:absolute;top:62%;left:5%;width:32%;height:22%;background:#9ec5d4;border-radius:50% 40% 55% 60%;opacity:.85}
+.map-pane .park{position:absolute;top:22%;right:8%;width:24%;height:18%;background:#b5d2a7;border-radius:42% 58% 50% 60%;opacity:.7}
+.map-pane .pin{position:absolute;background:var(--rdc-red);color:#fff;font-weight:800;font-size:11px;padding:4px 8px;border-radius:14px;box-shadow:0 2px 5px rgba(0,0,0,.3);transform:translate(-50%,-100%);white-space:nowrap}
+.map-pane .pin:after{content:"";position:absolute;left:50%;bottom:-5px;transform:translateX(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid var(--rdc-red)}
+.map-pane .map-ctrl{position:absolute;background:#fff;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.25);font-size:14px;font-weight:700;width:30px;height:30px;display:flex;align-items:center;justify-content:center;color:#333;cursor:pointer}
+.map-pane .zoom-in{top:12px;right:12px}
+.map-pane .zoom-out{top:48px;right:12px}
+.map-pane .map-cap{position:absolute;bottom:12px;left:12px;background:rgba(255,255,255,.92);padding:6px 10px;border-radius:4px;font-size:11px;font-weight:600;color:#1a1a1a;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+
+/* === RESULT CARDS (shared) === */
+.results-pane{padding:14px 20px 24px}
+.results-head{display:flex;align-items:flex-end;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.results-head h1{font-size:24px;font-weight:800;margin:0;letter-spacing:-.4px;color:#1a1a1a}
+.results-head h1 .sub{display:block;font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.6px;margin-top:2px}
+.results-head .res-cnt{color:#6b7280;font-size:12px;margin-left:6px}
+.results-head .sort-dd{margin-left:auto;border:1px solid #d4d4d4;border-radius:4px;padding:7px 10px;background:#fff;font-size:12px;font-weight:600}
+.active-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;min-height:24px}
+.active-chips:empty:before{content:""}
+.active-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;background:#fdf3f5;color:var(--rdc-red);font-size:11px;border-radius:14px;font-weight:700;border:1px solid #f3d7df}
+.active-chip .x{cursor:pointer;opacity:.6;font-size:13px;line-height:1}
+.active-chip .x:hover{opacity:1}
+.result-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.result-card{display:grid;grid-template-columns:240px 1fr;background:#fff;border:1px solid #e6e6e6;border-radius:8px;overflow:hidden;transition:box-shadow .15s,transform .15s;position:relative}
+.result-card:hover{box-shadow:0 8px 22px rgba(0,0,0,.10);transform:translateY(-1px);border-color:var(--rdc-red)}
+.rc-photo{background:linear-gradient(135deg,#f3e7d3,#dde2e8);min-height:180px;background-size:cover;background-position:center;position:relative}
+.rc-photo:before{content:"📷 24";position:absolute;left:8px;bottom:8px;background:rgba(0,0,0,.55);color:#fff;font-size:10px;padding:3px 7px;border-radius:3px;font-weight:600}
+.rc-body{padding:14px 18px;display:flex;flex-direction:column;gap:5px}
+.rc-price-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.rc-price{font-size:22px;font-weight:800;color:#1a1a1a;letter-spacing:-.3px}
+.rc-ptype{font-size:10px;padding:3px 9px;background:#fdf3f5;color:var(--rdc-red);border-radius:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.rc-stats{font-size:13px;font-weight:700;color:#1a1a1a}
+.rc-addr{font-size:13px;font-weight:600}
+.rc-city{font-size:12px;color:#6b7280}
+.rc-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.lstg-tag{font-size:10px;padding:3px 8px;border-radius:3px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.tag-new{background:#0a7b3a;color:#fff}
+.tag-reduced{background:#fff1d6;color:#8a5300}
+.tag-pet{background:#eaf3ee;color:#1f5a36}
+.tag-gar{background:#eef2ff;color:#293c8a}
+.broker-line{font-size:10px;color:#6b7280;margin-top:6px;text-transform:uppercase;letter-spacing:.4px}
+.broker-line b{color:#1a1a1a;font-weight:700}
+
+/* === FOOTER === */
+.site-foot{margin-top:0;padding:0;color:#cbd5db;font-size:12px;background:#1f2a30}
+.foot-cols{display:grid;grid-template-columns:repeat(5,1fr);gap:22px;padding:30px 28px 22px;max-width:1280px;margin:0 auto}
+.foot-cols h5{font-size:11px;color:#fff;font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin:0 0 10px}
+.foot-cols a{display:block;color:#cbd5db;padding:3px 0;font-size:12px}
+.foot-cols a:hover{color:#fff}
+.foot-bot{border-top:1px solid #2d3a42;padding:16px 28px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;max-width:1280px;margin:0 auto;color:#9aa6ab;font-size:11px}
+.foot-bot .spacer{flex:1}
+.foot-bot .brand{display:flex;align-items:center;gap:8px;font-weight:700;color:#fff}
+.foot-bot .brand .mark{width:22px;height:22px;background:var(--rdc-red);border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:14px;font-family:Georgia,serif}
+
+@media(max-width:1100px){
+  .layout{grid-template-columns:260px 1fr!important}
+  .map-pane{display:none}
+}
+@media(max-width:880px){
+  .result-card{grid-template-columns:1fr}
+  .rc-photo{min-height:160px}
+  .layout{grid-template-columns:1fr!important}
+  .filter-side{border-right:none;border-bottom:1px solid #e6e6e6}
+}
+
+
+.layout{display:grid;grid-template-columns:260px 1fr 340px;gap:0}
+.filter-side{padding:18px 18px;border-right:1px solid #e6e6e6;background:#fafafa;min-height:80vh}
+.filter-side h3{margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:#6b7280;font-weight:700}
+.f-sec{margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #ececec}
+.f-sec h4{font-size:12px;margin:0 0 10px;text-transform:uppercase;letter-spacing:.5px;color:#1a1a1a;font-weight:800}
+.f-sec h4 .hint{font-weight:500;text-transform:none;color:#6b7280;letter-spacing:0;margin-left:6px;font-size:11px}
+.chip-row{display:flex;flex-wrap:wrap;gap:6px}
+.pill-chip{padding:7px 14px;background:#fff;color:#1a1a1a;border:1px solid #d4d4d4;border-radius:4px;font-size:12px;font-weight:700;transition:all .12s;font-family:inherit;min-width:46px}
+.pill-chip:hover{border-color:var(--rdc-red);color:var(--rdc-red)}
+.pill-chip.active{background:var(--rdc-red);color:#fff;border-color:var(--rdc-red);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.pill-chip.active .cnt{color:rgba(255,255,255,.85)}
+.pill-chip .cnt{display:block;font-size:9px;font-weight:400;color:#6b7280;margin-top:1px}
+.f-cb{display:flex;align-items:center;gap:8px;font-size:13px;padding:5px 0;cursor:pointer;color:#1a1a1a}
+.f-cb input{accent-color:var(--rdc-red)}
+
+</style>
+</head>
+<body>
+<script>window.__RENT_MODE__ = false;</script>
+<header class="rdc-top">
+  <div class="rdc-logo">
+    <div class="mark">E</div>
+    <div class="word">EchoHomes<span style="display:block;font-size:9px;font-weight:500;color:#6b7280;letter-spacing:0;margin-top:-2px">Find your way home</span></div>
+  </div>
+  <nav class="rdc-nav">
+    <a class="on">Buy</a><a>Rent</a><a>Sell</a><a>Pre-approval</a><a>Just sold</a><a>Home value</a>
+  </nav>
+  <div class="rdc-search">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input type="text" value="Aiken, SC" aria-label="Search location">
+  </div>
+  <div class="rdc-acct">
+    <a>♡ Saved</a>
+    <a>Advertise</a>
+    <a>Sign in</a>
+    <a class="join">Join</a>
+  </div>
+</header>
+<div class="rdc-fbar">
+  <div class="fb-tabs"><span class="on">For Sale</span><span>For Rent</span><span>Sold</span></div>
+  <span class="fb-pill">Price <span class="caret">▾</span></span>
+  <span class="fb-pill" id="fb-beds">Beds <span class="caret">▾</span></span>
+  <span class="fb-pill" id="fb-baths">Baths <span class="caret">▾</span></span>
+  <span class="fb-pill">Home Type <span class="caret">▾</span></span>
+  <span class="fb-pill">More <span class="caret">▾</span></span>
+  <span class="fb-spacer"></span>
+  <span class="fb-pill">⊞ Map view</span>
+  <span class="fb-save">♡ Save search</span>
+</div>
+
+<div class="layout">
+
+<aside class="filter-side">
+  <h3>Refine search</h3>
+  <div class="f-sec">
+    <h4>Bedrooms <span class="hint">at least</span></h4>
+    <div class="chip-row" id="chip-row-beds"><button class="pill-chip" data-facet="min_beds" data-val="0" onclick="pickChip(this,'min_beds',0)"><span>Studio</span></button><button class="pill-chip" data-facet="min_beds" data-val="1" onclick="pickChip(this,'min_beds',1)"><span>1+</span></button><button class="pill-chip" data-facet="min_beds" data-val="2" onclick="pickChip(this,'min_beds',2)"><span>2+</span></button><button class="pill-chip" data-facet="min_beds" data-val="3" onclick="pickChip(this,'min_beds',3)"><span>3+</span></button><button class="pill-chip" data-facet="min_beds" data-val="4" onclick="pickChip(this,'min_beds',4)"><span>4+</span></button><button class="pill-chip" data-facet="min_beds" data-val="5" onclick="pickChip(this,'min_beds',5)"><span>5+</span></button></div>
+  </div>
+  <div class="f-sec">
+    <h4>Bathrooms <span class="hint">at least</span></h4>
+    <div class="chip-row" id="chip-row-baths"><button class="pill-chip" data-facet="min_baths" data-val="0" onclick="pickChip(this,'min_baths',0)"><span>Any</span></button><button class="pill-chip" data-facet="min_baths" data-val="1" onclick="pickChip(this,'min_baths',1)"><span>1+</span></button><button class="pill-chip" data-facet="min_baths" data-val="2" onclick="pickChip(this,'min_baths',2)"><span>2+</span></button><button class="pill-chip" data-facet="min_baths" data-val="3" onclick="pickChip(this,'min_baths',3)"><span>3+</span></button><button class="pill-chip" data-facet="min_baths" data-val="4" onclick="pickChip(this,'min_baths',4)"><span>4+</span></button></div>
+  </div>
+  <div class="f-sec">
+    <h4>Home features</h4>
+    <label class="f-cb"><input type="checkbox" data-facet="has_garage" value="1" onchange="onF()"> Has garage</label>
+    <label class="f-cb"><input type="checkbox" data-facet="pet_friendly" value="1" onchange="onF()"> Pet-friendly</label>
+    <label class="f-cb"><input type="checkbox" data-facet="is_new" value="1" onchange="onF()"> New construction</label>
+  </div>
+  <div class="f-sec">
+    <h4>Listing status</h4>
+    <label class="f-cb"><input type="radio" name="lst"> For Sale</label>
+    <label class="f-cb"><input type="radio" name="lst"> For Rent</label>
+    <label class="f-cb"><input type="radio" name="lst"> Recently Sold</label>
+  </div>
+</aside>
+
+<section class="results-pane">
+  <div class="rdc-crumb"><a>EchoHomes</a><span class="sep">›</span><a>South Carolina</a><span class="sep">›</span><a>Aiken County</a><span class="sep">›</span><a>Aiken</a></div>
+  <div class="results-head">
+    <h1>Aiken, SC Real Estate &amp; Homes for Sale<span class="sub" id="result-count">20 homes available</span></h1>
+    <select class="sort-dd"><option>Sort: Recommended</option><option>Price: Low to High</option><option>Price: High to Low</option><option>Newest</option></select>
+  </div>
+  <div class="active-chips" id="active-chips"></div>
+  <div class="result-grid" id="result-grid">
+<article class="result-card" data-beds="1" data-baths="2.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/9308434/pexels-photo-9308434.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$475,000</span><span class="rc-ptype">Multi-Family</span></div>
+    <div class="rc-stats">1 bd · 2.5 ba · 2,329 sqft · 1.11 ac lot</div>
+    <div class="rc-addr">4471 Elm Dr</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-new">NEW</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="1">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/30580640/pexels-photo-30580640.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$180,000</span><span class="rc-ptype">Single-Family</span></div>
+    <div class="rc-stats">3 bd · 1 ba · 825 sqft · 1.06 ac lot</div>
+    <div class="rc-addr">1461 Sycamore Pl</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-pet">🐾 Pet OK</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="4" data-baths="2.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/5461976/pexels-photo-5461976.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$225,000</span><span class="rc-ptype">Townhouse</span></div>
+    <div class="rc-stats">4 bd · 2.5 ba · 3,074 sqft · 1.44 ac lot</div>
+    <div class="rc-addr">857 Oak St</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-new">NEW</span><span class="lstg-tag tag-reduced">↓ PRICE CUT</span><span class="lstg-tag tag-pet">🐾 Pet OK</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="1" data-baths="1">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/29174533/pexels-photo-29174533.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$625,000</span><span class="rc-ptype">Single-Family</span></div>
+    <div class="rc-stats">1 bd · 1 ba · 3,713 sqft · 0.42 ac lot</div>
+    <div class="rc-addr">9869 Maple Ave</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-new">NEW</span><span class="lstg-tag tag-pet">🐾 Pet OK</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="2">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/7031406/pexels-photo-7031406.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$180,000</span><span class="rc-ptype">Condo</span></div>
+    <div class="rc-stats">3 bd · 2 ba · 1,541 sqft · 0.47 ac lot</div>
+    <div class="rc-addr">6039 Elm Dr</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-new">NEW</span><span class="lstg-tag tag-pet">🐾 Pet OK</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="2" data-baths="2">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/19516616/pexels-photo-19516616.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$180,000</span><span class="rc-ptype">Condo</span></div>
+    <div class="rc-stats">2 bd · 2 ba · 2,198 sqft · 1.57 ac lot</div>
+    <div class="rc-addr">5844 Elm Dr</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="3.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/19190343/pexels-photo-19190343.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$825,000</span><span class="rc-ptype">Single-Family</span></div>
+    <div class="rc-stats">3 bd · 3.5 ba · 1,023 sqft · 1.33 ac lot</div>
+    <div class="rc-addr">5694 Pine Ln</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-reduced">↓ PRICE CUT</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="2.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/6342356/pexels-photo-6342356.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$625,000</span><span class="rc-ptype">Single-Family</span></div>
+    <div class="rc-stats">3 bd · 2.5 ba · 2,971 sqft · 2.46 ac lot</div>
+    <div class="rc-addr">3574 Pine Ln</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"></div>
+  </div>
+</article>
+<article class="result-card" data-beds="2" data-baths="3.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/7031604/pexels-photo-7031604.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$180,000</span><span class="rc-ptype">Studio Apartment</span></div>
+    <div class="rc-stats">2 bd · 3.5 ba · 4,176 sqft · 1.73 ac lot</div>
+    <div class="rc-addr">1893 Cedar Ct</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-pet">🐾 Pet OK</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="4" data-baths="2">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/325259/pexels-photo-325259.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$180,000</span><span class="rc-ptype">Multi-Family</span></div>
+    <div class="rc-stats">4 bd · 2 ba · 3,572 sqft · 2.11 ac lot</div>
+    <div class="rc-addr">1867 Walnut Rd</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-pet">🐾 Pet OK</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="5" data-baths="1.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/13729358/pexels-photo-13729358.png?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$540,000</span><span class="rc-ptype">Multi-Family</span></div>
+    <div class="rc-stats">5 bd · 1.5 ba · 1,490 sqft · 1.96 ac lot</div>
+    <div class="rc-addr">9144 Oak St</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-reduced">↓ PRICE CUT</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="4" data-baths="2.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/34360408/pexels-photo-34360408.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$475,000</span><span class="rc-ptype">Multi-Family</span></div>
+    <div class="rc-stats">4 bd · 2.5 ba · 854 sqft · 0.73 ac lot</div>
+    <div class="rc-addr">3103 Oak St</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-new">NEW</span><span class="lstg-tag tag-reduced">↓ PRICE CUT</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="2.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/27953061/pexels-photo-27953061.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$825,000</span><span class="rc-ptype">Multi-Family</span></div>
+    <div class="rc-stats">3 bd · 2.5 ba · 4,142 sqft · 1.82 ac lot</div>
+    <div class="rc-addr">6803 Pine Ln</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-new">NEW</span><span class="lstg-tag tag-reduced">↓ PRICE CUT</span><span class="lstg-tag tag-pet">🐾 Pet OK</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="2" data-baths="3">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/6699988/pexels-photo-6699988.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$950,000</span><span class="rc-ptype">Studio Apartment</span></div>
+    <div class="rc-stats">2 bd · 3 ba · 3,517 sqft · 1.23 ac lot</div>
+    <div class="rc-addr">1949 Elm Dr</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-new">NEW</span><span class="lstg-tag tag-pet">🐾 Pet OK</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="4" data-baths="3">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/5423282/pexels-photo-5423282.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$275,000</span><span class="rc-ptype">Townhouse</span></div>
+    <div class="rc-stats">4 bd · 3 ba · 1,570 sqft · 1.04 ac lot</div>
+    <div class="rc-addr">107 Sycamore Pl</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-new">NEW</span><span class="lstg-tag tag-reduced">↓ PRICE CUT</span><span class="lstg-tag tag-pet">🐾 Pet OK</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="4" data-baths="3">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/1320734/pexels-photo-1320734.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$540,000</span><span class="rc-ptype">Condo</span></div>
+    <div class="rc-stats">4 bd · 3 ba · 1,212 sqft · 1.65 ac lot</div>
+    <div class="rc-addr">7074 Aspen Cir</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-pet">🐾 Pet OK</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="1" data-baths="2">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/16553771/pexels-photo-16553771.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$625,000</span><span class="rc-ptype">Single-Family</span></div>
+    <div class="rc-stats">1 bd · 2 ba · 3,664 sqft · 0.44 ac lot</div>
+    <div class="rc-addr">374 Cherry St</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-new">NEW</span><span class="lstg-tag tag-pet">🐾 Pet OK</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="2" data-baths="1">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/16285020/pexels-photo-16285020.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$825,000</span><span class="rc-ptype">Multi-Family</span></div>
+    <div class="rc-stats">2 bd · 1 ba · 1,638 sqft · 2.34 ac lot</div>
+    <div class="rc-addr">3255 Cherry St</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-pet">🐾 Pet OK</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="3" data-baths="2">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/9170385/pexels-photo-9170385.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$325,000</span><span class="rc-ptype">Studio Apartment</span></div>
+    <div class="rc-stats">3 bd · 2 ba · 2,267 sqft · 1.08 ac lot</div>
+    <div class="rc-addr">3951 Cherry St</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-reduced">↓ PRICE CUT</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+<article class="result-card" data-beds="4" data-baths="1.5">
+  <div class="rc-photo" style="background-image:url('https://images.pexels.com/photos/7937748/pexels-photo-7937748.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">$625,000</span><span class="rc-ptype">Townhouse</span></div>
+    <div class="rc-stats">4 bd · 1.5 ba · 3,840 sqft · 2.13 ac lot</div>
+    <div class="rc-addr">4465 Birch Way</div>
+    <div class="rc-city">Aiken, SC</div>
+    <div class="rc-tags"><span class="lstg-tag tag-new">NEW</span><span class="lstg-tag tag-gar">🚗 Garage</span></div>
+  </div>
+</article>
+  </div>
+</section>
+<aside class="map-pane" aria-label="Map of Aiken, SC listings">
+  <div class="map-bg"></div>
+  <div class="map-grid"></div>
+  <div class="water"></div>
+  <div class="park"></div>
+  <div class="road r1"></div>
+  <div class="road r2"></div>
+  <div class="road r3"></div>
+  <div class="road r4"></div>
+  <div class="pin" style="top:32%;left:42%">$475K</div>
+  <div class="pin" style="top:46%;left:62%">$225K</div>
+  <div class="pin" style="top:58%;left:34%">$625K</div>
+  <div class="pin" style="top:24%;left:74%">$180K</div>
+  <div class="pin" style="top:68%;left:54%">$825K</div>
+  <div class="pin" style="top:40%;left:22%">$325K</div>
+  <div class="map-ctrl zoom-in">+</div>
+  <div class="map-ctrl zoom-out">−</div>
+  <div class="map-cap">Aiken, SC · 20 listings</div>
+</aside>
+</div>
+<footer class="site-foot">
+  <div class="foot-cols">
+    <div><h5>Buy</h5><a>Homes for sale</a><a>Aiken homes</a><a>Open houses</a><a>New construction</a><a>Foreclosures</a></div>
+    <div><h5>Sell</h5><a>List your home</a><a>Home value</a><a>Find an agent</a><a>Selling guide</a></div>
+    <div><h5>Rent</h5><a>Apartments</a><a>Houses for rent</a><a>Pet friendly</a><a>Rental guide</a></div>
+    <div><h5>Mortgage</h5><a>Get pre-approved</a><a>Today's rates</a><a>Refinance</a><a>Calculators</a></div>
+    <div><h5>About</h5><a>Company</a><a>Careers</a><a>Press room</a><a>Advertise</a><a>Contact us</a></div>
+  </div>
+  <div class="foot-bot">
+    <div class="brand"><span class="mark">E</span>EchoHomes<sup style="font-size:8px;margin-left:2px">®</sup></div>
+    <span>© 2026 EchoHomes, Inc. All rights reserved.</span>
+    <span class="spacer"></span>
+    <a>Terms</a><a>Privacy</a><a>Do not sell my info</a><a>Accessibility</a>
+  </div>
+</footer>
+<script>
+
+const ENV_ID = "W05_E01";
+let filterState = {};
+
+function readChipState() {
+  const st = {};
+  document.querySelectorAll('[data-facet][data-val]').forEach(el => {
+    if (!el.classList.contains('active')) return;
+    const f = el.dataset.facet;
+    const v = parseInt(el.dataset.val, 10);
+    if (!Number.isNaN(v)) st[f] = v;
+  });
+  document.querySelectorAll('input[type="checkbox"][data-facet]').forEach(el => {
+    if (el.checked) st[el.dataset.facet] = el.value || true;
+  });
+  return st;
+}
+
+function onF() {
+  filterState = readChipState();
+  // Update Zillow-style dropdown labels
+  const lblBeds = document.getElementById('lbl-beds');
+  if (lblBeds) lblBeds.textContent = formatBedLabel(filterState.min_beds);
+  const lblBaths = document.getElementById('lbl-baths');
+  if (lblBaths) lblBaths.textContent = formatBathLabel(filterState.min_baths);
+  // Update dd-btn has-value class (Zillow style)
+  document.querySelectorAll('.dd').forEach(dd => {
+    const id = dd.id;
+    const btn = dd.querySelector('.dd-btn');
+    if (!btn) return;
+    if (id === 'dd-beds') btn.classList.toggle('has-value', filterState.min_beds !== undefined);
+    if (id === 'dd-baths') btn.classList.toggle('has-value', filterState.min_baths !== undefined);
+  });
+  // Trulia E03 summary text
+  const sumT = document.getElementById('chip-summary-text');
+  if (sumT) {
+    const parts = [];
+    if (filterState.min_beds !== undefined) parts.push(formatBedLabel(filterState.min_beds) + ' beds');
+    if (filterState.min_baths !== undefined) parts.push(formatBathLabel(filterState.min_baths) + ' baths');
+    sumT.textContent = parts.length ? parts.join(' · ') : 'none';
+  }
+  renderActiveChips();
+  applyFilters();
+}
+
+function formatBedLabel(v) {
+  if (v === undefined || v === null) return 'Any';
+  if (v === 0) return 'Studio';
+  return v + '+';
+}
+function formatBathLabel(v) {
+  if (v === undefined || v === null || v === 0) return 'Any';
+  return v + '+';
+}
+
+function pickChip(btn, facet, val) {
+  const row = document.getElementById('chip-row-' + (facet === 'min_beds' ? 'beds' : 'baths'));
+  if (row) row.querySelectorAll('[data-facet="' + facet + '"]').forEach(b => b.classList.remove('active'));
+  else btn.parentElement.querySelectorAll('[data-facet="' + facet + '"]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  onF();
+}
+
+function clearChip(facet) {
+  document.querySelectorAll('[data-facet="' + facet + '"]').forEach(b => b.classList.remove('active'));
+  onF();
+}
+
+function renderActiveChips() {
+  const bar = document.getElementById('active-chips');
+  if (!bar) return;
+  bar.replaceChildren();
+  function addChip(label, facet) {
+    const chip = document.createElement('span');
+    chip.className = 'active-chip';
+    chip.appendChild(document.createTextNode(label));
+    if (facet) {
+      chip.appendChild(document.createTextNode(' '));
+      const x = document.createElement('span');
+      x.className = 'x';
+      x.textContent = '×';
+      x.addEventListener('click', () => clearChip(facet));
+      chip.appendChild(x);
+    }
+    bar.appendChild(chip);
+  }
+  if (filterState.min_beds !== undefined) {
+    addChip(formatBedLabel(filterState.min_beds) + ' beds', 'min_beds');
+  }
+  if (filterState.min_baths !== undefined) {
+    addChip(formatBathLabel(filterState.min_baths) + ' baths', 'min_baths');
+  }
+  for (const k of ['has_garage','pet_friendly','is_new']) {
+    if (filterState[k]) {
+      const lbl = {has_garage:'🚗 Garage', pet_friendly:'🐾 Pet OK', is_new:'✨ New listing'}[k];
+      addChip(lbl);
+    }
+  }
+}
+
+function renderResultCard(it) {
+  const beds = it.beds, baths = it.baths;
+  const bedStr = beds === 0 ? 'Studio' : (beds + ' bd');
+  const priceStr = (typeof it.price === 'number')
+    ? (it.price >= 1000 ? '$' + it.price.toLocaleString() : '$' + it.price)
+    : ('$' + it.price);
+  const priceSuffix = (window.__RENT_MODE__) ? '/mo' : '';
+  const sqftStr = it.sqft ? Number(it.sqft).toLocaleString() + ' sqft' : '';
+  const lotStr = (it.lot_acres && !window.__RENT_MODE__) ? (' · ' + it.lot_acres + ' ac lot') : '';
+  const tags = [];
+  if (it.is_new) tags.push('<span class="lstg-tag tag-new">NEW</span>');
+  if (it.price_reduced) tags.push('<span class="lstg-tag tag-reduced">↓ PRICE CUT</span>');
+  if (it.pet_friendly) tags.push('<span class="lstg-tag tag-pet">🐾 Pet OK</span>');
+  if (it.has_garage) tags.push('<span class="lstg-tag tag-gar">🚗 Garage</span>');
+  return `<article class="result-card" data-beds="${beds}" data-baths="${baths}">
+  <div class="rc-photo" style="background-image:url('${it.image_url||''}')"></div>
+  <div class="rc-body">
+    <div class="rc-price-row"><span class="rc-price">${priceStr}${priceSuffix}</span><span class="rc-ptype">${escapeHtml(it.property_type||'')}</span></div>
+    <div class="rc-stats">${bedStr} · ${baths} ba · ${sqftStr}${lotStr}</div>
+    <div class="rc-addr">${escapeHtml(it.title||'')}</div>
+    <div class="rc-city">${escapeHtml(it.city||'')}</div>
+    <div class="rc-tags">${tags.join('')}</div>
+  </div>
+</article>`;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function applyFilters() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    const grid = document.getElementById('result-grid');
+    const results = data.results || [];
+    if (grid) {
+      if (results.length === 0) {
+        grid.innerHTML = '<div style="padding:40px 24px;text-align:center;color:#888;background:#fafafa;border:1px dashed #ddd;border-radius:8px">No homes match those filters. Try loosening the chips above.</div>';
+      } else {
+        grid.innerHTML = results.map(renderResultCard).join('');
+      }
+    }
+    const cnt = document.getElementById('result-count');
+    if (cnt) cnt.textContent = results.length + ' homes available';
+    // Update sticky filter bar pill state
+    const fbBeds = document.getElementById('fb-beds');
+    if (fbBeds) {
+      fbBeds.firstChild.textContent = (filterState.min_beds !== undefined) ? (formatBedLabel(filterState.min_beds) + ' Beds ') : 'Beds ';
+      fbBeds.classList.toggle('on', filterState.min_beds !== undefined);
+    }
+    const fbBaths = document.getElementById('fb-baths');
+    if (fbBaths) {
+      fbBaths.firstChild.textContent = (filterState.min_baths !== undefined) ? (formatBathLabel(filterState.min_baths) + ' Baths ') : 'Baths ';
+      fbBaths.classList.toggle('on', filterState.min_baths !== undefined);
+    }
+  }).catch(()=>{});
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : '';
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).catch(()=>{});
+}
+
+function toggleDD(id) {
+  document.querySelectorAll('.dd').forEach(d => { if (d.id !== id) d.classList.remove('open'); });
+  document.getElementById(id).classList.toggle('open');
+}
+
+function openModal() { document.getElementById('filters-modal').classList.add('open'); }
+function closeModal() { document.getElementById('filters-modal').classList.remove('open'); }
+
+function loadTaskBanner() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const tid = urlParams.get('task_id');
+  if (!tid) return;
+  fetch('/env/' + ENV_ID + '/api/task/' + encodeURIComponent(tid))
+    .then(r => r.ok ? r.json() : null)
+    .then(task => {
+      if (!task || task.task_type === 'write') return;
+      // For read / read_write tasks, mount a hidden answer input that POSTs on input.
+      let host = document.querySelector('.results-pane');
+      if (!host) host = document.body;
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.id = 'task-answer-input';
+      inp.placeholder = 'Type your finding here';
+      inp.style.cssText = 'display:block;width:100%;max-width:520px;margin:0 0 14px;padding:10px 14px;border:1px solid #ccc;border-radius:6px;font-size:13px;font-family:inherit';
+      inp.addEventListener('input', () => applyFilters());
+      host.insertBefore(inp, host.firstChild);
+    }).catch(()=>{});
+}
+
+// Close dropdowns on outside click
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.dd')) {
+    document.querySelectorAll('.dd.open').forEach(d => d.classList.remove('open'));
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadTaskBanner();
+  applyFilters(); // initial render
+});
+
+</script>
+</body>
+</html>

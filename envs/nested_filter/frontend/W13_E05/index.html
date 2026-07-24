@@ -1,0 +1,2188 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoHomes — Homes for Sale in Tacoma, WA</title>
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+
+
+
+
+
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Open Sans',Arial,sans-serif; background:#f7f9fc; color:#1a1a1a; line-height:1.5; font-size:14px; }
+
+/* HEADER (base) */
+.site-header { background:#006aff; color:#fff; padding:12px 28px;
+       display:flex; align-items:center; gap:22px; box-shadow:0 1px 0 rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.08);
+       position:relative; z-index:5; }
+.logo-block { display:flex; flex-direction:column; flex-shrink:0; }
+.logo-block .logo { font-weight:800; font-size:20px; letter-spacing:-0.3px; color:#fff; }
+.logo-block .logo-sub { font-size:10px; opacity:0.8; }
+.site-nav { display:flex; gap:18px; align-items:center; }
+.site-nav a { color:#fff; text-decoration:none; font-size:13px; opacity:0.92;
+       padding:4px 2px; position:relative; cursor:pointer;
+       transition:opacity 0.15s ease, color 0.15s ease; }
+.site-nav a:after { content:""; position:absolute; left:0; right:0; bottom:-2px; height:2px;
+       background:#fff; transform:scaleX(0); transform-origin:center;
+       transition:transform 0.2s ease; }
+.site-nav a:hover { opacity:1; }
+.site-nav a:hover:after { transform:scaleX(1); }
+.search-bar { flex:1; max-width:520px; position:relative; }
+.search-bar input { width:100%; padding:8px 14px 8px 36px; border:none; border-radius:18px;
+       font-size:13px; outline:none; background:rgba(255,255,255,0.96); color:#222;
+       transition:box-shadow 0.15s ease, background 0.15s ease; }
+.search-bar input:focus { box-shadow:0 0 0 3px #e3f0ff; background:#fff; }
+.search-bar:before { content:"🔍"; position:absolute; left:12px; top:8px; color:#666; }
+.account-zone { display:flex; gap:10px; align-items:center; font-size:13px; flex-shrink:0; }
+.account-zone .pill { padding:5px 12px; background:rgba(255,255,255,0.18); border-radius:14px;
+       cursor:pointer; transition:background 0.15s ease, transform 0.1s ease; }
+.account-zone .pill:hover { background:rgba(255,255,255,0.28); }
+.account-zone .pill:active { transform:scale(0.97); }
+.cart-pill { font-weight:700; }
+
+/* HEADER variants ----------------------------------------------------------- */
+/* flat (default) — just polish */
+
+/* slim — compact white-ish bar with thin border, used by zillow/redfin/jobs/yelp */
+.site-header.h-slim { padding:8px 22px; gap:14px;
+       box-shadow:inset 0 -1px 0 rgba(0,0,0,0.08); }
+.site-header.h-slim .logo-block .logo { font-size:17px; }
+.site-header.h-slim .logo-block .logo-sub { display:none; }
+
+/* slim-dark — Amazon/Reverb/GitHub: thin dark bar, prominent search w/ category dropdown */
+.site-header.h-slim-dark { padding:6px 18px; gap:10px; }
+.site-header.h-slim-dark .logo-block .logo { font-size:17px; }
+.site-header.h-slim-dark .logo-block .logo-sub { display:none; }
+.site-header.h-slim-dark .search-bar { max-width:none; }
+.site-header.h-slim-dark .search-bar input { border-radius:4px; padding-left:96px; height:34px;
+       background:#fff; box-shadow:none; }
+.site-header.h-slim-dark .search-bar:before { display:none; }
+.site-header.h-slim-dark .cat-dd { position:absolute; left:1px; top:1px; bottom:1px;
+       padding:0 10px 0 12px; background:#e6e6e6; border:none; border-right:1px solid #ccc;
+       border-radius:4px 0 0 4px; font:inherit; font-size:12px; color:#222; cursor:pointer;
+       width:86px; }
+.site-header.h-slim-dark .search-go { position:absolute; right:1px; top:1px; bottom:1px;
+       width:42px; background:#fff; border:none; border-radius:0 4px 4px 0; cursor:pointer;
+       color:#222; font-size:14px; }
+
+/* banner — taller header w/ tagline block, bigger search */
+.site-header.h-banner { padding:18px 30px; gap:24px; align-items:center; }
+.site-header.h-banner .logo-block .logo { font-size:24px; }
+.site-header.h-banner .logo-block .logo-sub { font-size:11px; opacity:0.9; margin-top:1px; }
+.site-header.h-banner .search-bar input { padding:11px 14px 11px 38px; font-size:14px;
+       border-radius:6px; }
+.site-header.h-banner .search-bar:before { top:11px; }
+
+/* dark-bar — Steam: navy header with cyan gradient bottom border */
+.site-header.h-dark-bar { padding:8px 22px; gap:14px;
+       border-bottom:none; box-shadow:none;
+       background:linear-gradient(180deg, #171a21 0%, #1b2838 100%); }
+.site-header.h-dark-bar:after { content:""; position:absolute; left:0; right:0; bottom:0; height:2px;
+       background:linear-gradient(90deg, transparent, #66c0f4 30%, #66c0f4 70%, transparent); }
+.site-header.h-dark-bar .logo-block .logo { font-size:18px; color:#fff; letter-spacing:0.4px; }
+.site-header.h-dark-bar .logo-block .logo-sub { display:none; }
+.site-header.h-dark-bar .site-nav a { color:#b8c6d9; font-size:12px; text-transform:uppercase;
+       letter-spacing:0.5px; }
+.site-header.h-dark-bar .site-nav a:hover { color:#fff; }
+
+/* minimal — Airbnb: white minimal w/ rounded search */
+.site-header.h-minimal { background:#fff !important; color:#222 !important;
+       padding:14px 32px; border-bottom:1px solid #ebebeb;
+       box-shadow:none; }
+.site-header.h-minimal .logo-block .logo { color:#ff385c; font-size:22px; }
+.site-header.h-minimal .logo-block .logo-sub { display:none; }
+.site-header.h-minimal .site-nav a { color:#222; font-weight:600; }
+.site-header.h-minimal .site-nav a:after { background:#222; }
+.site-header.h-minimal .search-bar input { background:#fff; border:1px solid #ddd;
+       box-shadow:0 1px 4px rgba(0,0,0,0.08); border-radius:24px; padding:10px 16px 10px 40px; }
+.site-header.h-minimal .search-bar:before { top:10px; left:14px; }
+.site-header.h-minimal .account-zone .pill { background:transparent; border:1px solid #ddd;
+       color:#222; border-radius:21px; padding:7px 12px; }
+.site-header.h-minimal .account-zone .pill:hover { box-shadow:0 1px 6px rgba(0,0,0,0.12);
+       background:#fff; }
+.site-header.h-minimal .host-cta { font-weight:600; font-size:13px; cursor:pointer; padding:8px 14px;
+       border-radius:21px; color:#222; }
+.site-header.h-minimal .host-cta:hover { background:#f7f7f7; }
+
+/* banner-bordered — gov/news official look */
+.site-header.h-banner-bordered { padding:0; flex-direction:column; align-items:stretch; gap:0; }
+.site-header.h-banner-bordered .gov-strip { background:#1a2c5b; color:#fff; padding:4px 28px;
+       font-size:11px; display:flex; align-items:center; gap:10px; }
+.site-header.h-banner-bordered .gov-strip b { color:#f1c40f; font-weight:700; letter-spacing:0.3px; }
+.site-header.h-banner-bordered .gov-main { display:flex; align-items:center; gap:22px;
+       padding:14px 28px; border-bottom:3px solid #fff; background:#006aff; }
+.site-header.h-banner-bordered .gov-seal { width:42px; height:42px; border-radius:50%;
+       background:radial-gradient(circle at 35% 30%, #fff, #fff 70%);
+       display:flex; align-items:center; justify-content:center; font-size:20px;
+       border:2px solid #fff; flex-shrink:0; }
+.site-header.h-banner-bordered .gov-main .logo-block .logo { font-size:22px; }
+.site-header.h-banner-bordered .gov-main .logo-block .logo-sub { font-size:11px; opacity:0.95; }
+.site-header.h-banner-bordered .gov-main .search-bar input { border-radius:3px; }
+
+/* banner-dark — GoldStay premium */
+.site-header.h-banner-dark { padding:18px 32px; gap:26px;
+       background:#0e0e0e; border-bottom:1px solid #fff; }
+.site-header.h-banner-dark .logo-block .logo { color:#fff; font-size:24px;
+       letter-spacing:2.5px; text-transform:uppercase; }
+.site-header.h-banner-dark .logo-block .logo-sub { color:#bfae85; font-size:10px;
+       letter-spacing:1.5px; text-transform:uppercase; }
+.site-header.h-banner-dark .site-nav a { color:#e6dcc4; font-size:11px;
+       letter-spacing:1.4px; text-transform:uppercase; }
+.site-header.h-banner-dark .site-nav a:after { background:#fff; }
+.site-header.h-banner-dark .search-bar input { background:rgba(255,255,255,0.08);
+       color:#fff; border:1px solid #444; }
+.site-header.h-banner-dark .search-bar input::placeholder { color:#aaa; }
+.site-header.h-banner-dark .account-zone .pill { background:transparent;
+       border:1px solid #fff; color:#fff; border-radius:0;
+       text-transform:uppercase; letter-spacing:1.2px; font-size:10px; padding:7px 14px; }
+.site-header.h-banner-dark .book-cta { background:#fff; color:#1a1a1a; padding:9px 18px;
+       font-weight:700; letter-spacing:1.6px; text-transform:uppercase; font-size:11px;
+       cursor:pointer; border:none; }
+.site-header.h-banner-dark .book-cta:hover { background:#d8ba76; }
+
+/* SUB-HEADER bar (categories/promo) */
+.sub-header { background:#e3f0ff; color:#003480; padding:8px 28px;
+       display:flex; gap:20px; align-items:center; font-size:12px; font-weight:600;
+       border-bottom:1px solid #dadfe5; }
+.sub-header a, .sub-header span.snl { color:#003480; text-decoration:none; cursor:pointer;
+       transition:color 0.15s ease; }
+.sub-header a:hover, .sub-header span.snl:hover { color:#006aff; }
+.sub-header .snl-promo { margin-left:auto; opacity:0.85; font-weight:500; }
+
+/* BREADCRUMB */
+.crumb { padding:9px 28px; background:#fff; border-bottom:1px solid #dadfe5;
+       font-size:12px; color:#555; }
+.crumb a { color:#006aff; text-decoration:none; transition:color 0.15s ease; }
+.crumb a:hover { text-decoration:underline; color:#0050cc; }
+.crumb .crumb-sep { margin:0 8px; color:#bbb; }
+.crumb b { color:#1a1a1a; }
+
+/* HERO BANNER (some themes use this) */
+.hero-banner { background:linear-gradient(120deg, #006aff, #e3f0ff); color:#fff;
+       padding:22px 28px; font-size:13px; }
+.hero-banner h2 { margin:0 0 5px 0; font-size:22px; }
+
+/* MAIN LAYOUT */
+.main-grid { display:grid; grid-template-columns:280px 1fr; gap:0;
+       min-height:calc(100vh - 145px); }
+.main-grid.right-sidebar { grid-template-columns:1fr 280px; }
+.main-grid.topbar { grid-template-columns:1fr; }
+
+.filter-aside { background:#fff; padding:18px 16px; border-right:1px solid #dadfe5; overflow-y:auto; }
+.filter-aside.right { border-right:none; border-left:1px solid #dadfe5; }
+.filter-aside h3 { color:#006aff; font-size:14px; margin:0 0 10px 0;
+       text-transform:uppercase; letter-spacing:0.4px; padding-bottom:6px; border-bottom:2px solid #006aff; }
+
+.filter-bar-top { background:#fff; padding:14px 28px; border-bottom:1px solid #dadfe5;
+       display:flex; gap:16px; flex-wrap:wrap; align-items:center; }
+.filter-bar-top h3 { font-size:13px; color:#006aff; margin:0; }
+
+.f-section { background:#fff; border:1px solid #dadfe5; border-radius:5px;
+       padding:11px 13px; margin-bottom:10px; }
+.f-section h4 { font-size:11px; font-weight:700; color:#006aff; margin:0 0 7px 0;
+       text-transform:uppercase; letter-spacing:0.4px; }
+.f-section h5 { font-size:11px; font-weight:600; margin:6px 0; }
+
+/* WIDGET-UNDER-TEST SECTION (highlighted) */
+.f-section.widget-utst { border-left:none; background:transparent; }
+.f-section.widget-utst h4 { color:inherit; font-size:inherit; }
+.f-section.widget-utst .wut-badge { display:inline-block; font-size:9px; padding:1px 6px;
+       background:#006aff; color:white; border-radius:3px; margin-left:6px; }
+
+.cb { display:flex; align-items:center; gap:7px; padding:3px 0; font-size:12px; cursor:pointer; }
+.cb input { margin:0; }
+.rad { display:flex; align-items:center; gap:7px; padding:3px 0; font-size:12px; cursor:pointer; }
+
+.chip-row { display:flex; gap:4px; flex-wrap:wrap; }
+.chip-btn { padding:4px 11px; background:#f3f3f3; color:#222; border:1px solid #ddd;
+       border-radius:13px; font-size:11px; cursor:pointer; font:inherit; }
+.chip-btn:hover { background:#e8e8e8; }
+.chip-btn.active { background:#006aff; color:white; border-color:#006aff; }
+.chip-btn-sm { padding:2px 8px; font-size:10px; border-radius:11px; background:#f3f3f3; border:1px solid #ddd; cursor:pointer; }
+.chip-btn-sm.active { background:#006aff; color:white; border-color:#006aff; }
+
+.big-sel, .num-inp, .ac-inp, .date-inp, .time-inp, .search-inp, .time-sel {
+       padding:6px 10px; border:1px solid #dadfe5; border-radius:3px; font:inherit; font-size:12px; width:100%; background:white; }
+.num-inp-sm { padding:3px 7px; border:1px solid #dadfe5; border-radius:3px; font-size:11px; width:70px; }
+.num-inp-tiny { padding:2px 6px; border:1px solid #dadfe5; border-radius:3px; font-size:11px; width:60px; }
+.num-row { display:flex; align-items:center; gap:8px; padding:3px 0; font-size:12px; }
+.num-row label { min-width:120px; color:#555; }
+.num-row .num-inp { flex:1; max-width:180px; }
+.default-tag { font-size:9px; color:#999; font-style:italic; }
+
+.num-pair { display:flex; align-items:center; gap:8px; }
+.num-pair > div { flex:1; }
+.num-pair label { font-size:10px; color:#555; display:block; margin-bottom:3px; }
+.num-pair .dash { color:#999; }
+
+.dual-slider { position:relative; padding:14px 0; }
+.dual-track { height:4px; border-radius:3px; position:relative; }
+.dual-active { position:absolute; top:0; height:4px; border-radius:3px; }
+.dt-min, .dt-max { position:absolute; top:8px; left:0; width:100%; -webkit-appearance:none;
+       background:transparent; pointer-events:none; }
+.dt-min::-webkit-slider-thumb, .dt-max::-webkit-slider-thumb { -webkit-appearance:none;
+       width:16px; height:16px; background:#006aff; border-radius:50%; cursor:pointer; pointer-events:auto;
+       box-shadow:0 1px 3px rgba(0,0,0,0.3); }
+.dual-vals { font-size:12px; margin-top:5px; text-align:center; }
+
+.slider-row { display:flex; gap:8px; align-items:center; padding:3px 0; }
+.slider-row label { min-width:45px; font-size:11px; }
+.slider-row input[type=range] { flex:1; }
+.sv { font-family:monospace; font-weight:700; font-size:11px; min-width:60px; text-align:right; }
+
+.histo-wrap { display:flex; gap:1px; align-items:flex-end; height:42px; padding:0 4px; margin-bottom:8px; }
+.histo-bar { flex:1; min-height:6px; border-radius:1px 1px 0 0; }
+
+.pill-cloud { display:flex; gap:4px; flex-wrap:wrap; padding:3px 0; }
+.pill { padding:3px 10px; background:#f0f0f0; border:1px solid #ddd; border-radius:11px;
+       font-size:11px; cursor:pointer; }
+.pill.active { background:#006aff; color:white; border-color:#006aff; }
+
+.tag-grid { display:flex; gap:4px; flex-wrap:wrap; }
+.tag { padding:4px 9px; background:white; border:1px solid #dadfe5; border-radius:3px;
+       font-size:11px; cursor:pointer; }
+.tag.active { background:#006aff; color:white; border-color:#006aff; }
+
+.seg-pills { display:flex; gap:4px; flex-wrap:wrap; }
+.seg-pill { display:inline-flex; align-items:center; gap:4px; padding:4px 10px;
+       background:#f3f3f3; border:1px solid #ddd; border-radius:11px; font-size:11px; cursor:pointer; }
+.seg-pill input { margin:0; }
+
+.msel { padding:3px; width:100%; border:1px solid #dadfe5; border-radius:3px; }
+
+.tree { list-style:none; padding-left:10px; font-size:11px; }
+.tree ul { list-style:none; padding-left:14px; }
+
+.search-results { max-height:120px; overflow-y:auto; border:1px solid #dadfe5; border-radius:3px; margin-top:4px; }
+.sr-row { padding:4px 9px; font-size:11px; border-bottom:1px solid #f0f0f0; cursor:pointer; }
+.sr-row:hover { background:#e3f0ff; }
+
+.ac-inp.big { font-size:14px; padding:8px 11px; }
+.ac-inp.hero-inp { flex:1; font-size:15px; padding:10px 12px; }
+.hero-search { display:flex; gap:6px; }
+.planner { display:grid; grid-template-columns:1fr 25px 1fr; gap:6px; align-items:center; }
+.planner label { font-size:10px; color:#555; }
+.swap { text-align:center; font-size:16px; color:#999; }
+
+.ac-list, .ac-list-rich { list-style:none; padding:0; margin:4px 0 0 0; max-height:110px; overflow-y:auto;
+       border:1px solid #dadfe5; border-radius:3px; background:white; display:none; }
+.ac-list.show, .ac-list-rich.show { display:block; }
+.ac-list li, .ac-list-rich li { padding:5px 9px; font-size:11px; cursor:pointer; border-bottom:1px solid #f0f0f0; }
+.ac-list li:hover, .ac-list-rich li:hover { background:#e3f0ff; }
+.ac-list li .iata { font-family:monospace; font-weight:700; color:#006aff; margin-right:6px; }
+.ac-list li .decoy { color:#a04040; font-size:10px; margin-left:5px; }
+.ac-list-rich li { padding:7px 11px; }
+
+.cal-head { display:flex; align-items:center; gap:7px; padding:5px 0; font-weight:700; font-size:12px; }
+.cal-head span { flex:1; text-align:center; }
+.cal-nav { padding:3px 9px; background:white; border:1px solid #dadfe5; border-radius:3px; cursor:pointer; font:inherit; }
+.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; padding:3px 0; }
+.cal-grid .cal-day-h { font-size:9px; color:#999; text-align:center; padding:2px; font-weight:700; }
+.cal-grid .cal-day { padding:5px; text-align:center; font-size:11px; cursor:pointer; border-radius:3px;
+       background:#f7f7f7; }
+.cal-grid .cal-day:hover { background:#e3f0ff; }
+.cal-grid .cal-day.sel { background:#006aff; color:white; font-weight:700; }
+.cal-dual { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.cal-grid.disabled .cal-day { color:#bbb; cursor:not-allowed; background:#fafafa; }
+.cal-popover { position:absolute; background:white; border:1px solid #dadfe5; border-radius:5px;
+       padding:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); z-index:50; }
+.date-scroller { display:flex; gap:4px; overflow-x:auto; padding:5px 0; }
+.ds-month { flex-shrink:0; padding:6px 11px; text-align:center; font-size:9px; font-weight:700;
+       border:1px solid #dadfe5; border-radius:3px; cursor:pointer; }
+.year-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; }
+.year-btn { padding:5px; background:white; border:1px solid #dadfe5; border-radius:3px;
+       cursor:pointer; font-size:12px; font-weight:600; }
+
+.date-pair { display:flex; align-items:center; gap:8px; }
+.date-pair > div { flex:1; }
+.date-pair label { font-size:10px; color:#555; display:block; margin-bottom:3px; }
+.date-pair .arrow { color:#999; font-size:16px; }
+
+.trip-type { display:flex; gap:4px; margin-bottom:8px; }
+.seg { display:flex; }
+.seg-btn { padding:4px 10px; background:#f3f3f3; border:1px solid #ddd; cursor:pointer; font-size:11px; flex:1; }
+.seg-btn.active { background:#006aff; color:white; border-color:#006aff; }
+.seg .seg-btn:first-child { border-radius:3px 0 0 3px; }
+.seg .seg-btn:last-child { border-radius:0 3px 3px 0; }
+
+.time-pair { display:flex; gap:6px; align-items:center; }
+.time-pair > span { color:#999; }
+.time-slider { padding:8px 0; position:relative; }
+.time-slider input { width:100%; }
+.time-readout { font-family:monospace; font-weight:700; margin-top:4px; text-align:center; font-size:12px; }
+.time-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:4px; }
+.time-cell { padding:6px; font-size:10px; background:white; border:1px solid #dadfe5; border-radius:3px; cursor:pointer; }
+.big-time { font-size:12px; }
+.time-sel { padding:5px 7px; border:1px solid #dadfe5; border-radius:3px; font-size:11px; margin:0 5px; width:auto; display:inline-block; }
+
+.iconed-num { display:flex; align-items:center; gap:8px; padding:5px 0; }
+.num-icon { width:26px; height:26px; border-radius:3px; display:flex; align-items:center; justify-content:center;
+       font-weight:700; background:#006aff; color:white; font-size:13px; }
+.iconed-num > div { flex:1; }
+.iconed-num label { display:block; font-size:9px; color:#555; margin-bottom:2px; }
+
+.num-table { width:100%; border-collapse:collapse; font-size:11px; }
+.num-table th, .num-table td { padding:4px; text-align:left; border-bottom:1px solid #eee; }
+.slider-num-row { display:flex; gap:8px; align-items:center; padding:4px 0; }
+.slider-num-row label { min-width:80px; font-size:10px; }
+.slider-num-row input[type=range] { flex:1; }
+
+.preset-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; }
+.preset-cell { padding:6px; font-size:10px; background:white; border:1px solid #dadfe5; border-radius:3px; cursor:pointer; }
+.quick-time { display:flex; flex-wrap:wrap; gap:4px; }
+.quick-btn { padding:4px 10px; background:#f7f7f7; border:1px solid #dadfe5; border-radius:11px; font-size:11px; cursor:pointer; }
+
+.matrix-grid { display:grid; grid-template-columns:50px repeat(3,1fr); gap:3px; padding:5px;
+       background:#fafafa; border-radius:3px; align-items:center; text-align:center; font-size:10px; }
+
+.card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(95px,1fr)); gap:6px; }
+.type-card { padding:10px 6px; background:white; border:1px solid #dadfe5; border-radius:3px; cursor:pointer; text-align:center; font-size:10px; }
+.type-card.active { background:#006aff; color:white; border-color:#006aff; }
+.type-icon { font-size:18px; margin-bottom:3px; }
+
+.region-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; }
+.region-card { padding:8px; background:white; border:1px solid #dadfe5; border-radius:3px; cursor:pointer; font-size:10px; text-align:center; }
+.region-card.active { background:#006aff; color:white; border-color:#006aff; }
+
+.stepper { display:flex; align-items:center; gap:6px; padding:4px 0; }
+.step-btn { width:26px; height:26px; background:#f3f3f3; border:1px solid #dadfe5; border-radius:3px; cursor:pointer; font-size:14px; }
+.step-val { font-size:13px; font-weight:700; min-width:40px; text-align:center; }
+
+.switch-row { display:flex; align-items:center; justify-content:space-between; padding:4px 0; }
+.switch-row input { position:relative; width:36px; height:18px; appearance:none; background:#ccc;
+       border-radius:9px; cursor:pointer; outline:none; }
+.switch-row input:checked { background:#006aff; }
+.switch-row input:before { content:''; position:absolute; left:2px; top:2px; width:14px; height:14px;
+       background:white; border-radius:50%; transition:left 0.15s; }
+.switch-row input:checked:before { left:20px; }
+
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:100;
+       display:flex; align-items:center; justify-content:center; }
+.modal-card { background:white; padding:20px 22px; border-radius:6px; max-width:440px; width:90%; max-height:80vh; overflow-y:auto; }
+.ghost-btn { padding:6px 12px; background:white; border:1px solid #ccc; border-radius:3px; cursor:pointer; font:inherit; font-size:12px; }
+.primary-btn { padding:7px 14px; background:#006aff; color:white; border:none; border-radius:3px; font:inherit; font-size:12px; cursor:pointer; font-weight:600; }
+.primary-btn:hover { background:#0050cc; }
+
+.filter-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:7px; }
+.filter-grid > div label { display:block; font-size:10px; margin-bottom:2px; color:#555; }
+
+.hint { font-size:10px; color:#888; margin-top:6px; padding:4px 8px; background:#fffaf0; border-left:3px solid #f0c060; border-radius:2px; }
+
+/* Widget polish */
+.facet-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+.facet-head h4 { margin:0; }
+.facet-clear { font-size:10px; color:#006aff; cursor:pointer; text-decoration:underline; }
+.facet-clear:hover { opacity:0.75; }
+.cb-row { display:flex; justify-content:space-between; align-items:center; padding:3px 0; }
+.cb-row > span:first-child { display:inline-flex; align-items:center; gap:7px; }
+.cnt { font-size:10px; color:#888; font-variant-numeric:tabular-nums; }
+.show-more { display:inline-block; margin-top:6px; font-size:11px; color:#006aff; cursor:pointer; font-weight:600; }
+.show-more:hover { text-decoration:underline; }
+.acc-section details { width:100%; }
+.acc-section summary { cursor:pointer; font-size:12px; font-weight:700; color:#006aff; padding:2px 0; list-style:none; display:flex; align-items:center; gap:6px; }
+.acc-section summary::-webkit-details-marker { display:none; }
+.acc-arrow { font-size:10px; transition:transform 0.15s; }
+.acc-cnt { margin-left:auto; font-size:10px; color:#888; font-weight:500; }
+.sel-badge { display:inline-block; background:#006aff; color:white; font-size:9px; padding:1px 6px; border-radius:8px; margin-left:5px; font-weight:700; min-width:16px; text-align:center; }
+.tag-brand { background:#eef5ff; border-color:#b8d4ff; }
+.tag-cond { background:#fff3eb; border-color:#ffd0a8; }
+.tag-cnt { display:inline-block; margin-left:5px; font-size:9px; color:#888; background:rgba(0,0,0,0.06); padding:0 5px; border-radius:7px; }
+.tag.active .tag-cnt { background:rgba(255,255,255,0.25); color:white; }
+
+/* Slider polish */
+.histo-wrap.mini { height:26px; gap:1px; padding:0; margin-bottom:4px; }
+.histo-bar.mini { min-height:3px; }
+.dt-tip { position:absolute; top:-18px; background:#006aff; color:white; font-size:10px; padding:1px 6px; border-radius:3px;
+       transform:translateX(-50%); pointer-events:none; font-weight:700; white-space:nowrap; }
+.dt-tip:after { content:""; position:absolute; bottom:-3px; left:50%; transform:translateX(-50%) rotate(45deg); width:6px; height:6px; background:#006aff; }
+.inp-prefix { position:relative; }
+.inp-prefix .prefix { position:absolute; left:7px; top:50%; transform:translateY(-50%); color:#888; font-size:12px; font-weight:600; pointer-events:none; }
+.pfx-inp { padding-left:18px !important; }
+.bucket-list { display:flex; flex-direction:column; gap:3px; }
+.bucket-btn { display:flex; justify-content:space-between; align-items:center; padding:6px 11px; background:white; border:1px solid #dadfe5; border-radius:3px; cursor:pointer; font:inherit; font-size:12px; text-align:left; }
+.bucket-btn:hover { background:#e3f0ff; }
+.bucket-btn.active { background:#006aff; color:white; border-color:#006aff; }
+.bucket-cnt { font-size:10px; color:#888; }
+.bucket-btn.active .bucket-cnt { color:rgba(255,255,255,0.85); }
+
+/* Beds chips */
+.beds-row .chip-btn { flex:1; min-width:46px; padding:6px 4px; display:flex; flex-direction:column; align-items:center; gap:2px; }
+.beds-row.tight .chip-btn-sm { flex:1; min-width:32px; text-align:center; }
+.chip-cnt { font-size:9px; color:#888; font-weight:400; }
+.chip-btn.active .chip-cnt { color:rgba(255,255,255,0.85); }
+.studio-chip { font-weight:700; border-color:#006aff; }
+.studio-chip + .chip-btn { margin-left:6px; border-left:1px solid #dadfe5; padding-left:8px; }
+
+/* Stepper polish */
+.stepper { display:inline-flex; align-items:center; background:#f7f7f7; border:1px solid #dadfe5; border-radius:18px; padding:2px; gap:0; }
+.step-btn { width:28px; height:28px; border:none; border-radius:50%; background:white; cursor:pointer; font-size:16px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.step-btn:hover { background:#eee; }
+.step-btn.step-plus:hover { filter:brightness(1.05); }
+.step-val { font-size:13px; font-weight:700; min-width:50px; text-align:center; }
+
+/* Calendar polish */
+.cal-grid .cal-day.today { outline:2px solid #006aff; outline-offset:-2px; font-weight:700; color:#006aff; }
+.cal-grid .cal-day.today.sel { color:white; }
+.cal-grid .cal-day.blank { background:transparent; cursor:default; }
+.cal-grid .cal-day.locked { color:#bbb; cursor:not-allowed; background:#fafafa; }
+.cal-grid .cal-day:not(.blank):not(.locked):hover { background:#e3f0ff; }
+.cal-disabled-h .lock-icon { font-size:10px; opacity:0.6; }
+
+/* Quick-pick chips */
+.quick-pick { background:#f0f6ff; border-color:#006aff; color:#006aff; font-weight:600; }
+.quick-pick:hover { background:#006aff; color:white; }
+.quick-pick.active { background:#006aff; color:white; }
+.chip-custom { background:#fff; border-style:dashed; }
+
+/* Autocomplete rich */
+.ac-icon { display:inline-block; width:18px; margin-right:5px; color:#006aff; }
+.ac-flag { display:inline-block; margin:0 4px; font-size:13px; }
+.ac-name { font-weight:600; }
+.ac-country { color:#666; font-size:10px; margin-left:4px; }
+.ac-type { float:right; font-size:9px; color:#888; background:#f0f0f0; padding:1px 6px; border-radius:8px; text-transform:uppercase; letter-spacing:0.3px; }
+.ac-list-rich li { padding:8px 11px; display:flex; align-items:center; gap:4px; flex-wrap:wrap; }
+button.swap { background:white; border:1px solid #dadfe5; border-radius:50%; width:28px; height:28px; cursor:pointer; font-size:13px; padding:0; color:#006aff; }
+button.swap:hover { background:#006aff; color:white; }
+
+/* Trip-type tabs (w11) */
+.trip-type .seg-btn { border-radius:14px; padding:5px 12px; flex:none; font-weight:600; }
+.trip-type .seg-btn:first-child { border-radius:14px; }
+.trip-type .seg-btn:last-child { border-radius:14px; }
+
+
+/* RESULTS AREA */
+.results-area { padding:16px 24px; background:#f7f9fc; overflow-y:auto; }
+.results-header { display:flex; gap:14px; align-items:center; margin-bottom:14px; flex-wrap:wrap; }
+.results-header h1 { color:#006aff; font-size:18px; margin:0; }
+.results-count { font-size:13px; color:#555; }
+.sort-dd { margin-left:auto; padding:5px 10px; background:white; border:1px solid #dadfe5; border-radius:3px; font-size:12px; }
+.view-toggle { display:flex; gap:0; }
+.view-toggle button { padding:5px 10px; background:white; border:1px solid #dadfe5; cursor:pointer; font-size:12px; }
+.view-toggle button.active { background:#006aff; color:white; }
+.view-toggle button:first-child { border-radius:3px 0 0 3px; }
+.view-toggle button:last-child { border-radius:0 3px 3px 0; }
+
+.active-chips { display:flex; gap:5px; flex-wrap:wrap; padding:8px 0; min-height:24px; }
+.active-chips:empty:before { content:'No filters applied'; color:#bbb; font-size:11px; font-style:italic; }
+.active-chip { display:inline-flex; align-items:center; gap:4px; padding:3px 9px;
+       background:#e3f0ff; color:#003480; border:1px solid #006aff; border-radius:12px;
+       font-size:11px; font-weight:600; }
+.active-chip .x { cursor:pointer; opacity:0.6; }
+.active-chip .x:hover { opacity:1; }
+
+.result-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:18px; }
+.result-card { position:relative; background:#fff; border:1px solid #dadfe5; border-radius:8px; padding:0;
+       box-shadow:0 1px 3px rgba(0,0,0,0.06); transition:transform 0.15s ease, box-shadow 0.15s ease;
+       overflow:hidden; display:flex; flex-direction:column; }
+.result-card:hover { transform:translateY(-3px); box-shadow:0 8px 22px rgba(0,0,0,0.12); border-color:#c9d3e0; }
+.result-thumb { width:100%; height:180px; background:linear-gradient(135deg,#e3f0ff,#e6ecf2);
+       background-size:cover; background-position:center;
+       display:flex; align-items:center; justify-content:center; color:#006aff; font-weight:700; font-size:26px;
+       border-bottom:1px solid #eef1f4; }
+.result-body { padding:11px 13px 46px; display:flex; flex-direction:column; flex:1; }
+.result-brand { font-size:10px; color:#888; text-transform:uppercase; letter-spacing:0.5px; font-weight:700; margin-bottom:3px; }
+.result-name { font-size:13px; font-weight:600; line-height:1.35; color:#1a1a1a; min-height:34px; }
+.result-meta { font-size:11px; color:#555; margin-top:3px; }
+.result-rating-row { display:flex; align-items:center; gap:5px; margin-top:6px; font-size:11px; color:#555; }
+.result-stars { color:#f0a040; letter-spacing:1px; font-size:12px; }
+.result-reviews { color:#888; font-size:11px; }
+.result-price-row { display:flex; align-items:baseline; gap:7px; margin-top:7px; }
+.result-was { font-size:11px; color:#999; text-decoration:line-through; }
+.result-price { font-size:17px; color:#cc0c39; font-weight:800; }
+.result-save { font-size:10px; color:#067d62; font-weight:700; }
+.result-tags { display:flex; gap:4px; flex-wrap:wrap; margin-top:7px; }
+.result-tag { font-size:10px; padding:2px 7px; background:#eef5ff; border-radius:3px; color:#0a5fa3; font-weight:600; }
+.result-tag.ship { background:#e8f6ec; color:#0a7d2c; }
+.result-tag.stock { background:#fff4e0; color:#a86200; }
+.result-cta { position:absolute; left:13px; right:13px; bottom:13px; padding:7px 10px;
+       background:#006aff; color:#fff; border:none; border-radius:18px; font-size:12px; font-weight:700;
+       cursor:pointer; opacity:0; transform:translateY(6px); transition:opacity 0.15s, transform 0.15s; }
+.result-card:hover .result-cta { opacity:1; transform:translateY(0); }
+.result-rating { font-size:11px; color:#f0a040; }
+
+.pagination { margin-top:20px; display:flex; gap:5px; justify-content:center; align-items:center; }
+.pagination button { padding:5px 10px; background:white; border:1px solid #dadfe5; border-radius:3px; cursor:pointer; font-size:12px; }
+.pagination button.active { background:#006aff; color:white; border-color:#006aff; }
+
+/* SUBMIT BAR */
+.submit-bar { position:sticky; bottom:0; background:#fff; border-top:2px solid #006aff;
+       padding:10px 24px; display:flex; align-items:center; gap:12px; box-shadow:0 -2px 6px rgba(0,0,0,0.08); margin-top:20px; }
+.submit-bar .sb-info { flex:1; font-size:12px; color:#555; }
+.submit-bar .sb-state { font-family:monospace; font-size:11px; padding:4px 9px; background:#f0f0f0; border-radius:3px; }
+
+/* LIVE-STATUS pill (auto-save indicator) */
+@keyframes ls-slide-in {
+  from { opacity:0; transform:translateY(-12px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes ls-dot-pulse {
+  0%   { box-shadow:0 0 0 0 var(--ls-dot, #4a9b5e); }
+  70%  { box-shadow:0 0 0 8px rgba(74,155,94,0); }
+  100% { box-shadow:0 0 0 0 rgba(74,155,94,0); }
+}
+@keyframes ls-flash {
+  0%   { transform:scale(1); }
+  40%  { transform:scale(1.04); }
+  100% { transform:scale(1); }
+}
+/* LIVE-STATUS pill — hidden from end users; only visible with ?debug=1 in URL */
+.live-status { display:none; }
+body.debug-mode .live-status { display:flex; position:fixed; top:18px; right:18px; padding:9px 14px 9px 14px;
+       border-radius:24px; font-size:12px; font-weight:600; z-index:200;
+       box-shadow:0 6px 20px rgba(0,0,0,0.18); max-width:520px;
+       display:flex; align-items:center; gap:9px;
+       background:#fff; color:#444; border:1px solid #dadfe5;
+       animation:ls-slide-in 0.35s cubic-bezier(0.2,0.8,0.2,1);
+       transition:max-width 0.25s ease, padding 0.2s ease, box-shadow 0.2s ease; }
+.live-status:hover { box-shadow:0 8px 28px rgba(0,0,0,0.22); }
+.live-status .ls-dot { width:9px; height:9px; border-radius:50%; background:#999; flex-shrink:0;
+       --ls-dot:#999; }
+.live-status.neutral { background:#fff; color:#444; border-color:#dadfe5; }
+.live-status.neutral .ls-dot { background:#7a8794; --ls-dot:#7a8794; }
+.live-status.pending { background:#fff7e6; color:#8a5500; border-color:#f0c060; }
+.live-status.pending .ls-dot { background:#e6a23c; --ls-dot:#e6a23c;
+       animation:ls-dot-pulse 1.6s infinite; }
+.live-status.good { background:#e6f7ec; color:#1a6d36; border-color:#4a9b5e; }
+.live-status.good .ls-dot { background:#4a9b5e; --ls-dot:#4a9b5e;
+       animation:ls-dot-pulse 1.6s 2; }
+.live-status.flash { animation:ls-flash 0.45s ease; }
+.live-status .ls-msg { white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+       max-width:380px; }
+.live-status .ls-toggle { font-size:11px; opacity:0.7; cursor:pointer; user-select:none;
+       padding:0 4px; }
+.live-status .ls-toggle:hover { opacity:1; }
+.live-status .ls-panel { display:none; position:absolute; top:calc(100% + 8px); right:0;
+       background:#fff; color:#222; border:1px solid #dadfe5; border-radius:8px;
+       padding:12px 14px; min-width:280px; max-width:420px;
+       box-shadow:0 10px 28px rgba(0,0,0,0.18); font-weight:400; }
+.live-status.open .ls-panel { display:block; }
+.live-status .ls-panel h6 { margin:0 0 6px 0; font-size:11px; color:#666;
+       text-transform:uppercase; letter-spacing:0.5px; }
+.live-status .ls-panel pre { margin:0; font-size:11px; max-height:220px; overflow:auto;
+       background:#fafafa; border:1px solid #eee; border-radius:4px; padding:8px;
+       white-space:pre-wrap; word-break:break-word; }
+.live-status .ls-reset { display:inline-block; margin-top:8px; padding:5px 10px;
+       background:#f3f3f3; color:#222; border:1px solid #ddd; border-radius:4px;
+       font-size:11px; cursor:pointer; transition:background 0.15s ease; }
+.live-status .ls-reset:hover { background:#e6e6e6; }
+
+/* TASK BANNER (shown when ?task_id= is in URL) */
+.task-banner { background:linear-gradient(90deg, #e3f0ff, #fff); border-bottom:2px solid #006aff;
+       padding:16px 28px; font-family:'Open Sans',Arial,sans-serif; }
+.task-banner .tb-head { display:flex; gap:8px; align-items:center; margin-bottom:6px; }
+.task-banner .tb-id { font-family:monospace; font-size:11px; font-weight:700;
+       padding:3px 8px; background:#fff; border:1px solid #dadfe5; border-radius:4px; color:#006aff; }
+.task-banner .tb-type { font-size:10px; font-weight:700; padding:3px 8px; border-radius:4px;
+       text-transform:uppercase; letter-spacing:0.5px; }
+.task-banner .tb-type-read { background:#e0f0fb; color:#0c5d8a; }
+.task-banner .tb-type-write { background:#fbe0e9; color:#8a0c3a; }
+.task-banner .tb-type-read_write { background:#e8e0fb; color:#3a0c8a; }
+.task-banner .tb-diff { font-size:10px; font-weight:600; padding:3px 8px; border-radius:4px;
+       background:#f3f3f3; color:#555; text-transform:uppercase; letter-spacing:0.4px; }
+.task-banner .tb-summary { font-size:14px; color:#1a1a1a; line-height:1.55; margin-top:4px; font-weight:500; }
+.task-banner .tb-answer-row { margin-top:10px; display:flex; gap:10px; align-items:center; }
+.task-banner .tb-answer-label { font-size:12px; font-weight:600; color:#006aff; min-width:90px; }
+.task-banner .tb-answer-input { flex:1; padding:8px 12px; border:2px solid #006aff; border-radius:5px;
+       font:inherit; font-size:13px; max-width:600px;
+       background:#fff; transition:border 0.15s, box-shadow 0.15s; }
+.task-banner .tb-answer-input:focus { outline:none; border-color:#0050cc;
+       box-shadow:0 0 0 3px #e3f0ff; }
+.task-banner .tb-meta { font-size:11px; color:#666; margin-top:5px; }
+.task-banner .tb-meta code { background:#f4f6f9; padding:2px 6px; border-radius:3px;
+       font-size:10px; color:#333; }
+
+/* DEBUG/DB STATE OVERLAY — hidden from end users; only visible with ?debug=1 in URL */
+.db-fab { display:none; }
+body.debug-mode .db-fab { display:inline-block; position:fixed; bottom:18px; right:18px; padding:10px 16px;
+       background:#2c3e50; color:white; border-radius:24px; font-size:12px; cursor:pointer;
+       box-shadow:0 4px 12px rgba(0,0,0,0.2); z-index:99; text-decoration:none;
+       transition:background 0.15s ease, transform 0.1s ease; }
+.db-fab:hover { background:#1c2e40; transform:translateY(-1px); }
+
+/* FOOTER */
+.site-footer { background:#1c1c1c; color:#999; padding:28px 28px 18px; font-size:12px; margin-top:36px; }
+.site-footer-row { display:flex; gap:36px; flex-wrap:wrap; max-width:1280px; margin:0 auto; }
+.site-footer-col { min-width:160px; }
+.site-footer-col h5 { color:#fff; margin:0 0 10px 0; font-size:13px;
+       text-transform:uppercase; letter-spacing:0.5px; font-weight:700; }
+.site-footer-col a { display:block; color:#a8a8a8; text-decoration:none; padding:3px 0;
+       transition:color 0.15s ease; }
+.site-footer-col a:hover { color:#fff; }
+.site-footer-bottom { margin-top:22px; padding-top:16px; border-top:1px solid #333;
+       display:flex; gap:18px; align-items:center; flex-wrap:wrap;
+       font-size:11px; max-width:1280px; margin-left:auto; margin-right:auto; }
+.site-footer-bottom .sf-social { display:flex; gap:10px; }
+.site-footer-bottom .sf-social a { width:26px; height:26px; border-radius:50%;
+       background:#2a2a2a; color:#bbb; display:inline-flex; align-items:center; justify-content:center;
+       font-size:12px; text-decoration:none; transition:background 0.15s ease, color 0.15s ease; }
+.site-footer-bottom .sf-social a:hover { background:#006aff; color:#fff; }
+.site-footer-bottom .sf-pay { display:flex; gap:6px; align-items:center; }
+.site-footer-bottom .sf-pay span { background:#fff; color:#222; padding:2px 8px; border-radius:3px;
+       font-size:10px; font-weight:700; letter-spacing:0.4px; }
+.site-footer-bottom .sf-spacer { flex:1; }
+.site-footer-bottom .sf-lang { background:#2a2a2a; color:#ccc; padding:5px 10px; border-radius:3px;
+       border:1px solid #3a3a3a; cursor:pointer; font-size:11px; }
+
+/* Government / official footer */
+.site-footer.sf-gov { background:#f0f4fa; color:#1a2c5b; border-top:4px solid #1a2c5b; padding-top:24px; }
+.site-footer.sf-gov .site-footer-col h5 { color:#1a2c5b; }
+.site-footer.sf-gov .site-footer-col a { color:#1a2c5b; }
+.site-footer.sf-gov .site-footer-col a:hover { color:#d83b3b; text-decoration:underline; }
+.site-footer.sf-gov .site-footer-bottom { border-top:1px solid #c5d0e3; color:#1a2c5b; }
+.site-footer.sf-gov .sf-seal { width:54px; height:54px; border-radius:50%;
+       background:radial-gradient(circle at 35% 30%, #fff, #1a2c5b 80%); border:2px solid #1a2c5b;
+       display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; }
+
+/* Light / minimal footer (for stays/airbnb) */
+.site-footer.sf-light { background:#f7f7f7; color:#444; border-top:1px solid #ebebeb; }
+.site-footer.sf-light .site-footer-col h5 { color:#222; }
+.site-footer.sf-light .site-footer-col a { color:#444; }
+.site-footer.sf-light .site-footer-col a:hover { color:#222; }
+.site-footer.sf-light .site-footer-bottom { border-top:1px solid #ddd; color:#666; }
+.site-footer.sf-light .site-footer-bottom .sf-social a { background:#fff; color:#222; border:1px solid #ddd; }
+
+/* MICRO-INTERACTIONS */
+html { scroll-behavior:smooth; }
+button, .chip-btn, .pill, .tag, .ghost-btn, .primary-btn, .seg-btn, .quick-btn,
+.preset-cell, .type-card, .region-card, .step-btn {
+       transition:background 0.15s ease, color 0.15s ease, border-color 0.15s ease,
+                  box-shadow 0.15s ease, transform 0.08s ease; }
+button:active, .chip-btn:active, .pill:active, .tag:active,
+.ghost-btn:active, .primary-btn:active { transform:scale(0.97); }
+.result-card, .lstg-row, .apt-card, .stays-card, .hotel-card, .game-tile,
+.gh-row, .pet-card, .event-tile, .job-row, .flight-row, .tile-card {
+       transition:transform 0.15s ease, box-shadow 0.15s ease; }
+@keyframes chip-flash {
+  0%   { background:#fff7d6; transform:scale(1.05); }
+  100% { background:#e3f0ff; transform:scale(1); }
+}
+.active-chip { animation:chip-flash 0.4s ease; }
+@keyframes grid-fade-in {
+  from { opacity:0; transform:translateY(4px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.result-grid > * { animation:grid-fade-in 0.25s ease both; }
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 820px) {
+  .site-header { padding:10px 14px; gap:10px; flex-wrap:wrap; }
+  .site-header .search-bar { order:10; flex-basis:100%; max-width:none; }
+  .site-nav { display:none; }
+  .site-header.h-banner-bordered .gov-strip { padding:4px 14px; }
+  .site-header.h-banner-bordered .gov-main { padding:10px 14px; flex-wrap:wrap; }
+  .sub-header { padding:7px 14px; gap:12px; overflow-x:auto; white-space:nowrap; }
+  .sub-header .snl-promo { display:none; }
+  .crumb { padding:8px 14px; }
+  .main-grid, .main-grid.right-sidebar, .split-map-grid {
+       grid-template-columns:1fr !important; }
+  .split-map-grid .map-pane { display:none; }
+  .filter-aside { position:fixed; top:0; left:0; right:0; bottom:0; z-index:300;
+       transform:translateY(100%); transition:transform 0.25s ease;
+       border-right:none; box-shadow:0 -4px 18px rgba(0,0,0,0.2); }
+  .filter-aside.mobile-open { transform:translateY(0); }
+  .mobile-filter-fab { position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+       padding:11px 22px; background:#006aff; color:#fff; border:none; border-radius:24px;
+       font-size:13px; font-weight:700; box-shadow:0 6px 18px rgba(0,0,0,0.25);
+       z-index:250; cursor:pointer; display:inline-flex; align-items:center; gap:7px; }
+  .mobile-filter-fab .x-close { display:none; }
+  .filter-aside.mobile-open ~ .mobile-filter-fab .x-open { display:none; }
+  .filter-aside.mobile-open ~ .mobile-filter-fab .x-close { display:inline; }
+  .results-area { padding:12px 14px; }
+  .live-status { top:10px; right:10px; left:10px; max-width:none; }
+  .live-status .ls-msg { max-width:none; }
+  .db-fab { display:none; }
+  .site-footer-row { gap:18px; }
+  .site-footer-col { min-width:140px; }
+}
+@media (min-width: 821px) {
+  .mobile-filter-fab { display:none; }
+}
+
+/* ===== PER-CARD-STYLE SECTIONS ===== */
+
+/* listing-row (real estate — Realtor.com / Zillow / Redfin) */
+.lstg-row { display:grid; grid-template-columns:260px 1fr; gap:0; background:#fff;
+       border:1px solid #dadfe5; border-radius:8px; overflow:hidden; margin-bottom:14px;
+       transition:transform .15s ease, box-shadow .15s ease; }
+.lstg-row:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,.10); border-color:#006aff; }
+.lstg-photo-wrap { position:relative; }
+.lstg-photo { background:linear-gradient(135deg,#e3f0ff,#dde2e8); height:200px; width:100%;
+       display:flex; align-items:center; justify-content:center; font-size:48px; }
+.lstg-photo-tag { position:absolute; top:10px; left:10px; background:#d83b3b; color:#fff;
+       font-size:10px; font-weight:800; padding:4px 9px; border-radius:3px; letter-spacing:.4px;
+       text-transform:uppercase; box-shadow:0 1px 3px rgba(0,0,0,.25); }
+.lstg-heart { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%;
+       background:rgba(255,255,255,.92); border:none; font-size:18px; color:#d83b3b; cursor:pointer;
+       display:flex; align-items:center; justify-content:center; box-shadow:0 1px 3px rgba(0,0,0,.2); }
+.lstg-heart:hover { background:#fff; transform:scale(1.08); }
+.lstg-dom { position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,.65); color:#fff;
+       font-size:10px; padding:3px 7px; border-radius:3px; }
+.lstg-body { padding:14px 18px; display:flex; flex-direction:column; gap:6px; }
+.lstg-top { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+.lstg-price { font-size:24px; font-weight:800; color:#006aff; letter-spacing:-.3px; }
+.lstg-stats { font-size:13px; color:#222; margin-top:3px; font-weight:700; }
+.lstg-addr { font-size:13px; color:#222; margin-top:4px; font-weight:600; }
+.lstg-city { font-size:12px; color:#666; }
+.lstg-ptype { font-size:10px; padding:3px 9px; background:#e3f0ff; color:#006aff; border-radius:10px;
+       font-weight:700; text-transform:uppercase; letter-spacing:.4px; white-space:nowrap; }
+.lstg-tags { margin-top:4px; display:flex; flex-wrap:wrap; gap:5px; }
+.lstg-tag { display:inline-block; font-size:10px; padding:3px 8px; border-radius:3px; font-weight:700;
+       text-transform:uppercase; letter-spacing:.3px; }
+.lstg-tag-new { background:#0a7b3a; color:#fff; }
+.lstg-tag-reduced { background:#fff1d6; color:#8a5300; border:1px solid #f0c97a; }
+.lstg-tag-pending { background:#fde0e0; color:#8a1c1c; }
+.lstg-tag-pet { background:#eef6f0; color:#226637; }
+.lstg-tag-open { background:#e8efff; color:#1b3d8a; }
+.lstg-foot { margin-top:auto; padding-top:8px; border-top:1px solid #dadfe5;
+       display:flex; justify-content:space-between; align-items:center; gap:10px; }
+.lstg-broker { font-size:11px; color:#666; }
+.lstg-tour { padding:6px 14px; background:#006aff; color:#fff; border:none; border-radius:4px;
+       cursor:pointer; font-size:12px; font-weight:700; }
+.lstg-tour:hover { filter:brightness(1.08); }
+
+/* apt-card (rentals — Apartments.com / HotPads) */
+.apt-card { display:grid; grid-template-columns:200px 1fr; background:#fff;
+       border:1px solid #dadfe5; border-radius:8px; overflow:hidden; margin-bottom:12px;
+       transition:transform .15s ease, box-shadow .15s ease; }
+.apt-card:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.09); border-color:#006aff; }
+.apt-photo-wrap { position:relative; }
+.apt-photo { background:linear-gradient(135deg,#e3f0ff,#d5e8db); height:160px;
+       display:flex; align-items:center; justify-content:center; font-size:42px; }
+.apt-avail { position:absolute; top:10px; left:10px; font-size:10px; font-weight:800;
+       padding:4px 8px; border-radius:3px; text-transform:uppercase; letter-spacing:.3px; }
+.apt-avail-now { background:#0a7b3a; color:#fff; }
+.apt-avail-soon { background:#fff1d6; color:#8a5300; }
+.apt-body { padding:13px 16px; display:flex; flex-direction:column; gap:5px; }
+.apt-rent-row { display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
+.apt-rent { font-size:22px; font-weight:800; color:#0a7b3a; letter-spacing:-.3px; }
+.apt-mo { font-size:12px; color:#666; font-weight:600; margin-left:2px; }
+.apt-ptype { font-size:10px; color:#666; text-transform:uppercase; letter-spacing:.3px; font-weight:700; }
+.apt-name { font-size:14px; font-weight:700; color:#222; margin-top:2px; }
+.apt-loc { font-size:11px; color:#666; }
+.apt-meta { font-size:12px; color:#333; font-weight:600; }
+.apt-amens { display:flex; gap:6px; margin-top:4px; }
+.apt-amen { width:26px; height:26px; border-radius:50%; background:#e3f0ff; display:flex;
+       align-items:center; justify-content:center; font-size:13px; }
+.apt-tour { margin-top:6px; align-self:flex-start; padding:6px 14px; background:#fff;
+       color:#006aff; border:1px solid #006aff; border-radius:4px; cursor:pointer; font-size:11px; font-weight:700;
+       opacity:.85; transition:all .15s ease; }
+.apt-card:hover .apt-tour { opacity:1; background:#006aff; color:#fff; }
+
+/* stays-photo (Airbnb-style) */
+.stays-card { background:#fff; border-radius:12px; overflow:hidden; cursor:pointer; }
+.stays-photo-wrap { position:relative; overflow:hidden; border-radius:12px; }
+.stays-photo { height:200px; background:linear-gradient(135deg,#ffc3d3,#ff9eb4); display:flex;
+       align-items:center; justify-content:center; font-size:50px; color:white;
+       transition:transform .5s ease; }
+.stays-card:hover .stays-photo { transform:scale(1.06); }
+.stays-heart { position:absolute; top:12px; right:12px; width:30px; height:30px; border:none;
+       background:transparent; color:rgba(255,255,255,.95); font-size:24px; cursor:pointer;
+       text-shadow:0 1px 3px rgba(0,0,0,.45); }
+.stays-heart:hover { color:#ff385c; transform:scale(1.15); }
+.stays-badge { position:absolute; top:12px; left:12px; background:rgba(255,255,255,.95);
+       color:#222; font-size:10px; font-weight:700; padding:5px 10px; border-radius:14px;
+       box-shadow:0 1px 3px rgba(0,0,0,.15); }
+.stays-info { padding:10px 2px 0; }
+.stays-top { display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
+.stays-name { font-size:14px; font-weight:700; color:#222; }
+.stays-rate { font-size:12px; color:#222; white-space:nowrap; font-weight:600; }
+.stays-loc { font-size:12px; color:#717171; margin-top:2px; }
+.stays-sub { font-size:12px; color:#717171; }
+.stays-dates { font-size:12px; color:#717171; margin-top:2px; }
+.stays-price { font-size:13px; margin-top:6px; color:#222; }
+.stays-price b { font-size:15px; font-weight:800; }
+.stays-total { color:#717171; font-size:12px; text-decoration:underline; }
+
+/* hotel-card (Booking.com / Marriott) */
+.hotel-card { display:grid; grid-template-columns:220px 1fr; background:#fff;
+       border:1px solid #dadfe5; border-radius:8px; overflow:hidden; margin-bottom:12px;
+       transition:box-shadow .15s ease; }
+.hotel-card:hover { box-shadow:0 4px 14px rgba(0,0,0,.08); border-color:#006aff; }
+.hotel-photo { background:linear-gradient(135deg,#e3f0ff,#b5c5d8); height:100%; min-height:170px;
+       display:flex; align-items:center; justify-content:center; font-size:42px; }
+.hotel-body { padding:14px 16px; display:flex; flex-direction:column; gap:8px; }
+.hotel-head { display:flex; justify-content:space-between; align-items:flex-start; gap:14px; }
+.hotel-name { font-size:16px; font-weight:700; color:#006aff; }
+.hotel-stars { font-size:11px; color:#e8a82a; margin-top:1px; letter-spacing:1px; }
+.hotel-loc { font-size:11px; color:#666; margin-top:4px; }
+.hotel-score { display:flex; flex-direction:column; align-items:flex-end; gap:2px; white-space:nowrap; }
+.hotel-score-word { font-size:11px; font-weight:700; color:#003580; }
+.hotel-score-num { background:#003580; color:#fff; font-size:13px; font-weight:800; padding:4px 8px;
+       border-radius:5px 5px 5px 0; min-width:34px; text-align:center; }
+.hotel-score-rev { font-size:10px; color:#666; }
+.hotel-amens { display:flex; flex-wrap:wrap; gap:5px; }
+.hotel-amen { font-size:10px; padding:3px 7px; background:#e3f0ff; color:#333; border-radius:3px; }
+.hotel-urgent { display:inline-block; font-size:11px; color:#c8341d; font-weight:700;
+       padding:2px 0; }
+.hotel-foot { display:flex; justify-content:space-between; align-items:flex-end; gap:12px;
+       margin-top:auto; padding-top:6px; border-top:1px solid #dadfe5; }
+.hotel-price-block { display:flex; flex-direction:column; }
+.hotel-price { font-size:20px; color:#006aff; font-weight:800; letter-spacing:-.3px; }
+.hotel-night { font-size:11px; color:#666; font-weight:600; }
+.hotel-total { font-size:10px; color:#666; }
+.hotel-reserve { padding:8px 16px; background:#0071c2; color:#fff; border:none; border-radius:4px;
+       cursor:pointer; font-weight:700; font-size:12px; }
+.hotel-reserve:hover { background:#005999; }
+
+/* game-tile (Steam) */
+.game-tile { background:#16202d; border:1px solid #1f2a3a; border-radius:4px; overflow:hidden;
+       position:relative; padding:0; transition:box-shadow 0.15s, border-color 0.15s, transform 0.15s; }
+.game-tile:hover { border-color:#67c1f5; box-shadow:0 0 0 1px #67c1f5, 0 6px 20px rgba(103,193,245,0.25); transform:translateY(-2px); }
+.game-photo { height:120px; background:linear-gradient(135deg,#1b2838,#4a6f9b);
+       background-size:cover; background-position:center;
+       display:flex; align-items:center; justify-content:center; font-size:32px; color:#006aff; }
+.game-tile .game-name { padding:8px 10px 2px; font-size:13px; color:#ffffff; font-weight:600; line-height:1.3; }
+.game-tile .game-meta { padding:0 10px 6px; font-size:10px; color:#8295a3; text-transform:uppercase; letter-spacing:0.3px; }
+.game-price-block { display:flex; align-items:center; gap:6px; padding:4px 10px 6px; }
+.game-tile .game-old { font-size:11px; color:#788896; text-decoration:line-through; }
+.game-tile .game-price { padding:0; font-size:14px; color:#67c1f5; font-weight:700; }
+.game-reviews { padding:0 10px 10px; font-size:10px; color:#8ab8d4; }
+.game-reviews b { color:#67c1f5; }
+.disc-tag { position:absolute; top:8px; right:8px; background:#4c6b22; color:#beee11;
+       padding:4px 7px; font-size:13px; font-weight:800; border-radius:2px; box-shadow:0 1px 3px rgba(0,0,0,0.4); }
+
+/* game-row (GitHub-style listing) */
+.gh-row { display:grid; grid-template-columns:42px 1fr auto; gap:14px; padding:16px 18px;
+       background:#fff; border:1px solid #dadfe5; border-radius:6px; margin-bottom:8px;
+       transition:background 0.12s, border-color 0.12s; }
+.gh-row:hover { background:#f6f9fc; border-color:#c9d3e0; }
+.gh-icon { width:42px; height:42px; background:#e3f0ff; color:#006aff; border-radius:6px;
+       display:flex; align-items:center; justify-content:center; font-size:20px;
+       background-size:cover; background-position:center; }
+.gh-name { font-size:15px; color:#006aff; font-weight:600; }
+.gh-name b { color:#222; }
+.gh-desc { font-size:13px; color:#555; margin-top:4px; line-height:1.45; }
+.gh-topics { margin-top:7px; display:flex; gap:5px; flex-wrap:wrap; }
+.gh-topic { font-size:11px; padding:2px 9px; background:#ddf4ff; color:#0969da; border-radius:10px; font-weight:500; }
+.gh-meta { font-size:12px; color:#656d76; margin-top:8px; display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
+.gh-meta span { display:inline-flex; align-items:center; gap:4px; }
+.gh-lang-dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:4px; vertical-align:middle; }
+.gh-star-btn { align-self:start; padding:5px 12px; font-size:12px; font-weight:600; color:#24292f;
+       background:#f6f8fa; border:1px solid #d0d7de; border-radius:6px; cursor:pointer; }
+.gh-star-btn:hover { background:#eef2f6; }
+
+/* pet-card */
+.pet-card { background:#fff; border:1px solid #dadfe5; border-radius:10px; overflow:hidden;
+       box-shadow:0 1px 3px rgba(0,0,0,0.05); transition:transform 0.15s, box-shadow 0.15s; position:relative; }
+.pet-card:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.12); }
+.pet-photo { height:200px; background:linear-gradient(135deg,#ffd4a5,#ffa45e);
+       background-size:cover; background-position:center;
+       display:flex; align-items:center; justify-content:center; font-size:54px; }
+.pet-heart { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%;
+       background:rgba(255,255,255,0.92); display:flex; align-items:center; justify-content:center;
+       font-size:16px; cursor:pointer; color:#bbb; box-shadow:0 2px 4px rgba(0,0,0,0.15); transition:color 0.15s; }
+.pet-card:hover .pet-heart { color:#e25c5c; }
+.pet-body { padding:13px 15px 15px; }
+.pet-name { font-size:19px; font-weight:800; color:#d96a1f; letter-spacing:-0.2px; }
+.pet-meta { font-size:12px; color:#444; margin-top:4px; font-weight:500; }
+.pet-loc { font-size:12px; color:#666; margin-top:6px; display:flex; align-items:center; gap:4px; }
+.pet-dist { font-size:11px; color:#888; margin-top:2px; }
+.pet-tags { margin-top:10px; display:flex; gap:5px; flex-wrap:wrap; }
+.pet-tag { font-size:10px; padding:3px 9px; background:#fff1de; color:#a14e07;
+       border:1px solid #ffd9a8; border-radius:11px; font-weight:600; }
+
+/* event-tile (Eventbrite) */
+.event-tile { position:relative; background:#fff; border:1px solid #dadfe5; border-radius:8px;
+       overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.06);
+       transition:transform 0.15s, box-shadow 0.15s; display:flex; flex-direction:column; }
+.event-tile:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.13); }
+.event-photo { position:relative; height:160px; background:linear-gradient(135deg,#3a4f7a,#7a92c2);
+       background-size:cover; background-position:center; }
+.event-date { position:absolute; top:10px; left:10px; background:rgba(20,20,30,0.82); color:#fff;
+       border-radius:6px; padding:6px 8px; text-align:center; min-width:50px; backdrop-filter:blur(4px); }
+.event-month { font-size:10px; font-weight:700; color:#ff8a65; text-transform:uppercase; letter-spacing:0.6px; }
+.event-day { font-size:20px; font-weight:800; line-height:1.05; color:#fff; }
+.event-dow { font-size:9px; color:#cfd6e2; text-transform:uppercase; letter-spacing:0.5px; }
+.event-price-tag { position:absolute; top:10px; right:10px; background:#fff; color:#1e1e2c;
+       border-radius:14px; padding:4px 10px; font-size:11px; font-weight:700;
+       box-shadow:0 2px 6px rgba(0,0,0,0.2); }
+.event-price-tag.free { background:#e1f7e3; color:#0a7d2c; }
+.event-heart { position:absolute; top:128px; right:10px; width:30px; height:30px; border-radius:50%;
+       background:rgba(255,255,255,0.92); display:flex; align-items:center; justify-content:center;
+       font-size:14px; cursor:pointer; color:#bbb; box-shadow:0 2px 4px rgba(0,0,0,0.18); }
+.event-tile:hover .event-heart { color:#e25c5c; }
+.event-body { padding:11px 14px 14px; flex:1; display:flex; flex-direction:column; }
+.event-name { font-size:14px; font-weight:700; color:#1e1e2c; line-height:1.3; }
+.event-meta { font-size:12px; color:#555; margin-top:5px; }
+.event-venue { font-size:12px; color:#777; margin-top:2px; }
+.event-attending { font-size:11px; color:#d61f7a; font-weight:600; margin-top:7px; }
+
+/* job-row (Indeed) */
+.job-row { display:grid; grid-template-columns:48px 1fr auto; gap:12px; align-items:center;
+       padding:14px 16px; background:#fff; border:1px solid #dadfe5; border-radius:5px; margin-bottom:8px; }
+.job-logo { width:48px; height:48px; background:#006aff; color:white; border-radius:5px; display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:800; }
+.job-title { font-size:14px; color:#006aff; font-weight:700; }
+.job-co { font-size:12px; color:#222; margin-top:1px; }
+.job-meta { font-size:11px; color:#666; margin-top:3px; }
+.job-meta-2 { font-size:10px; color:#888; margin-top:2px; }
+.job-apply { padding:7px 14px; background:#006aff; color:white; border:none; border-radius:3px; cursor:pointer; font-weight:700; font-size:12px; }
+
+/* flight-row (airlines — AirAsia / KLM / LOT) */
+.flight-row { display:grid; grid-template-columns:150px 1fr 200px 130px; gap:18px; align-items:stretch;
+       padding:14px 18px; background:#fff; border:1px solid #dadfe5; border-radius:6px; margin-bottom:10px;
+       transition:box-shadow .15s ease, border-color .15s ease; }
+.flight-row:hover { box-shadow:0 4px 12px rgba(0,0,0,.08); border-color:#006aff; }
+.flight-airline { display:flex; gap:10px; align-items:center; }
+.ft-logo { width:38px; height:38px; border-radius:6px; background:#006aff; color:#fff;
+       display:flex; align-items:center; justify-content:center; font-size:20px; }
+.ft-airname { font-size:13px; font-weight:700; color:#222; }
+.ft-flightno { font-size:11px; color:#888; }
+.flight-times { display:grid; grid-template-columns:1fr 1.4fr 1fr; align-items:center; gap:6px; }
+.ft-end { text-align:center; }
+.ft-time { font-size:20px; font-weight:800; color:#222; line-height:1.1; letter-spacing:-.3px; }
+.ft-code { font-size:12px; color:#444; font-weight:700; margin-top:2px; }
+.ft-city { font-size:10px; color:#888; }
+.ft-mid { text-align:center; display:flex; flex-direction:column; align-items:center; gap:3px; }
+.ft-dur { font-size:11px; color:#555; font-weight:600; }
+.ft-line { width:100%; height:1px; background:#dadfe5; position:relative; }
+.ft-line:before, .ft-line:after { content:""; position:absolute; top:-3px; width:7px; height:7px;
+       border-radius:50%; background:#006aff; }
+.ft-line:before { left:0; } .ft-line:after { right:0; }
+.ft-line span { position:absolute; left:50%; top:-6px; transform:translateX(-50%); font-size:10px; color:#006aff; }
+.ft-line span:before { content:"✈"; }
+.ft-stops { font-size:10px; color:#666; text-transform:uppercase; letter-spacing:.4px; }
+.flight-extras { display:flex; flex-direction:column; gap:4px; justify-content:center; }
+.ft-aircraft { font-size:11px; color:#555; }
+.ft-icons { font-size:13px; letter-spacing:3px; opacity:.7; }
+.ft-badges { display:flex; flex-wrap:wrap; gap:4px; }
+.ft-badge { font-size:9px; padding:2px 6px; border-radius:3px; font-weight:700;
+       text-transform:uppercase; letter-spacing:.3px; }
+.ft-cheap { background:#0a7b3a; color:#fff; }
+.ft-ontime { background:#e8efff; color:#1b3d8a; }
+.flight-actions { display:flex; flex-direction:column; align-items:flex-end; justify-content:center; gap:4px; }
+.flight-price { font-size:22px; font-weight:800; color:#006aff; letter-spacing:-.3px; }
+.ft-per { font-size:10px; color:#888; }
+.flight-book { margin-top:4px; padding:8px 18px; background:#006aff; color:#fff; border:none;
+       border-radius:4px; cursor:pointer; font-weight:800; font-size:12px; letter-spacing:.3px; }
+.flight-book:hover { filter:brightness(1.1); }
+
+/* tile-card (Etsy / Uniqlo) */
+.tile-card { position:relative; background:#fff; border:1px solid #eee; border-radius:8px;
+       padding:8px; transition:box-shadow 0.15s, border-color 0.15s; }
+.tile-card:hover { box-shadow:0 6px 18px rgba(0,0,0,0.10); border-color:#ddd; }
+.tile-photo { height:220px; background:linear-gradient(135deg,#e3f0ff,#e8e8e8);
+       background-size:cover; background-position:center;
+       display:flex; align-items:center; justify-content:center; font-size:48px; color:#006aff;
+       border-radius:6px; }
+.tile-heart { position:absolute; top:14px; right:14px; width:32px; height:32px; border-radius:50%;
+       background:rgba(255,255,255,0.95); display:flex; align-items:center; justify-content:center;
+       font-size:15px; cursor:pointer; color:#999; box-shadow:0 1px 4px rgba(0,0,0,0.15); }
+.tile-card:hover .tile-heart { color:#e25c5c; }
+.tile-brand { display:inline-block; font-size:10px; padding:2px 8px; background:#f3eee5; color:#7a5b2b;
+       border-radius:10px; margin-top:9px; font-weight:600; }
+.tile-name { font-size:13px; margin-top:6px; font-weight:500; color:#222; line-height:1.35; }
+.tile-price-row { display:flex; align-items:baseline; gap:7px; margin-top:5px; }
+.tile-price { font-size:15px; color:#222; font-weight:800; }
+.tile-was { font-size:11px; color:#999; text-decoration:line-through; }
+.tile-meta { font-size:11px; color:#888; margin-top:3px; }
+.tile-ship { display:inline-block; font-size:10px; color:#0a7d2c; font-weight:700; margin-top:5px; }
+.tile-swatches { display:flex; gap:4px; margin-top:6px; }
+.tile-swatch { width:14px; height:14px; border-radius:50%; border:1px solid #ddd; }
+
+/* article-row (news) */
+.article-row { padding:14px 16px; background:#fff; border-bottom:1px solid #dadfe5; }
+.article-title { font-size:15px; color:#006aff; margin:0 0 5px 0; font-weight:700; }
+.article-summary { font-size:12px; color:#444; line-height:1.55; }
+.article-meta { font-size:10px; color:#888; margin-top:6px; }
+
+/* For listing-row / job-row / flight-row / event-tile / hotel-card layouts,
+   override result-grid to be single-column rows */
+.result-grid.rows { display:flex; flex-direction:column; gap:0; }
+.result-grid.rows .result-card { display:none; }  /* hide default-shaped cards */
+
+/* Map-split layout for real estate */
+.split-map-grid { display:grid; grid-template-columns:280px 1fr 280px; gap:0; min-height:calc(100vh - 145px); }
+.map-pane { background:linear-gradient(180deg,#dce9f4,#aac7e4); border-left:1px solid #dadfe5;
+       display:flex; align-items:center; justify-content:center; color:#1a4a7c; font-size:14px; font-weight:600;
+       position:relative; }
+.map-pin { position:absolute; width:24px; height:24px; background:#006aff; color:white; border-radius:50% 50% 50% 0; transform:rotate(-45deg); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; cursor:pointer; }
+.map-pin span { transform:rotate(45deg); }
+
+/* Sub-grids per card style */
+.result-grid.tiles { grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:18px; }
+.result-grid.stays { grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); }
+.result-grid.pets  { grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:18px; }
+.result-grid.games { grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:14px; }
+.result-grid.events { grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:18px; }
+
+/* ============ JOB-ROW (Indeed / LinkedIn / Glassdoor) ============ */
+.job-row { display:grid; grid-template-columns:56px 1fr auto; gap:14px; align-items:flex-start;
+       padding:16px 18px; background:#fff; border:1px solid #dadfe5; border-radius:6px;
+       margin-bottom:10px; transition:box-shadow 0.15s, transform 0.15s; }
+.job-row:hover { box-shadow:0 4px 14px rgba(0,0,0,0.08); transform:translateY(-1px); border-color:#006aff; }
+.job-logo { width:56px; height:56px; background:#e3f0ff; color:#006aff; border-radius:8px;
+       display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800;
+       background-size:cover; background-position:center; border:1px solid #dadfe5; overflow:hidden; }
+.job-title-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.job-title { font-size:17px; color:#006aff; font-weight:700; text-decoration:none; cursor:pointer; }
+.job-title:hover { text-decoration:underline; }
+.job-match { font-size:10px; background:#e3f0ff; color:#003480; padding:3px 8px;
+       border-radius:10px; font-weight:700; letter-spacing:0.3px; }
+.job-co { font-size:13px; color:#222; margin-top:3px; font-weight:600; }
+.job-verified { color:#006aff; font-size:11px; background:#e3f0ff; border-radius:50%;
+       padding:1px 5px; margin-left:2px; }
+.job-rating { font-size:11px; color:#b8860b; font-weight:600; margin-left:4px; }
+.job-meta { font-size:12px; color:#555; margin-top:5px; }
+.job-salary { font-size:13px; color:#0a7d2c; font-weight:700; margin-top:5px; }
+.job-foot { display:flex; gap:14px; margin-top:8px; font-size:11px; color:#666; flex-wrap:wrap; }
+.job-urgent { color:#c0392b; font-weight:600; }
+.job-easy { color:#006aff; font-weight:600; }
+.job-actions { display:flex; flex-direction:column; gap:6px; align-items:flex-end; }
+.job-save { width:34px; height:34px; border-radius:50%; border:1px solid #dadfe5; background:#fff;
+       cursor:pointer; font-size:16px; color:#888; }
+.job-save:hover { color:#e74c3c; border-color:#e74c3c; }
+.job-apply { padding:9px 22px; background:#006aff; color:white; border:none; border-radius:22px;
+       cursor:pointer; font-weight:700; font-size:13px; }
+.job-apply:hover { background:#0050cc; }
+
+/* ============ ARTICLE-ROW (Phys.org / Hacker News / Reuters) ============ */
+.article-row { display:grid; grid-template-columns:1fr 140px; gap:18px; align-items:flex-start;
+       padding:18px 16px; background:#fff; border-bottom:1px solid #dadfe5; transition:background 0.12s; }
+.article-row:hover { background:#e3f0ff; }
+.article-tagrow { font-size:11px; color:#006aff; text-transform:uppercase; letter-spacing:0.5px;
+       font-weight:700; margin-bottom:6px; }
+.article-topic { background:#e3f0ff; color:#003480; padding:2px 8px; border-radius:3px; }
+.article-cat { color:#777; font-weight:600; }
+.article-title { display:block; font-size:18px; color:#006aff; font-weight:700; margin:0 0 7px 0;
+       line-height:1.3; cursor:pointer; text-decoration:none; }
+.article-title:hover { text-decoration:underline; }
+.article-summary { font-size:13px; color:#3a3a3a; line-height:1.6;
+       display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+.article-meta { font-size:11px; color:#888; margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; }
+.article-actions { display:flex; gap:18px; margin-top:8px; font-size:11px; }
+.article-action { color:#666; cursor:pointer; text-decoration:none; }
+.article-action:hover { color:#006aff; }
+.article-thumb, .article-thumb-fb { width:140px; height:96px; border-radius:4px;
+       background:linear-gradient(135deg,#e3f0ff,#dcdcdc); border:1px solid #dadfe5;
+       display:flex; align-items:center; justify-content:center; font-size:36px;
+       color:#006aff; font-weight:800; background-size:cover; background-position:center; }
+
+/* ============ FORM-ONLY / CALCULATOR PAGE ============ */
+.main-grid.calc-layout { grid-template-columns:320px 1fr; background:#f7f9fc; }
+.calc-page { padding:18px 28px; }
+.calc-topbar { display:flex; justify-content:space-between; align-items:center; gap:14px;
+       border-bottom:1px solid #dadfe5; margin-bottom:18px; flex-wrap:wrap; }
+.calc-tabs { display:flex; gap:2px; }
+.calc-tab { background:transparent; border:none; padding:11px 16px; cursor:pointer;
+       font-size:13px; color:#666; font-weight:600; border-bottom:3px solid transparent;
+       font-family:inherit; }
+.calc-tab:hover { color:#006aff; }
+.calc-tab.active { color:#006aff; border-bottom-color:#006aff; }
+.calc-tools { display:flex; gap:6px; padding-bottom:6px; }
+.calc-tool { background:#fff; border:1px solid #dadfe5; padding:6px 11px; border-radius:3px;
+       font-size:11px; cursor:pointer; color:#444; font-family:inherit; }
+.calc-tool:hover { border-color:#006aff; color:#006aff; }
+.calc-gov-pill { display:inline-block; background:#e3f0ff; color:#003480;
+       padding:5px 11px; border-radius:3px; font-size:11px; font-weight:700;
+       margin-bottom:12px; border:1px solid #dadfe5; }
+
+.calc-result-card { background:#fff; border:1px solid #dadfe5; border-radius:6px;
+       padding:22px 26px; box-shadow:0 2px 8px rgba(0,0,0,0.04); margin-bottom:18px; }
+.calc-result-head { display:flex; justify-content:space-between; align-items:flex-start;
+       gap:18px; padding-bottom:18px; border-bottom:1px solid #dadfe5; margin-bottom:18px; }
+.calc-result-label { font-size:12px; color:#666; text-transform:uppercase;
+       letter-spacing:0.6px; font-weight:700; margin-bottom:6px; }
+.calc-result-value { font-size:42px; font-weight:800; color:#006aff; line-height:1.05;
+       letter-spacing:-0.8px; font-feature-settings:"tnum"; }
+.calc-result-sub { font-size:12px; color:#666; margin-top:6px; }
+.calc-trend { text-align:right; }
+.calc-trend-pct { font-size:18px; color:#0a7d2c; font-weight:700; }
+.calc-trend-sub { font-size:11px; color:#888; }
+
+.calc-chart-wrap { margin-bottom:18px; }
+.calc-chart { width:100%; height:230px; }
+.calc-chart-cap { font-size:11px; color:#888; text-align:center; margin-top:4px; }
+
+.calc-grid-2 { display:grid; grid-template-columns:1.2fr 1fr; gap:24px; }
+.calc-h4 { font-size:12px; text-transform:uppercase; letter-spacing:0.6px; color:#444;
+       margin:0 0 10px 0; font-weight:700; }
+.calc-breakdown { width:100%; border-collapse:collapse; font-size:13px; }
+.calc-breakdown td { padding:8px 6px; border-bottom:1px dotted #dadfe5; }
+.calc-breakdown td:last-child { text-align:right; font-weight:700;
+       font-feature-settings:"tnum"; color:#222; }
+.calc-breakdown tr:last-child td { border-bottom:2px solid #006aff; }
+
+.calc-cmp-row { display:flex; gap:6px; flex-wrap:wrap; }
+.calc-cmp { flex:1; min-width:90px; padding:9px 8px; border:1px solid #dadfe5; background:#fff;
+       border-radius:3px; cursor:pointer; font-size:11px; font-weight:600; color:#555;
+       font-family:inherit; }
+.calc-cmp.active { background:#006aff; color:#fff; border-color:#006aff; }
+.calc-cmp:hover:not(.active) { border-color:#006aff; color:#006aff; }
+.calc-cmp-note { font-size:11px; color:#777; margin:10px 0; line-height:1.5; font-style:italic; }
+.calc-mini-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.calc-mini-stats > div { background:#e3f0ff; padding:10px 8px; border-radius:4px; text-align:center;
+       border:1px solid #dadfe5; }
+.calc-mini-stats span { display:block; font-size:10px; color:#666; text-transform:uppercase;
+       letter-spacing:0.4px; margin-bottom:3px; }
+.calc-mini-stats b { font-size:14px; color:#006aff; font-feature-settings:"tnum"; }
+
+.calc-saved { background:#fff; border:1px solid #dadfe5; border-radius:6px;
+       padding:16px 20px; margin-bottom:14px; }
+.calc-saved-head { display:flex; justify-content:space-between; align-items:center;
+       margin-bottom:12px; }
+.calc-saved-head h3 { margin:0; font-size:14px; color:#222; font-weight:700;
+       text-transform:uppercase; letter-spacing:0.5px; }
+.calc-saved-link { font-size:12px; color:#006aff; text-decoration:none; cursor:pointer; }
+.calc-saved-link:hover { text-decoration:underline; }
+.result-grid.calc-scenarios { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+       gap:12px; }
+.calc-empty { padding:24px; text-align:center; color:#888; font-size:12px;
+       background:#f7f9fc; border:1px dashed #dadfe5; border-radius:4px; }
+.calc-empty b { color:#006aff; }
+
+.calc-scenario { background:#fff; border:1px solid #dadfe5; border-radius:5px; padding:14px;
+       transition:box-shadow 0.15s; }
+.calc-scenario:hover { box-shadow:0 2px 8px rgba(0,0,0,0.08); border-color:#006aff; }
+.cs-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.cs-name { font-size:12px; font-weight:700; color:#222; }
+.cs-tag { font-size:9px; padding:2px 6px; background:#e3f0ff; color:#003480;
+       border-radius:2px; text-transform:uppercase; letter-spacing:0.4px; font-weight:700; }
+.cs-total { font-size:22px; color:#006aff; font-weight:800; letter-spacing:-0.3px;
+       font-feature-settings:"tnum"; }
+.cs-sub { font-size:10px; color:#777; margin-bottom:8px; }
+.cs-kv { display:flex; justify-content:space-between; font-size:11px; padding:3px 0;
+       border-top:1px dotted #dadfe5; }
+.cs-kv span { color:#666; }
+.cs-kv b { color:#222; }
+.cs-actions { display:flex; gap:4px; margin-top:8px; }
+.cs-btn { flex:1; padding:5px; border:1px solid #dadfe5; background:#fff; border-radius:2px;
+       cursor:pointer; font-size:10px; color:#555; font-family:inherit; }
+.cs-btn:hover { border-color:#006aff; color:#006aff; }
+.cs-btn.ghost { color:#c0392b; }
+
+.calc-disclaim { font-size:11px; color:#666; line-height:1.6; padding:14px 18px;
+       background:#fff; border:1px solid #dadfe5; border-left:3px solid #999;
+       border-radius:3px; margin-top:12px; }
+.calc-disclaim.gov { font-family:'Merriweather',Georgia,serif; font-style:italic;
+       border-left-color:#006aff; }
+.calc-disclaim a { color:#006aff; }
+.calc-seal { display:inline-block; background:#006aff; color:#fff; padding:2px 8px;
+       font-size:10px; font-weight:700; letter-spacing:0.5px; border-radius:2px;
+       margin-right:8px; font-style:normal; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* W13_BRAND_CSS_INJECTED */
+/* W13 brand reskin — Zillow (zillow) */
+
+.site-header.h-zillow { background:#ffffff !important; color:#1f3a5f !important; padding:10px 22px !important;
+       border-bottom:1px solid #e0e0e0 !important;
+       box-shadow:0 1px 3px rgba(0,0,0,0.04) !important; }
+.site-header.h-zillow .logo-block .logo { color:#006aff !important; font-size:22px !important;
+       font-weight:900 !important; letter-spacing:-0.5px !important; display:inline-flex !important; align-items:center !important; gap:5px !important; }
+.site-header.h-zillow .logo-block .logo:before { content:"E"; display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:6px; background:#006aff; color:#fff; font-size:16px; font-weight:900; }
+.site-header.h-zillow .logo-block .logo-sub { display:none !important; }
+.site-header.h-zillow .site-nav a { color:#1f3a5f !important; font-weight:600 !important; font-size:13px !important; opacity:1 !important; }
+.site-header.h-zillow .site-nav a:hover { color:#006aff !important; }
+.site-header.h-zillow .site-nav a:after { background:#006aff !important; }
+.site-header.h-zillow .search-bar { display:none !important; }
+.site-header.h-zillow .account-zone .pill { background:transparent !important; color:#1f3a5f !important;
+       padding:5px 12px !important; border-radius:0 !important; font-weight:600 !important; }
+.site-header.h-zillow .account-zone .pill:hover { background:#f3f6fa !important; color:#006aff !important; }
+.site-header.h-zillow .account-zone .pill-cta { background:#006aff !important; color:#fff !important; border-radius:20px !important; padding:6px 16px !important; font-weight:700 !important; }
+.site-header.h-zillow .account-zone .pill-cta:hover { background:#0045a8 !important; }
+.sub-header.sh-zillow { background:#ffffff !important; color:#1f3a5f !important; border-bottom:1px solid #e0e0e0 !important;
+       padding:8px 22px !important; gap:8px !important; flex-wrap:wrap !important; }
+.sub-header.sh-zillow .sh-search { display:inline-flex; align-items:center; padding:7px 12px; border:1px solid #cfd8e3; border-radius:4px; background:#fff; font-size:13px; color:#444; min-width:200px; max-width:300px; }
+.sub-header.sh-zillow .sh-search:before { content:"🔍"; margin-right:7px; color:#888; }
+.sub-header.sh-zillow .z-chip { background:#ffffff; border:1px solid #006aff; color:#006aff; padding:6px 12px; border-radius:4px; font-size:12px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:5px; }
+.sub-header.sh-zillow .z-chip:hover { background:#e6f0ff; }
+.sub-header.sh-zillow .z-chip.solid { background:#006aff; color:#fff; }
+.sub-header.sh-zillow .z-chip.outline { border-color:#cfd8e3; color:#1f3a5f; }
+.sub-header.sh-zillow .z-chip .caret { font-size:9px; opacity:0.7; }
+.sub-header.sh-zillow .sh-spacer { flex:1; }
+
+/* Brand color overrides */
+.crumb a { color:#006aff !important; }
+.crumb a:hover { color:#0045a8 !important; }
+.results-header h1 { color:#006aff !important; }
+.lstg-tour { background:#006aff !important; }
+.lstg-tour:hover { background:#0045a8 !important; }
+.view-toggle button.active { background:#006aff !important; color:#fff !important; }
+.search-bar input:focus { box-shadow:0 0 0 3px #e6f0ff !important; }
+.active-chip { background:#e6f0ff !important; color:#0045a8 !important; border-color:#006aff !important; }
+.result-thumb { color:#006aff !important; }
+.result-price { color:#0045a8 !important; }
+.hero-banner { background:linear-gradient(120deg, #006aff, #e6f0ff) !important; color:#fff !important; }
+.lstg-tag-new { background:#006aff !important; color:#fff !important; }
+.f-section h4 { color:#0045a8 !important; }
+.wut-badge { background:#e6f0ff !important; color:#0045a8 !important; border:1px solid #006aff !important; }
+.lstg-price { color:#0045a8 !important; }
+.lstg-ptype { background:#e6f0ff !important; color:#0045a8 !important; }
+.lstg-tour { background:#006aff !important; color:#fff !important; border:0 !important; }
+.lstg-tour:hover { background:#0045a8 !important; }
+.lstg-photo-tag { background:#006aff !important; color:#fff !important; }
+/* W13_BRAND_CSS_END */
+
+/* W13_LAYOUT_CSS_INJECTED */
+
+/* L5 slider + number */
+.w13-l5-wrap  { background:#fff; padding:12px 14px; border-radius:8px;
+       border:1px solid #e0e3e7; }
+.w13-l5-title { font-size:13px; font-weight:800; color:#222; margin:0 0 8px 0; }
+.w13-l5-help  { font-size:11px; color:#666; margin:0 0 12px 0; }
+.w13-l5-block { margin-bottom:18px; padding:8px 4px 4px 4px; border-radius:6px; background:var(--bg); }
+.w13-l5-block:last-child { margin-bottom:0; }
+.w13-l5-block .head { display:flex; align-items:center; gap:8px; margin-bottom:4px; }
+.w13-l5-block .head .ic { font-size:16px; }
+.w13-l5-block .head b   { color:var(--c); font-size:12.5px; text-transform:uppercase; letter-spacing:0.5px; }
+.w13-l5-block .head .un { margin-left:auto; font-size:10.5px; color:#555; font-weight:600;
+       background:#fff; border:1px solid var(--c); padding:1px 6px; border-radius:10px; }
+.w13-l5-block .ctrl { display:flex; align-items:center; gap:10px; padding:0 6px; }
+.w13-l5-block input[type=range] { flex:1; -webkit-appearance:none; height:6px; border-radius:3px;
+       background:linear-gradient(to right, var(--c) 0%, var(--c) 50%, #e0e3e7 50%, #e0e3e7 100%); outline:none; }
+.w13-l5-block input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:18px; height:18px;
+       border-radius:50%; background:var(--c); border:2px solid #fff; box-shadow:0 1px 3px rgba(0,0,0,0.3);
+       cursor:pointer; }
+.w13-l5-block .pair-num { width:108px; padding:6px 8px; font-size:13px; font-weight:700; text-align:right;
+       border:2px solid var(--c); border-radius:4px; outline:none; font-family:inherit; }
+.w13-l5-block .pair-num:focus { background:#fffbe6; }
+.w13-l5-block.nf-invalid .pair-num { border-color:#b80000; }
+.w13-l5-block .nf-err { font-size:10px; color:#b80000; min-height:12px; padding:2px 6px 0 6px; }
+
+/* W13_LAYOUT_CSS_END */
+
+/* W13_POLISH v1 — minor brand chrome refinements */
+.filter-aside h3 { font-size:15px; font-weight:700; margin:0 0 14px 0;
+   padding-bottom:10px; border-bottom:1px solid #eaecef; color:#222; letter-spacing:-0.2px; }
+.f-section { padding:14px 0; border-bottom:1px solid #f0f1f3; }
+.f-section:last-child { border-bottom:none; }
+.f-section h4 { font-size:13px; font-weight:700; margin:0 0 10px 0;
+   color:#222; text-transform:none; letter-spacing:0; }
+.results-header { display:flex; align-items:center; gap:14px;
+   padding:14px 18px 10px 18px; border-bottom:1px solid #f0f1f3;
+   flex-wrap:wrap; }
+.results-header h1 { font-size:20px; margin:0; font-weight:700;
+   letter-spacing:-0.3px; color:#1a1a1a; }
+.results-count { font-size:13px; color:#666; font-weight:500; }
+.sort-dd { margin-left:auto; padding:6px 10px; border:1px solid #d9dde1;
+   border-radius:4px; font-size:13px; background:#fff; color:#222; cursor:pointer; }
+.view-toggle button { padding:5px 10px; border:1px solid #d9dde1;
+   background:#fff; color:#444; font-size:12px; cursor:pointer; }
+.view-toggle button.active { background:#f3f6fa; color:#1a1a1a; font-weight:600; }
+
+/* Zillow — left icon rail visual cue (decorative, non-interactive) */
+.zl-rail { position:absolute; left:0; top:0; bottom:0; width:60px;
+   background:#fff; border-right:1px solid #e5e7eb; display:none;
+   flex-direction:column; align-items:center; padding-top:18px; gap:18px; z-index:2; }
+.zl-rail .ri { display:flex; flex-direction:column; align-items:center; gap:2px;
+   font-size:10px; color:#555; cursor:pointer; }
+.zl-rail .ri .glyph { font-size:18px; color:#1f3a5f; }
+.zl-rail .ri.active { color:#006aff; font-weight:700; }
+.zl-rail .ri.active .glyph { color:#006aff; }
+.zl-rail .ri:hover .glyph { color:#006aff; }
+@media (min-width: 1100px) {
+  .zl-rail { display:flex; }
+  body { padding-left:60px; }
+}
+.lstg-row { border:none !important; border-radius:8px;
+   box-shadow:0 1px 3px rgba(0,0,0,0.08); margin-bottom:14px; overflow:hidden;
+   background:#fff; }
+.lstg-price { color:#1a1a1a; font-weight:800; font-size:18px; letter-spacing:-0.4px; }
+.lstg-tour { background:#006aff !important; border:none !important;
+   color:#fff !important; border-radius:4px !important; font-weight:700; padding:7px 14px; }
+.lstg-tour:hover { background:#0045a8 !important; }
+.lstg-heart { background:#fff !important; }
+.sub-header.sh-zillow { padding:10px 22px; gap:8px; }
+
+.w13-l1-wrap, .w13-l2-wrap, .w13-l3-wrap, .w13-l4-wrap, .w13-l5-wrap,
+.w13-l7-wrap, .w13-l8-wrap, .w13-l9-wrap, .w13-l10-wrap { padding:0 !important; background:transparent !important; }
+.w13-l1-title, .w13-l2-title, .w13-l3-title, .w13-l4-title, .w13-l5-title,
+.w13-l7-title, .w13-l8-title, .w13-l9-title, .w13-l10-title,
+.w13-l6-hero .ttl { font-size:13px !important; font-weight:700 !important;
+   color:#222 !important; margin:0 0 10px 0 !important; letter-spacing:0 !important; }
+.w13-l6-hero { padding:0 !important; background:transparent !important;
+   border:none !important; box-shadow:none !important; }
+.w13-l6-grid { gap:8px !important; }
+.w13-l7-step .num, .w13-l9-tab .num { display:none !important; }
+.w13-l7-pane h5 { font-size:13px !important; font-weight:700 !important;
+   color:#222 !important; margin:0 0 6px 0 !important; }
+.w13-l7-pane p.hint { font-size:11px; color:#666; margin:0 0 8px 0; }
+
+</style></head><body>
+<div class="zl-rail" aria-hidden="true"><div class="ri active"><span class="glyph">🔍</span>Search</div><div class="ri"><span class="glyph">🔔</span>Updates</div><div class="ri"><span class="glyph">♥</span>Favorites</div><div class="ri"><span class="glyph">💰</span>Home Loans</div><div class="ri"><span class="glyph">✉</span>Inbox</div></div>
+
+<div class="live-status neutral" id="live-status"><span class="ls-dot"></span><span class="ls-msg">💾 State auto-saves on every interaction</span><span class="ls-toggle" onclick="lsTogglePanel(event)" title="Show / hide filter_state">⌄</span><div class="ls-panel" onclick="event.stopPropagation()"><h6>Live filter_state (auto-saved)</h6><pre>{}</pre><a class="ls-reset" href="#" onclick="lsReset(event)">↺ Reset all filters</a></div></div>
+<div class="site-header h-zillow">
+  <div class="logo-block"><div class="logo">EchoHomes</div></div>
+  <nav class="site-nav">
+    <a>Buy</a><a>Rent</a><a>Sell</a><a>Home Loans</a><a>Agent finder</a><a>Manage Rentals</a><a>Advertise</a>
+  </nav>
+  <div class="search-bar"><input placeholder="Tacoma WA, neighborhood, city, ZIP"></div>
+  <div class="account-zone">
+    <span class="pill">Help</span><span class="pill">Saved Homes</span><span class="pill">Sign In</span><span class="pill pill-cta">Join</span>
+  </div>
+</div>
+<div class="sub-header sh-zillow">
+  <div class="sh-search">Tacoma WA, neighborhood, ZIP</div>
+  <span class="z-chip">For sale <span class="caret">▾</span></span>
+  <span class="z-chip">Up to $500K <span class="caret">▾</span></span>
+  <span class="z-chip">3+ bd, 2+ ba <span class="caret">▾</span></span>
+  <span class="z-chip outline">Home Type <span class="caret">▾</span></span>
+  <span class="z-chip outline">⚙ More <span class="caret">▾</span></span>
+  <div class="sh-spacer"></div>
+  <span class="z-chip solid">Save search</span>
+</div>
+<div class="crumb"><a href="/">Home</a><span class="crumb-sep">›</span><a href="/">Real Estate</a><span class="crumb-sep">›</span><a href="/">For Sale</a><span class="crumb-sep">›</span><b>Listings</b></div>
+<div id="task-banner" class="task-banner" style="display:none"></div>
+<div class="split-map-grid">
+<aside class="filter-aside">
+  <h3>Filter results</h3>
+  <div class="f-section widget-utst">
+    
+    <!-- W13_LAYOUT_JS_INJECTED -->
+    <div class="w13-l5-wrap">
+  <h4 class="w13-l5-title">Price &amp; size</h4>
+<div class="w13-l5-block nf-row" data-fld="max_price" style="--c:#0a7c2e;--bg:#0a7c2e0d">
+  <div class="head"><span class="ic">💲</span><b>Max Price</b><span class="un">$</span></div>
+  <div class="ctrl">
+    <input type="range" min="0" max="1000000" step="5000" value="0"
+       class="w13-l5-range" data-pair="w13-l5-max_price" oninput="w13L5Sync(this);onF()"
+       aria-label="Max Price slider">
+    <input type="number" id="w13-l5-max_price" name="max_price" class="num-inp pair-num" data-facet="max_price"
+       min="0" step="1000" inputmode="numeric" placeholder="500000"
+       autocomplete="off" oninput="validateNum(this);w13L5SyncRange(this);onF()" aria-label="Max Price ($)">
+  </div>
+  <span class="nf-err" aria-live="polite"></span>
+</div><div class="w13-l5-block nf-row" data-fld="min_sqft" style="--c:#1c5fb8;--bg:#1c5fb80d">
+  <div class="head"><span class="ic">📐</span><b>Min Sq Ft</b><span class="un">sq ft</span></div>
+  <div class="ctrl">
+    <input type="range" min="0" max="5000" step="50" value="0"
+       class="w13-l5-range" data-pair="w13-l5-min_sqft" oninput="w13L5Sync(this);onF()"
+       aria-label="Min Sq Ft slider">
+    <input type="number" id="w13-l5-min_sqft" name="min_sqft" class="num-inp pair-num" data-facet="min_sqft"
+       min="0" step="50" inputmode="numeric" placeholder="1500"
+       autocomplete="off" oninput="validateNum(this);w13L5SyncRange(this);onF()" aria-label="Min Sq Ft (sq ft)">
+  </div>
+  <span class="nf-err" aria-live="polite"></span>
+</div><div class="w13-l5-block nf-row" data-fld="min_lot" style="--c:#7a4b00;--bg:#7a4b000d">
+  <div class="head"><span class="ic">🌳</span><b>Min Lot Size</b><span class="un">acres</span></div>
+  <div class="ctrl">
+    <input type="range" min="0" max="5" step="0.1" value="0"
+       class="w13-l5-range" data-pair="w13-l5-min_lot" oninput="w13L5Sync(this);onF()"
+       aria-label="Min Lot Size slider">
+    <input type="number" id="w13-l5-min_lot" name="min_lot" class="num-inp pair-num" data-facet="min_lot"
+       min="0" step="0.1" inputmode="decimal" placeholder="0.5"
+       autocomplete="off" oninput="validateNum(this);w13L5SyncRange(this);onF()" aria-label="Min Lot Size (acres)">
+  </div>
+  <span class="nf-err" aria-live="polite"></span>
+</div><div class="w13-l5-block nf-row" data-fld="max_rent" style="--c:#8b3cb7;--bg:#8b3cb70d">
+  <div class="head"><span class="ic">🏠</span><b>Max Monthly Rent</b><span class="un">$/mo</span></div>
+  <div class="ctrl">
+    <input type="range" min="0" max="5000" step="50" value="0"
+       class="w13-l5-range" data-pair="w13-l5-max_rent" oninput="w13L5Sync(this);onF()"
+       aria-label="Max Monthly Rent slider">
+    <input type="number" id="w13-l5-max_rent" name="max_rent" class="num-inp pair-num" data-facet="max_rent"
+       min="0" step="50" inputmode="numeric" placeholder="2000"
+       autocomplete="off" oninput="validateNum(this);w13L5SyncRange(this);onF()" aria-label="Max Monthly Rent ($/mo)">
+  </div>
+  <span class="nf-err" aria-live="polite"></span>
+</div>
+</div>
+<script>
+function w13L5Sync(rangeEl){
+  const num = document.getElementById(rangeEl.dataset.pair);
+  if (num) { num.value = rangeEl.value; validateNum(num); }
+}
+function w13L5SyncRange(numEl){
+  const range = document.querySelector('input.w13-l5-range[data-pair="' + numEl.id + '"]');
+  if (range) range.value = (numEl.value || 0);
+}
+</script>
+    <script>/* W13 validateNum helper */
+function validateNum(el){
+  if(!el) return true;
+  var v = el.value;
+  var row = el.closest(".nf-row") || el.closest(".w13-l4-tbl tr") || el.parentElement;
+  var err = (row && row.querySelector(".nf-err")) || el.parentElement.querySelector(".nf-err");
+  var bad = false, msg = "";
+  if (v !== "" && v !== null) {
+    var n = Number(v);
+    if (Number.isNaN(n))      { bad = true; msg = "Enter a numeric value"; }
+    else if (n < 0)            { bad = true; msg = "Value cannot be negative"; }
+  }
+  if (row) row.classList.toggle("nf-invalid", bad);
+  el.classList.toggle("nf-invalid", bad);
+  if (err) { err.classList.toggle("show", bad); err.textContent = bad ? msg : ""; }
+  return !bad;
+}
+</script>
+    <!-- W13_LAYOUT_JS_END -->
+  </div>
+  <div class="f-section"><h4>Home features</h4><label class="cb"><input type="checkbox" data-facet="has_garage" value="1"> Has garage</label><label class="cb"><input type="checkbox" data-facet="pet_friendly" value="1"> Pet-friendly</label><label class="cb"><input type="checkbox" data-facet="is_new" value="1"> New construction</label></div><div class="f-section"><h4>Listing status</h4><label class="rad"><input type="radio" name="lstatus"> For Sale</label><label class="rad"><input type="radio" name="lstatus"> For Rent</label><label class="rad"><input type="radio" name="lstatus"> Sold</label></div><div class="f-section"><h4>Schools</h4><label class="cb"><input type="checkbox"> Top-rated elementary</label><label class="cb"><input type="checkbox"> Top-rated middle</label><label class="cb"><input type="checkbox"> Top-rated high</label></div>
+  
+</aside>
+<section class="results-area">
+  <div class="results-header">
+    <h1>Listings</h1>
+    <span class="results-count" id="result-count">20 results</span>
+    <select class="sort-dd"><option>Sort: Best match</option><option>Price: Low to High</option><option>Price: High to Low</option><option>Rating</option><option>Newest</option></select>
+    <div class="view-toggle"><button class="active">Grid</button><button>List</button></div>
+  </div>
+  <div class="active-chips" id="active-chips"></div>
+  <div class="result-grid rows" id="result-grid"><div class="lstg-row">
+          <div class="lstg-photo-wrap">
+            <div class="lstg-photo" style="background-image:url('https://images.pexels.com/photos/11018246/pexels-photo-11018246.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+            <span class="lstg-photo-tag">Price Reduced</span>
+            <button class="lstg-heart" title="Save">♡</button>
+            <span class="lstg-dom">4 days on EchoHomes</span>
+          </div>
+          <div class="lstg-body">
+            <div class="lstg-top">
+              <div>
+                <div class="lstg-price">$225,000</div>
+                <div class="lstg-stats">4 bd · 3 ba · 1,247 sqft</div>
+                <div class="lstg-addr">1399 Maple Ave</div>
+                <div class="lstg-city">search</div>
+              </div>
+              <span class="lstg-ptype">Townhouse</span>
+            </div>
+            <div class="lstg-tags"><span class="lstg-tag lstg-tag-reduced">Price Reduced</span><span class="lstg-tag lstg-tag-pet">Pet-Friendly</span></div>
+            <div class="lstg-foot">
+              <span class="lstg-broker">Listed by <b>Echo Realty</b> · 5 days ago</span>
+              <button class="lstg-tour">Schedule Tour</button>
+            </div>
+          </div>
+        </div><div class="lstg-row">
+          <div class="lstg-photo-wrap">
+            <div class="lstg-photo" style="background-image:url('https://images.pexels.com/photos/562199/pexels-photo-562199.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+            
+            <button class="lstg-heart" title="Save">♡</button>
+            <span class="lstg-dom">7 days on EchoHomes</span>
+          </div>
+          <div class="lstg-body">
+            <div class="lstg-top">
+              <div>
+                <div class="lstg-price">$475,000</div>
+                <div class="lstg-stats">1 bd · 3.5 ba · 3,185 sqft</div>
+                <div class="lstg-addr">228 Pine Ln</div>
+                <div class="lstg-city">search</div>
+              </div>
+              <span class="lstg-ptype">Multi-Family</span>
+            </div>
+            <div class="lstg-tags"></div>
+            <div class="lstg-foot">
+              <span class="lstg-broker">Listed by <b>Echo Realty</b> · 8 days ago</span>
+              <button class="lstg-tour">Schedule Tour</button>
+            </div>
+          </div>
+        </div><div class="lstg-row">
+          <div class="lstg-photo-wrap">
+            <div class="lstg-photo" style="background-image:url('https://images.pexels.com/photos/7031581/pexels-photo-7031581.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+            <span class="lstg-photo-tag">NEW</span>
+            <button class="lstg-heart" title="Save">♡</button>
+            <span class="lstg-dom">10 days on EchoHomes</span>
+          </div>
+          <div class="lstg-body">
+            <div class="lstg-top">
+              <div>
+                <div class="lstg-price">$325,000</div>
+                <div class="lstg-stats">1 bd · 2 ba · 2,594 sqft</div>
+                <div class="lstg-addr">1501 Maple Ave</div>
+                <div class="lstg-city">search</div>
+              </div>
+              <span class="lstg-ptype">Studio Apartment</span>
+            </div>
+            <div class="lstg-tags"><span class="lstg-tag lstg-tag-new">NEW</span></div>
+            <div class="lstg-foot">
+              <span class="lstg-broker">Listed by <b>Echo Realty</b> · 2 days ago</span>
+              <button class="lstg-tour">Schedule Tour</button>
+            </div>
+          </div>
+        </div><div class="lstg-row">
+          <div class="lstg-photo-wrap">
+            <div class="lstg-photo" style="background-image:url('https://images.pexels.com/photos/7189284/pexels-photo-7189284.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+            <span class="lstg-photo-tag">NEW</span>
+            <button class="lstg-heart" title="Save">♡</button>
+            <span class="lstg-dom">13 days on EchoHomes</span>
+          </div>
+          <div class="lstg-body">
+            <div class="lstg-top">
+              <div>
+                <div class="lstg-price">$395,000</div>
+                <div class="lstg-stats">1 bd · 2 ba · 1,127 sqft</div>
+                <div class="lstg-addr">7042 Elm Dr</div>
+                <div class="lstg-city">search</div>
+              </div>
+              <span class="lstg-ptype">Townhouse</span>
+            </div>
+            <div class="lstg-tags"><span class="lstg-tag lstg-tag-new">NEW</span><span class="lstg-tag lstg-tag-reduced">Price Reduced</span></div>
+            <div class="lstg-foot">
+              <span class="lstg-broker">Listed by <b>Echo Realty</b> · 5 days ago</span>
+              <button class="lstg-tour">Schedule Tour</button>
+            </div>
+          </div>
+        </div><div class="lstg-row">
+          <div class="lstg-photo-wrap">
+            <div class="lstg-photo" style="background-image:url('https://images.pexels.com/photos/36367254/pexels-photo-36367254.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+            <span class="lstg-photo-tag">Price Reduced</span>
+            <button class="lstg-heart" title="Save">♡</button>
+            <span class="lstg-dom">16 days on EchoHomes</span>
+          </div>
+          <div class="lstg-body">
+            <div class="lstg-top">
+              <div>
+                <div class="lstg-price">$475,000</div>
+                <div class="lstg-stats">1 bd · 3.5 ba · 2,949 sqft</div>
+                <div class="lstg-addr">9063 Walnut Rd</div>
+                <div class="lstg-city">search</div>
+              </div>
+              <span class="lstg-ptype">Multi-Family</span>
+            </div>
+            <div class="lstg-tags"><span class="lstg-tag lstg-tag-reduced">Price Reduced</span><span class="lstg-tag lstg-tag-open">Open House Sat</span></div>
+            <div class="lstg-foot">
+              <span class="lstg-broker">Listed by <b>Echo Realty</b> · 8 days ago</span>
+              <button class="lstg-tour">Schedule Tour</button>
+            </div>
+          </div>
+        </div><div class="lstg-row">
+          <div class="lstg-photo-wrap">
+            <div class="lstg-photo" style="background-image:url('https://images.pexels.com/photos/15951714/pexels-photo-15951714.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+            
+            <button class="lstg-heart" title="Save">♡</button>
+            <span class="lstg-dom">19 days on EchoHomes</span>
+          </div>
+          <div class="lstg-body">
+            <div class="lstg-top">
+              <div>
+                <div class="lstg-price">$475,000</div>
+                <div class="lstg-stats">4 bd · 3 ba · 4,132 sqft</div>
+                <div class="lstg-addr">2439 Pine Ln</div>
+                <div class="lstg-city">search</div>
+              </div>
+              <span class="lstg-ptype">Studio Apartment</span>
+            </div>
+            <div class="lstg-tags"></div>
+            <div class="lstg-foot">
+              <span class="lstg-broker">Listed by <b>Echo Realty</b> · 2 days ago</span>
+              <button class="lstg-tour">Schedule Tour</button>
+            </div>
+          </div>
+        </div><div class="lstg-row">
+          <div class="lstg-photo-wrap">
+            <div class="lstg-photo" style="background-image:url('https://images.pexels.com/photos/19190343/pexels-photo-19190343.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+            <span class="lstg-photo-tag">Pending</span>
+            <button class="lstg-heart" title="Save">♡</button>
+            <span class="lstg-dom">22 days on EchoHomes</span>
+          </div>
+          <div class="lstg-body">
+            <div class="lstg-top">
+              <div>
+                <div class="lstg-price">$475,000</div>
+                <div class="lstg-stats">4 bd · 2.5 ba · 1,714 sqft</div>
+                <div class="lstg-addr">1769 Walnut Rd</div>
+                <div class="lstg-city">search</div>
+              </div>
+              <span class="lstg-ptype">Single-Family</span>
+            </div>
+            <div class="lstg-tags"><span class="lstg-tag lstg-tag-pending">Pending</span><span class="lstg-tag lstg-tag-pet">Pet-Friendly</span></div>
+            <div class="lstg-foot">
+              <span class="lstg-broker">Listed by <b>Echo Realty</b> · 5 days ago</span>
+              <button class="lstg-tour">Schedule Tour</button>
+            </div>
+          </div>
+        </div><div class="lstg-row">
+          <div class="lstg-photo-wrap">
+            <div class="lstg-photo" style="background-image:url('https://images.pexels.com/photos/6342356/pexels-photo-6342356.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+            <span class="lstg-photo-tag">Price Reduced</span>
+            <button class="lstg-heart" title="Save">♡</button>
+            <span class="lstg-dom">25 days on EchoHomes</span>
+          </div>
+          <div class="lstg-body">
+            <div class="lstg-top">
+              <div>
+                <div class="lstg-price">$395,000</div>
+                <div class="lstg-stats">4 bd · 2 ba · 1,077 sqft</div>
+                <div class="lstg-addr">3623 Walnut Rd</div>
+                <div class="lstg-city">search</div>
+              </div>
+              <span class="lstg-ptype">Townhouse</span>
+            </div>
+            <div class="lstg-tags"><span class="lstg-tag lstg-tag-reduced">Price Reduced</span></div>
+            <div class="lstg-foot">
+              <span class="lstg-broker">Listed by <b>Echo Realty</b> · 8 days ago</span>
+              <button class="lstg-tour">Schedule Tour</button>
+            </div>
+          </div>
+        </div><div class="lstg-row">
+          <div class="lstg-photo-wrap">
+            <div class="lstg-photo" style="background-image:url('https://images.pexels.com/photos/7031604/pexels-photo-7031604.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+            
+            <button class="lstg-heart" title="Save">♡</button>
+            <span class="lstg-dom">28 days on EchoHomes</span>
+          </div>
+          <div class="lstg-body">
+            <div class="lstg-top">
+              <div>
+                <div class="lstg-price">$475,000</div>
+                <div class="lstg-stats">2 bd · 2.5 ba · 1,557 sqft</div>
+                <div class="lstg-addr">4058 Birch Way</div>
+                <div class="lstg-city">search</div>
+              </div>
+              <span class="lstg-ptype">Townhouse</span>
+            </div>
+            <div class="lstg-tags"></div>
+            <div class="lstg-foot">
+              <span class="lstg-broker">Listed by <b>Echo Realty</b> · 2 days ago</span>
+              <button class="lstg-tour">Schedule Tour</button>
+            </div>
+          </div>
+        </div><div class="lstg-row">
+          <div class="lstg-photo-wrap">
+            <div class="lstg-photo" style="background-image:url('https://images.pexels.com/photos/8482510/pexels-photo-8482510.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+            <span class="lstg-photo-tag">Pet-Friendly</span>
+            <button class="lstg-heart" title="Save">♡</button>
+            <span class="lstg-dom">31 days on EchoHomes</span>
+          </div>
+          <div class="lstg-body">
+            <div class="lstg-top">
+              <div>
+                <div class="lstg-price">$950,000</div>
+                <div class="lstg-stats">4 bd · 1 ba · 2,007 sqft</div>
+                <div class="lstg-addr">3421 Oak St</div>
+                <div class="lstg-city">search</div>
+              </div>
+              <span class="lstg-ptype">Multi-Family</span>
+            </div>
+            <div class="lstg-tags"><span class="lstg-tag lstg-tag-pet">Pet-Friendly</span><span class="lstg-tag lstg-tag-open">Open House Sat</span></div>
+            <div class="lstg-foot">
+              <span class="lstg-broker">Listed by <b>Echo Realty</b> · 5 days ago</span>
+              <button class="lstg-tour">Schedule Tour</button>
+            </div>
+          </div>
+        </div><div class="lstg-row">
+          <div class="lstg-photo-wrap">
+            <div class="lstg-photo" style="background-image:url('https://images.pexels.com/photos/13729358/pexels-photo-13729358.png?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+            <span class="lstg-photo-tag">Price Reduced</span>
+            <button class="lstg-heart" title="Save">♡</button>
+            <span class="lstg-dom">34 days on EchoHomes</span>
+          </div>
+          <div class="lstg-body">
+            <div class="lstg-top">
+              <div>
+                <div class="lstg-price">$395,000</div>
+                <div class="lstg-stats">3 bd · 2.5 ba · 850 sqft</div>
+                <div class="lstg-addr">3202 Cedar Ct</div>
+                <div class="lstg-city">search</div>
+              </div>
+              <span class="lstg-ptype">Multi-Family</span>
+            </div>
+            <div class="lstg-tags"><span class="lstg-tag lstg-tag-reduced">Price Reduced</span><span class="lstg-tag lstg-tag-pet">Pet-Friendly</span></div>
+            <div class="lstg-foot">
+              <span class="lstg-broker">Listed by <b>Echo Realty</b> · 8 days ago</span>
+              <button class="lstg-tour">Schedule Tour</button>
+            </div>
+          </div>
+        </div><div class="lstg-row">
+          <div class="lstg-photo-wrap">
+            <div class="lstg-photo" style="background-image:url('https://images.pexels.com/photos/29750423/pexels-photo-29750423.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130');background-size:cover;background-position:center"></div>
+            <span class="lstg-photo-tag">NEW</span>
+            <button class="lstg-heart" title="Save">♡</button>
+            <span class="lstg-dom">37 days on EchoHomes</span>
+          </div>
+          <div class="lstg-body">
+            <div class="lstg-top">
+              <div>
+                <div class="lstg-price">$225,000</div>
+                <div class="lstg-stats">3 bd · 3 ba · 883 sqft</div>
+                <div class="lstg-addr">2884 Cherry St</div>
+                <div class="lstg-city">search</div>
+              </div>
+              <span class="lstg-ptype">Townhouse</span>
+            </div>
+            <div class="lstg-tags"><span class="lstg-tag lstg-tag-new">NEW</span></div>
+            <div class="lstg-foot">
+              <span class="lstg-broker">Listed by <b>Echo Realty</b> · 2 days ago</span>
+              <button class="lstg-tour">Schedule Tour</button>
+            </div>
+          </div>
+        </div></div>
+  <nav class="pagination">
+    <button>‹ Prev</button><button class="active">1</button><button>2</button><button>3</button><button>4</button><span>...</span><button>Next ›</button>
+  </nav>
+</section><div class="map-pane"><span>Interactive map (mocked)</span><div class="map-pin" style="top:20%;left:15%"><span>1</span></div><div class="map-pin" style="top:60%;left:38%"><span>2</span></div><div class="map-pin" style="top:100%;left:61%"><span>3</span></div><div class="map-pin" style="top:140%;left:84%"><span>4</span></div><div class="map-pin" style="top:180%;left:37%"><span>5</span></div><div class="map-pin" style="top:220%;left:60%"><span>6</span></div><div class="map-pin" style="top:260%;left:83%"><span>7</span></div><div class="map-pin" style="top:300%;left:36%"><span>8</span></div></div></div>
+<footer class="site-footer ">
+  <div class="site-footer-row"><div class="site-footer-col"><h5>For Buyers</h5><a href="#">Homes for sale</a><a href="#">Foreclosures</a><a href="#">New construction</a><a href="#">Open houses</a><a href="#">Mortgage calculator</a></div><div class="site-footer-col"><h5>For Sellers</h5><a href="#">Sell your home</a><a href="#">Home value</a><a href="#">Find an agent</a><a href="#">Owner dashboard</a><a href="#">Listing fees</a></div><div class="site-footer-col"><h5>For Renters</h5><a href="#">Apartments for rent</a><a href="#">Houses for rent</a><a href="#">Renter resources</a><a href="#">Rent affordability</a></div><div class="site-footer-col"><h5>Resources</h5><a href="#">Echo Agent license</a><a href="#">Privacy</a><a href="#">Terms of use</a><a href="#">Accessibility</a><a href="#">Cookie preferences</a></div></div>
+  <div class="site-footer-bottom">
+    
+    <span>© 2026 EchoHomes Group, Inc.</span>
+    <span class="sf-spacer"></span>
+    <div class="sf-social"><a title="EchoSocial">f</a><a title="EchoPulse">𝕏</a><a title="EchoLens">◉</a><a title="EchoVideo">▶</a></div>
+    <select class="sf-lang"><option>🌐 English ▾</option></select>
+  </div>
+</footer>
+
+<button class="mobile-filter-fab" onclick="toggleMobileFilters()"><span class="x-open">⚙ Filters</span><span class="x-close">✕ Close</span></button>
+<script>
+const ENV_ID = 'W13_E05';
+let filterState = {};
+let activeChips = {};
+
+function onF() { applyFilters(); }
+
+function applyFilters() {
+  // Collect state from all data-facet inputs
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) {
+        if (!newState[f]) newState[f] = [];
+        if (Array.isArray(newState[f])) newState[f].push(el.value || el.dataset.val || true);
+      }
+    } else if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.multiple) {
+        const vals = Array.from(el.selectedOptions).map(o => o.value);
+        if (vals.length) newState[f] = vals;
+      } else if (el.value) newState[f] = el.value;
+    } else if (el.type === 'number' || el.type === 'range' || el.type === 'text' || el.type === 'time' || el.type === 'date') {
+      if (el.value) newState[f] = el.value;
+    } else if (el.classList && el.classList.contains('step-val')) {
+      newState[f] = el.dataset.val;
+    }
+  });
+  // Picked-chip / active-button state
+  document.querySelectorAll('.chip-btn.active, .pill.active, .tag.active, .type-card.active, .region-card.active, .preset-cell.active').forEach(b => {
+    const f = b.dataset.facet;
+    if (!f) return;
+    if (!newState[f]) newState[f] = [];
+    if (Array.isArray(newState[f])) newState[f].push(b.dataset.val || b.textContent);
+    else newState[f] = b.dataset.val || b.textContent;
+  });
+  filterState = newState;
+  // Parse task_id from URL query string for per-task verification
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    updateResults(data.results || [], data.html_cards);
+    document.getElementById('result-count').textContent = (data.results || []).length + ' results';
+    const sbState = document.getElementById('sb-state');
+    if (sbState) sbState.textContent = JSON.stringify(filterState);
+    renderActiveChips();
+  });
+  // AUTO-SAVE to DB on every interaction (no Submit button needed)
+  // Include the answer field (filled in for read/read_write tasks)
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : '';
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(data => {
+    updateLiveStatus(data);
+  });
+}
+
+// Load the task banner if ?task_id= is in URL
+function loadTaskBanner() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const tid = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/task/' + encodeURIComponent(tid))
+    .then(r => r.ok ? r.json() : null)
+    .then(task => {
+      if (!task) return;
+      const banner = document.getElementById('task-banner');
+      if (!banner) return;
+      banner.style.display = 'block';
+      banner.innerHTML = `
+        <div class="tb-head">
+          <span class="tb-id">${escapeHtmlText(task.id)}</span>
+          <span class="tb-type tb-type-${escapeHtmlText(task.task_type)}">${escapeHtmlText(task.task_type.toUpperCase())}</span>
+          <span class="tb-diff">${escapeHtmlText(task.task_difficulty)}</span>
+        </div>
+        <div class="tb-summary">${escapeHtml(task.task_summary)}</div>
+        ${task.task_type !== 'write' ? `
+          <div class="tb-answer-row">
+            <label class="tb-answer-label">Your answer:</label>
+            <input type="text" id="task-answer-input" class="tb-answer-input" placeholder="Type your finding here (e.g., 'cheapest: Sony X90L at $899')" oninput="onF()">
+          </div>` : ''}
+        ${task.reference_state_change ? `<div class="tb-meta">Expected state: <code>${escapeHtml(task.reference_state_change)}</code></div>` : ''}
+        ${task.reference_answer ? `<div class="tb-meta">Expected answer (hidden hint): <code>${escapeHtml(task.reference_answer.substring(0, 200))}…</code></div>` : ''}
+      `;
+    })
+    .catch(() => {});
+}
+
+function escapeHtml(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function updateLiveStatus(submitData) {
+  const bar = document.getElementById('live-status');
+  if (!bar) return;
+  let msg = '';
+  let cls = 'neutral';
+  if (submitData.task_id) {
+    if (submitData.satisfies) {
+      msg = '✅ Satisfies task ' + submitData.task_id;
+      cls = 'good';
+    } else {
+      msg = '⏳ Not yet matching task ' + submitData.task_id + ' — ' + (submitData.message || '');
+      cls = 'pending';
+    }
+  } else {
+    msg = '💾 State auto-saved · ' + (submitData.results_count || 0) + ' results';
+    cls = 'neutral';
+  }
+  const wasOpen = bar.classList.contains('open');
+  const prevCls = bar.dataset.cls || '';
+  bar.className = 'live-status ' + cls + (wasOpen ? ' open' : '');
+  bar.dataset.cls = cls;
+  // Set message + dot + toggle + panel without clobbering hover panel state
+  const msgEl = bar.querySelector('.ls-msg');
+  if (msgEl) msgEl.textContent = msg;
+  const preEl = bar.querySelector('.ls-panel pre');
+  if (preEl) preEl.textContent = JSON.stringify(filterState, null, 2) || '{}';
+  // Flash pulse when state class changes
+  if (prevCls && prevCls !== cls) {
+    bar.classList.remove('flash');
+    void bar.offsetWidth;
+    bar.classList.add('flash');
+  }
+}
+
+function lsTogglePanel(ev) {
+  if (ev) ev.stopPropagation();
+  const bar = document.getElementById('live-status');
+  if (!bar) return;
+  bar.classList.toggle('open');
+}
+function lsReset(ev) {
+  if (ev) { ev.stopPropagation(); ev.preventDefault(); }
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+    else if (el.tagName === 'SELECT') el.selectedIndex = 0;
+    else if (el.tagName === 'INPUT') el.value = '';
+  });
+  document.querySelectorAll('.chip-btn.active, .pill.active, .tag.active, .type-card.active, .region-card.active, .preset-cell.active, .seg-btn.active').forEach(b => b.classList.remove('active'));
+  applyFilters();
+}
+
+function toggleMobileFilters() {
+  document.querySelectorAll('.filter-aside').forEach(a => a.classList.toggle('mobile-open'));
+}
+
+function updateResults(results, htmlCards) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#999;font-size:14px">No results match your filters.<br><span style="font-size:12px">Try removing some filters.</span></div>';
+    return;
+  }
+  // Prefer server-rendered themed cards (keeps visual identity consistent)
+  if (htmlCards) { grid.innerHTML = htmlCards.replace(/days on (?:Realtor\.com|Apartments\.com|Realtor|Zillow|Redfin|Apartments|Trulia|HotPads|RentCafe)/g, 'days on Echo'); return; }
+  // Fallback generic render
+  grid.innerHTML = results.map(r => {
+    let body = '';
+    if (r.brand) body += '<div class="result-meta">' + escapeHtmlText(r.brand||'') + ' · ' + escapeHtmlText(r.condition||'') + '</div>';
+    if (r.category) body += '<div class="result-meta">' + escapeHtmlText(r.category) + '</div>';
+    if (r.city) body += '<div class="result-meta">' + escapeHtmlText(r.city) + ' · ' + escapeHtmlText(r.beds||'?')+'BR/' + escapeHtmlText(r.baths||'?') + 'BA · ' + escapeHtmlText(r.sqft||'') + ' sqft</div>';
+    if (r.property_type) body += '<div class="result-meta">' + escapeHtmlText(r.property_type) + '</div>';
+    if (r.from_code) body += '<div class="result-meta">' + escapeHtmlText(r.from_code) + ' → ' + escapeHtmlText(r.to_code) + ' · ' + escapeHtmlText(r.depart_date||'') + '</div>';
+    if (r.duration) body += '<div class="result-meta">' + escapeHtmlText(r.duration) + ' · ' + escapeHtmlText(r.stops||'') + '</div>';
+    if (r.rating) body += '<div class="result-rating">★ ' + escapeHtmlText(r.rating) + '</div>';
+    const initial = escapeHtmlText(r.image_initial || (r.title ? r.title[0] : '?'));
+    const title = escapeHtmlText(r.title || ('Item #' + r.id));
+    const price = escapeHtmlText(r.price ? '$' + r.price.toLocaleString() : '');
+    return `<div class="result-card"><div class="result-thumb">${initial}</div><div class="result-name">${title}</div>${body}<div class="result-price">${price}</div></div>`;
+  }).join('');
+}
+
+function renderActiveChips() {
+  const bar = document.getElementById('active-chips');
+  if (!bar) return;
+  const chips = [];
+  for (const [k, v] of Object.entries(filterState)) {
+    if (Array.isArray(v)) {
+      v.forEach(val => chips.push(k + ': ' + val));
+    } else {
+      chips.push(k + ': ' + v);
+    }
+  }
+  bar.innerHTML = chips.map(c => '<span class="active-chip">✓ '+escapeHtmlText(c)+'</span>').join('');
+}
+
+function pickPlusChip(btn, facet) {
+  btn.parentElement.querySelectorAll('.chip-btn, .chip-btn-sm, .preset-cell, .type-card, .region-card, .quick-btn').forEach(b => {
+    if (b.dataset.facet === facet) b.classList.remove('active');
+  });
+  btn.classList.add('active');
+  onF();
+}
+function pickBucket(btn) {
+  btn.parentElement.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterState.min_price = +btn.dataset.min;
+  filterState.max_price = +btn.dataset.max;
+  applyFilters();
+}
+function togPill(btn) {
+  btn.classList.toggle('active');
+  onF();
+}
+function pickSeg(btn) {
+  btn.parentElement.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  onF();
+}
+function pickRow(row) {
+  row.parentElement.querySelectorAll('.sr-row').forEach(r => r.classList.remove('active'));
+  row.classList.add('active');
+  onF();
+}
+function pickQuick(btn) {
+  btn.parentElement.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  onF();
+}
+function stepVal(btn, delta, facet) {
+  const span = btn.parentElement.querySelector('.step-val');
+  let cur = +(span.dataset.val || 0);
+  cur = Math.max(0, Math.min(7, cur + delta));
+  span.dataset.val = cur;
+  span.textContent = cur === 0 ? 'Any' : (cur + '+');
+  onF();
+}
+function dualUpd() {
+  const mn = document.querySelector('.dt-min'), mx = document.querySelector('.dt-max');
+  if (!mn || !mx) return;
+  let mnV = +mn.value, mxV = +mx.value;
+  if (mnV > mxV) { mn.value = mxV; mnV = mxV; }
+  document.getElementById('min-v').textContent = '$' + mnV.toLocaleString();
+  document.getElementById('max-v').textContent = '$' + mxV.toLocaleString();
+  const dt = document.querySelector('.dual-active');
+  if (dt) {
+    const minPct = mnV / 50, w = (mxV - mnV) / 50;
+    dt.style.left = minPct + '%';
+    dt.style.width = w + '%';
+  }
+  const tipMin = document.getElementById('tip-min'), tipMax = document.getElementById('tip-max');
+  if (tipMin) { tipMin.style.left = (mnV/50) + '%'; tipMin.textContent = '$' + mnV.toLocaleString(); }
+  if (tipMax) { tipMax.style.left = (mxV/50) + '%'; tipMax.textContent = '$' + mxV.toLocaleString(); }
+  onF();
+}
+
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+let calIdx = {};
+let calSel = {};
+function renderCal(gridId) {
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
+  const isDisabled = grid.classList.contains('disabled');
+  grid.innerHTML = '';
+  ['S','M','T','W','T','F','S'].forEach(d => {
+    const h = document.createElement('div'); h.className='cal-day-h'; h.textContent = d;
+    grid.appendChild(h);
+  });
+  // pad leading blanks
+  const startBlank = (gridId.charCodeAt(gridId.length-1) % 4);
+  for (let p=0; p<startBlank; p++) { const b = document.createElement('div'); b.className='cal-day blank'; grid.appendChild(b); }
+  const todayDay = 15;
+  for (let i = 1; i <= 30; i++) {
+    const c = document.createElement('div'); c.className='cal-day'; c.textContent = i;
+    if (i === todayDay && (calIdx[gridId]||0) === 0) c.classList.add('today');
+    if (calSel[gridId] === i) c.classList.add('sel');
+    if (isDisabled) { c.classList.add('locked'); }
+    c.onclick = () => {
+      if (grid.classList.contains('disabled')) return;
+      document.querySelectorAll('#' + gridId + ' .cal-day').forEach(x => x.classList.remove('sel'));
+      c.classList.add('sel');
+      calSel[gridId] = i;
+      filterState['date_' + gridId] = i;
+      // depart-first model: enable return after depart picked
+      if (gridId === 'cal-grid-d') {
+        const rg = document.getElementById('cal-grid-r');
+        if (rg && rg.dataset.returnLocked) {
+          rg.classList.remove('disabled');
+          rg.dataset.returnLocked = '';
+          rg.parentElement.querySelectorAll('.cal-disabled, .cal-disabled-h').forEach(e => { e.classList.remove('cal-disabled'); e.style.opacity=''; });
+          rg.parentElement.querySelectorAll('.cal-nav[disabled]').forEach(b => b.removeAttribute('disabled'));
+          const lock = rg.parentElement.querySelector('.lock-icon'); if (lock) lock.remove();
+          renderCal('cal-grid-r');
+        }
+      }
+      applyFilters();
+    };
+    grid.appendChild(c);
+  }
+}
+function calAdv(delta, gridId) {
+  gridId = gridId || 'cal-grid';
+  calIdx[gridId] = (calIdx[gridId] || 0) + delta;
+  const m = MONTHS[((5 + calIdx[gridId]) % 12 + 12) % 12];
+  const year = 2026 + Math.floor((5 + calIdx[gridId]) / 12);
+  const lid = (gridId === 'cal-grid' ? 'cal-label' :
+               gridId === 'cal-grid-d' ? 'cal-label-d' :
+               gridId === 'cal-grid-r' ? 'cal-label-r' : 'cal-label');
+  const lel = document.getElementById(lid);
+  if (lel) lel.textContent = m + ' ' + year;
+  renderCal(gridId);
+}
+
+const AC_SUGS = [
+  {iata:'LGK', name:'Langkawi International', country:'Malaysia', flag:'🇲🇾', type:'Airport', icon:'✈'},
+  {iata:'LGW', name:'London Gatwick', country:'United Kingdom', flag:'🇬🇧', type:'Airport', icon:'✈', decoy:'looks like LGK'},
+  {iata:'MAN', name:'Manchester', country:'United Kingdom', flag:'🇬🇧', type:'Airport', icon:'✈'},
+  {iata:'MHT', name:'Manchester, NH', country:'United States', flag:'🇺🇸', type:'Airport', icon:'✈', decoy:'looks like MAN-UK'},
+  {iata:'SJC', name:'San José', country:'United States', flag:'🇺🇸', type:'City', icon:'🏙'},
+  {iata:'SJO', name:'San José', country:'Costa Rica', flag:'🇨🇷', type:'City', icon:'🏙', decoy:'same name'},
+];
+function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeJsSingleQuoted(s) {
+  return String(s || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\r/g, '\\r').replace(/\n/g, '\\n');
+}
+function acShow(inp, which, rich) {
+  const ul = document.getElementById('ac-' + which);
+  if (!ul) return;
+  if (!inp.value || inp.value.length < 1) { ul.classList.add('show'); }
+  ul.classList.add('show');
+  const isRich = rich || ul.classList.contains('ac-list-rich');
+  ul.innerHTML = AC_SUGS.slice(0, 5).map(s => {
+    const choose = "this.closest('.f-section, .planner').querySelectorAll('input')[" +
+      (which==='from'?0:(document.querySelectorAll('#ac-from').length?1:0)) +
+      "].value='" + escapeJsSingleQuoted(s.iata) + " — ' + '" + escapeJsSingleQuoted(s.name) + "'; this.parentElement.classList.remove('show'); onF()";
+    if (isRich) {
+      return '<li onclick="' + escapeHtmlText(choose) + '"><span class="ac-icon">' + escapeHtmlText(s.icon) + '</span><span class="iata">' + escapeHtmlText(s.iata) + '</span><span class="ac-name">' + escapeHtmlText(s.name) + '</span> <span class="ac-flag">' + escapeHtmlText(s.flag) + '</span> <span class="ac-country">' + escapeHtmlText(s.country) + '</span><span class="ac-type">' + escapeHtmlText(s.type) + '</span>' + (s.decoy ? '<span class="decoy">(' + escapeHtmlText(s.decoy) + ')</span>' : '') + '</li>';
+    }
+    return '<li onclick="' + escapeHtmlText(choose) + '"><span class="iata">' + escapeHtmlText(s.iata) + '</span><span class="ac-flag">' + escapeHtmlText(s.flag) + '</span> ' + escapeHtmlText(s.name) + ', ' + escapeHtmlText(s.country) + (s.decoy ? '<span class="decoy">(' + escapeHtmlText(s.decoy) + ')</span>' : '') + '</li>';
+  }).join('');
+}
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.ac-inp') && !e.target.closest('.ac-list') && !e.target.closest('.ac-list-rich')) {
+    document.querySelectorAll('.ac-list, .ac-list-rich').forEach(u => u.classList.remove('show'));
+  }
+  if (!e.target.closest('.cal-popover') && !e.target.closest('.date-inp')) {
+    const pop = document.getElementById('cal-pop'); if (pop) pop.style.display='none';
+  }
+  if (!e.target.closest('#live-status')) {
+    const bar = document.getElementById('live-status');
+    if (bar) bar.classList.remove('open');
+  }
+});
+
+function toggleMore(a) {
+  const sec = a.parentElement;
+  const hid = sec.querySelector('.more-hidden');
+  if (!hid) return;
+  if (hid.style.display === 'none') { hid.style.display=''; a.textContent='Show less ▴'; }
+  else { hid.style.display='none'; a.textContent='Show more ▾'; }
+}
+function clearFacet(a, facet) {
+  const sec = a.closest('.f-section');
+  if (!sec) return;
+  sec.querySelectorAll('input[type=checkbox][data-facet="' + facet + '"]').forEach(i => i.checked = false);
+  sec.querySelectorAll('select[data-facet="' + facet + '"]').forEach(s => { Array.from(s.options).forEach(o => o.selected=false); });
+  sec.querySelectorAll('.chip-btn, .pill, .tag').forEach(b => { if (b.dataset.facet === facet) b.classList.remove('active'); });
+  onF();
+}
+function updSelBadge(sel, badgeId) {
+  const b = document.getElementById(badgeId);
+  if (b) b.textContent = Array.from(sel.selectedOptions).length;
+}
+function fmtNum(inp) { /* keep numeric, no-op visual */ }
+function swapPlanner(btn) {
+  const inputs = btn.closest('.planner').querySelectorAll('.ac-inp');
+  if (inputs.length >= 2) { const a = inputs[0].value; inputs[0].value = inputs[1].value; inputs[1].value = a; onF(); }
+}
+
+function submitFilters() {
+  // Kept for backwards compatibility but auto-save makes it redundant
+  applyFilters();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Enable debug-mode (shows live-status pill + DB FAB) only with ?debug=1
+  if (new URLSearchParams(window.location.search).get('debug') === '1') {
+    document.body.classList.add('debug-mode');
+  }
+  ['cal-grid','cal-grid-d','cal-grid-r'].forEach(id => renderCal(id));
+  loadTaskBanner();
+
+  /* W13_AUTOSAVE_DELEGATION_BLOCK_v1 */
+  // Autosave delegation: catch any interactive change/click in the filter
+  // sidebar so EVERY interaction (decoy checkboxes/radios included) writes
+  // a row in the submissions table.
+  (function(){
+    var fa = document.querySelector('.filter-aside') || document.body;
+    function trigger(){ if (typeof applyFilters === 'function') applyFilters(); }
+    // Change events: covers checkbox, radio, select, text, number, date, etc.
+    fa.addEventListener('change', function(ev){
+      var t = ev && ev.target;
+      if (!t || !t.tagName) return;
+      var tag = t.tagName;
+      if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') trigger();
+    });
+    // Click events on chip/button/li-style custom inputs that don't fire change.
+    fa.addEventListener('click', function(ev){
+      var t = ev && ev.target;
+      if (!t || !t.closest) return;
+      var hit = t.closest('button, .chip, [role="button"], .w13-l3-card, .w13-l6-tile, .w13-l7-step, .w13-l9-tab, .w13-l10-pill');
+      if (!hit) return;
+      // Avoid double-firing for elements that already wired their own onF()
+      // via inline onclick — those will call applyFilters themselves first;
+      // a second call is harmless (idempotent autosave), so still trigger.
+      setTimeout(trigger, 30);
+    });
+  })();
+
+  // Initial filter (no constraints) → show all
+  applyFilters();
+});
+</script>
+</body></html>

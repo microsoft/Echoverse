@@ -1,0 +1,104 @@
+[
+  {
+    "id": 1,
+    "calc_type": "Oracle Cloud Infrastructure pricing",
+    "vendor": "oracle",
+    "brand": "Oracle Cloud Cost Estimator",
+    "default_inputs": {
+      "region": "(Choose region)",
+      "override": "(none)",
+      "volume": 0,
+      "service": "Compute (VM.Standard.E4.Flex \u2014 1 OCPU)",
+      "unit": "OCPU-hour",
+      "support_tier": "none"
+    },
+    "regions": [
+      "(Choose region)",
+      "us-ashburn-1 (Ashburn \u2014 VA)",
+      "us-phoenix-1 (Phoenix \u2014 AZ)",
+      "us-sanjose-1 (San Jose \u2014 CA)",
+      "us-chicago-1 (Chicago \u2014 IL)",
+      "ca-toronto-1 (Toronto \u2014 ON)",
+      "sa-saopaulo-1 (S\u00e3o Paulo \u2014 BR)",
+      "eu-frankfurt-1 (Frankfurt \u2014 DE)",
+      "eu-amsterdam-1 (Amsterdam \u2014 NL)",
+      "uk-london-1 (London \u2014 UK)",
+      "eu-zurich-1 (Z\u00fcrich \u2014 CH)",
+      "ap-tokyo-1 (Tokyo \u2014 JP)",
+      "ap-seoul-1 (Seoul \u2014 KR)",
+      "ap-singapore-1 (Singapore)",
+      "ap-sydney-1 (Sydney \u2014 AU)",
+      "ap-mumbai-1 (Mumbai \u2014 IN)"
+    ],
+    "services": [
+      {
+        "label": "Compute (VM.Standard.E4.Flex \u2014 1 OCPU)",
+        "rate": 0.025,
+        "unit": "OCPU-hour"
+      },
+      {
+        "label": "Compute (VM.Standard.E4.Flex \u2014 4 OCPU)",
+        "rate": 0.1,
+        "unit": "OCPU-hour"
+      },
+      {
+        "label": "Compute (BM.Standard.E4.128 \u2014 128 OCPU)",
+        "rate": 3.2,
+        "unit": "OCPU-hour"
+      },
+      {
+        "label": "Block Volume (Balanced)",
+        "rate": 0.0425,
+        "unit": "GB-month"
+      },
+      {
+        "label": "Object Storage (Standard)",
+        "rate": 0.0255,
+        "unit": "GB-month"
+      },
+      {
+        "label": "Autonomous Database (1 OCPU)",
+        "rate": 1.3441,
+        "unit": "OCPU-hour"
+      },
+      {
+        "label": "Oracle Database (Standard Edition \u2014 1 OCPU)",
+        "rate": 0.0672,
+        "unit": "OCPU-hour"
+      }
+    ],
+    "region_mult": {
+      "(Choose region)": 1.0,
+      "us-ashburn-1 (Ashburn \u2014 VA)": 1.0,
+      "us-phoenix-1 (Phoenix \u2014 AZ)": 1.0,
+      "us-sanjose-1 (San Jose \u2014 CA)": 1.05,
+      "us-chicago-1 (Chicago \u2014 IL)": 1.02,
+      "ca-toronto-1 (Toronto \u2014 ON)": 1.05,
+      "sa-saopaulo-1 (S\u00e3o Paulo \u2014 BR)": 1.25,
+      "eu-frankfurt-1 (Frankfurt \u2014 DE)": 1.1,
+      "eu-amsterdam-1 (Amsterdam \u2014 NL)": 1.1,
+      "uk-london-1 (London \u2014 UK)": 1.12,
+      "eu-zurich-1 (Z\u00fcrich \u2014 CH)": 1.13,
+      "ap-tokyo-1 (Tokyo \u2014 JP)": 1.18,
+      "ap-seoul-1 (Seoul \u2014 KR)": 1.15,
+      "ap-singapore-1 (Singapore)": 1.16,
+      "ap-sydney-1 (Sydney \u2014 AU)": 1.18,
+      "ap-mumbai-1 (Mumbai \u2014 IN)": 1.08
+    },
+    "override_presets": [
+      "730 OCPU-hours (1 month always-on)",
+      "256 OCPU-hours",
+      "100 OCPU-hours",
+      "1 TB Object Storage",
+      "500 GB Block Volume",
+      "8760 OCPU-hours (1 year always-on)",
+      "1460 VM-hours (2 VMs always-on)",
+      "500 GB storage"
+    ],
+    "support_fees": {
+      "none": 0,
+      "premier": 219,
+      "advanced": 2000
+    }
+  }
+]

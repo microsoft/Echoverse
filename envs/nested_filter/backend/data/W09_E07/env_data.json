@@ -1,0 +1,43 @@
+{
+  "env_id": "W09_E07",
+  "widget_id": "W09_calendar_multi_month_advance",
+  "widget_name": "Calendar \u2014 multi-month forward navigation",
+  "widget_category": "calendar",
+  "widget_mechanic": "Calendar opens on current month; agent must click the next-month arrow N times to reach target month, then click the target date cell. The default 'do nothing' leaves the calendar at the current month, producing dates near today (wrong).",
+  "archetype": "booking_form",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W09_calendar_multi_month_advance"
+  ],
+  "site_imitates": "Airbnb",
+  "product_type": "hotels",
+  "primary_inspiration": {
+    "task_id": "hotels_head_airbnb_161",
+    "benchmark": "WTB",
+    "site": "airbnb",
+    "instruction": "Book a bed and breakfast in Leadville, Colorado using airbnb.com July 5 - July 18. If there are no available rooms for those dates, please indicate that in your answer.",
+    "first_failure_summary": "[1.4] Calendar \u2014 agent failed to advance the two-month range picker forward to July 2026 to set the July 5 \u2192 July 18 stay window."
+  },
+  "source_inspiration": [
+    {
+      "task_id": "hotels_head_airbnb_161",
+      "benchmark": "WTB",
+      "site": "airbnb",
+      "instruction": "Book a bed and breakfast in Leadville, Colorado using airbnb.com July 5 - July 18. If there are no available rooms for those dates, please indicate that in your answer.",
+      "first_failure_summary": "[1.4] Calendar \u2014 agent failed to advance the two-month range picker forward to July 2026 to set the July 5 \u2192 July 18 stay window."
+    }
+  ],
+  "theme_key": "hotels",
+  "theme_logo": "Airbnb",
+  "theme_card": "hotel-card",
+  "theme_layout": "left_sidebar",
+  "variant_idx": 0,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "date_pick",
+    "fields": [
+      "date"
+    ]
+  },
+  "calendar_ui_pattern": "Two-month side-by-side picker (\u2039 \u203a)"
+}

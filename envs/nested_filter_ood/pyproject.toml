@@ -1,0 +1,9 @@
+[project]
+name = "nested_filter_ood"
+version = "0.1.0"
+description = "Consolidated nested-filter OOD W21-W30 combination synthetic eval env (100 envs)"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+]

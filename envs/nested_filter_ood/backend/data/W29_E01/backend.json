@@ -1,0 +1,101 @@
+{
+  "env_id": "W29_E01",
+  "widget_id": "W29_override_defaults_plus_frequency",
+  "archetype": "calculator_form",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2801",
+      "task_index_in_env": 1,
+      "instruction_text": "Use Investor.gov compound calc to compute compound interest at custom principal+quarterly \u2014 override the defaults with custom principal $50,000 and switch the frequency to quarterly.",
+      "expected_filter_state": {
+        "override": "custom principal $50,000",
+        "freq": "quarterly"
+      }
+    },
+    {
+      "task_id": "T2802",
+      "task_index_in_env": 2,
+      "instruction_text": "On Investor.gov compound calc, compute compound interest at custom principal+quarterly. Use custom tuition $45,000 and compound monthly instead of the calculator defaults.",
+      "expected_filter_state": {
+        "override": "custom tuition $45,000",
+        "freq": "monthly"
+      }
+    },
+    {
+      "task_id": "T2803",
+      "task_index_in_env": 3,
+      "instruction_text": "Help me run compound interest at custom principal+quarterly on Investor.gov compound calc with custom principal $25,000 and monthly compounding (not the prefilled defaults).",
+      "expected_filter_state": {
+        "override": "custom principal $25,000",
+        "freq": "monthly"
+      }
+    },
+    {
+      "task_id": "T2804",
+      "task_index_in_env": 4,
+      "instruction_text": "On Investor.gov compound calc, compute compound interest at custom principal+quarterly. Use custom rate 6% and compound daily instead of the calculator defaults.",
+      "expected_filter_state": {
+        "override": "custom rate 6%",
+        "freq": "daily"
+      }
+    },
+    {
+      "task_id": "T2805",
+      "task_index_in_env": 5,
+      "instruction_text": "Use Investor.gov compound calc to compute compound interest at custom principal+quarterly \u2014 override the defaults with custom income $120,000 and switch the frequency to annually.",
+      "expected_filter_state": {
+        "override": "custom income $120,000",
+        "freq": "annually"
+      }
+    },
+    {
+      "task_id": "T2806",
+      "task_index_in_env": 6,
+      "instruction_text": "Use Investor.gov compound calc to compute compound interest at custom principal+quarterly \u2014 override the defaults with custom loan amount $250,000 and switch the frequency to bi-weekly.",
+      "expected_filter_state": {
+        "override": "custom loan amount $250,000",
+        "freq": "bi-weekly"
+      }
+    },
+    {
+      "task_id": "T2807",
+      "task_index_in_env": 7,
+      "instruction_text": "Use Investor.gov compound calc to compute compound interest at custom principal+quarterly \u2014 override the defaults with custom contributions $1000/mo and switch the frequency to monthly.",
+      "expected_filter_state": {
+        "override": "custom contributions $1000/mo",
+        "freq": "monthly"
+      }
+    },
+    {
+      "task_id": "T2808",
+      "task_index_in_env": 8,
+      "instruction_text": "Use Investor.gov compound calc to compute compound interest at custom principal+quarterly \u2014 override the defaults with custom goal $1M and switch the frequency to quarterly.",
+      "expected_filter_state": {
+        "override": "custom goal $1M",
+        "freq": "quarterly"
+      }
+    },
+    {
+      "task_id": "T2809",
+      "task_index_in_env": 9,
+      "instruction_text": "On Investor.gov compound calc, compute compound interest at custom principal+quarterly. Use custom balance $15,000 and compound monthly instead of the calculator defaults.",
+      "expected_filter_state": {
+        "override": "custom balance $15,000",
+        "freq": "monthly"
+      }
+    },
+    {
+      "task_id": "T2810",
+      "task_index_in_env": 10,
+      "instruction_text": "Use Investor.gov compound calc to compute compound interest at custom principal+quarterly \u2014 override the defaults with custom rate 7.5% and switch the frequency to continuously.",
+      "expected_filter_state": {
+        "override": "custom rate 7.5%",
+        "freq": "continuously"
+      }
+    }
+  ]
+}

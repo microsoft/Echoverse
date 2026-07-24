@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "calc_type": "savings growth projections",
+    "default_inputs": {
+      "principal": 10000,
+      "rate": 5.0,
+      "years": 10,
+      "tuition": 30000,
+      "room_and_board": 12000,
+      "income": 50000,
+      "inflation": 3.0,
+      "savings": 0
+    },
+    "regions": [
+      "Global (default)",
+      "US East",
+      "US West",
+      "EU West",
+      "Asia Pacific (Tokyo)",
+      "US Government",
+      "Brazil South",
+      "Multi-Region (US)"
+    ],
+    "frequencies": [
+      "Annually",
+      "Semi-Annually",
+      "Quarterly",
+      "Monthly",
+      "Bi-Weekly",
+      "Daily",
+      "Continuously"
+    ]
+  }
+]

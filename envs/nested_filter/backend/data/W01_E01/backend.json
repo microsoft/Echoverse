@@ -1,0 +1,96 @@
+{
+  "env_id": "W01_E01",
+  "widget_id": "W01_multi_checkbox_facet",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "brand",
+      "condition",
+      "color",
+      "category"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T0001",
+      "task_index_in_env": 1,
+      "instruction_text": "Help me narrow down to 8K Samsung TVs that are open-box (not refurbished). I'm on BestBuy electronics catalog.",
+      "expected_filter_state": {
+        "constraint": "that are open-box (not refurbished)"
+      }
+    },
+    {
+      "task_id": "T0002",
+      "task_index_in_env": 2,
+      "instruction_text": "Looking through BestBuy electronics catalog \u2014 show me 8K Samsung TVs in black, size M.",
+      "expected_filter_state": {
+        "constraint": "in black, size M"
+      }
+    },
+    {
+      "task_id": "T0003",
+      "task_index_in_env": 3,
+      "instruction_text": "Pull up 8K Samsung TVs that run on Linux and macOS on BestBuy electronics catalog \u2014 I want to compare what's available.",
+      "expected_filter_state": {
+        "constraint": "that run on Linux and macOS"
+      }
+    },
+    {
+      "task_id": "T0004",
+      "task_index_in_env": 4,
+      "instruction_text": "Help me narrow down to 8K Samsung TVs that are young, spayed, and male. I'm on BestBuy electronics catalog.",
+      "expected_filter_state": {
+        "constraint": "that are young, spayed, and male"
+      }
+    },
+    {
+      "task_id": "T0005",
+      "task_index_in_env": 5,
+      "instruction_text": "On BestBuy electronics catalog, what 8K Samsung TVs with a 5-star rating and Prime eligibility are in stock right now?",
+      "expected_filter_state": {
+        "constraint": "with a 5-star rating and Prime eligibility"
+      }
+    },
+    {
+      "task_id": "T0006",
+      "task_index_in_env": 6,
+      "instruction_text": "Looking through BestBuy electronics catalog \u2014 show me 8K Samsung TVs with remote and full-time tags.",
+      "expected_filter_state": {
+        "constraint": "with remote and full-time tags"
+      }
+    },
+    {
+      "task_id": "T0007",
+      "task_index_in_env": 7,
+      "instruction_text": "Help me narrow down to 8K Samsung TVs in vegan and organic categories. I'm on BestBuy electronics catalog.",
+      "expected_filter_state": {
+        "constraint": "in vegan and organic categories"
+      }
+    },
+    {
+      "task_id": "T0008",
+      "task_index_in_env": 8,
+      "instruction_text": "Help me narrow down to 8K Samsung TVs with MIT license and active maintenance. I'm on BestBuy electronics catalog.",
+      "expected_filter_state": {
+        "constraint": "with MIT license and active maintenance"
+      }
+    },
+    {
+      "task_id": "T0009",
+      "task_index_in_env": 9,
+      "instruction_text": "On BestBuy electronics catalog, what 8K Samsung TVs in red, size S, with mini length are in stock right now?",
+      "expected_filter_state": {
+        "constraint": "in red, size S, with mini length"
+      }
+    },
+    {
+      "task_id": "T0010",
+      "task_index_in_env": 10,
+      "instruction_text": "Looking through BestBuy electronics catalog \u2014 show me 8K Samsung TVs as refurbished, unlocked, 256GB.",
+      "expected_filter_state": {
+        "constraint": "as refurbished, unlocked, 256GB"
+      }
+    }
+  ]
+}

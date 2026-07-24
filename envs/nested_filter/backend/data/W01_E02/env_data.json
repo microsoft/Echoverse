@@ -1,0 +1,45 @@
+{
+  "env_id": "W01_E02",
+  "widget_id": "W01_multi_checkbox_facet",
+  "widget_name": "Multi-checkbox attribute facet",
+  "widget_category": "facet_selection",
+  "widget_mechanic": "User must select K-of-N checkboxes inside one facet group, where the facet contains similar-looking decoys (e.g. Open-Box vs Refurbished, Linux vs Linux Lite). Agent must pick the exact subset and exclude lookalikes.",
+  "archetype": "faceted_catalog",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W01_multi_checkbox_facet"
+  ],
+  "site_imitates": "BestBuy Electronics \u00b7 linkedin top bar",
+  "product_type": "8K Samsung TVs and consumer electronics",
+  "source_inspiration": [
+    {
+      "task_id": "271b36efd4346721b5542488ff997042",
+      "benchmark": "OM2W",
+      "site": "bestbuy.com",
+      "instruction": "Browse 8K Samsung TVs that are open box.",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: Agent applied the \u201cRefurbished\u201d condition filter and assumed it satisfies the task's \u201copen box\u201d constraint, instead of filtering/navigating to explicitly Open-Box items."
+    }
+  ],
+  "theme_key": "bestbuy_electronics",
+  "theme_logo": "BestBuy Electronics",
+  "theme_card": "ecommerce",
+  "theme_layout": "linkedin_top_bar",
+  "variant_idx": 0,
+  "n_seed_items": 18,
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "brand",
+      "condition",
+      "color",
+      "category"
+    ]
+  },
+  "primary_inspiration": {
+    "task_id": "271b36efd4346721b5542488ff997042",
+    "benchmark": "OM2W",
+    "site": "bestbuy.com",
+    "instruction": "Browse 8K Samsung TVs that are open box.",
+    "first_failure_summary": "[1.4] Wrong values or constraint violation: Agent applied the \u201cRefurbished\u201d condition filter and assumed it satisfies the task's \u201copen box\u201d constraint, instead of filtering/navigating to explicitly Open-Box items."
+  }
+}

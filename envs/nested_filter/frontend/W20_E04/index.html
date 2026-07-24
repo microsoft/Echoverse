@@ -1,0 +1,862 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoCloud Cost Estimator — Virtual Machines</title>
+<style>
+
+:root {
+  --primary:    #0078d4;
+  --primary-dk: #005a9e;
+  --accent:     #50e6ff;
+  --bg:         #f5f5f5;
+  --panel:      #ffffff;
+  --border:     #e1e1e1;
+  --ink:        #161616;
+  --muted:      #616161;
+  --hd-bg:      #000000;
+  --hd-fg:      #ffffff;
+  --cta-bg:     #0078d4;
+  --cta-fg:     #ffffff;
+  --font:       'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
+}
+
+
+/* ---- DEBUG / VERIFIER UI: hidden unless ?debug=1 ----------------------- */
+.task-banner,.task-banner *,
+.live-status,.live-status *,
+.db-fab,.answer-area,.answer-card,.answer-section,
+.answer-input,.answer-bar,.answer-row,.task-row,.task-rail,.task-list,
+.state-row,.state-label,.status-pill,.status-bar,.task-pill,.autosave-pill,
+.fix-mode-pill,.verifier-pill,.debug-pill,.debug-bar,.debug-panel,
+.debug-info,.debug-state,
+.modeled-after-fara,.fara-inspiration,.inspiration-banner,
+.fara-source-card,.fara-source-pill,.fara-banner,.fara-source,
+.w20-no-button-note,.w20-auto-pill,.auto-recompute-pill,
+.tb-head,.tb-id,.tb-type,.tb-diff,.tb-summary,.tb-meta,.tb-good,.tb-bad,
+.tb-status,.tb-pill,.tb-answer-row,.tb-answer-label,.tb-answer-input,
+.tb-type-write,.tb-type-read,.tb-type-read_write,.tb-banner,
+#task-banner,#task-text,#task-meta,#task-bar,#task-rail,
+#live-status,#live-state,#live-result,
+#answer-input,#answer-bar,#submit-answer,#submit-btn,
+#task-answer-input,#answer-area,.submit-answer,
+#state-row,#status-pill,#status-bar,#w20-auto-pill,
+#tb-status,#tb-good,#tb-bad,
+[data-task-banner],[data-live-status],[data-debug-pill],
+[data-task-meta],[data-fara-inspiration],[data-fara-source],
+.wut-badge,.wut-badge-test,.utst-note { display:none !important; visibility:hidden !important; }
+body.debug-mode .live-status,body.debug-mode .task-banner,body.debug-mode .db-fab,
+body.debug-mode #live-status,body.debug-mode #task-banner {
+  display:flex !important; visibility:visible !important;
+}
+[data-debug="1"] { display:none !important; }
+
+/* ---- RESET ------------------------------------------------------------- */
+*,*::before,*::after { box-sizing:border-box; }
+html,body { margin:0; padding:0; }
+body { font:14px/1.5 var(--font); background:var(--bg); color:var(--ink);
+       -webkit-font-smoothing:antialiased; min-height:100vh; }
+img,svg { max-width:100%; }
+
+/* ---- LAYOUT GRID ------------------------------------------------------- */
+.page-wrap { display:flex; flex-direction:column; min-height:100vh; }
+.page-body { flex:1; max-width:1320px; width:100%; margin:0 auto; padding:24px 28px;
+             display:grid; grid-template-columns:340px 1fr; gap:28px; }
+.page-body.no-side { grid-template-columns:1fr; }
+@media (max-width:960px){ .page-body { grid-template-columns:1fr; } }
+
+.hero { padding:32px 28px 28px; background:linear-gradient(180deg, #ffffff 0%, #faf9f8 100%); border-bottom:1px solid var(--border); }
+.hero-inner { max-width:1320px; margin:0 auto; }
+.hero h1 { font:600 32px/1.15 var(--font); margin:0 0 10px; color:var(--ink); letter-spacing:-.3px; }
+.hero p  { margin:0; color:#605e5c; max-width:820px; font-size:15px; line-height:1.5; }
+.hero-tag { display:inline-block; font-size:12px; letter-spacing:.04em; text-transform:uppercase;
+            color:var(--primary); margin-bottom:8px; font-weight:600; }
+.hero-actions { display:flex; gap:10px; margin-top:18px; }
+.hero-btn { background:var(--primary); color:#fff; border:1px solid var(--primary); padding:9px 18px;
+  border-radius:2px; font:600 13px var(--font); cursor:pointer; }
+.hero-btn:hover { background:#106ebe; }
+.hero-btn.ghost { background:transparent; color:var(--primary); }
+.hero-btn.ghost:hover { background:rgba(0,120,212,.06); }
+
+aside.estimate-cfg {
+  background:var(--panel); border:1px solid var(--border); border-radius:8px;
+  padding:18px 18px 22px; align-self:flex-start; position:sticky; top:14px;
+}
+aside.estimate-cfg h2 { font:600 16px/1.2 var(--font); margin:0 0 14px; color:var(--ink); }
+.cfg-section { margin-top:18px; }
+.cfg-section:first-child { margin-top:6px; }
+.cfg-section > h3 {
+  font:600 13px/1.2 var(--font); margin:0 0 8px; color:var(--ink);
+  letter-spacing:.02em; text-transform:uppercase; font-size:11px; color:var(--muted);
+}
+.cfg-help { font-size:12px; color:var(--muted); margin:4px 0 10px; }
+
+main.estimate-out { display:flex; flex-direction:column; gap:22px; }
+
+/* ---- COMMON FORM CONTROLS --------------------------------------------- */
+select.std-sel, input.std-inp {
+  font:14px/1.4 var(--font); width:100%; padding:9px 12px;
+  border:1px solid var(--border); border-radius:6px; background:#fff; color:var(--ink);
+  outline:none; transition:border-color .15s ease, box-shadow .15s ease;
+}
+select.std-sel:focus, input.std-inp:focus {
+  border-color:var(--primary); box-shadow:0 0 0 3px color-mix(in srgb, var(--primary) 18%, transparent);
+}
+.num-row { display:flex; align-items:stretch; gap:8px; }
+.num-suffix {
+  display:inline-flex; align-items:center; padding:0 12px; background:var(--bg);
+  border:1px solid var(--border); border-left:none; border-radius:0 6px 6px 0; color:var(--muted);
+  font-size:12px; white-space:nowrap;
+}
+.num-row .std-inp { border-radius:6px 0 0 6px; }
+
+/* ---- REGION PICKER — SHARED BASE ------------------------------------- */
+.rg-wrap { font:14px/1.4 var(--font); }
+.rg-label { display:block; font:600 12px var(--font); letter-spacing:.04em;
+            text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.rg-help  { font-size:12px; color:var(--muted); margin-bottom:10px; }
+.rg-flag  { font-size:14px; line-height:1; }
+
+/* dropdown */
+.rg-dropdown .rg-select {
+  width:100%; font:14px var(--font); padding:9px 12px;
+  border:1px solid var(--border); border-radius:6px; background:#fff; color:var(--ink);
+}
+.rg-dropdown .rg-select:focus { outline:none; border-color:var(--primary);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--primary) 18%, transparent); }
+.rg-dropdown .rg-current { margin-top:8px; font-size:12px; padding:6px 10px;
+  background:var(--bg); border-radius:4px; }
+.rg-dropdown .rg-current-label { color:var(--muted); margin-right:6px; }
+.rg-dropdown .rg-current-val { font-weight:600; color:var(--primary); }
+
+/* map_cards (E02) */
+.rg-map { display:flex; flex-direction:column; gap:10px; }
+.rg-map-box { position:relative; border:1px solid var(--border); border-radius:8px;
+  overflow:hidden; height:200px; background:#eef3f6; }
+.rg-map-svg { display:block; width:100%; height:100%; }
+.rg-dot { position:absolute; width:10px; height:10px; border-radius:50%;
+  background:var(--primary); box-shadow:0 0 0 2px #fff;
+  transform:translate(-50%,-50%); cursor:pointer; transition:transform .12s ease;
+  border:1px solid var(--primary-dk); }
+.rg-dot:hover { transform:translate(-50%,-50%) scale(1.4); }
+.rg-dot.active { background:var(--cta-bg); transform:translate(-50%,-50%) scale(1.7);
+  box-shadow:0 0 0 3px #fff, 0 0 0 5px color-mix(in srgb, var(--primary) 35%, transparent); }
+.rg-cards { display:grid; grid-template-columns:1fr 1fr; gap:8px; max-height:300px; overflow:auto; }
+.rg-card { background:var(--panel); border:1px solid var(--border); border-radius:6px;
+  padding:8px 10px; cursor:pointer; text-align:left; transition:all .12s ease; }
+.rg-card:hover { border-color:var(--primary); background:color-mix(in srgb, var(--primary) 6%, var(--panel)); }
+.rg-card.active { border-color:var(--primary); background:color-mix(in srgb, var(--primary) 12%, var(--panel));
+  box-shadow:0 0 0 2px color-mix(in srgb, var(--primary) 22%, transparent); }
+.rg-card-head { display:flex; align-items:center; gap:6px; }
+.rg-card-cont { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }
+.rg-card-name { font-weight:600; font-size:13px; color:var(--ink); margin-top:2px; }
+.rg-card-code { font-family:'SF Mono','Consolas',monospace; font-size:11px; color:var(--muted); margin-top:2px; }
+.rg-mirror { position:absolute; left:-9999px; opacity:0; pointer-events:none; }
+
+/* continent_tabs (E03) */
+.rg-tabs-row { display:flex; flex-wrap:wrap; gap:4px; border-bottom:1px solid var(--border);
+  margin-bottom:10px; }
+.rg-tab { background:transparent; border:none; padding:8px 12px; cursor:pointer;
+  border-bottom:2px solid transparent; color:var(--muted); font:13px var(--font); }
+.rg-tab.active { color:var(--primary); border-bottom-color:var(--primary); font-weight:600; }
+.rg-tab-count { display:inline-block; margin-left:6px; padding:1px 6px; background:var(--bg);
+  border-radius:10px; font-size:10px; color:var(--muted); }
+.rg-tab-panel { display:none; max-height:330px; overflow:auto; padding:4px 0; }
+.rg-tab-panel.active { display:block; }
+.rg-radio-row { display:flex; align-items:center; gap:8px; padding:6px 8px; cursor:pointer;
+  border-radius:5px; }
+.rg-radio-row:hover { background:var(--bg); }
+.rg-radio-row.sel { background:color-mix(in srgb, var(--primary) 10%, var(--panel)); }
+.rg-radio-row input { accent-color:var(--primary); }
+.rg-radio-name { font-size:13px; color:var(--ink); flex:1; }
+.rg-radio-code { font-family:'SF Mono','Consolas',monospace; font-size:11px; color:var(--muted); }
+
+/* combobox (E04) */
+.rg-cb-shell { position:relative; }
+.rg-cb-icon  { position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--muted); }
+.rg-cb-inp   { width:100%; padding:9px 30px 9px 32px; border:1px solid var(--border);
+  border-radius:6px; font:14px var(--font); }
+.rg-cb-inp:focus { outline:none; border-color:var(--primary);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--primary) 18%, transparent); }
+.rg-cb-caret { position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; color:var(--muted); }
+.rg-cb-list  { list-style:none; padding:0; margin:4px 0 0; border:1px solid var(--border);
+  border-radius:6px; max-height:280px; overflow:auto; background:#fff;
+  display:none; box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.rg-cb-list.show { display:block; }
+.rg-cb-row { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer;
+  border-bottom:1px solid var(--border); }
+.rg-cb-row:last-child { border-bottom:none; }
+.rg-cb-row:hover { background:color-mix(in srgb, var(--primary) 10%, var(--panel)); }
+.rg-cb-name { flex:1; font-size:13px; color:var(--ink); }
+.rg-cb-code { font-family:'SF Mono','Consolas',monospace; font-size:11px; color:var(--muted); }
+.rg-cb-cont { font-size:10px; text-transform:uppercase; color:var(--muted); letter-spacing:.05em; }
+.rg-cb-mirror { position:absolute; left:-9999px; opacity:0; pointer-events:none; }
+
+/* accordion (E05) */
+.rg-acc .rg-acc-sec { border:1px solid var(--border); border-radius:6px; margin-bottom:6px;
+  background:var(--panel); overflow:hidden; }
+.rg-acc-sum { padding:10px 12px; cursor:pointer; font-weight:600; font-size:13px;
+  display:flex; align-items:center; gap:8px; list-style:none; }
+.rg-acc-sum::-webkit-details-marker { display:none; }
+.rg-acc-cont { flex:1; }
+.rg-acc-count { font-size:11px; color:var(--muted); font-weight:400; }
+.rg-acc-caret { transition:transform .15s ease; }
+details[open] .rg-acc-caret { transform:rotate(180deg); }
+.rg-acc-body { padding:8px 10px 12px; display:grid; grid-template-columns:1fr 1fr; gap:6px;
+  border-top:1px solid var(--border); background:var(--bg); }
+.rg-tile { background:#fff; border:1px solid var(--border); border-radius:6px;
+  padding:8px 10px; text-align:left; cursor:pointer; transition:all .12s ease;
+  display:flex; flex-direction:column; gap:2px; }
+.rg-tile:hover { border-color:var(--primary); }
+.rg-tile.active { border-color:var(--primary); background:color-mix(in srgb, var(--primary) 12%, #fff);
+  box-shadow:0 0 0 2px color-mix(in srgb, var(--primary) 24%, transparent); }
+.rg-tile-name { font-size:13px; font-weight:600; color:var(--ink); }
+.rg-tile-code { font-family:'SF Mono','Consolas',monospace; font-size:11px; color:var(--muted); }
+
+/* modal_map (E06) */
+.rg-mod-trigger { display:flex; align-items:center; gap:10px; padding:10px 12px;
+  border:1px solid var(--border); background:var(--panel); border-radius:6px; width:100%;
+  cursor:pointer; font:14px var(--font); }
+.rg-mod-trigger:hover { border-color:var(--primary); }
+.rg-mod-trig-cur { font-weight:600; flex:1; text-align:left; color:var(--ink); }
+.rg-mod-trig-cta { color:var(--primary); font-size:13px; }
+.rg-mod-mirror { position:absolute; left:-9999px; opacity:0; pointer-events:none; }
+.rg-mod-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.45); display:none;
+  align-items:center; justify-content:center; z-index:1100; padding:20px; }
+.rg-mod-backdrop.open { display:flex; }
+.rg-mod-dialog { background:#fff; border-radius:8px; max-width:900px; width:100%;
+  max-height:92vh; display:flex; flex-direction:column; overflow:hidden;
+  box-shadow:0 24px 60px rgba(0,0,0,.35); }
+.rg-mod-head { display:flex; align-items:center; padding:16px 20px;
+  border-bottom:1px solid var(--border); justify-content:space-between; }
+.rg-mod-title { font:600 18px var(--font); color:var(--ink); }
+.rg-mod-sub   { font-size:12px; color:var(--muted); margin-top:2px; }
+.rg-mod-x { background:none; border:none; font-size:22px; cursor:pointer; color:var(--muted);
+  padding:4px 8px; border-radius:4px; }
+.rg-mod-x:hover { background:var(--bg); }
+.rg-mod-body { display:grid; grid-template-columns:1fr 1fr; gap:16px; padding:16px 20px;
+  overflow:auto; }
+@media (max-width:780px) { .rg-mod-body { grid-template-columns:1fr; } }
+.rg-mod-map { position:relative; height:280px; border:1px solid var(--border); border-radius:6px;
+  overflow:hidden; }
+.rg-mod-dot { position:absolute; width:10px; height:10px; border-radius:50%;
+  background:var(--primary); box-shadow:0 0 0 2px #fff;
+  transform:translate(-50%,-50%); cursor:pointer; }
+.rg-mod-dot.active { background:var(--cta-bg); transform:translate(-50%,-50%) scale(1.7);
+  box-shadow:0 0 0 3px #fff, 0 0 0 5px color-mix(in srgb, var(--primary) 35%, transparent); }
+.rg-mod-cards-scroll { max-height:280px; overflow:auto; }
+.rg-mod-cards { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.rg-mod-card { background:var(--panel); border:1px solid var(--border); border-radius:6px;
+  padding:8px 10px; text-align:left; cursor:pointer; display:flex; flex-direction:column; gap:2px; }
+.rg-mod-card:hover { border-color:var(--primary); }
+.rg-mod-card.active { border-color:var(--primary); background:color-mix(in srgb, var(--primary) 12%, var(--panel));
+  box-shadow:0 0 0 2px color-mix(in srgb, var(--primary) 22%, transparent); }
+.rg-mod-cont { font-size:10px; text-transform:uppercase; color:var(--muted); letter-spacing:.05em; }
+.rg-mod-name { font-weight:600; font-size:13px; color:var(--ink); }
+.rg-mod-code { font-family:'SF Mono','Consolas',monospace; font-size:11px; color:var(--muted); }
+.rg-mod-foot { padding:12px 20px; border-top:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between; background:var(--bg); }
+.rg-mod-current { font-size:13px; color:var(--muted); }
+.rg-mod-current b { color:var(--primary); }
+.rg-mod-done { padding:8px 16px; background:var(--cta-bg); color:var(--cta-fg);
+  border:none; border-radius:6px; font:600 13px var(--font); cursor:pointer; }
+
+/* segmented_radio (E07) */
+.rg-seg-row { display:inline-flex; background:var(--bg); padding:3px; border-radius:6px;
+  border:1px solid var(--border); margin-bottom:10px; flex-wrap:wrap; }
+.rg-seg { background:transparent; border:none; padding:6px 12px; cursor:pointer;
+  border-radius:4px; font:13px var(--font); color:var(--muted); }
+.rg-seg.active { background:#fff; color:var(--primary); font-weight:600;
+  box-shadow:0 1px 2px rgba(0,0,0,.06); }
+.rg-seg-panel { display:none; }
+.rg-seg-panel.active { display:grid; grid-template-columns:1fr 1fr; gap:6px;
+  max-height:300px; overflow:auto; }
+.rg-segcard { background:var(--panel); border:1px solid var(--border); border-radius:6px;
+  padding:8px 10px; text-align:left; cursor:pointer; }
+.rg-segcard:hover { border-color:var(--primary); }
+.rg-segcard.active { border-color:var(--primary); background:color-mix(in srgb, var(--primary) 12%, var(--panel));
+  box-shadow:0 0 0 2px color-mix(in srgb, var(--primary) 22%, transparent); }
+.rg-segcard-top { display:flex; align-items:center; gap:6px; font-weight:600; font-size:13px; color:var(--ink); }
+.rg-segcard-code { font-family:'SF Mono','Consolas',monospace; font-size:11px; color:var(--muted); margin-top:2px; }
+
+/* tree_list (E08) */
+.rg-tree { border:1px solid var(--border); border-radius:6px; max-height:380px; overflow:auto;
+  background:var(--panel); }
+.rg-node { border-bottom:1px solid var(--border); }
+.rg-node:last-child { border-bottom:none; }
+.rg-node-head { width:100%; background:transparent; border:none; padding:8px 12px;
+  display:flex; align-items:center; gap:8px; cursor:pointer; font:600 13px var(--font);
+  color:var(--ink); text-align:left; }
+.rg-node-head:hover { background:var(--bg); }
+.rg-node-caret { transition:transform .15s ease; color:var(--muted); }
+.rg-node.expanded .rg-node-caret { transform:rotate(90deg); }
+.rg-node-name { flex:1; }
+.rg-node-count { font-size:11px; color:var(--muted); font-weight:400; }
+.rg-node-body { display:none; padding:4px 8px 8px 24px; background:var(--bg); }
+.rg-node.expanded .rg-node-body { display:flex; flex-direction:column; gap:2px; }
+.rg-leaf { background:transparent; border:none; padding:6px 8px; display:flex; align-items:center;
+  gap:8px; cursor:pointer; border-radius:4px; text-align:left; font:13px var(--font); color:var(--ink); }
+.rg-leaf:hover { background:#fff; }
+.rg-leaf.active { background:color-mix(in srgb, var(--primary) 14%, #fff); color:var(--primary); font-weight:600; }
+.rg-leaf-marker { color:var(--primary); width:10px; display:inline-block; }
+.rg-leaf-name { flex:1; }
+.rg-leaf-code { font-family:'SF Mono','Consolas',monospace; font-size:11px; color:var(--muted); }
+
+/* flag_radio_list (E09) */
+.rg-fl-list { max-height:380px; overflow:auto; border:1px solid var(--border); border-radius:6px;
+  background:var(--panel); }
+.rg-fl-row { display:flex; align-items:center; gap:10px; padding:9px 12px; cursor:pointer;
+  border-bottom:1px solid var(--border); }
+.rg-fl-row:last-child { border-bottom:none; }
+.rg-fl-row:hover { background:var(--bg); }
+.rg-fl-row.sel { background:color-mix(in srgb, var(--primary) 10%, var(--panel));
+  border-left:3px solid var(--primary); padding-left:9px; }
+.rg-fl-row input { display:none; }
+.rg-fl-radio { width:14px; height:14px; border-radius:50%; border:2px solid var(--muted);
+  flex-shrink:0; position:relative; }
+.rg-fl-row.sel .rg-fl-radio { border-color:var(--primary); }
+.rg-fl-row.sel .rg-fl-radio::after { content:''; position:absolute; inset:2px; border-radius:50%;
+  background:var(--primary); }
+.rg-fl-flag { font-size:18px; }
+.rg-fl-info { flex:1; display:flex; flex-direction:column; }
+.rg-fl-name { font-size:13px; color:var(--ink); font-weight:500; }
+.rg-fl-cont { font-size:11px; color:var(--muted); }
+.rg-fl-code { font-family:'SF Mono','Consolas',monospace; font-size:11px; color:var(--muted); }
+
+/* optgroup_flags (E10) */
+.rg-og-shell { position:relative; }
+.rg-og-sel { width:100%; padding:10px 32px 10px 12px; border:1px solid var(--border);
+  border-radius:0; background:#fff; font:14px var(--font); color:var(--ink);
+  appearance:none; -webkit-appearance:none; cursor:pointer; }
+.rg-og-sel:focus { outline:none; border-color:var(--primary);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--primary) 18%, transparent); }
+.rg-og-caret { position:absolute; right:12px; top:50%; transform:translateY(-50%);
+  pointer-events:none; color:var(--muted); }
+.rg-og-current { margin-top:8px; padding:8px 10px; background:var(--bg); border-left:3px solid var(--primary);
+  font-size:12px; display:flex; justify-content:space-between; align-items:center; }
+.rg-og-current b { color:var(--primary); font-family:'SF Mono','Consolas',monospace; font-size:12px; }
+
+/* ---- RESULT CARD ------------------------------------------------------- */
+.result-card { background:var(--panel); border:1px solid var(--border); border-radius:8px;
+  padding:22px 24px; }
+.result-head { display:flex; justify-content:space-between; align-items:flex-start;
+  border-bottom:1px solid var(--border); padding-bottom:16px; margin-bottom:16px; }
+.result-label { font-size:12px; color:var(--muted); text-transform:uppercase;
+  letter-spacing:.06em; }
+.result-value { font:700 36px var(--font); color:var(--ink); margin:6px 0 4px; }
+.result-sub { font-size:12px; color:var(--muted); }
+.result-trend { text-align:right; font-size:13px; color:var(--primary); }
+.bd-table { width:100%; border-collapse:collapse; font-size:13px; }
+.bd-table td { padding:7px 0; border-bottom:1px solid var(--border); color:var(--ink); }
+.bd-table tr:last-child td { border-bottom:none; font-weight:600; }
+.bd-val { text-align:right; font-family:'SF Mono','Consolas',monospace;
+  font-variant-numeric:tabular-nums; color:var(--ink); }
+.compare-box { background:var(--bg); border-radius:8px; padding:14px 16px; margin-top:16px; }
+.compare-box h4 { margin:0 0 10px; font-size:13px; }
+.compare-row { display:flex; gap:8px; flex-wrap:wrap; }
+.cmp-btn { background:#fff; border:1px solid var(--border); border-radius:18px; padding:6px 14px;
+  cursor:pointer; font-size:12px; color:var(--muted); }
+.cmp-btn.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+
+.tools-row { display:flex; gap:8px; flex-wrap:wrap; }
+.tool-btn { background:var(--panel); border:1px solid var(--border); border-radius:6px;
+  padding:6px 12px; font-size:12px; cursor:pointer; color:var(--ink); }
+.tool-btn:hover { border-color:var(--primary); color:var(--primary); }
+
+.scenario-card { background:var(--panel); border:1px solid var(--border); border-radius:8px;
+  padding:16px 18px; }
+.scenario-card h3 { margin:0 0 8px; font-size:15px; }
+.sc-tag { background:var(--bg); border-radius:4px; padding:2px 8px; font-size:11px;
+  color:var(--muted); margin-left:6px; }
+.disclaim { padding:14px 16px; background:var(--bg); border-radius:6px;
+  font-size:12px; color:var(--muted); }
+.disclaim a { color:var(--primary); }
+
+/* ---- HEADER & FOOTER (shared frame) ----------------------------------- */
+.site-hd { display:flex; align-items:center; gap:16px; padding:10px 28px; flex-wrap:wrap;
+  background:var(--hd-bg); color:var(--hd-fg); position:relative; z-index:5;
+  font:14px var(--font); }
+.hd-brand { display:flex; align-items:center; gap:10px; }
+.hd-nav { display:flex; gap:16px; flex:1; }
+.hd-nav-a { color:inherit; text-decoration:none; font-size:13px; cursor:pointer; opacity:.92; }
+.hd-nav-a:hover { opacity:1; }
+.hd-right { display:flex; align-items:center; gap:10px; }
+.hd-link { font-size:13px; opacity:.92; cursor:pointer; }
+.hd-search { font-size:13px; opacity:.92; cursor:pointer; }
+.hd-cta { background:var(--cta-bg); color:var(--cta-fg); border:none; padding:7px 14px;
+  border-radius:4px; cursor:pointer; font:600 12px var(--font); }
+.hd-cta-ghost { background:transparent; color:var(--hd-fg); border:1px solid currentColor; }
+
+/* Microsoft squares */
+.ms-squares { display:inline-grid; grid-template-columns:1fr 1fr; width:18px; height:18px; gap:1px; }
+.ms-squares span { display:block; }
+
+/* AWS variant */
+.hd-aws .hd-aws-row { display:flex; align-items:center; gap:16px; width:100%; flex:1; }
+.hd-aws-logo { display:inline-flex; flex-direction:column; align-items:center; line-height:1; }
+.hd-aws-aws { font:700 18px var(--font); color:#fff; letter-spacing:-.5px; }
+.hd-aws-smile { width:30px; height:8px; margin-top:1px; }
+
+/* Microsoft variant */
+.hd-ms { background:#000; color:#fff; padding:10px 28px; }
+.hd-ms-word { font:600 14px 'Segoe UI'; color:#fff; }
+.hd-ms-sep { display:inline-block; width:1px; height:18px; background:#666; margin:0 8px; }
+.hd-ms-product { font:400 18px 'Segoe UI'; color:#fff; }
+.hd-ms .hd-cta { background:#0078d4; color:#fff; }
+.hd-ms .hd-cta-ghost { background:transparent; color:#fff; border-color:#fff; }
+
+/* Google Cloud variant */
+.hd-gcloud { background:#fff; color:#3c4043; border-bottom:1px solid #dadce0; }
+.hd-gcloud-mark { width:24px; height:24px; }
+.hd-gcloud-word { font:500 18px 'Google Sans', Roboto, sans-serif; color:#5f6368; }
+.hd-gcloud .hd-cta { background:#1a73e8; color:#fff; }
+.hd-gcloud .hd-cta-ghost { background:transparent; color:#1a73e8; border-color:#dadce0; }
+
+/* Azure Cost Estimator variant — Microsoft.com Azure-style header */
+.hd-msx { background:#000; color:#fff; padding:0 24px; min-height:48px;
+  display:flex; align-items:center; gap:0; font:13px var(--font); flex-wrap:nowrap; }
+.hd-msx .hd-ms-block { display:flex; align-items:center; gap:14px; padding-right:16px; }
+.hd-msx-squares { display:inline-flex; width:20px; height:20px; align-items:center; justify-content:center; background:#0078d4; border-radius:4px; color:#fff; font:800 14px Arial,Helvetica,sans-serif; }
+.hd-msx-squares span { display:none; }
+.hd-msx-squares span:nth-child(1){ background:#f25022; }
+.hd-msx-squares span:nth-child(2){ background:#7fba00; }
+.hd-msx-squares span:nth-child(3){ background:#00a4ef; }
+.hd-msx-squares span:nth-child(4){ background:#ffb900; }
+.hd-msx-word { font:400 14px 'Segoe UI', sans-serif; color:#fff; letter-spacing:.1px; }
+.hd-msx-sep { display:inline-block; width:1px; height:22px; background:#3d3d3d; margin:0 14px 0 4px; }
+.hd-msx-product { font:600 16px 'Segoe UI', sans-serif; color:#fff; padding-right:18px; }
+.hd-msx-nav { display:flex; align-items:center; gap:18px; flex:1; }
+.hd-msx-nav-a { color:#fff; text-decoration:none; font:400 13px 'Segoe UI', sans-serif;
+  cursor:pointer; padding:14px 0; opacity:.95; display:inline-flex; align-items:center; gap:4px; }
+.hd-msx-nav-a:hover { opacity:1; text-decoration:underline; text-underline-offset:4px; }
+.hd-msx-caret { font-size:9px; opacity:.7; margin-left:2px; }
+.hd-msx-right { display:flex; align-items:center; gap:18px; }
+.hd-msx-link { color:#fff; cursor:pointer; font:400 13px 'Segoe UI', sans-serif; opacity:.95;
+  display:inline-flex; align-items:center; gap:6px; }
+.hd-msx-link:hover { opacity:1; text-decoration:underline; text-underline-offset:4px; }
+.hd-msx-cta { background:#0078d4; color:#fff; border:1px solid #0078d4; padding:8px 14px;
+  font:400 13px 'Segoe UI', sans-serif; cursor:pointer; border-radius:0; }
+.hd-msx-cta:hover { background:#106ebe; border-color:#106ebe; }
+.hd-msx-cta-ghost { background:transparent; color:#fff; border:1px solid #fff; }
+.hd-msx-cta-ghost:hover { background:#fff; color:#000; }
+
+.hd-azp .hd-azp-icon { font-size:20px; }
+.hd-azp-word { font:600 16px 'Segoe UI'; }
+.hd-azp-sub  { font:400 14px 'Segoe UI'; opacity:.85; }
+
+/* Oracle variant */
+.hd-oracle { background:#c74634; color:#fff; }
+.hd-oracle-word { font:700 22px 'Helvetica Neue', Arial; letter-spacing:.5px; }
+.hd-oracle-sub  { font:300 13px 'Helvetica Neue', Arial; opacity:.95; margin-left:8px; }
+.hd-oracle .hd-cta { background:#931f17; color:#fff; }
+.hd-oracle .hd-cta-ghost { background:transparent; color:#fff; border-color:#fff; }
+
+/* IBM variant */
+.hd-ibm { background:#161616; color:#fff; }
+.hd-ibm-bars { width:56px; height:22px; }
+.hd-ibm-word { font:300 18px 'IBM Plex Sans', Helvetica; }
+.hd-ibm .hd-cta { background:#0f62fe; color:#fff; border-radius:0; }
+.hd-ibm .hd-cta-ghost { background:transparent; color:#fff; border-color:#fff; border-radius:0; }
+
+/* Strip / breadcrumb */
+.hd-strip { padding:10px 28px; background:var(--panel); border-bottom:1px solid var(--border);
+  font-size:13px; color:var(--muted); display:flex; gap:6px; align-items:center; }
+.hd-strip b { color:var(--ink); }
+.hd-strip span { color:var(--muted); }
+.hd-strip a { color:var(--primary); text-decoration:none; cursor:pointer; }
+.hd-strip a:hover { text-decoration:underline; }
+.hd-strip-aws { background:#fafafa; }
+.hd-strip-ms  { background:#f8f8f8; }
+.hd-strip-ibm { background:#f4f4f4; border-bottom:1px solid #dde1e6; }
+.hd-strip-oracle { background:#f7f4ee; }
+.hd-strip-azp { background:#faf9f8; border-bottom:1px solid #edebe9; padding:8px 28px; }
+.hd-strip-azp .crumb-chev { color:#a19f9d; margin:0 2px; }
+
+/* Azure secondary nav (under main MS bar) */
+.hd-azp-subnav { background:#fff; border-bottom:1px solid #e1dfdd; padding:0 28px;
+  display:flex; align-items:center; gap:0; min-height:44px;
+  font:14px 'Segoe UI', sans-serif; color:#252423; }
+.hd-azp-subnav-title { font:600 15px 'Segoe UI', sans-serif; color:#252423; padding-right:28px;
+  border-right:1px solid #edebe9; margin-right:24px; display:flex; align-items:center; gap:8px; }
+.hd-azp-subnav-tab { color:#252423; cursor:pointer; padding:12px 14px; border-bottom:2px solid transparent;
+  text-decoration:none; font-size:13px; }
+.hd-azp-subnav-tab:hover { color:#0078d4; border-bottom-color:#0078d4; }
+.hd-azp-subnav-tab.active { color:#0078d4; border-bottom-color:#0078d4; font-weight:600; }
+.hd-azp-subnav-right { margin-left:auto; display:flex; gap:14px; align-items:center;
+  color:#605e5c; font-size:13px; }
+.hd-azp-subnav-right a { color:#0078d4; cursor:pointer; text-decoration:none; }
+.hd-azp-subnav-right a:hover { text-decoration:underline; }
+
+.site-ft { background:#f2f2f2; border-top:1px solid var(--border); padding:32px 28px 18px;
+  font-size:13px; color:var(--muted); }
+.site-ft-cols { display:grid; grid-template-columns:repeat(4, 1fr); gap:30px; max-width:1320px;
+  margin:0 auto 24px; }
+@media (max-width:780px) { .site-ft-cols { grid-template-columns:repeat(2, 1fr); } }
+.site-ft-col h5 { font:600 13px var(--font); margin:0 0 12px; color:#252423; }
+.site-ft-col a { display:block; color:#605e5c; text-decoration:none; padding:4px 0; font-size:12px; }
+.site-ft-col a:hover { color:var(--primary); text-decoration:underline; }
+.site-ft-bottom { max-width:1320px; margin:0 auto; padding-top:16px; border-top:1px solid #d1cfcd;
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:12px; color:#605e5c;
+  align-items:center; }
+.site-ft-locale { display:inline-flex; align-items:center; gap:6px; }
+.site-ft-locale::before { content:'🌐'; }
+.site-ft-social a { color:#605e5c; text-decoration:none; margin-left:14px; cursor:pointer; }
+.site-ft-social a:hover { color:var(--primary); }
+
+</style>
+</head>
+
+<body>
+<div class="live-status neutral" id="live-status">
+  <span class="ls-dot"></span>
+  <span class="ls-msg">💾 State auto-saves on every interaction</span>
+  <div class="ls-panel"><pre>{}</pre></div>
+</div>
+<div id="task-banner" class="task-banner" style="display:none"></div>
+<div class="page-wrap">
+  
+<header class="hd-msx" role="banner">
+  <div class="hd-ms-block">
+    <span class="hd-msx-squares" aria-hidden="true">E<span></span><span></span><span></span><span></span></span>
+    <span class="hd-msx-word">EchoCloud</span>
+  </div>
+  <span class="hd-msx-sep"></span>
+  <span class="hd-msx-product">EchoCloud</span>
+  <nav class="hd-msx-nav" aria-label="EchoCloud main">
+    <a class="hd-msx-nav-a">Explore</a>
+    <a class="hd-msx-nav-a">Products <span class="hd-msx-caret">▾</span></a>
+    <a class="hd-msx-nav-a">Solutions <span class="hd-msx-caret">▾</span></a>
+    <a class="hd-msx-nav-a">Pricing <span class="hd-msx-caret">▾</span></a>
+    <a class="hd-msx-nav-a">Partners <span class="hd-msx-caret">▾</span></a>
+    <a class="hd-msx-nav-a">Resources <span class="hd-msx-caret">▾</span></a>
+  </nav>
+  <div class="hd-msx-right">
+    <span class="hd-msx-link">Search <span aria-hidden="true">🔍</span></span>
+    <span class="hd-msx-link">Learn</span>
+    <span class="hd-msx-link">Support</span>
+    <span class="hd-msx-link">Contact Sales</span>
+    <button class="hd-msx-cta">Get started with EchoCloud</button>
+    <button class="hd-msx-cta hd-msx-cta-ghost">Sign in</button>
+  </div>
+</header>
+<div class="hd-azp-subnav">
+  <span class="hd-azp-subnav-title"><span aria-hidden="true">💲</span> Cost Estimator</span>
+  <a class="hd-azp-subnav-tab active">Virtual Machines</a>
+  <a class="hd-azp-subnav-tab">Storage</a>
+  <a class="hd-azp-subnav-tab">Databases</a>
+  <a class="hd-azp-subnav-tab">Networking</a>
+  <a class="hd-azp-subnav-tab">AI + Machine Learning</a>
+  <a class="hd-azp-subnav-tab">Saved estimates</a>
+  <span class="hd-azp-subnav-right"><a>View all services</a><span>·</span><a>FAQ</a></span>
+</div>
+<div class="hd-strip hd-strip-azp">
+  <a>Home</a><span class="crumb-chev">›</span>
+  <a>Pricing</a><span class="crumb-chev">›</span>
+  <a>Cost Estimator</a><span class="crumb-chev">›</span>
+  <b>Virtual Machines</b>
+</div>
+
+  
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">EchoCloud · Pricing</span>
+    <h1>EchoCloud Cost Estimator — Virtual Machines</h1>
+    <p>Configure and estimate the costs for EchoCloud Virtual Machines for your specific workload.
+       Prices vary by region — be sure to pick the deployment geography that matches your scenario.
+       Estimates use list pay-as-you-go rates and exclude applicable taxes.</p>
+    <div class="hero-actions">
+      <button class="hero-btn">Try EchoCloud for free</button>
+      <button class="hero-btn ghost">View pricing details</button>
+    </div>
+  </div>
+</section>
+
+  <div class="page-body">
+    
+<aside class="estimate-cfg" aria-label="Estimate configuration">
+  <h2>Configure your estimate</h2>
+
+  <div class="cfg-section">
+    
+<div class="rg-wrap rg-cb">
+  <label class="rg-label" for="rg-cb-inp">Search region</label>
+  <div class="rg-help">Start typing a region name (e.g. <i>"singapore"</i>, <i>"us gov"</i>, <i>"europe"</i>). Default is <b>Global</b>.</div>
+  <div class="rg-cb-shell">
+    <span class="rg-cb-icon">🔎</span>
+    <input id="rg-cb-inp" class="rg-cb-inp" type="text" autocomplete="off" placeholder="Search regions… (e.g. East US, Mumbai)"
+           oninput="rgCbFilter(this)" onfocus="rgCbShow()" onblur="setTimeout(rgCbHide,180)" value="Global (default)">
+    <span class="rg-cb-caret" onclick="rgCbToggle()">▾</span>
+  </div>
+  <ul id="rg-cb-list" class="rg-cb-list"><li class="rg-cb-row" data-val="Global (default)" data-search="(default) global global (default) global / multi-region" onclick="rgCbPick(this)"><span class="rg-flag">🌐</span><span class="rg-cb-name">(Default) Global</span><span class="rg-cb-code">Global (default)</span><span class="rg-cb-cont">Global / multi-region</span></li><li class="rg-cb-row" data-val="East US" data-search="east us (virginia) east us north america" onclick="rgCbPick(this)"><span class="rg-flag">🇺🇸</span><span class="rg-cb-name">East US (Virginia)</span><span class="rg-cb-code">East US</span><span class="rg-cb-cont">North America</span></li><li class="rg-cb-row" data-val="East US 2" data-search="east us 2 (virginia) east us 2 north america" onclick="rgCbPick(this)"><span class="rg-flag">🇺🇸</span><span class="rg-cb-name">East US 2 (Virginia)</span><span class="rg-cb-code">East US 2</span><span class="rg-cb-cont">North America</span></li><li class="rg-cb-row" data-val="Central US" data-search="central us (iowa) central us north america" onclick="rgCbPick(this)"><span class="rg-flag">🇺🇸</span><span class="rg-cb-name">Central US (Iowa)</span><span class="rg-cb-code">Central US</span><span class="rg-cb-cont">North America</span></li><li class="rg-cb-row" data-val="West US 2" data-search="west us 2 (washington) west us 2 north america" onclick="rgCbPick(this)"><span class="rg-flag">🇺🇸</span><span class="rg-cb-name">West US 2 (Washington)</span><span class="rg-cb-code">West US 2</span><span class="rg-cb-cont">North America</span></li><li class="rg-cb-row" data-val="West US 3" data-search="west us 3 (arizona) west us 3 north america" onclick="rgCbPick(this)"><span class="rg-flag">🇺🇸</span><span class="rg-cb-name">West US 3 (Arizona)</span><span class="rg-cb-code">West US 3</span><span class="rg-cb-cont">North America</span></li><li class="rg-cb-row" data-val="Canada Central" data-search="canada central (toronto) canada central north america" onclick="rgCbPick(this)"><span class="rg-flag">🇨🇦</span><span class="rg-cb-name">Canada Central (Toronto)</span><span class="rg-cb-code">Canada Central</span><span class="rg-cb-cont">North America</span></li><li class="rg-cb-row" data-val="Brazil South" data-search="brazil south (são paulo) brazil south south america" onclick="rgCbPick(this)"><span class="rg-flag">🇧🇷</span><span class="rg-cb-name">Brazil South (São Paulo)</span><span class="rg-cb-code">Brazil South</span><span class="rg-cb-cont">South America</span></li><li class="rg-cb-row" data-val="North Europe (Ireland)" data-search="north europe (ireland) north europe (ireland) europe" onclick="rgCbPick(this)"><span class="rg-flag">🇮🇪</span><span class="rg-cb-name">North Europe (Ireland)</span><span class="rg-cb-code">North Europe (Ireland)</span><span class="rg-cb-cont">Europe</span></li><li class="rg-cb-row" data-val="West Europe (Netherlands)" data-search="west europe (netherlands) west europe (netherlands) europe" onclick="rgCbPick(this)"><span class="rg-flag">🇳🇱</span><span class="rg-cb-name">West Europe (Netherlands)</span><span class="rg-cb-code">West Europe (Netherlands)</span><span class="rg-cb-cont">Europe</span></li><li class="rg-cb-row" data-val="UK South (London)" data-search="uk south (london) uk south (london) europe" onclick="rgCbPick(this)"><span class="rg-flag">🇬🇧</span><span class="rg-cb-name">UK South (London)</span><span class="rg-cb-code">UK South (London)</span><span class="rg-cb-cont">Europe</span></li><li class="rg-cb-row" data-val="France Central (Paris)" data-search="france central (paris) france central (paris) europe" onclick="rgCbPick(this)"><span class="rg-flag">🇫🇷</span><span class="rg-cb-name">France Central (Paris)</span><span class="rg-cb-code">France Central (Paris)</span><span class="rg-cb-cont">Europe</span></li><li class="rg-cb-row" data-val="Sweden Central" data-search="sweden central (gävle) sweden central europe" onclick="rgCbPick(this)"><span class="rg-flag">🇸🇪</span><span class="rg-cb-name">Sweden Central (Gävle)</span><span class="rg-cb-code">Sweden Central</span><span class="rg-cb-cont">Europe</span></li><li class="rg-cb-row" data-val="Japan East (Tokyo)" data-search="japan east (tokyo) japan east (tokyo) asia pacific" onclick="rgCbPick(this)"><span class="rg-flag">🇯🇵</span><span class="rg-cb-name">Japan East (Tokyo)</span><span class="rg-cb-code">Japan East (Tokyo)</span><span class="rg-cb-cont">Asia Pacific</span></li><li class="rg-cb-row" data-val="Korea Central (Seoul)" data-search="korea central (seoul) korea central (seoul) asia pacific" onclick="rgCbPick(this)"><span class="rg-flag">🇰🇷</span><span class="rg-cb-name">Korea Central (Seoul)</span><span class="rg-cb-code">Korea Central (Seoul)</span><span class="rg-cb-cont">Asia Pacific</span></li><li class="rg-cb-row" data-val="Southeast Asia (Singapore)" data-search="southeast asia (singapore) southeast asia (singapore) asia pacific" onclick="rgCbPick(this)"><span class="rg-flag">🇸🇬</span><span class="rg-cb-name">Southeast Asia (Singapore)</span><span class="rg-cb-code">Southeast Asia (Singapore)</span><span class="rg-cb-cont">Asia Pacific</span></li><li class="rg-cb-row" data-val="Australia East" data-search="australia east (sydney) australia east asia pacific" onclick="rgCbPick(this)"><span class="rg-flag">🇦🇺</span><span class="rg-cb-name">Australia East (Sydney)</span><span class="rg-cb-code">Australia East</span><span class="rg-cb-cont">Asia Pacific</span></li><li class="rg-cb-row" data-val="UAE North (Dubai)" data-search="uae north (dubai) uae north (dubai) middle east" onclick="rgCbPick(this)"><span class="rg-flag">🇦🇪</span><span class="rg-cb-name">UAE North (Dubai)</span><span class="rg-cb-code">UAE North (Dubai)</span><span class="rg-cb-cont">Middle East</span></li><li class="rg-cb-row" data-val="US Gov Virginia" data-search="us gov virginia us gov virginia north america" onclick="rgCbPick(this)"><span class="rg-flag">🏛</span><span class="rg-cb-name">US Gov Virginia</span><span class="rg-cb-code">US Gov Virginia</span><span class="rg-cb-cont">North America</span></li><li class="rg-cb-row" data-val="US Gov Arizona" data-search="us gov arizona us gov arizona north america" onclick="rgCbPick(this)"><span class="rg-flag">🏛</span><span class="rg-cb-name">US Gov Arizona</span><span class="rg-cb-code">US Gov Arizona</span><span class="rg-cb-cont">North America</span></li></ul>
+  <select class="rg-cb-mirror" data-facet="region" onchange="onF()" aria-hidden="true" tabindex="-1"><option value="Global (default)" selected>(Default) Global</option><option value="East US">East US (Virginia)</option><option value="East US 2">East US 2 (Virginia)</option><option value="Central US">Central US (Iowa)</option><option value="West US 2">West US 2 (Washington)</option><option value="West US 3">West US 3 (Arizona)</option><option value="Canada Central">Canada Central (Toronto)</option><option value="Brazil South">Brazil South (São Paulo)</option><option value="North Europe (Ireland)">North Europe (Ireland)</option><option value="West Europe (Netherlands)">West Europe (Netherlands)</option><option value="UK South (London)">UK South (London)</option><option value="France Central (Paris)">France Central (Paris)</option><option value="Sweden Central">Sweden Central (Gävle)</option><option value="Japan East (Tokyo)">Japan East (Tokyo)</option><option value="Korea Central (Seoul)">Korea Central (Seoul)</option><option value="Southeast Asia (Singapore)">Southeast Asia (Singapore)</option><option value="Australia East">Australia East (Sydney)</option><option value="UAE North (Dubai)">UAE North (Dubai)</option><option value="US Gov Virginia">US Gov Virginia</option><option value="US Gov Arizona">US Gov Arizona</option></select>
+</div>
+<script>function escapeHtmlText(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function rgCbShow(){var l=document.getElementById('rg-cb-list'); if(l) l.classList.add('show');}
+function rgCbHide(){var l=document.getElementById('rg-cb-list'); if(l) l.classList.remove('show');}
+function rgCbToggle(){var l=document.getElementById('rg-cb-list'); if(l) l.classList.toggle('show');}
+function rgCbFilter(inp){
+  var q=inp.value.toLowerCase();
+  document.querySelectorAll('#rg-cb-list .rg-cb-row').forEach(function(r){
+    r.style.display = (!q || r.getAttribute('data-search').indexOf(q)>=0) ? '' : 'none';
+  });
+  rgCbShow();
+  var rows = document.querySelectorAll('#rg-cb-list .rg-cb-row');
+  for (var i=0; i<rows.length; i++) {
+    var dv = rows[i].getAttribute('data-val');
+    if (dv && dv.toLowerCase() === q) {
+      var m = document.querySelector('.rg-cb-mirror');
+      if (m && m.value !== dv) { m.value = dv; onF(); }
+      break;
+    }
+  }
+}
+function rgCbPick(row){
+  var v=row.getAttribute('data-val');
+  document.getElementById('rg-cb-inp').value = v;
+  var m=document.querySelector('.rg-cb-mirror');
+  if(m){ m.value=v; }
+  rgCbHide();
+  onF();
+}
+</script>
+
+  </div>
+
+  <div class="cfg-section">
+    <h3>Monthly usage</h3>
+    <div class="cfg-help">Enter your projected monthly volume in vCPU-hours.</div>
+    <div class="num-row">
+      <input type="number" min="0" step="1" class="std-inp num-inp"
+             data-facet="volume" id="volume-inp"
+             placeholder="e.g. 5000000" oninput="onF()" onchange="onF()" aria-label="Monthly usage volume">
+      <span class="num-suffix">vCPU-hours</span>
+    </div>
+  </div>
+
+  <div class="cfg-section">
+    <h3>Usage type / SKU</h3>
+    <select class="std-sel" data-facet="usage_type" onchange="onF()" aria-label="Usage type">
+      <option value="Pay-as-you-go" selected>Pay-as-you-go</option><option value="Reserved (1yr)">Reserved (1yr)</option><option value="Reserved (3yr)">Reserved (3yr)</option><option value="Spot">Spot</option><option value="Savings plan (1yr)">Savings plan (1yr)</option><option value="Savings plan (3yr)">Savings plan (3yr)</option>
+    </select>
+  </div>
+
+  <div class="cfg-section">
+    <h3>Support plan</h3>
+    <select class="std-sel" data-facet="support" onchange="onF()" aria-label="Support plan">
+      <option value="Basic (free)" selected>Basic (free)</option><option value="Developer">Developer</option><option value="Standard">Standard</option><option value="Professional Direct">Professional Direct</option>
+    </select>
+  </div>
+</aside>
+
+    
+<main class="estimate-out">
+  <div class="result-card">
+    <div class="result-head">
+      <div>
+        <div class="result-label">Estimated monthly spend</div>
+        <div class="result-value" id="result-value">$1,489.66</div>
+        <div class="result-sub">EchoCloud VMs · USD · taxes not included</div>
+      </div>
+      <div class="result-trend">
+        <div style="font-weight:700">▲ +5.4%</div>
+        <div style="font-size:11px;color:var(--muted)">vs. last month</div>
+      </div>
+    </div>
+
+    <div class="tools-row" style="margin-bottom:14px;">
+      <button class="tool-btn">💾 Save scenario</button>
+      <button class="tool-btn">↗ Share link</button>
+      <button class="tool-btn">🖨 Print</button>
+      <button class="tool-btn">⬇ Export CSV</button>
+    </div>
+
+    <h4 style="font:600 13px var(--font); margin:6px 0 10px;">Monthly cost breakdown</h4>
+    <table class="bd-table"><tr><td>D8s v5 · 730 hours · pay-as-you-go</td><td class="bd-val">$280.32</td></tr><tr><td>Premium SSD P30 · 1024 GB</td><td class="bd-val">$135.17</td></tr><tr><td>Outbound bandwidth · 500 GB</td><td class="bd-val">$43.50</td></tr><tr><td>Load Balancer Standard</td><td class="bd-val">$22.00</td></tr><tr><td>Reserved-instance commitment discount</td><td class="bd-val">−$54.20</td></tr><tr><td>EchoCloud Backup · daily snapshot</td><td class="bd-val">$8.40</td></tr><tr><td>Public IPs · 3 static</td><td class="bd-val">$10.95</td></tr></table>
+
+    <div class="compare-box">
+      <h4>Compare commitment scenarios</h4>
+      <div class="compare-row">
+        <button class="cmp-btn">Pay as you go</button>
+        <button class="cmp-btn active">1-year reserved</button>
+        <button class="cmp-btn">3-year reserved</button>
+      </div>
+      <div style="margin-top:10px; font-size:12px; color:var(--muted);">
+        Compare baseline, 1-year reserved-capacity, and 3-year commitment savings.
+      </div>
+    </div>
+  </div>
+
+  <div class="scenario-card">
+    <h3>Saved estimates <span class="sc-tag">3 saved</span></h3>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:10px; margin-top:10px;">
+      <div style="border:1px solid var(--border); border-radius:6px; padding:10px 12px;">
+        <div style="font-weight:600; font-size:13px;">Production workload</div>
+        <div style="font-size:11px; color:var(--muted); margin-top:2px;">EchoCloud VMs · monthly</div>
+        <div style="font-weight:700; font-size:17px; margin-top:6px;">$1,489.66</div>
+      </div>
+      <div style="border:1px solid var(--border); border-radius:6px; padding:10px 12px;">
+        <div style="font-weight:600; font-size:13px;">Dev / test</div>
+        <div style="font-size:11px; color:var(--muted); margin-top:2px;">EchoCloud VMs · burst</div>
+        <div style="font-weight:700; font-size:17px; margin-top:6px;">$48.20</div>
+      </div>
+      <div style="border:1px solid var(--border); border-radius:6px; padding:10px 12px;">
+        <div style="font-weight:600; font-size:13px;">Disaster recovery</div>
+        <div style="font-size:11px; color:var(--muted); margin-top:2px;">EchoCloud VMs · cold standby</div>
+        <div style="font-weight:700; font-size:17px; margin-top:6px;">$110.40</div>
+      </div>
+    </div>
+    <div id="result-count" style="display:none">0 results</div>
+  </div>
+
+  <div class="disclaim">
+    Prices shown in USD and exclude applicable taxes. Actual charges may vary based on usage,
+    region, currency exchange rates, and reserved-capacity discounts. This estimate is non-binding.
+    See the <a>pricing terms</a> for details.
+  </div>
+</main>
+
+  </div>
+  
+<footer class="site-ft">
+  <div class="site-ft-cols">
+    <div class="site-ft-col"><h5>EchoCloud</h5>
+      <a>What is EchoCloud?</a><a>Get started</a><a>Products</a><a>Solutions</a><a>Pricing</a><a>Customer stories</a></div>
+    <div class="site-ft-col"><h5>Pricing &amp; purchasing</h5>
+      <a>Pricing overview</a><a>Cost Estimator</a><a>Total Cost of Ownership Calculator</a><a>Optimize your costs</a><a>Reservations</a><a>Savings plan for compute</a></div>
+    <div class="site-ft-col"><h5>Developer resources</h5>
+      <a>Documentation</a><a>EchoCloud Learn</a><a>Code samples</a><a>Architecture center</a><a>EchoCloud Marketplace</a><a>Downloads</a></div>
+    <div class="site-ft-col"><h5>Support &amp; community</h5>
+      <a>EchoCloud support</a><a>Service status</a><a>Contact sales</a><a>Tech community</a><a>EchoCloud blog</a><a>Events</a></div>
+  </div>
+  <div class="site-ft-bottom">
+    <span class="site-ft-locale">English (United States)</span>
+    <span>© EchoCloud 2026 · Privacy &amp; cookies · Consumer Health Privacy · Manage cookies · Terms of use · Trademarks · Safety &amp; eco · Contact EchoCloud</span>
+    <span class="site-ft-social"><a>𝕏</a><a>in</a><a>▶</a><a>f</a></span>
+  </div>
+</footer>
+
+</div>
+<script>
+
+const ENV_ID = 'W20_E04';
+let filterState = {};
+
+function onF() { applyFilters(); }
+
+function applyFilters() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) {
+        if (!newState[f]) newState[f] = [];
+        if (Array.isArray(newState[f])) newState[f].push(el.value || el.dataset.val || true);
+      }
+    } else if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.multiple) {
+        const vals = Array.from(el.selectedOptions).map(o => o.value);
+        if (vals.length) newState[f] = vals;
+      } else if (el.value) newState[f] = el.value;
+    } else if (el.type === 'number' || el.type === 'range' || el.type === 'text'
+               || el.type === 'time' || el.type === 'date') {
+      if (el.value) newState[f] = el.value;
+    } else if (el.dataset && el.dataset.val) {
+      newState[f] = el.dataset.val;
+    }
+  });
+  // Active-class buttons / cards that carry their value via data-val attribute.
+  document.querySelectorAll('.rg-card.active, .rg-tile.active, .rg-leaf.active, .rg-segcard.active, .rg-mod-card.active').forEach(b => {
+    if (b.hasAttribute('data-facet')) return;  // already captured above
+    const f = b.dataset.facet || 'region';
+    newState[f] = b.dataset.val || b.getAttribute('data-region-val') || b.textContent;
+  });
+  filterState = newState;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    const cnt = document.getElementById('result-count');
+    if (cnt) cnt.textContent = (data.results || []).length + ' results';
+  }).catch(()=>{});
+
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : '';
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(data => {
+    updateLiveStatus(data);
+  }).catch(()=>{});
+}
+
+function loadTaskBanner() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const tid = urlParams.get('task_id');
+  if (!tid) return;
+  fetch('/env/' + ENV_ID + '/api/task/' + encodeURIComponent(tid))
+    .then(r => r.ok ? r.json() : null)
+    .then(task => {
+      if (!task) return;
+      const banner = document.getElementById('task-banner');
+      if (!banner) return;
+      banner.style.display = 'block';
+      banner.innerHTML = `
+        <div class="tb-head">
+          <span class="tb-id">${task.id}</span>
+          <span class="tb-type tb-type-${task.task_type}">${task.task_type.toUpperCase()}</span>
+          <span class="tb-diff">${task.task_difficulty}</span>
+        </div>
+        <div class="tb-summary">${escapeHtml(task.task_summary || '')}</div>
+        ${task.task_type !== 'write' ? `
+          <div class="tb-answer-row">
+            <label class="tb-answer-label">Your answer:</label>
+            <input type="text" id="task-answer-input" class="tb-answer-input" oninput="onF()">
+          </div>` : ''}
+        ${task.reference_state_change ? `<div class="tb-meta">Expected: <code>${escapeHtml(task.reference_state_change)}</code></div>` : ''}
+      `;
+    }).catch(() => {});
+}
+
+function escapeHtml(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function updateLiveStatus(submitData) {
+  const bar = document.getElementById('live-status');
+  if (!bar) return;
+  let msg = '';
+  let cls = 'neutral';
+  if (submitData.task_id) {
+    if (submitData.satisfies) { msg = '✅ Satisfies task ' + submitData.task_id; cls = 'good'; }
+    else { msg = '⏳ Not yet matching ' + submitData.task_id; cls = 'pending'; }
+  } else {
+    msg = '💾 Auto-saved · ' + (submitData.results_count || 0) + ' results';
+  }
+  bar.className = 'live-status ' + cls;
+  const msgEl = bar.querySelector('.ls-msg');
+  if (msgEl) msgEl.textContent = msg;
+  const preEl = bar.querySelector('.ls-panel pre');
+  if (preEl) preEl.textContent = JSON.stringify(filterState, null, 2);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (new URLSearchParams(window.location.search).get('debug') === '1') {
+    document.body.classList.add('debug-mode');
+  }
+  loadTaskBanner();
+  applyFilters();  // capture default region etc. immediately
+});
+
+</script>
+</body>
+
+</html>

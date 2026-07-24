@@ -1,0 +1,91 @@
+{
+  "env_id": "W24_E06",
+  "widget_id": "W24_multi_checkbox_plus_exact_match",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2351",
+      "task_index_in_env": 1,
+      "instruction_text": "On Indeed jobs, find exactly-full-time remote roles with exactly 4 facet selections (multi-checkbox) and strict-match enabled.",
+      "expected_filter_state": {
+        "constraint": "with exactly 4 facet selections (multi-checkbox) and strict-match enabled"
+      }
+    },
+    {
+      "task_id": "T2352",
+      "task_index_in_env": 2,
+      "instruction_text": "Show me exactly-full-time remote roles on Indeed jobs in exact color black, size M (strict match enabled).",
+      "expected_filter_state": {
+        "constraint": "in exact color black, size M (strict match enabled)"
+      }
+    },
+    {
+      "task_id": "T2353",
+      "task_index_in_env": 3,
+      "instruction_text": "On Indeed jobs, find exactly-full-time remote roles with multi-OS support (Linux + macOS) AND exactly stable release.",
+      "expected_filter_state": {
+        "constraint": "with multi-OS support (Linux + macOS) AND exactly stable release"
+      }
+    },
+    {
+      "task_id": "T2354",
+      "task_index_in_env": 4,
+      "instruction_text": "Help me browse Indeed jobs for exactly-full-time remote roles young AND spayed AND male AND exactly one age band.",
+      "expected_filter_state": {
+        "constraint": "young AND spayed AND male AND exactly one age band"
+      }
+    },
+    {
+      "task_id": "T2355",
+      "task_index_in_env": 5,
+      "instruction_text": "Show me exactly-full-time remote roles on Indeed jobs with exactly adult (not adolescent) AND female.",
+      "expected_filter_state": {
+        "constraint": "with exactly adult (not adolescent) AND female"
+      }
+    },
+    {
+      "task_id": "T2356",
+      "task_index_in_env": 6,
+      "instruction_text": "Help me browse Indeed jobs for exactly-full-time remote roles in exactly full-time (not contract) AND remote-allowed.",
+      "expected_filter_state": {
+        "constraint": "in exactly full-time (not contract) AND remote-allowed"
+      }
+    },
+    {
+      "task_id": "T2357",
+      "task_index_in_env": 7,
+      "instruction_text": "Help me browse Indeed jobs for exactly-full-time remote roles in exactly Black Stainless Steel (not Stainless Steel) finish.",
+      "expected_filter_state": {
+        "constraint": "in exactly Black Stainless Steel (not Stainless Steel) finish"
+      }
+    },
+    {
+      "task_id": "T2358",
+      "task_index_in_env": 8,
+      "instruction_text": "Help me browse Indeed jobs for exactly-full-time remote roles used Fender (exactly Stratocaster, not Telecaster) electric guitars.",
+      "expected_filter_state": {
+        "constraint": "used Fender (exactly Stratocaster, not Telecaster) electric guitars"
+      }
+    },
+    {
+      "task_id": "T2359",
+      "task_index_in_env": 9,
+      "instruction_text": "Show me exactly-full-time remote roles on Indeed jobs with exactly five-star rating AND sci-fi genre.",
+      "expected_filter_state": {
+        "constraint": "with exactly five-star rating AND sci-fi genre"
+      }
+    },
+    {
+      "task_id": "T2360",
+      "task_index_in_env": 10,
+      "instruction_text": "On Indeed jobs, find exactly-full-time remote roles with exactly Italian cuisine AND party-size of exactly 4.",
+      "expected_filter_state": {
+        "constraint": "with exactly Italian cuisine AND party-size of exactly 4"
+      }
+    }
+  ]
+}
