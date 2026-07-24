@@ -1,0 +1,54 @@
+{
+  "env_id": "W02_E09",
+  "widget_id": "W02_bucketed_dropdown",
+  "widget_name": "Bucketed-value dropdown",
+  "widget_category": "dropdown_choice",
+  "widget_mechanic": "A single-select dropdown whose options are magnitude buckets (Over 1h / Over 10h / Over 100h; <50 / 50-200 / 200+). Agent must pick the correct bucket \u2014 not the first option, not the default, not a smaller-magnitude bucket.",
+  "archetype": "faceted_catalog",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W02_bucketed_dropdown"
+  ],
+  "site_imitates": "Netflix.com browse page \u2014 runtime bucket filter",
+  "product_type": "Netflix movies and series",
+  "source_inspiration": [
+    {
+      "task_id": "bb5d90e6f2fbc0ae146f7c1998c2b4a1",
+      "benchmark": "om2w_fara15",
+      "site": "netflix.com",
+      "instruction": "Find a Netflix title with the right runtime. Use the Runtime filter and pick the correct bucket \u2014 don't grab one from the adjacent tier.",
+      "first_failure_summary": "Bucketed Runtime dropdown \u2014 agent picked the adjacent runtime bucket instead of the target one.",
+      "fara_actions": 12,
+      "gpt54_actions": 6
+    }
+  ],
+  "theme_key": "netflix",
+  "theme_logo": "NETFLIX",
+  "theme_card": "tile",
+  "theme_layout": "dark-billboard-rows",
+  "ui_pattern": "horizontal_select",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "bucket_match",
+    "fields": [
+      "bucket"
+    ]
+  },
+  "primary_inspiration": {
+    "task_id": "bb5d90e6f2fbc0ae146f7c1998c2b4a1",
+    "benchmark": "om2w_fara15",
+    "site": "netflix.com",
+    "instruction": "Find a Netflix title with the right runtime. Use the Runtime filter and pick the correct bucket \u2014 don't grab one from the adjacent tier.",
+    "first_failure_summary": "Bucketed Runtime dropdown \u2014 agent picked the adjacent runtime bucket instead of the target one.",
+    "fara_actions": 12,
+    "gpt54_actions": 6
+  },
+  "buckets_used": [
+    "Under 30 min",
+    "30-60 min",
+    "60-90 min",
+    "90-120 min",
+    "Over 120 min"
+  ]
+}

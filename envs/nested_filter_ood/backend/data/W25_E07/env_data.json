@@ -1,0 +1,37 @@
+{
+  "env_id": "W25_E07",
+  "widget_id": "W25_plus_chip_plus_property_type",
+  "widget_name": "Plus-chip bedrooms + property-type exclusive filter",
+  "widget_category": "combo_realestate_filters",
+  "widget_mechanic": "Compose: \u2265N-bedroom plus-chip AND single-family-only property-type filter.",
+  "archetype": "realestate_listings",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W05_plus_chips_at_least",
+    "W18_property_type_exclusive_filter"
+  ],
+  "site_imitates": "Realtor.com \u2014 Bolingbrook, IL",
+  "product_type": "homes",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_townhouse_bolingbrook__il_3053",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "Can you help me find townhomes for sale in Bolingbrook, Illinois with 3 or more bedrooms, at least 2 bathrooms, priced under $400k, and that are new to the market?",
+      "first_failure_summary": "[3.5] Incomplete task execution: A scroll was attempted in the filters modal, but the post-action screenshot shows no visible scroll/movement or state change, so the action did not advance anything."
+    }
+  ],
+  "theme_key": "realtor",
+  "theme_logo": "Realtor.com",
+  "theme_card": "row",
+  "theme_layout": "left-sidebar",
+  "variant_idx": 1,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "bed_ui": "chips",
+  "ptype_ui": "radio",
+  "city": "Bolingbrook, IL"
+}

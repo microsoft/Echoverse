@@ -1,0 +1,55 @@
+{
+  "env_id": "W27_E06",
+  "widget_id": "W27_sex_steril_plus_species_compat",
+  "widget_name": "Sex + sterilization + species/compatibility filter composition",
+  "widget_category": "combo_pet_filters",
+  "widget_mechanic": "Compose: sex + sterilization + species + compatibility (3-4 selectors all set).",
+  "archetype": "faceted_catalog",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W19_compose_sex_and_sterilization",
+    "W15_compat_vs_species_toggle"
+  ],
+  "site_imitates": "AdoptAPet",
+  "product_type": "shelter pets",
+  "source_inspiration": [
+    {
+      "task_id": "e4e097222d13a2560db6f6892612dab6",
+      "benchmark": "OM2W",
+      "site": "adoptapet.com",
+      "instruction": "Search for a young spayed male dog cared for by a private owner within 50 miles of zip 33109.",
+      "first_failure_summary": "[6.4] Fine-grained grounding error: The `type` action\u2019s coordinates are on the top-left/header/logo area, not within the Location input field where typing should occur."
+    },
+    {
+      "task_id": "0b2623e9fa5cea997f76490bcbc5220f",
+      "benchmark": "OM2W",
+      "site": "petfinder.com",
+      "instruction": "Find a list of shorthaired dogs available for adoption within 100 miles of zip code 94587 that are good with kids and cats, and have been on Petfinder for over 30 days.",
+      "first_failure_summary": "[3.5] Incomplete task execution: The click was correctly placed on the location input (\u201cBend, OR\u201d), but the post-action screen shows no visible effect (no focus/caret or dropdown), so the interaction did not progress."
+    },
+    {
+      "task_id": "b1ce968a361e1088ce8d2ade6c2c9af0",
+      "benchmark": "OM2W",
+      "site": "petfinder.com",
+      "instruction": "Find young cats in Seattle and show off the newest additions.",
+      "first_failure_summary": "[3.5] Incomplete task execution: The click was on the correct Location field, but the post-action screen shows no observable UI change (no dropdown/edit state), so the action did not advance the task."
+    }
+  ],
+  "theme_key": "adoptapet",
+  "theme_logo": "Adopt a Pet",
+  "theme_card": "pet-card",
+  "theme_layout": "tabbed",
+  "variant_idx": 0,
+  "n_seed_items": 18,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "primary_inspiration": {
+    "task_id": "e4e097222d13a2560db6f6892612dab6",
+    "benchmark": "OM2W",
+    "site": "adoptapet.com",
+    "instruction": "Search for a young spayed male dog cared for by a private owner within 50 miles of zip 33109.",
+    "first_failure_summary": "[6.4] Fine-grained grounding error: The `type` action\u2019s coordinates are on the top-left/header/logo area, not within the Location input field where typing should occur."
+  }
+}

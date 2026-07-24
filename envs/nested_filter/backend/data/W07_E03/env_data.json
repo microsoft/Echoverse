@@ -1,0 +1,49 @@
+{
+  "env_id": "W07_E03",
+  "widget_id": "W07_more_filters_modal",
+  "widget_name": "Hidden filter inside More-filters modal",
+  "widget_category": "modal_workflow",
+  "widget_mechanic": "Required filter (new-to-market tag, remote-job toggle, advanced salary band) lives inside a collapsible 'More filters' modal. Agent must click 'More filters', possibly scroll inside the modal, apply the toggle, then click 'Apply' or 'Show results' before the filter takes effect.",
+  "archetype": "realestate_listings",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W07_more_filters_modal"
+  ],
+  "site_imitates": "realtor.com Staten Island NY 4-bedroom homes",
+  "product_type": "Staten Island homes",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_staten_island__ny_2532",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "I'm looking to buy a house in Staten Island, NY that has 4 or more bedrooms, a large lot, and access to top-rated schools. Can you help me find a listing that meets these criteria?",
+      "first_failure_summary": "[3.5] Incomplete task execution: A scroll action was attempted over the filters panel/button area, but the post-action screenshot shows no visible scrolling or UI change (filters panel content/position unchanged)."
+    }
+  ],
+  "theme_key": "realtor.com",
+  "theme_logo": "realtor.com",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "trigger_style": "sidebar_collapse_arrow",
+  "modal_layout": "side_panel_with_categories",
+  "variant_idx": 2,
+  "n_seed_items": 20,
+  "modal_facets": [
+    "modal_top_rated_schools",
+    "modal_large_lot_quarter_plus",
+    "modal_corner_lot",
+    "modal_finished_basement",
+    "modal_two_car_garage",
+    "modal_central_ac",
+    "modal_no_flood_zone",
+    "modal_renovated_kitchen",
+    "modal_master_on_first",
+    "modal_solar_panels"
+  ],
+  "filter_spec": {
+    "type": "flag_match",
+    "fields": [
+      "modal_*"
+    ]
+  }
+}

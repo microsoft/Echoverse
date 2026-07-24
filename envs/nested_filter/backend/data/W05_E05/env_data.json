@@ -1,0 +1,40 @@
+{
+  "env_id": "W05_E05",
+  "widget_id": "W05_plus_chips_at_least",
+  "widget_name": "Plus-chip (\u2265 N) selector",
+  "widget_category": "chip_selector",
+  "widget_mechanic": "Row of clickable chips labelled 1+, 2+, 3+, 4+, etc. for bedroom/bathroom-style attributes. Agent must click the chip matching '\u2265 N', not the chip for N-1 or N+1.",
+  "archetype": "realestate_listings",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W05_plus_chips_at_least"
+  ],
+  "site_imitates": "Zillow Tacoma WA",
+  "product_type": "homes for sale in Tacoma, WA",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_tacoma__wa_12334",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "I'm looking for homes for sale in Tacoma, WA that have 3 bedrooms, 2 or more bathrooms, and are under $500k. Can you show me some options?",
+      "first_failure_summary": "[2.1] Output contradiction: The agent stated it would enable \u201cUse exact match\u201d because results were broader than requested, but at that time the UI evidence indicates the bedroom setting was still \u201c3+\u201d and exact match was not yet enabled (allowing non-3-bedroom listings)."
+    }
+  ],
+  "theme_key": "zillow",
+  "theme_logo": "Zilo Homes",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 4,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "gte",
+    "fields": [
+      "min_beds",
+      "min_baths"
+    ],
+    "item_fields": [
+      "beds",
+      "baths"
+    ]
+  }
+}

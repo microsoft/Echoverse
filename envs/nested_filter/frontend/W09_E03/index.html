@@ -1,0 +1,771 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoAir</title>
+<style>
+
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill, .autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write, .tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+[data-debug="1"] { display: none !important; }
+
+* { box-sizing:border-box; }
+body { margin:0; font-family:'Inter','Helvetica Neue',Arial,sans-serif; background:#f4f5f7;
+  color:#0e1c2b; font-size:14px; line-height:1.45; }
+a { color:#C6007E; text-decoration:none; }
+button { font-family:inherit; }
+.page-wrap { max-width:1240px; margin:0 auto; padding:0 22px; }
+
+/* ── Wizz Air header (magenta band + dark sub-nav) ── */
+.wz-hdr { background:#C6007E; color:#fff; padding:0; box-shadow:0 2px 6px rgba(0,0,0,0.08); }
+.wz-hdr-top { max-width:1240px; margin:0 auto; padding:14px 24px;
+  display:flex; align-items:center; gap:28px; }
+.wz-logo { display:inline-flex; align-items:baseline; line-height:1; font-style:italic;
+  font-weight:900; letter-spacing:-1.2px; color:#fff; font-size:30px; user-select:none; }
+.wz-logo .a { font-weight:300; font-style:italic; opacity:0.95; margin-left:4px; }
+.wz-logo .dot { display:inline-block; width:6px; height:6px; border-radius:50%;
+  background:#fff; margin:0 1px 4px 1px; }
+.wz-nav { display:flex; gap:22px; margin-left:18px; font-size:14px; font-weight:600; }
+.wz-nav a { color:#fff; cursor:pointer; padding:6px 2px; border-bottom:2px solid transparent; }
+.wz-nav a:hover { border-bottom-color:#fff; }
+.wz-right { margin-left:auto; display:flex; align-items:center; gap:14px; font-size:13px; font-weight:600; }
+.wz-pill { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.14);
+  color:#fff; padding:6px 12px; border-radius:18px; cursor:pointer; }
+.wz-pill:hover { background:rgba(255,255,255,0.22); }
+.wz-sub { background:#0e1c2b; color:#fff; }
+.wz-sub-inner { max-width:1240px; margin:0 auto; padding:9px 24px;
+  display:flex; align-items:center; gap:22px; font-size:13px; }
+.wz-sub a { color:#fff; opacity:0.88; cursor:pointer; }
+.wz-sub a:hover { opacity:1; }
+.wz-sub .dot-sep { width:3px; height:3px; border-radius:50%; background:#ffffff66; }
+.wz-sub .tag { color:#FFC0DC; font-weight:700; letter-spacing:0.3px; }
+
+/* trip summary strip */
+.wz-trip { background:#fff; border-bottom:1px solid #e6e6ea; }
+.wz-trip-inner { max-width:1240px; margin:0 auto; padding:14px 24px;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.wz-trip .chip { background:#f4f5f7; border:1px solid #e6e6ea; border-radius:8px;
+  padding:8px 14px; display:flex; flex-direction:column; gap:2px; min-width:130px; }
+.wz-trip .chip .lbl { font-size:10px; font-weight:700; color:#6b7280;
+  text-transform:uppercase; letter-spacing:0.6px; }
+.wz-trip .chip .val { font-size:14px; font-weight:700; color:#0e1c2b; }
+.wz-trip .arrow { color:#C6007E; font-size:18px; font-weight:800; padding:0 2px; }
+.wz-trip-edit { margin-left:auto; background:transparent; border:1px solid #C6007E;
+  color:#C6007E; padding:8px 16px; border-radius:18px; font-weight:700; cursor:pointer;
+  font-size:13px; }
+.wz-trip-edit:hover { background:#C6007E; color:#fff; }
+
+/* TASK BANNER (hidden anyway, kept for parity) */
+#task-banner { display:none; background:#fff8e1; border:1px solid #f5d77c;
+  border-left:5px solid #f5b400; padding:14px 18px; margin:14px 0; border-radius:6px; }
+
+/* RESULT CARDS — Wizz Air flight row style */
+.rc { background:#fff; border:1px solid #e6e6ea; border-radius:10px;
+  overflow:hidden; display:flex; flex-direction:column;
+  box-shadow:0 1px 3px rgba(0,0,0,0.04); transition:transform 0.1s, box-shadow 0.1s; }
+.rc:hover { transform:translateY(-2px); box-shadow:0 8px 18px rgba(198,0,126,0.10); }
+.rc-thumb { height:96px; background-size:cover; background-position:center;
+  background-color:#ecedf0; position:relative; }
+.rc-thumb::after { content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.35) 100%); }
+.rc-thumb .rc-route { position:absolute; left:10px; bottom:8px; color:#fff;
+  font-weight:800; font-size:14px; letter-spacing:0.5px; z-index:1;
+  text-shadow:0 1px 3px rgba(0,0,0,0.45); }
+.rc-body { padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1; }
+.rc-airline { font-size:10px; color:#C6007E; text-transform:uppercase;
+  letter-spacing:0.8px; font-weight:800; }
+.rc-title { font-size:14px; font-weight:700; color:#0e1c2b; display:none; }
+.rc-sub { font-size:12px; color:#52606d; }
+.rc-meta { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+.rc-tag { font-size:11px; padding:3px 8px; background:#f4f5f7;
+  border-radius:10px; color:#3b4859; font-weight:600; border:1px solid #ececf0; }
+.rc-tag.nonstop { color:#0a8557; background:#e6f6ee; border-color:#cdebd9; }
+.rc-tag.stop { color:#8a5a00; background:#fff4d6; border-color:#f7e3a4; }
+.rc-foot { display:flex; align-items:center; justify-content:space-between;
+  margin-top:auto; padding-top:10px; border-top:1px dashed #ececf0; }
+.rc-price { font-size:18px; font-weight:800; color:#C6007E; }
+.rc-price .from { font-size:10px; color:#6b7280; font-weight:600;
+  display:block; text-transform:uppercase; letter-spacing:0.4px; }
+.rc-btn { background:#C6007E; color:#fff; border:0; padding:8px 16px;
+  font-size:12px; border-radius:18px; cursor:pointer; font-weight:800; letter-spacing:0.3px; }
+.rc-btn:hover { background:#a3006a; }
+
+.results-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
+  gap:14px; margin-top:16px; }
+.crumb { font-size:12px; color:#6b7280; margin:14px 0 6px; }
+.crumb a { color:#6b7280; }
+.crumb b { color:#0e1c2b; }
+.results-meta { display:flex; align-items:center; justify-content:space-between;
+  margin:8px 0 14px; gap:14px; flex-wrap:wrap; }
+.results-meta .rm-count { font-size:13px; color:#52606d; }
+.results-meta .rm-sort { font-size:13px; color:#0e1c2b; padding:7px 12px;
+  border:1px solid #d1d5db; border-radius:18px; background:#fff; cursor:pointer; font-weight:600; }
+
+.facet-wrap { background:#fff; border:1px solid #ececec; border-radius:10px;
+  padding:18px; box-shadow:0 1px 3px rgba(0,0,0,0.04); }
+
+/* footer */
+.s-foot { background:#0e1c2b; color:#cbd2dc; border-top:4px solid #C6007E;
+  padding:36px 24px 20px; margin-top:48px; }
+.s-foot .row { max-width:1200px; margin:0 auto; display:flex; gap:32px; flex-wrap:wrap; }
+.s-foot .col { flex:1; min-width:160px; }
+.s-foot h5 { margin:0 0 12px; font-size:12px; color:#fff;
+  text-transform:uppercase; letter-spacing:0.6px; font-weight:800; }
+.s-foot a { display:block; color:#cbd2dc; padding:3px 0; font-size:12px; cursor:pointer; }
+.s-foot a:hover { color:#fff; }
+.s-foot .copy { max-width:1200px; margin:22px auto 0; padding-top:18px;
+  border-top:1px solid #1f2c3d; color:#8a96a8; font-size:11px;
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+.s-foot .copy .green { color:#69c79a; font-weight:700; }
+
+/* ── Wizz Air-style fare calendar ── */
+:root {
+  --w09-pri:#C6007E;
+  --w09-pri-d:#a3006a;
+  --w09-pri-2:#860054;
+  --w09-card:#ffffff;
+  --w09-text:#0e1c2b;
+  --w09-muted:#6b7280;
+  --w09-line:#ececf0;
+  --w09-cell:#f6f7f9;
+  --w09-cell-hi:#fdeaf3;
+  --w09-fare:#0a8557;
+}
+.w09-cal { background:var(--w09-card); border-radius:16px; padding:0;
+  box-shadow:0 10px 28px rgba(14,28,43,0.10), 0 2px 6px rgba(14,28,43,0.05);
+  border:1px solid #ececf0; margin-top:18px; overflow:hidden; }
+.w09-cal-bar { background:linear-gradient(90deg, #C6007E 0%, #860054 100%);
+  color:#fff; padding:14px 22px 12px; display:flex; align-items:center; gap:14px;
+  flex-wrap:wrap; }
+.w09-cal-bar .seg { display:inline-flex; background:rgba(255,255,255,0.10);
+  border-radius:24px; padding:4px; gap:4px; border:1px solid rgba(255,255,255,0.20); }
+.w09-cal-bar .seg .pill { padding:6px 16px; font-size:12px; font-weight:800;
+  color:rgba(255,255,255,0.85); border-radius:20px; cursor:pointer;
+  letter-spacing:0.4px; text-transform:uppercase; user-select:none; }
+.w09-cal-bar .seg .pill.active { background:#fff; color:var(--w09-pri);
+  box-shadow:0 1px 3px rgba(0,0,0,0.18); }
+.w09-cal-bar .bar-meta { margin-left:auto; font-size:12px; font-weight:700;
+  color:rgba(255,255,255,0.95); letter-spacing:0.2px; }
+.w09-cal-bar .bar-meta b { color:#fff; }
+.w09-cal-body { padding:18px 22px 18px; }
+.w09-cal h4 { margin:0 0 4px; font-size:18px; color:var(--w09-text); font-weight:800;
+  letter-spacing:-0.3px; }
+.w09-cal .sublbl { font-size:12px; color:var(--w09-muted); margin-bottom:14px; }
+.w09-cal .sublbl b { color:var(--w09-pri); font-weight:700; }
+.w09-jumprow { display:flex; gap:10px; align-items:center; margin-bottom:14px;
+  flex-wrap:wrap; }
+.w09-jumprow label { font-size:11px; color:var(--w09-muted); font-weight:700;
+  text-transform:uppercase; letter-spacing:0.4px; }
+.w09-jumprow select { padding:8px 12px; font-size:13px; border:1px solid #d6d7dc;
+  border-radius:8px; background:#fff; font-weight:700; color:var(--w09-text);
+  min-width:122px; cursor:pointer; }
+.w09-jumprow select:focus { outline:2px solid var(--w09-pri); border-color:var(--w09-pri); }
+.w09-head { display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:12px; padding-top:14px; border-top:1px solid var(--w09-line);
+  gap:10px; }
+.w09-head .navwrap { display:inline-flex; align-items:center; gap:10px; }
+.w09-head button { background:#fff; color:var(--w09-pri); border:1.5px solid var(--w09-pri);
+  width:40px; height:40px; border-radius:50%; cursor:pointer; font-weight:700; font-size:22px;
+  display:inline-flex; align-items:center; justify-content:center; transition:all .12s;
+  padding:0; line-height:1; }
+.w09-head button:hover { background:var(--w09-pri); color:#fff;
+  box-shadow:0 4px 10px rgba(198,0,126,0.30); transform:translateY(-1px); }
+.w09-head button:active { transform:translateY(0); }
+.w09-label { font-weight:800; color:var(--w09-text); font-size:18px;
+  letter-spacing:-0.3px; text-align:center; flex:1; }
+.w09-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
+.w09-dow { text-align:center; font-size:11px; color:var(--w09-muted);
+  padding:8px 0 6px; font-weight:800; text-transform:uppercase; letter-spacing:0.6px;
+  border-bottom:1px solid var(--w09-line); margin-bottom:4px; }
+.w09-day { text-align:center; padding:8px 0; cursor:pointer; border-radius:10px;
+  font-size:15px; color:var(--w09-text); transition:background 0.12s, color 0.12s,
+  border-color 0.12s, box-shadow 0.12s, transform 0.12s;
+  user-select:none; font-weight:700; position:relative; border:1px solid #ececf0;
+  background:var(--w09-cell);
+  min-height:56px; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:2px; }
+.w09-day .dnum { line-height:1; font-size:15px; }
+.w09-day .fare { font-size:11px; color:var(--w09-fare); font-weight:800; line-height:1;
+  margin-top:2px; letter-spacing:0.1px; }
+.w09-day:hover { background:var(--w09-cell-hi); border-color:#f6c4dd;
+  transform:translateY(-1px); box-shadow:0 4px 10px rgba(198,0,126,0.10); }
+.w09-day.sel { background:var(--w09-pri); color:#fff; font-weight:800;
+  box-shadow:0 4px 12px rgba(198,0,126,0.38); border-color:var(--w09-pri-2);
+  transform:translateY(-1px); }
+.w09-day.sel .fare { color:#ffd6e8; }
+.w09-day.today { border:1.5px solid var(--w09-pri); background:#fff; }
+.w09-day.today::after { content:""; position:absolute; bottom:5px; left:50%;
+  transform:translateX(-50%); width:5px; height:5px; border-radius:50%;
+  background:var(--w09-pri); }
+.w09-day.today.sel::after { background:#fff; }
+.w09-day.empty { cursor:default; background:transparent; border-color:transparent; }
+.w09-day.empty:hover { background:transparent; border-color:transparent;
+  transform:none; box-shadow:none; }
+.w09-selected-display { margin-top:14px; padding:12px 16px;
+  background:linear-gradient(90deg, #fdeaf3 0%, #fff5fa 100%);
+  border-radius:10px; color:var(--w09-pri-d);
+  font-weight:800; font-size:13px; display:flex; align-items:center; gap:10px;
+  border:1px solid #f6c4dd; letter-spacing:0.2px; }
+.w09-selected-display::before { content:"✈"; font-size:16px;
+  background:var(--w09-pri); color:#fff; width:24px; height:24px; border-radius:50%;
+  display:inline-flex; align-items:center; justify-content:center; }
+.w09-legend { margin-top:12px; display:flex; align-items:center; gap:18px;
+  font-size:11px; color:var(--w09-muted); font-weight:600; flex-wrap:wrap; }
+.w09-legend .sw { display:inline-block; width:11px; height:11px; border-radius:3px;
+  background:var(--w09-fare); margin-right:6px; vertical-align:middle;
+  border:1px solid rgba(0,0,0,0.06); }
+.w09-legend .sw.pri { background:var(--w09-pri); }
+.w09-legend .sw.today { background:#fff; border:1.5px solid var(--w09-pri); }
+
+.live-status { position:fixed; bottom:14px; right:14px; z-index:200;
+  padding:10px 14px; border-radius:8px; font-size:12px; font-weight:700;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15); background:#fff;
+  border-left:4px solid #ccc; min-width:200px; }
+.live-status.good { border-color:#2ecc71; color:#1f8a4d; }
+.live-status.pending { border-color:#f0a020; color:#a06800; }
+.live-status.neutral { border-color:#888; color:#444; }
+.ls-msg { display:block; }
+</style>
+</head><body>
+<header class="wz-hdr">
+  <div class="wz-hdr-top">
+    <div class="wz-logo">EchoAir</div>
+    <nav class="wz-nav">
+      <a>Book</a><a>Manage</a><a>Check-in</a><a>EchoAir Multipass</a><a>Information</a><a>Help</a>
+    </nav>
+    <div class="wz-right">
+      <span class="wz-pill">🌍 EN · EUR</span>
+      <span class="wz-pill">👤 Log in</span>
+    </div>
+  </div>
+  <div class="wz-sub">
+    <div class="wz-sub-inner">
+      <span class="tag">DEALS</span>
+      <a>Flights from €19.99 ›</a>
+      <span class="dot-sep"></span>
+      <a>EchoAir Discount Club</a>
+      <span class="dot-sep"></span>
+      <a>EchoAir Multipass — unlimited flights</a>
+      <span class="dot-sep"></span>
+      <a>Travel guides</a>
+    </div>
+  </div>
+</header>
+<div class="wz-trip">
+  <div class="wz-trip-inner">
+    <div class="chip"><span class="lbl">From</span><span class="val">LCA · Larnaca</span></div>
+    <span class="arrow">⇄</span>
+    <div class="chip"><span class="lbl">To</span><span class="val">ATH · Athens</span></div>
+    <div class="chip"><span class="lbl">Outbound</span><span class="val">Sat 13 Jun 2026</span></div>
+    <div class="chip"><span class="lbl">Return</span><span class="val">Wed 1 Jul 2026</span></div>
+    <div class="chip"><span class="lbl">Travellers</span><span class="val">1 Adult · Economy</span></div>
+    <button class="wz-trip-edit">Edit search</button>
+  </div>
+</div>
+
+<div class="page-wrap" style="padding-top:18px;">
+  <div id="task-banner"></div>
+  <div class="w09-cal" id="w09-cal-root" style="max-width:620px;">
+    <div class="w09-cal-bar">
+      <div class="seg" role="tablist" aria-label="Trip leg">
+        <span class="pill active" role="tab" aria-selected="true">✈ Depart</span>
+        <span class="pill" role="tab" aria-selected="false">Return</span>
+      </div>
+      <span class="bar-meta">Round trip · <b>LCA → ATH</b> · 1 Adult</span>
+    </div>
+    <div class="w09-cal-body">
+    <h4>Choose your outbound date</h4>
+    <div class="sublbl">Showing fares for <b>Larnaca (LCA) → Athens (ATH)</b> · prices in EUR</div>
+    <div class="w09-jumprow">
+      <label for="w09-month-sel">Month</label>
+      <select id="w09-month-sel" aria-label="Jump to month"></select>
+      <label for="w09-year-sel">Year</label>
+      <select id="w09-year-sel" aria-label="Jump to year"></select>
+    </div>
+    <div class="w09-head">
+      <button type="button" id="w09-prev" aria-label="Previous month">‹</button>
+      <span class="w09-label" id="w09-label">June 2026</span>
+      <button type="button" id="w09-next" aria-label="Next month">›</button>
+    </div>
+    <div class="w09-grid" id="w09-grid"></div>
+    <div class="w09-selected-display">Click a date to set your departure</div>
+    <div class="w09-legend">
+      <span><span class="sw"></span>Lowest fare</span>
+      <span><span class="sw pri"></span>Your selection</span>
+      <span><span class="sw today"></span>Today</span>
+    </div>
+    <input type="hidden" id="cal-date-state" data-facet="date" value="">
+    </div>
+  </div>
+  <main style="margin-top:18px;">
+    <div class="crumb"><a>Home</a> &rsaquo; <a>EchoAir</a> &rsaquo; <b>EchoAir flights · Larnaca → Athens</b></div><h2 style="margin:6px 0 4px; font-size:24px; font-weight:800; color:#0e1c2b; letter-spacing:-0.4px;">EchoAir flights · Larnaca → Athens</h2><div class="results-meta"><span class="rm-count">16 results · Outbound Sat 13 Jun · Return Wed 1 Jul 2026 · prices per passenger</span><button class="rm-sort">Sort: Cheapest first ▾</button></div>
+    <div class="results-grid">
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/64757/aircraft-fly-propeller-propeller-plane-64757.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">LCA → ATH</div>
+    <div class="rc-sub">Larnaca → Athens</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jun 13, 2026</span>
+      <span class="rc-tag">⏱ 1h 50m</span>
+      <span class="rc-tag nonstop">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price"><span class="from">from</span>€65</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/13716228/pexels-photo-13716228.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">LCA → ATH</div>
+    <div class="rc-sub">Larnaca → Athens</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jun 14, 2026</span>
+      <span class="rc-tag">⏱ 1h 55m</span>
+      <span class="rc-tag nonstop">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price"><span class="from">from</span>€79</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/30628796/pexels-photo-30628796.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">LCA → ATH</div>
+    <div class="rc-sub">Larnaca → Athens</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jun 13, 2026</span>
+      <span class="rc-tag">⏱ 4h 20m</span>
+      <span class="rc-tag stop">1 stop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price"><span class="from">from</span>€89</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/14547139/pexels-photo-14547139.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">LCA → BUD</div>
+    <div class="rc-sub">Larnaca → Budapest</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jun 13, 2026</span>
+      <span class="rc-tag">⏱ 3h 45m</span>
+      <span class="rc-tag nonstop">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price"><span class="from">from</span>€119</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/33327971/pexels-photo-33327971.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">LCA → WAW</div>
+    <div class="rc-sub">Larnaca → Warsaw</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jun 13, 2026</span>
+      <span class="rc-tag">⏱ 4h 5m</span>
+      <span class="rc-tag nonstop">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price"><span class="from">from</span>€145</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/1381416/pexels-photo-1381416.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">LCA → ATH</div>
+    <div class="rc-sub">Larnaca → Athens</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jun 20, 2026</span>
+      <span class="rc-tag">⏱ 1h 50m</span>
+      <span class="rc-tag nonstop">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price"><span class="from">from</span>€55</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/30767897/pexels-photo-30767897.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">LCA → SOF</div>
+    <div class="rc-sub">Larnaca → Sofia</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jun 13, 2026</span>
+      <span class="rc-tag">⏱ 2h 15m</span>
+      <span class="rc-tag nonstop">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price"><span class="from">from</span>€75</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/7507131/pexels-photo-7507131.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">ATH → LCA</div>
+    <div class="rc-sub">Athens → Larnaca</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jul 1, 2026</span>
+      <span class="rc-tag">⏱ 1h 50m</span>
+      <span class="rc-tag nonstop">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price"><span class="from">from</span>€69</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/1928072/pexels-photo-1928072.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">LCA → VIE</div>
+    <div class="rc-sub">Larnaca → Vienna</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jun 13, 2026</span>
+      <span class="rc-tag">⏱ 4h 30m</span>
+      <span class="rc-tag stop">1 stop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price"><span class="from">from</span>€135</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/29587915/pexels-photo-29587915.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">LCA → ATH</div>
+    <div class="rc-sub">Larnaca → Athens</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jul 1, 2026</span>
+      <span class="rc-tag">⏱ 1h 50m</span>
+      <span class="rc-tag nonstop">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price"><span class="from">from</span>€95</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/30767898/pexels-photo-30767898.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">LCA → MXP</div>
+    <div class="rc-sub">Larnaca → Milan</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jun 13, 2026</span>
+      <span class="rc-tag">⏱ 4h 10m</span>
+      <span class="rc-tag nonstop">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price"><span class="from">from</span>€159</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/24461266/pexels-photo-24461266.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">LCA → ATH</div>
+    <div class="rc-sub">Larnaca → Athens</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jun 28, 2026</span>
+      <span class="rc-tag">⏱ 1h 55m</span>
+      <span class="rc-tag nonstop">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price"><span class="from">from</span>€85</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/14400667/pexels-photo-14400667.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">LCA → BCN</div>
+    <div class="rc-sub">Larnaca → Barcelona</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jun 13, 2026</span>
+      <span class="rc-tag">⏱ 5h 20m</span>
+      <span class="rc-tag stop">1 stop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price"><span class="from">from</span>€189</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/16737433/pexels-photo-16737433.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">ATH → BUD</div>
+    <div class="rc-sub">Athens → Budapest</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jun 14, 2026</span>
+      <span class="rc-tag">⏱ 2h 45m</span>
+      <span class="rc-tag nonstop">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price"><span class="from">from</span>€105</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/33259929/pexels-photo-33259929.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">LCA → ATH</div>
+    <div class="rc-sub">Larnaca → Athens</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Aug 4, 2026</span>
+      <span class="rc-tag">⏱ 1h 50m</span>
+      <span class="rc-tag nonstop">nonstop</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price"><span class="from">from</span>€49</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+<article class="rc">
+  <div class="rc-thumb" style="background-image:url('https://images.pexels.com/photos/271639/pexels-photo-271639.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=130')"></div>
+  <div class="rc-body">
+    <div class="rc-airline">EchoAir</div>
+    <div class="rc-title">LCA → ATH</div>
+    <div class="rc-sub">Larnaca → Athens</div>
+    <div class="rc-meta">
+      <span class="rc-tag">📅 Jun 13, 2026</span>
+      <span class="rc-tag">⏱ 5h 35m</span>
+      <span class="rc-tag stop">2 stops</span>
+    </div>
+    <div class="rc-foot">
+      <span class="rc-price"><span class="from">from</span>€99</span>
+      <button class="rc-btn">Select</button>
+    </div>
+  </div>
+</article>
+    </div>
+  </main>
+</div>
+<footer class="s-foot">
+  <div class="row">
+    <div class="col"><h5>EchoAir</h5><a>About us</a><a>Newsroom</a><a>Careers</a><a>Investor relations</a><a>Sustainability</a></div>
+    <div class="col"><h5>Plan & book</h5><a>Flight schedule</a><a>Special offers</a><a>EchoAir Multipass</a><a>EchoAir Discount Club</a><a>Group bookings</a></div>
+    <div class="col"><h5>Travel info</h5><a>Manage my booking</a><a>Online check-in</a><a>Baggage</a><a>Travel documents</a><a>Special assistance</a></div>
+    <div class="col"><h5>Help & contact</h5><a>Customer service</a><a>Claims & feedback</a><a>Help centre</a><a>Travel insurance</a></div>
+    <div class="col"><h5>Legal</h5><a>Terms & conditions</a><a>Privacy policy</a><a>Cookies</a><a>Conditions of carriage</a></div>
+  </div>
+  <div class="copy">
+    <span>© 2026 EchoAir Hungary Ltd. · All rights reserved.</span>
+    <span><span class="green">🌿 Europe's greenest airline</span> · IATA W6 · ICAO WZZ</span>
+  </div>
+</footer>
+<div class="live-status neutral" id="live-status"><span class="ls-msg">💾 Auto-saved</span></div>
+<script>
+const ENV_ID = 'W09_E03';
+
+let filterState = {};
+function onF(){ applyFilters(); }
+function applyFilters(){
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.type === 'checkbox') {
+      if (el.checked) { if (!newState[f]) newState[f] = []; newState[f].push(el.value || true); }
+    } else if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.value) newState[f] = el.value;
+    } else {
+      if (el.value) newState[f] = el.value;
+    }
+  });
+  filterState = newState;
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).catch(()=>{});
+  const ansEl = document.getElementById('task-answer-input');
+  const answer = ansEl ? ansEl.value : '';
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: answer, task_id: taskId})
+  }).then(r => r.json()).then(data => { updateLiveStatus(data); }).catch(()=>{});
+}
+function escapeHtml(s){ return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function updateLiveStatus(d){
+  const bar = document.getElementById('live-status'); if (!bar) return;
+  let msg='', cls='neutral';
+  if (d && d.task_id) {
+    if (d.satisfies) { msg = '✅ Satisfies task ' + d.task_id; cls='good'; }
+    else { msg = '⏳ Not yet matching ' + d.task_id; cls='pending'; }
+  } else { msg = '💾 Auto-saved'; cls='neutral'; }
+  bar.className = 'live-status ' + cls;
+  const m = bar.querySelector('.ls-msg'); if (m) m.textContent = msg;
+}
+function loadTaskBanner(){
+  const urlParams = new URLSearchParams(window.location.search);
+  const tid = urlParams.get('task_id'); if (!tid) return;
+  fetch('/env/' + ENV_ID + '/api/task/' + encodeURIComponent(tid))
+    .then(r => r.ok ? r.json() : null)
+    .then(task => {
+      if (!task) return;
+      const banner = document.getElementById('task-banner'); if (!banner) return;
+      banner.style.display = 'block';
+      banner.innerHTML = `<div class="tb-summary">${escapeHtml(task.task_summary||'')}</div>`;
+    }).catch(()=>{});
+}
+document.addEventListener('DOMContentLoaded', loadTaskBanner);
+
+/* ───── shared calendar utilities ───── */
+const W09_MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const W09_DOW1 = ["S","M","T","W","T","F","S"];
+function w09DaysIn(y,m){return new Date(y, m+1, 0).getDate();}
+function w09FirstDow(y,m){return new Date(y, m, 1).getDay();}
+function w09FareFor(y,m,d){
+  // pseudo-deterministic fare per date to mimic Wizz Air's "cheapest fare" calendar
+  const seed = (y*397 + m*53 + d*17) % 71;
+  const base = 19 + seed;
+  return "€" + base;
+}
+function w09SetDate(y,m,d){
+  const v = W09_MONTHS[m] + " " + d + ", " + y;
+  const inp = document.getElementById("cal-date-state");
+  if (inp) inp.value = v;
+  document.querySelectorAll(".w09-selected-display").forEach(el => {
+    el.textContent = "Outbound · " + v;
+  });
+  if (typeof onF === "function") onF();
+  // re-render to update sel highlight
+  if (typeof window.w09Rerender === "function") window.w09Rerender();
+}
+function w09RenderGrid(y, m, gridId){
+  const g = document.getElementById(gridId); if (!g) return;
+  let h = "";
+  W09_DOW1.forEach(d => h += `<div class="w09-dow">${d}</div>`);
+  const n = w09DaysIn(y,m), first = w09FirstDow(y,m);
+  for (let i=0;i<first;i++) h += `<div class="w09-day empty"></div>`;
+  const cur = (document.getElementById("cal-date-state")||{}).value || "";
+  const today = new Date();
+  const ty = today.getFullYear(), tm = today.getMonth(), td = today.getDate();
+  for (let d=1; d<=n; d++) {
+    const cand = W09_MONTHS[m] + " " + d + ", " + y;
+    const sel = (cur === cand) ? " sel" : "";
+    const isToday = (y === ty && m === tm && d === td) ? " today" : "";
+    const fare = w09FareFor(y,m,d);
+    h += `<div class="w09-day${sel}${isToday}" data-d="${d}" data-y="${y}" data-m="${m}"><span class="dnum">${d}</span><span class="fare">${fare}</span></div>`;
+  }
+  // pad trailing empties so last week is full width
+  const total = first + n;
+  const trail = (7 - (total % 7)) % 7;
+  for (let i=0;i<trail;i++) h += `<div class="w09-day empty"></div>`;
+  g.innerHTML = h;
+  g.querySelectorAll(".w09-day[data-d]").forEach(el => {
+    el.addEventListener("click", () => w09SetDate(
+      parseInt(el.dataset.y,10), parseInt(el.dataset.m,10), parseInt(el.dataset.d,10)
+    ));
+  });
+}
+
+
+(function(){
+  let _y = 2026, _m = 5;
+  function refreshSelectors(){
+    const ms = document.getElementById("w09-month-sel");
+    if (ms && ms.options.length === 0) {
+      W09_MONTHS.forEach((nm,i) => {
+        const o = document.createElement("option");
+        o.value = i; o.text = nm; ms.appendChild(o);
+      });
+    }
+    const ys = document.getElementById("w09-year-sel");
+    if (ys && ys.options.length === 0) {
+      for (let y=2026; y<=2028; y++) {
+        const o = document.createElement("option");
+        o.value = y; o.text = y; ys.appendChild(o);
+      }
+    }
+    if (ms) ms.value = _m;
+    if (ys) ys.value = _y;
+  }
+  function render(){
+    refreshSelectors();
+    const lbl = document.getElementById("w09-label");
+    if (lbl) lbl.textContent = W09_MONTHS[_m] + " " + _y;
+    w09RenderGrid(_y, _m, "w09-grid");
+  }
+  window.w09Next = function(){ _m++; if(_m>11){_m=0;_y++;} render(); if(typeof onF==='function') onF(); };
+  window.w09Prev = function(){ _m--; if(_m<0){_m=11;_y--;} render(); if(typeof onF==='function') onF(); };
+  window.w09Rerender = render;
+  document.addEventListener("DOMContentLoaded", function(){
+    render();
+    document.getElementById("w09-prev").addEventListener("click", w09Prev);
+    document.getElementById("w09-next").addEventListener("click", w09Next);
+    document.getElementById("w09-month-sel").addEventListener("change", function(){
+      _m = parseInt(this.value,10); render(); if(typeof onF==='function') onF();
+    });
+    document.getElementById("w09-year-sel").addEventListener("change", function(){
+      _y = parseInt(this.value,10); render(); if(typeof onF==='function') onF();
+    });
+  });
+})();
+</script></body></html>

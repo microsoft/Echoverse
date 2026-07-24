@@ -1,0 +1,35 @@
+{
+  "env_id": "W24_E09",
+  "widget_id": "W24_multi_checkbox_plus_exact_match",
+  "widget_name": "Multi-checkbox facet + exact-match toggle composition",
+  "widget_category": "combo_facet_strict",
+  "widget_mechanic": "Compose: multi-select facet AND enable exact-match (strict) toggle.",
+  "archetype": "faceted_catalog",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W01_multi_checkbox_facet",
+    "W06_exact_match_toggle"
+  ],
+  "site_imitates": "Cars.com (used + new car marketplace)",
+  "product_type": "Used 8-cylinder BMWs, years 2005-2015, $25k-$50k",
+  "brand_name": "CarsNow",
+  "source_inspiration": [
+    {
+      "task_id": "fcf4952d8b58dcb88e80c40e7afe1c5b",
+      "benchmark": "OM2W",
+      "site": "cars.com",
+      "instruction": "Find a used BMW with an 8-cylinder engine, model years 2005-2015, between $25k-$50k.",
+      "first_failure_summary": "Agent left 6-cyl checkbox active alongside 8-cyl, or kept New + Certified Pre-Owned with Used. Strict-match forces literal multi-checkbox values."
+    }
+  ],
+  "theme_key": "cars",
+  "theme_logo": "CarsNow",
+  "theme_card": "ecommerce",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "env_id": "W01_E03",
+  "widget_id": "W01_multi_checkbox_facet",
+  "widget_name": "Multi-checkbox attribute facet",
+  "widget_category": "facet_selection",
+  "widget_mechanic": "User must select K-of-N checkboxes inside one facet group, where the facet contains similar-looking decoys (e.g. Open-Box vs Refurbished, Linux vs Linux Lite). Agent must pick the exact subset and exclude lookalikes.",
+  "archetype": "faceted_catalog",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W01_multi_checkbox_facet"
+  ],
+  "site_imitates": "SourceForge OSS Directory \u00b7 airbnb modal",
+  "product_type": "open-source software projects (Agentic AI category)",
+  "source_inspiration": [
+    {
+      "task_id": "fe33894188d20d7469f37a9fd855e7ff_110325",
+      "benchmark": "OM2W",
+      "site": "sourceforge.net",
+      "instruction": "Show me the most popular open-source software on SourceForge that runs on Linux and macOS, belongs to the category of \u201cAgentic AI\u201d, is licensed under MIT, and has a production/stable development status.",
+      "first_failure_summary": "[6.4] Fine-grained grounding error in the Operating Systems filter modal \u2014 agent picked the \u201cLinux Lite\u201d sub-checkbox by mistake instead of the top-level \u201cLinux\u201d facet, and never confirmed/cleared the wrong selection."
+    }
+  ],
+  "theme_key": "sourceforge",
+  "theme_logo": "SourceForge",
+  "theme_card": "article-row",
+  "theme_layout": "airbnb_modal",
+  "variant_idx": 0,
+  "n_seed_items": 18,
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "brand",
+      "category",
+      "color",
+      "condition"
+    ]
+  },
+  "primary_inspiration": {
+    "task_id": "fe33894188d20d7469f37a9fd855e7ff_110325",
+    "benchmark": "OM2W",
+    "site": "sourceforge.net",
+    "instruction": "Show me the most popular open-source software on SourceForge that runs on Linux and macOS, belongs to the category of \u201cAgentic AI\u201d, is licensed under MIT, and has a production/stable development status.",
+    "first_failure_summary": "[6.4] Fine-grained grounding error in the Operating Systems filter modal \u2014 agent picked the \u201cLinux Lite\u201d sub-checkbox by mistake instead of the top-level \u201cLinux\u201d facet, and never confirmed/cleared the wrong selection."
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "env_id": "W07_E05",
+  "widget_id": "W07_more_filters_modal",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "flag_match",
+    "fields": [
+      "modal_*"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T0501",
+      "task_index_in_env": 1,
+      "instruction_text": "Quick one on Apartments.com Houston TX condo rentals: I want to mirror what I asked the assistant earlier \u2014 \"Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income of $8000. The condo should have a minimum area of 600 square feet, and the move-in date is the 1st of next month\". The only piece that isn't on the visible filter row is 'Max rent \u2264 30% income', which is hidden behind the dark-green 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes). Just turn that one on and apply it.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_max_rent_30pct_income=on"
+      }
+    },
+    {
+      "task_id": "T0502",
+      "task_index_in_env": 2,
+      "instruction_text": "Looking at Houston condo rentals on Apartments.com Houston TX condo rentals \u2014 apply concierge service and garage parking both. They live behind the dark-green 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes); once you open it you'll see them as checkboxes. Don't forget to confirm.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_concierge=on, modal_garage_parking=on"
+      }
+    },
+    {
+      "task_id": "T0503",
+      "task_index_in_env": 3,
+      "instruction_text": "My partner is being picky lol so umm, for the Houston condo rentals search on Apartments.com Houston TX condo rentals, I really want move-in 1st of next month on. And honestly floor-to-ceiling windows is becoming a deal-breaker too \u2014 turn it on. Both toggles live under the dark-green 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes) so you'll have to open that to find them; they're not in the visible filter dropdowns.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_move_in_first_of_month=on, modal_floor_to_ceiling_windows=on"
+      }
+    },
+    {
+      "task_id": "T0504",
+      "task_index_in_env": 4,
+      "instruction_text": "For my shortlist on Apartments.com Houston TX condo rentals, narrow Houston condo rentals down to ones that satisfy all three of: cats & dogs OK, rooftop pool, and floor-to-ceiling windows. Heads up \u2014 none of these are on the visible filter bar; you have to crack open the dark-green 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes) and tick each one before hitting apply.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_pet_friendly=on, modal_rooftop_pool=on, modal_floor_to_ceiling_windows=on"
+      }
+    },
+    {
+      "task_id": "T0505",
+      "task_index_in_env": 5,
+      "instruction_text": "Quick read on Apartments.com Houston TX condo rentals \u2014 out of the 20 Houston condo rentals on the page, how many are listed under $4,228? Just the number is fine.",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "T0506",
+      "task_index_in_env": 6,
+      "instruction_text": "Hmm, on Apartments.com Houston TX condo rentals, can you scan through the Houston condo rentals listings and tell me \u2014 out of the ones flagged as 'Max rent \u2264 30% income' on the listing cards, which is the CHEAPEST? Address + price. (That flag is normally something you'd toggle via the dark-green 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes), but for now I just want you to eyeball the cards.)",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "T0507",
+      "task_index_in_env": 7,
+      "instruction_text": "On Apartments.com Houston TX condo rentals, which is more common across the Houston condo rentals: listings tagged 'In-unit laundry' or 'Smart-lock entry'? Give me both counts so I can decide which feature to filter on. (Both attributes are normally hidden under the dark-green 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes), so you'd toggle them there \u2014 but right now I just want a head-count from the card flags.)",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "T0508",
+      "task_index_in_env": 8,
+      "instruction_text": "Hop into Apartments.com Houston TX condo rentals, pop open the dark-green 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes), and tick 'Floor-to-ceiling windows' \u2014 that toggle is NOT on the main filter row, it's hidden inside. After you apply it, tell me which of the matching Houston condo rentals is the cheapest (address + price).",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_floor_to_ceiling_windows=on"
+      }
+    },
+    {
+      "task_id": "T0509",
+      "task_index_in_env": 9,
+      "instruction_text": "On Apartments.com Houston TX condo rentals for Houston condo rentals: open the dark-green 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes) and flip on BOTH smart-lock entry AND max rent \u2264 30% income. Neither shows up in the standard dropdowns; they're only inside that hidden panel. After both are applied, tell me how many listings match in total.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_smart_lock_entry=on, modal_max_rent_30pct_income=on"
+      }
+    },
+    {
+      "task_id": "T0510",
+      "task_index_in_env": 10,
+      "instruction_text": "Ugh, I had this filter set earlier and lost it. on Apartments.com Houston TX condo rentals, this is a longer one. Inside the dark-green 'Filters' button at the right of the filter row (it opens a hidden panel of extra checkboxes) (the hidden filter panel \u2014 NOT the main bar), flip on floor-to-ceiling windows, concierge service, and move-in 1st of next month. All of those are hidden in there. Once they're all applied, look at what's left and tell me the address + sqft of the single LARGEST rentals still showing.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_floor_to_ceiling_windows=on, modal_concierge=on, modal_move_in_first_of_month=on"
+      }
+    }
+  ]
+}

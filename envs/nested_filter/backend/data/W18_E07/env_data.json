@@ -1,0 +1,35 @@
+{
+  "env_id": "W18_E07",
+  "widget_id": "W18_property_type_exclusive_filter",
+  "widget_name": "Single-page property/listing-type filter",
+  "widget_category": "exclusive_select",
+  "widget_mechanic": "Property-Type filter has Condo / Townhouse / Single-Family / Multi-Family options. User wants ONLY one \u2014 agent must apply the filter to restrict the result set, not open the first listing without filtering.",
+  "archetype": "realestate_listings",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W18_property_type_exclusive_filter"
+  ],
+  "site_imitates": "Zillow \u2014 Oviedo, FL homes for sale",
+  "product_type": "Oviedo FL single-family homes (Zillow)",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_oviedo__fl_3554",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "Can you help me find a 3 bedroom house with at least 2 bathrooms in Oviedo, Florida, located near top-rated schools?",
+      "first_failure_summary": "[6.4] Fine-grained grounding error: The coordinate marker is on the left sidebar (near the Search icon) rather than within the main address search input where the typing occurred."
+    }
+  ],
+  "theme_key": "realtor",
+  "theme_logo": "Zillow",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 1,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "exclusive",
+    "fields": [
+      "property_type"
+    ]
+  }
+}

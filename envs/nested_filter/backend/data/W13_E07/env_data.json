@@ -1,0 +1,39 @@
+{
+  "env_id": "W13_E07",
+  "widget_id": "W13_numeric_input_precise_target",
+  "widget_name": "Numeric input \u2014 precise click target",
+  "widget_category": "text_input",
+  "widget_mechanic": "Numeric input field (price max, lot-size min) lives near visually-similar UI (sidebar icon, header label, sibling input). Agent must click and type into the EXACT input field, not the adjacent UI element.",
+  "archetype": "realestate_listings",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W13_numeric_input_precise_target"
+  ],
+  "site_imitates": "Redfin Houston TX",
+  "product_type": "listings",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_houston__tx_15257",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "Can you help me find a move-in ready mobile home to buy in Houston, TX? I'm looking for something under $500k with 3 bedrooms and 2+ bathrooms. You can check listings for me online.",
+      "first_failure_summary": "[3.5] Incomplete task execution: Typing produced no visible effect (no focused input/caret and no text appears); the page state looks unchanged after the action."
+    }
+  ],
+  "theme_key": "redfin",
+  "theme_logo": "Redfin",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 1,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "range_multi",
+    "fields": [
+      "max_price",
+      "min_sqft",
+      "min_lot",
+      "max_rent"
+    ]
+  },
+  "theme_color": "#c82021"
+}

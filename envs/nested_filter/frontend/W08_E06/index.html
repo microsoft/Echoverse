@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apartments & Condos for Rent in Houston, TX | EchoRent</title>
+<style>
+
+:root{
+  --brand-primary:#0d7c46;
+  --brand-primary-dark:#0a6238;
+  --brand-accent:#0d7c46;
+  --brand-ink:#0e1c14;
+  --page-bg:#ffffff;
+  --soft-bg:#f6f6f4;
+  --ink:#1a1a1a;
+  --muted:#6b7378;
+  --line:#e3e3e0;
+  --font-body:'Helvetica Neue','Inter','Segoe UI',Arial,sans-serif;
+  --font-display:'Georgia','Times New Roman',serif;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-body);background:var(--page-bg);color:var(--ink);font-size:14px;line-height:1.5}
+a{color:var(--brand-primary);text-decoration:none;cursor:pointer}
+button{font-family:inherit;cursor:pointer}
+
+/* Top header: white, hamburger left, centered logo, account pills right */
+.ap-header{background:#fff;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 0 0 18px;height:60px;position:relative}
+.ap-header-left{display:flex;align-items:center;gap:22px;color:#222;font-size:13px}
+.ap-header-left .ic{display:inline-flex;align-items:center;gap:6px;cursor:pointer;color:#222}
+.ap-header-left .ic svg{width:18px;height:18px}
+.ap-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:700;font-size:22px;color:#0e1c14;letter-spacing:-.5px;justify-self:center}
+.ap-logo .leaf{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center}
+.ap-logo .leaf svg{width:100%;height:100%}
+.ap-logo sup{font-size:9px;color:#0e1c14;margin-left:2px;font-weight:400}
+.ap-header-right{display:flex;align-items:center;justify-content:flex-end;gap:18px;color:#222;font-size:13px;height:100%}
+.ap-header-right a{color:#222;font-weight:500}
+.ap-header-right .sep-bar{color:#bbb}
+.ap-add-property{background:#2d2f33;color:#fff;padding:0 22px;height:100%;display:flex;align-items:center;font-weight:600;font-size:14px;border:none;cursor:pointer}
+.ap-add-property:hover{background:#1c1d20}
+
+/* Filter chip bar — apartments.com style horizontal pill controls */
+.ap-filterbar{background:#fff;border-bottom:1px solid var(--line);padding:10px 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:0;z-index:20}
+.ap-loc-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid #cfd6d2;border-radius:18px;background:#fff;color:#0e1c14;font-size:13px;font-weight:600;cursor:pointer}
+.ap-loc-pill::before{content:"📍";font-size:12px}
+.ap-fb-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--line);border-radius:18px;background:#fff;color:#1a1a1a;font-size:13px;font-weight:500;cursor:pointer}
+.ap-fb-btn::after{content:"▾";font-size:9px;color:#888;margin-left:2px}
+.ap-fb-btn:hover{border-color:#999}
+.ap-fb-all{padding:6px 16px;border:1px solid #1a1a1a;border-radius:18px;background:#fff;color:#1a1a1a;font-size:13px;font-weight:700;cursor:pointer}
+.ap-fb-right{margin-left:auto;display:flex;align-items:center;gap:18px;font-size:13px;color:#1a1a1a}
+.ap-fb-right .ap-save{font-weight:600;cursor:pointer}
+.ap-fb-right .ap-sort{cursor:pointer;font-weight:600}
+.ap-fb-right .ap-sort::after{content:" ▾";font-size:10px;color:#888}
+
+/* Breadcrumb strip */
+.strip{padding:10px 24px;background:#fff;border-bottom:1px solid var(--line);font-size:12px;color:#555;display:flex;gap:8px;align-items:center}
+.strip a{color:#555}
+.strip b{color:#222}
+.strip .sep{color:#aaa}
+
+/* Page layout */
+.page{display:grid;grid-template-columns:260px 1fr;gap:24px;padding:20px 24px;min-height:80vh;max-width:1440px;margin:0 auto}
+.aside{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px 16px;align-self:start}
+.aside h3{font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:#0e1c14;margin:0 0 12px;border-bottom:1px solid var(--line);padding-bottom:8px;font-weight:700}
+.aside h4{font-size:13px;margin:14px 0 6px;color:#1a1a1a;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.fsec{border-bottom:1px solid #f0f0ec;padding:6px 0 12px}
+.fsec:last-child{border-bottom:none}
+.fsec .opts label{display:flex;align-items:center;gap:8px;font-size:13px;padding:3px 0;cursor:pointer;color:#3a3f43}
+.fsec input[type=checkbox],.fsec input[type=radio]{accent-color:var(--brand-primary)}
+.facet-clear{font-size:11px;color:var(--brand-primary);cursor:pointer;text-decoration:underline}
+
+.results{display:flex;flex-direction:column;gap:14px;min-width:0}
+.results-head{display:flex;align-items:baseline;gap:12px;padding:2px 0 6px}
+.results-head h1{font-family:var(--font-display);font-size:24px;margin:0;color:#0e1c14;font-weight:700}
+.rc-count{color:var(--muted);font-size:13px}
+.sort-dd{margin-left:auto;padding:6px 12px;border:1px solid var(--line);border-radius:4px;background:#fff;font-size:13px}
+.empty-msg{padding:32px;text-align:center;color:#999;border:1px dashed #d0d0d0;border-radius:8px;background:#fff}
+
+/* Footer: apartments-style multi-column grey */
+.ap-footer{margin-top:48px;background:#1e2024;color:#cfd2d4;padding:36px 24px 12px}
+.ap-foot-grid{max-width:1440px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:30px;padding-bottom:24px;border-bottom:1px solid #333}
+.ap-foot-grid h5{color:#fff;font-size:13px;margin:0 0 12px;text-transform:uppercase;letter-spacing:.4px}
+.ap-foot-grid a{color:#cfd2d4;display:block;padding:3px 0;font-size:13px}
+.ap-foot-grid a:hover{color:#fff}
+.ap-foot-bottom{max-width:1440px;margin:18px auto 0;font-size:12px;color:#7d8084;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+/* Chip default visuals (per-placement overrides below) */
+.fc{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:14px;font-size:12px;font-weight:600;background:#eef2f7;color:#1f3a5f;border:1px solid #d4dceb;line-height:1}
+.fc .x{cursor:pointer;opacity:.6;font-size:15px;line-height:1;padding:0 2px;border-radius:50%;font-weight:bold}
+.fc .x:hover{opacity:1;background:rgba(0,0,0,.1)}
+.fc:empty{display:none}
+.chiprail{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chiprail:empty:before{content:"No filters applied yet";color:#9aa1a4;font-size:12px;font-style:italic}
+.rail-label{font-size:12px;color:#0e1c14;font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.clear-all{font-size:12px;color:var(--brand-primary);cursor:pointer;text-decoration:underline;margin-left:auto;white-space:nowrap;font-weight:600}
+
+/* Placement: top_bar (apartments-style active filter strip in soft mint band) */
+.chip-topbar{background:#eaf6ee;padding:9px 24px;display:flex;gap:12px;align-items:center;border-bottom:1px solid #c8e5d2;flex-wrap:wrap}
+.chip-topbar .fc{background:#fff;color:#0e1c14;border:1px solid #0d7c46;border-radius:18px;padding:5px 12px;font-weight:600}
+.chip-topbar .fc .x{color:#0d7c46}
+.chip-topbar .fc .x:hover{background:rgba(13,124,70,.12)}
+
+/* Result cards */
+.result-grid{display:flex;flex-direction:column;gap:16px}
+.lt-row{display:grid;grid-template-columns:260px 1fr 150px;gap:0;background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden;transition:box-shadow .18s, transform .18s}
+.lt-row:hover{box-shadow:0 6px 18px rgba(0,0,0,.08)}
+.lt-photo{background:#e6eaef no-repeat center/cover;min-height:180px;position:relative}
+.lt-badge{position:absolute;top:10px;left:10px;background:rgba(13,124,70,.95);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:3px;text-transform:uppercase;letter-spacing:.4px}
+.lt-fav-icon{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.92);color:#0d7c46;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer}
+.lt-body{padding:14px 16px;min-width:0}
+.lt-price{font-weight:800;color:#0e1c14;font-size:20px;margin-bottom:2px}
+.lt-title{font-weight:700;font-size:15px;color:#1a1a1a;margin-bottom:2px}
+.lt-meta{font-size:13px;color:var(--muted);margin-bottom:6px}
+.lt-loc{font-size:12px;color:#888;margin-bottom:8px}
+.lt-stats{display:flex;align-items:center;gap:14px;font-size:13px;color:#444}
+.lt-stats .star{color:#f0a500}
+.lt-actions{padding:14px;display:flex;flex-direction:column;gap:8px;justify-content:center;border-left:1px solid #f0f0ec}
+.lt-cta{padding:9px 14px;background:var(--brand-primary);color:#fff;border:none;border-radius:3px;font-weight:600;cursor:pointer;font-size:13px}
+.lt-cta:hover{background:var(--brand-primary-dark)}
+.lt-fav{padding:8px;background:#fff;color:var(--brand-primary);border:1px solid var(--brand-primary);border-radius:3px;cursor:pointer;font-size:12px;font-weight:600}
+.lt-call{padding:8px;background:#fff;color:#1a1a1a;border:1px solid var(--line);border-radius:3px;cursor:pointer;font-size:12px;font-weight:600}
+
+</style>
+</head>
+<body>
+
+<header class="ap-header">
+  <div class="ap-header-left">
+    <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg> Menu</span>
+    <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg> English</span>
+  </div>
+  <div class="ap-logo">
+    <span class="leaf"><svg viewBox="0 0 32 32" fill="none"><rect x="3" y="3" width="26" height="26" rx="7" fill="#0d7c46"/><text x="16" y="23" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="800" fill="#fff">E</text></svg></span>
+    EchoRent<sup>™</sup>
+  </div>
+  <div class="ap-header-right">
+    <a>♡</a>
+    <a>📞</a>
+    <a>Manage Rentals</a>
+    <span><a>Sign Up</a> <span class="sep-bar">/</span> <a>Sign In</a></span>
+    <button class="ap-add-property">Add a Property</button>
+  </div>
+</header>
+
+<div class="ap-filterbar">
+  <button class="ap-loc-pill">Houston, TX</button>
+  <button class="ap-fb-btn">Price</button>
+  <button class="ap-fb-btn">Beds/Baths</button>
+  <button class="ap-fb-btn">Home Type</button>
+  <button class="ap-fb-btn">Specialty Housing</button>
+  <button class="ap-fb-all">≡ All Filters</button>
+  <div class="ap-fb-right">
+    <span class="ap-save">♡ Save Search</span>
+    <span class="ap-sort">Sort: Best Match</span>
+  </div>
+</div>
+
+<div class="strip"><a>TX</a> <span class='sep'>›</span> <a>Houston</a> <span class='sep'>›</span> <b>Condos for Rent</b></div>
+
+<div class="chip-topbar">
+  <span class="rail-label">Applied filters</span>
+  <div class="chiprail" id="active-chips"></div>
+  <a class="clear-all" onclick="lsReset()">Clear all ×</a>
+</div>
+<main class="page"><aside class="aside"><h3>Refine results</h3><div class="fsec" data-facet-group="brand"><h4>Managed by<a class="facet-clear" onclick="clearFacet(this,'brand')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="brand" value="ByOwner" onchange="onF()"> <span class="opt-lbl">ByOwner</span></label><label><input type="checkbox" data-facet="brand" value="Camden" onchange="onF()"> <span class="opt-lbl">Camden</span></label><label><input type="checkbox" data-facet="brand" value="Greystar" onchange="onF()"> <span class="opt-lbl">Greystar</span></label><label><input type="checkbox" data-facet="brand" value="Hines" onchange="onF()"> <span class="opt-lbl">Hines</span></label><label><input type="checkbox" data-facet="brand" value="Lincoln Property" onchange="onF()"> <span class="opt-lbl">Lincoln Property</span></label></div></div><div class="fsec" data-facet-group="category"><h4>Home Type<a class="facet-clear" onclick="clearFacet(this,'category')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="category" value="Apartment" onchange="onF()"> <span class="opt-lbl">Apartment</span></label><label><input type="checkbox" data-facet="category" value="Condo" onchange="onF()"> <span class="opt-lbl">Condo</span></label><label><input type="checkbox" data-facet="category" value="House" onchange="onF()"> <span class="opt-lbl">House</span></label><label><input type="checkbox" data-facet="category" value="Loft" onchange="onF()"> <span class="opt-lbl">Loft</span></label><label><input type="checkbox" data-facet="category" value="Townhouse" onchange="onF()"> <span class="opt-lbl">Townhouse</span></label></div></div><div class="fsec" data-facet-group="color"><h4>Amenities<a class="facet-clear" onclick="clearFacet(this,'color')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="color" value="Furnished" onchange="onF()"> <span class="opt-lbl">Furnished</span></label><label><input type="checkbox" data-facet="color" value="Gym access" onchange="onF()"> <span class="opt-lbl">Gym access</span></label><label><input type="checkbox" data-facet="color" value="Hardwood" onchange="onF()"> <span class="opt-lbl">Hardwood</span></label><label><input type="checkbox" data-facet="color" value="Pets allowed" onchange="onF()"> <span class="opt-lbl">Pets allowed</span></label><label><input type="checkbox" data-facet="color" value="Pool" onchange="onF()"> <span class="opt-lbl">Pool</span></label><label><input type="checkbox" data-facet="color" value="Utilities included" onchange="onF()"> <span class="opt-lbl">Utilities included</span></label></div></div><div class="fsec" data-facet-group="condition"><h4>Listing Status<a class="facet-clear" onclick="clearFacet(this,'condition')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="condition" value="Available now" onchange="onF()"> <span class="opt-lbl">Available now</span></label><label><input type="checkbox" data-facet="condition" value="Featured" onchange="onF()"> <span class="opt-lbl">Featured</span></label><label><input type="checkbox" data-facet="condition" value="Move-in special" onchange="onF()"> <span class="opt-lbl">Move-in special</span></label><label><input type="checkbox" data-facet="condition" value="New listing" onchange="onF()"> <span class="opt-lbl">New listing</span></label></div></div><div class="fsec" data-facet-group="price"><h4>Price<a class="facet-clear" onclick="clearPrice()">clear</a></h4><div class="opts"><label><input type="radio" name="ptier" data-tier="0-1499" onchange="setPriceTier(this)"> Under $1.5K</label><label><input type="radio" name="ptier" data-tier="1500-2000" onchange="setPriceTier(this)"> $1.5K–$2K</label><label><input type="radio" name="ptier" data-tier="2000-3000" onchange="setPriceTier(this)"> $2K–$3K</label><label><input type="radio" name="ptier" data-tier="3000-9999" onchange="setPriceTier(this)"> $3K+</label></div></div><div class="fsec" data-facet-group="rating"><h4>Rating<a class="facet-clear" onclick="clearFacet(this,'rating_min')">clear</a></h4><div class="opts"><label><input type="radio" name="rating_min" data-facet="rating_min" value="4" onchange="onF()"> 4★ &amp; up</label><label><input type="radio" name="rating_min" data-facet="rating_min" value="3" onchange="onF()"> 3★ &amp; up</label></div></div></aside>
+<section class="results">
+  
+  
+  <div class="results-head">
+    <h1>Condos for Rent in Houston, TX</h1>
+    <span class="rc-count" id="result-count">18 rentals</span>
+    <select class="sort-dd"><option>Sort: Best Match</option><option>Price (Low to High)</option><option>Price (High to Low)</option><option>Newest</option><option>Highest Rated</option></select>
+  </div>
+  <div class="result-grid" id="result-grid"></div>
+</section></main>
+<footer class="ap-footer">
+  <div class="ap-foot-grid">
+    <div><h5>Discover</h5><a>Apartments for Rent</a><a>Houses for Rent</a><a>Condos for Rent</a><a>Cheap Apartments</a><a>Pet-Friendly Rentals</a></div>
+    <div><h5>List a Property</h5><a>Add a Property</a><a>Owner Login</a><a>Pricing & Plans</a><a>Help Center</a></div>
+    <div><h5>Renter Tools</h5><a>Rent Calculator</a><a>Renter Insurance</a><a>Moving Checklist</a><a>Roommates</a></div>
+    <div><h5>About</h5><a>About EchoRent</a><a>Careers</a><a>Press</a><a>Contact Us</a></div>
+    <div><h5>Resources</h5><a>Apartment Living Blog</a><a>Renter FAQ</a><a>Site Map</a><a>Accessibility</a></div>
+  </div>
+  <div class="ap-foot-bottom">
+    <span>© 2025 EchoRent™ — All rights reserved.</span>
+    <span>Terms of Use · Privacy Policy · Do Not Sell My Info · Fair Housing Notice</span>
+  </div>
+</footer>
+
+<script>
+const ENV_ID = 'W08_E06';
+let filterState = {};
+
+function buildStateFromDom() {
+  const s = {};
+  document.querySelectorAll('input[type=checkbox][data-facet]').forEach(el => {
+    if (el.checked) {
+      const f = el.dataset.facet;
+      (s[f] = s[f] || []).push(el.value);
+    }
+  });
+  document.querySelectorAll('input[type=radio][data-facet]:checked').forEach(el => {
+    s[el.dataset.facet] = el.value;
+  });
+  const tierEl = document.querySelector('input[name="ptier"]:checked');
+  if (tierEl) {
+    const [mn, mx] = (tierEl.dataset.tier || '').split('-').map(Number);
+    if (!isNaN(mn)) s.min_price = mn;
+    if (!isNaN(mx)) s.max_price = mx;
+  }
+  return s;
+}
+
+let _submitChain = Promise.resolve();
+function applyFilters() {
+  filterState = buildStateFromDom();
+  // Render chips synchronously so the agent gets instant visual
+  // confirmation of every pick — the widget mechanic is that the
+  // agent must verify each required chip is present in the bar.
+  renderActiveChips();
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    updateResults(data.results || []);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length + ' rentals';
+  }).catch(() => {});
+  // Autosave on every change — chained sequentially via _submitChain
+  // so submits from rapid successive picks arrive at the backend in
+  // click-order. Without this, FastAPI's threadpool can process them
+  // out of order and the CURRENT row may reflect a stale state.
+  const snapshot = JSON.parse(JSON.stringify(filterState));
+  _submitChain = _submitChain.then(() => fetch(
+    '/env/' + ENV_ID + '/api/submit',
+    {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({filter_state: snapshot, task_id: taskId})
+    }
+  ).catch(() => {}));
+}
+
+function onF() { applyFilters(); }
+
+function setPriceTier(el) { onF(); }
+function clearPrice() {
+  document.querySelectorAll('input[name="ptier"]').forEach(e => e.checked = false);
+  onF();
+}
+
+function escapeHtml(s) {
+  return (s == null ? '' : String(s)).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+}
+
+const FACET_LABELS = {"brand": "Managed by", "category": "Home Type", "color": "Amenities", "condition": "Listing Status"};
+
+function chipLabel(facet, value) {
+  if (facet === 'min_price') return 'min ≥ $' + value;
+  if (facet === 'max_price') return 'max ≤ $' + value;
+  if (facet === 'price_range') return 'Price: ' + value;
+  if (facet === 'rating_min') return '★ ≥ ' + value;
+  const lbl = FACET_LABELS[facet] || facet;
+  return lbl + ': ' + value;
+}
+
+function renderActiveChips() {
+  const bars = document.querySelectorAll('.chiprail, #active-chips');
+  if (!bars.length) return;
+  const items = [];
+  const hasMin = 'min_price' in filterState, hasMax = 'max_price' in filterState;
+  if (hasMin || hasMax) {
+    const lo = hasMin ? '$' + filterState.min_price : 'any';
+    const hi = hasMax ? '$' + filterState.max_price : 'any';
+    items.push({facet:'price_range', value: lo + '–' + hi});
+  }
+  for (const [k, v] of Object.entries(filterState)) {
+    if (k === 'min_price' || k === 'max_price') continue;
+    if (Array.isArray(v)) {
+      v.forEach(val => items.push({facet:k, value: val}));
+    } else {
+      items.push({facet:k, value: v});
+    }
+  }
+  const html = items.map(it => {
+    const lbl = escapeHtml(chipLabel(it.facet, it.value));
+    const argF = escapeHtml(JSON.stringify(it.facet));
+    const argV = escapeHtml(JSON.stringify(it.value));
+    return '<span class="fc" data-facet="' + escapeHtml(it.facet) + '" data-value="' + escapeHtml(String(it.value)) + '">'
+      + '<span class="lbl">' + lbl + '</span>'
+      + '<span class="x" role="button" tabindex="0" title="Remove" onclick="removeActiveChip(' + argF + ',' + argV + ')">×</span>'
+      + '</span>';
+  }).join('');
+  bars.forEach(bar => { bar.innerHTML = html; });
+  // Show/hide an optional "anchor" link to chip rail if present
+  const anchorBtn = document.getElementById('chip-anchor-btn');
+  if (anchorBtn) {
+    anchorBtn.style.display = items.length ? 'inline-flex' : 'none';
+    const cnt = anchorBtn.querySelector('.anchor-count');
+    if (cnt) cnt.textContent = items.length;
+  }
+}
+
+function removeActiveChip(facet, value) {
+  const valStr = (value == null) ? '' : String(value);
+  if (facet === 'price_range') {
+    document.querySelectorAll('input[name="ptier"]').forEach(e => e.checked = false);
+    onF();
+    return;
+  }
+  document.querySelectorAll('input[type=checkbox][data-facet="' + facet + '"]').forEach(i => {
+    if (i.value === valStr) i.checked = false;
+  });
+  document.querySelectorAll('input[type=radio][data-facet="' + facet + '"]').forEach(i => {
+    if (i.value === valStr) i.checked = false;
+  });
+  onF();
+}
+
+function lsReset() {
+  document.querySelectorAll('input[data-facet], input[name="ptier"]').forEach(el => {
+    if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+  });
+  onF();
+}
+
+function clearFacet(a, facet) {
+  document.querySelectorAll('input[data-facet="' + facet + '"]').forEach(i => {
+    if (i.type === 'checkbox' || i.type === 'radio') i.checked = false;
+  });
+  onF();
+}
+
+function updateResults(results) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div class="empty-msg">No results match your filters.</div>';
+    return;
+  }
+  grid.innerHTML = results.map(r => renderCard(r)).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  applyFilters();
+});
+</script>
+
+<script>
+function renderCard(r) {
+  const img = escapeHtml(r.image_url || '');
+  const title = escapeHtml(r.title || '?');
+  const brand = escapeHtml(r.brand || '');
+  const cond = escapeHtml(r.condition || '');
+  const cyl = escapeHtml(r.color || '');
+  const cat = escapeHtml(r.category || '');
+  const price = r.price > 0 ? '$' + r.price.toLocaleString() + '/mo' : 'Call for price';
+  const badgeHtml = cond ? `<div class="lt-badge">${cond}</div>` : '';
+  return `<div class="lt-row">
+    <div class="lt-photo" style="background-image:url('${img}')">${badgeHtml}<div class="lt-fav-icon">♡</div></div>
+    <div class="lt-body">
+      <div class="lt-price">${price}</div>
+      <div class="lt-title">${brand} ${title}</div>
+      <div class="lt-meta">${cat} · ${cyl}</div>
+      <div class="lt-loc">Houston, TX · 2.3 mi to downtown</div>
+      <div class="lt-stats"><span class="star">★ ${r.rating||0}</span><span>Available Now</span></div>
+    </div>
+    <div class="lt-actions"><button class="lt-cta">Email Property</button><button class="lt-call">📞 (713) 555-0100</button><button class="lt-fav">♡ Save</button></div>
+  </div>`;
+}
+</script>
+
+<style>
+.seo-block{background:#fafafa;border-top:1px solid #e5e5e5;padding:32px 28px;color:#555;font-size:12px;line-height:1.6}
+.seo-inner{max-width:1400px;margin:0 auto}
+.seo-blurb{font-size:13px;color:#666;max-width:920px;margin:0 auto 24px;text-align:center;line-height:1.65}
+.seo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
+.seo-col h6{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#222;margin:0 0 10px;font-weight:700}
+.seo-col ul{list-style:none;margin:0;padding:0}
+.seo-col li{padding:3px 0}
+.seo-col li a{color:#666;font-size:12px;text-decoration:none}
+.seo-col li a:hover{color:#333;text-decoration:underline}
+</style>
+<section class="seo-block"><div class="seo-inner"><div class="seo-blurb">EchoRent lists hundreds of thousands of apartments, condos, and houses for rent across the country. Filter by neighborhood, price, beds, baths, and amenities to find your next home — and connect with property managers directly through verified listings.</div><div class="seo-grid"><div class="seo-col"><h6>Browse by City</h6><ul><li><a>Houston Apartments</a></li><li><a>Austin Apartments</a></li><li><a>Dallas Apartments</a></li><li><a>San Antonio Rentals</a></li><li><a>Fort Worth Rentals</a></li><li><a>El Paso Rentals</a></li><li><a>Arlington Rentals</a></li><li><a>Plano Apartments</a></li><li><a>Corpus Christi Rentals</a></li><li><a>Lubbock Apartments</a></li></ul></div><div class="seo-col"><h6>Property Types</h6><ul><li><a>Apartments</a></li><li><a>Condos for Rent</a></li><li><a>Townhouses</a></li><li><a>Single-Family Houses</a></li><li><a>Lofts & Studios</a></li><li><a>Furnished Rentals</a></li><li><a>Short-Term Rentals</a></li><li><a>Senior Living</a></li><li><a>Student Housing</a></li><li><a>Corporate Housing</a></li></ul></div><div class="seo-col"><h6>Popular Amenities</h6><ul><li><a>Pet-Friendly</a></li><li><a>In-Unit Laundry</a></li><li><a>Gym & Fitness</a></li><li><a>Pool Access</a></li><li><a>Covered Parking</a></li><li><a>Hardwood Floors</a></li><li><a>Walk-In Closets</a></li><li><a>Smart Home</a></li><li><a>EV Charging</a></li><li><a>Rooftop Decks</a></li></ul></div><div class="seo-col"><h6>Renter Resources</h6><ul><li><a>Rental Application 101</a></li><li><a>Renters Insurance Guide</a></li><li><a>Moving Checklist</a></li><li><a>Rent vs. Buy Calculator</a></li><li><a>Lease Negotiation Tips</a></li><li><a>Roommate Finder</a></li><li><a>Security Deposit FAQ</a></li><li><a>Tenant Rights by State</a></li><li><a>Utilities Setup</a></li><li><a>Pet Deposits Explained</a></li></ul></div></div></div></section></body></html>

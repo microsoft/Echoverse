@@ -1,0 +1,43 @@
+{
+  "env_id": "W23_E01",
+  "widget_id": "W23_more_filters_modal_plus_chip_bar",
+  "widget_name": "More-filters modal + filter-chip confirmation bar",
+  "widget_category": "combo_modal_workflow",
+  "widget_mechanic": "Compose: apply hidden-modal filter AND verify it appears in the active-filter chip bar.",
+  "archetype": "realestate_listings",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W07_more_filters_modal",
+    "W08_filter_chip_confirmation"
+  ],
+  "site_imitates": "Zillow Bolingbrook IL",
+  "product_type": "Bolingbrook townhomes",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_townhouse_bolingbrook__il_3053",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "Can you help me find townhomes for sale in Bolingbrook, Illinois with 3 or more bedrooms, at least 2 bathrooms, priced under $400k, and that are new to the market?",
+      "first_failure_summary": "[3.5] Incomplete task execution: A scroll was attempted in the filters modal, but the post-action screenshot shows no visible scroll/movement or state change, so the action did not advance anything."
+    }
+  ],
+  "primary_inspiration": {
+    "task_id": "realestate_complex_buy_townhouse_bolingbrook__il_3053",
+    "benchmark": "WTB",
+    "site": "buy",
+    "site_label": "Zillow",
+    "city": "Bolingbrook, IL",
+    "instruction": "Can you help me find townhomes for sale in Bolingbrook, Illinois with 3 or more bedrooms, at least 2 bathrooms, priced under $400k, and that are new to the market?",
+    "first_failure_summary": "[3.5] Incomplete task execution: A scroll was attempted in the filters modal, but the post-action screenshot shows no visible scroll/movement or state change, so the action did not advance anything."
+  },
+  "theme_key": "zillow",
+  "theme_logo": "Zillow",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

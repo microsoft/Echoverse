@@ -1,0 +1,38 @@
+{
+  "env_id": "W08_E06",
+  "widget_id": "W08_filter_chip_confirmation",
+  "widget_name": "Filter-chip confirmation bar",
+  "widget_category": "active_filter_bar",
+  "widget_mechanic": "After applying \u22652 filters, an active-chip bar shows what is currently applied. Agent must verify each required chip is present (and no extras) before treating the result set as the answer.",
+  "archetype": "faceted_catalog",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W08_filter_chip_confirmation"
+  ],
+  "site_imitates": "Apartments.com rental search",
+  "product_type": "rental condos and apartments",
+  "source_inspiration": [
+    {
+      "task_id": "367d843c640637745e8fafa741cca13b",
+      "benchmark": "OM2W",
+      "site": "apartments.com",
+      "instruction": "Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income (e.g. monthly $2,000 cap).",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: Agent set the home-type filter to \u201cCondo\u201d but the applied-filter pill bar across the top still showed conflicting Home Type / Specialty Housing chips from a prior search; agent never removed the stale chip via its \u00d7."
+    }
+  ],
+  "theme_key": "jobs",
+  "theme_logo": "WorkSeeker",
+  "theme_card": "job-row",
+  "theme_layout": "listing-rows",
+  "variant_idx": 0,
+  "n_seed_items": 18,
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "brand",
+      "category",
+      "color",
+      "condition"
+    ]
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "env_id": "W27_E08",
+  "widget_id": "W27_sex_steril_plus_species_compat",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2671",
+      "task_index_in_env": 1,
+      "instruction_text": "Help me browse AdoptAPet dog search for shelter pets that are spayed AND male AND dogs AND good with cats.",
+      "expected_filter_state": {
+        "constraint": "that are spayed AND male AND dogs AND good with cats"
+      }
+    },
+    {
+      "task_id": "T2672",
+      "task_index_in_env": 2,
+      "instruction_text": "Help me browse AdoptAPet dog search for shelter pets that are neutered AND male AND good with kids.",
+      "expected_filter_state": {
+        "constraint": "that are neutered AND male AND good with kids"
+      }
+    },
+    {
+      "task_id": "T2673",
+      "task_index_in_env": 3,
+      "instruction_text": "On AdoptAPet dog search, find me shelter pets that are spayed AND female AND cats AND good with dogs.",
+      "expected_filter_state": {
+        "constraint": "that are spayed AND female AND cats AND good with dogs"
+      }
+    },
+    {
+      "task_id": "T2674",
+      "task_index_in_env": 4,
+      "instruction_text": "On AdoptAPet dog search, find me shelter pets that are male dogs AND good with other dogs (no sterilization filter).",
+      "expected_filter_state": {
+        "constraint": "that are male dogs AND good with other dogs (no sterilization filter)"
+      }
+    },
+    {
+      "task_id": "T2675",
+      "task_index_in_env": 5,
+      "instruction_text": "On AdoptAPet dog search, find me shelter pets that are spayed AND female AND cats AND good with kids.",
+      "expected_filter_state": {
+        "constraint": "that are spayed AND female AND cats AND good with kids"
+      }
+    },
+    {
+      "task_id": "T2676",
+      "task_index_in_env": 6,
+      "instruction_text": "Show me shelter pets on AdoptAPet dog search that are spayed adult cats AND good with dogs AND kids.",
+      "expected_filter_state": {
+        "constraint": "that are spayed adult cats AND good with dogs AND kids"
+      }
+    },
+    {
+      "task_id": "T2677",
+      "task_index_in_env": 7,
+      "instruction_text": "On AdoptAPet dog search, find me shelter pets that are short-haired AND neutered male AND good with cats.",
+      "expected_filter_state": {
+        "constraint": "that are short-haired AND neutered male AND good with cats"
+      }
+    },
+    {
+      "task_id": "T2678",
+      "task_index_in_env": 8,
+      "instruction_text": "Help me browse AdoptAPet dog search for shelter pets that are spayed female dogs AND good with cats AND kids.",
+      "expected_filter_state": {
+        "constraint": "that are spayed female dogs AND good with cats AND kids"
+      }
+    },
+    {
+      "task_id": "T2679",
+      "task_index_in_env": 9,
+      "instruction_text": "Help me browse AdoptAPet dog search for shelter pets that are intact AND female cats AND good with no children.",
+      "expected_filter_state": {
+        "constraint": "that are intact AND female cats AND good with no children"
+      }
+    },
+    {
+      "task_id": "T2680",
+      "task_index_in_env": 10,
+      "instruction_text": "Help me browse AdoptAPet dog search for shelter pets that are male dogs AND compat-verified with cats AND other dogs.",
+      "expected_filter_state": {
+        "constraint": "that are male dogs AND compat-verified with cats AND other dogs"
+      }
+    }
+  ]
+}

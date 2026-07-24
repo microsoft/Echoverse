@@ -1,0 +1,40 @@
+{
+  "env_id": "W26_E01",
+  "widget_id": "W26_autocomplete_plus_calendar_advance",
+  "widget_name": "Autocomplete disambiguation + calendar multi-month advance",
+  "widget_category": "combo_booking_destination_date",
+  "widget_mechanic": "Compose: disambiguate destination autocomplete AND advance calendar to future month.",
+  "archetype": "booking_form",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W03_autocomplete_disambig",
+    "W09_calendar_multi_month_advance"
+  ],
+  "site_imitates": "AirAsia MOVE (airasia.com) flight booking",
+  "product_type": "AirAsia flight Singapore \u2192 Langkawi (LGK)",
+  "source_inspiration": [
+    {
+      "task_id": "flights_airasia_88",
+      "benchmark": "WTB",
+      "site": "airasia",
+      "instruction": "can you find me a direct AirAsia flight from Singapore to Langkawi from July 2 to July 5 in economy for 1 person? If there are no available flights for those dates, please indicate that in your answer",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent substituted an incorrect airport code (\u201cLGW\u201d) as a way to specify Langkawi; this violates the route constraint (should be Langkawi/LGK)."
+    },
+    {
+      "task_id": "flights_airasia_50",
+      "benchmark": "WTB",
+      "site": "airasia",
+      "instruction": "Book a flight with AirAsia from Hong Kong to Manila leaving August 7 and coming back August 14."
+    }
+  ],
+  "theme_key": "airasia",
+  "theme_logo": "AIRASIA",
+  "theme_card": "flight-row",
+  "theme_layout": "horizontal-form",
+  "variant_idx": 0,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

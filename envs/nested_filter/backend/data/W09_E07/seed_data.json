@@ -1,0 +1,270 @@
+[
+  {
+    "id": 1,
+    "hotel_name": "Mountain Pine B&B",
+    "city": "Leadville",
+    "state": "CO",
+    "price": 145,
+    "rating": "4.83",
+    "reviews": 287,
+    "amenities": [
+      "Free Wi-Fi",
+      "Breakfast Included",
+      "Mountain View"
+    ],
+    "room_type": "Bed & Breakfast",
+    "image_url": "https://images.pexels.com/photos/33824477/pexels-photo-33824477.jpeg?auto=compress&cs=tinysrgb&h=130",
+    "image_alt": "Mountain Pine B&B room photo"
+  },
+  {
+    "id": 2,
+    "hotel_name": "Aspen Cabin on Turquoise Lake",
+    "city": "Leadville",
+    "state": "CO",
+    "price": 219,
+    "rating": "4.91",
+    "reviews": 412,
+    "amenities": [
+      "Hot Tub",
+      "Fireplace",
+      "Kitchen"
+    ],
+    "room_type": "Entire Cabin",
+    "image_url": "https://images.pexels.com/photos/534228/pexels-photo-534228.jpeg?auto=compress&cs=tinysrgb&h=130",
+    "image_alt": "Aspen Cabin on Turquoise Lake room photo"
+  },
+  {
+    "id": 3,
+    "hotel_name": "Historic Victorian B&B",
+    "city": "Leadville",
+    "state": "CO",
+    "price": 175,
+    "rating": "4.78",
+    "reviews": 158,
+    "amenities": [
+      "Free Wi-Fi",
+      "Breakfast Included",
+      "Pet-friendly"
+    ],
+    "room_type": "Bed & Breakfast",
+    "image_url": "https://images.pexels.com/photos/30767885/pexels-photo-30767885.jpeg?auto=compress&cs=tinysrgb&h=130",
+    "image_alt": "Historic Victorian B&B room photo"
+  },
+  {
+    "id": 4,
+    "hotel_name": "Silver Mining Cottage",
+    "city": "Leadville",
+    "state": "CO",
+    "price": 135,
+    "rating": "4.65",
+    "reviews": 92,
+    "amenities": [
+      "Kitchen",
+      "Mountain View"
+    ],
+    "room_type": "Entire Cottage",
+    "image_url": "https://images.pexels.com/photos/30628794/pexels-photo-30628794.jpeg?auto=compress&cs=tinysrgb&h=130",
+    "image_alt": "Silver Mining Cottage room photo"
+  },
+  {
+    "id": 5,
+    "hotel_name": "Leadville Loft Downtown",
+    "city": "Leadville",
+    "state": "CO",
+    "price": 119,
+    "rating": "4.72",
+    "reviews": 245,
+    "amenities": [
+      "Free Wi-Fi",
+      "Kitchen"
+    ],
+    "room_type": "Loft",
+    "image_url": "https://images.pexels.com/photos/4493299/pexels-photo-4493299.jpeg?auto=compress&cs=tinysrgb&h=130",
+    "image_alt": "Leadville Loft Downtown room photo"
+  },
+  {
+    "id": 6,
+    "hotel_name": "Alpine Meadow B&B",
+    "city": "Leadville",
+    "state": "CO",
+    "price": 165,
+    "rating": "4.88",
+    "reviews": 321,
+    "amenities": [
+      "Breakfast Included",
+      "Hot Tub",
+      "Free Wi-Fi"
+    ],
+    "room_type": "Bed & Breakfast",
+    "image_url": "https://images.pexels.com/photos/30628768/pexels-photo-30628768.jpeg?auto=compress&cs=tinysrgb&h=130",
+    "image_alt": "Alpine Meadow B&B room photo"
+  },
+  {
+    "id": 7,
+    "hotel_name": "Mt. Massive Lodge Room",
+    "city": "Leadville",
+    "state": "CO",
+    "price": 99,
+    "rating": "4.55",
+    "reviews": 67,
+    "amenities": [
+      "Free Wi-Fi",
+      "Shared Kitchen"
+    ],
+    "room_type": "Private Room",
+    "image_url": "https://images.pexels.com/photos/6434588/pexels-photo-6434588.jpeg?auto=compress&cs=tinysrgb&h=130",
+    "image_alt": "Mt. Massive Lodge Room room photo"
+  },
+  {
+    "id": 8,
+    "hotel_name": "Tabor Cabin Retreat",
+    "city": "Leadville",
+    "state": "CO",
+    "price": 189,
+    "rating": "4.81",
+    "reviews": 198,
+    "amenities": [
+      "Fireplace",
+      "Hot Tub",
+      "Mountain View"
+    ],
+    "room_type": "Entire Cabin",
+    "image_url": "https://images.pexels.com/photos/15048771/pexels-photo-15048771.jpeg?auto=compress&cs=tinysrgb&h=130",
+    "image_alt": "Tabor Cabin Retreat room photo"
+  },
+  {
+    "id": 9,
+    "hotel_name": "Painted Lady B&B",
+    "city": "Leadville",
+    "state": "CO",
+    "price": 159,
+    "rating": "4.86",
+    "reviews": 273,
+    "amenities": [
+      "Breakfast Included",
+      "Free Wi-Fi",
+      "Pet-friendly"
+    ],
+    "room_type": "Bed & Breakfast",
+    "image_url": "https://images.pexels.com/photos/14750392/pexels-photo-14750392.jpeg?auto=compress&cs=tinysrgb&h=130",
+    "image_alt": "Painted Lady B&B room photo"
+  },
+  {
+    "id": 10,
+    "hotel_name": "Sky Cabin near Twin Lakes",
+    "city": "Leadville",
+    "state": "CO",
+    "price": 245,
+    "rating": "4.93",
+    "reviews": 502,
+    "amenities": [
+      "Hot Tub",
+      "Fireplace",
+      "Kitchen",
+      "Mountain View"
+    ],
+    "room_type": "Entire Cabin",
+    "image_url": "https://images.pexels.com/photos/30628738/pexels-photo-30628738.jpeg?auto=compress&cs=tinysrgb&h=130",
+    "image_alt": "Sky Cabin near Twin Lakes room photo"
+  },
+  {
+    "id": 11,
+    "hotel_name": "Miner's House B&B",
+    "city": "Leadville",
+    "state": "CO",
+    "price": 139,
+    "rating": "4.69",
+    "reviews": 134,
+    "amenities": [
+      "Breakfast Included",
+      "Free Wi-Fi"
+    ],
+    "room_type": "Bed & Breakfast",
+    "image_url": "https://images.pexels.com/photos/6333079/pexels-photo-6333079.jpeg?auto=compress&cs=tinysrgb&h=130",
+    "image_alt": "Miner's House B&B room photo"
+  },
+  {
+    "id": 12,
+    "hotel_name": "Yellow Pine Studio",
+    "city": "Leadville",
+    "state": "CO",
+    "price": 85,
+    "rating": "4.61",
+    "reviews": 89,
+    "amenities": [
+      "Free Wi-Fi",
+      "Kitchen"
+    ],
+    "room_type": "Studio",
+    "image_url": "https://images.pexels.com/photos/28054852/pexels-photo-28054852.jpeg?auto=compress&cs=tinysrgb&h=130",
+    "image_alt": "Yellow Pine Studio room photo"
+  },
+  {
+    "id": 13,
+    "hotel_name": "Climax Cottage",
+    "city": "Leadville",
+    "state": "CO",
+    "price": 155,
+    "rating": "4.74",
+    "reviews": 167,
+    "amenities": [
+      "Kitchen",
+      "Fireplace",
+      "Pet-friendly"
+    ],
+    "room_type": "Entire Cottage",
+    "image_url": "https://images.pexels.com/photos/8082235/pexels-photo-8082235.jpeg?auto=compress&cs=tinysrgb&h=130",
+    "image_alt": "Climax Cottage room photo"
+  },
+  {
+    "id": 14,
+    "hotel_name": "Lake County B&B",
+    "city": "Leadville",
+    "state": "CO",
+    "price": 169,
+    "rating": "4.79",
+    "reviews": 211,
+    "amenities": [
+      "Breakfast Included",
+      "Free Wi-Fi",
+      "Hot Tub"
+    ],
+    "room_type": "Bed & Breakfast",
+    "image_url": "https://images.pexels.com/photos/7031581/pexels-photo-7031581.jpeg?auto=compress&cs=tinysrgb&h=130",
+    "image_alt": "Lake County B&B room photo"
+  },
+  {
+    "id": 15,
+    "hotel_name": "Mosquito Pass Loft",
+    "city": "Leadville",
+    "state": "CO",
+    "price": 125,
+    "rating": "4.66",
+    "reviews": 105,
+    "amenities": [
+      "Kitchen",
+      "Mountain View"
+    ],
+    "room_type": "Loft",
+    "image_url": "https://images.pexels.com/photos/7937748/pexels-photo-7937748.jpeg?auto=compress&cs=tinysrgb&h=130",
+    "image_alt": "Mosquito Pass Loft room photo"
+  },
+  {
+    "id": 16,
+    "hotel_name": "Continental Divide Cottage",
+    "city": "Leadville",
+    "state": "CO",
+    "price": 199,
+    "rating": "4.85",
+    "reviews": 256,
+    "amenities": [
+      "Hot Tub",
+      "Fireplace",
+      "Kitchen",
+      "Pet-friendly"
+    ],
+    "room_type": "Entire Cottage",
+    "image_url": "https://images.pexels.com/photos/164558/pexels-photo-164558.jpeg?auto=compress&cs=tinysrgb&h=130",
+    "image_alt": "Continental Divide Cottage room photo"
+  }
+]

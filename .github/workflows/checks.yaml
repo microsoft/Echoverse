@@ -1,0 +1,49 @@
+name: Checks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  harness-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff==0.4.8
+      - name: Run format check
+        run: ruff format harness --check
+
+  harness-lint:
+    needs: harness-format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff==0.4.8
+      - name: Run lint
+        run: ruff check harness
+
+  harness-import:
+    needs: harness-lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile + import the harness package
+        run: |
+          python -m compileall harness
+          python -c "import harness.registry, harness.launcher, harness.verify, harness.tasks"

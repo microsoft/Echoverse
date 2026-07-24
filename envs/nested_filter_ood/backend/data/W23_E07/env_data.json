@@ -1,0 +1,43 @@
+{
+  "env_id": "W23_E07",
+  "widget_id": "W23_more_filters_modal_plus_chip_bar",
+  "widget_name": "More-filters modal + filter-chip confirmation bar",
+  "widget_category": "combo_modal_workflow",
+  "widget_mechanic": "Compose: apply hidden-modal filter AND verify it appears in the active-filter chip bar.",
+  "archetype": "realestate_listings",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W07_more_filters_modal",
+    "W08_filter_chip_confirmation"
+  ],
+  "site_imitates": "Zillow Bartlett TN",
+  "product_type": "Bartlett homes",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_bartlett__tn_12368",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "I'm looking to buy a home in Bartlett, TN with 4+ bedrooms, 2+ bathrooms, a large lot, and central AC. Can you find a listing that meets my criteria?",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent opened/selected a listing that is explicitly shown as located in Memphis, TN, failing the hard constraint that the home be in Bartlett, TN."
+    }
+  ],
+  "primary_inspiration": {
+    "task_id": "realestate_complex_buy_house_bartlett__tn_12368",
+    "benchmark": "WTB",
+    "site": "buy",
+    "site_label": "Zillow",
+    "city": "Bartlett, TN",
+    "instruction": "I'm looking to buy a home in Bartlett, TN with 4+ bedrooms, 2+ bathrooms, a large lot, and central AC. Can you find a listing that meets my criteria?",
+    "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent opened/selected a listing that is explicitly shown as located in Memphis, TN, failing the hard constraint that the home be in Bartlett, TN."
+  },
+  "theme_key": "zillow",
+  "theme_logo": "Zillow",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

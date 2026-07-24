@@ -1,0 +1,35 @@
+{
+  "env_id": "W24_E04",
+  "widget_id": "W24_multi_checkbox_plus_exact_match",
+  "widget_name": "Multi-checkbox facet + exact-match toggle composition",
+  "widget_category": "combo_facet_strict",
+  "widget_mechanic": "Compose: multi-select facet AND enable exact-match (strict) toggle.",
+  "archetype": "faceted_catalog",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W01_multi_checkbox_facet",
+    "W06_exact_match_toggle"
+  ],
+  "site_imitates": "AdoptAPet.com (pet adoption marketplace)",
+  "product_type": "Adoptable dogs (young, spayed, male, private-owner listings)",
+  "brand_name": "AdoptHaven",
+  "source_inspiration": [
+    {
+      "task_id": "e4e097222d13a2560db6f6892612dab6",
+      "benchmark": "OM2W",
+      "site": "adoptapet.com",
+      "instruction": "Search for a young spayed male dog cared for by a private owner within 50 miles of zip 33179.",
+      "first_failure_summary": "Agent loosened constraints \u2014 picked any age, any sex, or shelter listings. Strict toggle keeps Young + Male + Spayed + Private-Owner as literal multi-checkboxes."
+    }
+  ],
+  "theme_key": "adoptapet",
+  "theme_logo": "AdoptHaven",
+  "theme_card": "ecommerce",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "calc_type": "GCS storage pricing",
+    "vendor": "gcp",
+    "brand": "Google Cloud Storage Pricing",
+    "default_inputs": {
+      "region": "(Choose region)",
+      "override": "(none)",
+      "volume": 0,
+      "service": "Standard storage",
+      "unit": "GB-month",
+      "support_tier": "basic"
+    },
+    "regions": [
+      "(Choose region)",
+      "us-central1 (Iowa)",
+      "us-east1 (S. Carolina)",
+      "us-east4 (N. Virginia)",
+      "us-west1 (Oregon)",
+      "us-west2 (Los Angeles)",
+      "northamerica-northeast1 (Montr\u00e9al)",
+      "southamerica-east1 (S\u00e3o Paulo)",
+      "europe-west1 (Belgium)",
+      "europe-west2 (London)",
+      "europe-west4 (Netherlands)",
+      "europe-north1 (Finland)",
+      "asia-east1 (Taiwan)",
+      "asia-northeast1 (Tokyo)",
+      "asia-southeast1 (Singapore)",
+      "australia-southeast1 (Sydney)",
+      "Multi-region: us",
+      "Multi-region: eu",
+      "Multi-region: asia"
+    ],
+    "services": [
+      {
+        "label": "Standard storage",
+        "rate": 0.02,
+        "unit": "GB-month"
+      },
+      {
+        "label": "Nearline storage",
+        "rate": 0.01,
+        "unit": "GB-month"
+      },
+      {
+        "label": "Coldline storage",
+        "rate": 0.004,
+        "unit": "GB-month"
+      },
+      {
+        "label": "Archive storage",
+        "rate": 0.0012,
+        "unit": "GB-month"
+      },
+      {
+        "label": "Autoclass (Standard tier)",
+        "rate": 0.02,
+        "unit": "GB-month"
+      }
+    ],
+    "region_mult": {
+      "(Choose region)": 1.0,
+      "us-central1 (Iowa)": 1.0,
+      "us-east1 (S. Carolina)": 1.0,
+      "us-east4 (N. Virginia)": 1.05,
+      "us-west1 (Oregon)": 1.0,
+      "us-west2 (Los Angeles)": 1.08,
+      "northamerica-northeast1 (Montr\u00e9al)": 1.05,
+      "southamerica-east1 (S\u00e3o Paulo)": 1.4,
+      "europe-west1 (Belgium)": 1.1,
+      "europe-west2 (London)": 1.15,
+      "europe-west4 (Netherlands)": 1.1,
+      "europe-north1 (Finland)": 1.07,
+      "asia-east1 (Taiwan)": 1.15,
+      "asia-northeast1 (Tokyo)": 1.2,
+      "asia-southeast1 (Singapore)": 1.16,
+      "australia-southeast1 (Sydney)": 1.18,
+      "Multi-region: us": 1.15,
+      "Multi-region: eu": 1.2,
+      "Multi-region: asia": 1.25
+    },
+    "override_presets": [
+      "1 TB GCS Standard storage",
+      "10 TB GCS Coldline storage",
+      "500 GB GCS Nearline",
+      "100 GB GCS Standard",
+      "5 PB Archive storage",
+      "50 TB Coldline archive",
+      "10 TB storage",
+      "1 TB storage",
+      "500 GB storage"
+    ],
+    "support_fees": {
+      "basic": 0,
+      "standard": 29,
+      "enhanced": 500,
+      "premium": 12500
+    }
+  }
+]

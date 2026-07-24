@@ -1,0 +1,43 @@
+{
+  "env_id": "W23_E08",
+  "widget_id": "W23_more_filters_modal_plus_chip_bar",
+  "widget_name": "More-filters modal + filter-chip confirmation bar",
+  "widget_category": "combo_modal_workflow",
+  "widget_mechanic": "Compose: apply hidden-modal filter AND verify it appears in the active-filter chip bar.",
+  "archetype": "realestate_listings",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W07_more_filters_modal",
+    "W08_filter_chip_confirmation"
+  ],
+  "site_imitates": "Zillow Montesano WA",
+  "product_type": "Montesano homes",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_montesano__wa_7329",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "Can you help me find houses for sale in Montesano, WA with 3 or more bedrooms, at least 2 bathrooms, on over 0.5 acres, and that are new to the market?",
+      "first_failure_summary": "[3.5] Incomplete task execution: A scroll was attempted from a valid area within the filters modal, but the post-action screenshot shows no observable scrolling or UI change (no progress/effect)."
+    }
+  ],
+  "primary_inspiration": {
+    "task_id": "realestate_complex_buy_house_montesano__wa_7329",
+    "benchmark": "WTB",
+    "site": "buy",
+    "site_label": "Zillow",
+    "city": "Montesano, WA",
+    "instruction": "Can you help me find houses for sale in Montesano, WA with 3 or more bedrooms, at least 2 bathrooms, on over 0.5 acres, and that are new to the market?",
+    "first_failure_summary": "[3.5] Incomplete task execution: A scroll was attempted from a valid area within the filters modal, but the post-action screenshot shows no observable scrolling or UI change (no progress/effect)."
+  },
+  "theme_key": "zillow",
+  "theme_logo": "Zillow",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "env_id": "W07_E03",
+  "widget_id": "W07_more_filters_modal",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "flag_match",
+    "fields": [
+      "modal_*"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T0301",
+      "task_index_in_env": 1,
+      "instruction_text": "Quick one on realtor.com Staten Island NY 4-bedroom homes: I want to mirror what I asked the assistant earlier \u2014 \"I'm looking to buy a house in Staten Island, NY that has 4 or more bedrooms, a large lot, and access to top-rated schools. Can you help me find a listing that meets these criteria\". The only piece that isn't on the visible filter row is 'Top-rated schools nearby', which is hidden behind the vertical red 'MORE FILTERS' tab pinned to the right edge of the page (it slides a hidden side panel in). Just turn that one on and apply it.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_top_rated_schools=on"
+      }
+    },
+    {
+      "task_id": "T0302",
+      "task_index_in_env": 2,
+      "instruction_text": "Looking at Staten Island homes on realtor.com Staten Island NY 4-bedroom homes \u2014 apply central A/C and master bedroom on first floor both. They live behind the vertical red 'MORE FILTERS' tab pinned to the right edge of the page (it slides a hidden side panel in); once you open it you'll see them as checkboxes. Don't forget to confirm.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_central_ac=on, modal_master_on_first=on"
+      }
+    },
+    {
+      "task_id": "T0303",
+      "task_index_in_env": 3,
+      "instruction_text": "Okay so, I've narrowed things down a bit but actually let me think... for the Staten Island homes search on realtor.com Staten Island NY 4-bedroom homes, I really want solar panels on. And honestly master bedroom on first floor is becoming a deal-breaker too \u2014 turn it on. Both toggles live under the vertical red 'MORE FILTERS' tab pinned to the right edge of the page (it slides a hidden side panel in) so you'll have to open that to find them; they're not in the visible filter dropdowns.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_solar_panels=on, modal_master_on_first=on"
+      }
+    },
+    {
+      "task_id": "T0304",
+      "task_index_in_env": 4,
+      "instruction_text": "For my shortlist on realtor.com Staten Island NY 4-bedroom homes, narrow Staten Island homes down to ones that satisfy all three of: top-rated schools nearby, central A/C, and outside flood zone. Heads up \u2014 none of these are on the visible filter bar; you have to crack open the vertical red 'MORE FILTERS' tab pinned to the right edge of the page (it slides a hidden side panel in) and tick each one before hitting apply.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_top_rated_schools=on, modal_central_ac=on, modal_no_flood_zone=on"
+      }
+    },
+    {
+      "task_id": "T0305",
+      "task_index_in_env": 5,
+      "instruction_text": "Quick read on realtor.com Staten Island NY 4-bedroom homes \u2014 out of the 20 Staten Island homes on the page, how many are listed under $659,000? Just the number is fine.",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "T0306",
+      "task_index_in_env": 6,
+      "instruction_text": "Hmm, on realtor.com Staten Island NY 4-bedroom homes, can you scan through the Staten Island homes listings and tell me \u2014 out of the ones flagged as 'Outside flood zone' on the listing cards, which is the CHEAPEST? Address + price. (That flag is normally something you'd toggle via the vertical red 'MORE FILTERS' tab pinned to the right edge of the page (it slides a hidden side panel in), but for now I just want you to eyeball the cards.)",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "T0307",
+      "task_index_in_env": 7,
+      "instruction_text": "On realtor.com Staten Island NY 4-bedroom homes, which is more common across the Staten Island homes: listings tagged 'Large lot (0.25+ acres)' or 'Finished basement'? Give me both counts so I can decide which feature to filter on. (Both attributes are normally hidden under the vertical red 'MORE FILTERS' tab pinned to the right edge of the page (it slides a hidden side panel in), so you'd toggle them there \u2014 but right now I just want a head-count from the card flags.)",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "T0308",
+      "task_index_in_env": 8,
+      "instruction_text": "Hop into realtor.com Staten Island NY 4-bedroom homes, pop open the vertical red 'MORE FILTERS' tab pinned to the right edge of the page (it slides a hidden side panel in), and tick 'Renovated kitchen' \u2014 that toggle is NOT on the main filter row, it's hidden inside. After you apply it, tell me which of the matching Staten Island homes is the cheapest (address + price).",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_renovated_kitchen=on"
+      }
+    },
+    {
+      "task_id": "T0309",
+      "task_index_in_env": 9,
+      "instruction_text": "On realtor.com Staten Island NY 4-bedroom homes for Staten Island homes: open the vertical red 'MORE FILTERS' tab pinned to the right edge of the page (it slides a hidden side panel in) and flip on BOTH renovated kitchen AND outside flood zone. Neither shows up in the standard dropdowns; they're only inside that hidden panel. After both are applied, tell me how many listings match in total.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_renovated_kitchen=on, modal_no_flood_zone=on"
+      }
+    },
+    {
+      "task_id": "T0310",
+      "task_index_in_env": 10,
+      "instruction_text": "I might be overthinking this but on realtor.com Staten Island NY 4-bedroom homes, this is a longer one. Inside the vertical red 'MORE FILTERS' tab pinned to the right edge of the page (it slides a hidden side panel in) (the hidden filter panel \u2014 NOT the main bar), flip on renovated kitchen, central A/C, and 2-car garage. All of those are hidden in there. Once they're all applied, look at what's left and tell me the address + sqft of the single LARGEST homes still showing.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_renovated_kitchen=on, modal_central_ac=on, modal_two_car_garage=on"
+      }
+    }
+  ]
+}

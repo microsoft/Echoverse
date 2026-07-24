@@ -1,0 +1,95 @@
+{
+  "env_id": "W20_E04",
+  "widget_id": "W20_cloud_region_default",
+  "archetype": "calculator_form",
+  "filter_spec": {
+    "type": "calc_compute",
+    "fields": [
+      "region",
+      "volume",
+      "usage_type"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T1931",
+      "task_index_in_env": 1,
+      "instruction_text": "Using Azure Cost Estimator, estimate Azure VM pricing for the US East region.",
+      "expected_filter_state": {
+        "region": "US East"
+      }
+    },
+    {
+      "task_id": "T1932",
+      "task_index_in_env": 2,
+      "instruction_text": "Using Azure Cost Estimator, estimate Azure VM pricing for the EU West region.",
+      "expected_filter_state": {
+        "region": "EU West"
+      }
+    },
+    {
+      "task_id": "T1933",
+      "task_index_in_env": 3,
+      "instruction_text": "Help me compute Azure VM pricing on Azure Cost Estimator for Asia Pacific (Tokyo).",
+      "expected_filter_state": {
+        "region": "Asia Pacific (Tokyo)"
+      }
+    },
+    {
+      "task_id": "T1934",
+      "task_index_in_env": 4,
+      "instruction_text": "Help me compute Azure VM pricing on Azure Cost Estimator for US Government.",
+      "expected_filter_state": {
+        "region": "US Government"
+      }
+    },
+    {
+      "task_id": "T1935",
+      "task_index_in_env": 5,
+      "instruction_text": "Using Azure Cost Estimator, estimate Azure VM pricing for the EU West (compared with US East) region.",
+      "expected_filter_state": {
+        "region": "EU West (compared with US East)"
+      }
+    },
+    {
+      "task_id": "T1936",
+      "task_index_in_env": 6,
+      "instruction_text": "On Azure Cost Estimator, give me a cost estimate for Azure VM pricing in us-west-2 (Oregon).",
+      "expected_filter_state": {
+        "region": "us-west-2 (Oregon)"
+      }
+    },
+    {
+      "task_id": "T1937",
+      "task_index_in_env": 7,
+      "instruction_text": "Using Azure Cost Estimator, estimate Azure VM pricing for the Brazil South region.",
+      "expected_filter_state": {
+        "region": "Brazil South"
+      }
+    },
+    {
+      "task_id": "T1938",
+      "task_index_in_env": 8,
+      "instruction_text": "Help me compute Azure VM pricing on Azure Cost Estimator for europe-west4 (Netherlands).",
+      "expected_filter_state": {
+        "region": "europe-west4 (Netherlands)"
+      }
+    },
+    {
+      "task_id": "T1939",
+      "task_index_in_env": 9,
+      "instruction_text": "On Azure Cost Estimator, give me a cost estimate for Azure VM pricing in Multi-Region (US).",
+      "expected_filter_state": {
+        "region": "Multi-Region (US)"
+      }
+    },
+    {
+      "task_id": "T1940",
+      "task_index_in_env": 10,
+      "instruction_text": "On Azure Cost Estimator, give me a cost estimate for Azure VM pricing in US East (verify region reflected in URL).",
+      "expected_filter_state": {
+        "region": "US East (verify region reflected in URL)"
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "env_id": "W18_E05",
+  "widget_id": "W18_property_type_exclusive_filter",
+  "widget_name": "Single-page property/listing-type filter",
+  "widget_category": "exclusive_select",
+  "widget_mechanic": "Property-Type filter has Condo / Townhouse / Single-Family / Multi-Family options. User wants ONLY one \u2014 agent must apply the filter to restrict the result set, not open the first listing without filtering.",
+  "archetype": "realestate_listings",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W18_property_type_exclusive_filter"
+  ],
+  "site_imitates": "Zillow \u2014 Houston, TX mobile/manufactured homes",
+  "product_type": "Houston mobile and multi-family homes (Zillow)",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_houston__tx_15257",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "Can you help me find a move-in ready mobile home to buy in Houston, TX? I'm looking for something under $500k with 3 bedrooms and 2+ bathrooms. You can check listings for me online.",
+      "first_failure_summary": "[3.5] Incomplete task execution: Typing produced no visible effect (no focused input/caret and no text appears); the page state looks unchanged after the action."
+    }
+  ],
+  "theme_key": "redfin",
+  "theme_logo": "Zillow",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 4,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "exclusive",
+    "fields": [
+      "property_type"
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "env_id": "W08_E09",
+  "widget_id": "W08_filter_chip_confirmation",
+  "widget_name": "Filter-chip confirmation bar",
+  "widget_category": "active_filter_bar",
+  "widget_mechanic": "After applying \u22652 filters, an active-chip bar shows what is currently applied. Agent must verify each required chip is present (and no extras) before treating the result set as the answer.",
+  "archetype": "faceted_catalog",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W08_filter_chip_confirmation"
+  ],
+  "site_imitates": "Eventbrite events discovery",
+  "product_type": "school-activity events",
+  "source_inspiration": [
+    {
+      "task_id": "c698ff3fc0f6cbce39947c597ab5749b_121425",
+      "benchmark": "OM2W",
+      "site": "eventbrite.com",
+      "instruction": "Help me find a list of school activity events in New York for this month.",
+      "first_failure_summary": "[3.5] Incomplete task execution: Agent typed \u201cschool activity\u201d in the search and picked New York, but failed to confirm the resulting filter pill cluster (location + topic + date) and reported events from the wrong city (Pryor Creek auto-fill)."
+    }
+  ],
+  "theme_key": "github",
+  "theme_logo": "CodeHub",
+  "theme_card": "game-row",
+  "theme_layout": "listing-rows",
+  "variant_idx": 3,
+  "n_seed_items": 18,
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "brand",
+      "category",
+      "color",
+      "condition"
+    ]
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "env_id": "W30_E09",
+  "widget_id": "W30_region_plus_override_defaults",
+  "archetype": "calculator_form",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T300901",
+      "task_index_in_env": 1,
+      "instruction_text": "I'm scoping a Oracle Cloud workload for a customer in us-ashburn-1 (Ashburn \u2014 VA) \u2014 set up a quote for Compute (VM.Standard.E4.Flex \u2014 1 OCPU), override the default usage to 1460 VM-hours (2 VMs always-on) for the month, and pin the Premier Support tier since this is a regulated tenant.",
+      "expected_filter_state": {
+        "region": "us-ashburn-1 (Ashburn \u2014 VA)",
+        "override": "1460 VM-hours (2 VMs always-on)"
+      }
+    },
+    {
+      "task_id": "T300902",
+      "task_index_in_env": 2,
+      "instruction_text": "Could you put together a Compute (BM.Standard.E4.128 \u2014 128 OCPU) quote? Always-on 1-month workload \u2014 use 730 OCPU-hours (1 month always-on) \u2014 and bill it out of us-phoenix-1 (Phoenix \u2014 AZ), the Premier Support tier is fine, we don't need anything fancier.",
+      "expected_filter_state": {
+        "region": "us-phoenix-1 (Phoenix \u2014 AZ)",
+        "override": "730 OCPU-hours (1 month always-on)"
+      }
+    },
+    {
+      "task_id": "T300903",
+      "task_index_in_env": 3,
+      "instruction_text": "Need to estimate Block Volume (Balanced) sitting in us-sanjose-1 (San Jose \u2014 CA) at about 500 GB storage. We're on the Basic tier anyway.",
+      "expected_filter_state": {
+        "region": "us-sanjose-1 (San Jose \u2014 CA)",
+        "override": "500 GB storage"
+      }
+    },
+    {
+      "task_id": "T300904",
+      "task_index_in_env": 4,
+      "instruction_text": "Configure the calculator for Object Storage (Standard) in us-chicago-1 (Chicago \u2014 IL) \u2014 usage around 500 GB storage per month and we're already on the Premier Support tier for the FedRAMP tenant.",
+      "expected_filter_state": {
+        "region": "us-chicago-1 (Chicago \u2014 IL)",
+        "override": "500 GB storage"
+      }
+    },
+    {
+      "task_id": "T300905",
+      "task_index_in_env": 5,
+      "instruction_text": "What's the projected monthly bill for Autonomous Database (1 OCPU) in ca-toronto-1 (Toronto \u2014 ON) doing 730 OCPU-hours (1 month always-on), with the Basic tier attached?",
+      "expected_filter_state": {
+        "region": "ca-toronto-1 (Toronto \u2014 ON)",
+        "override": "730 OCPU-hours (1 month always-on)"
+      }
+    },
+    {
+      "task_id": "T300906",
+      "task_index_in_env": 6,
+      "instruction_text": "Quick check \u2014 if I put 1460 VM-hours (2 VMs always-on) through Oracle Database (Standard Edition \u2014 1 OCPU) in sa-saopaulo-1 (S\u00e3o Paulo \u2014 BR), on the Basic tier, what does the monthly estimate come to?",
+      "expected_filter_state": {
+        "region": "sa-saopaulo-1 (S\u00e3o Paulo \u2014 BR)",
+        "override": "1460 VM-hours (2 VMs always-on)"
+      }
+    },
+    {
+      "task_id": "T300907",
+      "task_index_in_env": 7,
+      "instruction_text": "Hmm, what would Compute (VM.Standard.E4.Flex \u2014 1 OCPU) cost me in eu-frankfurt-1 (Frankfurt \u2014 DE) for a 1460 VM-hours (2 VMs always-on) monthly commitment if I add the Premier Support tier on top? Just want the number.",
+      "expected_filter_state": {
+        "region": "eu-frankfurt-1 (Frankfurt \u2014 DE)",
+        "override": "1460 VM-hours (2 VMs always-on)"
+      }
+    },
+    {
+      "task_id": "T300908",
+      "task_index_in_env": 8,
+      "instruction_text": "Pricing exercise for a finance review: configure the calculator for Object Storage (Standard) in eu-amsterdam-1 (Amsterdam \u2014 NL), override usage to 500 GB storage, leave support at the Basic tier, then tell me the all-in monthly total \u2014 they want it for the budget doc.",
+      "expected_filter_state": {
+        "region": "eu-amsterdam-1 (Amsterdam \u2014 NL)",
+        "override": "500 GB storage"
+      }
+    },
+    {
+      "task_id": "T300909",
+      "task_index_in_env": 9,
+      "instruction_text": "OK so I need to estimate Compute (BM.Standard.E4.128 \u2014 128 OCPU) running in uk-london-1 (London \u2014 UK) for one month \u2014 use 730 OCPU-hours (1 month always-on) \u2014 and we're on the Premier Support tier; set it up in the calculator and give me the monthly figure.",
+      "expected_filter_state": {
+        "region": "uk-london-1 (London \u2014 UK)",
+        "override": "730 OCPU-hours (1 month always-on)"
+      }
+    },
+    {
+      "task_id": "T300910",
+      "task_index_in_env": 10,
+      "instruction_text": "Hey, can you set up an estimate for 1460 VM-hours (2 VMs always-on) out of eu-zurich-1 (Z\u00fcrich \u2014 CH) on Oracle Database (Standard Edition \u2014 1 OCPU) and tell me the monthly cost? We're on the Basic tier, but if it's over $1000/month we'll probably want to revisit.",
+      "expected_filter_state": {
+        "region": "eu-zurich-1 (Z\u00fcrich \u2014 CH)",
+        "override": "1460 VM-hours (2 VMs always-on)"
+      }
+    }
+  ]
+}

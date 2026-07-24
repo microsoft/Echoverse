@@ -1,0 +1,41 @@
+{
+  "env_id": "W06_E02",
+  "widget_id": "W06_exact_match_toggle",
+  "widget_name": "Exact-match toggle paired with plus-chip",
+  "widget_category": "toggle",
+  "widget_mechanic": "When a plus-chip filter is set (e.g. '3+ bedrooms'), results include all N \u2265 3. To require EXACTLY N, agent must locate and enable the 'use exact match' toggle \u2014 usually below the plus-chip row or inside an advanced filters panel.",
+  "archetype": "realestate_listings",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W06_exact_match_toggle"
+  ],
+  "site_imitates": "Realtor.com Jackson TN",
+  "product_type": "homes in Jackson, TN",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_jackson__tn_2638",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "I'm looking to buy a move-in ready home with 3 bedrooms and central AC in Jackson, TN, priced between $300k and $600k. Can you help me find one that meets these criteria?",
+      "first_failure_summary": "[3.5] Incomplete task execution: The double-click was on the correct Realtor.com result link, but the post-action screenshot shows no navigation or observable change, so the action did not advance the task."
+    }
+  ],
+  "theme_key": "realtor",
+  "theme_logo": "Realtor Pro",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 1,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "gte_or_eq",
+    "fields": [
+      "min_beds",
+      "min_baths",
+      "exact_match"
+    ],
+    "item_fields": [
+      "beds",
+      "baths"
+    ]
+  }
+}

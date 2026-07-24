@@ -1,0 +1,98 @@
+{
+  "env_id": "W26_E08",
+  "widget_id": "W26_autocomplete_plus_calendar_advance",
+  "archetype": "booking_form",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2501",
+      "task_index_in_env": 1,
+      "instruction_text": "Book a flight with AirAsia from Hong Kong to Manila leaving August 7, 2026 and coming back August 14, 2026. Destination must resolve to MNL (Manila Ninoy Aquino), not MFM (Macau), CRK (Clark), or MNI (Manilla NSW). The calendar opens on May 2026 so you'll need to advance to August.",
+      "expected_filter_state": {
+        "dest": "MNL",
+        "date": "Aug 7",
+        "return_date": "Aug 14"
+      }
+    },
+    {
+      "task_id": "T2502",
+      "task_index_in_env": 2,
+      "instruction_text": "Same Hong Kong \u2192 Manila AirAsia route but for Jul 22, 2026 \u2192 Jul 28, 2026. Pick MNL in the autocomplete, set the calendar dates.",
+      "expected_filter_state": {
+        "dest": "MNL",
+        "date": "Jul 22",
+        "return_date": "Jul 28"
+      }
+    },
+    {
+      "task_id": "T2503",
+      "task_index_in_env": 3,
+      "instruction_text": "Book Hong Kong \u2192 Manila for Feb 24, 2027 \u2192 Mar 3, 2027 (calendar advance ~10 months). Watch the Manila autocomplete \u2014 pick MNL, not the Australian Manilla.",
+      "expected_filter_state": {
+        "dest": "MNL",
+        "date": "Feb 24",
+        "return_date": "Mar 3"
+      }
+    },
+    {
+      "task_id": "T2504",
+      "task_index_in_env": 4,
+      "instruction_text": "One-way Hong Kong \u2192 Manila on Dec 22, 2026. Set destination MNL and pick Dec 22, 2026 in the calendar \u2014 no return.",
+      "expected_filter_state": {
+        "dest": "MNL",
+        "date": "Dec 22"
+      }
+    },
+    {
+      "task_id": "T2505",
+      "task_index_in_env": 5,
+      "instruction_text": "What's the cheapest AirAsia fare for HKG \u2192 MNL on Oct 23, 2026? Reply as $X (e.g. $145).",
+      "expected_filter_state": {}
+    },
+    {
+      "task_id": "T2506",
+      "task_index_in_env": 6,
+      "instruction_text": "How many AirAsia options (ignore Cebu Pacific, ignore Charter) for HKG \u2192 MNL on Aug 7, 2026 are listed? Reply with integer + 'AirAsia' (e.g. '2 AirAsia').",
+      "expected_filter_state": {}
+    },
+    {
+      "task_id": "T2507",
+      "task_index_in_env": 7,
+      "instruction_text": "What is the flight duration for AK 1571 Hong Kong \u2192 Manila? Reply with the time in quotes (e.g. \"2h 10m\").",
+      "expected_filter_state": {}
+    },
+    {
+      "task_id": "T2508",
+      "task_index_in_env": 8,
+      "instruction_text": "Configure: dest MNL, depart Aug 7, 2026, return Aug 14, 2026. Report how many AirAsia options match (e.g. '2 flights').",
+      "expected_filter_state": {
+        "dest": "MNL",
+        "date": "Aug 7",
+        "return_date": "Aug 14"
+      }
+    },
+    {
+      "task_id": "T2509",
+      "task_index_in_env": 9,
+      "instruction_text": "Set HKG \u2192 MNL for Jan 14, 2027 \u2192 Jan 21, 2027. Report the AirAsia flight number for that depart in quotes (e.g. \"AK 1585\").",
+      "expected_filter_state": {
+        "dest": "MNL",
+        "date": "Jan 14",
+        "return_date": "Jan 21"
+      }
+    },
+    {
+      "task_id": "T2510",
+      "task_index_in_env": 10,
+      "instruction_text": "Final: dest MNL, dates May 12, 2027 \u2192 May 19, 2027 (deep advance). Report the AirAsia fare in $X form.",
+      "expected_filter_state": {
+        "dest": "MNL",
+        "date": "May 12",
+        "return_date": "May 19"
+      }
+    }
+  ]
+}

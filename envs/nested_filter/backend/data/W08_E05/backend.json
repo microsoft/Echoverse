@@ -1,0 +1,95 @@
+{
+  "env_id": "W08_E05",
+  "widget_id": "W08_filter_chip_confirmation",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "checkbox_facet",
+    "fields": [
+      "brand",
+      "condition",
+      "color"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "W08_E05_T001",
+      "task_index_in_env": 1,
+      "instruction_text": "Show me **Men's Blazers** in **Black**, **Size M** \u2014 apply the Category (Blazer), Color (Black), and Size (M) chips. Verify all three appear in the header chip rail before listing items.",
+      "expected_filter_state": {
+        "constraint": "category=[Blazer], color=[Black], condition=[M]"
+      }
+    },
+    {
+      "task_id": "W08_E05_T002",
+      "task_index_in_env": 2,
+      "instruction_text": "Apply **Blazer** + **Black** + **Size M** + **Uniqlo** (line). After all four chips sit in the header bar, \u00d7 off the Uniqlo chip so you see Blazers from any line in Black/M.",
+      "expected_filter_state": {
+        "constraint": "category=[Blazer], color=[Black], condition=[M]"
+      }
+    },
+    {
+      "task_id": "W08_E05_T003",
+      "task_index_in_env": 3,
+      "instruction_text": "Apply **Blazer** + **Black** + **Size M** + **Size L**. Then realize you only want M \u2014 \u00d7 off the Size L chip so the chip rail shows Blazer + Black + Size M.",
+      "expected_filter_state": {
+        "constraint": "category=[Blazer], color=[Black], condition=[M]"
+      }
+    },
+    {
+      "task_id": "W08_E05_T004",
+      "task_index_in_env": 4,
+      "instruction_text": "Cross-shop colors: apply **Blazer** + **Black** + **Navy** + **Size M**. Then \u00d7 off the Black chip so the integrated header chip rail is left with Blazer + Navy + Size M.",
+      "expected_filter_state": {
+        "constraint": "category=[Blazer], color=[Navy], condition=[M]"
+      }
+    },
+    {
+      "task_id": "W08_E05_T005",
+      "task_index_in_env": 5,
+      "instruction_text": "No filters \u2014 how many items total in the UNILO catalog?",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E05_T006",
+      "task_index_in_env": 6,
+      "instruction_text": "Without filtering, which item has the highest customer rating, plus the rating value?",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E05_T007",
+      "task_index_in_env": 7,
+      "instruction_text": "No filters \u2014 how many items are priced under $50 versus $50-and-up?",
+      "expected_filter_state": {
+        "constraint": ""
+      }
+    },
+    {
+      "task_id": "W08_E05_T008",
+      "task_index_in_env": 8,
+      "instruction_text": "Apply the **Blazer** (category) chip AND the **Black** (color) chip. After both pills sit in the header bar, tell me how many black blazers are listed.",
+      "expected_filter_state": {
+        "constraint": "category=[Blazer], color=[Black]"
+      }
+    },
+    {
+      "task_id": "W08_E05_T009",
+      "task_index_in_env": 9,
+      "instruction_text": "Multi-step Fara replay: apply **Blazer** + **Black** + **Size M** + the $80\u2013$199 price band. Then \u00d7 off the price chip so price is unconstrained. Tell me how many black blazers (size M) remain across all prices.",
+      "expected_filter_state": {
+        "constraint": "category=[Blazer], color=[Black], condition=[M]"
+      }
+    },
+    {
+      "task_id": "W08_E05_T010",
+      "task_index_in_env": 10,
+      "instruction_text": "Apply **Blazer** + **Black** + **Size M**. Once those three chips are pinned in the header chip rail, name the highest-rated black men's blazer in size M (title + rating).",
+      "expected_filter_state": {
+        "constraint": "category=[Blazer], color=[Black], condition=[M]"
+      }
+    }
+  ]
+}

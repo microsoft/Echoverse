@@ -1,0 +1,178 @@
+[
+  {
+    "from_code": "LCA",
+    "to_code": "ATH",
+    "airline": "Wizz Air",
+    "flight_no": "W6 4081",
+    "depart_time": "06:45",
+    "duration": "1h 50m",
+    "stops": "Direct",
+    "price": 49,
+    "image_url": "https://images.pexels.com/photos/8032138/pexels-photo-8032138.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LCA",
+    "to_code": "ATH",
+    "airline": "Wizz Air",
+    "flight_no": "W6 4083",
+    "depart_time": "14:25",
+    "duration": "1h 55m",
+    "stops": "Direct",
+    "price": 59,
+    "image_url": "https://images.pexels.com/photos/3486/flight-travelling-airplane.jpg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LCA",
+    "to_code": "ATH",
+    "airline": "Aegean",
+    "flight_no": "A3 941",
+    "depart_time": "19:30",
+    "duration": "1h 50m",
+    "stops": "Direct",
+    "price": 89,
+    "image_url": "https://images.pexels.com/photos/33692963/pexels-photo-33692963.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LCA",
+    "to_code": "SKG",
+    "airline": "Wizz Air",
+    "flight_no": "W6 4109",
+    "depart_time": "11:10",
+    "duration": "2h 20m",
+    "stops": "Direct",
+    "price": 69,
+    "image_url": "https://images.pexels.com/photos/16108903/pexels-photo-16108903.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LCA",
+    "to_code": "BUD",
+    "airline": "Wizz Air",
+    "flight_no": "W6 4051",
+    "depart_time": "07:20",
+    "duration": "3h 30m",
+    "stops": "Direct",
+    "price": 79,
+    "image_url": "https://images.pexels.com/photos/29587915/pexels-photo-29587915.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LCA",
+    "to_code": "OTP",
+    "airline": "Wizz Air",
+    "flight_no": "W6 4007",
+    "depart_time": "09:00",
+    "duration": "2h 40m",
+    "stops": "Direct",
+    "price": 65,
+    "image_url": "https://images.pexels.com/photos/33598033/pexels-photo-33598033.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LCA",
+    "to_code": "WAW",
+    "airline": "Wizz Air",
+    "flight_no": "W6 4017",
+    "depart_time": "13:15",
+    "duration": "3h 45m",
+    "stops": "Direct",
+    "price": 89,
+    "image_url": "https://images.pexels.com/photos/5868296/pexels-photo-5868296.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LCA",
+    "to_code": "LTN",
+    "airline": "Wizz Air",
+    "flight_no": "W6 4015",
+    "depart_time": "06:00",
+    "duration": "5h 00m",
+    "stops": "Direct",
+    "price": 119,
+    "image_url": "https://images.pexels.com/photos/29518232/pexels-photo-29518232.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LCA",
+    "to_code": "VIE",
+    "airline": "Wizz Air",
+    "flight_no": "W6 4061",
+    "depart_time": "12:30",
+    "duration": "3h 25m",
+    "stops": "Direct",
+    "price": 99,
+    "image_url": "https://images.pexels.com/photos/14400667/pexels-photo-14400667.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LCA",
+    "to_code": "SOF",
+    "airline": "Wizz Air",
+    "flight_no": "W6 4047",
+    "depart_time": "08:00",
+    "duration": "2h 10m",
+    "stops": "Direct",
+    "price": 49,
+    "image_url": "https://images.pexels.com/photos/37644602/pexels-photo-37644602.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LCA",
+    "to_code": "TIA",
+    "airline": "Wizz Air",
+    "flight_no": "W6 4035",
+    "depart_time": "10:50",
+    "duration": "2h 50m",
+    "stops": "Direct",
+    "price": 59,
+    "image_url": "https://images.pexels.com/photos/5640195/pexels-photo-5640195.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LCA",
+    "to_code": "ALC",
+    "airline": "Wizz Air",
+    "flight_no": "W6 4209",
+    "depart_time": "14:50",
+    "duration": "5h 25m",
+    "stops": "Direct",
+    "price": 109,
+    "image_url": "https://images.pexels.com/photos/1973183/pexels-photo-1973183.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LCA",
+    "to_code": "EVN",
+    "airline": "Wizz Air",
+    "flight_no": "W6 4145",
+    "depart_time": "23:40",
+    "duration": "2h 30m",
+    "stops": "Direct",
+    "price": 79,
+    "image_url": "https://images.pexels.com/photos/2527670/pexels-photo-2527670.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LCA",
+    "to_code": "TBS",
+    "airline": "Wizz Air",
+    "flight_no": "W6 4151",
+    "depart_time": "01:10",
+    "duration": "2h 50m",
+    "stops": "Direct",
+    "price": 89,
+    "image_url": "https://images.pexels.com/photos/13343879/pexels-photo-13343879.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LCA",
+    "to_code": "PFO",
+    "airline": "Tus Airways",
+    "flight_no": "U8 211",
+    "depart_time": "07:30",
+    "duration": "0h 35m",
+    "stops": "Direct",
+    "price": 29,
+    "image_url": "https://images.pexels.com/photos/20848188/pexels-photo-20848188.jpeg?auto=compress&cs=tinysrgb&h=130"
+  },
+  {
+    "from_code": "LCA",
+    "to_code": "HER",
+    "airline": "SKY Express",
+    "flight_no": "GQ 911",
+    "depart_time": "16:00",
+    "duration": "2h 30m",
+    "stops": "Direct",
+    "price": 79,
+    "image_url": "https://images.pexels.com/photos/27550030/pexels-photo-27550030.jpeg?auto=compress&cs=tinysrgb&h=130"
+  }
+]

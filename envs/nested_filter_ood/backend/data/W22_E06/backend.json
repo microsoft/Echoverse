@@ -1,0 +1,101 @@
+{
+  "env_id": "W22_E06",
+  "widget_id": "W22_min_max_slider_plus_plus_chip",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2151",
+      "task_index_in_env": 1,
+      "instruction_text": "Show me Boise homes on Zillow Boise \u2014 budget $500,000 max, 4+ bedrooms.",
+      "expected_filter_state": {
+        "max_price": 500000,
+        "min_beds": 4
+      }
+    },
+    {
+      "task_id": "T2152",
+      "task_index_in_env": 2,
+      "instruction_text": "On Zillow Boise, find Boise homes under $450,000 with at least 3 bedrooms.",
+      "expected_filter_state": {
+        "max_price": 450000,
+        "min_beds": 3
+      }
+    },
+    {
+      "task_id": "T2153",
+      "task_index_in_env": 3,
+      "instruction_text": "On Zillow Boise, find Boise homes under $350,000 with at least 2 bedrooms.",
+      "expected_filter_state": {
+        "max_price": 350000,
+        "min_beds": 2
+      }
+    },
+    {
+      "task_id": "T2154",
+      "task_index_in_env": 4,
+      "instruction_text": "Show me Boise homes on Zillow Boise \u2014 budget $750,000 max, 4+ bedrooms.",
+      "expected_filter_state": {
+        "max_price": 750000,
+        "min_beds": 4
+      }
+    },
+    {
+      "task_id": "T2155",
+      "task_index_in_env": 5,
+      "instruction_text": "On Zillow Boise, find Boise homes under $300,000 with at least 1 bedrooms.",
+      "expected_filter_state": {
+        "max_price": 300000,
+        "min_beds": 1
+      }
+    },
+    {
+      "task_id": "T2156",
+      "task_index_in_env": 6,
+      "instruction_text": "I'm looking on Zillow Boise for Boise homes that fit under $650,000 and have 3 or more bedrooms.",
+      "expected_filter_state": {
+        "max_price": 650000,
+        "min_beds": 3
+      }
+    },
+    {
+      "task_id": "T2157",
+      "task_index_in_env": 7,
+      "instruction_text": "I'm looking on Zillow Boise for Boise homes that fit under $550,000 and have 4 or more bedrooms.",
+      "expected_filter_state": {
+        "max_price": 550000,
+        "min_beds": 4
+      }
+    },
+    {
+      "task_id": "T2158",
+      "task_index_in_env": 8,
+      "instruction_text": "Help me search Zillow Boise for Boise homes priced under $400,000 that have 2+ beds.",
+      "expected_filter_state": {
+        "max_price": 400000,
+        "min_beds": 2
+      }
+    },
+    {
+      "task_id": "T2159",
+      "task_index_in_env": 9,
+      "instruction_text": "Show me Boise homes on Zillow Boise \u2014 budget $850,000 max, 5+ bedrooms.",
+      "expected_filter_state": {
+        "max_price": 850000,
+        "min_beds": 5
+      }
+    },
+    {
+      "task_id": "T2160",
+      "task_index_in_env": 10,
+      "instruction_text": "Show me Boise homes on Zillow Boise \u2014 budget $250,000 max, 2+ bedrooms.",
+      "expected_filter_state": {
+        "max_price": 250000,
+        "min_beds": 2
+      }
+    }
+  ]
+}

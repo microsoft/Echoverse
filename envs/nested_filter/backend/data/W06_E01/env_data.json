@@ -1,0 +1,41 @@
+{
+  "env_id": "W06_E01",
+  "widget_id": "W06_exact_match_toggle",
+  "widget_name": "Exact-match toggle paired with plus-chip",
+  "widget_category": "toggle",
+  "widget_mechanic": "When a plus-chip filter is set (e.g. '3+ bedrooms'), results include all N \u2265 3. To require EXACTLY N, agent must locate and enable the 'use exact match' toggle \u2014 usually below the plus-chip row or inside an advanced filters panel.",
+  "archetype": "realestate_listings",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W06_exact_match_toggle"
+  ],
+  "site_imitates": "Realtor.com Tacoma WA",
+  "product_type": "homes in Tacoma, WA",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_tacoma__wa_12334",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "I'm looking for homes for sale in Tacoma, WA that have 3 bedrooms, 2 or more bathrooms, and are under $500k. Can you show me some options?",
+      "first_failure_summary": "[2.1] Output contradiction: The agent stated it would enable \u201cUse exact match\u201d because results were broader than requested, but at that time the UI evidence indicates the bedroom setting was still \u201c3+\u201d and exact match was not yet enabled (allowing non-3-bedroom listings)."
+    }
+  ],
+  "theme_key": "realtor",
+  "theme_logo": "Realtor Pro",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "gte_or_eq",
+    "fields": [
+      "min_beds",
+      "min_baths",
+      "exact_match"
+    ],
+    "item_fields": [
+      "beds",
+      "baths"
+    ]
+  }
+}

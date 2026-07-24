@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoPets — Find adoptable pets in your area</title>
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#fs-debug,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+
+
+
+
+
+*,*::before,*::after { box-sizing:border-box; }
+html,body { margin:0; padding:0; }
+:root {
+  --hs-navy:#0E3A5F;
+  --hs-navy-dk:#0A2A45;
+  --hs-red:#C8102E;
+  --hs-red-dk:#9B0E22;
+  --hs-gold:#FFD479;
+  --hs-cream:#F4F1EB;
+  --hs-paper:#FAF7F0;
+  --hs-line:#D9D2C2;
+  --hs-ink:#1B1B1B;
+  --hs-muted:#5C5C5C;
+}
+body { font-family:'Helvetica Neue',Arial,sans-serif; background:var(--hs-cream); color:var(--hs-ink); }
+.serif { font-family:Georgia,'Times New Roman',serif; }
+
+.pet-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(252px,1fr)); gap:18px; }
+.pet-card { background:#fff; border:1px solid var(--hs-line); border-radius:4px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 1px 3px rgba(0,0,0,0.04); transition:transform .14s, box-shadow .14s; position:relative; }
+.pet-card:hover { transform:translateY(-3px); box-shadow:0 8px 18px rgba(14,58,95,0.12); }
+.pet-card .pc-photo { position:relative; width:100%; aspect-ratio:5/4; overflow:hidden; background:#eee; }
+.pet-card .pc-photo img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .4s ease; }
+.pet-card:hover .pc-photo img { transform:scale(1.04); }
+.pet-card .pc-distance { position:absolute; left:10px; bottom:10px; padding:4px 10px; background:rgba(14,58,95,0.85); color:#fff; font-size:11px; font-weight:600; border-radius:2px; letter-spacing:0.3px; }
+.pet-card .pc-fav { position:absolute; right:10px; top:10px; width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.92); display:flex; align-items:center; justify-content:center; color:var(--hs-red); font-size:16px; box-shadow:0 1px 4px rgba(0,0,0,0.15); cursor:pointer; }
+.pet-card .pc-new { position:absolute; left:0; top:12px; padding:3px 10px 3px 8px; background:var(--hs-red); color:#fff; font-size:10px; font-weight:700; letter-spacing:0.6px; text-transform:uppercase; }
+.pet-card .pc-body { padding:14px 16px 12px; display:flex; flex-direction:column; gap:8px; flex:1; }
+.pet-card .pc-head { display:flex; justify-content:space-between; align-items:baseline; gap:6px; }
+.pet-card h3 { margin:0; font-size:18px; color:var(--hs-navy); font-family:Georgia,serif; font-weight:700; letter-spacing:0.2px; }
+.pet-card .pc-rating { font-size:12px; color:#C98A00; font-weight:700; white-space:nowrap; }
+.pet-card .pc-breed { font-size:12px; color:var(--hs-muted); margin-top:-3px; font-style:italic; }
+.pet-card .pc-meta { display:flex; flex-wrap:wrap; gap:5px; }
+.pet-card .pc-pill { font-size:10.5px; padding:3px 9px; border-radius:11px; background:#f1f3f7; color:#374151; font-weight:600; letter-spacing:0.2px; }
+.pet-card .pc-sex { background:#FCE7F3; color:#9D174D; }
+.pet-card .pc-ster { background:#E0E7FF; color:#3730A3; }
+.pet-card .pc-sp { background:#FEF3C7; color:#92400E; }
+.pet-card .pc-compat { list-style:none; padding:0; margin:0; display:flex; flex-wrap:wrap; gap:4px; }
+.pet-card .pc-compat li { font-size:10px; padding:2px 7px; background:#FFFFFF; color:var(--hs-red-dk); border-radius:2px; border:1px solid var(--hs-line); font-weight:600; }
+.pet-card .pc-shelter { font-size:10px; color:var(--hs-muted); text-transform:uppercase; letter-spacing:0.6px; margin-top:auto; padding-top:8px; border-top:1px solid #f3f3f3; font-weight:600; }
+.pet-card .pc-cta { display:block; margin-top:6px; padding:8px 0; text-align:center; background:var(--hs-navy); color:#fff; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; border-radius:2px; cursor:pointer; }
+.pet-card .pc-cta:hover { background:var(--hs-red); }
+
+.hs-alert { background:#FFF6E0; color:#5b4a00; border-top:3px solid var(--hs-red); border-bottom:1px solid #EBD7A8; padding:8px 28px; font-size:12.5px; display:flex; align-items:center; gap:10px; }
+.hs-alert .ico { background:var(--hs-red); color:#fff; padding:2px 8px; border-radius:2px; font-size:10.5px; font-weight:700; letter-spacing:0.8px; }
+.hs-alert a { color:var(--hs-red-dk); font-weight:700; text-decoration:underline; }
+
+.hs-search { display:flex; gap:10px; align-items:stretch; max-width:760px; margin-top:18px; background:#fff; padding:8px; border-radius:4px; box-shadow:0 4px 14px rgba(0,0,0,0.18); }
+.hs-search .hsf { display:flex; flex-direction:column; padding:4px 12px; border-right:1px solid #e5e0d6; }
+.hs-search .hsf:last-of-type { border-right:0; }
+.hs-search .hsf label { font-size:10px; font-weight:700; color:var(--hs-muted); text-transform:uppercase; letter-spacing:0.8px; }
+.hs-search .hsf input, .hs-search .hsf select { border:0; outline:none; font-size:14px; color:var(--hs-ink); background:transparent; min-width:130px; padding:2px 0; font-family:inherit; }
+.hs-search .hs-go { background:var(--hs-red); color:#fff; border:0; padding:0 26px; font-weight:700; font-size:13px; letter-spacing:0.8px; cursor:pointer; border-radius:2px; text-transform:uppercase; }
+.hs-search .hs-go:hover { background:var(--hs-red-dk); }
+
+.hs-foot { background:var(--hs-navy-dk); color:#cfd8e1; padding:40px 28px 22px; margin-top:50px; }
+.hs-foot-wrap { max-width:1320px; margin:0 auto; display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr 1fr; gap:32px; }
+.hs-foot h5 { color:#fff; font-family:Georgia,serif; font-size:14px; margin:0 0 12px; font-weight:700; letter-spacing:0.3px; }
+.hs-foot ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:7px; font-size:12.5px; }
+.hs-foot a { color:#cfd8e1; text-decoration:none; }
+.hs-foot a:hover { color:var(--hs-gold); }
+.hs-foot .hs-foot-brand { font-family:Georgia,serif; color:#fff; font-size:18px; font-weight:700; margin-bottom:6px; line-height:1.15; }
+.hs-foot .hs-foot-tag { font-size:12px; color:#aab8c2; margin-bottom:14px; }
+.hs-foot .hs-donate { background:var(--hs-red); color:#fff; padding:10px 22px; display:inline-block; font-weight:700; font-size:12px; letter-spacing:0.8px; text-transform:uppercase; border-radius:2px; margin-bottom:14px; }
+.hs-foot-base { max-width:1320px; margin:24px auto 0; padding-top:18px; border-top:1px solid #1d4060; font-size:11px; color:#8aa0b3; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+
+.hs-logo-mark { display:inline-flex; align-items:center; gap:9px; }
+.hs-logo-mark svg { flex-shrink:0; }
+
+</style>
+</head>
+<body>
+<script>window.RESULTS_SEL = "#pet-grid"; window.ENV_ID = "W27_E05";</script>
+
+<div style="background:var(--hs-navy);color:#fff;padding:6px 28px;font-size:11.5px;display:flex;justify-content:space-between;align-items:center;letter-spacing:0.3px;">
+  <span><b>EchoPets</b> &nbsp;·&nbsp; Animal Rescue Team &nbsp;·&nbsp; Disaster Response &nbsp;·&nbsp; EchoPro</span>
+  <span><a href="#" style="color:var(--hs-gold);text-decoration:underline;font-weight:600;">Sign in</a> &nbsp;·&nbsp; <a href="#" style="color:#fff;text-decoration:underline;">Newsletter</a> &nbsp;·&nbsp; <a href="#" style="color:#fff;text-decoration:underline;">Contact</a></span>
+</div>
+<div class="hs-alert">
+  <span class="ico">ALERT</span>
+  <span><b>Disaster response active:</b> EchoPets Animal Rescue Team is deployed to support pets displaced by recent flooding. <a href="#">Read updates ›</a></span>
+</div>
+<header style="background:#fff;padding:16px 32px;display:flex;align-items:center;gap:36px;border-bottom:1px solid #e5e0d6;">
+  <div class="hs-logo-mark">
+    <svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true">
+      <rect x="3" y="3" width="38" height="38" rx="10" fill="#0E3A5F"/>
+      <text x="22" y="31" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="800" fill="#fff">E</text>
+    </svg>
+    <span style="font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:18px;color:var(--hs-navy);letter-spacing:0.3px;line-height:1.05;">EchoPets</span>
+  </div>
+  <nav style="display:flex;gap:28px;font-family:Georgia,serif;font-size:14px;font-weight:600;color:var(--hs-navy);">
+    <span style="cursor:pointer;">Our Work</span>
+    <span style="cursor:pointer;border-bottom:2px solid var(--hs-red);padding-bottom:3px;">Resources</span>
+    <span style="cursor:pointer;">Take Action</span>
+    <span style="cursor:pointer;">News</span>
+    <span style="cursor:pointer;">About</span>
+  </nav>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:14px;">
+    <span style="font-size:13px;color:var(--hs-navy);cursor:pointer;">🔍</span>
+    <button style="background:var(--hs-red);color:#fff;border:0;padding:11px 26px;font-weight:700;font-size:12.5px;cursor:pointer;border-radius:2px;letter-spacing:0.8px;">DONATE NOW</button>
+  </div>
+</header>
+
+<section style="background:linear-gradient(135deg,var(--hs-navy) 0%,#114873 100%);color:#fff;padding:30px 32px 36px;position:relative;overflow:hidden;">
+  <div style="position:absolute;right:-40px;top:-40px;width:280px;height:280px;border-radius:50%;background:rgba(255,212,121,0.06);"></div>
+  <div style="position:absolute;right:140px;bottom:-90px;width:200px;height:200px;border-radius:50%;background:rgba(200,16,46,0.08);"></div>
+  <div style="max-width:1320px;margin:0 auto;position:relative;">
+    <div style="font-size:11px;color:var(--hs-gold);letter-spacing:1.8px;text-transform:uppercase;font-weight:700;margin-bottom:8px;">Resources › Pets › Adopt</div>
+    <h1 class="serif" style="font-size:42px;margin:0 0 8px;font-weight:700;letter-spacing:-0.5px;">Find adoptable pets in your area</h1>
+    <p style="font-size:15px;color:#E8E0D0;max-width:760px;margin:0;line-height:1.55;">Open your home to a shelter pet. Search our database of dogs, cats, and other adoptable animals from rescues and shelters across the country.</p>
+    <div class="hs-search">
+      <div class="hsf" style="flex:1.4;">
+        <label>Location</label>
+        <input type="text" value="Washington, DC 20037" aria-label="Location">
+      </div>
+      <div class="hsf">
+        <label>Distance</label>
+        <select aria-label="Distance">
+          <option>10 miles</option>
+          <option>25 miles</option>
+          <option>50 miles</option>
+          <option selected>100 miles</option>
+          <option>Anywhere</option>
+        </select>
+      </div>
+      <div class="hsf">
+        <label>Animal</label>
+        <select aria-label="Animal type">
+          <option>Any pet</option>
+          <option>Dog</option>
+          <option>Cat</option>
+        </select>
+      </div>
+      <button class="hs-go">Search</button>
+    </div>
+  </div>
+</section>
+
+<div style="display:grid;grid-template-columns:300px 1fr;gap:28px;padding:28px;max-width:1320px;margin:0 auto;">
+  <aside style="background:#fff;border-radius:4px;padding:0;border:1px solid var(--hs-line);align-self:start;box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+    <div style="background:var(--hs-navy);color:#fff;padding:14px 18px;font-family:Georgia,serif;font-size:17px;font-weight:700;border-radius:4px 4px 0 0;display:flex;justify-content:space-between;align-items:center;">
+      <span>Refine your search</span>
+      <span style="font-size:11px;font-weight:600;color:var(--hs-gold);letter-spacing:0.8px;cursor:pointer;">CLEAR</span>
+    </div>
+
+    <details class="hsus-acc" open>
+      <summary><span><span class="hsus-ico">🐾</span> Species</span></summary>
+      <div class="hsus-acc-body">
+        <label class="hsus-radio"><input type="radio" name="sp" data-facet="species" data-val="Dog" onchange="applyFilters()"> <span>Dog</span></label>
+        <label class="hsus-radio"><input type="radio" name="sp" data-facet="species" data-val="Cat" onchange="applyFilters()"> <span>Cat</span></label>
+      </div>
+    </details>
+
+    <details class="hsus-acc" open>
+      <summary><span><span class="hsus-ico">⚥</span> Sex</span></summary>
+      <div class="hsus-acc-body">
+        <label class="hsus-radio"><input type="radio" name="sex" data-facet="sex" data-val="Female" onchange="applyFilters()"> <span>Female</span></label>
+        <label class="hsus-radio"><input type="radio" name="sex" data-facet="sex" data-val="Male" onchange="applyFilters()"> <span>Male</span></label>
+      </div>
+    </details>
+
+    <details class="hsus-acc" open>
+      <summary><span><span class="hsus-ico">＋</span> Sterilization</span></summary>
+      <div class="hsus-acc-body">
+        <label class="hsus-radio"><input type="radio" name="st" data-facet="sterilization" data-val="Spayed" onchange="applyFilters()"> <span>Spayed</span></label>
+        <label class="hsus-radio"><input type="radio" name="st" data-facet="sterilization" data-val="Neutered" onchange="applyFilters()"> <span>Neutered</span></label>
+        <label class="hsus-radio"><input type="radio" name="st" data-facet="sterilization" data-val="Intact" onchange="applyFilters()"> <span>Intact (not yet altered)</span></label>
+      </div>
+    </details>
+
+    <details class="hsus-acc" open>
+      <summary><span><span class="hsus-ico">✓</span> Good with</span></summary>
+      <div class="hsus-acc-body">
+        <label class="hsus-check"><input type="checkbox" data-facet="compat" value="Good with cats" onchange="applyFilters()"> <span>Good with cats</span></label>
+        <label class="hsus-check"><input type="checkbox" data-facet="compat" value="Good with dogs" onchange="applyFilters()"> <span>Good with dogs</span></label>
+        <label class="hsus-check"><input type="checkbox" data-facet="compat" value="Good with kids" onchange="applyFilters()"> <span>Good with kids</span></label>
+        <label class="hsus-check"><input type="checkbox" data-facet="compat" value="Good with no children" onchange="applyFilters()"> <span>Good with no children</span></label>
+        <label class="hsus-check"><input type="checkbox" data-facet="compat" value="Good with other pets" onchange="applyFilters()"> <span>Good with other pets</span></label>
+      </div>
+    </details>
+
+    <details class="hsus-acc">
+      <summary><span><span class="hsus-ico">⏱</span> Age</span></summary>
+      <div class="hsus-acc-body" style="color:#999;font-size:12px;">Baby · Young · Adult · Senior</div>
+    </details>
+
+    <div style="padding:14px 18px;background:var(--hs-paper);border-top:1px solid var(--hs-line);border-radius:0 0 4px 4px;text-align:center;font-size:11.5px;color:var(--hs-muted);line-height:1.4;">Powered by <b style="color:var(--hs-navy);">Echo Shelter Project</b><br><span style="font-size:10px;letter-spacing:0.4px;">A partnership of EchoPets, Echo Fund & Echo Council</span></div>
+  </aside>
+  <main>
+    
+<section class="results-wrap" style="padding:0 4px 30px;">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:16px;border-bottom:2px solid var(--hs-navy);padding-bottom:10px;">
+    <div>
+      <h2 class="serif" style="margin:0 0 4px 0;font-size:22px;color:var(--hs-navy);font-weight:700;">Adoptable pets near you</h2>
+      <div style="font-size:12.5px;color:var(--hs-muted);"><b data-results-count style="color:var(--hs-red-dk);font-size:14px;font-weight:700;">0</b> matches · within 100 miles of Washington, DC 20037</div>
+    </div>
+    <div style="font-size:12.5px;color:var(--hs-muted);display:flex;gap:14px;align-items:center;">
+      <span>View: <span style="color:var(--hs-navy);font-weight:700;cursor:pointer;">▦ Grid</span> · <span style="cursor:pointer;">☰ List</span></span>
+      <span>Sort: <span style="color:var(--hs-red-dk);font-weight:700;cursor:pointer;">Nearest ▼</span></span>
+    </div>
+  </div>
+  <div id="pet-grid" class="pet-grid"></div>
+  <div style="margin-top:32px;padding:22px 24px;background:#fff;border:1px solid var(--hs-line);border-radius:4px;display:flex;justify-content:space-between;align-items:center;gap:18px;">
+    <div>
+      <h3 class="serif" style="margin:0 0 4px;color:var(--hs-navy);font-size:18px;">Can't adopt right now?</h3>
+      <p style="margin:0;font-size:13px;color:var(--hs-muted);">Foster, volunteer, or donate to support shelter pets in your community.</p>
+    </div>
+    <a href="#" style="background:var(--hs-navy);color:#fff;padding:11px 22px;text-decoration:none;font-weight:700;font-size:12px;letter-spacing:0.7px;text-transform:uppercase;border-radius:2px;white-space:nowrap;">Learn how to help</a>
+  </div>
+</section>
+
+  </main>
+</div>
+
+<footer class="hs-foot">
+  <div class="hs-foot-wrap">
+    <div>
+      <div class="hs-foot-brand">EchoPets</div>
+      <div class="hs-foot-tag">A force for animals — fighting for all animals, every day.</div>
+      <a href="#" class="hs-donate">Donate today</a>
+      <div style="font-size:11px;color:#8aa0b3;line-height:1.5;">1255 23rd Street, NW, Suite 450<br>Washington, DC 20037<br>(202) 452-1100</div>
+    </div>
+    <div>
+      <h5>Our Work</h5>
+      <ul>
+        <li><a href="#">Companion animals</a></li>
+        <li><a href="#">Farm animals</a></li>
+        <li><a href="#">Wildlife</a></li>
+        <li><a href="#">Animals in research</a></li>
+        <li><a href="#">Disaster response</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Resources</h5>
+      <ul>
+        <li><a href="#">Adopt a pet</a></li>
+        <li><a href="#">Pet care tips</a></li>
+        <li><a href="#">Find a shelter</a></li>
+        <li><a href="#">Report cruelty</a></li>
+        <li><a href="#">Pet of the week</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Take Action</h5>
+      <ul>
+        <li><a href="#">Sign petitions</a></li>
+        <li><a href="#">Volunteer</a></li>
+        <li><a href="#">Foster a pet</a></li>
+        <li><a href="#">Become a member</a></li>
+        <li><a href="#">Spread the word</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>About</h5>
+      <ul>
+        <li><a href="#">Mission & values</a></li>
+        <li><a href="#">Leadership</a></li>
+        <li><a href="#">Annual reports</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Contact us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="hs-foot-base">
+    <span>© 2024 EchoPets. All rights reserved.</span>
+    <span><a href="#" style="margin-right:14px;">Privacy</a><a href="#" style="margin-right:14px;">Terms</a><a href="#" style="margin-right:14px;">Accessibility</a><a href="#">Echo Charity Guide ★★★★</a></span>
+  </div>
+</footer>
+
+<style>
+.hsus-acc { border-bottom:1px solid var(--hs-line); }
+.hsus-acc:last-of-type { border-bottom:0; }
+.hsus-acc summary { padding:14px 18px;font-family:Georgia,serif;font-size:14.5px;font-weight:700;color:var(--hs-navy);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;}
+.hsus-acc summary::-webkit-details-marker { display:none; }
+.hsus-acc summary::after { content:'＋'; color:var(--hs-red); font-weight:700; font-size:16px; line-height:1; }
+.hsus-acc[open] summary::after { content:'－'; }
+.hsus-acc summary > span:first-child { display:inline-flex; align-items:center; gap:9px; }
+.hsus-ico { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; background:rgba(14,58,95,0.08); color:var(--hs-navy); border-radius:50%; font-size:11px; font-weight:700; }
+.hsus-acc-body { padding:4px 18px 16px;display:flex;flex-direction:column;gap:4px; }
+.hsus-radio, .hsus-check { display:flex;align-items:center;gap:10px;padding:6px 0;font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;color:var(--hs-ink);cursor:pointer;border-radius:3px;transition:background .12s;padding-left:6px;margin-left:-6px;}
+.hsus-radio:hover, .hsus-check:hover { background:#f6f2ea; }
+.hsus-radio input, .hsus-check input { accent-color:var(--hs-red); transform:scale(1.2); }
+#fs-debug { display:none !important; }
+</style>
+
+<div id="task-banner" style="display:none"></div>
+<script>
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const tid = params.get('task_id');
+  window.TASK_ID = tid;
+  fetch('/env/' + window.ENV_ID + '/api/task/' + tid)
+    .then(r => r.ok ? r.json() : null)
+    .then(t => {
+      if (!t) return;
+      window.TASK = t;
+      const b = document.getElementById('task-banner');
+      if (!b) return;
+      b.style.display = 'block';
+      b.style.cssText = 'display:block;margin:0;padding:10px 18px;background:#FFF6E0;color:#5b4a00;font-size:13px;border-bottom:2px solid #C8102E;line-height:1.45;';
+      const showAns = (t.task_type === 'read' || t.task_type === 'read_write');
+      let inner = '<b>Task:</b> ' + (t.task_summary || t.task_proposal || '');
+      if (showAns) {
+        inner += '<div style="margin-top:8px;display:flex;gap:8px;align-items:center;">'
+              +  '<input id="task-answer" placeholder="Your answer..." style="flex:1;padding:6px 9px;border:1px solid #C8102E;border-radius:4px;font-size:13px;">'
+              +  '<button onclick="submitAnswer()" style="padding:6px 14px;background:#9B0E22;color:#fff;border:0;border-radius:4px;cursor:pointer;font-weight:600;">Submit Answer</button>'
+              +  '</div>';
+      }
+      b.innerHTML = inner;
+    });
+})();
+window.submitAnswer = function() {
+  const el = document.getElementById('task-answer');
+  if (el) window.LAST_ANSWER = el.value;
+  applyFilters();
+};
+</script>
+
+
+<script>
+window.ENV_ID = "W27_E05";
+window.SEED_DATA = [{"id": 1, "title": "Sadie", "brand": "British Shorthair", "category": "Cat", "color": "long", "condition": "neutered", "city": "Washington", "rating": 4.2, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc31", "image_url": "https://images.pexels.com/photos/6145891/pexels-photo-6145891.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Sadie \u2014 adoptable cat", "shelter_name": "Tacoma Humane", "distance_miles": 94, "listed_days": 84, "species": "Cat", "sex": "Male", "sterilization": "Neutered", "compat": ["Good with dogs", "Good with no children", "Good with other pets"], "age_stage": "young"}, {"id": 2, "title": "Sadie", "brand": "Boxer", "category": "Dog", "color": "long", "condition": "intact", "city": "Washington", "rating": 4.0, "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/6755496/pexels-photo-6755496.png?auto=compress&cs=tinysrgb&h=200", "image_alt": "Sadie \u2014 adoptable dog", "shelter_name": "Olympic Peninsula Humane Society", "distance_miles": 77, "listed_days": 67, "species": "Dog", "sex": "Female", "sterilization": "Intact", "compat": ["Good with dogs", "Good with no children", "Good with other pets"], "age_stage": "young"}, {"id": 3, "title": "Molly", "brand": "Husky", "category": "Dog", "color": "short", "condition": "intact", "city": "Washington", "rating": 4.5, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/37375349/pexels-photo-37375349.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Molly \u2014 adoptable dog", "shelter_name": "Regional Animal Services of King County", "distance_miles": 56, "listed_days": 33, "species": "Dog", "sex": "Male", "sterilization": "Intact", "compat": ["Good with cats", "Good with no children", "Good with other pets"], "age_stage": "puppy_kitten"}, {"id": 4, "title": "Cooper", "brand": "Mixed-breed", "category": "Dog", "color": "short", "condition": "neutered", "city": "Washington", "rating": 4.7, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/11881801/pexels-photo-11881801.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Cooper \u2014 adoptable dog", "shelter_name": "Auburn Valley Humane", "distance_miles": 72, "listed_days": 84, "species": "Dog", "sex": "Female", "sterilization": "Neutered", "compat": ["Good with cats", "Good with dogs", "Good with other pets"], "age_stage": "puppy_kitten"}, {"id": 5, "title": "Bailey", "brand": "Siamese", "category": "Cat", "color": "long", "condition": "spayed", "city": "Washington", "rating": 4.6, "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc31", "image_url": "https://images.pexels.com/photos/32057399/pexels-photo-32057399.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Bailey \u2014 adoptable cat", "shelter_name": "Pierce County Humane", "distance_miles": 9, "listed_days": 7, "species": "Cat", "sex": "Male", "sterilization": "Spayed", "compat": ["Good with dogs", "Good with kids", "Good with no children"], "age_stage": "puppy_kitten"}, {"id": 6, "title": "Sadie", "brand": "Beagle", "category": "Dog", "color": "medium", "condition": "spayed", "city": "Washington", "rating": 4.9, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/20635787/pexels-photo-20635787.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Sadie \u2014 adoptable dog", "shelter_name": "Olympic Peninsula Humane Society", "distance_miles": 13, "listed_days": 42, "species": "Dog", "sex": "Female", "sterilization": "Spayed", "compat": ["Good with cats", "Good with dogs", "Good with no children"], "age_stage": "adult"}, {"id": 7, "title": "Bailey", "brand": "Australian Shepherd", "category": "Dog", "color": "short", "condition": "intact", "city": "Washington", "rating": 4.0, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/8266284/pexels-photo-8266284.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Bailey \u2014 adoptable dog", "shelter_name": "Regional Animal Services of King County", "distance_miles": 39, "listed_days": 33, "species": "Dog", "sex": "Male", "sterilization": "Intact", "compat": ["Good with dogs", "Good with kids", "Good with other pets"], "age_stage": "adult"}, {"id": 8, "title": "Rocky", "brand": "Labrador", "category": "Dog", "color": "short", "condition": "neutered", "city": "Washington", "rating": 4.9, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/34058942/pexels-photo-34058942.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Rocky \u2014 adoptable dog", "shelter_name": "Snohomish County Humane Society", "distance_miles": 66, "listed_days": 3, "species": "Dog", "sex": "Female", "sterilization": "Neutered", "compat": ["Good with cats", "Good with dogs", "Good with kids"], "age_stage": "young"}, {"id": 9, "title": "Bella", "brand": "Siamese", "category": "Cat", "color": "long", "condition": "intact", "city": "Washington", "rating": 4.0, "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc31", "image_url": "https://images.pexels.com/photos/6145891/pexels-photo-6145891.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Bella \u2014 adoptable cat", "shelter_name": "PAWS Lynnwood", "distance_miles": 81, "listed_days": 18, "species": "Cat", "sex": "Male", "sterilization": "Intact", "compat": ["Good with cats", "Good with kids", "Good with other pets"], "age_stage": "adult"}, {"id": 10, "title": "Max", "brand": "Golden Retriever", "category": "Dog", "color": "short", "condition": "spayed", "city": "Washington", "rating": 4.0, "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/32130866/pexels-photo-32130866.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Max \u2014 adoptable dog", "shelter_name": "Regional Animal Services of King County", "distance_miles": 75, "listed_days": 24, "species": "Dog", "sex": "Female", "sterilization": "Spayed", "compat": ["Good with cats", "Good with no children", "Good with other pets"], "age_stage": "adult"}, {"id": 11, "title": "Bella", "brand": "Dachshund", "category": "Dog", "color": "long", "condition": "intact", "city": "Washington", "rating": 3.9, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/11408628/pexels-photo-11408628.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Bella \u2014 adoptable dog", "shelter_name": "Tacoma Humane", "distance_miles": 66, "listed_days": 3, "species": "Dog", "sex": "Male", "sterilization": "Intact", "compat": ["Good with dogs", "Good with kids", "Good with no children"], "age_stage": "adult"}, {"id": 12, "title": "Lucy", "brand": "Labrador", "category": "Dog", "color": "long", "condition": "spayed", "city": "Washington", "rating": 4.9, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/30586500/pexels-photo-30586500.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Lucy \u2014 adoptable dog", "shelter_name": "Tacoma Humane", "distance_miles": 3, "listed_days": 84, "species": "Dog", "sex": "Female", "sterilization": "Spayed", "compat": ["Good with cats", "Good with kids", "Good with no children"], "age_stage": "young"}, {"id": 13, "title": "Daisy", "brand": "Ragdoll", "category": "Cat", "color": "medium", "condition": "intact", "city": "Washington", "rating": 4.2, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc31", "image_url": "https://images.pexels.com/photos/32057399/pexels-photo-32057399.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Daisy \u2014 adoptable cat", "shelter_name": "Olympic Peninsula Humane Society", "distance_miles": 22, "listed_days": 3, "species": "Cat", "sex": "Male", "sterilization": "Intact", "compat": ["Good with cats", "Good with dogs", "Good with kids"], "age_stage": "puppy_kitten"}, {"id": 14, "title": "Bailey", "brand": "Boxer", "category": "Dog", "color": "short", "condition": "intact", "city": "Washington", "rating": 3.9, "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/6755496/pexels-photo-6755496.png?auto=compress&cs=tinysrgb&h=200", "image_alt": "Bailey \u2014 adoptable dog", "shelter_name": "PAWS Lynnwood", "distance_miles": 9, "listed_days": 84, "species": "Dog", "sex": "Female", "sterilization": "Intact", "compat": ["Good with cats", "Good with dogs", "Good with kids"], "age_stage": "adult"}, {"id": 15, "title": "Bailey", "brand": "Dachshund", "category": "Dog", "color": "long", "condition": "spayed", "city": "Washington", "rating": 4.5, "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/37375349/pexels-photo-37375349.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Bailey \u2014 adoptable dog", "shelter_name": "Humane Society of Seattle/King County", "distance_miles": 54, "listed_days": 51, "species": "Dog", "sex": "Male", "sterilization": "Spayed", "compat": ["Good with kids", "Good with no children", "Good with other pets"], "age_stage": "young"}, {"id": 16, "title": "Daisy", "brand": "Golden Retriever", "category": "Dog", "color": "medium", "condition": "spayed", "city": "Washington", "rating": 4.2, "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/11881801/pexels-photo-11881801.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Daisy \u2014 adoptable dog", "shelter_name": "PAWS Lynnwood", "distance_miles": 43, "listed_days": 84, "species": "Dog", "sex": "Female", "sterilization": "Spayed", "compat": ["Good with dogs", "Good with no children", "Good with other pets"], "age_stage": "puppy_kitten"}, {"id": 17, "title": "Cooper", "brand": "British Shorthair", "category": "Cat", "color": "long", "condition": "spayed", "city": "Washington", "rating": 4.6, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc31", "image_url": "https://images.pexels.com/photos/6145891/pexels-photo-6145891.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Cooper \u2014 adoptable cat", "shelter_name": "Auburn Valley Humane", "distance_miles": 44, "listed_days": 67, "species": "Cat", "sex": "Male", "sterilization": "Spayed", "compat": ["Good with cats", "Good with dogs", "Good with kids"], "age_stage": "young"}, {"id": 18, "title": "Sadie", "brand": "Golden Retriever", "category": "Dog", "color": "medium", "condition": "neutered", "city": "Washington", "rating": 4.8, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/20635787/pexels-photo-20635787.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Sadie \u2014 adoptable dog", "shelter_name": "Seattle Humane", "distance_miles": 81, "listed_days": 18, "species": "Dog", "sex": "Female", "sterilization": "Neutered", "compat": ["Good with kids", "Good with no children", "Good with other pets"], "age_stage": "senior"}, {"id": 105, "title": "Sadie", "brand": "Beagle", "category": "Dog", "species": "Dog", "color": "medium", "condition": "spayed", "sterilization": "Spayed", "sex": "Female", "compat": ["Good with cats", "Good with dogs", "Good with kids"], "city": "Washington", "rating": 4.9, "price": 0, "is_new": true, "pet_friendly": true, "age_stage": "adult", "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/8266284/pexels-photo-8266284.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Sadie \u2014 adoptable dog", "shelter_name": "Auburn Valley Humane", "distance_miles": 87, "listed_days": 51}, {"id": 125, "title": "Milo", "brand": "Ragdoll", "category": "Cat", "species": "Cat", "color": "short", "condition": "neutered", "sterilization": "Neutered", "sex": "Male", "compat": ["Good with dogs", "Good with kids", "Good with other pets"], "city": "Washington", "rating": 4.9, "price": 0, "is_new": false, "pet_friendly": true, "age_stage": "young", "image_initial": "\ud83d\udc31", "image_url": "https://images.pexels.com/photos/37950225/pexels-photo-37950225.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Milo \u2014 adoptable cat", "shelter_name": "PAWS Lynnwood", "distance_miles": 24, "listed_days": 67}, {"id": 145, "title": "Marley", "brand": "Mixed-breed", "category": "Dog", "species": "Dog", "color": "long", "condition": "intact", "sterilization": "Intact", "sex": "Female", "compat": ["Good with no children", "Good with other pets"], "city": "Washington", "rating": 4.3, "price": 0, "is_new": true, "pet_friendly": true, "age_stage": "senior", "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/37499463/pexels-photo-37499463.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Marley \u2014 adoptable dog", "shelter_name": "Olympic Peninsula Humane Society", "distance_miles": 16, "listed_days": 84}];
+window.filterState = {};
+window.LAST_ANSWER = '';
+
+function readUiState() {
+  const s = {};
+  const sex = document.querySelector('[data-facet="sex"].active, [data-facet="sex"]:checked');
+  if (sex && sex.dataset.val && sex.dataset.val !== 'Any') s.sex = sex.dataset.val;
+  else if (sex && sex.value && sex.value !== 'Any' && sex.value !== '') s.sex = sex.value;
+  const st = document.querySelector('[data-facet="sterilization"].active, [data-facet="sterilization"]:checked');
+  if (st && st.dataset.val && st.dataset.val !== 'Any') s.sterilization = st.dataset.val;
+  else if (st && st.value && st.value !== 'Any' && st.value !== '') s.sterilization = st.value;
+  const sp = document.querySelector('[data-facet="species"].active, [data-facet="species"]:checked');
+  if (sp && sp.dataset.val && sp.dataset.val !== 'Any') s.species = sp.dataset.val;
+  else if (sp && sp.value && sp.value !== 'Any' && sp.value !== '') s.species = sp.value;
+  document.querySelectorAll('select[data-facet]').forEach(sel => {
+    const f = sel.dataset.facet;
+    if (sel.multiple) {
+      const vals = Array.from(sel.selectedOptions).map(o => o.value).filter(v => v && v !== 'Any');
+      if (vals.length) s[f] = (f === 'compat') ? vals : vals[0];
+    } else if (sel.value && sel.value !== 'Any' && sel.value !== '') {
+      s[f] = sel.value;
+    }
+  });
+  const compat = Array.from(document.querySelectorAll('input[type=checkbox][data-facet="compat"]:checked')).map(i => i.value);
+  if (compat.length) s.compat = compat;
+  document.querySelectorAll('input[type=hidden][data-facet]').forEach(inp => {
+    if (!inp.value) return;
+    const f = inp.dataset.facet;
+    if (f === 'compat') {
+      try { s[f] = JSON.parse(inp.value); } catch(_) { s[f] = inp.value.split('|').filter(Boolean); }
+    } else {
+      s[f] = inp.value;
+    }
+  });
+  return s;
+}
+
+function filterPets(state) {
+  return window.SEED_DATA.filter(p => {
+    if (state.sex && p.sex !== state.sex) return false;
+    if (state.sterilization && p.sterilization !== state.sterilization) return false;
+    if (state.species && p.species !== state.species) return false;
+    if (state.compat && state.compat.length) {
+      for (const c of state.compat) {
+        if (!(p.compat || []).includes(c)) return false;
+      }
+    }
+    return true;
+  });
+}
+
+function renderResultsInto(containerSel) {
+  const root = document.querySelector(containerSel);
+  if (!root) return;
+  const results = filterPets(window.filterState);
+  window.LAST_RESULTS = results;
+  document.querySelectorAll('[data-results-count]').forEach(el => el.textContent = results.length);
+  if (results.length === 0) {
+    root.innerHTML = '<div style="grid-column:1/-1;padding:36px;text-align:center;color:#888;font-size:14px;">No adoptable pets match these filters. Try loosening your criteria.</div>';
+    return;
+  }
+  root.innerHTML = results.map(p => `
+    <article class="pet-card" data-pet-id="${p.id}">
+      <div class="pc-photo">
+        <img src="${p.image_url}" alt="${p.image_alt || p.title}" loading="lazy" onerror="this.style.display='none'">
+        ${p.is_new ? '<div class="pc-new">New</div>' : ''}
+        <div class="pc-fav" title="Save to favorites">♡</div>
+        ${p.distance_miles != null ? '<div class="pc-distance">📍 ' + p.distance_miles + ' mi away</div>' : ''}
+      </div>
+      <div class="pc-body">
+        <div class="pc-head">
+          <h3>${p.title}</h3>
+          <span class="pc-rating">★ ${p.rating}</span>
+        </div>
+        <div class="pc-breed">${p.species === 'Cat' ? '🐈' : '🐕'} ${p.brand}${p.age_stage ? ' · ' + (p.age_stage.replace('_',' / ')) : ''}</div>
+        <div class="pc-meta">
+          <span class="pc-pill pc-sex">${p.sex}</span>
+          <span class="pc-pill pc-ster">${p.sterilization}</span>
+          <span class="pc-pill pc-sp">${p.species}</span>
+        </div>
+        <ul class="pc-compat">
+          ${(p.compat||[]).map(c => `<li>✓ ${c}</li>`).join('')}
+        </ul>
+        <div class="pc-shelter">${p.shelter_name || p.city || ''}${p.listed_days ? ' · ' + p.listed_days + 'd ago' : ''}</div>
+        <span class="pc-cta">Meet ${p.title} →</span>
+      </div>
+    </article>
+  `).join('');
+}
+
+window.applyFilters = function() {
+  const state = readUiState();
+  window.filterState = state;
+  if (window.RESULTS_SEL) renderResultsInto(window.RESULTS_SEL);
+  const dbg = document.getElementById('fs-debug');
+  if (dbg) dbg.textContent = JSON.stringify(state);
+  const tid = window.TASK_ID || null;
+  fetch('/env/' + window.ENV_ID + '/api/submit', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({filter_state: state, answer: window.LAST_ANSWER || '', task_id: tid})
+  }).catch(() => {});
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => window.applyFilters(), 50);
+  document.addEventListener('change', (e) => {
+    if (e.target && e.target.matches && e.target.matches('[data-facet]')) window.applyFilters();
+  }, true);
+  document.addEventListener('click', (e) => {
+    const b = e.target && e.target.closest && e.target.closest('button[data-facet][data-val]');
+    if (b) setTimeout(() => window.applyFilters(), 0);
+  }, true);
+});
+</script>
+
+</body></html>

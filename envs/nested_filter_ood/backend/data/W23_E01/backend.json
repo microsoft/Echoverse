@@ -1,0 +1,91 @@
+{
+  "env_id": "W23_E01",
+  "widget_id": "W23_more_filters_modal_plus_chip_bar",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "W23_E01_T001",
+      "task_index_in_env": 1,
+      "instruction_text": "On Zillow Bolingbrook IL, Can you help me find townhomes for sale in Bolingbrook, Illinois with 3 or more bedrooms, at least 2 bathrooms, priced under $400k, and that are new to the market. Specifically (task 1/10): Hi! I'm searching on Zillow Bolingbrook IL: I want townhomes matching 3+ bedrooms, 2+ bathrooms, under $400k, new to the market. Please open the More Filters modal from the chip-bar above, check ONLY these: 3+ Bedrooms, 2+ Bathrooms, hit Ap",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_2plus_bathrooms=on"
+      }
+    },
+    {
+      "task_id": "W23_E01_T002",
+      "task_index_in_env": 2,
+      "instruction_text": "On Zillow Bolingbrook IL, Can you help me find townhomes for sale in Bolingbrook, Illinois with 3 or more bedrooms, at least 2 bathrooms, priced under $400k, and that are new to the market. Specifically (task 2/10): Quick \u2014 on Zillow Bolingbrook IL, open the More Filters modal and tick all three: 3+ Bedrooms, 2+ Bathrooms, New to Market, apply. Then on the active-filter chip bar above the results, dismiss the \u201cNew to Market\u201d chip \u2014 I changed my mind ab",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_2plus_bathrooms=on"
+      }
+    },
+    {
+      "task_id": "W23_E01_T003",
+      "task_index_in_env": 3,
+      "instruction_text": "On Zillow Bolingbrook IL, Can you help me find townhomes for sale in Bolingbrook, Illinois with 3 or more bedrooms, at least 2 bathrooms, priced under $400k, and that are new to the market. Specifically (task 3/10): ok partner just weighed in \u2014 on Zillow Bolingbrook IL pls open the More Filters modal and check ALL of these: 3+ Bedrooms, 2+ Bathrooms, New to Market, Pet-friendly. apply. then from the active-filter chip bar above the results pop off the ",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_2plus_bathrooms=on"
+      }
+    },
+    {
+      "task_id": "W23_E01_T004",
+      "task_index_in_env": 4,
+      "instruction_text": "On Zillow Bolingbrook IL, Can you help me find townhomes for sale in Bolingbrook, Illinois with 3 or more bedrooms, at least 2 bathrooms, priced under $400k, and that are new to the market. Specifically (task 4/10): hey can u set up a search on Zillow Bolingbrook IL like this: in the More Filters modal apply 3+ Bedrooms, Pet-friendly, Has Garage. then remove the \u201cPet-friendly\u201d chip and the \u201cHas Garage\u201d chip from the active-filter chip bar above the res",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on"
+      }
+    },
+    {
+      "task_id": "W23_E01_T005",
+      "task_index_in_env": 5,
+      "instruction_text": "On Zillow Bolingbrook IL, Can you help me find townhomes for sale in Bolingbrook, Illinois with 3 or more bedrooms, at least 2 bathrooms, priced under $400k, and that are new to the market. Specifically (task 5/10): Quick one \u2014 how many townhomes are showing on this Zillow Bolingbrook IL page right now, before any filtering?",
+      "expected_filter_state": {
+        "constraint": "20 townhomes"
+      }
+    },
+    {
+      "task_id": "W23_E01_T006",
+      "task_index_in_env": 6,
+      "instruction_text": "On Zillow Bolingbrook IL, Can you help me find townhomes for sale in Bolingbrook, Illinois with 3 or more bedrooms, at least 2 bathrooms, priced under $400k, and that are new to the market. Specifically (task 6/10): On Zillow Bolingbrook IL, what is the address of the cheapest townhome listed? Just give me the street address.",
+      "expected_filter_state": {
+        "constraint": "6719 Holly Tree Ln"
+      }
+    },
+    {
+      "task_id": "W23_E01_T007",
+      "task_index_in_env": 7,
+      "instruction_text": "On Zillow Bolingbrook IL, Can you help me find townhomes for sale in Bolingbrook, Illinois with 3 or more bedrooms, at least 2 bathrooms, priced under $400k, and that are new to the market. Specifically (task 7/10): On Zillow Bolingbrook IL, how many listings show a Pet-Friendly badge in their card right now (no filters applied)? And how many show a Price Reduced badge?",
+      "expected_filter_state": {
+        "constraint": "12 pet-friendly and 6 price reduced"
+      }
+    },
+    {
+      "task_id": "W23_E01_T008",
+      "task_index_in_env": 8,
+      "instruction_text": "On Zillow Bolingbrook IL, Can you help me find townhomes for sale in Bolingbrook, Illinois with 3 or more bedrooms, at least 2 bathrooms, priced under $400k, and that are new to the market. Specifically (task 8/10): On Zillow Bolingbrook IL, open the More Filters modal and apply both \u201c3+ Bedrooms\u201d and \u201c2+ Bathrooms\u201d, then verify both chips show up in the active-filter chip bar above the results. After that, tell me how many results remain.",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_2plus_bathrooms=on"
+      }
+    },
+    {
+      "task_id": "W23_E01_T009",
+      "task_index_in_env": 9,
+      "instruction_text": "On Zillow Bolingbrook IL, Can you help me find townhomes for sale in Bolingbrook, Illinois with 3 or more bedrooms, at least 2 bathrooms, priced under $400k, and that are new to the market. Specifically (task 9/10): On Zillow Bolingbrook IL, in the More Filters modal turn on these three: 3+ Bedrooms, 2+ Bathrooms, New to Market. Apply, verify all three chips appear in the active-filter chip bar, then read back to me the price of the most expensive list",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_2plus_bathrooms=on, modal_new_to_market=on"
+      }
+    },
+    {
+      "task_id": "W23_E01_T010",
+      "task_index_in_env": 10,
+      "instruction_text": "On Zillow Bolingbrook IL, Can you help me find townhomes for sale in Bolingbrook, Illinois with 3 or more bedrooms, at least 2 bathrooms, priced under $400k, and that are new to the market. Specifically (task 10/10): On Zillow Bolingbrook IL, open the More Filters modal and tick 3+ Bedrooms, 2+ Bathrooms, New to Market, apply, then on the active-filter chip bar above the results dismiss the \u201cNew to Market\u201d chip. Once you're down to just 3+ Bedrooms, 2+ ",
+      "expected_filter_state": {
+        "constraint": "filter_state: modal_3plus_bedrooms=on, modal_2plus_bathrooms=on"
+      }
+    }
+  ]
+}

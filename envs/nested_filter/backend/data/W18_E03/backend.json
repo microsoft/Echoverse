@@ -1,0 +1,93 @@
+{
+  "env_id": "W18_E03",
+  "widget_id": "W18_property_type_exclusive_filter",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "exclusive",
+    "fields": [
+      "property_type"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T1721",
+      "task_index_in_env": 1,
+      "instruction_text": "Show me NYC townhouse rentals on Apartments.com NYC townhouses that are single-family houses with 1 bedroom.",
+      "expected_filter_state": {
+        "constraint": "that are single-family houses with 1 bedroom"
+      }
+    },
+    {
+      "task_id": "T1722",
+      "task_index_in_env": 2,
+      "instruction_text": "Show me NYC townhouse rentals on Apartments.com NYC townhouses that are condos only (exclude townhouses, SFH, multi-family).",
+      "expected_filter_state": {
+        "constraint": "that are condos only (exclude townhouses, SFH, multi-family)"
+      }
+    },
+    {
+      "task_id": "T1723",
+      "task_index_in_env": 3,
+      "instruction_text": "Show me NYC townhouse rentals on Apartments.com NYC townhouses that are townhouses only.",
+      "expected_filter_state": {
+        "constraint": "that are townhouses only"
+      }
+    },
+    {
+      "task_id": "T1724",
+      "task_index_in_env": 4,
+      "instruction_text": "On Apartments.com NYC townhouses, find NYC townhouse rentals that are either condos or townhouses (no SFH or multi-family).",
+      "expected_filter_state": {
+        "constraint": "that are either condos or townhouses (no SFH or multi-family)"
+      }
+    },
+    {
+      "task_id": "T1725",
+      "task_index_in_env": 5,
+      "instruction_text": "Help me browse NYC townhouse rentals on Apartments.com NYC townhouses that are multi-family/apartment buildings only.",
+      "expected_filter_state": {
+        "constraint": "that are multi-family/apartment buildings only"
+      }
+    },
+    {
+      "task_id": "T1726",
+      "task_index_in_env": 6,
+      "instruction_text": "Help me browse NYC townhouse rentals on Apartments.com NYC townhouses that are single-family with 4+ bedrooms.",
+      "expected_filter_state": {
+        "constraint": "that are single-family with 4+ bedrooms"
+      }
+    },
+    {
+      "task_id": "T1727",
+      "task_index_in_env": 7,
+      "instruction_text": "Help me browse NYC townhouse rentals on Apartments.com NYC townhouses that are single-family rentals only.",
+      "expected_filter_state": {
+        "constraint": "that are single-family rentals only"
+      }
+    },
+    {
+      "task_id": "T1728",
+      "task_index_in_env": 8,
+      "instruction_text": "On Apartments.com NYC townhouses, find NYC townhouse rentals that are single-family (verify result list is purely single-family).",
+      "expected_filter_state": {
+        "constraint": "that are single-family (verify result list is purely single-family)"
+      }
+    },
+    {
+      "task_id": "T1729",
+      "task_index_in_env": 9,
+      "instruction_text": "On Apartments.com NYC townhouses, find NYC townhouse rentals that are studio apartments only.",
+      "expected_filter_state": {
+        "constraint": "that are studio apartments only"
+      }
+    },
+    {
+      "task_id": "T1730",
+      "task_index_in_env": 10,
+      "instruction_text": "Help me browse NYC townhouse rentals on Apartments.com NYC townhouses excluding multi-family and condos (keep SFH + townhouses).",
+      "expected_filter_state": {
+        "constraint": "excluding multi-family and condos (keep SFH + townhouses)"
+      }
+    }
+  ]
+}

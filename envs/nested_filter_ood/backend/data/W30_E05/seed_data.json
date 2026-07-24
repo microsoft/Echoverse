@@ -1,0 +1,104 @@
+[
+  {
+    "id": 1,
+    "calc_type": "AWS S3 storage pricing",
+    "vendor": "aws",
+    "brand": "AWS S3 Calculator",
+    "default_inputs": {
+      "region": "(Choose region)",
+      "override": "(none)",
+      "volume": 0,
+      "service": "S3 Standard",
+      "unit": "GB-month",
+      "support_tier": "none"
+    },
+    "regions": [
+      "(Choose region)",
+      "us-east-1 (N. Virginia)",
+      "us-east-2 (Ohio)",
+      "us-west-2 (Oregon)",
+      "us-west-1 (N. California)",
+      "ca-central-1 (Canada)",
+      "sa-east-1 (S\u00e3o Paulo)",
+      "eu-west-1 (Ireland)",
+      "eu-central-1 (Frankfurt)",
+      "eu-west-2 (London)",
+      "eu-north-1 (Stockholm)",
+      "ap-northeast-1 (Tokyo)",
+      "ap-southeast-1 (Singapore)",
+      "ap-southeast-2 (Sydney)",
+      "ap-south-1 (Mumbai)"
+    ],
+    "services": [
+      {
+        "label": "S3 Standard",
+        "rate": 0.023,
+        "unit": "GB-month"
+      },
+      {
+        "label": "S3 Standard \u2014 Infrequent Access",
+        "rate": 0.0125,
+        "unit": "GB-month"
+      },
+      {
+        "label": "S3 One Zone \u2014 Infrequent Access",
+        "rate": 0.01,
+        "unit": "GB-month"
+      },
+      {
+        "label": "S3 Intelligent-Tiering (frequent)",
+        "rate": 0.023,
+        "unit": "GB-month"
+      },
+      {
+        "label": "S3 Glacier Instant Retrieval",
+        "rate": 0.004,
+        "unit": "GB-month"
+      },
+      {
+        "label": "S3 Glacier Flexible Retrieval",
+        "rate": 0.0036,
+        "unit": "GB-month"
+      },
+      {
+        "label": "S3 Glacier Deep Archive",
+        "rate": 0.00099,
+        "unit": "GB-month"
+      }
+    ],
+    "region_mult": {
+      "(Choose region)": 1.0,
+      "us-east-1 (N. Virginia)": 1.0,
+      "us-east-2 (Ohio)": 1.0,
+      "us-west-2 (Oregon)": 1.0,
+      "us-west-1 (N. California)": 1.1,
+      "ca-central-1 (Canada)": 1.1,
+      "sa-east-1 (S\u00e3o Paulo)": 1.45,
+      "eu-west-1 (Ireland)": 1.1,
+      "eu-central-1 (Frankfurt)": 1.13,
+      "eu-west-2 (London)": 1.13,
+      "eu-north-1 (Stockholm)": 1.06,
+      "ap-northeast-1 (Tokyo)": 1.22,
+      "ap-southeast-1 (Singapore)": 1.18,
+      "ap-southeast-2 (Sydney)": 1.2,
+      "ap-south-1 (Mumbai)": 1.1
+    },
+    "override_presets": [
+      "1 TB S3 storage",
+      "10 TB S3 storage",
+      "500 GB S3 storage",
+      "100 GB S3 storage",
+      "5 PB Deep Archive",
+      "50 TB Glacier archive",
+      "10 TB storage",
+      "1 TB storage",
+      "500 GB storage"
+    ],
+    "support_fees": {
+      "none": 0,
+      "developer": 29,
+      "business": 100,
+      "enterprise": 5500
+    }
+  }
+]

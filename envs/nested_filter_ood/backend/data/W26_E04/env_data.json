@@ -1,0 +1,34 @@
+{
+  "env_id": "W26_E04",
+  "widget_id": "W26_autocomplete_plus_calendar_advance",
+  "widget_name": "Autocomplete disambiguation + calendar multi-month advance",
+  "widget_category": "combo_booking_destination_date",
+  "widget_mechanic": "Compose: disambiguate destination autocomplete AND advance calendar to future month.",
+  "archetype": "booking_form",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W03_autocomplete_disambig",
+    "W09_calendar_multi_month_advance"
+  ],
+  "site_imitates": "LOT Polish Airlines (lot.com) flight booking",
+  "product_type": "LOT flight Warsaw \u2192 New York (JFK)",
+  "source_inspiration": [
+    {
+      "task_id": "flights_lot_5",
+      "benchmark": "WTB",
+      "site": "lot",
+      "instruction": "Book the cheapest economy flight with LOT Polish Airlines from Warsaw, Poland to New York City, USA January 21 - February 21 round trip.",
+      "first_failure_summary": "[6.4] Fine-grained grounding error: The click landed on empty whitespace in the date-picker (left of the weekday labels) instead of on an interactive calendar element."
+    }
+  ],
+  "theme_key": "lot",
+  "theme_logo": "LOT",
+  "theme_card": "flight-row",
+  "theme_layout": "horizontal-form",
+  "variant_idx": 0,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

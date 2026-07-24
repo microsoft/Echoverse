@@ -1,0 +1,41 @@
+{
+  "env_id": "W06_E08",
+  "widget_id": "W06_exact_match_toggle",
+  "widget_name": "Exact-match toggle paired with plus-chip",
+  "widget_category": "toggle",
+  "widget_mechanic": "When a plus-chip filter is set (e.g. '3+ bedrooms'), results include all N \u2265 3. To require EXACTLY N, agent must locate and enable the 'use exact match' toggle \u2014 usually below the plus-chip row or inside an advanced filters panel.",
+  "archetype": "realestate_listings",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W06_exact_match_toggle"
+  ],
+  "site_imitates": "Apartments.com Houston condos for rent",
+  "product_type": "condo rentals in Houston, TX",
+  "source_inspiration": [
+    {
+      "task_id": "367d843c640637745e8fafa741cca13b",
+      "benchmark": "OM2W",
+      "site": "apartments.com",
+      "instruction": "Find a condo for rent in Houston, TX, with a monthly rent of no more than 30% of an income of $8000. The condo should have a minimum area of 600 square feet, and the move-in date is the 1st of next month.",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: Selected the $2,400 option in a way that applied a minimum price filter ($2,400+) rather than a maximum rent cap (\u2264$2,400)."
+    }
+  ],
+  "theme_key": "zillow",
+  "theme_logo": "Zilo Homes",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 2,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "gte_or_eq",
+    "fields": [
+      "min_beds",
+      "min_baths",
+      "exact_match"
+    ],
+    "item_fields": [
+      "beds",
+      "baths"
+    ]
+  }
+}

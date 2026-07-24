@@ -1,0 +1,74 @@
+{
+  "env_id": "W03_E04",
+  "widget_id": "W03_autocomplete_disambig",
+  "archetype": "booking_form",
+  "filter_spec": {
+    "type": "text_match",
+    "fields": [
+      "from",
+      "to"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "W03_E04_T001",
+      "task_type": "write",
+      "reference_state_change": "filter_state: from=LOS, to=FRA",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E04_T002",
+      "task_type": "write",
+      "reference_state_change": "filter_state: from=LOS, to=FRA",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E04_T003",
+      "task_type": "write",
+      "reference_state_change": "filter_state: from=LOS, to=AMS",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E04_T004",
+      "task_type": "write",
+      "reference_state_change": "filter_state: from=LOS, to=LHR",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E04_T005",
+      "task_type": "read",
+      "reference_state_change": "filter_state: from=LOS, to=FRA",
+      "reference_answer": "\u20ac 689 KL 590 KLM LOS FRA"
+    },
+    {
+      "id": "W03_E04_T006",
+      "task_type": "read_write",
+      "reference_state_change": "filter_state: from=LOS, to=FRA",
+      "reference_answer": "3 carriers KLM Lufthansa Air France LOS FRA"
+    },
+    {
+      "id": "W03_E04_T007",
+      "task_type": "write",
+      "reference_state_change": "filter_state: from=ABV, to=FRA",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E04_T008",
+      "task_type": "write",
+      "reference_state_change": "filter_state: from=LOS, to=CDG",
+      "reference_answer": ""
+    },
+    {
+      "id": "W03_E04_T009",
+      "task_type": "read",
+      "reference_state_change": "filter_state: from=LOS, to=AMS",
+      "reference_answer": "6h 25m KL 591 KLM LOS AMS direct"
+    },
+    {
+      "id": "W03_E04_T010",
+      "task_type": "read_write",
+      "reference_state_change": "filter_state: from=LOS, to=DXB",
+      "reference_answer": "EK 786 \u20ac 489 LOS DXB Emirates"
+    }
+  ]
+}

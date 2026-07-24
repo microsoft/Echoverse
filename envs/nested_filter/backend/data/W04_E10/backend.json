@@ -1,0 +1,115 @@
+{
+  "env_id": "W04_E10",
+  "widget_id": "W04_min_max_slider",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "range",
+    "fields": [
+      "min_price",
+      "max_price"
+    ],
+    "item_field": "price"
+  },
+  "tasks": [
+    {
+      "task_id": "T0001",
+      "task_index_in_env": 1,
+      "instruction_text": "Find an Airbnb in Cleveland for three nights with a budget of $100 to $300 per night. Open the Filters dialog, drag the Price range minimum thumb to $100 and the maximum thumb to $300.",
+      "expected_filter_state": {
+        "min_price": 100,
+        "max_price": 300
+      }
+    },
+    {
+      "task_id": "T0002",
+      "task_index_in_env": 2,
+      "instruction_text": "Cap the nightly price at $200 for my Cleveland stay \u2014 drag the Price range maximum thumb down to $200, leave the minimum at $0.",
+      "expected_filter_state": {
+        "max_price": 200
+      }
+    },
+    {
+      "task_id": "T0003",
+      "task_index_in_env": 3,
+      "instruction_text": "I want a Cleveland Airbnb from $100 to $300 per night WITH free parking \u2014 set the Price range and check Free parking in the Filters dialog.",
+      "expected_filter_state": {
+        "min_price": 100,
+        "max_price": 300,
+        "free_shipping": [
+          "1"
+        ]
+      }
+    },
+    {
+      "task_id": "T0004",
+      "task_index_in_env": 4,
+      "instruction_text": "I need an Airbnb in Cleveland from $100 to $300 per night, with free parking AND pet-friendly. Drag the Price range thumbs and check both amenities.",
+      "expected_filter_state": {
+        "min_price": 100,
+        "max_price": 300,
+        "free_shipping": [
+          "1"
+        ],
+        "pet_friendly": [
+          "1"
+        ]
+      }
+    },
+    {
+      "task_id": "T0005",
+      "task_index_in_env": 5,
+      "instruction_text": "Drag the Price range from $100 to $300 per night on the Cleveland Airbnb listings. How many homes match?",
+      "expected_filter_state": {
+        "min_price": 100,
+        "max_price": 300
+      }
+    },
+    {
+      "task_id": "T0006",
+      "task_index_in_env": 6,
+      "instruction_text": "Set the Price range from $100 to $300 per night on Cleveland Airbnb. Which listing has the highest guest rating?",
+      "expected_filter_state": {}
+    },
+    {
+      "task_id": "T0007",
+      "task_index_in_env": 7,
+      "instruction_text": "I'm upgrading \u2014 Cleveland Airbnb from $300 to $500 per night, with free parking. Set the Price range minimum to $300, maximum to $500, then check Free parking.",
+      "expected_filter_state": {
+        "min_price": 300,
+        "max_price": 500,
+        "free_shipping": [
+          "1"
+        ]
+      }
+    },
+    {
+      "task_id": "T0008",
+      "task_index_in_env": 8,
+      "instruction_text": "Cap my Cleveland Airbnb at $100 per night \u2014 drag the Price range maximum thumb down to $100 (leave the min alone).",
+      "expected_filter_state": {
+        "max_price": 100
+      }
+    },
+    {
+      "task_id": "T0009",
+      "task_index_in_env": 9,
+      "instruction_text": "Drag the Price range from $150 to $250 per night. What's the cheapest Cleveland stay in that band and how much per night?",
+      "expected_filter_state": {
+        "min_price": 150,
+        "max_price": 250
+      }
+    },
+    {
+      "task_id": "T0010",
+      "task_index_in_env": 10,
+      "instruction_text": "We're bringing our pet \u2014 set the Price range from $100 to $300 per night AND check Pets allowed in Cleveland. How many homes meet all three filters?",
+      "expected_filter_state": {
+        "min_price": 100,
+        "max_price": 300,
+        "pet_friendly": [
+          "1"
+        ]
+      }
+    }
+  ]
+}

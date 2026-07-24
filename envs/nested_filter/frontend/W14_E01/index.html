@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>School Activity Events in New York, NY — EchoEvents</title>
+<style>
+:root { --brand-primary: #f05537; --brand-primary-soft: #fff0eb; --brand-accent: #3659e3;
+        --brand-text: #1e0a3c; --brand-line: #eee; --brand-muted: #6f7287; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: 'Neue Haas Grotesk Text Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+       background: #fff; color: #1e0a3c; font-size: 14px; line-height: 1.45; }
+a { color: #3659e3; text-decoration: none; cursor: pointer; }
+button { cursor: pointer; font-family: inherit; }
+
+.eb-header { display: flex; align-items: center; gap: 20px; padding: 12px 28px;
+             border-bottom: 1px solid #eee; background: #fff; }
+.eb-logo { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.eb-logo-mark { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; }
+.eb-logo-mark svg { width: 34px; height: 34px; }
+.eb-logo-word { font-weight: 800; font-size: 18px; color: #f05537; letter-spacing: -0.4px; }
+.eb-search { flex: 1; max-width: 720px; display: flex; align-items: center;
+             border: 1.5px solid #1e0a3c; border-radius: 999px; overflow: hidden;
+             padding: 4px 4px 4px 16px; }
+.eb-search .seg { display: flex; align-items: center; flex: 1; gap: 8px; padding: 4px 0; }
+.eb-search .seg-icon { color: #717171; font-size: 14px; }
+.eb-search input { border: none; outline: none; width: 100%; font-size: 14px;
+                   background: transparent; color: #1e0a3c; }
+.eb-search .seg-divider { width: 1px; align-self: stretch; background: #d1d1d1; margin: 4px 0; }
+.eb-search .seg-go { background: #f05537; color: #fff; border: none; width: 38px; height: 38px;
+                     border-radius: 50%; font-size: 16px; display: flex; align-items: center;
+                     justify-content: center; }
+.eb-nav { display: flex; gap: 20px; align-items: center; flex-shrink: 0; }
+.eb-nav a { color: #1e0a3c; font-weight: 600; font-size: 14px; }
+.eb-nav a:hover { color: #3659e3; }
+
+.hero { padding: 22px 28px 6px; }
+.hero-banner { position: relative; height: 320px; border-radius: 12px; overflow: hidden;
+               background: linear-gradient(135deg, #2b1b5a 0%, #1e0a3c 100%);
+               display: flex; align-items: center; }
+.hero-banner::before { content: ""; position: absolute; inset: 0;
+                       background-image: url('https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?auto=compress&cs=tinysrgb&h=320');
+                       background-size: cover; background-position: center; opacity: 0.55; }
+.hero-text { position: relative; padding: 0 60px; max-width: 620px; color: #fff; }
+.hero-eyebrow { display: inline-block; background: #ffd8c4; color: #1e0a3c;
+                padding: 4px 12px; border-radius: 3px; font-weight: 800; font-size: 12px;
+                letter-spacing: 1px; text-transform: uppercase; }
+.hero-title { font-size: 36px; font-weight: 800; margin: 12px 0 18px; line-height: 1.1;
+              background: linear-gradient(120deg, #ffc4d2 0%, #c4a8ff 100%);
+              padding: 6px 14px; display: inline-block; color: #1e0a3c; }
+.hero-cta { display: inline-block; background: #fff; color: #1e0a3c; padding: 13px 26px;
+            border-radius: 26px; font-weight: 700; font-size: 14px; }
+
+.cat-rail { display: flex; gap: 32px; padding: 26px 28px 14px; overflow-x: auto;
+            border-bottom: 1px solid #eee; }
+.cat-pill { display: flex; flex-direction: column; align-items: center; gap: 8px;
+            cursor: pointer; flex-shrink: 0; }
+.cat-icon { width: 60px; height: 60px; border-radius: 50%; border: 1px solid #d1d1d1;
+            display: flex; align-items: center; justify-content: center; background: #fff;
+            color: #1e0a3c; transition: border-color 0.15s; }
+.cat-icon svg { width: 26px; height: 26px; stroke: #1e0a3c; fill: none; stroke-width: 1.6; }
+.cat-pill:hover .cat-icon { border-color: #1e0a3c; }
+.cat-label { font-size: 12px; color: #1e0a3c; text-align: center; max-width: 80px; }
+
+.browsing { padding: 22px 28px 6px; display: flex; align-items: baseline; gap: 12px; }
+.browsing-label { font-size: 15px; font-weight: 700; color: #1e0a3c; }
+.browsing-loc { color: #3659e3; font-weight: 700; cursor: pointer; }
+.tab-row { display: flex; gap: 22px; padding: 14px 28px 0; border-bottom: 1px solid #eee; }
+.tab-row .tab { padding: 6px 0 14px; font-weight: 600; color: #6f7287; font-size: 14px;
+                border-bottom: 2px solid transparent; cursor: pointer; }
+.tab-row .tab.active { color: #3659e3; border-bottom-color: #3659e3; }
+
+.layout { display: grid; grid-template-columns: 250px 1fr; gap: 28px;
+          padding: 22px 28px 60px; }
+.filter-aside { font-size: 13px; }
+.filter-aside h3 { font-size: 16px; margin: 0 0 14px; color: #1e0a3c; }
+.f-section { border-top: 1px solid #eee; padding: 16px 0; }
+.f-section:first-of-type { border-top: none; padding-top: 0; }
+.f-section h4 { font-size: 13px; font-weight: 700; color: #1e0a3c; margin: 0 0 10px; }
+
+/* Pill-chip preset UI */
+.eb-chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.eb-chip { padding: 7px 13px; border: 1px solid #d1d1d1; background: #fff; color: #1e0a3c;
+           border-radius: 18px; font-size: 12px; font-weight: 600; cursor: pointer;
+           transition: all 0.12s; }
+.eb-chip:hover { border-color: #1e0a3c; }
+.eb-chip.active { background: #1e0a3c; color: #fff; border-color: #1e0a3c; }
+.eb-chip-custom { background: #f8f7fa; }
+.eb-chip-custom.active { background: #1e0a3c; color: #fff; }
+
+.cb { display: flex; align-items: center; gap: 8px; padding: 4px 0; cursor: pointer;
+      color: #1e0a3c; font-size: 13px; }
+.cb input { accent-color: #3659e3; }
+
+.results-area { min-width: 0; }
+.results-header { display: flex; justify-content: space-between; align-items: center;
+                  margin-bottom: 14px; }
+.results-title { font-size: 22px; font-weight: 800; color: #1e0a3c; margin: 0; }
+.results-meta { display: flex; gap: 10px; align-items: center; }
+.results-count-line { color: #6f7287; font-size: 13px; }
+.sort-dd { padding: 7px 28px 7px 12px; border: 1px solid #d1d1d1; border-radius: 4px;
+           font-size: 13px; background: #fff; color: #1e0a3c; cursor: pointer; }
+
+.eb-footer { background: #f8f7fa; padding: 40px 28px; border-top: 1px solid #eee;
+             color: #6f7287; font-size: 13px; }
+.eb-footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+                  max-width: 1200px; margin: 0 auto; }
+.eb-footer h5 { color: #1e0a3c; font-size: 13px; margin: 0 0 10px; }
+.eb-footer a { display: block; color: #6f7287; padding: 3px 0; }
+.eb-footer-bar { max-width: 1200px; margin: 24px auto 0; padding-top: 18px;
+                 border-top: 1px solid #e2e0e6; display: flex; justify-content: space-between; }
+
+
+/* article-row (news) */
+.article-row { display: grid; grid-template-columns: 1fr 140px; gap: 16px; padding: 18px 0;
+               border-bottom: 1px solid var(--brand-line, #e5e5e5); }
+.article-main { min-width: 0; }
+.article-tagrow { font-size: 11px; color: var(--brand-accent, #6c6c6c); text-transform: uppercase;
+                  letter-spacing: 0.6px; margin-bottom: 6px; font-weight: 700; }
+.article-topic { color: var(--brand-primary, #1a1a1a); }
+.article-cat { color: var(--brand-accent, #6c6c6c); }
+.article-title { display: block; font-size: 18px; font-weight: 700; color: var(--brand-text, #111);
+                 line-height: 1.25; margin-bottom: 6px; cursor: pointer; }
+.article-title:hover { text-decoration: underline; }
+.article-summary { font-size: 13.5px; color: var(--brand-muted, #444); line-height: 1.5; margin-bottom: 8px; }
+.article-meta { font-size: 12px; color: var(--brand-muted, #777); display: flex; gap: 6px;
+                flex-wrap: wrap; margin-bottom: 6px; }
+.article-actions { display: flex; gap: 14px; font-size: 12px; }
+.article-action { color: var(--brand-accent, #555); cursor: pointer; }
+.article-action:hover { color: var(--brand-primary, #111); }
+.article-thumb, .article-thumb-fb { width: 140px; height: 100px; border-radius: 4px;
+                                     background: #ddd; display: flex; align-items: center;
+                                     justify-content: center; font-weight: 800; font-size: 28px;
+                                     color: #fff; background-color: var(--brand-primary, #888); }
+
+/* event-tile (events) */
+#result-grid.events { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
+.event-tile { background: #fff; border-radius: 8px; overflow: hidden; cursor: pointer;
+              position: relative; transition: box-shadow 0.15s, transform 0.15s;
+              border: 1px solid #e5e5e5; }
+.event-tile:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.13); transform: translateY(-1px); }
+.event-photo { width: 100%; height: 150px; background-size: cover; background-position: center;
+               background-color: var(--brand-primary-soft, #f3f0fa); }
+.event-date { position: absolute; top: 10px; left: 10px; background: #fff; border-radius: 4px;
+              padding: 4px 8px; min-width: 40px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.event-month { font-size: 9px; font-weight: 800; color: var(--brand-primary, #f05537); text-transform: uppercase; }
+.event-day { font-size: 16px; font-weight: 800; color: #1e0a3c; line-height: 1; }
+.event-dow { font-size: 8px; color: #6f7287; }
+.event-price-tag { position: absolute; top: 10px; right: 10px; background: #fff; color: #1e0a3c;
+                   padding: 4px 8px; border-radius: 3px; font-weight: 700; font-size: 12px; }
+.event-price-tag.free { color: #1e7d3e; }
+.event-heart { position: absolute; bottom: 88px; right: 14px; width: 32px; height: 32px;
+               border-radius: 50%; background: rgba(255,255,255,0.95); display: flex;
+               align-items: center; justify-content: center; color: #1e0a3c; font-size: 16px; }
+.event-body { padding: 12px 14px 14px; }
+.event-name { font-weight: 700; font-size: 15px; color: #1e0a3c; line-height: 1.3;
+              margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical; overflow: hidden; }
+.event-meta { font-size: 12px; color: var(--brand-primary, #f05537); font-weight: 600; margin-bottom: 2px; }
+.event-venue { font-size: 12px; color: #6f7287; }
+.event-attending { font-size: 12px; color: #6f7287; margin-top: 6px; }
+
+/* pet-card (pets) */
+#result-grid.pets { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+.pet-card { background: #fff; border-radius: 10px; overflow: hidden; cursor: pointer;
+            position: relative; border: 1px solid #e5e5e5; transition: box-shadow 0.15s; }
+.pet-card:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+.pet-photo { width: 100%; height: 180px; background-size: cover; background-position: center;
+             background-color: #f7e8d8; display: flex; align-items: center; justify-content: center;
+             font-size: 56px; }
+.pet-heart { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px;
+             border-radius: 50%; background: rgba(255,255,255,0.95); display: flex;
+             align-items: center; justify-content: center; color: var(--brand-primary, #ec6724); font-size: 18px; }
+.pet-body { padding: 12px 14px 14px; }
+.pet-name { font-weight: 800; font-size: 17px; color: #1c1c1c; margin-bottom: 4px; }
+.pet-meta { font-size: 12px; color: #555; margin-bottom: 4px; }
+.pet-loc { font-size: 12px; color: #777; margin-bottom: 2px; }
+.pet-dist { font-size: 11px; color: #999; margin-bottom: 6px; }
+.pet-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.pet-tag { font-size: 10px; padding: 2px 7px; border-radius: 10px;
+           background: var(--brand-primary-soft, #ffe8d6); color: var(--brand-primary, #b85217); font-weight: 600; }
+
+.no-results { grid-column: 1/-1; text-align: center; padding: 60px 20px; color: #6f7287; font-size: 14px; }
+
+</style>
+</head>
+<body>
+<header class="eb-header">
+  <div class="eb-logo">
+    <div class="eb-logo-mark"><svg viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="30" height="30" rx="7" fill="#f05537"/><text x="17" y="24" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="800" fill="#fff">E</text></svg></div>
+    <div class="eb-logo-word">EchoEvents</div>
+  </div>
+  <div class="eb-search">
+    <div class="seg"><span class="seg-icon">🔍</span><input type="text" placeholder="Search events" value="school activity events"></div>
+    <div class="seg-divider"></div>
+    <div class="seg"><span class="seg-icon">📍</span><input type="text" placeholder="Your location" value="New York"></div>
+    <button class="seg-go" aria-label="Search">🔍</button>
+  </div>
+  <nav class="eb-nav">
+    <a>Updates</a><a>Find Events</a><a>Create Events</a><a>Help Center ▾</a><a>Find my tickets</a><a>Sign in</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-banner">
+    <div class="hero-text">
+      <span class="hero-eyebrow">Get into it</span>
+      <h1 class="hero-title">School Activity Events</h1>
+      <a class="hero-cta">Browse events</a>
+    </div>
+  </div>
+</section>
+
+<div class="cat-rail">
+  <div class="cat-pill"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M12 3v11"/><path d="M12 14a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" fill="none"/><path d="M12 3c2.5 0 4 1.5 4 3.5"/></svg></div><div class="cat-label">Music</div></div>
+  <div class="cat-pill"><div class="cat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12c4-1 12-1 16 0"/><path d="M12 4c-1 4-1 12 0 16"/><path d="M6 7c3 1.5 9 1.5 12 0"/><path d="M6 17c3-1.5 9-1.5 12 0"/></svg></div><div class="cat-label">Nightlife</div></div>
+  <div class="cat-pill"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M7 5c2 0 4 1.5 4 5 0 3-2 6-4 6-1.5 0-3-2-3-5 0-4 1.5-6 3-6z"/><path d="M17 5c-2 0-4 1.5-4 5 0 3 2 6 4 6 1.5 0 3-2 3-5 0-4-1.5-6-3-6z"/></svg></div><div class="cat-label">Performing &amp; Visual Arts</div></div>
+  <div class="cat-pill"><div class="cat-icon"><svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="14" rx="1"/><path d="M4 10h16"/><path d="M8 4v4M16 4v4"/><circle cx="12" cy="14" r="1.5" fill="#1e0a3c"/><path d="M12 12.5v-1M12 16.5v1M10 14h-1M14 14h1"/></svg></div><div class="cat-label">Holidays</div></div>
+  <div class="cat-pill"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M4 7a3 3 0 0 1 3-3h7l4 4v6a3 3 0 0 1-3 3H8l-4 3z"/><path d="M9 10.5c0-1 .8-1.8 1.8-1.8.7 0 1.2.4 1.2 1 0-.6.5-1 1.2-1 1 0 1.8.8 1.8 1.8 0 1.7-3 3.2-3 3.2s-3-1.5-3-3.2z" fill="#1e0a3c"/></svg></div><div class="cat-label">Dating</div></div>
+  <div class="cat-pill"><div class="cat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="10" rx="4"/><circle cx="8" cy="13" r="1" fill="#1e0a3c"/><path d="M14 12h2M14 14h2M15 11v4"/></svg></div><div class="cat-label">Hobbies</div></div>
+  <div class="cat-pill"><div class="cat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="1"/><path d="M3 17l-1 3M21 17l1 3"/><path d="M8 11h8M8 14h5"/></svg></div><div class="cat-label">Business</div></div>
+  <div class="cat-pill"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M9 4v6a3 3 0 0 1-3 3 3 3 0 0 1-3-3V4"/><path d="M6 13v7"/><path d="M16 4c2 1 3 3 3 5s-1 4-3 5v6"/></svg></div><div class="cat-label">Food &amp; Drink</div></div>
+</div>
+
+<div class="browsing">
+  <span class="browsing-label">Browsing events in</span>
+  <span class="browsing-loc">▾ New York</span>
+</div>
+
+<div class="tab-row">
+  <span class="tab active">All</span><span class="tab">For you</span>
+  <span class="tab">Online</span><span class="tab">Today</span><span class="tab">This weekend</span>
+</div>
+
+<div class="layout">
+  <aside class="filter-aside">
+    <h3>Filters</h3>
+    <div class="f-section">
+      <h4>Date</h4>
+      <div class="eb-chip-row"><button class="chip-btn eb-chip active" type="button" data-facet="date_preset" data-val="All Time" aria-pressed="true" onclick="pickPreset(this)">All Time</button><button class="chip-btn eb-chip" type="button" data-facet="date_preset" data-val="Today" aria-pressed="false" onclick="pickPreset(this)">Today</button><button class="chip-btn eb-chip" type="button" data-facet="date_preset" data-val="This Week" aria-pressed="false" onclick="pickPreset(this)">This Week</button><button class="chip-btn eb-chip" type="button" data-facet="date_preset" data-val="This Weekend" aria-pressed="false" onclick="pickPreset(this)">This Weekend</button><button class="chip-btn eb-chip" type="button" data-facet="date_preset" data-val="This Month" aria-pressed="false" onclick="pickPreset(this)">This Month</button><button class="chip-btn eb-chip" type="button" data-facet="date_preset" data-val="Next Month" aria-pressed="false" onclick="pickPreset(this)">Next Month</button><button class="chip-btn eb-chip" type="button" data-facet="date_preset" data-val="Past 7 Days" aria-pressed="false" onclick="pickPreset(this)">Past 7 Days</button><button class="chip-btn eb-chip" type="button" data-facet="date_preset" data-val="Past 30 Days" aria-pressed="false" onclick="pickPreset(this)">Past 30 Days</button><button class="chip-btn eb-chip" type="button" data-facet="date_preset" data-val="Past Year" aria-pressed="false" onclick="pickPreset(this)">Past Year</button><button class="chip-btn eb-chip eb-chip-custom" type="button" data-facet="date_preset" data-val="Custom" aria-pressed="false" onclick="pickPreset(this)">📅 Pick a date…</button></div>
+    </div>
+    <div class="f-section">
+      <h4>Price</h4>
+      <label class="cb"><input type="radio" name="price_type" data-facet="price_type" value="free"> Free</label>
+      <label class="cb"><input type="radio" name="price_type" data-facet="price_type" value="paid"> Paid</label>
+    </div>
+    <div class="f-section">
+      <h4>Category</h4>
+      <label class="cb"><input type="checkbox" data-facet="category" value="Music"> Music</label>
+      <label class="cb"><input type="checkbox" data-facet="category" value="Performing & Visual Arts"> Performing &amp; Visual Arts</label>
+      <label class="cb"><input type="checkbox" data-facet="category" value="Food & Drink"> Food &amp; Drink</label>
+      <label class="cb"><input type="checkbox" data-facet="category" value="Health"> Health</label>
+      <label class="cb"><input type="checkbox" data-facet="category" value="Education"> Education</label>
+      <label class="cb"><input type="checkbox" data-facet="category" value="Family"> Family &amp; Kids</label>
+    </div>
+    <div class="f-section">
+      <h4>Format</h4>
+      <label class="cb"><input type="checkbox" data-facet="format" value="class"> Class</label>
+      <label class="cb"><input type="checkbox" data-facet="format" value="festival"> Festival</label>
+      <label class="cb"><input type="checkbox" data-facet="format" value="performance"> Performance</label>
+      <label class="cb"><input type="checkbox" data-facet="format" value="concert"> Concert</label>
+    </div>
+    <div class="f-section">
+      <h4>Currency</h4>
+      <select class="sort-dd" data-facet="currency">
+        <option value="">USD ($)</option><option value="eur">EUR (€)</option><option value="gbp">GBP (£)</option>
+      </select>
+    </div>
+  </aside>
+  <section class="results-area">
+    <div class="results-header">
+      <h2 class="results-title">School Activity Events in New York, NY</h2>
+      <div class="results-meta">
+        <span class="results-count-line"><span id="result-count">18</span> events</span>
+        <select class="sort-dd"><option>Sort: Relevance</option><option>Date: soonest</option><option>Price: low to high</option><option>Most popular</option></select>
+      </div>
+    </div>
+    <div id="result-grid" class="events"></div>
+  </section>
+</div>
+
+<footer class="eb-footer">
+  <div class="eb-footer-grid">
+    <div><h5>Use EchoEvents</h5><a>Create Events</a><a>Pricing</a><a>Event Marketing Platform</a><a>EchoEvents Mobile Ticket App</a></div>
+    <div><h5>Plan events</h5><a>Sell Tickets Online</a><a>Event Planning</a><a>Sell Concert Tickets Online</a></div>
+    <div><h5>Find events</h5><a>Browse New York Events</a><a>Get the EchoEvents App</a></div>
+    <div><h5>Connect with us</h5><a>Report This Event</a><a>Help Center</a><a>Terms</a><a>Privacy</a></div>
+  </div>
+  <div class="eb-footer-bar"><span>© EchoEvents</span><span>About · Blog · Help · Careers · Press · Contact · Privacy · Terms · Site Map</span></div>
+</footer>
+
+<script>
+const ENV_ID = 'W14_E01';
+let filterState = {};
+
+function pickPreset(btn) {
+  const facet = btn.dataset.facet;
+  // Deactivate all sibling buttons that target the same facet (anywhere in document).
+  document.querySelectorAll('button.chip-btn[data-facet="' + facet + '"]').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-pressed', 'false');
+  });
+  btn.classList.add('active');
+  btn.setAttribute('aria-pressed', 'true');
+  applyFilters();
+}
+
+function applyFilters() {
+  const newState = {};
+  document.querySelectorAll('[data-facet]').forEach(el => {
+    const f = el.dataset.facet;
+    if (el.tagName === 'BUTTON') return;
+    if (el.type === 'checkbox') {
+      if (el.checked) {
+        if (!newState[f]) newState[f] = [];
+        if (Array.isArray(newState[f])) newState[f].push(el.value || true);
+      }
+    } else if (el.type === 'radio') {
+      if (el.checked) newState[f] = el.value;
+    } else if (el.tagName === 'SELECT') {
+      if (el.value) newState[f] = el.value;
+    } else if (el.type === 'text' || el.type === 'number' || el.type === 'date') {
+      if (el.value) newState[f] = el.value;
+    }
+  });
+  document.querySelectorAll('button.chip-btn.active').forEach(b => {
+    const f = b.dataset.facet;
+    if (!f) return;
+    newState[f] = b.dataset.val;
+  });
+  filterState = newState;
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ filter_state: filterState })
+  }).then(r => r.json()).then(data => {
+    const grid = document.getElementById('result-grid');
+    if (grid && (data.html_cards !== undefined)) {
+      if (data.html_cards) grid.innerHTML = data.html_cards;
+      else grid.innerHTML = '<div class="no-results">No results match your filters. Try a different date range.</div>';
+    }
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length;
+  }).catch(() => {});
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ filter_state: filterState, answer: '', task_id: taskId })
+  }).catch(() => {});
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('input[data-facet], select[data-facet]').forEach(el => {
+    el.addEventListener('change', applyFilters);
+    const t = (el.tagName === 'INPUT') ? (el.type || '').toLowerCase() : '';
+    if (t === 'text' || t === 'number' || t === 'date' || t === 'time' || t === 'search') {
+      el.addEventListener('input', applyFilters);
+    }
+  });
+  applyFilters();
+});
+</script>
+</body>
+</html>

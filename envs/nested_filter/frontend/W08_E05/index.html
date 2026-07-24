@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoWear — Men's Outerwear & Blazers</title>
+<style>
+
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-body,'Open Sans',Arial,sans-serif);background:var(--page-bg,#fff);color:var(--ink,#1a1a1a);font-size:14px;line-height:1.5}
+a{color:var(--brand-primary);text-decoration:none;cursor:pointer}
+button{font-family:inherit;cursor:pointer}
+.strip{padding:10px 28px;background:#f5f6f7;border-bottom:1px solid #e3e5e7;font-size:12px;color:#555;display:flex;gap:8px;align-items:center}
+.strip a{color:#555}
+.strip b{color:#222}
+.strip .sep{color:#aaa}
+.page{display:grid;grid-template-columns:260px 1fr;gap:28px;padding:18px 28px;min-height:80vh;max-width:1400px;margin:0 auto}
+.aside h3{font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:#999;margin:0 0 12px;border-bottom:1px solid #eee;padding-bottom:6px}
+.aside h4{font-size:13px;margin:14px 0 6px;color:#333;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.fsec{border-bottom:1px solid #ececec;padding:6px 0 14px}
+.fsec .opts label{display:flex;align-items:center;gap:8px;font-size:13px;padding:3px 0;cursor:pointer}
+.fsec input[type=checkbox],.fsec input[type=radio]{accent-color:var(--brand-primary)}
+.facet-clear{font-size:11px;color:var(--brand-primary);cursor:pointer;text-decoration:underline}
+.results{display:flex;flex-direction:column;gap:14px;min-width:0}
+.results-head{display:flex;align-items:center;gap:12px;padding:6px 0}
+.results-head h1{font-size:22px;margin:0;color:var(--ink)}
+.rc-count{color:#666;font-size:13px}
+.sort-dd{margin-left:auto;padding:6px 12px;border:1px solid #ddd;border-radius:4px;background:#fff;font-size:13px}
+.empty-msg{padding:32px;text-align:center;color:#999;border:1px dashed #d0d0d0;border-radius:8px}
+.footer{margin-top:48px;padding:20px 28px;border-top:1px solid #eee;color:#888;font-size:12px;background:#fafafa;text-align:center}
+
+/* Chip default visuals (per-placement overrides below) */
+.fc{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:14px;font-size:12px;font-weight:600;background:#eef2f7;color:#1f3a5f;border:1px solid #d4dceb;line-height:1}
+.fc .x{cursor:pointer;opacity:.6;font-size:15px;line-height:1;padding:0 2px;border-radius:50%;font-weight:bold}
+.fc .x:hover{opacity:1;background:rgba(0,0,0,.1)}
+.fc:empty{display:none}
+.chiprail{display:flex;flex-wrap:wrap;gap:8px}
+.chiprail:empty:before{content:"No filters applied";color:#bbb;font-size:11px;font-style:italic}
+.rail-label{font-size:12px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.clear-all{font-size:12px;color:var(--brand-primary);cursor:pointer;text-decoration:underline;margin-left:auto;white-space:nowrap}
+
+/* Placement: sticky_after_nav */
+.chip-sticky{position:sticky;top:0;z-index:30;background:#fff;padding:10px 28px;border-bottom:1px solid #e3e5e7;display:flex;gap:12px;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,.05);flex-wrap:wrap;min-height:50px}
+.chip-sticky .fc{background:var(--brand-primary);color:#fff;border-color:var(--brand-primary-dark);border-radius:4px}
+.chip-sticky .fc .x{color:#fff}
+.chip-sticky .fc .x:hover{background:rgba(255,255,255,.25)}
+
+/* Placement: top_bar (bright bar above breadcrumb) */
+.chip-topbar{background:var(--brand-accent,#fff200);padding:10px 28px;display:flex;gap:12px;align-items:center;border-top:1px solid rgba(0,0,0,.08);border-bottom:1px solid rgba(0,0,0,.1);flex-wrap:wrap}
+.chip-topbar .fc{background:#fff;color:#222;border:2px solid rgba(0,0,0,.15);border-radius:18px;padding:5px 12px;font-weight:700}
+.chip-topbar .fc .x{color:#444}
+
+/* Placement: breadcrumb_style */
+.chip-crumbs{padding:10px 28px;background:#fff;border-bottom:1px solid #eee;display:flex;gap:10px;align-items:center;font-size:13px;flex-wrap:wrap}
+.chip-crumbs .fc{background:transparent;color:var(--brand-primary);border:none;padding:2px 0;font-weight:600}
+.chip-crumbs .fc:after{content:"›";color:#999;margin-left:10px;font-weight:400}
+.chip-crumbs .fc:last-child:after{display:none}
+.chip-crumbs .fc .x{margin-left:4px;color:var(--brand-primary);background:rgba(0,0,0,.05);width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
+
+/* Placement: in_page_anchor */
+.chip-anchor-fab{display:none;position:fixed;bottom:24px;right:24px;z-index:40;background:#000;color:#fff;padding:11px 18px;border-radius:28px;align-items:center;gap:8px;box-shadow:0 6px 18px rgba(0,0,0,.25);font-size:12px;font-weight:700;text-decoration:none;letter-spacing:.5px;text-transform:uppercase}
+.chip-anchor-fab:hover{background:#ff0000}
+.chip-anchor-zone{padding:12px 28px;background:#fff;border-bottom:1px solid #ececec;display:flex;gap:12px;align-items:center;flex-wrap:wrap;scroll-margin-top:80px;max-width:1600px;margin:0 auto}
+.chip-anchor-zone .fc{background:#fff;border:1px solid #000;color:#000;padding:5px 12px;border-radius:2px;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+.chip-anchor-zone .fc .x{color:#000}
+.chip-anchor-zone .rail-label{color:#000;font-weight:700}
+
+/* Placement: inline_above_results */
+.chip-inline{padding:10px 14px;background:rgba(0,0,0,.02);border:1px dashed #d4d4d4;border-radius:8px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.chip-inline .fc{background:var(--brand-primary);color:#fff;border-color:var(--brand-primary-dark);border-radius:14px;padding:4px 10px}
+.chip-inline .fc .x{color:#fff}
+
+
+:root{--brand-primary:#ff0000;--brand-primary-dark:#cc0000;--brand-accent:#ff0000;--page-bg:#fff;--ink:#000;--font-body:'Helvetica Neue',Helvetica,Arial,sans-serif}
+body{font-size:13px}
+.uq-bar{background:#000;color:#fff;padding:7px 8px;text-align:center;font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase}
+.uq-top{background:#fff;border-bottom:1px solid #e5e5e5;position:relative;z-index:5}
+.uq-top-inner{display:flex;align-items:center;padding:10px 24px;gap:18px;max-width:1600px;margin:0 auto}
+.uq-logo{flex:0 0 auto;display:inline-flex;flex-direction:column;background:#ff0000;color:#fff;padding:6px 10px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:900;line-height:.95;letter-spacing:.5px;font-size:14px;text-align:center;width:54px;align-items:center;box-shadow:0 0 0 1px #ff0000}
+.uq-logo span{display:block;letter-spacing:1px}
+.uq-nav{display:flex;gap:26px;margin-left:6px}
+.uq-nav a{color:#000;font-size:13px;font-weight:700;letter-spacing:.6px;padding:6px 0;position:relative;text-transform:uppercase}
+.uq-nav a.active::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:#000}
+.uq-search{flex:1;max-width:560px;margin:0 8px;position:relative}
+.uq-search input{width:100%;padding:11px 18px 11px 42px;border-radius:24px;border:1px solid #e3e3e3;background:#f4f4f4;font-size:13px;outline:none;font-family:inherit}
+.uq-search:before{content:"🔍";position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:13px;color:#666}
+.uq-actions{display:flex;gap:18px;font-size:18px;align-items:center;margin-left:auto}
+.uq-actions a{color:#000;display:inline-flex}
+.uq-actions .ic{font-size:18px;line-height:1}
+
+.strip{padding:8px 28px;background:#fff;border-bottom:1px solid #f0f0f0;font-size:12px;color:#666;display:flex;gap:6px;align-items:center;max-width:1600px;margin:0 auto}
+.strip a{color:#666}.strip b{color:#111;font-weight:600}.strip .sep{color:#bbb;font-size:11px}
+
+.uq-hero{background:linear-gradient(135deg,#222 0%,#000 100%);color:#fff;padding:36px 28px;display:flex;flex-direction:column;gap:8px}
+.uq-hero h1{margin:0;font-size:28px;font-weight:700;letter-spacing:-.5px;color:#fff}
+.uq-hero p{margin:0;color:#ccc;font-size:13px}
+
+.results-head h1{font-size:24px;margin:0;color:#000;font-weight:600}
+
+.result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:32px 18px}
+.uq-tile{background:#fff;cursor:pointer}
+.uq-img{aspect-ratio:3/4;background:#f5f5f5 no-repeat center/cover;position:relative;overflow:hidden}
+.uq-img:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 60%,rgba(0,0,0,.04));pointer-events:none}
+.uq-quick{position:absolute;bottom:10px;left:10px;right:10px;background:rgba(255,255,255,.96);color:#000;padding:9px;text-align:center;font-size:12px;font-weight:700;opacity:0;transition:opacity .18s;letter-spacing:.3px;border:1px solid #e5e5e5;text-transform:uppercase}
+.uq-tile:hover .uq-quick{opacity:1}
+.uq-fav{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;font-size:14px;color:#666;border:1px solid #eee}
+.uq-body{padding:12px 2px 0}
+.uq-cat{font-size:10px;color:#737373;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px;font-weight:600}
+.uq-title{font-size:13px;color:#000;font-weight:500;margin-bottom:6px;line-height:1.35;min-height:34px}
+.uq-swatch{font-size:11px;color:#737373;display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.uq-swatch span.sw{width:13px;height:13px;border-radius:50%;border:1px solid #ccc;display:inline-block}
+.uq-price{font-weight:700;color:#ff0000;font-size:14px;font-family:'Helvetica Neue',Arial,sans-serif}
+.uq-rating{font-size:11px;color:#737373;margin-top:3px}
+.uq-rating .star{color:#ff0000}
+
+.aside h3{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#000;font-weight:700;margin:0 0 14px;border-bottom:2px solid #000;padding-bottom:8px}
+.aside h4{font-size:13px;margin:14px 0 6px;color:#000;font-weight:700}
+.fsec{border-bottom:1px solid #eee;padding:6px 0 14px}
+
+.footer{margin-top:60px;padding:32px 28px;border-top:1px solid #e5e5e5;color:#666;font-size:12px;background:#fafafa;display:flex;flex-wrap:wrap;gap:36px;justify-content:space-between}
+.footer .fcol b{display:block;color:#000;margin-bottom:8px;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+.footer .fcol a{display:block;color:#666;margin:3px 0;font-size:12px}
+.footer .fcred{flex-basis:100%;border-top:1px solid #eee;padding-top:18px;text-align:center;color:#999;font-size:11px;letter-spacing:.4px}
+
+</style>
+</head>
+<body>
+
+<header class="uq-top">
+  <div class="uq-bar">FREE SHIPPING ON ORDERS OVER $99 · MEMBERS GET EXTRA 10% OFF · STORE PICKUP AVAILABLE</div>
+  <div class="uq-top-inner">
+    <div class="uq-logo" aria-label="EchoWear"><span>EchoWear</span></div>
+    <nav class="uq-nav">
+      <a class="active">MEN</a><a>WOMEN</a><a>KIDS</a><a>BABY</a><a>SALE</a><a>STORES</a>
+    </nav>
+    <div class="uq-search"><input type="search" placeholder="Search products, collections, sizes..." /></div>
+    <div class="uq-actions">
+      <a class="ic" title="Wishlist">♡</a>
+      <a class="ic" title="Account">👤</a>
+      <a class="ic" title="Cart">🛍 <span style="font-size:12px;font-weight:700;margin-left:2px">0</span></a>
+      <a class="ic" title="Menu">☰</a>
+    </div>
+  </div>
+</header>
+<div class="strip"><a>Men</a> <span class='sep'>›</span> <a>Outerwear</a> <span class='sep'>›</span> <b>Blazers</b></div>
+<section class="uq-hero">
+  <h1>Men's Blazers &amp; Outerwear</h1>
+  <p>Refined tailoring meets modern essentials. Curated for the season.</p>
+</section>
+
+<a id="chip-anchor-btn" href="#active-filters" class="chip-anchor-fab">
+  ▼ Active filters (<span class="anchor-count">0</span>) — jump
+</a>
+<div class="chip-anchor-zone" id="active-filters">
+  <span class="rail-label">Applied filters</span>
+  <div class="chiprail" id="active-chips"></div>
+  <a class="clear-all" onclick="lsReset()">Clear all</a>
+</div>
+<main class="page"><aside class="aside"><h3>Refine results</h3><div class="fsec" data-facet-group="brand"><h4>Collection<a class="facet-clear" onclick="clearFacet(this,'brand')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="brand" value="+J" onchange="onF()"> <span class="opt-lbl">EchoJ</span></label><label><input type="checkbox" data-facet="brand" value="BlockTech" onchange="onF()"> <span class="opt-lbl">EchoShield</span></label><label><input type="checkbox" data-facet="brand" value="Heattech" onchange="onF()"> <span class="opt-lbl">EchoWarm</span></label><label><input type="checkbox" data-facet="brand" value="U" onchange="onF()"> <span class="opt-lbl">U</span></label><label><input type="checkbox" data-facet="brand" value="UT" onchange="onF()"> <span class="opt-lbl">EchoTees</span></label><label><input type="checkbox" data-facet="brand" value="Uniqlo" onchange="onF()"> <span class="opt-lbl">EchoWear</span></label></div></div><div class="fsec" data-facet-group="category"><h4>Category<a class="facet-clear" onclick="clearFacet(this,'category')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="category" value="Blazer" onchange="onF()"> <span class="opt-lbl">Blazer</span></label><label><input type="checkbox" data-facet="category" value="Outerwear" onchange="onF()"> <span class="opt-lbl">Outerwear</span></label><label><input type="checkbox" data-facet="category" value="Pants" onchange="onF()"> <span class="opt-lbl">Pants</span></label><label><input type="checkbox" data-facet="category" value="Shirt" onchange="onF()"> <span class="opt-lbl">Shirt</span></label><label><input type="checkbox" data-facet="category" value="Sweater" onchange="onF()"> <span class="opt-lbl">Sweater</span></label><label><input type="checkbox" data-facet="category" value="T-shirt" onchange="onF()"> <span class="opt-lbl">T-shirt</span></label></div></div><div class="fsec" data-facet-group="color"><h4>Color<a class="facet-clear" onclick="clearFacet(this,'color')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="color" value="Beige" onchange="onF()"> <span class="opt-lbl">Beige</span></label><label><input type="checkbox" data-facet="color" value="Black" onchange="onF()"> <span class="opt-lbl">Black</span></label><label><input type="checkbox" data-facet="color" value="Gray" onchange="onF()"> <span class="opt-lbl">Gray</span></label><label><input type="checkbox" data-facet="color" value="Navy" onchange="onF()"> <span class="opt-lbl">Navy</span></label><label><input type="checkbox" data-facet="color" value="White" onchange="onF()"> <span class="opt-lbl">White</span></label></div></div><div class="fsec" data-facet-group="condition"><h4>Size<a class="facet-clear" onclick="clearFacet(this,'condition')">clear</a></h4><div class="opts"><label><input type="checkbox" data-facet="condition" value="L" onchange="onF()"> <span class="opt-lbl">L</span></label><label><input type="checkbox" data-facet="condition" value="M" onchange="onF()"> <span class="opt-lbl">M</span></label><label><input type="checkbox" data-facet="condition" value="S" onchange="onF()"> <span class="opt-lbl">S</span></label><label><input type="checkbox" data-facet="condition" value="XL" onchange="onF()"> <span class="opt-lbl">XL</span></label></div></div><div class="fsec" data-facet-group="price"><h4>Price<a class="facet-clear" onclick="clearPrice()">clear</a></h4><div class="opts"><label><input type="radio" name="ptier" data-tier="0-29" onchange="setPriceTier(this)"> Under $30</label><label><input type="radio" name="ptier" data-tier="30-59" onchange="setPriceTier(this)"> $30–$59</label><label><input type="radio" name="ptier" data-tier="60-99" onchange="setPriceTier(this)"> $60–$99</label><label><input type="radio" name="ptier" data-tier="100-300" onchange="setPriceTier(this)"> $100+</label></div></div><div class="fsec" data-facet-group="rating"><h4>Rating<a class="facet-clear" onclick="clearFacet(this,'rating_min')">clear</a></h4><div class="opts"><label><input type="radio" name="rating_min" data-facet="rating_min" value="4" onchange="onF()"> 4★ &amp; up</label><label><input type="radio" name="rating_min" data-facet="rating_min" value="3" onchange="onF()"> 3★ &amp; up</label></div></div></aside>
+<section class="results">
+  
+  
+  <div class="results-head">
+    <span class="rc-count" id="result-count">18 items</span>
+    <select class="sort-dd"><option>Sort: Recommended</option><option>Highest Rated</option><option>Price: Low to High</option><option>Newest</option></select>
+  </div>
+  <div class="result-grid" id="result-grid"></div>
+</section></main>
+<footer class="footer">
+  <div class="fcol"><b>Customer Service</b><a>Contact Us</a><a>Shipping &amp; Returns</a><a>FAQ</a><a>Track Order</a></div>
+  <div class="fcol"><b>About EchoWear</b><a>Sustainability</a><a>Careers</a><a>Newsroom</a><a>Investor Relations</a></div>
+  <div class="fcol"><b>Membership</b><a>Sign Up</a><a>Member Benefits</a><a>App Download</a><a>Gift Cards</a></div>
+  <div class="fcol"><b>Connect</b><a>EchoGram</a><a>EchoTube</a><a>EchoPost</a><a>Newsletter</a></div>
+  <div class="fcred">© 2025 EchoWear Co., Ltd. All rights reserved. · Privacy · Terms · Cookie Settings</div>
+</footer>
+
+<script>
+const ENV_ID = 'W08_E05';
+let filterState = {};
+
+function buildStateFromDom() {
+  const s = {};
+  document.querySelectorAll('input[type=checkbox][data-facet]').forEach(el => {
+    if (el.checked) {
+      const f = el.dataset.facet;
+      (s[f] = s[f] || []).push(el.value);
+    }
+  });
+  document.querySelectorAll('input[type=radio][data-facet]:checked').forEach(el => {
+    s[el.dataset.facet] = el.value;
+  });
+  const tierEl = document.querySelector('input[name="ptier"]:checked');
+  if (tierEl) {
+    const [mn, mx] = (tierEl.dataset.tier || '').split('-').map(Number);
+    if (!isNaN(mn)) s.min_price = mn;
+    if (!isNaN(mx)) s.max_price = mx;
+  }
+  return s;
+}
+
+let _submitChain = Promise.resolve();
+function applyFilters() {
+  filterState = buildStateFromDom();
+  // Render chips synchronously so the agent gets instant visual
+  // confirmation of every pick — the widget mechanic is that the
+  // agent must verify each required chip is present in the bar.
+  renderActiveChips();
+  const urlParams = new URLSearchParams(window.location.search);
+  const taskId = urlParams.get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).then(r => r.json()).then(data => {
+    updateResults(data.results || []);
+    const rc = document.getElementById('result-count');
+    if (rc) rc.textContent = (data.results || []).length + ' items';
+  }).catch(() => {});
+  // Autosave on every change — chained sequentially via _submitChain
+  // so submits from rapid successive picks arrive at the backend in
+  // click-order. Without this, FastAPI's threadpool can process them
+  // out of order and the CURRENT row may reflect a stale state.
+  const snapshot = JSON.parse(JSON.stringify(filterState));
+  _submitChain = _submitChain.then(() => fetch(
+    '/env/' + ENV_ID + '/api/submit',
+    {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({filter_state: snapshot, task_id: taskId})
+    }
+  ).catch(() => {}));
+}
+
+function onF() { applyFilters(); }
+
+function setPriceTier(el) { onF(); }
+function clearPrice() {
+  document.querySelectorAll('input[name="ptier"]').forEach(e => e.checked = false);
+  onF();
+}
+
+function escapeHtml(s) {
+  return (s == null ? '' : String(s)).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+}
+
+const FACET_LABELS = {"brand": "Collection", "category": "Category", "color": "Color", "condition": "Size"};
+
+function chipLabel(facet, value) {
+  if (facet === 'min_price') return 'min ≥ $' + value;
+  if (facet === 'max_price') return 'max ≤ $' + value;
+  if (facet === 'price_range') return 'Price: ' + value;
+  if (facet === 'rating_min') return '★ ≥ ' + value;
+  const lbl = FACET_LABELS[facet] || facet;
+  return lbl + ': ' + value;
+}
+
+function renderActiveChips() {
+  const bars = document.querySelectorAll('.chiprail, #active-chips');
+  if (!bars.length) return;
+  const items = [];
+  const hasMin = 'min_price' in filterState, hasMax = 'max_price' in filterState;
+  if (hasMin || hasMax) {
+    const lo = hasMin ? '$' + filterState.min_price : 'any';
+    const hi = hasMax ? '$' + filterState.max_price : 'any';
+    items.push({facet:'price_range', value: lo + '–' + hi});
+  }
+  for (const [k, v] of Object.entries(filterState)) {
+    if (k === 'min_price' || k === 'max_price') continue;
+    if (Array.isArray(v)) {
+      v.forEach(val => items.push({facet:k, value: val}));
+    } else {
+      items.push({facet:k, value: v});
+    }
+  }
+  const html = items.map(it => {
+    const lbl = escapeHtml(chipLabel(it.facet, it.value));
+    const argF = escapeHtml(JSON.stringify(it.facet));
+    const argV = escapeHtml(JSON.stringify(it.value));
+    return '<span class="fc" data-facet="' + escapeHtml(it.facet) + '" data-value="' + escapeHtml(String(it.value)) + '">'
+      + '<span class="lbl">' + lbl + '</span>'
+      + '<span class="x" role="button" tabindex="0" title="Remove" onclick="removeActiveChip(' + argF + ',' + argV + ')">×</span>'
+      + '</span>';
+  }).join('');
+  bars.forEach(bar => { bar.innerHTML = html; });
+  // Show/hide an optional "anchor" link to chip rail if present
+  const anchorBtn = document.getElementById('chip-anchor-btn');
+  if (anchorBtn) {
+    anchorBtn.style.display = items.length ? 'inline-flex' : 'none';
+    const cnt = anchorBtn.querySelector('.anchor-count');
+    if (cnt) cnt.textContent = items.length;
+  }
+}
+
+function removeActiveChip(facet, value) {
+  const valStr = (value == null) ? '' : String(value);
+  if (facet === 'price_range') {
+    document.querySelectorAll('input[name="ptier"]').forEach(e => e.checked = false);
+    onF();
+    return;
+  }
+  document.querySelectorAll('input[type=checkbox][data-facet="' + facet + '"]').forEach(i => {
+    if (i.value === valStr) i.checked = false;
+  });
+  document.querySelectorAll('input[type=radio][data-facet="' + facet + '"]').forEach(i => {
+    if (i.value === valStr) i.checked = false;
+  });
+  onF();
+}
+
+function lsReset() {
+  document.querySelectorAll('input[data-facet], input[name="ptier"]').forEach(el => {
+    if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+  });
+  onF();
+}
+
+function clearFacet(a, facet) {
+  document.querySelectorAll('input[data-facet="' + facet + '"]').forEach(i => {
+    if (i.type === 'checkbox' || i.type === 'radio') i.checked = false;
+  });
+  onF();
+}
+
+function updateResults(results) {
+  const grid = document.getElementById('result-grid');
+  if (!grid) return;
+  if (!results.length) {
+    grid.innerHTML = '<div class="empty-msg">No results match your filters.</div>';
+    return;
+  }
+  grid.innerHTML = results.map(r => renderCard(r)).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  applyFilters();
+});
+</script>
+
+<script>
+function renderCard(r) {
+  const img = escapeHtml(r.image_url || '');
+  const title = escapeHtml(r.title || '?');
+  const brand = escapeHtml(r.brand || '');
+  const color = escapeHtml(r.color || '');
+  const size = escapeHtml(r.condition || '');
+  const cat = escapeHtml(r.category || '');
+  const price = r.price > 0 ? '$' + r.price : 'Free';
+  const rating = (r.rating != null) ? Number(r.rating).toFixed(1) : null;
+  const reviews = (r.reviews != null) ? r.reviews : (r.review_count != null ? r.review_count : null);
+  const ratingHtml = rating ? `<div class="uq-rating"><span class="star">★</span> ${rating}${reviews!=null?` (${reviews})`:''}</div>` : '';
+  const swatchBg = color ? color.toLowerCase() : '#ddd';
+  return `<div class="uq-tile">
+    <div class="uq-img" style="background-image:url('${img}')">
+      <span class="uq-fav">♡</span>
+      <span class="uq-quick">Quick Add ›</span>
+    </div>
+    <div class="uq-body">
+      <div class="uq-cat">${brand} · ${cat}</div>
+      <div class="uq-title">${title}</div>
+      <div class="uq-swatch"><span class="sw" style="background:${swatchBg}"></span> ${color} · Size ${size}</div>
+      <div class="uq-price">${price}</div>
+      ${ratingHtml}
+    </div>
+  </div>`;
+}
+</script>
+
+<style>
+.seo-block{background:#fafafa;border-top:1px solid #e5e5e5;padding:32px 28px;color:#555;font-size:12px;line-height:1.6}
+.seo-inner{max-width:1400px;margin:0 auto}
+.seo-blurb{font-size:13px;color:#666;max-width:920px;margin:0 auto 24px;text-align:center;line-height:1.65}
+.seo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
+.seo-col h6{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#222;margin:0 0 10px;font-weight:700}
+.seo-col ul{list-style:none;margin:0;padding:0}
+.seo-col li{padding:3px 0}
+.seo-col li a{color:#666;font-size:12px;text-decoration:none}
+.seo-col li a:hover{color:#333;text-decoration:underline}
+</style>
+<section class="seo-block"><div class="seo-inner"><div class="seo-blurb">EchoWear brings refined tailoring and modern essentials to your everyday wardrobe. From workwear staples to seasonal capsule pieces, every garment is built with technical fabric innovation and fits that move with you.</div><div class="seo-grid"><div class="seo-col"><h6>Men's Categories</h6><ul><li><a>Men's Blazers</a></li><li><a>Men's Outerwear</a></li><li><a>Men's Shirts</a></li><li><a>Men's Pants</a></li><li><a>Men's Sweaters</a></li><li><a>Men's T-Shirts</a></li><li><a>Men's Suits</a></li><li><a>Men's Activewear</a></li><li><a>Men's Loungewear</a></li><li><a>Men's Accessories</a></li></ul></div><div class="seo-col"><h6>Featured Collections</h6><ul><li><a>EchoJ Collection</a></li><li><a>U Collection</a></li><li><a>EchoTees Graphic Tees</a></li><li><a>EchoWarm Warmth</a></li><li><a>EchoShield Outerwear</a></li><li><a>EchoBreeze Lightweight</a></li><li><a>Wool-Like Series</a></li><li><a>Tailored Essentials</a></li><li><a>Seasonal Capsule</a></li><li><a>Limited Edition Drops</a></li></ul></div><div class="seo-col"><h6>Shop by Color</h6><ul><li><a>Black</a></li><li><a>Navy</a></li><li><a>Gray</a></li><li><a>Beige</a></li><li><a>Olive</a></li><li><a>Charcoal</a></li><li><a>White</a></li><li><a>Brown</a></li><li><a>Wine</a></li><li><a>Forest Green</a></li></ul></div><div class="seo-col"><h6>Customer Care</h6><ul><li><a>Size Guide</a></li><li><a>Free Alterations</a></li><li><a>Returns & Exchanges</a></li><li><a>Order Tracking</a></li><li><a>Care Instructions</a></li><li><a>Sustainability Report</a></li><li><a>Store Locator</a></li><li><a>Gift Cards</a></li><li><a>EchoWear Membership</a></li><li><a>Contact Support</a></li></ul></div></div></div></section></body></html>

@@ -1,0 +1,9 @@
+[project]
+name = "nested_filter"
+version = "0.1.0"
+description = "Consolidated nested-filter W01-W20 synthetic eval env (200 envs)"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+]

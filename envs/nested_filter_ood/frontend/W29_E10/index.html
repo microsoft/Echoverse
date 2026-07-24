@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Compound Interest Calculator - EchoInvest</title>
+<style>
+:root{--x-accent:#b8511c;--x-bg:#fff8e8;--x-soft:#fdf0d8;--x-border:#d6b384;--x-text:#3a2410;--x-text-soft:#7a5532;--x-serif:'Georgia',serif;--x-radius:0}
+
+/* HIDE all model-facing debug/test/banner overlays */
+.wut-badge, .wut-badge-test, .utst-note, .utst-trigger,
+.f-section.widget-utst,
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta,
+.task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok, .live-status.good, .live-status.pending, .live-status.neutral,
+.db-fab, .answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label, .status-pill, .status-bar, .task-pill,
+.autosave-pill, .fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta,
+.tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write, .tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer, #state-row, #status-pill, #status-bar,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source],
+[data-debug="1"]
+{ display: none !important; visibility: hidden !important; }
+
+
+body{margin:0;background:#fdf6e8;font-family:'Trebuchet MS',Verdana,Arial,sans-serif;color:#3a2410}
+.mc-top{background:#b8511c;color:#fff8e8;border-bottom:6px solid #fdf6e8}
+.mc-banner{max-width:980px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;gap:16px}
+.mc-monkey{flex:0 0 56px}
+.mc-title-wrap{flex:1}
+.mc-title{margin:0;font-size:34px;font-weight:700;font-family:'Georgia',serif;color:#fff8e8;letter-spacing:-1px}
+.mc-title span{color:#ffd699;font-size:24px}
+.mc-tag{color:#ffe6c2;font-style:italic;font-size:13px;margin-top:2px}
+.mc-nav{display:flex;gap:18px}
+.mc-nav a{color:#fff8e8;text-decoration:none;font-size:14px;font-weight:700;cursor:pointer}
+.mc-nav a.cur,.mc-nav a:hover{text-decoration:underline}
+.mc-main{max-width:980px;margin:18px auto 24px;padding:0 18px;display:grid;grid-template-columns:220px 1fr;gap:24px}
+.mc-side{background:#fff8e8;border:1px solid #d6b384;padding:14px 16px;font-size:13px}
+.mc-side h4{margin:0 0 6px;color:#b8511c;font-size:14px;border-bottom:1px solid #d6b384;padding-bottom:4px}
+.mc-side ul{list-style:none;padding:0;margin:0 0 14px}
+.mc-side li a{color:#0066cc;text-decoration:none;font-size:13px;display:block;padding:3px 0;cursor:pointer}
+.mc-side li a.cur{color:#b8511c;font-weight:700}
+.mc-side li a:hover{text-decoration:underline}
+.mc-content{background:#fff8e8;border:1px solid #d6b384;padding:18px 22px}
+.mc-content h2{margin:0 0 10px;color:#b8511c;font-family:'Georgia',serif;font-size:26px;font-weight:700}
+.mc-prose{font-size:14px;line-height:1.6;color:#3a2410;margin:0 0 16px}
+.mc-calc-frame{border:2px solid #b8511c;margin-bottom:18px}
+.mc-calc-bar{background:#b8511c;color:#fff8e8;padding:7px 12px;font-weight:700;font-size:13px;font-family:'Georgia',serif}
+.mc-calc{width:100%;border-collapse:collapse;background:#fff8e8}
+.mc-calc td{padding:7px 12px;font-size:13px;border-top:1px dotted #d6b384}
+.mc-l{width:38%;text-align:right;color:#3a2410}
+.mc-calc input[type=number],.mc-calc input[type=text]{padding:4px 6px;border:1px solid #b8511c;font-size:13px;font-family:'Trebuchet MS',Verdana,Arial;width:110px;background:#fff}
+.mc-calc .mc-freq-input{width:140px}
+.mc-calc input[type=text][disabled]{background:#eee}
+.mc-help{color:#7a5532;font-size:11px;font-style:italic;margin-left:6px}
+.mc-go-row{text-align:center;background:#fdf0d8;padding:10px}
+.mc-go-row button{background:#b8511c;color:#fff8e8;border:0;padding:7px 26px;font-weight:700;cursor:pointer;font-size:14px;border-radius:3px}
+.mc-result{border:2px dashed #b8511c;padding:14px 18px;background:#fff8e8}
+.mc-result h3{margin:0 0 4px;color:#b8511c;font-family:'Georgia',serif;font-size:18px}
+.mc-big{font-family:'Georgia',serif;font-size:36px;color:#3a2410;font-weight:700;line-height:1.05}
+.mc-sub{font-size:13px;color:#7a5532;margin:4px 0 10px}
+.mc-stats{list-style:none;padding:0;margin:0 0 10px;font-size:13px;display:flex;gap:18px;flex-wrap:wrap}
+.mc-stats li b{color:#b8511c}
+.mc-chart{width:100%;height:120px;background:#fff;border:1px solid #d6b384}
+.mc-notes{font-size:12px;color:#7a5532;line-height:1.6;font-style:italic;margin:16px 0 0}
+.mc-foot{background:#3a2410;color:#fdf6e8;padding:14px 18px;text-align:center;font-size:12px}
+.mc-foot a{color:#ffd699;text-decoration:none;cursor:pointer}
+@media(max-width:780px){.mc-main{grid-template-columns:1fr}.mc-l{text-align:left;width:auto}}
+
+
+.x-extras{max-width:1240px;margin:32px auto 0;padding:0 20px;display:grid;grid-template-columns:1fr 320px;gap:28px;color:var(--x-text,#1c2024);font-family:inherit}
+.x-extras .x-main{background:var(--x-bg,#fff);border:1px solid var(--x-border,#e2e6ea);border-radius:var(--x-radius,4px);padding:28px 32px}
+.x-extras h2{font-family:var(--x-serif,'Georgia',serif);font-size:26px;margin:0 0 8px;color:var(--x-text,#1c2024)}
+.x-extras h3{font-family:var(--x-serif,'Georgia',serif);font-size:18px;margin:24px 0 8px;color:var(--x-accent,#0c8062)}
+.x-extras p{font-size:15px;line-height:1.7;margin:0 0 12px}
+.x-extras .x-formula{background:var(--x-soft,#f5f7fa);border-left:3px solid var(--x-accent,#0c8062);padding:14px 18px;font-family:'Cambria Math','Georgia',serif;font-size:16px;margin:12px 0 16px;color:var(--x-text,#1c2024)}
+.x-extras .x-formula b{color:var(--x-accent,#0c8062);font-style:italic;font-weight:700}
+.x-extras .x-scn-table{width:100%;border-collapse:collapse;margin:14px 0 18px;font-size:14px}
+.x-extras .x-scn-table th{text-align:left;padding:10px 12px;background:var(--x-soft,#f5f7fa);color:var(--x-text,#1c2024);font-weight:700;border-bottom:2px solid var(--x-accent,#0c8062);font-size:13px;text-transform:uppercase;letter-spacing:.4px}
+.x-extras .x-scn-table td{padding:10px 12px;border-bottom:1px solid var(--x-border,#e2e6ea)}
+.x-extras .x-scn-table td:last-child{font-weight:700;color:var(--x-accent,#0c8062);text-align:right}
+.x-extras .x-faq{margin-top:18px}
+.x-extras .x-faq details{border-top:1px solid var(--x-border,#e2e6ea);padding:14px 0}
+.x-extras .x-faq details[open] summary{color:var(--x-accent,#0c8062)}
+.x-extras .x-faq summary{font-weight:700;font-size:15px;cursor:pointer;color:var(--x-text,#1c2024);list-style:none;display:flex;justify-content:space-between;align-items:center}
+.x-extras .x-faq summary::after{content:'+';font-size:22px;font-weight:400;color:var(--x-accent,#0c8062);line-height:1}
+.x-extras .x-faq details[open] summary::after{content:'−'}
+.x-extras .x-faq p{margin-top:10px;font-size:14px;color:var(--x-text-soft,#525861)}
+.x-extras .x-aside{display:flex;flex-direction:column;gap:18px}
+.x-extras .x-aside-card{background:var(--x-bg,#fff);border:1px solid var(--x-border,#e2e6ea);border-radius:var(--x-radius,4px);padding:20px 22px}
+.x-extras .x-aside-card h4{margin:0 0 10px;font-family:var(--x-serif,'Georgia',serif);font-size:16px;color:var(--x-text,#1c2024);border-bottom:2px solid var(--x-accent,#0c8062);padding-bottom:6px}
+.x-extras .x-aside-card ul{list-style:none;padding:0;margin:0;font-size:14px}
+.x-extras .x-aside-card li{padding:6px 0;border-bottom:1px solid var(--x-border,#f0f3f7)}
+.x-extras .x-aside-card li:last-child{border-bottom:0}
+.x-extras .x-aside-card a{color:var(--x-accent,#0c8062);text-decoration:none;cursor:pointer}
+.x-extras .x-aside-card a:hover{text-decoration:underline}
+.x-extras .x-gloss{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 18px;font-size:14px;margin-top:10px}
+.x-extras .x-gloss dt{font-weight:700;color:var(--x-text,#1c2024)}
+.x-extras .x-gloss dd{margin:0 0 8px;color:var(--x-text-soft,#525861)}
+.x-disclosure-block{max-width:1240px;margin:20px auto 30px;padding:14px 24px;color:var(--x-text-soft,#525861);font-size:12px;line-height:1.6;background:var(--x-soft,#f5f7fa);border-left:3px solid var(--x-accent,#0c8062);border-radius:var(--x-radius,3px)}
+@media(max-width:980px){.x-extras{grid-template-columns:1fr}.x-extras .x-gloss{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+
+<header class="mc-top">
+  <div class="mc-banner">
+    <span class="mc-monkey" aria-hidden="true">
+      <svg viewBox="0 0 64 64" width="58" height="58"><rect x="4" y="4" width="56" height="56" rx="14" fill="#b8511c"/><text x="32" y="45" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="800" fill="#fff">E</text></svg>
+    </span>
+    <div class="mc-title-wrap">
+      <h1 class="mc-title">EchoInvest<span></span></h1>
+      <div class="mc-tag">— learn finance, demystified.</div>
+    </div>
+    <nav class="mc-nav"><a>Home</a><a>Finance</a><a class="cur">Calculator</a><a>Glossary</a><a>About</a></nav>
+  </div>
+</header>
+<main class="mc-main">
+  <aside class="mc-side">
+    <h4>Finance</h4>
+    <ul><li><a class="cur">Compound Interest</a></li><li><a>CAGR Calculator</a></li><li><a>Volatility</a></li><li><a>S&amp;P 500 Returns</a></li><li><a>Sharpe Ratio</a></li><li><a>Inflation</a></li><li><a>Black-Scholes</a></li><li><a>Stock Yields</a></li></ul>
+    <h4>Articles</h4>
+    <ul><li><a>The Rule of 72</a></li><li><a>Time Value of Money</a></li><li><a>Modern Portfolio Theory</a></li></ul>
+  </aside>
+  <section class="mc-content">
+    <h2>Compound Interest Calculator</h2>
+    <p class="mc-prose">Compound interest is what happens when interest earns interest. It's one of the most powerful concepts in personal finance — Einstein supposedly called it the eighth wonder of the world. Plug your numbers in below to see for yourself.</p>
+    <div class="mc-calc-frame">
+      <div class="mc-calc-bar">Compound Interest Calculator</div>
+      <table class="mc-calc">
+        <tr><td class="mc-l"><label>Current Principal:</label></td><td>$ <input type="number" data-facet="principal" value="10000" min="0" step="100" oninput="applyFilters()"></td></tr>
+        <tr><td class="mc-l"><label>Annual Addition:</label></td><td>$ <input type="number" value="0" disabled></td></tr>
+        <tr><td class="mc-l"><label>Years to grow:</label></td><td><input type="number" data-facet="years" value="10" min="0" max="100" step="1" oninput="applyFilters()"></td></tr>
+        <tr><td class="mc-l"><label>Interest Rate:</label></td><td><input type="number" data-facet="rate" value="5" min="0" max="100" step="0.1" oninput="applyFilters()"> %</td></tr>
+        <tr><td class="mc-l"><label>Compound Interest:</label></td><td><input type="text" data-facet="frequency" value="Annually" list="mc-freq-list" oninput="applyFilters()" class="mc-freq-input"><datalist id="mc-freq-list"><option value="Annually"><option value="Semi-Annually"><option value="Quarterly"><option value="Monthly"><option value="Bi-Weekly"><option value="Daily"><option value="Continuously"></datalist> <span class="mc-help">(Annually · Semi-Annually · Quarterly · Monthly · Bi-Weekly · Daily · Continuously)</span></td></tr>
+        <tr><td class="mc-l"><label>Make Deposits:</label></td><td><label><input type="radio" name="dep" checked> Beginning</label> <label><input type="radio" name="dep"> End</label> of each Compounding Period</td></tr>
+        <tr><td colspan="2" class="mc-go-row"><button type="button" onclick="applyFilters()">Calculate</button></td></tr>
+      </table>
+    </div>
+    <div class="mc-result">
+      <h3>Future Value:</h3>
+      <div class="mc-big" id="calc-big-value">$0.00</div>
+      <p id="calc-sub" class="mc-sub">—</p>
+      <ul class="mc-stats">
+        <li>Interest Earned: <b id="calc-interest">$0.00</b></li>
+        <li>Effective Annual Yield: <b id="calc-eay">0.00%</b></li>
+        <li>Compounding: <b id="calc-freq-echo">Annually</b></li>
+      </ul>
+      <svg viewBox="0 0 400 140" preserveAspectRatio="none" class="mc-chart">
+        <defs><linearGradient id="mcGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b8511c" stop-opacity=".4"/><stop offset="1" stop-color="#b8511c" stop-opacity="0"/></linearGradient></defs>
+        <path id="calc-chart-area" fill="url(#mcGrad)"></path>
+        <path id="calc-chart-path" fill="none" stroke="#b8511c" stroke-width="2"></path>
+      </svg>
+    </div>
+    <p class="mc-notes">Notes: The "Annual Addition" feature is reserved for the next version of this calculator. Try changing the compounding frequency in the field above to see how it affects the result. Most savings accounts compound daily; most bonds compound annually or semi-annually.</p>
+  </section>
+</main>
+
+<section class="x-extras">
+  <div class="x-main">
+    <h2>How compound interest works</h2>
+    <p>Compound interest is the interest you earn on both your original deposit and on the interest that has already been added to your account. Over long horizons, it can dramatically outpace simple interest, where you only earn a return on the original principal. The two levers that matter most are time and the rate of return — but how often interest is added to the balance (the <em>compounding frequency</em>) also plays a meaningful role.</p>
+    <p>EchoInvest provides this calculator as an educational tool to help you visualize the difference. Try changing the initial deposit, the annual rate, the number of years, and the compounding frequency to see how each variable shifts the projected end balance.</p>
+
+    <h3>The formula</h3>
+    <div class="x-formula">FV = <b>P</b> × ( 1 + <b>r</b> ⁄ <b>n</b> ) <sup><b>n × t</b></sup></div>
+    <p>Where <b>FV</b> is the future value, <b>P</b> is the principal (your initial deposit), <b>r</b> is the annual interest rate expressed as a decimal, <b>n</b> is the number of compounding periods per year, and <b>t</b> is the number of years. When interest is compounded continuously, the formula becomes FV = P × e<sup>r × t</sup>, where <b>e</b> is Euler's number (≈ 2.71828).</p>
+
+    <h3>How frequency changes the outcome</h3>
+    <p>Holding the principal, rate, and time horizon constant, more frequent compounding produces a slightly higher final balance. The table below illustrates the projected balance after 10 years on a $10,000 deposit at a 5.00% annual rate under each available compounding option.</p>
+    <table class="x-scn-table">
+      <thead><tr><th>Compounding</th><th>Periods / Year</th><th>Balance After 10 Years</th></tr></thead>
+      <tbody>
+        <tr><td>Annually</td><td>1</td><td>$16,288.95</td></tr>
+        <tr><td>Semi-Annually</td><td>2</td><td>$16,386.16</td></tr>
+        <tr><td>Quarterly</td><td>4</td><td>$16,436.19</td></tr>
+        <tr><td>Monthly</td><td>12</td><td>$16,470.09</td></tr>
+        <tr><td>Bi-Weekly</td><td>26</td><td>$16,478.36</td></tr>
+        <tr><td>Daily</td><td>365</td><td>$16,486.65</td></tr>
+        <tr><td>Continuously</td><td>—</td><td>$16,487.21</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Frequently asked questions</h3>
+    <div class="x-faq">
+      <details><summary>What is the difference between APR and APY?</summary><p>Annual Percentage Rate (APR) is the simple annual interest rate that does not account for intra-year compounding. Annual Percentage Yield (APY) reflects the effective rate you actually earn once compounding is taken into account. For products that compound more frequently than once a year, APY will be slightly higher than APR.</p></details>
+      <details><summary>Does more frequent compounding always make a meaningful difference?</summary><p>Over short horizons or at low rates the difference between monthly and daily compounding is very small. Over long horizons (20+ years) or at higher rates it becomes more visible, though it is almost always less impactful than starting earlier or contributing more.</p></details>
+      <details><summary>Is the projected balance guaranteed?</summary><p>No. This calculator assumes a constant rate of return and does not account for fees, taxes, market volatility, or changes in interest rates. Use the projection as one input among many when making decisions.</p></details>
+      <details><summary>Should I use simple or compound interest for my projections?</summary><p>Most savings accounts, certificates of deposit, money market accounts, and reinvested-dividend portfolios compound. Simple interest is typically only used for short-term loans and some bonds.</p></details>
+      <details><summary>What rate of return should I assume?</summary><p>That depends on the type of account. High-yield savings accounts and CDs are pegged to short-term rates (currently 4–5%). Long-run equity returns have averaged closer to 7–10% after inflation, but with substantial year-to-year variation.</p></details>
+      <details><summary>Does this calculator account for taxes?</summary><p>No. The results are pre-tax. Interest in a taxable account is generally taxed as ordinary income; investments in tax-advantaged accounts such as 401(k)s, IRAs, or HSAs grow tax-deferred or tax-free, which can meaningfully boost the after-tax projection.</p></details>
+      <details><summary>What is continuous compounding?</summary><p>Continuous compounding is the theoretical limit where interest is added to the balance an infinite number of times per year. In practice no real-world product compounds continuously, but it is a useful mathematical idealization that you can compare other frequencies against.</p></details>
+      <details><summary>How can I increase my final balance?</summary><p>Three levers: deposit more, stay invested longer, or find a higher rate of return. The first two are usually within your control; chasing higher returns generally requires accepting more risk and more volatility.</p></details>
+    </div>
+
+    <h3>Worked examples</h3>
+    <p>Each scenario below assumes the interest is added back to the balance once per year. Use the calculator above to recreate any of these scenarios or explore how the projection changes when you compound more frequently.</p>
+    <table class="x-scn-table">
+      <thead><tr><th>Scenario</th><th>Principal</th><th>Rate</th><th>Years</th><th>End Balance</th></tr></thead>
+      <tbody>
+        <tr><td>Emergency fund parked in a savings account</td><td>$5,000</td><td>4.0%</td><td>3</td><td>$5,624.32</td></tr>
+        <tr><td>Modest CD ladder</td><td>$25,000</td><td>4.5%</td><td>5</td><td>$31,153.13</td></tr>
+        <tr><td>Long-horizon index fund position</td><td>$10,000</td><td>7.0%</td><td>30</td><td>$76,122.55</td></tr>
+        <tr><td>Roth IRA contribution left untouched</td><td>$7,000</td><td>8.0%</td><td>40</td><td>$152,107.21</td></tr>
+        <tr><td>Inherited brokerage account</td><td>$100,000</td><td>6.0%</td><td>20</td><td>$320,713.55</td></tr>
+        <tr><td>529 college savings plan</td><td>$15,000</td><td>5.5%</td><td>18</td><td>$39,213.52</td></tr>
+        <tr><td>High-yield savings, conservative</td><td>$20,000</td><td>3.5%</td><td>10</td><td>$28,211.99</td></tr>
+        <tr><td>Aggressive equity allocation</td><td>$50,000</td><td>9.0%</td><td>25</td><td>$431,138.39</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Strategies for getting the most out of compounding</h3>
+    <p><b>Start early.</b> A single dollar invested at age 25 will compound for nearly twice as long as the same dollar invested at age 45. Even small contributions in your twenties can outpace much larger contributions made later in life.</p>
+    <p><b>Automate contributions.</b> Setting up an automatic transfer from your checking account into a savings or brokerage account on payday removes the friction of remembering to invest. Many people find that "out of sight, out of mind" works in their favor here.</p>
+    <p><b>Reinvest interest and dividends.</b> Many brokerage platforms offer a Dividend Reinvestment Plan (DRIP) that automatically uses dividend payments to buy more shares. This keeps your money compounding rather than sitting idle as cash.</p>
+    <p><b>Use tax-advantaged accounts.</b> Contributions to 401(k)s, IRAs, HSAs, and 529 plans either reduce your current tax bill or shield future earnings from taxation. The result is more money compounding for you and less leaking out to taxes each year.</p>
+    <p><b>Minimize fees.</b> A one-percentage-point difference in annual expenses sounds small but can erode tens or even hundreds of thousands of dollars over a multi-decade horizon. Compare expense ratios, account fees, and trading commissions carefully.</p>
+    <p><b>Stay invested through downturns.</b> Trying to time the market by selling during a downturn and waiting to re-enter tends to do more harm than good. Compounding works best when your money stays continuously invested.</p>
+
+    <h3>Common pitfalls to avoid</h3>
+    <p><b>Withdrawing too soon.</b> Compounding is exponential — most of the growth happens in the final years of a long investment. Pulling money out early to cover a short-term expense forfeits the years of growth that were doing the heavy lifting. Build a separate emergency fund so you never have to raid a long-horizon account.</p>
+    <p><b>Confusing nominal and real returns.</b> A 6% nominal return when inflation is running at 3% is a 3% real return. Always factor in inflation when projecting purchasing power decades into the future. The Bureau of Labor Statistics CPI calculator can help translate dollar amounts across time.</p>
+    <p><b>Ignoring fees.</b> A fund with a 1.00% expense ratio sounds reasonable next to one charging 0.05%, but over 30 years the lower-cost fund can leave you with roughly 25% more money for the same gross return. Treat fees as a guaranteed negative return that compounds against you.</p>
+    <p><b>Chasing yesterday's winners.</b> A fund or stock that returned 30% last year is no more likely to repeat that performance than any other. Picking investments by recent performance is one of the most consistent ways individual investors underperform the market.</p>
+    <p><b>Forgetting about taxes.</b> Dividends, interest, and capital gains in a taxable brokerage account create a tax drag that meaningfully reduces the effective compounding rate. Use tax-advantaged accounts first; if you're saving in a taxable account, prefer tax-efficient investments like broad-market index funds.</p>
+
+    <h3>How this calculator handles edge cases</h3>
+    <p>If you enter a zero or negative principal, the projection will simply reflect the math — a zero principal produces zero growth. Very large interest rates, very long time horizons, and continuous compounding can produce values that exceed the precision of standard floating-point arithmetic; the calculator rounds to the nearest cent for display but performs the underlying math at full precision.</p>
+    <p>The "continuous" compounding option applies the formula FV = P × e<sup>r × t</sup>. For typical inputs the difference between daily and continuous compounding is fractions of a cent over a decade. We include the option because it appears in some academic and bond-pricing contexts and because it represents the theoretical upper bound of compounding frequency.</p>
+
+    <h3>Glossary</h3>
+    <dl class="x-gloss">
+      <dt>Principal</dt><dd>The original amount you deposit or invest before any interest is added.</dd>
+      <dt>Interest Rate</dt><dd>The annual percentage applied to the balance. Quoted as APR (nominal) or APY (effective).</dd>
+      <dt>Compounding Period</dt><dd>How often interest is calculated and added back into the balance.</dd>
+      <dt>Future Value</dt><dd>The projected balance at the end of the chosen time horizon.</dd>
+      <dt>Effective Yield</dt><dd>The actual annualized return after compounding is factored in.</dd>
+      <dt>Time Horizon</dt><dd>The number of years you plan to leave the money invested.</dd>
+    </dl>
+  </div>
+
+  <aside class="x-aside">
+    <div class="x-aside-card">
+      <h4>More calculators</h4>
+      <ul>
+        <li><a>Savings Goal Calculator</a></li>
+        <li><a>Retirement Planner</a></li>
+        <li><a>Mortgage Calculator</a></li>
+        <li><a>Auto Loan Calculator</a></li>
+        <li><a>CD Calculator</a></li>
+        <li><a>Inflation Calculator</a></li>
+        <li><a>Investment Return Calculator</a></li>
+        <li><a>Roth IRA Calculator</a></li>
+      </ul>
+    </div>
+    <div class="x-aside-card">
+      <h4>Popular articles</h4>
+      <ul>
+        <li><a>The Rule of 72 explained</a></li>
+        <li><a>How to choose a high-yield savings account</a></li>
+        <li><a>APY vs APR: what's the difference?</a></li>
+        <li><a>The case for starting early</a></li>
+        <li><a>How taxes affect compounding</a></li>
+        <li><a>Building an emergency fund</a></li>
+      </ul>
+    </div>
+    <div class="x-aside-card">
+      <h4>Get started</h4>
+      <ul>
+        <li><a>Open a high-yield savings account</a></li>
+        <li><a>Find a financial advisor near you</a></li>
+        <li><a>Sign up for a free account</a></li>
+        <li><a>Subscribe to our newsletter</a></li>
+      </ul>
+    </div>
+  </aside>
+</section>
+<div class="x-disclosure-block">The results from this calculator are estimates only and intended for illustration. They do not constitute investment, tax, or legal advice and do not reflect any specific product or account. Actual returns will vary based on a number of factors including but not limited to fees, taxes, market performance, and changes in interest rates. EchoInvest makes no representation that any account or investment will achieve the rate of return illustrated. Please consult a qualified financial professional before making investment decisions.</div>
+<footer class="mc-foot">— EchoInvest — © 1999–2025 · learn finance, demystified · <a>privacy</a> · <a>about</a> · <a>contact</a></footer>
+
+<script>
+
+const ENV_ID = 'W29_E10';
+const FREQ_ORDER = ['Annually','Semi-Annually','Quarterly','Monthly','Bi-Weekly','Daily','Continuously'];
+const FREQ_N = {'Annually':1,'Semi-Annually':2,'Quarterly':4,'Monthly':12,'Bi-Weekly':26,'Daily':365,'Continuously':0};
+let filterState = {};
+
+function _readFacet(el){
+  const f = el.dataset.facet; if(!f) return;
+  if(el.type === 'checkbox'){ if(el.checked){ (filterState[f]=filterState[f]||[]).push(el.value||true); } }
+  else if(el.type === 'radio'){ if(el.checked) filterState[f] = el.value; }
+  else if(el.tagName === 'SELECT'){ if(el.value) filterState[f] = el.value; }
+  else { if(el.value !== '' && el.value !== null) filterState[f] = el.value; }
+}
+
+function applyFilters(){
+  filterState = {};
+  document.querySelectorAll('[data-facet]').forEach(_readFacet);
+  document.querySelectorAll('.chip.active, .pill.active, .radio-chip.active, .freq-chip.active, .step-chip.active').forEach(b => {
+    const f = b.dataset.facet; if(!f) return;
+    filterState[f] = b.dataset.val || b.textContent.trim();
+  });
+  const tid = new URLSearchParams(window.location.search).get('task_id');
+  fetch('/env/' + ENV_ID + '/api/filter', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState})
+  }).catch(()=>{});
+  fetch('/env/' + ENV_ID + '/api/submit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filter_state: filterState, answer: '', task_id: tid})
+  }).catch(()=>{});
+  try { renderResult(); } catch(e) {}
+}
+window.onF = applyFilters;
+
+function readFrequency(){
+  const sel = document.querySelector('select[data-facet="frequency"]'); if(sel && sel.value) return sel.value;
+  const rad = document.querySelector('input[type="radio"][data-facet="frequency"]:checked'); if(rad) return rad.value;
+  const chip = document.querySelector('.chip.active[data-facet="frequency"], .pill.active[data-facet="frequency"], .radio-chip.active[data-facet="frequency"], .freq-chip.active[data-facet="frequency"], .step-chip.active[data-facet="frequency"]');
+  if(chip) return chip.dataset.val || chip.textContent.trim();
+  const txt = document.querySelector('input[type="text"][data-facet="frequency"]'); if(txt && txt.value) return txt.value;
+  return 'Annually';
+}
+function readNum(facet){
+  const el = document.querySelector('[data-facet="' + facet + '"]');
+  if(!el) return 0; const v = parseFloat(el.value); return isFinite(v) ? v : 0;
+}
+function computeFV(){
+  const principal = readNum('principal'), ratePct = readNum('rate'), years = readNum('years');
+  const freq = readFrequency(); const r = ratePct/100, n = FREQ_N[freq] !== undefined ? FREQ_N[freq] : 1;
+  const fv = (n === 0) ? principal*Math.exp(r*years) : principal*Math.pow(1 + r/n, n*years);
+  return { principal, ratePct, years, freq, n, fv, interest: fv - principal };
+}
+function fmtMoney(v){ if(!isFinite(v)) v=0; return '$' + v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtMoneyInt(v){ if(!isFinite(v)) v=0; return '$' + Math.round(v).toLocaleString('en-US'); }
+
+function renderResult(){
+  const c = computeFV();
+  const v = document.getElementById('calc-big-value'); if(v) v.textContent = fmtMoney(c.fv);
+  const s = document.getElementById('calc-sub');
+  if(s) s.textContent = 'After ' + c.years + ' year' + (c.years===1?'':'s') + ' of ' + c.freq.toLowerCase() + ' compounding at ' + c.ratePct.toFixed(2) + '% APY';
+  const i = document.getElementById('calc-interest'); if(i) i.textContent = fmtMoney(c.interest);
+  const eayN = (c.principal>0 && c.years>0) ? (Math.pow(c.fv/c.principal, 1/c.years)-1)*100 : 0;
+  const eay = document.getElementById('calc-eay'); if(eay) eay.textContent = eayN.toFixed(2) + '%';
+  const fc = document.getElementById('calc-freq-echo'); if(fc) fc.textContent = c.freq;
+  // Optional SVG growth chart
+  const path = document.getElementById('calc-chart-path');
+  if(path && c.years>0){
+    const W=400, H=140, pts=40, ys=[];
+    for(let i=0;i<=pts;i++){ const y = i/pts*c.years;
+      const v = (c.n===0)? c.principal*Math.exp(c.ratePct/100*y) : c.principal*Math.pow(1 + c.ratePct/100/c.n, c.n*y);
+      ys.push(v); }
+    const minv=Math.min(...ys), maxv=Math.max(...ys), span=Math.max(maxv-minv,1);
+    let d = '';
+    ys.forEach((v,i)=>{ const x = (i/pts)*W; const y = H - ((v-minv)/span)*H; d += (i?'L':'M') + x.toFixed(1) + ',' + y.toFixed(1); });
+    path.setAttribute('d', d);
+    const area = document.getElementById('calc-chart-area');
+    if(area) area.setAttribute('d', d + 'L' + W + ',' + H + 'L0,' + H + 'Z');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.chip-group').forEach(group => {
+    group.addEventListener('click', e => {
+      const b = e.target.closest('.chip, .pill, .radio-chip, .freq-chip, .step-chip');
+      if(!b || !group.contains(b)) return;
+      group.querySelectorAll('.chip, .pill, .radio-chip, .freq-chip, .step-chip').forEach(x => x.classList.remove('active'));
+      b.classList.add('active'); applyFilters();
+    });
+  });
+  applyFilters();
+});
+
+</script>
+</body>
+</html>

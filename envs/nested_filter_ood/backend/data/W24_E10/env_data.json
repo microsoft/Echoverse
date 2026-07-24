@@ -1,0 +1,35 @@
+{
+  "env_id": "W24_E10",
+  "widget_id": "W24_multi_checkbox_plus_exact_match",
+  "widget_name": "Multi-checkbox facet + exact-match toggle composition",
+  "widget_category": "combo_facet_strict",
+  "widget_mechanic": "Compose: multi-select facet AND enable exact-match (strict) toggle.",
+  "archetype": "faceted_catalog",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W01_multi_checkbox_facet",
+    "W06_exact_match_toggle"
+  ],
+  "site_imitates": "Eventbrite.com (events marketplace)",
+  "product_type": "School activity events in New York this month",
+  "brand_name": "Eventeer",
+  "source_inspiration": [
+    {
+      "task_id": "c698ff3f3a4ee85e0c44ec39d0d51c6e",
+      "benchmark": "OM2W",
+      "site": "eventbrite.com",
+      "instruction": "Find school activity events in New York this month.",
+      "first_failure_summary": "Agent left Online events checked alongside In-Person, or added unrelated categories. Strict-match enforces literal School Activities + In-Person."
+    }
+  ],
+  "theme_key": "eventbrite",
+  "theme_logo": "Eventeer",
+  "theme_card": "ecommerce",
+  "theme_layout": "sidebar-left",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

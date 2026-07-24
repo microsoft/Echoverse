@@ -1,0 +1,29 @@
+{
+  "env_id": "W20_E04",
+  "widget_id": "W20_cloud_region_default",
+  "widget_name": "Cloud-pricing region selector override",
+  "widget_category": "calculator_dropdown",
+  "widget_mechanic": "Cloud-pricing UI defaults the region selector to 'Global' (which has different pricing than 'US East', 'EU West', etc.). Agent must change the region selector before reading the price.",
+  "archetype": "calculator_form",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W20_cloud_region_default"
+  ],
+  "site_imitates": "Azure Cost Estimator",
+  "product_type": "Azure VM pricing",
+  "source_inspiration": [],
+  "theme_key": "cloud",
+  "theme_logo": "AzureCalc",
+  "theme_card": "calc-result",
+  "theme_layout": "form-only",
+  "variant_idx": 3,
+  "n_seed_items": 1,
+  "filter_spec": {
+    "type": "calc_compute",
+    "fields": [
+      "region",
+      "volume",
+      "usage_type"
+    ]
+  }
+}

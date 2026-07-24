@@ -1,0 +1,101 @@
+{
+  "env_id": "W22_E01",
+  "widget_id": "W22_min_max_slider_plus_plus_chip",
+  "archetype": "realestate_listings",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2101",
+      "task_index_in_env": 1,
+      "instruction_text": "On Realtor.com Omaha NE, find Omaha homes under $500,000 with at least 4 bedrooms.",
+      "expected_filter_state": {
+        "max_price": 500000,
+        "min_beds": 4
+      }
+    },
+    {
+      "task_id": "T2102",
+      "task_index_in_env": 2,
+      "instruction_text": "Help me search Realtor.com Omaha NE for Omaha homes priced under $450,000 that have 3+ beds.",
+      "expected_filter_state": {
+        "max_price": 450000,
+        "min_beds": 3
+      }
+    },
+    {
+      "task_id": "T2103",
+      "task_index_in_env": 3,
+      "instruction_text": "Show me Omaha homes on Realtor.com Omaha NE \u2014 budget $350,000 max, 2+ bedrooms.",
+      "expected_filter_state": {
+        "max_price": 350000,
+        "min_beds": 2
+      }
+    },
+    {
+      "task_id": "T2104",
+      "task_index_in_env": 4,
+      "instruction_text": "Show me Omaha homes on Realtor.com Omaha NE \u2014 budget $750,000 max, 4+ bedrooms.",
+      "expected_filter_state": {
+        "max_price": 750000,
+        "min_beds": 4
+      }
+    },
+    {
+      "task_id": "T2105",
+      "task_index_in_env": 5,
+      "instruction_text": "I'm looking on Realtor.com Omaha NE for Omaha homes that fit under $300,000 and have 1 or more bedrooms.",
+      "expected_filter_state": {
+        "max_price": 300000,
+        "min_beds": 1
+      }
+    },
+    {
+      "task_id": "T2106",
+      "task_index_in_env": 6,
+      "instruction_text": "I'm looking on Realtor.com Omaha NE for Omaha homes that fit under $650,000 and have 3 or more bedrooms.",
+      "expected_filter_state": {
+        "max_price": 650000,
+        "min_beds": 3
+      }
+    },
+    {
+      "task_id": "T2107",
+      "task_index_in_env": 7,
+      "instruction_text": "Help me search Realtor.com Omaha NE for Omaha homes priced under $550,000 that have 4+ beds.",
+      "expected_filter_state": {
+        "max_price": 550000,
+        "min_beds": 4
+      }
+    },
+    {
+      "task_id": "T2108",
+      "task_index_in_env": 8,
+      "instruction_text": "On Realtor.com Omaha NE, find Omaha homes under $400,000 with at least 2 bedrooms.",
+      "expected_filter_state": {
+        "max_price": 400000,
+        "min_beds": 2
+      }
+    },
+    {
+      "task_id": "T2109",
+      "task_index_in_env": 9,
+      "instruction_text": "Help me search Realtor.com Omaha NE for Omaha homes priced under $850,000 that have 5+ beds.",
+      "expected_filter_state": {
+        "max_price": 850000,
+        "min_beds": 5
+      }
+    },
+    {
+      "task_id": "T2110",
+      "task_index_in_env": 10,
+      "instruction_text": "I'm looking on Realtor.com Omaha NE for Omaha homes that fit under $250,000 and have 2 or more bedrooms.",
+      "expected_filter_state": {
+        "max_price": 250000,
+        "min_beds": 2
+      }
+    }
+  ]
+}

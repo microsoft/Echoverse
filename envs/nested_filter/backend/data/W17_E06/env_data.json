@@ -1,0 +1,46 @@
+{
+  "env_id": "W17_E06",
+  "widget_id": "W17_override_default_numeric",
+  "widget_name": "Override calculator's default numeric inputs",
+  "widget_category": "calculator_input",
+  "widget_mechanic": "Calculator pre-fills sensible defaults (e.g. national-average tuition, default tax rate). Agent must clear and overwrite the default with the user's specific value rather than accepting the default.",
+  "archetype": "calculator_form",
+  "is_combo": false,
+  "source_widget_ids": [
+    "W17_override_default_numeric"
+  ],
+  "site_imitates": "Office of Financial Readiness (finred.usalearning.gov) College Savings Calculator",
+  "product_type": "college savings projection (8-year-old, parents eyeing a private liberal-arts college)",
+  "source_inspiration": [
+    {
+      "task_id": "compositional_tasks_v2_composite_94",
+      "benchmark": "WTB",
+      "site": "tasks",
+      "instruction": "I want to learn how much I should save for my 2-year olds college fund. Use the Office of Financial Rediness college savings calculator and input the following fields: 3% education cost inflation, $50,000 in current savings, $250 in monthly contributions with 6% rate of return. If their tuition is going to be $50,000 per year and room/board $12,000, how much more per month do i need to save according to the tool? (Hint: do not use the sliders)",
+      "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent did not input the user-specified tuition ($50,000/year) and room/board ($12,000/year) into the calculator and instead relied on the tool’s built-in expense assumptions."
+    }
+  ],
+  "theme_key": "ofr_gov",
+  "theme_logo": "Charles Schwab · Education Savings Calculator",
+  "theme_card": "calc-result",
+  "theme_layout": "form-only",
+  "variant_idx": 5,
+  "n_seed_items": 1,
+  "filter_spec": {
+    "type": "calc_compute",
+    "fields": [
+      "tuition",
+      "room_board",
+      "years",
+      "income",
+      "inflation"
+    ]
+  },
+  "primary_inspiration": {
+    "task_id": "compositional_tasks_v2_composite_94",
+    "benchmark": "WTB",
+    "site": "tasks",
+    "instruction": "I want to learn how much I should save for my 2-year olds college fund. Use the Office of Financial Rediness college savings calculator and input the following fields: 3% education cost inflation, $50,000 in current savings, $250 in monthly contributions with 6% rate of return. If their tuition is going to be $50,000 per year and room/board $12,000, how much more per month do i need to save according to the tool? (Hint: do not use the sliders)",
+    "first_failure_summary": "[1.4] Wrong values or constraint violation: The agent did not input the user-specified tuition ($50,000/year) and room/board ($12,000/year) into the calculator and instead relied on the tool’s built-in expense assumptions."
+  }
+}

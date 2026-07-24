@@ -1,0 +1,106 @@
+[
+  {
+    "id": 1,
+    "calc_type": "AWS RDS pricing",
+    "vendor": "aws",
+    "brand": "AWS RDS Calculator",
+    "default_inputs": {
+      "region": "(Choose region)",
+      "override": "(none)",
+      "volume": 0,
+      "service": "MySQL (db.m5.large)",
+      "unit": "DB-hour",
+      "support_tier": "none"
+    },
+    "regions": [
+      "(Choose region)",
+      "us-east-1 (N. Virginia)",
+      "us-east-2 (Ohio)",
+      "us-west-2 (Oregon)",
+      "us-west-1 (N. California)",
+      "us-gov-west-1 (GovCloud)",
+      "ca-central-1 (Canada)",
+      "sa-east-1 (S\u00e3o Paulo)",
+      "eu-west-1 (Ireland)",
+      "eu-central-1 (Frankfurt)",
+      "eu-west-2 (London)",
+      "ap-northeast-1 (Tokyo)",
+      "ap-southeast-1 (Singapore)",
+      "ap-southeast-2 (Sydney)",
+      "ap-south-1 (Mumbai)"
+    ],
+    "services": [
+      {
+        "label": "MySQL (db.m5.large)",
+        "rate": 0.171,
+        "unit": "DB-hour"
+      },
+      {
+        "label": "PostgreSQL (db.m5.large)",
+        "rate": 0.182,
+        "unit": "DB-hour"
+      },
+      {
+        "label": "MariaDB (db.m5.large)",
+        "rate": 0.171,
+        "unit": "DB-hour"
+      },
+      {
+        "label": "Oracle BYOL (db.m5.large)",
+        "rate": 0.226,
+        "unit": "DB-hour"
+      },
+      {
+        "label": "SQL Server SE (db.m5.large)",
+        "rate": 0.483,
+        "unit": "DB-hour"
+      },
+      {
+        "label": "Aurora MySQL (db.r5.large)",
+        "rate": 0.29,
+        "unit": "DB-hour"
+      },
+      {
+        "label": "Aurora PostgreSQL (db.r5.large)",
+        "rate": 0.29,
+        "unit": "DB-hour"
+      },
+      {
+        "label": "Aurora Serverless v2 (1 ACU)",
+        "rate": 0.12,
+        "unit": "ACU-hour"
+      }
+    ],
+    "region_mult": {
+      "(Choose region)": 1.0,
+      "us-east-1 (N. Virginia)": 1.0,
+      "us-east-2 (Ohio)": 1.0,
+      "us-west-2 (Oregon)": 1.0,
+      "us-west-1 (N. California)": 1.1,
+      "us-gov-west-1 (GovCloud)": 1.25,
+      "ca-central-1 (Canada)": 1.07,
+      "sa-east-1 (S\u00e3o Paulo)": 1.35,
+      "eu-west-1 (Ireland)": 1.1,
+      "eu-central-1 (Frankfurt)": 1.15,
+      "eu-west-2 (London)": 1.12,
+      "ap-northeast-1 (Tokyo)": 1.2,
+      "ap-southeast-1 (Singapore)": 1.18,
+      "ap-southeast-2 (Sydney)": 1.22,
+      "ap-south-1 (Mumbai)": 1.06
+    },
+    "override_presets": [
+      "730 DB-hours (1 month always-on)",
+      "1460 DB-hours (Multi-AZ 1 month)",
+      "100 DB-hours",
+      "8760 DB-hours (1 year always-on)",
+      "200 ACU-hours (Aurora Serverless)"
+    ],
+    "support_fees": {
+      "none": 0,
+      "developer": 29,
+      "business": 100,
+      "enterprise": 5500,
+      "enterprise_plus": 15000
+    }
+  }
+]

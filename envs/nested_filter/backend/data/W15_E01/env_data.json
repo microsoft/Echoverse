@@ -1,0 +1,57 @@
+{
+  "env_id": "W15_E01",
+  "widget_id": "W15_compat_vs_species_toggle",
+  "widget_title": "Species vs Compatibility Toggle",
+  "archetype": "faceted_catalog",
+  "site_imitates": "Petfinder",
+  "ui_variant": "chip+checkbox",
+  "primary_inspiration": {
+    "task_id": "0b2623e9-eef6-4d3d-bc4f-7a2efe0c1ee0",
+    "site": "Petfinder dog catalog \u00b7 ZIP 94587 (San Lorenzo, CA)",
+    "note": "Fara typed both 'Good with kids' and 'Cat' into the species checkbox column. UI mimics Petfinder's purple sidebar with species pills + 'Personality & Compatibility' checkbox list as DISTINCT controls."
+  },
+  "filter_axes": [
+    {
+      "name": "species",
+      "type": "multi",
+      "values": [
+        "Dog",
+        "Cat",
+        "Rabbit",
+        "Bird"
+      ],
+      "description": "Animal species \u2014 controls WHICH KIND of animal appears."
+    },
+    {
+      "name": "compat",
+      "type": "multi",
+      "values": [
+        "Good with kids",
+        "Good with cats",
+        "Good with dogs",
+        "Good with no children"
+      ],
+      "description": "Compatibility tags \u2014 describe who the animal lives well with. Separate axis from species; do not confuse 'Good with cats' (compat tag) with 'Cat' (species)."
+    }
+  ],
+  "schema": {
+    "id": "int",
+    "title": "string",
+    "species": "string",
+    "breed": "string",
+    "sex": "string",
+    "age": "int",
+    "age_label": "string",
+    "coat_length": "string",
+    "sterilization": "string",
+    "rating": "float",
+    "days_on_petfinder": "int",
+    "shelter": "string",
+    "distance_label": "string",
+    "compat": "list[string]"
+  },
+  "extras": {
+    "compat_options_help": "Each pet may carry zero or more compatibility tags. Compatibility filters require ALL selected tags to be present on the pet.",
+    "species_options_help": "Species filters are OR within axis (Dog OR Cat) but AND across axes (Dog AND Good with kids)."
+  }
+}

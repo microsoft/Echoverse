@@ -1,0 +1,57 @@
+{
+  "env_id": "W21_E10",
+  "widget_id": "W21_calendar_advance_plus_return_validation",
+  "widget_name": "Calendar multi-month advance + return-after-depart validation",
+  "widget_category": "combo_calendar",
+  "widget_mechanic": "Compose: calendar must advance to depart-target month AND return must be set \u2265 depart in correct order.",
+  "archetype": "booking_form",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W09_calendar_multi_month_advance",
+    "W11_return_after_depart_validation"
+  ],
+  "site_imitates": "Korean Air round-trip booking on koreanair.com",
+  "product_type": "Korean Air round-trip",
+  "source_inspiration": [
+    {
+      "task_id": "flights_koreanair_0",
+      "benchmark": "WTB",
+      "site": "koreanair",
+      "instruction": "Book a cheap flight with Korean Air from Los Angeles, CA to Seoul, South Korea from September 12 to October 24. If there are no available flights for those dates, please show evidence and indicate this in your answer. Any other blocker is considered a failure.",
+      "first_failure_summary": "[3.4] Environment failure: Direct navigation to https://www.koreanair.com/ resulted in a browser-level error page instead of the Korean Air site."
+    }
+  ],
+  "theme_key": "airline-blue",
+  "theme_logo": "SkyCraft",
+  "theme_card": "flight-row",
+  "theme_layout": "hero",
+  "variant_idx": 4,
+  "n_seed_items": 16,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "primary_inspiration": "flights_koreanair_0",
+  "brand_colors": {
+    "header_bg": "#00256c",
+    "header_fg": "#fff",
+    "primary": "#0192d0",
+    "primary_hover": "#016ca1",
+    "accent": "#0192d0",
+    "background": "#ffffff",
+    "accent_fg": "#00256c",
+    "accent_bg": "#e2f0fb"
+  },
+  "ui_pattern": "drag_range",
+  "ui_pattern_description": "Drag-to-select range on a multi-month grid (single click-drag from depart to return)",
+  "fara_grounded_dates": {
+    "depart": "2026-09-12",
+    "return": "2026-10-24"
+  },
+  "fara_grounded_route": {
+    "from_city": "Los Angeles",
+    "from_code": "LAX",
+    "to_city": "Seoul",
+    "to_code": "ICN"
+  }
+}

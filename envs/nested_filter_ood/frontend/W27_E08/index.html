@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EchoPets — Find adoptable pets at shelters near you</title>
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#fs-debug,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+*,*::before,*::after { box-sizing:border-box; }
+html,body { margin:0; padding:0; }
+body { font-family:'Inter','Helvetica Neue','Segoe UI',Arial,sans-serif; background:#FFFFFF; color:#0E1A2C; }
+
+/* AdoptAPet brand palette */
+:root {
+  --aap-teal:#9BD9D4;
+  --aap-mint:#C7F0EC;
+  --aap-mint-soft:#E2F8F5;
+  --aap-ink:#10202C;
+  --aap-cream:#FAF6EF;
+  --aap-accent:#F4623A; /* orange-red used in promo logo */
+  --aap-blue:#1F3A8A;
+}
+
+.pet-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:20px; }
+.pet-card { background:#fff; border:1px solid #E6E8EC; border-radius:14px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 1px 2px rgba(16,32,44,0.04); transition:transform .12s, box-shadow .12s; }
+.pet-card:hover { transform:translateY(-2px); box-shadow:0 8px 18px rgba(16,32,44,0.10); }
+.pet-card .pc-photo { position:relative; width:100%; aspect-ratio:4/3; overflow:hidden; background:var(--aap-mint-soft); border-radius:14px 14px 0 0; }
+.pet-card .pc-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+.pet-card .pc-distance { position:absolute; left:10px; bottom:10px; padding:3px 9px; background:rgba(16,32,44,0.78); color:#fff; font-size:11px; font-weight:700; border-radius:14px; }
+.pet-card .pc-heart { position:absolute; right:10px; top:10px; width:30px; height:30px; border-radius:50%; background:rgba(255,255,255,0.92); display:flex; align-items:center; justify-content:center; color:#10202C; font-size:15px; }
+.pet-card .pc-body { padding:14px 16px 16px; display:flex; flex-direction:column; gap:8px; flex:1; }
+.pet-card .pc-head { display:flex; justify-content:space-between; align-items:baseline; }
+.pet-card h3 { margin:0; font-family:'Playfair Display','Georgia',serif; font-size:20px; font-weight:800; color:var(--aap-ink); letter-spacing:-0.3px; }
+.pet-card .pc-rating { font-size:12px; color:#C98A00; font-weight:700; }
+.pet-card .pc-meta { display:flex; flex-wrap:wrap; gap:5px; }
+.pet-card .pc-pill { font-size:11px; padding:3px 9px; border-radius:11px; background:#F1F3F7; color:#374151; font-weight:600; }
+.pet-card .pc-sex { background:#FFE4E6; color:#9F1239; }
+.pet-card .pc-ster { background:#DBEAFE; color:#1E3A8A; }
+.pet-card .pc-sp { background:var(--aap-mint); color:#0E5750; }
+.pet-card .pc-compat { list-style:none; padding:0; margin:0; display:flex; flex-wrap:wrap; gap:4px; }
+.pet-card .pc-compat li { font-size:10px; padding:2px 7px; background:#FFFFFF; color:#1F3A8A; border-radius:10px; border:1px solid #DBE6EE; font-weight:600; }
+.pet-card .pc-shelter { font-size:10px; color:#5B6F8B; text-transform:uppercase; letter-spacing:0.5px; margin-top:auto; padding-top:8px; border-top:1px solid #F1F3F7; font-weight:700; }
+</style>
+</head>
+<body>
+<script>window.RESULTS_SEL = "#pet-grid"; window.ENV_ID = "W27_E08";</script>
+
+<div style="background:#FFFFFF;padding:10px 28px;font-size:14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #F1EEE6;">
+  <div style="display:flex;align-items:center;gap:14px;">
+    <span style="display:inline-flex;align-items:center;gap:2px;font-weight:900;font-size:18px;color:var(--aap-accent);letter-spacing:-1px;">
+      <span style="display:inline-block;width:22px;height:22px;background:linear-gradient(135deg,#F4623A 0%,#F4623A 50%,#1F3A8A 50%,#1F3A8A 100%);transform:rotate(20deg);border-radius:3px;"></span>
+    </span>
+    <span style="font-family:'Playfair Display','Georgia',serif;font-weight:800;font-size:22px;color:var(--aap-ink);">Save 20% on the world's leading pet DNA test</span>
+    <span style="font-size:12px;color:#5B6F8B;">Unlock breed, trait, and health insights with code AAP20</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <a href="#" style="color:var(--aap-ink);text-decoration:underline;font-weight:700;font-size:13px;">Shop Now</a>
+    <span style="color:#aaa;cursor:pointer;font-size:18px;">✕</span>
+  </div>
+</div>
+
+<header style="background:var(--aap-teal);padding:18px 36px;display:flex;align-items:center;gap:34px;">
+  <div style="display:flex;align-items:center;">
+    <span style="font-family:'Playfair Display','Georgia',serif;font-style:italic;font-weight:800;font-size:30px;color:var(--aap-ink);letter-spacing:-0.5px;line-height:1;">EchoPets</span>
+  </div>
+  <nav style="display:flex;gap:26px;font-size:14px;font-weight:600;color:var(--aap-ink);margin-left:30px;">
+    <span style="cursor:pointer;">Find a pet</span>
+    <span style="cursor:pointer;">Find a shelter</span>
+    <span style="cursor:pointer;">Rehome a pet</span>
+    <span style="cursor:pointer;">Breed 101</span>
+    <span style="cursor:pointer;">Pet advice</span>
+    <span style="cursor:pointer;">Shop</span>
+    <span style="cursor:pointer;">Help</span>
+  </nav>
+  <div style="margin-left:auto;display:flex;gap:10px;">
+    <button style="background:transparent;color:var(--aap-ink);border:1.5px solid var(--aap-ink);padding:9px 26px;font-weight:700;font-size:13px;cursor:pointer;border-radius:26px;">Login</button>
+    <button style="background:var(--aap-ink);color:#fff;border:0;padding:9px 26px;font-weight:700;font-size:13px;cursor:pointer;border-radius:26px;">Sign Up</button>
+  </div>
+</header>
+
+<section style="background:var(--aap-mint);padding:48px 36px 56px;">
+  <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
+    <div>
+      <h1 style="font-family:'Playfair Display','Georgia',serif;font-weight:800;font-size:62px;margin:0 0 14px;letter-spacing:-1.5px;line-height:1.0;color:var(--aap-ink);">Ready to<br>adopt a pet?</h1>
+      <p style="font-size:15px;margin:0 0 22px;color:#1B2C3A;line-height:1.5;max-width:380px;">Let's get started. Search adoptable pets from shelters, rescues, and individuals.</p>
+
+      <div style="background:#fff;border:1.5px solid var(--aap-teal);border-radius:28px;padding:10px 18px;display:flex;flex-direction:column;max-width:380px;margin-bottom:10px;position:relative;">
+        <span style="position:absolute;top:-8px;left:18px;background:#fff;padding:0 6px;font-size:11px;color:#5B6F8B;font-weight:600;">Location</span>
+        <span style="font-size:16px;color:var(--aap-ink);font-weight:600;padding:4px 0;">Philadelphia, PA</span>
+      </div>
+
+      <div style="background:#fff;border:1.5px solid #E1E6EE;border-radius:28px;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;max-width:380px;margin-bottom:14px;">
+        <span style="font-size:15px;color:#9AA5B5;">Search for</span>
+        <span style="color:var(--aap-ink);font-size:14px;">▾</span>
+      </div>
+
+      <div style="display:flex;gap:10px;align-items:center;max-width:380px;">
+        <div style="flex:1;background:#fff;border:1.5px solid #E1E6EE;border-radius:28px;padding:12px 18px;display:flex;align-items:center;color:#9AA5B5;font-size:13px;">
+          <span style="display:inline-block;width:18px;height:18px;border:2px solid var(--aap-teal);border-radius:50%;border-top-color:transparent;"></span>
+        </div>
+        <button style="background:var(--aap-ink);color:#fff;border:0;padding:14px 30px;border-radius:28px;font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:8px;">🔍 Search</button>
+      </div>
+
+      <div style="font-size:12px;color:#1B2C3A;margin-top:14px;">Feeling adventurous? <a href="#" style="color:var(--aap-ink);font-weight:700;text-decoration:underline;">Try our new AI SmartSearch</a> <span style="border:1px solid var(--aap-ink);border-radius:10px;padding:1px 6px;font-size:9px;font-weight:800;letter-spacing:1px;margin-left:2px;">BETA</span></div>
+    </div>
+
+    <div style="position:relative;display:flex;justify-content:center;align-items:center;">
+      <div style="background:#3B82F6;border-radius:24px 24px 18px 18px;padding:14px;width:160px;height:200px;transform:rotate(-3deg);box-shadow:0 8px 20px rgba(0,0,0,0.12);position:absolute;left:0;top:30px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;">
+        <div style="background:#E5E7EB url('https://images.pexels.com/photos/8434722/pexels-photo-8434722.jpeg?auto=compress&cs=tinysrgb&h=180') center/cover;border-radius:16px;height:120px;margin:-2px -2px 8px;"></div>
+        <b style="font-family:'Playfair Display',serif;font-size:14px;">Rocky</b>
+        <span style="font-size:11px;">Cane Corso · Male, 4 Yrs</span>
+      </div>
+      <div style="background:var(--aap-teal);border-radius:24px;padding:16px;width:200px;height:260px;box-shadow:0 12px 28px rgba(0,0,0,0.18);position:relative;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;color:var(--aap-ink);">
+        <div style="background:#E5E7EB url('https://images.pexels.com/photos/3361738/pexels-photo-3361738.jpeg?auto=compress&cs=tinysrgb&h=200') center/cover;border-radius:20px;height:150px;margin:-4px -4px 10px;"></div>
+        <b style="font-family:'Playfair Display',serif;font-size:18px;letter-spacing:0.5px;">CALM COCOA</b>
+        <span style="font-size:12px;font-weight:700;">Chihuahua</span>
+        <span style="font-size:11px;margin-top:6px;">Female, Senior · Spring Valley, NY</span>
+      </div>
+      <div style="background:#F5C518;border-radius:24px 24px 18px 18px;padding:14px;width:160px;height:200px;transform:rotate(3deg);box-shadow:0 8px 20px rgba(0,0,0,0.12);position:absolute;right:0;top:30px;display:flex;flex-direction:column;justify-content:flex-end;color:var(--aap-ink);">
+        <div style="background:#E5E7EB url('https://images.pexels.com/photos/2607544/pexels-photo-2607544.jpeg?auto=compress&cs=tinysrgb&h=180') center/cover;border-radius:16px;height:120px;margin:-2px -2px 8px;"></div>
+        <b style="font-family:'Playfair Display',serif;font-size:14px;">Jack Russell Ter…</b>
+        <span style="font-size:11px;">3 Yrs 1 Mo · CT</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:#fff;padding:18px 36px;border-bottom:1px solid #F1EEE6;">
+  <div style="max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
+    <div>
+      <div class="pl-section-lbl">Species</div>
+      <div style="display:flex;gap:6px;">
+        <button class="pl-pill" data-facet="species" data-val="Dog" onclick="setChip(this,'species')">🐕 Dog</button>
+        <button class="pl-pill" data-facet="species" data-val="Cat" onclick="setChip(this,'species')">🐈 Cat</button>
+      </div>
+    </div>
+    <div style="border-left:1px solid #E6E8EC;padding-left:18px;">
+      <div class="pl-section-lbl">Sex</div>
+      <div style="display:flex;gap:6px;">
+        <button class="pl-mini" data-facet="sex" data-val="Male" onclick="setChip(this,'sex')">♂ Male</button>
+        <button class="pl-mini" data-facet="sex" data-val="Female" onclick="setChip(this,'sex')">♀ Female</button>
+      </div>
+    </div>
+    <div style="border-left:1px solid #E6E8EC;padding-left:18px;">
+      <div class="pl-section-lbl">Sterilization</div>
+      <div style="display:flex;gap:6px;">
+        <button class="pl-pill" data-facet="sterilization" data-val="Spayed" onclick="setChip(this,'sterilization')">Spayed</button>
+        <button class="pl-pill" data-facet="sterilization" data-val="Neutered" onclick="setChip(this,'sterilization')">Neutered</button>
+        <button class="pl-pill" data-facet="sterilization" data-val="Intact" onclick="setChip(this,'sterilization')">Intact</button>
+      </div>
+    </div>
+    <div style="border-left:1px solid #E6E8EC;padding-left:18px;">
+      <div class="pl-section-lbl">Good with</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <label class="pl-tag"><input type="checkbox" data-facet="compat" value="Good with cats" onchange="applyFilters()"> 🐈 Cats</label>
+        <label class="pl-tag"><input type="checkbox" data-facet="compat" value="Good with dogs" onchange="applyFilters()"> 🐕 Dogs</label>
+        <label class="pl-tag"><input type="checkbox" data-facet="compat" value="Good with kids" onchange="applyFilters()"> 👶 Kids</label>
+        <label class="pl-tag"><input type="checkbox" data-facet="compat" value="Good with no children" onchange="applyFilters()"> 🚸 No children</label>
+        <label class="pl-tag"><input type="checkbox" data-facet="compat" value="Good with other pets" onchange="applyFilters()"> 🐾 Other pets</label>
+      </div>
+    </div>
+    <div style="margin-left:auto;font-size:12px;color:#5B6F8B;"><span id="fs-debug" style="font-family:monospace;font-size:10px;color:#aaa;"></span></div>
+  </div>
+</section>
+
+<style>
+.pl-section-lbl { font-size:10px;color:#0E5750;font-weight:900;letter-spacing:1.6px;text-transform:uppercase;margin-bottom:8px; }
+.pl-card-btn { flex:1;background:#FAF6EF;border:2px solid #E1E6EE;color:var(--aap-ink);padding:14px 6px;border-radius:14px;font-size:13px;cursor:pointer;font-family:inherit;text-align:center; }
+.pl-card-btn.active { background:var(--aap-teal);color:var(--aap-ink);border-color:var(--aap-ink); }
+.pl-mini { background:#fff;border:1.5px solid #E1E6EE;color:var(--aap-ink);padding:8px 16px;border-radius:20px;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit; }
+.pl-mini.active { background:var(--aap-ink);color:#fff;border-color:var(--aap-ink); }
+.pl-pill { background:#fff;border:1.5px solid #E1E6EE;color:var(--aap-ink);padding:8px 14px;border-radius:20px;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit; }
+.pl-pill.active { background:var(--aap-teal);color:var(--aap-ink);border-color:var(--aap-ink); }
+.pl-tag { display:inline-flex;align-items:center;gap:5px;padding:7px 11px;border:1.5px solid #E1E6EE;border-radius:18px;font-size:12px;font-weight:700;color:var(--aap-ink);background:#fff;cursor:pointer;user-select:none; }
+.pl-tag input { accent-color:var(--aap-ink); }
+.pl-tag:has(input:checked) { background:var(--aap-teal);color:var(--aap-ink);border-color:var(--aap-ink); }
+</style>
+
+<section style="padding:28px 36px 50px;max-width:1240px;margin:0 auto;">
+  <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px;">
+    <h2 style="margin:0;font-family:'Playfair Display','Georgia',serif;font-weight:800;font-size:28px;color:var(--aap-ink);letter-spacing:-0.5px;"><b data-results-count>0</b> adoptable pets near Philadelphia</h2>
+    <span style="font-size:12px;color:#5B6F8B;">Sort: <b style="color:var(--aap-ink);cursor:pointer;">Closest to you ▼</b></span>
+  </div>
+  <div id="pet-grid" class="pet-grid"></div>
+</section>
+
+<footer style="background:var(--aap-cream);padding:30px 36px;border-top:1px solid #F1EEE6;">
+  <div style="max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:36px;flex-wrap:wrap;font-size:13px;color:#5B6F8B;">
+    <span style="font-weight:700;color:var(--aap-ink);">Our partners</span>
+    <span style="font-family:'Playfair Display',serif;font-style:italic;color:#F4623A;font-weight:800;font-size:18px;">Echo Vet</span>
+    <span style="display:inline-flex;align-items:center;justify-content:center;background:#F5C518;color:#9C4500;width:54px;height:30px;border-radius:50%;font-weight:900;font-size:11px;font-style:italic;">Echo Chow</span>
+    <span style="font-weight:900;color:#E11B22;font-size:18px;letter-spacing:-0.5px;">Echo Charities</span>
+  </div>
+</footer>
+
+<footer style="background:var(--aap-ink);color:#C7F0EC;padding:36px;font-size:13px;">
+  <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px;">
+    <div>
+      <span style="font-family:'Playfair Display',serif;font-style:italic;font-weight:800;font-size:24px;color:var(--aap-teal);">EchoPets</span>
+      <p style="margin:10px 0 0;line-height:1.5;color:#9BD9D4;">North America's largest non-profit pet adoption website. Helping pets find loving homes since 2001.</p>
+    </div>
+    <div>
+      <div style="font-weight:700;color:#fff;margin-bottom:8px;">Adopt</div>
+      <div>Find a pet</div><div>Find a shelter</div><div>Breeds</div>
+    </div>
+    <div>
+      <div style="font-weight:700;color:#fff;margin-bottom:8px;">Resources</div>
+      <div>Pet advice</div><div>Rehome a pet</div><div>Foster</div>
+    </div>
+    <div>
+      <div style="font-weight:700;color:#fff;margin-bottom:8px;">About</div>
+      <div>Our story</div><div>Partners</div><div>Press</div>
+    </div>
+  </div>
+  <div style="max-width:1240px;margin:24px auto 0;border-top:1px solid #2A3E4C;padding-top:14px;display:flex;justify-content:space-between;font-size:11px;color:#7AB5B0;">
+    <span>© 2025 EchoPets — All rights reserved.</span>
+    <span>Terms · Privacy · Cookies</span>
+  </div>
+</footer>
+
+<script>
+function setChip(btn, facet) {
+  document.querySelectorAll(`[data-facet="${facet}"]`).forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+</script>
+
+<div id="task-banner" style="display:none"></div>
+<script>
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const tid = params.get('task_id');
+  window.TASK_ID = tid;
+  fetch('/env/' + window.ENV_ID + '/api/task/' + tid)
+    .then(r => r.ok ? r.json() : null)
+    .then(t => {
+      if (!t) return;
+      window.TASK = t;
+      const b = document.getElementById('task-banner');
+      if (!b) return;
+      b.style.display = 'block';
+      b.style.cssText = 'display:block;margin:0;padding:10px 18px;background:#E2F8F5;color:#0E5750;font-size:13px;border-bottom:2px solid #9BD9D4;line-height:1.45;';
+      const showAns = (t.task_type === 'read' || t.task_type === 'read_write');
+      let inner = '<b>Task:</b> ' + (t.task_summary || t.task_proposal || '');
+      if (showAns) {
+        inner += '<div style="margin-top:8px;display:flex;gap:8px;align-items:center;">'
+              +  '<input id="task-answer" placeholder="Your answer..." style="flex:1;padding:6px 9px;border:1px solid #9BD9D4;border-radius:4px;font-size:13px;">'
+              +  '<button onclick="submitAnswer()" style="padding:6px 14px;background:#10202C;color:#fff;border:0;border-radius:4px;cursor:pointer;font-weight:600;">Submit Answer</button>'
+              +  '</div>';
+      }
+      b.innerHTML = inner;
+    });
+})();
+window.submitAnswer = function() {
+  const el = document.getElementById('task-answer');
+  if (el) window.LAST_ANSWER = el.value;
+  applyFilters();
+};
+</script>
+
+
+<script>
+window.ENV_ID = "W27_E08";
+window.SEED_DATA = [{"id": 1, "title": "Molly", "brand": "Ragdoll", "category": "Cat", "color": "medium", "condition": "intact", "city": "Philadelphia", "rating": 4.1, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc31", "image_url": "https://images.pexels.com/photos/6145891/pexels-photo-6145891.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Molly \u2014 adoptable cat", "shelter_name": "Pennsylvania SPCA", "distance_miles": 30, "listed_days": 84, "species": "Cat", "sex": "Male", "sterilization": "Intact", "compat": ["Good with cats", "Good with dogs", "Good with kids"], "age_stage": "young"}, {"id": 2, "title": "Sadie", "brand": "Boxer", "category": "Dog", "color": "long", "condition": "intact", "city": "Philadelphia", "rating": 4.6, "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/6755496/pexels-photo-6755496.png?auto=compress&cs=tinysrgb&h=200", "image_alt": "Sadie \u2014 adoptable dog", "shelter_name": "Main Line Animal Rescue", "distance_miles": 77, "listed_days": 12, "species": "Dog", "sex": "Female", "sterilization": "Intact", "compat": ["Good with cats", "Good with kids", "Good with no children"], "age_stage": "adult"}, {"id": 3, "title": "Molly", "brand": "German Shepherd", "category": "Dog", "color": "medium", "condition": "neutered", "city": "Philadelphia", "rating": 4.1, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/37375349/pexels-photo-37375349.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Molly \u2014 adoptable dog", "shelter_name": "Camden County Animal Shelter", "distance_miles": 89, "listed_days": 18, "species": "Dog", "sex": "Male", "sterilization": "Neutered", "compat": ["Good with cats", "Good with no children", "Good with other pets"], "age_stage": "adult"}, {"id": 4, "title": "Daisy", "brand": "Mixed-breed", "category": "Dog", "color": "medium", "condition": "neutered", "city": "Philadelphia", "rating": 4.1, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/11881801/pexels-photo-11881801.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Daisy \u2014 adoptable dog", "shelter_name": "Main Line Animal Rescue", "distance_miles": 54, "listed_days": 7, "species": "Dog", "sex": "Female", "sterilization": "Neutered", "compat": ["Good with cats", "Good with no children", "Good with other pets"], "age_stage": "adult"}, {"id": 5, "title": "Rocky", "brand": "Calico", "category": "Cat", "color": "short", "condition": "intact", "city": "Philadelphia", "rating": 4.7, "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc31", "image_url": "https://images.pexels.com/photos/32057399/pexels-photo-32057399.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Rocky \u2014 adoptable cat", "shelter_name": "Main Line Animal Rescue", "distance_miles": 60, "listed_days": 3, "species": "Cat", "sex": "Male", "sterilization": "Intact", "compat": ["Good with cats", "Good with dogs", "Good with no children"], "age_stage": "young"}, {"id": 6, "title": "Rocky", "brand": "Poodle", "category": "Dog", "color": "long", "condition": "intact", "city": "Philadelphia", "rating": 4.2, "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/20635787/pexels-photo-20635787.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Rocky \u2014 adoptable dog", "shelter_name": "Foster Home \u2014 Center City", "distance_miles": 74, "listed_days": 12, "species": "Dog", "sex": "Female", "sterilization": "Intact", "compat": ["Good with kids", "Good with no children", "Good with other pets"], "age_stage": "puppy_kitten"}, {"id": 7, "title": "Bailey", "brand": "Boxer", "category": "Dog", "color": "long", "condition": "spayed", "city": "Philadelphia", "rating": 4.6, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/8266284/pexels-photo-8266284.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Bailey \u2014 adoptable dog", "shelter_name": "Delaware Humane Association", "distance_miles": 64, "listed_days": 51, "species": "Dog", "sex": "Male", "sterilization": "Spayed", "compat": ["Good with cats", "Good with dogs", "Good with kids"], "age_stage": "puppy_kitten"}, {"id": 8, "title": "Daisy", "brand": "Bulldog", "category": "Dog", "color": "short", "condition": "intact", "city": "Philadelphia", "rating": 4.7, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/34058942/pexels-photo-34058942.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Daisy \u2014 adoptable dog", "shelter_name": "Philly PAWS", "distance_miles": 70, "listed_days": 3, "species": "Dog", "sex": "Female", "sterilization": "Intact", "compat": ["Good with dogs", "Good with kids", "Good with other pets"], "age_stage": "puppy_kitten"}, {"id": 9, "title": "Cooper", "brand": "Maine Coon", "category": "Cat", "color": "short", "condition": "neutered", "city": "Philadelphia", "rating": 4.2, "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc31", "image_url": "https://images.pexels.com/photos/6145891/pexels-photo-6145891.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Cooper \u2014 adoptable cat", "shelter_name": "Pennsylvania SPCA", "distance_miles": 64, "listed_days": 18, "species": "Cat", "sex": "Male", "sterilization": "Neutered", "compat": ["Good with kids", "Good with no children", "Good with other pets"], "age_stage": "adult"}, {"id": 10, "title": "Molly", "brand": "German Shepherd", "category": "Dog", "color": "short", "condition": "neutered", "city": "Philadelphia", "rating": 4.4, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/32130866/pexels-photo-32130866.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Molly \u2014 adoptable dog", "shelter_name": "Bucks County Pet Network", "distance_miles": 79, "listed_days": 12, "species": "Dog", "sex": "Female", "sterilization": "Neutered", "compat": ["Good with kids", "Good with no children", "Good with other pets"], "age_stage": "senior"}, {"id": 11, "title": "Luna", "brand": "Australian Shepherd", "category": "Dog", "color": "medium", "condition": "neutered", "city": "Philadelphia", "rating": 4.6, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/11408628/pexels-photo-11408628.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Luna \u2014 adoptable dog", "shelter_name": "Main Line Animal Rescue", "distance_miles": 49, "listed_days": 84, "species": "Dog", "sex": "Male", "sterilization": "Neutered", "compat": ["Good with cats", "Good with dogs", "Good with kids"], "age_stage": "adult"}, {"id": 12, "title": "Charlie", "brand": "Poodle", "category": "Dog", "color": "medium", "condition": "spayed", "city": "Philadelphia", "rating": 4.5, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/30586500/pexels-photo-30586500.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Charlie \u2014 adoptable dog", "shelter_name": "Liberty Humane Society", "distance_miles": 92, "listed_days": 3, "species": "Dog", "sex": "Female", "sterilization": "Spayed", "compat": ["Good with dogs", "Good with kids", "Good with other pets"], "age_stage": "young"}, {"id": 13, "title": "Sadie", "brand": "British Shorthair", "category": "Cat", "color": "medium", "condition": "intact", "city": "Philadelphia", "rating": 4.0, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc31", "image_url": "https://images.pexels.com/photos/32057399/pexels-photo-32057399.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Sadie \u2014 adoptable cat", "shelter_name": "Berks ARL", "distance_miles": 58, "listed_days": 67, "species": "Cat", "sex": "Male", "sterilization": "Intact", "compat": ["Good with dogs", "Good with kids", "Good with no children"], "age_stage": "young"}, {"id": 14, "title": "Max", "brand": "Boxer", "category": "Dog", "color": "long", "condition": "spayed", "city": "Philadelphia", "rating": 4.0, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/6755496/pexels-photo-6755496.png?auto=compress&cs=tinysrgb&h=200", "image_alt": "Max \u2014 adoptable dog", "shelter_name": "Philly PAWS", "distance_miles": 66, "listed_days": 42, "species": "Dog", "sex": "Female", "sterilization": "Spayed", "compat": ["Good with cats", "Good with kids", "Good with no children"], "age_stage": "puppy_kitten"}, {"id": 15, "title": "Luna", "brand": "German Shepherd", "category": "Dog", "color": "medium", "condition": "intact", "city": "Philadelphia", "rating": 4.2, "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/37375349/pexels-photo-37375349.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Luna \u2014 adoptable dog", "shelter_name": "Bucks County Pet Network", "distance_miles": 16, "listed_days": 18, "species": "Dog", "sex": "Male", "sterilization": "Intact", "compat": ["Good with cats", "Good with no children", "Good with other pets"], "age_stage": "adult"}, {"id": 16, "title": "Cooper", "brand": "Mixed-breed", "category": "Dog", "color": "medium", "condition": "spayed", "city": "Philadelphia", "rating": 4.7, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/11881801/pexels-photo-11881801.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Cooper \u2014 adoptable dog", "shelter_name": "Pennsylvania SPCA", "distance_miles": 23, "listed_days": 3, "species": "Dog", "sex": "Female", "sterilization": "Spayed", "compat": ["Good with dogs", "Good with kids", "Good with other pets"], "age_stage": "adult"}, {"id": 17, "title": "Rocky", "brand": "Siamese", "category": "Cat", "color": "short", "condition": "neutered", "city": "Philadelphia", "rating": 4.2, "price": 0, "is_new": true, "pet_friendly": true, "image_initial": "\ud83d\udc31", "image_url": "https://images.pexels.com/photos/6145891/pexels-photo-6145891.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Rocky \u2014 adoptable cat", "shelter_name": "Main Line Animal Rescue", "distance_miles": 69, "listed_days": 84, "species": "Cat", "sex": "Male", "sterilization": "Neutered", "compat": ["Good with cats", "Good with no children", "Good with other pets"], "age_stage": "senior"}, {"id": 18, "title": "Daisy", "brand": "Mixed-breed", "category": "Dog", "color": "medium", "condition": "neutered", "city": "Philadelphia", "rating": 4.0, "price": 0, "is_new": false, "pet_friendly": true, "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/20635787/pexels-photo-20635787.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Daisy \u2014 adoptable dog", "shelter_name": "Delaware Humane Association", "distance_miles": 31, "listed_days": 42, "species": "Dog", "sex": "Female", "sterilization": "Neutered", "compat": ["Good with dogs", "Good with kids", "Good with no children"], "age_stage": "senior"}, {"id": 108, "title": "Penny", "brand": "Poodle", "category": "Dog", "species": "Dog", "color": "medium", "condition": "spayed", "sterilization": "Spayed", "sex": "Female", "compat": ["Good with cats", "Good with dogs", "Good with kids"], "city": "Philadelphia", "rating": 4.9, "price": 0, "is_new": true, "pet_friendly": true, "age_stage": "adult", "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/8266284/pexels-photo-8266284.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Penny \u2014 adoptable dog", "shelter_name": "Pennsylvania SPCA", "distance_miles": 63, "listed_days": 7}, {"id": 128, "title": "Pixel", "brand": "Scottish Fold", "category": "Cat", "species": "Cat", "color": "short", "condition": "neutered", "sterilization": "Neutered", "sex": "Male", "compat": ["Good with dogs", "Good with kids", "Good with other pets"], "city": "Philadelphia", "rating": 4.6, "price": 0, "is_new": false, "pet_friendly": true, "age_stage": "young", "image_initial": "\ud83d\udc31", "image_url": "https://images.pexels.com/photos/37950225/pexels-photo-37950225.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Pixel \u2014 adoptable cat", "shelter_name": "Philly PAWS", "distance_miles": 36, "listed_days": 84}, {"id": 148, "title": "Ruby", "brand": "Beagle", "category": "Dog", "species": "Dog", "color": "long", "condition": "intact", "sterilization": "Intact", "sex": "Female", "compat": ["Good with no children", "Good with other pets"], "city": "Philadelphia", "rating": 4.5, "price": 0, "is_new": true, "pet_friendly": true, "age_stage": "senior", "image_initial": "\ud83d\udc15", "image_url": "https://images.pexels.com/photos/37499463/pexels-photo-37499463.jpeg?auto=compress&cs=tinysrgb&h=200", "image_alt": "Ruby \u2014 adoptable dog", "shelter_name": "Philly PAWS", "distance_miles": 51, "listed_days": 24}];
+window.filterState = {};
+window.LAST_ANSWER = '';
+
+function readUiState() {
+  const s = {};
+  const sex = document.querySelector('[data-facet="sex"].active, [data-facet="sex"]:checked');
+  if (sex && sex.dataset.val && sex.dataset.val !== 'Any') s.sex = sex.dataset.val;
+  else if (sex && sex.value && sex.value !== 'Any' && sex.value !== '') s.sex = sex.value;
+  const st = document.querySelector('[data-facet="sterilization"].active, [data-facet="sterilization"]:checked');
+  if (st && st.dataset.val && st.dataset.val !== 'Any') s.sterilization = st.dataset.val;
+  else if (st && st.value && st.value !== 'Any' && st.value !== '') s.sterilization = st.value;
+  const sp = document.querySelector('[data-facet="species"].active, [data-facet="species"]:checked');
+  if (sp && sp.dataset.val && sp.dataset.val !== 'Any') s.species = sp.dataset.val;
+  else if (sp && sp.value && sp.value !== 'Any' && sp.value !== '') s.species = sp.value;
+  document.querySelectorAll('select[data-facet]').forEach(sel => {
+    const f = sel.dataset.facet;
+    if (sel.multiple) {
+      const vals = Array.from(sel.selectedOptions).map(o => o.value).filter(v => v && v !== 'Any');
+      if (vals.length) s[f] = (f === 'compat') ? vals : vals[0];
+    } else if (sel.value && sel.value !== 'Any' && sel.value !== '') {
+      s[f] = sel.value;
+    }
+  });
+  const compat = Array.from(document.querySelectorAll('input[type=checkbox][data-facet="compat"]:checked')).map(i => i.value);
+  if (compat.length) s.compat = compat;
+  document.querySelectorAll('input[type=hidden][data-facet]').forEach(inp => {
+    if (!inp.value) return;
+    const f = inp.dataset.facet;
+    if (f === 'compat') {
+      try { s[f] = JSON.parse(inp.value); } catch(_) { s[f] = inp.value.split('|').filter(Boolean); }
+    } else {
+      s[f] = inp.value;
+    }
+  });
+  return s;
+}
+
+function filterPets(state) {
+  return window.SEED_DATA.filter(p => {
+    if (state.sex && p.sex !== state.sex) return false;
+    if (state.sterilization && p.sterilization !== state.sterilization) return false;
+    if (state.species && p.species !== state.species) return false;
+    if (state.compat && state.compat.length) {
+      for (const c of state.compat) {
+        if (!(p.compat || []).includes(c)) return false;
+      }
+    }
+    return true;
+  });
+}
+
+function renderResultsInto(containerSel) {
+  const root = document.querySelector(containerSel);
+  if (!root) return;
+  const results = filterPets(window.filterState);
+  window.LAST_RESULTS = results;
+  document.querySelectorAll('[data-results-count]').forEach(el => el.textContent = results.length);
+  if (results.length === 0) {
+    root.innerHTML = '<div style="grid-column:1/-1;padding:36px;text-align:center;color:#888;font-size:14px;">No adoptable pets match these filters. Try loosening your criteria.</div>';
+    return;
+  }
+  root.innerHTML = results.map(p => `
+    <article class="pet-card" data-pet-id="${p.id}">
+      <div class="pc-photo">
+        <img src="${p.image_url}" alt="${p.image_alt || p.title}" loading="lazy" onerror="this.style.display='none'">
+        ${p.distance_miles != null ? '<div class="pc-distance">' + p.distance_miles + ' mi' + '</div>' : ''}
+        <div class="pc-heart">♡</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-head">
+          <h3>${p.title}</h3>
+          <span class="pc-rating">★ ${p.rating}</span>
+        </div>
+        <div class="pc-meta">
+          <span class="pc-pill pc-sex">${p.sex}</span>
+          <span class="pc-pill pc-ster">${p.sterilization}</span>
+          <span class="pc-pill pc-sp">${p.species === 'Cat' ? '🐈' : '🐕'} ${p.brand}</span>
+        </div>
+        <ul class="pc-compat">
+          ${(p.compat||[]).map(c => `<li>${c}</li>`).join('')}
+        </ul>
+        <div class="pc-shelter">${p.shelter_name || p.city || ''}${p.listed_days ? ' · listed ' + p.listed_days + 'd ago' : ''}</div>
+      </div>
+    </article>
+  `).join('');
+}
+
+window.applyFilters = function() {
+  const state = readUiState();
+  window.filterState = state;
+  if (window.RESULTS_SEL) renderResultsInto(window.RESULTS_SEL);
+  const dbg = document.getElementById('fs-debug');
+  if (dbg) dbg.textContent = JSON.stringify(state);
+  const tid = window.TASK_ID || null;
+  fetch('/env/' + window.ENV_ID + '/api/submit', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({filter_state: state, answer: window.LAST_ANSWER || '', task_id: tid})
+  }).catch(() => {});
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => window.applyFilters(), 50);
+  document.addEventListener('change', (e) => {
+    if (e.target && e.target.matches && e.target.matches('[data-facet]')) window.applyFilters();
+  }, true);
+  document.addEventListener('click', (e) => {
+    const b = e.target && e.target.closest && e.target.closest('button[data-facet][data-val]');
+    if (b) setTimeout(() => window.applyFilters(), 0);
+  }, true);
+});
+</script>
+
+</body></html>

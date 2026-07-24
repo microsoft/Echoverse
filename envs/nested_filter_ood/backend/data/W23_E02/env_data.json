@@ -1,0 +1,43 @@
+{
+  "env_id": "W23_E02",
+  "widget_id": "W23_more_filters_modal_plus_chip_bar",
+  "widget_name": "More-filters modal + filter-chip confirmation bar",
+  "widget_category": "combo_modal_workflow",
+  "widget_mechanic": "Compose: apply hidden-modal filter AND verify it appears in the active-filter chip bar.",
+  "archetype": "realestate_listings",
+  "is_combo": true,
+  "source_widget_ids": [
+    "W07_more_filters_modal",
+    "W08_filter_chip_confirmation"
+  ],
+  "site_imitates": "Realtor.com Aiken SC",
+  "product_type": "Aiken homes",
+  "source_inspiration": [
+    {
+      "task_id": "realestate_complex_buy_house_aiken__sc_20679",
+      "benchmark": "WTB",
+      "site": "buy",
+      "instruction": "I'm interested in buying a home on Equinox Loop in Aiken, SC with 4+ bedrooms, 2.5+ bathrooms, a large lot, and central AC. Can you find a listing that meets these criteria?",
+      "first_failure_summary": "[3.5] Incomplete task execution: The click was on the correct listing link text, but the post-action screenshot shows no navigation or UI change, so the action did not advance the task."
+    }
+  ],
+  "primary_inspiration": {
+    "task_id": "realestate_complex_buy_house_aiken__sc_20679",
+    "benchmark": "WTB",
+    "site": "buy",
+    "site_label": "Realtor.com",
+    "city": "Aiken, SC",
+    "instruction": "I'm interested in buying a home on Equinox Loop in Aiken, SC with 4+ bedrooms, 2.5+ bathrooms, a large lot, and central AC. Can you find a listing that meets these criteria?",
+    "first_failure_summary": "[3.5] Incomplete task execution: The click was on the correct listing link text, but the post-action screenshot shows no navigation or UI change, so the action did not advance the task."
+  },
+  "theme_key": "realtor",
+  "theme_logo": "Realtor.com",
+  "theme_card": "listing-row",
+  "theme_layout": "split-map",
+  "variant_idx": 0,
+  "n_seed_items": 20,
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  }
+}

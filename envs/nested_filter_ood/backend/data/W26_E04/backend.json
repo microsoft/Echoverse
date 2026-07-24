@@ -1,0 +1,98 @@
+{
+  "env_id": "W26_E04",
+  "widget_id": "W26_autocomplete_plus_calendar_advance",
+  "archetype": "booking_form",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2501",
+      "task_index_in_env": 1,
+      "instruction_text": "Book the cheapest economy LOT Polish Airlines round-trip from Warsaw, Poland to New York City, USA \u2014 Jan 21, 2026 outbound, Feb 21, 2026 return. The autocomplete shows several New York options (JFK, NYC all airports, EWR, LGA); pick JFK. Set both calendar dates.",
+      "expected_filter_state": {
+        "dest": "JFK",
+        "date": "Jan 21",
+        "return_date": "Feb 21"
+      }
+    },
+    {
+      "task_id": "T2502",
+      "task_index_in_env": 2,
+      "instruction_text": "Same Warsaw \u2192 New York LOT round-trip but for Aug 20, 2026 \u2192 Aug 28, 2026. Destination must resolve to JFK (not EWR/LGA). Calendar needs to advance from May 2026 to August.",
+      "expected_filter_state": {
+        "dest": "JFK",
+        "date": "Aug 20",
+        "return_date": "Aug 28"
+      }
+    },
+    {
+      "task_id": "T2503",
+      "task_index_in_env": 3,
+      "instruction_text": "Book the LOT flight from Warsaw to JFK for Mar 5, 2027 returning Mar 19, 2027 (calendar needs ~10 months of advance). The autocomplete must resolve to JFK specifically, not NYC all-airports.",
+      "expected_filter_state": {
+        "dest": "JFK",
+        "date": "Mar 5",
+        "return_date": "Mar 19"
+      }
+    },
+    {
+      "task_id": "T2504",
+      "task_index_in_env": 4,
+      "instruction_text": "One-way LOT flight from Warsaw to JFK on Oct 4, 2026. Pick the JFK entry and set Oct 4, 2026 in the calendar \u2014 no return.",
+      "expected_filter_state": {
+        "dest": "JFK",
+        "date": "Oct 4"
+      }
+    },
+    {
+      "task_id": "T2505",
+      "task_index_in_env": 5,
+      "instruction_text": "What's the cheapest LOT fare shown for Warsaw \u2192 JFK on Jan 21, 2026? Reply as $X (e.g. $468).",
+      "expected_filter_state": {}
+    },
+    {
+      "task_id": "T2506",
+      "task_index_in_env": 6,
+      "instruction_text": "How many nonstop LOT options are there from Warsaw to JFK on Jan 21, 2026? Reply with the integer followed by 'nonstop' (e.g. '2 nonstop').",
+      "expected_filter_state": {}
+    },
+    {
+      "task_id": "T2507",
+      "task_index_in_env": 7,
+      "instruction_text": "What's the flight number for the cheapest LOT Warsaw \u2192 JFK Jan 21, 2026 service? Reply with the flight number in quotes (e.g. \"LO 27\").",
+      "expected_filter_state": {}
+    },
+    {
+      "task_id": "T2508",
+      "task_index_in_env": 8,
+      "instruction_text": "Configure: destination JFK, depart Jan 21, 2026, return Feb 21, 2026. Then report the cheapest fare shown for that exact route in $X form.",
+      "expected_filter_state": {
+        "dest": "JFK",
+        "date": "Jan 21",
+        "return_date": "Feb 21"
+      }
+    },
+    {
+      "task_id": "T2509",
+      "task_index_in_env": 9,
+      "instruction_text": "Set the Warsaw \u2192 JFK search for Apr 12, 2027 \u2192 Apr 26, 2027. Report the LOT flight number for that depart in quotes (e.g. \"LO 33\").",
+      "expected_filter_state": {
+        "dest": "JFK",
+        "date": "Apr 12",
+        "return_date": "Apr 26"
+      }
+    },
+    {
+      "task_id": "T2510",
+      "task_index_in_env": 10,
+      "instruction_text": "Final: set destination JFK and dates May 22, 2027 \u2192 Jun 5, 2027 (~12 calendar advances). Report the LOT fare in $X form.",
+      "expected_filter_state": {
+        "dest": "JFK",
+        "date": "May 22",
+        "return_date": "Jun 5"
+      }
+    }
+  ]
+}

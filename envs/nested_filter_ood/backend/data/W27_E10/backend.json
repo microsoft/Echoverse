@@ -1,0 +1,91 @@
+{
+  "env_id": "W27_E10",
+  "widget_id": "W27_sex_steril_plus_species_compat",
+  "archetype": "faceted_catalog",
+  "filter_spec": {
+    "type": "generic",
+    "fields": []
+  },
+  "tasks": [
+    {
+      "task_id": "T2691",
+      "task_index_in_env": 1,
+      "instruction_text": "On Petfinder verified, find me shelter pets that are spayed AND male AND dogs AND good with cats.",
+      "expected_filter_state": {
+        "constraint": "that are spayed AND male AND dogs AND good with cats"
+      }
+    },
+    {
+      "task_id": "T2692",
+      "task_index_in_env": 2,
+      "instruction_text": "Help me browse Petfinder verified for shelter pets that are neutered AND male AND good with kids.",
+      "expected_filter_state": {
+        "constraint": "that are neutered AND male AND good with kids"
+      }
+    },
+    {
+      "task_id": "T2693",
+      "task_index_in_env": 3,
+      "instruction_text": "Show me shelter pets on Petfinder verified that are spayed AND female AND cats AND good with dogs.",
+      "expected_filter_state": {
+        "constraint": "that are spayed AND female AND cats AND good with dogs"
+      }
+    },
+    {
+      "task_id": "T2694",
+      "task_index_in_env": 4,
+      "instruction_text": "On Petfinder verified, find me shelter pets that are male dogs AND good with other dogs (no sterilization filter).",
+      "expected_filter_state": {
+        "constraint": "that are male dogs AND good with other dogs (no sterilization filter)"
+      }
+    },
+    {
+      "task_id": "T2695",
+      "task_index_in_env": 5,
+      "instruction_text": "Help me browse Petfinder verified for shelter pets that are spayed AND female AND cats AND good with kids.",
+      "expected_filter_state": {
+        "constraint": "that are spayed AND female AND cats AND good with kids"
+      }
+    },
+    {
+      "task_id": "T2696",
+      "task_index_in_env": 6,
+      "instruction_text": "Show me shelter pets on Petfinder verified that are spayed adult cats AND good with dogs AND kids.",
+      "expected_filter_state": {
+        "constraint": "that are spayed adult cats AND good with dogs AND kids"
+      }
+    },
+    {
+      "task_id": "T2697",
+      "task_index_in_env": 7,
+      "instruction_text": "Help me browse Petfinder verified for shelter pets that are short-haired AND neutered male AND good with cats.",
+      "expected_filter_state": {
+        "constraint": "that are short-haired AND neutered male AND good with cats"
+      }
+    },
+    {
+      "task_id": "T2698",
+      "task_index_in_env": 8,
+      "instruction_text": "Show me shelter pets on Petfinder verified that are spayed female dogs AND good with cats AND kids.",
+      "expected_filter_state": {
+        "constraint": "that are spayed female dogs AND good with cats AND kids"
+      }
+    },
+    {
+      "task_id": "T2699",
+      "task_index_in_env": 9,
+      "instruction_text": "On Petfinder verified, find me shelter pets that are intact AND female cats AND good with no children.",
+      "expected_filter_state": {
+        "constraint": "that are intact AND female cats AND good with no children"
+      }
+    },
+    {
+      "task_id": "T2700",
+      "task_index_in_env": 10,
+      "instruction_text": "Help me browse Petfinder verified for shelter pets that are male dogs AND compat-verified with cats AND other dogs.",
+      "expected_filter_state": {
+        "constraint": "that are male dogs AND compat-verified with cats AND other dogs"
+      }
+    }
+  ]
+}

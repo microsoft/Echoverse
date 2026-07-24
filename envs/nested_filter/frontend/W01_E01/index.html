@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>EchoPets — adoptable shelter pets</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+/* PATCH_HIDE_WIDGET_HINTS v1 */
+.wut-badge, .wut-badge-test, .utst-note { display:none !important; }
+.f-section.widget-utst { border-left:none !important; background:transparent !important; }
+.f-section.widget-utst h4 { color:inherit !important; font-size:inherit !important; }
+/* end PATCH_HIDE_WIDGET_HINTS */
+
+/* PATCH_STRIP_DEBUG_UI v6: hide model-facing task/debug overlays */
+.task-banner, .task-banner-label, .task-banner-text, .task-banner-meta, .task-banner-actions, .task-banner-summary,
+.live-status, .live-status.ok,
+.db-fab,
+.answer-area, .answer-card, .answer-section,
+.answer-input, .answer-bar, .answer-row, .task-row, .task-rail, .task-list,
+.state-row, .state-label,
+.status-pill, .status-bar,
+.task-pill,
+.autosave-pill,
+.fix-mode-pill, .verifier-pill,
+.debug-pill, .debug-bar, .debug-panel, .debug-info, .debug-state,
+.modeled-after-fara, .fara-inspiration, .inspiration-banner,
+.fara-source-card, .fara-source-pill, .fara-banner, .fara-source,
+.w20-no-button-note, .w20-auto-pill,
+.tb-head, .tb-id, .tb-type, .tb-diff, .tb-summary, .tb-meta, .tb-good, .tb-bad, .tb-status, .tb-pill,
+.tb-answer-row, .tb-answer-label, .tb-answer-input,
+.tb-type-write, .tb-type-read, .tb-type-read_write,
+.tb-banner,
+.auto-recompute-pill,
+#task-banner, #task-text, #task-meta, #task-bar, #task-rail,
+#live-status, #live-state, #live-result,
+#answer-input, #answer-bar, #submit-answer, #submit-btn,
+#task-answer-input, #answer-area,
+.submit-answer,
+#state-row, #status-pill, #status-bar,
+#w20-auto-pill,
+#tb-status, #tb-good, #tb-bad,
+[data-task-banner], [data-live-status], [data-debug-pill],
+[data-task-meta], [data-fara-inspiration], [data-fara-source]
+{ display: none !important; visibility: hidden !important; }
+
+[data-debug="1"] { display: none !important; }
+
+
+
+
+
+
+:root {
+  --primary: #62cbc9;
+  --primary-dark: #3aa9a7;
+  --accent: #0c0f12;
+  --bg: #f8fafc;
+  --panel: #ffffff;
+  --border: #e6ebef;
+  --text: #1a2b22;
+  --muted: #5a6b62;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.4;
+}
+.site-header {
+  background: var(--primary); color: white; padding: 12px 24px;
+  display: flex; align-items: center; gap: 16px; box-shadow: 0 1px 0 rgba(0,0,0,0.1);
+}
+.site-brand { font-size: 22px; font-weight: 800; letter-spacing: -.5px; }
+.site-tagline { opacity: .85; font-size: 13px; }
+.task-banner {
+  background: var(--panel); border-left: 4px solid var(--primary);
+  padding: 12px 16px; margin: 12px 24px; border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+.task-banner-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 700; }
+.task-banner-text { font-size: 14px; margin-top: 4px; color: var(--text); }
+.live-status { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.live-status.ok { color: #1f8a3a; font-weight: 700; }
+.facet-group { border-bottom: 1px solid var(--border); padding: 12px 0; }
+.facet-title { font-weight: 700; font-size: 12px; text-transform: uppercase; color: var(--text); margin-bottom: 8px; letter-spacing: .5px; }
+.facet-options { display: flex; flex-direction: column; gap: 6px; }
+.facet-opt { display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; padding: 4px 6px; border-radius: 3px; }
+.facet-opt:hover { background: rgba(0,0,0,0.04); }
+.facet-opt.decoy .facet-val { font-weight: 600; }
+.facet-opt input { accent-color: var(--primary); }
+.facet-pill { font-size: 10px; background: var(--accent); color: var(--text); padding: 2px 5px; border-radius: 8px; font-weight: 700; }
+.answer-area {
+  background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+  padding: 12px; margin: 12px 24px;
+}
+.answer-area label { display: block; font-weight: 700; font-size: 12px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; letter-spacing: .5px; }
+.answer-input { width: 100%; min-height: 60px; padding: 8px; border: 1px solid var(--border); border-radius: 4px; font-family: inherit; font-size: 14px; resize: vertical; }
+.btn-submit {
+  background: var(--primary); color: white; border: 0; padding: 10px 20px;
+  border-radius: 4px; font-weight: 700; cursor: pointer; margin-top: 8px;
+}
+.btn-submit:hover { background: var(--primary-dark); }
+.result-count { font-size: 14px; color: var(--muted); padding: 8px 24px; }
+.result-grid { padding: 0 24px 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.result-grid > div { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 10px; }
+.facet-attribution { font-size: 10px; color: var(--muted); padding: 8px 24px; }
+
+        .page-wrap { display: grid; grid-template-columns: 220px 1fr; gap: 0; }
+        .facet-panel { background: var(--panel); padding: 16px; border-right: 1px solid var(--border); }
+        .facet-header { font-weight: 800; font-size: 16px; margin-bottom: 8px; color: var(--primary-dark); }
+        
+/* ========== injected by W01 polish v4 — render card images for every theme ========== */
+.result-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)) !important; gap: 16px; padding: 0 24px 24px; }
+.result-grid.tiles { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important; }
+.result-grid.events { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important; }
+.result-grid.pets { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important; }
+/* Row layouts (article-row, job-row, listing-row, apt-card, flight-row, gh-row, game-row) get a single column. */
+.result-grid:has(.article-row), .result-grid:has(.job-row), .result-grid:has(.lstg-row), .result-grid:has(.apt-card), .result-grid:has(.flight-row), .result-grid:has(.gh-row), .result-grid:has(.game-row) { grid-template-columns: 1fr !important; }
+/* Tame the generic .result-grid > div placeholder style from W01 base CSS, but only when our themed cards aren't present. */
+.result-grid > div:not(.pet-card):not(.result-card):not(.article-row):not(.job-row):not(.event-tile):not(.tile-card):not(.lstg-row):not(.apt-card):not(.stays-card):not(.hotel-card):not(.flight-row):not(.gh-row):not(.game-tile) { background: var(--panel, #fff); border: 1px solid #e5e7eb; border-radius:6px; padding:10px; }
+/* But our themed cards control their own background/border/padding. */
+.result-grid > .pet-card, .result-grid > .result-card, .result-grid > .article-row, .result-grid > .job-row, .result-grid > .event-tile, .result-grid > .tile-card, .result-grid > .lstg-row, .result-grid > .apt-card, .result-grid > .stays-card, .result-grid > .hotel-card, .result-grid > .flight-row, .result-grid > .gh-row, .result-grid > .game-tile { background: initial; border: initial; padding: initial; }
+
+/* pet-card (Adopt-a-Pet, Petfinder) */
+.pet-card { position: relative; background:#fff; border:1px solid #e5e7eb; border-radius:10px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.pet-photo { height: 160px; background:#f5e7d6 linear-gradient(135deg,#ffd4a5,#ffa45e); background-size:cover !important; background-position:center !important; display:flex; align-items:center; justify-content:center; font-size:54px; }
+.pet-heart { position:absolute; top:10px; right:10px; width:30px; height:30px; border-radius:50%; background:rgba(255,255,255,0.92); display:flex; align-items:center; justify-content:center; font-size:15px; color:#bbb; box-shadow:0 2px 4px rgba(0,0,0,0.15); }
+.pet-body { padding:12px 14px 14px; }
+.pet-name { font-size:18px; font-weight:800; color:#d96a1f; letter-spacing:-0.2px; }
+.pet-meta { font-size:12px; color:#444; margin-top:3px; font-weight:500; }
+.pet-loc { font-size:12px; color:#666; margin-top:5px; }
+.pet-dist { font-size:11px; color:#888; margin-top:2px; }
+.pet-tags { margin-top:8px; display:flex; gap:4px; flex-wrap:wrap; }
+.pet-tag { font-size:10px; padding:2px 8px; background:#fff1de; color:#a14e07; border:1px solid #ffd9a8; border-radius:11px; font-weight:600; }
+
+/* result-card (ecommerce default — EchoTech/EchoShop) */
+.result-card { position:relative; background:#fff; border:1px solid #e5e7eb; border-radius:8px; overflow:hidden; box-shadow:0 1px 2px rgba(0,0,0,0.04); display:flex; flex-direction:column; }
+.result-thumb { height:160px; background:#f8f9fb; background-size:cover !important; background-position:center !important; display:flex; align-items:center; justify-content:center; font-size:42px; }
+.result-body { padding:10px 12px 12px; display:flex; flex-direction:column; gap:3px; }
+.result-brand { font-size:11px; color:#0654ba; font-weight:700; text-transform:uppercase; letter-spacing:.3px; }
+.result-name { font-size:13px; font-weight:600; color:#222; line-height:1.3; }
+.result-meta { font-size:11px; color:#666; }
+.result-rating-row { font-size:12px; color:#555; display:flex; gap:4px; align-items:center; }
+.result-stars { color:#f1a90b; }
+.result-reviews { color:#888; }
+.result-price-row { display:flex; gap:6px; align-items:baseline; margin-top:2px; }
+.result-was { font-size:11px; color:#999; text-decoration:line-through; }
+.result-price { font-size:16px; font-weight:800; color:#bb0a1e; }
+.result-save { font-size:10px; color:#0a6e2c; font-weight:700; }
+.result-tags { display:flex; flex-wrap:wrap; gap:3px; margin-top:3px; }
+.result-tag { font-size:9px; padding:2px 5px; background:#eef3ff; color:#1456b0; border-radius:3px; font-weight:600; }
+.result-tag.stock { background:#e7f7ed; color:#0a6e2c; }
+.result-tag.ship  { background:#fff4d6; color:#8a5c00; }
+.result-cta { margin-top:6px; padding:6px 10px; background:#ffd814; border:1px solid #fcd200; border-radius:18px; font-weight:700; font-size:11px; cursor:pointer; }
+
+/* article-row (EchoForge / news) — force light card for legibility on dark themes */
+.article-row { display:grid; grid-template-columns:1fr 160px; gap:14px; padding:14px 16px; background:#ffffff !important; color:#212529 !important; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:10px; }
+.article-thumb { width:160px; height:110px; background:#eef0f5; background-size:cover !important; background-position:center !important; border-radius:6px; }
+.article-thumb-fb { width:160px; height:110px; background:#eef0f5; display:flex; align-items:center; justify-content:center; font-size:36px; border-radius:6px; }
+.article-tagrow { font-size:11px; color:#6a737d; margin-bottom:3px; }
+.article-topic { color:#0366d6; font-weight:600; }
+.article-cat { color:#586069; }
+.article-title { font-size:16px; font-weight:700; color:#212529 !important; display:block; margin-bottom:5px; }
+.article-summary { font-size:12px; color:#586069 !important; line-height:1.45; }
+.article-meta { font-size:11px; color:#888 !important; margin-top:6px; display:flex; gap:4px; flex-wrap:wrap; }
+.article-actions { display:flex; gap:14px; margin-top:6px; font-size:11px; color:#0366d6; }
+.article-action { cursor:pointer; }
+
+/* job-row (Indeed / OhioMeansJobs) */
+.job-row { display:grid; grid-template-columns:48px 1fr auto; gap:12px; padding:12px 14px; background:#fff; border:1px solid #e5e7eb; border-radius:8px; align-items:flex-start; }
+.job-logo { width:48px; height:48px; background-color:#dfe6f0; background-size:cover !important; background-position:center !important; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:22px; color:#1456b0; font-weight:800; }
+.job-title-row { display:flex; gap:8px; align-items:center; }
+.job-title { font-size:14px; font-weight:700; color:#0a5dc2; cursor:pointer; }
+.job-match { font-size:10px; padding:1px 6px; background:#e7f7ed; color:#0a6e2c; border-radius:8px; font-weight:700; }
+.job-co { font-size:12px; color:#444; margin-top:2px; }
+.job-rating { color:#f1a90b; }
+.job-verified { color:#0a6e2c; font-weight:700; }
+.job-meta { font-size:11px; color:#666; margin-top:2px; }
+.job-salary { font-size:12px; color:#0a6e2c; font-weight:700; margin-top:3px; }
+.job-foot { font-size:10px; color:#888; margin-top:4px; display:flex; gap:10px; flex-wrap:wrap; }
+.job-actions { display:flex; flex-direction:column; gap:4px; align-items:flex-end; }
+.job-save { width:30px; height:30px; border-radius:50%; background:#f3f4f6; border:0; cursor:pointer; }
+.job-apply { padding:6px 10px; background:#0a5dc2; color:#fff; border:0; border-radius:4px; font-weight:700; cursor:pointer; font-size:11px; }
+
+/* event-tile (Eventbrite) */
+.event-tile { position:relative; background:#fff; border:1px solid #e5e7eb; border-radius:8px; overflow:hidden; }
+.event-photo { height:130px; background:#eee linear-gradient(135deg,#ff8a65,#ec407a); background-size:cover !important; background-position:center !important; }
+.event-date { position:absolute; top:10px; left:10px; background:#fff; border-radius:5px; padding:4px 6px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,0.15); min-width:38px; }
+.event-month { font-size:9px; color:#ec407a; font-weight:800; letter-spacing:.5px; }
+.event-day { font-size:18px; font-weight:800; color:#212529; line-height:1; }
+.event-dow { font-size:9px; color:#666; }
+.event-price-tag { position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.7); color:#fff; padding:2px 7px; border-radius:10px; font-size:10px; font-weight:700; }
+.event-price-tag.free { background:#0a6e2c; }
+.event-heart { position:absolute; top:140px; right:10px; width:28px; height:28px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; font-size:13px; color:#bbb; box-shadow:0 2px 4px rgba(0,0,0,0.18); }
+.event-body { padding:11px 13px 12px; }
+.event-name { font-size:14px; font-weight:700; color:#212529; line-height:1.3; }
+.event-meta { font-size:11px; color:#0a5dc2; margin-top:3px; font-weight:600; }
+.event-venue { font-size:11px; color:#555; margin-top:2px; }
+.event-attending { font-size:10px; color:#888; margin-top:4px; }
+
+/* tile-card (Etsy / Uniqlo / Cars.com) */
+.tile-card { position:relative; background:#fff; border:1px solid #eee; border-radius:8px; overflow:hidden; }
+.tile-photo { height:170px; background:#f0f0f0 linear-gradient(135deg,#dde,#aab); background-size:cover !important; background-position:center !important; display:flex; align-items:center; justify-content:center; font-size:44px; }
+.tile-heart { position:absolute; top:8px; right:8px; width:28px; height:28px; border-radius:50%; background:rgba(255,255,255,0.92); display:flex; align-items:center; justify-content:center; font-size:13px; color:#bbb; box-shadow:0 2px 4px rgba(0,0,0,0.15); }
+.tile-brand { display:block; padding:6px 10px 0; font-size:10px; color:#888; font-weight:700; text-transform:uppercase; letter-spacing:.3px; }
+.tile-name { padding:2px 10px 0; font-size:13px; margin-top:4px; font-weight:500; color:#222; line-height:1.35; }
+.tile-price-row { padding:4px 10px 0; display:flex; gap:6px; align-items:baseline; }
+.tile-price { font-size:15px; font-weight:800; color:#212529; }
+.tile-was { font-size:11px; color:#999; text-decoration:line-through; }
+.tile-meta { padding:2px 10px 0; font-size:11px; color:#666; }
+.tile-swatches { padding:5px 10px 0; display:flex; gap:4px; }
+.tile-swatch { width:14px; height:14px; border-radius:50%; border:1px solid #ddd; }
+.tile-ship { padding:4px 10px 10px; font-size:10px; color:#0a6e2c; font-weight:700; }
+
+
+
+.aap-header { background:#fff; padding:0; display:block; box-shadow:none; }
+.aap-promo { display:flex; align-items:center; gap:18px; padding:10px 28px; font-size:14px; color:#111; background:#fff; border-bottom:1px solid #e6ebef; font-family:Georgia,'Times New Roman',serif; }
+.aap-promo-logo { width:44px; height:44px; flex-shrink:0; }
+.aap-promo-copy { flex:1; line-height:1.2; }
+.aap-promo strong { font-size:20px; font-weight:700; display:block; font-family:Georgia,'Times New Roman',serif; letter-spacing:-.3px; color:#111; }
+.aap-promo-sub { color:#222; font-size:13px; font-family:Georgia,'Times New Roman',serif; }
+.aap-promo-cta { color:#111; text-decoration:underline; font-weight:600; font-family:-apple-system,'Segoe UI',Roboto,sans-serif; font-size:14px; }
+.aap-promo-thumbs { display:flex; gap:6px; }
+.aap-promo-thumb { width:62px; height:42px; border-radius:5px; background:#f5e6d4; display:flex; align-items:center; justify-content:center; font-size:22px; box-shadow:inset 0 0 0 1px #e5d4bd; overflow:hidden; position:relative; }
+.aap-promo-thumb.cat { background:#fde7c7; }
+.aap-promo-thumb-label { position:absolute; top:2px; left:3px; font-size:6px; color:#8a5e1a; font-weight:700; letter-spacing:.3px; font-family:-apple-system,sans-serif; }
+.aap-promo-close { color:#444; font-size:18px; line-height:1; padding:0 6px; cursor:pointer; }
+.aap-main { background:#62cbc9; display:flex; align-items:center; padding:14px 28px; gap:28px; }
+.aap-logo { color:#111; text-decoration:none; font-family:Georgia,'Times New Roman',serif; font-size:28px; font-weight:400; font-style:italic; letter-spacing:-.2px; }
+.aap-nav { display:flex; gap:24px; flex:1; margin-left:18px; }
+.aap-nav .nav-link { color:#111; text-decoration:none; font-weight:500; font-size:14px; }
+.aap-nav .nav-link:hover { text-decoration:underline; }
+.aap-actions { display:flex; gap:10px; }
+.aap-login { color:#111; padding:8px 22px; border:1.5px solid #111; border-radius:22px; text-decoration:none; font-weight:600; background:transparent; font-size:13px; }
+.aap-signup { color:#fff; background:#111; padding:8px 22px; border-radius:22px; text-decoration:none; font-weight:600; font-size:13px; }
+
+/* Soft mint hero band */
+.aap-hero { background:#cdf0ed; padding:22px 28px 18px; border-bottom:1px solid #b9e5e1; }
+.aap-hero h1 { font-family:Georgia,'Times New Roman',serif; font-size:34px; font-weight:700; color:#111; margin:0 0 4px; letter-spacing:-.8px; line-height:1.1; }
+.aap-hero p { margin:4px 0 0; font-size:14px; color:#3a4a45; max-width:560px; }
+.aap-hero-row { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap; }
+.aap-hero-stats { font-size:12px; color:#2c3e3a; font-weight:600; display:flex; gap:18px; flex-wrap:wrap; }
+.aap-hero-stat strong { color:#111; font-size:14px; font-weight:800; display:block; }
+
+/* Adopt a Pet partners strip */
+.aap-partners { display:flex; align-items:center; justify-content:center; gap:34px; padding:14px 28px; background:#fff; border-top:1px solid #ecefef; border-bottom:1px solid #ecefef; font-size:12px; color:#666; font-weight:600; }
+.aap-partners .ptr-label { color:#888; font-style:italic; }
+.aap-partner { display:inline-flex; align-items:center; gap:6px; color:#222; font-weight:800; font-size:13px; letter-spacing:.2px; }
+.aap-partner.zoetis { color:#e64a19; font-family:Georgia,serif; font-style:italic; }
+.aap-partner.pedigree { background:#fde047; color:#7a3b00; padding:2px 9px; border-radius:50%; font-size:11px; font-weight:900; }
+.aap-partner.petsmart { color:#c8102e; font-weight:900; letter-spacing:-.5px; }
+.aap-partner.petsmart .smart { color:#1d3a8a; }
+
+/* Brand footer */
+.aap-footer { background:#0c2826; color:#cfe8e5; padding:32px 28px 20px; margin-top:34px; }
+.aap-footer-cols { display:grid; grid-template-columns:repeat(5, 1fr); gap:20px; max-width:1200px; margin:0 auto; }
+.aap-footer h5 { font-size:12px; text-transform:uppercase; color:#fff; letter-spacing:.6px; margin:0 0 10px; font-weight:700; }
+.aap-footer a { color:#cfe8e5; text-decoration:none; display:block; padding:3px 0; font-size:13px; }
+.aap-footer a:hover { color:#62cbc9; }
+.aap-footer-brand { font-family:Georgia,'Times New Roman',serif; font-size:24px; font-style:italic; color:#fff; }
+.aap-footer-tag { font-size:12px; color:#a9c8c4; margin-top:6px; }
+.aap-footer-bottom { border-top:1px solid #1a3e3b; margin-top:24px; padding-top:14px; max-width:1200px; margin-left:auto; margin-right:auto; display:flex; justify-content:space-between; font-size:11px; color:#82a8a4; flex-wrap:wrap; gap:10px; }
+
+/* Pet card adopt-a-pet style framed cards */
+.pet-card { border-radius:14px; }
+.pet-card.frame-blue { background:#3b8bd9; padding:10px; }
+.pet-card.frame-mint { background:#62cbc9; padding:10px; }
+.pet-card.frame-yellow { background:#f7c948; padding:10px; }
+.pet-card.frame-blue > *, .pet-card.frame-mint > *, .pet-card.frame-yellow > * { background:#fff; }
+.pet-card.frame-blue .pet-photo, .pet-card.frame-mint .pet-photo, .pet-card.frame-yellow .pet-photo { border-radius:8px 8px 0 0; }
+.pet-card.frame-blue .pet-body, .pet-card.frame-mint .pet-body, .pet-card.frame-yellow .pet-body { border-radius:0 0 8px 8px; }
+
+/* Facet panel polish to feel like Adopt a Pet */
+.facet-header { color:#111 !important; font-family:Georgia,'Times New Roman',serif; font-style:italic; font-size:20px !important; font-weight:700 !important; padding-bottom:6px; border-bottom:2px solid #62cbc9; margin-bottom:12px; }
+.facet-title { color:#111; font-weight:700; }
+.facet-opt input { width:16px; height:16px; }
+.facet-opt:hover { background:#e8f7f6; }
+
+/* Page heading */
+.page-h1 { font-family:Georgia,'Times New Roman',serif !important; font-style:italic; font-weight:700 !important; font-size:26px !important; color:#111 !important; letter-spacing:-.4px !important; }
+.breadcrumb a { color:var(--muted); text-decoration:none; }
+
+/* Polished common chrome */
+.breadcrumb { font-size:12px; color:var(--muted); padding:12px 24px 4px; }
+.page-h1 { font-size:22px; font-weight:800; margin:6px 24px 14px; color:var(--text); letter-spacing:-.3px; }
+.catalog-toolbar { display:flex; align-items:center; justify-content:space-between; padding:8px 24px 14px; gap:14px; flex-wrap:wrap; border-bottom:1px solid var(--border); margin-bottom:14px; }
+.catalog-count { font-size:14px; color:var(--text); font-weight:600; }
+.catalog-sort { display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted); }
+.catalog-sort select { padding:6px 10px; border:1px solid var(--border); border-radius:4px; background:#fff; font-size:13px; color:var(--text); }
+.catalog-view { display:flex; gap:2px; margin-left:6px; }
+.catalog-view .view-btn { width:30px; height:30px; border:1px solid var(--border); background:#fff; cursor:pointer; font-size:13px; color:var(--muted); }
+.catalog-view .view-btn.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+.site-footer { background:#f8fafc; border-top:1px solid var(--border); padding:28px 28px; font-size:12px; color:var(--muted); margin-top:32px; display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap; }
+.site-footer .ft-col { flex:1; min-width:140px; }
+.site-footer h5 { font-size:12px; text-transform:uppercase; color:var(--text); letter-spacing:.5px; margin:0 0 8px; }
+.site-footer a { color:var(--muted); text-decoration:none; display:block; padding:2px 0; }
+.site-footer a:hover { color:var(--primary); }
+
+</style>
+</head>
+<body>
+<header class="site-header aap-header">
+  <div class="aap-promo">
+    <svg class="aap-promo-logo" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M8 14 L20 6 L24 12 L12 20 Z" fill="#e94e1b"/>
+      <path d="M28 18 L40 10 L44 16 L32 24 Z" fill="#1a2b6b"/>
+      <path d="M14 28 L26 20 L30 26 L18 34 Z" fill="#1a2b6b"/>
+      <path d="M34 32 L46 24 L50 30 L38 38 Z" fill="#e94e1b"/>
+      <path d="M20 42 L32 34 L36 40 L24 48 Z" fill="#e94e1b"/>
+      <path d="M40 46 L52 38 L56 44 L44 52 Z" fill="#1a2b6b"/>
+    </svg>
+    <div class="aap-promo-copy">
+      <strong>Save 20% on the world's leading pet DNA test</strong>
+      <span class="aap-promo-sub">Unlock breed, trait, and health insights with code AAP20</span>
+    </div>
+    <a href="#" class="aap-promo-cta">Shop Now</a>
+    <div class="aap-promo-thumbs" aria-hidden="true">
+      <span class="aap-promo-thumb"><span class="aap-promo-thumb-label">WISDOM PANEL</span>🐶</span>
+      <span class="aap-promo-thumb cat"><span class="aap-promo-thumb-label">WISDOM PANEL</span>🐱</span>
+    </div>
+    <span class="aap-promo-close" aria-hidden="true">✕</span>
+  </div>
+  <div class="aap-main">
+    <a href="#" class="aap-logo">EchoPets</a>
+    <nav class="aap-nav"><a href="#" class="nav-link">Find a pet</a>
+      <a href="#" class="nav-link">Find a shelter</a>
+      <a href="#" class="nav-link">Rehome a pet</a>
+      <a href="#" class="nav-link">Breed 101</a>
+      <a href="#" class="nav-link">Pet advice</a>
+      <a href="#" class="nav-link">Shop</a>
+      <a href="#" class="nav-link">Help</a></nav>
+    <div class="aap-actions">
+      <a href="#" class="aap-login">Login</a>
+      <a href="#" class="aap-signup">Sign Up</a>
+    </div>
+  </div>
+</header>
+
+<section class="aap-hero">
+  <div class="aap-hero-row">
+    <div>
+      <h1>Find your new best friend</h1>
+      <p>Browse adoptable pets from shelters, rescues, and individuals near you. Refine by animal type, breed, sterilization status, and coat length.</p>
+    </div>
+    <div class="aap-hero-stats">
+      <div class="aap-hero-stat"><strong>200,000+</strong>pets available</div>
+      <div class="aap-hero-stat"><strong>11,500+</strong>shelters &amp; rescues</div>
+      <div class="aap-hero-stat"><strong>4.8 ★</strong>app rating</div>
+    </div>
+  </div>
+</section>
+
+<nav class="breadcrumb"><a href="#">Home</a> › <a href="#">Find a pet</a> › Adoptable Pets</nav>
+<h1 class="page-h1">Adoptable pets near you</h1>
+<div class="page-wrap">
+  <aside class="facet-panel">
+    <div class="facet-header">Filters</div>
+    <div class="facet-group" data-facet-col="category"><div class="facet-title">Animal type</div><div class="facet-options"><label class="facet-opt"><input type="checkbox" data-facet="category" value="Dog" id="chk_category_231420901"/> <span class="facet-val">Dog</span></label><label class="facet-opt"><input type="checkbox" data-facet="category" value="Cat" id="chk_category_215695886"/> <span class="facet-val">Cat</span></label><label class="facet-opt"><input type="checkbox" data-facet="category" value="Rabbit" id="chk_category_898293810"/> <span class="facet-val">Rabbit</span></label><label class="facet-opt"><input type="checkbox" data-facet="category" value="Bird" id="chk_category_895592721"/> <span class="facet-val">Bird</span></label></div></div><div class="facet-group" data-facet-col="condition"><div class="facet-title">Sterilization status</div><div class="facet-options"><label class="facet-opt" class="decoy"><input type="checkbox" data-facet="condition" value="Spayed" id="chk_condition_674736341"/> <span class="facet-val">Spayed</span></label><label class="facet-opt" class="decoy"><input type="checkbox" data-facet="condition" value="Neutered" id="chk_condition_996399938"/> <span class="facet-val">Neutered</span></label><label class="facet-opt" class="decoy"><input type="checkbox" data-facet="condition" value="Intact" id="chk_condition_714699487"/> <span class="facet-val">Intact</span></label><label class="facet-opt" class="decoy"><input type="checkbox" data-facet="condition" value="Unknown" id="chk_condition_896080102"/> <span class="facet-val">Unknown</span></label></div></div><div class="facet-group" data-facet-col="brand"><div class="facet-title">Breed</div><div class="facet-options"><label class="facet-opt"><input type="checkbox" data-facet="brand" value="Labrador" id="chk_brand_843490987"/> <span class="facet-val">Labrador</span></label><label class="facet-opt"><input type="checkbox" data-facet="brand" value="Australian Shepherd" id="chk_brand_188978134"/> <span class="facet-val">Australian Shepherd</span></label><label class="facet-opt"><input type="checkbox" data-facet="brand" value="German Shepherd" id="chk_brand_35545602"/> <span class="facet-val">German Shepherd</span></label><label class="facet-opt"><input type="checkbox" data-facet="brand" value="Husky" id="chk_brand_896031856"/> <span class="facet-val">Husky</span></label><label class="facet-opt"><input type="checkbox" data-facet="brand" value="Beagle" id="chk_brand_305922466"/> <span class="facet-val">Beagle</span></label><label class="facet-opt"><input type="checkbox" data-facet="brand" value="Persian" id="chk_brand_122095344"/> <span class="facet-val">Persian</span></label><label class="facet-opt"><input type="checkbox" data-facet="brand" value="Ragdoll" id="chk_brand_622786999"/> <span class="facet-val">Ragdoll</span></label><label class="facet-opt"><input type="checkbox" data-facet="brand" value="Domestic Shorthair" id="chk_brand_407111545"/> <span class="facet-val">Domestic Shorthair</span></label></div></div><div class="facet-group" data-facet-col="color"><div class="facet-title">Coat length</div><div class="facet-options"><label class="facet-opt"><input type="checkbox" data-facet="color" value="Short" id="chk_color_751411714"/> <span class="facet-val">Short</span></label><label class="facet-opt"><input type="checkbox" data-facet="color" value="Medium" id="chk_color_984299538"/> <span class="facet-val">Medium</span></label><label class="facet-opt"><input type="checkbox" data-facet="color" value="Long" id="chk_color_98081608"/> <span class="facet-val">Long</span></label></div></div>
+  </aside>
+
+  <main class="results-panel">
+    <div class="catalog-toolbar">
+      <div class="catalog-count" id="result-count">Loading…</div>
+      <div class="catalog-sort">
+        <label>Sort by:</label>
+        <select aria-label="Sort">
+        <option>Recommended</option>
+        <option>Recently added</option>
+        <option>Distance: nearest</option>
+        <option>Distance: farthest</option>
+        </select>
+        <div class="catalog-view" aria-hidden="true">
+          <button class="view-btn active" aria-label="Grid view">▦</button>
+          <button class="view-btn" aria-label="List view">☰</button>
+        </div>
+      </div>
+    </div>
+    <div class="result-grid" id="result-grid"></div>
+  </main>
+</div>
+
+
+
+
+
+<script>
+const ENV_ID = "W01_E01";
+const SITE_BRAND = "EchoPets";
+function getTaskId() {
+  const u = new URL(window.location.href);
+  return u.searchParams.get('task_id') || '';
+}
+function collectFilterState() {
+  const fs = {};
+  document.querySelectorAll('input[data-facet]:checked').forEach(c => {
+    const col = c.dataset.facet, v = c.value;
+    fs[col] = fs[col] || [];
+    fs[col].push(v);
+  });
+  return fs;
+}
+async function loadTaskBanner() { /* no-op: task banner removed */ }
+async function applyFilters() {
+  const fs = collectFilterState();
+  try {
+    const r = await fetch(`/env/${ENV_ID}/api/filter`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({filter_state: fs})
+    });
+    const j = await r.json();
+    document.getElementById('result-count').textContent = `${j.count} listing${j.count===1?'':'s'} match your filters`;
+    document.getElementById('result-grid').innerHTML = j.html_cards || j.results.map(it => `<div><b>${it.title}</b><br><span style='color:#666;font-size:12px'>${(it.brand||'')} · ${(it.category||'')} · ${(it.color||'')} · ${(it.condition||'')}</span><br>★ ${it.rating} · $${it.price||0}</div>`).join('');
+    // Apply alternating colored frames to pet cards, Adopt-a-Pet style
+    const frames = ['frame-blue','frame-mint','frame-yellow',''];
+    document.querySelectorAll('#result-grid > .pet-card').forEach((el, i) => {
+      frames.forEach(f => { if (f) el.classList.remove(f); });
+      const cls = frames[i % frames.length];
+      if (cls) el.classList.add(cls);
+    });
+  } catch(e) {
+    document.getElementById('result-count').textContent = 'Error loading results: ' + e.message;
+  }
+  await autoSubmit();
+}
+async function autoSubmit() {
+  const tid = getTaskId();
+  const fs = collectFilterState();
+  const ans = (document.getElementById('answer-input') || {}).value || '';
+  try {
+    const r = await fetch(`/env/${ENV_ID}/api/submit`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({filter_state: fs, answer: ans, task_id: tid})
+    });
+    const j = await r.json();
+    const ls = document.getElementById('live-status');
+    if (ls) ls.textContent = (j.satisfies ? '✅ Task satisfied!' : '⏳ ') + ' ' + (j.message||'');
+    if (ls) ls.className = 'live-status' + (j.satisfies ? ' ok' : '');
+  } catch(e) {}
+}
+document.addEventListener('DOMContentLoaded', () => {
+  loadTaskBanner();
+  applyFilters();
+  document.querySelectorAll('input[data-facet]').forEach(c => c.addEventListener('change', applyFilters));
+  /* answer-input listener removed */
+});
+
+</script>
+<div class="aap-partners">
+  <span class="ptr-label">Our partners</span>
+  <span class="aap-partner zoetis">zoetis</span>
+  <span class="aap-partner pedigree">PEDIGREE</span>
+  <span class="aap-partner petsmart">PET<span class="smart">SMART</span></span>
+</div>
+<footer class="aap-footer">
+  <div class="aap-footer-cols">
+    <div>
+      <div class="aap-footer-brand">EchoPets</div>
+      <div class="aap-footer-tag">North America's largest non‑profit pet adoption website.</div>
+    </div>
+    <div>
+      <h5>Adopt</h5>
+      <a href="#">Find a pet</a><a href="#">Find a shelter</a><a href="#">Rehome a pet</a><a href="#">Breed 101</a>
+    </div>
+    <div>
+      <h5>Resources</h5>
+      <a href="#">Pet advice</a><a href="#">Adoption guide</a><a href="#">Pet care</a><a href="#">Echo DNA</a>
+    </div>
+    <div>
+      <h5>For shelters</h5>
+      <a href="#">List your pets</a><a href="#">Partner with us</a><a href="#">Pro tools</a>
+    </div>
+    <div>
+      <h5>About</h5>
+      <a href="#">Our story</a><a href="#">Press</a><a href="#">Careers</a><a href="#">Contact</a>
+    </div>
+  </div>
+  <div class="aap-footer-bottom">
+    <span>© EchoPets — a 501(c)(3) non‑profit organization. All rights reserved.</span>
+    <span><a href="#" style="display:inline; padding:0; margin-right:14px;">Terms</a><a href="#" style="display:inline; padding:0; margin-right:14px;">Privacy</a><a href="#" style="display:inline; padding:0;">Cookies</a></span>
+  </div>
+</footer>
+</body>
+</html>

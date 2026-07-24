@@ -1,0 +1,97 @@
+{
+  "env_id": "W17_E09",
+  "widget_id": "W17_override_default_numeric",
+  "archetype": "calculator_form",
+  "filter_spec": {
+    "type": "calc_compute",
+    "fields": [
+      "tuition",
+      "room_board",
+      "years",
+      "income",
+      "inflation"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T1681",
+      "task_index_in_env": 1,
+      "instruction_text": "Use Mint savings calculator to run savings projection at custom starting balance with annual tuition of $45,000.",
+      "expected_filter_state": {
+        "constraint": "with annual tuition of $45,000"
+      }
+    },
+    {
+      "task_id": "T1682",
+      "task_index_in_env": 2,
+      "instruction_text": "Use Mint savings calculator to run savings projection at custom starting balance with tuition $45,000 and room-and-board $18,000.",
+      "expected_filter_state": {
+        "constraint": "with tuition $45,000 and room-and-board $18,000"
+      }
+    },
+    {
+      "task_id": "T1683",
+      "task_index_in_env": 3,
+      "instruction_text": "On Mint savings calculator, compute savings projection at custom starting balance with an annual income of $120,000.",
+      "expected_filter_state": {
+        "constraint": "with an annual income of $120,000"
+      }
+    },
+    {
+      "task_id": "T1684",
+      "task_index_in_env": 4,
+      "instruction_text": "Use Mint savings calculator to run savings projection at custom starting balance for a 2-year-old child (16 years until college).",
+      "expected_filter_state": {
+        "constraint": "for a 2-year-old child (16 years until college)"
+      }
+    },
+    {
+      "task_id": "T1685",
+      "task_index_in_env": 5,
+      "instruction_text": "Help me compute savings projection at custom starting balance on Mint savings calculator with property tax rate of 2.5%.",
+      "expected_filter_state": {
+        "constraint": "with property tax rate of 2.5%"
+      }
+    },
+    {
+      "task_id": "T1686",
+      "task_index_in_env": 6,
+      "instruction_text": "Use Mint savings calculator to run savings projection at custom starting balance with 4.5% expected inflation.",
+      "expected_filter_state": {
+        "constraint": "with 4.5% expected inflation"
+      }
+    },
+    {
+      "task_id": "T1687",
+      "task_index_in_env": 7,
+      "instruction_text": "Help me compute savings projection at custom starting balance on Mint savings calculator with a $5,000 bonus and 10% 401(k).",
+      "expected_filter_state": {
+        "constraint": "with a $5,000 bonus and 10% 401(k)"
+      }
+    },
+    {
+      "task_id": "T1688",
+      "task_index_in_env": 8,
+      "instruction_text": "On Mint savings calculator, compute savings projection at custom starting balance with custom tuition of $45,000.",
+      "expected_filter_state": {
+        "constraint": "with custom tuition of $45,000"
+      }
+    },
+    {
+      "task_id": "T1689",
+      "task_index_in_env": 9,
+      "instruction_text": "Help me compute savings projection at custom starting balance on Mint savings calculator starting with $15,000 in current savings.",
+      "expected_filter_state": {
+        "constraint": "starting with $15,000 in current savings"
+      }
+    },
+    {
+      "task_id": "T1690",
+      "task_index_in_env": 10,
+      "instruction_text": "Use Mint savings calculator to run savings projection at custom starting balance for an annual salary of $100,000.",
+      "expected_filter_state": {
+        "constraint": "for an annual salary of $100,000"
+      }
+    }
+  ]
+}

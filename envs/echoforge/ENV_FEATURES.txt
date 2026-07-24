@@ -1,0 +1,44 @@
+EchoForge synthetic env — UI feature map (for the browser solver).
+
+A single-page React app (EchoForge look) + FastAPI backend on the base URL (default :8051), serving the
+full WebArena GitLab corpus (2399 users, 175 projects, 80,962 issues, 134k MRs). The default user
+(u/byteblaze) is already logged in — no login needed. THIS IS A SELF-CONTAINED SYNTHETIC APP: work
+only inside it; never go to the real public web or any external site.
+
+NAVIGATION (type these routes directly — most reliable; the app is a client-side router):
+- Dashboard / "Your work":     /
+- All projects:                /projects
+- A project:                   /<namespace>/<project>            e.g. /koush/AndroidAsync
+- Project issues:              /<namespace>/<project>/-/issues
+- One issue:                   /<namespace>/<project>/-/issues/<iid>
+- New issue:                   /<namespace>/<project>/-/issues/new
+- Merge requests:              /<namespace>/<project>/-/merge_requests[/<iid>]
+- Milestones / members / labels: /<namespace>/<project>/-/{milestones,project_members,labels}
+- **A user's public profile:   /users/<username>**   (shows their name, @username, location,
+  organization, bio, and projects — use this for "what is on u/X's profile" reads)
+- Your own profile / settings: /profile , /-/profile
+- To-Do list:                  /dashboard/todos
+
+GLOBAL SEARCH (top navbar): type a query; the dropdown lists matching **Projects, Users, Issues, and
+Merge requests**, each a link. Use it to jump to a user profile (Users section → /users/<username>)
+or a project/issue. (If live-typing seems to drop characters, paste/set the full query at once, or
+navigate by URL.)
+
+ISSUE DETAIL (/<ns>/<project>/-/issues/<iid>) — everything here is functional and persisted:
+- **Close / Reopen**: the state toggle button.
+- **Edit title**: click "Edit title" next to the title → type → Save.
+- **Assignee** (right sidebar): click "Edit" → type the target **username** (e.g. `mhajas`) → Save.
+  (To take ownership, enter your own username.)
+- **Weight** (right sidebar): click "Edit" → enter a number → Save.
+- **Comment**: the comment box at the bottom.
+Labels / Milestone / Due date are shown in the sidebar.
+
+CREATE ISSUE (/<ns>/<project>/-/issues/new): fill **Title** and **Description/body** (both are
+checked by grading — write the requested body text, not just the title), then submit.
+
+PROJECTS: star/unstar a project from its page; view stars, forks, issues, MRs, members, milestones,
+labels. Merge-request detail mirrors issue detail.
+
+Tips: to act on a specific issue, open its project's issues list (or go straight to
+/<ns>/<project>/-/issues/<iid>); the exact issue number is the `#<iid>`. To answer "look up user X",
+open /users/<X> (or search Users). Reads are answered from the on-screen value.
