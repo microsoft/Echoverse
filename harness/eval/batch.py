@@ -22,7 +22,6 @@ import asyncio
 import logging
 import os
 import random
-import shutil
 import time
 from typing import Any, Dict, List, Optional
 
@@ -87,8 +86,9 @@ def _run_one(
     url = inst.url  # capture before close() clears the port
     # Baseline snapshot: the DB right after env init, before the agent acts.
     try:
-        EnvInstance._checkpoint_wal(inst.save_db_path)
-        shutil.copy(inst.save_db_path, os.path.join(traj_dir, "baseline_db_state.db"))
+        EnvInstance._snapshot_db(
+            inst.save_db_path, os.path.join(traj_dir, "baseline_db_state.db")
+        )
     except Exception as exc:  # pragma: no cover - best effort
         _logger.warning("baseline snapshot failed for %s: %s", task_id, exc)
 
