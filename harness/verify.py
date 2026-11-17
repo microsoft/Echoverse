@@ -40,6 +40,25 @@ from .util import attempt_parse_json
 _logger = logging.getLogger(__name__)
 
 
+def _extract_verdict(verdict: Dict[str, Any]) -> Tuple[float, str]:
+    """Pull ``(score, reasoning)`` out of a parsed judge reply.
+
+    Unparseable or malformed replies grade as ``0.0`` rather than raising, so a
+    single bad judge response cannot abort a batch run.
+    """
+    try:
+        score = float(verdict.get("score", 0.0))
+    except (TypeError, ValueError):
+        score = 0.0
+    reasoning = verdict.get("reasoning", "")
+    if not isinstance(reasoning, str):
+        reasoning = str(reasoning)
+    if not verdict:
+        reasoning = "Judge reply could not be parsed as JSON."
+    return score, reasoning
+
+
+
 class SyntheticVerifier:
     """Grade a single completed task with the LLM judge.
 
@@ -125,8 +144,7 @@ class SyntheticVerifier:
             else response.content.content
         )
         verdict = attempt_parse_json(response_text)
-        score = float(verdict.get("score", 0.0))
-        reasoning = verdict.get("reasoning", "")
+        score, reasoning = _extract_verdict(verdict)
 
         return score, reasoning
 
@@ -171,7 +189,6 @@ class SyntheticVerifier:
             else response.content.content
         )
         verdict = attempt_parse_json(response_text)
-        score = float(verdict.get("score", 0.0))
-        reasoning = verdict.get("reasoning", "")
+        score, reasoning = _extract_verdict(verdict)
 
         return score, reasoning
