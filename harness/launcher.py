@@ -330,15 +330,53 @@ class EnvInstance:
         out = output_dir or self.output_dir or os.path.dirname(self.save_db_path)
         os.makedirs(out, exist_ok=True)
         dest = os.path.join(out, "final_db_state.db")
-        # Flush SQLite WAL so the copy reflects all committed writes.
-        self._checkpoint_wal(self.save_db_path)
-        shutil.copy(self.save_db_path, dest)
+        # Snapshot through SQLite's backup API so the copy is a consistent
+        # database that includes every committed write, even those still in
+        # the WAL (the backend is still running and may block a checkpoint).
+        self._snapshot_db(self.save_db_path, dest)
         self.final_db_path = dest
         self._log.info(f"Captured final DB -> {dest}")
         return dest
 
     @staticmethod
+    def _snapshot_db(src_path: str, dest_path: str) -> None:
+        """Copy the SQLite database at ``src_path`` to ``dest_path``.
+
+        Uses the online backup API rather than a file copy. The envs run
+        SQLite in WAL mode, and while the backend is alive its pooled
+        connections can hold read snapshots that stop a checkpoint from
+        folding the newest frames into the main file. Copying only the main
+        file at that point drops committed writes (or yields a corrupt file,
+        since a partially checkpointed main file is not self-consistent
+        without its ``-wal``). The backup API reads the logical database
+        through the WAL, so the destination always reflects every committed
+        transaction and never needs a sidecar file.
+        """
+        import sqlite3
+
+        if os.path.exists(dest_path):
+            os.remove(dest_path)
+        for sidecar in (f"{dest_path}-wal", f"{dest_path}-shm"):
+            if os.path.exists(sidecar):
+                os.remove(sidecar)
+        src = sqlite3.connect(src_path)
+        try:
+            dst = sqlite3.connect(dest_path)
+            try:
+                src.backup(dst)
+                # The destination inherits WAL mode from the source header;
+                # switch it back so the snapshot is a single standalone file.
+                dst.execute("PRAGMA journal_mode=DELETE;")
+            finally:
+                dst.close()
+        finally:
+            src.close()
+
+    @staticmethod
     def _checkpoint_wal(db_path: str) -> None:
+        """Best-effort WAL checkpoint. Kept for callers that still use it; new
+        code should use :meth:`_snapshot_db`, which does not depend on the
+        checkpoint succeeding."""
         import sqlite3
 
         try:
